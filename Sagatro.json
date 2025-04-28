@@ -5,7 +5,7 @@
 	"description": "Adds fairy tale elements to Balatro. Load this mod for more information.",
 	"prefix": "sgt",
 	"main_file": "main.lua",
-	"priority": 1000,
+	"priority": 2147483648,
 	"display_name": "Sagatro",
     "conflicts": ["Pokermon"],
 	"version": "0.1~demo"
