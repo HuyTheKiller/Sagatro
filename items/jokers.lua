@@ -1,6 +1,8 @@
 local white_rabbit = {
     key = "white_rabbit",
+    name = "White Rabbit",
     atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
     pos = { x = 0, y = 0 },
     config = { extra = { chips = 0, chip_gain = 6 } },
 	rarity = 1,
@@ -23,7 +25,7 @@ local white_rabbit = {
 				card = card
 			}
 		end
-        if context.discard then
+        if context.discard and not context.blueprint and context.other_card == context.full_hand[1] then
             if G.GAME.current_round.discards_used <= 0 then
                 return {
                     message = localize("k_too_late_ex"),
