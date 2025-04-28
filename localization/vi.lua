@@ -10,6 +10,37 @@ return {
                     "{C:inactive}(Hiện tại là {C:chips}+#1#{C:inactive} Chip)",
                 },
             },
+            j_sgt_drink_me = {
+                name = "Hãy Uống Tôi!",
+                text = {
+                    "Nếu lá này ở {C:attention}tít bên trái{},",
+                    "{C:attention}biến đổi{} mọi lá ghi điểm thành {C:attention}2{}",
+                    "trong {C:attention}#1#{} tay bài tiếp theo",
+                    "{s:0.8,C:inactive}Không kích hoạt nếu",
+                    "{s:0.8,C:attention}Hãy Ăn Tôi!{s:0.8,C:inactive} ở tít bên phải",
+                },
+            },
+            j_sgt_eat_me = {
+                name = "Hãy Ăn Tôi!",
+                text = {
+                    "Nếu lá này ở {C:attention}tít bên phải{},",
+                    "{C:attention}biến đổi{} mọi lá ghi điểm thành {C:attention}Át{}",
+                    "trong {C:attention}#1#{} tay bài tiếp theo",
+                    "{s:0.8,C:inactive}Không kích hoạt nếu",
+                    "{s:0.8,C:attention}Hãy Uống Tôi!{s:0.8,C:inactive} ở tít bên trái"
+                },
+            },
+            j_sgt_chesire_cat = {
+                name = "Mèo Chesire",
+                text = {
+                    "Sao chép khả năng của một {C:attention}Joker{}",
+					"ngẫu nhiên khi {C:attention}Blind{} được chọn",
+                    "Xác suất {C:green}#2# trên #3#{} lá này",
+                    "bị phá huỷ ở cuối ván",
+					"{C:inactive,s:0.9}(Đang sao chép {C:attention,s:0.9}#1#{C:inactive,s:0.9}",
+					"{C:inactive,s:0.9}với ID giá trị {C:attention,s:0.9}#4#{C:inactive,s:0.9})",
+                },
+            },
         },
         Mod = {
             Sagatro = {
@@ -31,6 +62,10 @@ return {
         dictionary = {
             k_in_a_hurry_ex = "Tranh thủ lên!",
             k_too_late_ex = "Trễ rồi!",
+            k_shrunk_ex = "Thu Nhỏ!",
+            k_enlarged_ex = "Phóng To!",
+            k_grin_ex = "Cười!",
+            k_gone_ex = "Biến Mất!",
         },
     },
 }

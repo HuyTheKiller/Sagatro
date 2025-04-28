@@ -7,5 +7,6 @@
 	"main_file": "main.lua",
 	"priority": 1000,
 	"display_name": "Sagatro",
+    "conflicts": ["Pokermon"],
 	"version": "0.1~demo"
 }

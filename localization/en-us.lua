@@ -10,6 +10,37 @@ return {
                     "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
                 },
             },
+            j_sgt_drink_me = {
+                name = "Drink Me!",
+                text = {
+                    "If this is the {C:attention}leftmost{} joker,",
+                    "{C:attention}convert{} all scoring cards to {C:attention}2s{}",
+                    "for the next {C:attention}#1#{} hand(s)",
+                    "{s:0.8,C:inactive}Does not trigger if",
+                    "{s:0.8,C:attention}Eat Me!{s:0.8,C:inactive} is at rightmost",
+                },
+            },
+            j_sgt_eat_me = {
+                name = "Eat Me!",
+                text = {
+                    "If this is the {C:attention}rightmost{} joker,",
+                    "{C:attention}convert{} all scoring cards to {C:attention}Aces{}",
+                    "for the next {C:attention}#1#{} hand(s)",
+                    "{s:0.8,C:inactive}Does not trigger if",
+                    "{s:0.8,C:attention}Drink Me!{s:0.8,C:inactive} is at leftmost",
+                },
+            },
+            j_sgt_chesire_cat = {
+                name = "Chesire Cat",
+                text = {
+                    "Copies ability of a random {C:attention}Joker{}",
+					"when {C:attention}Blind{} is selected",
+                    "{C:green}#2# in #3#{} chance this card is",
+                    "destroyed at end of round",
+					"{C:inactive,s:0.9}(Copying {C:attention,s:0.9}#1#{C:inactive,s:0.9}",
+					"{C:inactive,s:0.9}with value ID {C:attention,s:0.9}#4#{C:inactive,s:0.9})",
+                },
+            },
         },
         Mod = {
             Sagatro = {
@@ -31,6 +62,10 @@ return {
         dictionary = {
             k_in_a_hurry_ex = "In a hurry!",
             k_too_late_ex = "Too late!",
+            k_shrunk_ex = "Shrunk!",
+            k_enlarged_ex = "Enlarged!",
+            k_grin_ex = "Grin!",
+            k_gone_ex = "Gone!",
         },
     },
 }
