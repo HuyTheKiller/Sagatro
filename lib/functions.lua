@@ -5,6 +5,24 @@
 -- 	return ret
 -- end
 
+local gmm = Game.main_menu
+Game.main_menu = function(change_context)
+    local ret = gmm(change_context)
+    G.SPLASH_BACK:define_draw_steps({
+        {
+            shader = "splash",
+            send = {
+                { name = "time", ref_table = G.TIMERS, ref_value = "REAL_SHADER" },
+                { name = "vort_speed", val = 0.4 },
+                { name = "colour_1", ref_table = G.C.RARITY, ref_value = 4 },
+                { name = "colour_2", ref_table = G.C, ref_value = "DARK_EDITION" },
+            },
+        },
+    })
+
+    return ret
+end
+
 function sgt_get_rank_suffix(card)
     local rank_suffix = (card.base.id - 2) % 13 + 2
     if rank_suffix < 11 then rank_suffix = tostring(rank_suffix)
