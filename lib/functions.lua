@@ -8,6 +8,29 @@
 local gmm = Game.main_menu
 Game.main_menu = function(change_context)
     local ret = gmm(change_context)
+
+    local selected_card = "j_sgt_white_rabbit"
+    local newcard = Card(
+        G.title_top.T.x,
+        G.title_top.T.y,
+        G.CARD_W,
+        G.CARD_H,
+        G.P_CARDS.empty,
+        G.P_CENTERS[selected_card],
+        { bypass_discovery_center = true }
+    )
+    if not Cryptid then
+        G.title_top.T.w = G.title_top.T.w * 1.7675
+        G.title_top.T.x = G.title_top.T.x - 0.8
+    end
+    G.title_top:emplace(newcard)
+
+    newcard.T.w = newcard.T.w * 1.1 * 1.2
+    newcard.T.h = newcard.T.h * 1.1 * 1.2
+    newcard.no_ui = true
+    newcard.states.visible = false
+    newcard.sticker_run = "NONE"
+
     G.SPLASH_BACK:define_draw_steps({
         {
             shader = "splash",
@@ -19,6 +42,23 @@ Game.main_menu = function(change_context)
             },
         },
     })
+
+    G.E_MANAGER:add_event(Event({
+        trigger = "after",
+        delay = 0,
+        blockable = false,
+        blocking = false,
+        func = function()
+            if change_context == "splash" then
+                newcard.states.visible = true
+                newcard:start_materialize({ G.C.WHITE, G.C.WHITE }, true, 2.5)
+            else
+                newcard.states.visible = true
+                newcard:start_materialize({ G.C.WHITE, G.C.WHITE }, nil, 1.2)
+            end
+            return true
+        end,
+    }))
 
     return ret
 end
