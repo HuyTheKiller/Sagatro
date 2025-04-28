@@ -5,6 +5,7 @@
 -- 	return ret
 -- end
 
+-- Pretty much stolen from Cryptid lmao
 local gmm = Game.main_menu
 Game.main_menu = function(change_context)
     local ret = gmm(change_context)
@@ -25,11 +26,11 @@ Game.main_menu = function(change_context)
     end
     G.title_top:emplace(newcard)
 
-    newcard.T.w = newcard.T.w * 1.1 * 1.2
+    newcard.T.w = newcard.T.w * 1.1 * 1.2 -- rescale to match the size of Ace of Spades
     newcard.T.h = newcard.T.h * 1.1 * 1.2
     newcard.no_ui = true
     newcard.states.visible = false
-    newcard.sticker_run = "NONE"
+    newcard.sticker_run = "NONE" -- remove stake sticker because of above rescale making it go offset
 
     G.SPLASH_BACK:define_draw_steps({
         {
@@ -63,6 +64,7 @@ Game.main_menu = function(change_context)
     return ret
 end
 
+-- Yet another get_rank_suffix()
 function sgt_get_rank_suffix(card)
     local rank_suffix = (card.base.id - 2) % 13 + 2
     if rank_suffix < 11 then rank_suffix = tostring(rank_suffix)
