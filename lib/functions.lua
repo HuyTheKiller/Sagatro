@@ -1,3 +1,4 @@
+config = Sagatro.config
 -- local igo = Game.init_game_object
 -- function Game:init_game_object()
 -- 	local ret = igo(self)
@@ -86,4 +87,12 @@ function table.extract_total_value(t)
         end
     end
     return tot
+end
+
+Sagatro.config_tab = function()
+    return {n = G.UIT.ROOT, config = {r = 0.1, align = "cm", padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 4}, nodes = {
+        {n=G.UIT.R, config = {align = 'cm'}, nodes={
+			create_toggle({label = localize('SGT_disable_other_jokers'), ref_table = config, ref_value = 'DisableOtherJokers', info = localize('SGT_disable_other_jokers_desc'), active_colour = G.C.RARITY[4], right = true}),
+		}},
+    }}
 end

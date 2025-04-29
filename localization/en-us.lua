@@ -65,6 +65,8 @@ return {
             k_enlarged_ex = "Enlarged!",
             k_grin_ex = "Grin!",
             k_gone_ex = "Gone!",
+            SGT_disable_other_jokers = "Sagatro Jokers Only",
+            SGT_disable_other_jokers_desc = {"Disable all jokers but those from this mod"},
         },
     },
 }

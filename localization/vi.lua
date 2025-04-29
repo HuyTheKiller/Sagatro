@@ -65,6 +65,8 @@ return {
             k_enlarged_ex = "Phóng To!",
             k_grin_ex = "Cười!",
             k_gone_ex = "Biến Mất!",
+            SGT_disable_other_jokers = "Chỉ Dùng Joker Của Sagatro",
+            SGT_disable_other_jokers_desc = {"Tắt mọi joker trừ joker thuộc về mod này"},
         },
     },
 }
