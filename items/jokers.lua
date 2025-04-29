@@ -200,7 +200,7 @@ local chesire_cat = {
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     pos = { x = 0, y = 0 },
-    config = {extra = {copied_joker = nil, copied_joker_value_id = 0, copied_joker_buffer_name = nil, odds = 4}},
+    config = {extra = {copied_joker = nil, copied_joker_value_id = 0, copied_joker_buffer_name = nil, odds = 3}},
 	rarity = 1,
     cost = 6,
     blueprint_compat = true,
@@ -383,12 +383,63 @@ local mouse = {
     end,
 }
 
+local kid_gloves_and_fan = {
+    key = "kid_gloves_and_fan",
+    name = "Kid-gloves And The Fan",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pos = { x = 2, y = 0 },
+    config = {},
+	rarity = 2,
+    cost = 8,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if G and G.jokers and G.jokers.cards and G.jokers.cards[1]
+        and G.jokers.cards[1] == card and not context.blueprint then
+            if context.individual and context.cardarea == G.play then
+                if not context.other_card.debuff then
+                    local temp = context.other_card
+                    if SMODS.has_no_rank(temp) or temp:get_id() > 2 then
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                temp.base.id = SMODS.has_no_rank(temp) and temp.base.id or math.max(2, temp.base.id - 1)
+                                local rank_suffix = sgt_get_rank_suffix(temp)
+                                assert(SMODS.change_base(temp, nil, rank_suffix))
+
+                                return true
+                            end
+                        }))
+                    end
+                end
+            end
+            if context.destroy_card and context.cardarea == G.play then
+                if not context.destroying_card.debuff then
+                    local temp = context.destroying_card
+                    if not SMODS.has_no_rank(temp) and temp:get_id() <= 2 then
+                        return {
+                            message = localize("k_poof_ex"),
+                            colour = G.C.YELLOW,
+                            remove = true
+                        }
+                    end
+                end
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return not SMODS.Mods["Sagatro"].config.DisableOtherJokers
+    end,
+}
+
 local joker_table = {
     white_rabbit,
     drink_me,
     eat_me,
     chesire_cat,
     mouse,
+    kid_gloves_and_fan,
 }
 
 for _, v in ipairs(joker_table) do

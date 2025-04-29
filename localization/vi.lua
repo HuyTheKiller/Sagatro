@@ -48,6 +48,14 @@ return {
                     "ở vị trí {C:attention}đã đặt từ trước{} trong ván này",
                 },
             },
+            j_sgt_kid_gloves_and_fan = {
+                name = "Găng Tay Và Chiếc Quạt",
+                text = {
+                    "Nếu lá này ở {C:attention}tít bên trái{}:",
+                    "Lá đã chơi {C:attention}giảm đi{} 1 bậc khi ghi điểm",
+                    "Lá 2 bị {C:attention}phá huỷ{} sau khi ghi điểm",
+                },
+            },
         },
         Mod = {
             Sagatro = {
@@ -74,6 +82,7 @@ return {
             k_enlarged_ex = "Phóng To!",
             k_grin_ex = "Cười!",
             k_gone_ex = "Biến Mất!",
+            k_poof_ex = "Pụp!",
             SGT_disable_other_jokers = "Chỉ Dùng Joker Của Sagatro",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker trừ joker thuộc về mod này"},
         },

@@ -48,6 +48,14 @@ return {
                     "a {C:attention}previously known{} location this round",
                 },
             },
+            j_sgt_kid_gloves_and_fan = {
+                name = "Kid-gloves And The Fan",
+                text = {
+                    "If this is the {C:attention}leftmost{} joker:",
+                    "Played cards {C:attention}lose{} a rank when scored",
+                    "Played 2s are {C:attention}destroyed{} after scoring",
+                },
+            },
         },
         Mod = {
             Sagatro = {
@@ -74,6 +82,7 @@ return {
             k_enlarged_ex = "Enlarged!",
             k_grin_ex = "Grin!",
             k_gone_ex = "Gone!",
+            k_poof_ex = "Poof!",
             SGT_disable_other_jokers = "Sagatro Jokers Only",
             SGT_disable_other_jokers_desc = {"Disable all jokers but those from this mod"},
         },
