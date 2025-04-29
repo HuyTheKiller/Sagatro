@@ -107,7 +107,10 @@ local drink_me = {
         end
     end,
     in_pool = function(self, args)
-        return next(find_joker("White Rabbit"))
+        if SMODS.Mods["Sagatro"].config.DisableOtherJokers then
+            return next(find_joker("White Rabbit"))
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra } }
@@ -181,7 +184,10 @@ local eat_me = {
         end
     end,
     in_pool = function(self, args)
-        return next(find_joker("White Rabbit"))
+        if SMODS.Mods["Sagatro"].config.DisableOtherJokers then
+            return next(find_joker("White Rabbit"))
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra } }
