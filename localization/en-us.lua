@@ -67,6 +67,7 @@ return {
     },
     misc = {
         dictionary = {
+            b_join = "JOIN",
             k_in_a_hurry_ex = "In a hurry!",
             k_too_late_ex = "Too late!",
             k_shrunk_ex = "Shrunk!",
