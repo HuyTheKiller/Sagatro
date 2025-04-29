@@ -57,6 +57,14 @@ return {
                     "Played 2s are {C:attention}destroyed{} after scoring",
                 },
             },
+            j_sgt_dodo_bird = {
+                name = "Dodo Bird",
+                text = {
+                    "Each joker card gives {X:mult,C:white}X#1#{} Mult",
+                    "on {C:attention}final hand{} of round with",
+                    "{C:attention}0{} discards left",
+                },
+            },
         },
         Mod = {
             Sagatro = {

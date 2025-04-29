@@ -3,7 +3,7 @@ version = "1.0.0"
 dump_lua = true
 priority = 0
 
-# Sagatro jokers only
+# Sagatro mechanics
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
@@ -11,7 +11,13 @@ pattern = "if v.yes_pool_flag and not G.GAME.pool_flags[v.yes_pool_flag] then ad
 position = "after"
 payload = '''
 if SMODS.Mods["Sagatro"].config.DisableOtherJokers then
-    if v.set == 'Joker' and not v.saga_group then add = nil end
+    if v.set == 'Joker' then
+        -- Sagatro jokers only
+        if not v.saga_group or next(find_joker("Kid-gloves And The Fan")) then add = nil end
+        -- Force Splash if Kid-gloves And The Fan is present
+        if next(find_joker("Kid-gloves And The Fan"))
+        and (v.name == "Splash" or v.name == "Dodo Bird") then add = true end
+    end
 end
 '''
 match_indent = true
@@ -22,6 +28,15 @@ target = "functions/common_events.lua"
 pattern = '''elseif _type == 'Joker' then _pool[#_pool + 1] = "j_joker"'''
 position = "at"
 payload = '''
-elseif _type == 'Joker' then _pool[#_pool + 1] = "j_sgt_white_rabbit"
+elseif _type == 'Joker' then
+    if SMODS.Mods["Sagatro"].config.DisableOtherJokers then
+        if next(find_joker("Kid-gloves And The Fan")) then
+            _pool[#_pool + 1] = "j_splash"
+        else
+            _pool[#_pool + 1] = "j_sgt_white_rabbit"
+        end
+    else
+        _pool[#_pool + 1] = "j_joker"
+    end
 '''
 match_indent = true

@@ -439,6 +439,45 @@ local kid_gloves_and_fan = {
     end,
 }
 
+local dodo_bird = {
+    key = "dodo_bird",
+    name = "Dodo Bird",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pos = { x = 4, y = 0 },
+    config = {extra = 1.5},
+	rarity = 3,
+    cost = 9,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.other_joker then
+            if G.GAME.current_round.hands_left == 0 and G.GAME.current_round.discards_left == 0 then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        context.other_joker:juice_up(0.5, 0.5)
+                        return true
+                    end
+                }))
+                return {
+                    message = localize{type='variable',key='a_xmult',vars={card.ability.extra}},
+                    Xmult_mod = card.ability.extra
+                }
+            end
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
+    in_pool = function(self, args)
+        if SMODS.Mods["Sagatro"].config.DisableOtherJokers then
+            return next(find_joker("Kid-gloves And The Fan"))
+        end
+        return true
+    end
+}
+
 local joker_table = {
     white_rabbit,
     drink_me,
@@ -446,6 +485,7 @@ local joker_table = {
     cheshire_cat,
     mouse,
     kid_gloves_and_fan,
+    dodo_bird,
 }
 
 for _, v in ipairs(joker_table) do

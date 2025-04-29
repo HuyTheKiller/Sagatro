@@ -57,6 +57,14 @@ return {
                     "Lá 2 bị {C:attention}phá huỷ{} sau khi ghi điểm",
                 },
             },
+            j_sgt_dodo_bird = {
+                name = "Chim Dodo",
+                text = {
+                    "Mỗi joker ghi thêm {X:mult,C:white}X#1#{} Nhân",
+                    "ở {C:attention}tay bài cuối{} của ván",
+                    "với {C:attention}0{} lượt bỏ bài",
+                },
+            },
         },
         Mod = {
             Sagatro = {
