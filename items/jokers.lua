@@ -213,8 +213,12 @@ local chesire_cat = {
                 local chosen_joker = pseudorandom_element(potential_jokers, pseudoseed('chesire_cat'))
                 for _, v in ipairs(G.jokers.cards) do
                     if v == chosen_joker then
-                        card.ability.extra.copied_joker_value_id = table.extract_total_value(v.config.center.config)
+                        -- Store buffer name
                         card.ability.extra.copied_joker_buffer_name = v.ability.name
+                        -- Store value ID if applicable
+                        if v.ability.extra then
+                            card.ability.extra.copied_joker_value_id = table.extract_total_value(v.ability.extra)
+                        end
                         break
                     end
                 end
@@ -229,9 +233,10 @@ local chesire_cat = {
             local other_joker_ret = card.ability.extra.copied_joker:calculate_joker(context)
             context.blueprint = nil
             context.blueprint_card = nil
+            -- Recalculate value ID if applicable
             for _, v in ipairs(G.jokers.cards) do
-                if v == card.ability.extra.copied_joker then
-                    card.ability.extra.copied_joker_value_id = table.extract_total_value(v.config.center.config)
+                if v == card.ability.extra.copied_joker and v.ability.extra then
+                    card.ability.extra.copied_joker_value_id = table.extract_total_value(v.ability.extra)
                     break
                 end
             end
@@ -279,9 +284,9 @@ local chesire_cat = {
             if G.P_CENTERS[card.ability.extra.copied_joker.config.center_key] then
                 info_queue[#info_queue+1] = G.P_CENTERS[card.ability.extra.copied_joker.config.center_key]
             end
-            return {vars = {localize{type = 'name_text', set = "Joker", key = card.ability.extra.copied_joker.config.center_key, nodes = {}}, G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.copied_joker_value_id}}
+            return {vars = {localize{type = 'name_text', set = "Joker", key = card.ability.extra.copied_joker.config.center_key, nodes = {}}, G.GAME.probabilities.normal, card.ability.extra.odds, Sagatro.debug and card.ability.extra.copied_joker_value_id}}
         else
-            return {vars = {localize('k_none'), G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.copied_joker_value_id}}
+            return {vars = {localize('k_none'), G.GAME.probabilities.normal, card.ability.extra.odds, Sagatro.debug and card.ability.extra.copied_joker_value_id}}
         end
     end,
     load = function(self, card, card_table, other_card)
@@ -289,13 +294,37 @@ local chesire_cat = {
     end,
     update = function(self, card, dt)
         if card.loaded then
-            for i, v in ipairs(G.jokers.cards) do
-                if card.ability.extra.copied_joker_buffer_name == v.ability.name
-                and card.ability.extra.copied_joker_value_id == table.extract_total_value(v.config.center.config) then
-                    card.ability.extra.copied_joker = G.jokers.cards[i]
-                    break
+            if card.ability.extra.copied_joker_buffer_name then
+                local filtered_list = {}
+                -- Scan for jokers matching buffer name
+                for _, v in ipairs(G.jokers.cards) do
+                    if card.ability.extra.copied_joker_buffer_name == v.ability.name then
+                        filtered_list[#filtered_list+1] = v
+                    end
+                end
+                -- If there is more than one, check value ID to pin-point the exact scaling joker
+                if #filtered_list > 1 then
+                    for _, v in ipairs(filtered_list) do
+                        if v.ability.extra then
+                            --[[This complicated check would simply fall apart if
+                            a modded scaling joker didn't put its variables in config.extra,
+                            but who cares anyway, it's the modder's fault]]
+                            if card.ability.extra.copied_joker_value_id == table.extract_total_value(v.ability.extra) then
+                                card.ability.extra.copied_joker = v
+                                break
+                            end
+                        else
+                            card.ability.extra.copied_joker = filtered_list[1]
+                            break
+                        end
+                    end
+                -- If there is only one, simply select it
+                elseif #filtered_list == 1 then
+                    card.ability.extra.copied_joker = filtered_list[1]
                 else
-                    card.ability.extra.copied_joker = G.jokers.cards[1]
+                    card.ability.extra.copied_joker = card
+                    --[[Select itself as a fallback if copied joker is sold (does not affect buffer name)
+                    This would be entirely your fault for doing such abomination in a live run]]
                 end
             end
             card.loaded = false
