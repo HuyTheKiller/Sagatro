@@ -17,7 +17,7 @@ return {
                     "{C:attention}convert{} all scoring cards to {C:attention}2s{}",
                     "for the next {C:attention}#1#{} hand(s)",
                     "{s:0.8,C:inactive}Does not trigger if",
-                    "{s:0.8,C:attention}Eat Me!{s:0.8,C:inactive} is at rightmost",
+                    "{s:0.8,C:attention}#2#{s:0.8,C:inactive} is at rightmost",
                 },
             },
             j_sgt_eat_me = {
@@ -27,11 +27,11 @@ return {
                     "{C:attention}convert{} all scoring cards to {C:attention}Aces{}",
                     "for the next {C:attention}#1#{} hand(s)",
                     "{s:0.8,C:inactive}Does not trigger if",
-                    "{s:0.8,C:attention}Drink Me!{s:0.8,C:inactive} is at leftmost",
+                    "{s:0.8,C:attention}#2#{s:0.8,C:inactive} is at leftmost",
                 },
             },
-            j_sgt_chesire_cat = {
-                name = "Chesire Cat",
+            j_sgt_cheshire_cat = {
+                name = "Cheshire Cat",
                 text = {
                     "Copies ability of a random {C:attention}Joker{}",
 					"when {C:attention}Blind{} is selected",
@@ -44,8 +44,9 @@ return {
                 name = "Mouse",
                 text = {
                     "{C:mult}+#1#{} Mult",
-                    "Stay {C:attention}debuffed{} if this joker is at",
-                    "a {C:attention}previously known{} location this round",
+                    "Stay {C:attention}debuffed{} if",
+                    "this joker is at a {C:attention}previously",
+                    "{C:attention}known{} location this round",
                 },
             },
             j_sgt_kid_gloves_and_fan = {

@@ -36,7 +36,7 @@ local white_rabbit = {
         end
     end,
     loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.chips, card.ability.extra.chip_gain } }
+		return {vars = {card.ability.extra.chips, card.ability.extra.chip_gain}}
 	end,
 }
 
@@ -113,7 +113,10 @@ local drink_me = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra } }
+        if G.P_CENTERS["j_sgt_eat_me"] and not card.fake_card then
+            info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_eat_me"]
+        end
+        return {vars = {card.ability.extra, localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}}}
     end,
 }
 
@@ -190,16 +193,19 @@ local eat_me = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra } }
+        if G.P_CENTERS["j_sgt_drink_me"] and not card.fake_card then
+            info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_drink_me"]
+        end
+        return {vars = {card.ability.extra, localize{type = 'name_text', set = "Joker", key = "j_sgt_drink_me", nodes = {}}}}
     end,
 }
 
-local chesire_cat = {
-    key = "chesire_cat",
+local cheshire_cat = {
+    key = "cheshire_cat",
     name = "Cheshire Cat",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
-    pos = { x = 0, y = 0 },
+    pos = { x = 3, y = 0 },
     config = {extra = {copied_joker = nil, copied_joker_value_id = 0, copied_joker_buffer_name = nil, odds = 3}},
 	rarity = 1,
     cost = 6,
@@ -211,12 +217,12 @@ local chesire_cat = {
             card.ability.extra.copied_joker = nil
             local potential_jokers = {}
             for i=1, #G.jokers.cards do
-                if G.jokers.cards[i] ~= card and G.jokers.cards[i].config.center.key ~= "j_sgt_chesire_cat" and G.jokers.cards[i].config.center.blueprint_compat then
+                if G.jokers.cards[i] ~= card and G.jokers.cards[i].config.center.key ~= "j_sgt_cheshire_cat" and G.jokers.cards[i].config.center.blueprint_compat then
                     potential_jokers[#potential_jokers+1] = G.jokers.cards[i]
                 end
             end
             if #potential_jokers > 0 then
-                local chosen_joker = pseudorandom_element(potential_jokers, pseudoseed('chesire_cat'))
+                local chosen_joker = pseudorandom_element(potential_jokers, pseudoseed('cheshire_cat'))
                 for _, v in ipairs(G.jokers.cards) do
                     if v == chosen_joker then
                         -- Store buffer name
@@ -253,7 +259,7 @@ local chesire_cat = {
             end
         end
         if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint then
-            if pseudorandom('chesire_cat_vanish') < G.GAME.probabilities.normal/card.ability.extra.odds then
+            if pseudorandom('cheshire_cat_vanish') < G.GAME.probabilities.normal/card.ability.extra.odds then
 				G.E_MANAGER:add_event(Event({
 					func = function()
 						play_sound('tarot1')
@@ -437,7 +443,7 @@ local joker_table = {
     white_rabbit,
     drink_me,
     eat_me,
-    chesire_cat,
+    cheshire_cat,
     mouse,
     kid_gloves_and_fan,
 }

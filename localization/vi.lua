@@ -17,7 +17,7 @@ return {
                     "{C:attention}biến đổi{} mọi lá ghi điểm thành {C:attention}2{}",
                     "trong {C:attention}#1#{} tay bài tiếp theo",
                     "{s:0.8,C:inactive}Không kích hoạt nếu",
-                    "{s:0.8,C:attention}Hãy Ăn Tôi!{s:0.8,C:inactive} ở tít bên phải",
+                    "{s:0.8,C:attention}#2#{s:0.8,C:inactive} ở tít bên phải",
                 },
             },
             j_sgt_eat_me = {
@@ -27,11 +27,11 @@ return {
                     "{C:attention}biến đổi{} mọi lá ghi điểm thành {C:attention}Át{}",
                     "trong {C:attention}#1#{} tay bài tiếp theo",
                     "{s:0.8,C:inactive}Không kích hoạt nếu",
-                    "{s:0.8,C:attention}Hãy Uống Tôi!{s:0.8,C:inactive} ở tít bên trái"
+                    "{s:0.8,C:attention}#2#{s:0.8,C:inactive} ở tít bên trái"
                 },
             },
-            j_sgt_chesire_cat = {
-                name = "Mèo Chesire",
+            j_sgt_cheshire_cat = {
+                name = "Mèo Cheshire",
                 text = {
                     "Sao chép khả năng của một {C:attention}Joker{}",
 					"ngẫu nhiên khi {C:attention}Blind{} được chọn",
@@ -44,8 +44,9 @@ return {
                 name = "Chuột",
                 text = {
                     "{C:mult}+#1#{} Nhân",
-                    "Giữ nguyên trạng thái {C:attention}vô hiệu{} nếu joker này",
-                    "ở vị trí {C:attention}đã đặt từ trước{} trong ván này",
+                    "Giữ nguyên trạng thái {C:attention}vô hiệu{}",
+                    "nếu joker này ở vị trí",
+                    "{C:attention}đã đặt từ trước{} trong ván này",
                 },
             },
             j_sgt_kid_gloves_and_fan = {
