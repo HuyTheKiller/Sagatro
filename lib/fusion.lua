@@ -1,3 +1,4 @@
+-- Fusion mechanic from Fusion Jokers
 SagaFusion = {}
 SagaFusion.fusions = {
 	{ jokers = {
