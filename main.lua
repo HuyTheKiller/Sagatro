@@ -3,6 +3,9 @@ Sagatro.load_table = {
     jokers = true,
 }
 
+-- Danger zone
+Sagatro.debug = false
+
 -- Load library files
 local mod_path = "" .. Sagatro.path
 local files = NFS.getDirectoryItems(mod_path .. "lib")
