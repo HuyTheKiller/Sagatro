@@ -40,6 +40,14 @@ return {
 					"{C:inactive,s:0.9}(Đang sao chép {C:attention,s:0.9}#1#"..(SMODS.Mods["Sagatro"].debug and "{C:inactive,s:0.9}với ID giá trị {C:attention,s:0.9}#4#{C:inactive,s:0.9})" or "{C:inactive,s:0.9})"),
                 },
             },
+            j_sgt_mouse = {
+                name = "Chuột",
+                text = {
+                    "{C:mult}+#1#{} Nhân",
+                    "Giữ nguyên trạng thái {C:attention}vô hiệu{} nếu joker này",
+                    "ở vị trí {C:attention}đã đặt từ trước{} trong ván này",
+                },
+            },
         },
         Mod = {
             Sagatro = {

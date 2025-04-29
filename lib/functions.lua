@@ -65,6 +65,32 @@ Game.main_menu = function(change_context)
     return ret
 end
 
+local cardarea_update_ref = CardArea.update
+function CardArea:update(dt)
+	cardarea_update_ref(self, dt)
+    if self == G.jokers and G.jokers.cards[1] then
+        for i, v in ipairs(G.jokers.cards) do
+            if v.ability.name == "Mouse" then
+                if table.contains(v.ability.extra.debuff_position, i) then
+                    v:set_debuff(true)
+                else
+                    v:set_debuff(false)
+                end
+            end
+        end
+    end
+end
+
+function Sagatro.reset_game_globals(run_start)
+    for _, v in ipairs(G.jokers.cards) do
+        if v.ability.name == "Mouse" then
+            for i = #v.ability.extra.debuff_position, 1, -1 do
+                table.remove(v.ability.extra.debuff_position, i)
+            end
+        end
+    end
+end
+
 -- Yet another get_rank_suffix()
 function sgt_get_rank_suffix(card)
     local rank_suffix = (card.base.id - 2) % 13 + 2
@@ -87,6 +113,17 @@ function table.extract_total_value(t)
         end
     end
     return tot
+end
+
+function table.contains(t, x)
+    found = false
+    for _, v in pairs(t) do
+        if v == x then
+            found = true
+			break
+        end
+    end
+    return found
 end
 
 Sagatro.config_tab = function()

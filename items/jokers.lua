@@ -338,11 +338,57 @@ local chesire_cat = {
     end
 }
 
+local mouse = {
+    key = "mouse",
+    name = "Mouse",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pos = { x = 1, y = 0 },
+    config = {extra = {mult = 20, debuff_position = {}}},
+	rarity = 2,
+    cost = 5,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                mult_mod = card.ability.extra.mult,
+				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+            }
+        end
+        if context.after and not context.blueprint then
+            for i, v in ipairs(G.jokers.cards) do
+                if v == card then
+                    if not table.contains(card.ability.extra.debuff_position, i) then
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                table.insert(card.ability.extra.debuff_position, i)
+                                return true
+                            end
+                        }))
+                    end
+                end
+            end
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.mult}}
+    end,
+    in_pool = function(self, args)
+        if SMODS.Mods["Sagatro"].config.DisableOtherJokers then
+            return next(find_joker("White Rabbit"))
+        end
+        return true
+    end,
+}
+
 local joker_table = {
     white_rabbit,
     drink_me,
     eat_me,
     chesire_cat,
+    mouse,
 }
 
 for _, v in ipairs(joker_table) do

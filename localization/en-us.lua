@@ -40,6 +40,14 @@ return {
 					"{C:inactive,s:0.9}(Copying {C:attention,s:0.9}#1#"..(SMODS.Mods["Sagatro"].debug and "{C:inactive,s:0.9}with value ID {C:attention,s:0.9}#4#{C:inactive,s:0.9})" or "{C:inactive,s:0.9})"),
                 },
             },
+            j_sgt_mouse = {
+                name = "Mouse",
+                text = {
+                    "{C:mult}+#1#{} Mult",
+                    "Stay {C:attention}debuffed{} if this joker is at",
+                    "a {C:attention}previously known{} location this round",
+                },
+            },
         },
         Mod = {
             Sagatro = {
