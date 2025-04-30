@@ -444,7 +444,7 @@ local dodo_bird = {
     name = "Dodo Bird",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
-    pos = { x = 4, y = 0 },
+    pos = { x = 0, y = 1 },
     config = {extra = 1.5},
 	rarity = 3,
     cost = 9,
