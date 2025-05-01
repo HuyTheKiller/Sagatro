@@ -19,3 +19,10 @@ SMODS.Sound{
     pitch = 0.7,
     volume = 0.5,
 }
+
+SMODS.Sound{
+    key = "page_flip",
+    path = "page_flip.ogg",
+    pitch = 0.7,
+    volume = 0.5,
+}
