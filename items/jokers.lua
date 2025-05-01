@@ -61,6 +61,7 @@ local drink_me = {
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 v.base.id = SMODS.has_no_rank(v) and v.base.id or 2
+                                if not SMODS.has_no_rank(v) then v:juice_up() end
                                 local rank_suffix = sgt_get_rank_suffix(v)
                                 assert(SMODS.change_base(v, nil, rank_suffix))
 
@@ -142,6 +143,7 @@ local eat_me = {
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 v.base.id = SMODS.has_no_rank(v) and v.base.id or 14
+                                if not SMODS.has_no_rank(v) then v:juice_up() end
                                 local rank_suffix = sgt_get_rank_suffix(v)
                                 assert(SMODS.change_base(v, nil, rank_suffix))
 
@@ -500,6 +502,7 @@ local unlabeled_bottle = {
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 v.base.id = SMODS.has_no_rank(v) and v.base.id or 14
+                                if not SMODS.has_no_rank(v) then v:juice_up() end
                                 local rank_suffix = sgt_get_rank_suffix(v)
                                 assert(SMODS.change_base(v, nil, rank_suffix))
 
