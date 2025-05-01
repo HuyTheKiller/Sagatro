@@ -8,4 +8,6 @@ SMODS.Booster:take_ownership_by_kind('Buffoon', {
         end
         return _card
     end,
-})
+},
+true
+)
