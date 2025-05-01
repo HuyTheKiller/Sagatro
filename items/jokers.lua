@@ -134,7 +134,8 @@ local eat_me = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if G and G.jokers and G.jokers.cards and G.jokers.cards[1]
-        and G.jokers.cards[#G.jokers.cards] == card and not context.blueprint and G.jokers.cards[1].ability.name ~= "Drink Me!" then
+        and G.jokers.cards[#G.jokers.cards] == card and not context.blueprint
+        and (G.jokers.cards[1].ability.name ~= "Drink Me!" and G.jokers.cards[1].ability.name ~= "Unlabeled Bottle") then
             if context.before then
                 for _, v in ipairs(context.scoring_hand) do
                     if SMODS.has_no_rank(v) or v:get_id() < 14 then
@@ -478,6 +479,124 @@ local dodo_bird = {
     end
 }
 
+local unlabeled_bottle = {
+    key = "unlabeled_bottle",
+    name = "Unlabeled Bottle",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pos = { x = 1, y = 1 },
+    config = { extra = 2, taken = false },
+	rarity = 2,
+    cost = 6,
+    blueprint_compat = false,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if G and G.jokers and G.jokers.cards and G.jokers.cards[1]
+        and G.jokers.cards[1] == card and not context.blueprint then
+            if context.before then
+                for _, v in ipairs(context.scoring_hand) do
+                    if SMODS.has_no_rank(v) or v:get_id() < 14 then
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                v.base.id = SMODS.has_no_rank(v) and v.base.id or 14
+                                local rank_suffix = sgt_get_rank_suffix(v)
+                                assert(SMODS.change_base(v, nil, rank_suffix))
+
+                                return true
+                            end
+                        }))
+                    end
+                end
+                return {
+                    message = localize("k_enlarged_ex"),
+                    colour = G.C.YELLOW
+                }
+            end
+            if context.after then
+                if next(SMODS.find_card("j_sgt_white_rabbit")) then
+                    for i = 1, #G.jokers.cards do
+                        local temp = G.jokers.cards[i]
+                        if temp.ability.name == "White Rabbit" then
+                            G.E_MANAGER:add_event(Event({
+                                func = function()
+                                    play_sound('sgt_run_away', 1, 1)
+                                    G.E_MANAGER:add_event(Event({
+                                        trigger = "immediate",
+                                        blockable = false,
+                                        func = function()
+                                            card_eval_status_text(temp, 'extra', nil, nil, nil, {message = localize('k_yeet_ex'), instant = true})
+                                            return true
+                                        end
+                                    }))
+                                    temp.T.r = -0.2
+                                    temp:juice_up(0.3, 0.4)
+                                    temp.states.drag.is = true
+                                    temp.children.center.pinch.x = true
+                                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                                    func = function()
+                                                G.jokers:remove_card(temp)
+                                                temp:remove()
+                                                temp = nil
+                                            return true; end}))
+                                    return true
+                                end
+                            }))
+                            i = i - 1
+                        end
+                    end
+                end
+                if card.ability.extra - 1 <= 0 then
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            play_sound('tarot1')
+                            card.T.r = -0.2
+                            card:juice_up(0.3, 0.4)
+                            card.states.drag.is = true
+                            card.children.center.pinch.x = true
+                            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                                func = function()
+                                        G.jokers:remove_card(card)
+                                        card:remove()
+                                        card = nil
+                                    return true; end}))
+                            return true
+                        end
+                    }))
+                    return {
+                        message = localize('k_drank_ex'),
+                        colour = G.C.FILTER
+                    }
+                else
+                    card.ability.extra = card.ability.extra - 1
+                    return {
+                        message = card.ability.extra..'',
+                        colour = G.C.FILTER
+                    }
+                end
+            end
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        if card.ability.taken then
+            return {
+                key = "j_sgt_unlabeled_bottle",
+                vars = {card.ability.extra}
+            }
+        else return {
+            key = "j_sgt_unlabeled_bottle_collection"
+        }
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        card.ability.taken = true
+        G.GAME.saga_event_check.alice_in_wonderland.little_bill = true
+    end,
+    in_pool = function(self, args)
+        return not Sagatro.config.DisableOtherJokers
+    end
+}
+
 local joker_table = {
     white_rabbit,
     drink_me,
@@ -486,6 +605,7 @@ local joker_table = {
     mouse,
     kid_gloves_and_fan,
     dodo_bird,
+    unlabeled_bottle,
 }
 
 for _, v in ipairs(joker_table) do

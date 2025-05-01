@@ -18,11 +18,13 @@ if Sagatro.config.DisableOtherJokers then
         -- Events that would alter joker pool
         for event, happening in pairs(G.GAME.saga_event.alice_in_wonderland) do
             if happening then
-                add = nil
-                for _, key in pairs(G.GAME.saga_spawn_table.alice_in_wonderland[event]) do
-                    if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not next(find_joker("Showman")))
-                    and v.unlocked ~= false and v.key == key then
-                        add = true
+                if G.GAME.saga_spawn_table.alice_in_wonderland[event] then
+                    add = nil
+                    for _, key in pairs(G.GAME.saga_spawn_table.alice_in_wonderland[event]) do
+                        if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not next(find_joker("Showman")))
+                        and v.unlocked ~= false and v.key == key then
+                            add = true
+                        end
                     end
                 end
             end

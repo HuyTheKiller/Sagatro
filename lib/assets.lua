@@ -12,3 +12,10 @@ SMODS.Atlas{
     px = 71,
     py = 95,
 }
+
+SMODS.Sound{
+    key = "run_away",
+    path = "run_away.ogg",
+    pitch = 0.7,
+    volume = 0.5,
+}

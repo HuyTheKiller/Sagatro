@@ -65,6 +65,21 @@ return {
                     "{C:attention}0{} discards left",
                 },
             },
+            j_sgt_unlabeled_bottle = {
+                name = "Unlabeled Bottle",
+                text = {
+                    "If this is the {C:attention}leftmost{} joker,",
+                    "{C:attention}convert{} all scoring cards to {C:attention}Aces{}",
+                    "for the next {C:attention}#1#{} hand(s)",
+                },
+            },
+            j_sgt_unlabeled_bottle_collection = {
+                name = "Unlabeled Bottle",
+                text = {
+                    "{C:inactive}No labels?",
+                    "{C:inactive}What does it do?",
+                },
+            },
         },
         Mod = {
             Sagatro = {
@@ -92,6 +107,7 @@ return {
             k_grin_ex = "Grin!",
             k_gone_ex = "Gone!",
             k_poof_ex = "Poof!",
+            k_yeet_ex = "YEET!",
             SGT_disable_other_jokers = "Sagatro Progression",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression"},
         },

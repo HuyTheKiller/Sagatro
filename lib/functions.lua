@@ -5,12 +5,14 @@ function Game:init_game_object()
     ret.saga_event = {
         alice_in_wonderland = {
             cry_into_flood = false,
+            little_bill = false,
         },
     }
     -- Event checks to make sure each event only happens once per run
     ret.saga_event_check = {
         alice_in_wonderland = {
             cry_into_flood = false,
+            little_bill = false,
         },
     }
     -- A table to control joker pools during certain events
@@ -20,6 +22,7 @@ function Game:init_game_object()
                 "j_splash",
                 "j_sgt_mouse",
             },
+            little_bill = nil,
         },
     }
 	return ret
@@ -111,6 +114,12 @@ function Game:update(dt)
             else
                 G.GAME.saga_event.alice_in_wonderland.cry_into_flood = false
             end
+            if next(SMODS.find_card("j_sgt_dodo_bird")) and next(SMODS.find_card("j_sgt_white_rabbit"))
+            and not G.GAME.saga_event_check.alice_in_wonderland.little_bill then
+                G.GAME.saga_event.alice_in_wonderland.little_bill = true
+            else
+                G.GAME.saga_event.alice_in_wonderland.little_bill = false
+            end
         end
     end
 end
@@ -167,3 +176,4 @@ Sagatro.config_tab = function()
 		}},
     }}
 end
+

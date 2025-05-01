@@ -65,6 +65,21 @@ return {
                     "với {C:attention}0{} lượt bỏ bài",
                 },
             },
+            j_sgt_unlabeled_bottle = {
+                name = "Chai Không Nhãn",
+                text = {
+                    "Nếu lá này ở {C:attention}tít bên trái{},",
+                    "{C:attention}biến đổi{} mọi lá ghi điểm thành {C:attention}Át{}",
+                    "trong {C:attention}#1#{} tay bài tiếp theo",
+                },
+            },
+            j_sgt_unlabeled_bottle_collection = {
+                name = "Chai Không Nhãn",
+                text = {
+                    "{C:inactive}Không có nhãn à?",
+                    "{C:inactive}Tác dụng là gì nhỉ?",
+                },
+            },
         },
         Mod = {
             Sagatro = {
@@ -92,6 +107,7 @@ return {
             k_grin_ex = "Cười!",
             k_gone_ex = "Biến Mất!",
             k_poof_ex = "Pụp!",
+            k_yeet_ex = "VÈO!",
             SGT_disable_other_jokers = "Tiến Trình Sagatro",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính"},
         },
