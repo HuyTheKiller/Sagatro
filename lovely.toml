@@ -10,13 +10,23 @@ target = "functions/common_events.lua"
 pattern = "if v.yes_pool_flag and not G.GAME.pool_flags[v.yes_pool_flag] then add = nil end"
 position = "after"
 payload = '''
-if SMODS.Mods["Sagatro"].config.DisableOtherJokers then
+if Sagatro.config.DisableOtherJokers then
     if v.set == 'Joker' then
         -- Sagatro jokers only
-        if not v.saga_group or next(find_joker("Kid-gloves And The Fan")) then add = nil end
-        -- Force Splash if Kid-gloves And The Fan is present
-        if next(find_joker("Kid-gloves And The Fan"))
-        and (v.name == "Splash" or v.name == "Dodo Bird") then add = true end
+        if not v.saga_group then add = nil end
+        
+        -- Events that would alter joker pool
+        for event, happening in pairs(G.GAME.saga_event.alice_in_wonderland) do
+            if happening then
+                add = nil
+                for _, key in pairs(G.GAME.saga_spawn_table.alice_in_wonderland[event]) do
+                    if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not next(find_joker("Showman")))
+                    and v.unlocked ~= false and v.key == key then
+                        add = true
+                    end
+                end
+            end
+        end
     end
 end
 '''
@@ -29,8 +39,8 @@ pattern = '''elseif _type == 'Joker' then _pool[#_pool + 1] = "j_joker"'''
 position = "at"
 payload = '''
 elseif _type == 'Joker' then
-    if SMODS.Mods["Sagatro"].config.DisableOtherJokers then
-        if next(find_joker("Kid-gloves And The Fan")) then
+    if Sagatro.config.DisableOtherJokers then
+        if G.GAME.saga_event.alice_in_wonderland.cry_into_flood then
             _pool[#_pool + 1] = "j_splash"
         else
             _pool[#_pool + 1] = "j_sgt_white_rabbit"

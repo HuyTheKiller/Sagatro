@@ -107,8 +107,8 @@ local drink_me = {
         end
     end,
     in_pool = function(self, args)
-        if SMODS.Mods["Sagatro"].config.DisableOtherJokers then
-            return next(find_joker("White Rabbit"))
+        if Sagatro.config.DisableOtherJokers then
+            return next(SMODS.find_card("j_sgt_white_rabbit"))
         end
         return true
     end,
@@ -187,8 +187,8 @@ local eat_me = {
         end
     end,
     in_pool = function(self, args)
-        if SMODS.Mods["Sagatro"].config.DisableOtherJokers then
-            return next(find_joker("White Rabbit"))
+        if Sagatro.config.DisableOtherJokers then
+            return next(SMODS.find_card("j_sgt_white_rabbit"))
         end
         return true
     end,
@@ -382,8 +382,8 @@ local mouse = {
         return {vars = {card.ability.extra.mult}}
     end,
     in_pool = function(self, args)
-        if SMODS.Mods["Sagatro"].config.DisableOtherJokers then
-            return next(find_joker("White Rabbit"))
+        if Sagatro.config.DisableOtherJokers then
+            return next(SMODS.find_card("j_sgt_kid_gloves_and_fan"))
         end
         return true
     end,
@@ -435,7 +435,7 @@ local kid_gloves_and_fan = {
         end
     end,
     in_pool = function(self, args)
-        return not SMODS.Mods["Sagatro"].config.DisableOtherJokers
+        return not Sagatro.config.DisableOtherJokers
     end,
 }
 
@@ -470,11 +470,11 @@ local dodo_bird = {
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra}}
     end,
+    add_to_deck = function(self, card, from_debuff)
+        G.GAME.saga_event_check.alice_in_wonderland.cry_into_flood = true
+    end,
     in_pool = function(self, args)
-        if SMODS.Mods["Sagatro"].config.DisableOtherJokers then
-            return next(find_joker("Kid-gloves And The Fan"))
-        end
-        return true
+        return not Sagatro.config.DisableOtherJokers
     end
 }
 

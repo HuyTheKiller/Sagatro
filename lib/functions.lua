@@ -1,10 +1,29 @@
-config = Sagatro.config
--- local igo = Game.init_game_object
--- function Game:init_game_object()
--- 	local ret = igo(self)
--- 	ret.copied_joker = nil
--- 	return ret
--- end
+local igo = Game.init_game_object
+function Game:init_game_object()
+	local ret = igo(self)
+	-- Events that update in real time
+    ret.saga_event = {
+        alice_in_wonderland = {
+            cry_into_flood = false,
+        },
+    }
+    -- Event checks to make sure each event only happens once per run
+    ret.saga_event_check = {
+        alice_in_wonderland = {
+            cry_into_flood = false,
+        },
+    }
+    -- A table to control joker pools during certain events
+    ret.saga_spawn_table = {
+        alice_in_wonderland = {
+            cry_into_flood = {
+                "j_splash",
+                "j_sgt_mouse",
+            },
+        },
+    }
+	return ret
+end
 
 -- Pretty much stolen from Cryptid lmao
 local gmm = Game.main_menu
@@ -81,6 +100,21 @@ function CardArea:update(dt)
     end
 end
 
+local upd = Game.update
+function Game:update(dt)
+	upd(self, dt)
+	if G.GAME and G.GAME.saga_event then
+        if G.GAME.saga_event.alice_in_wonderland then
+            if next(SMODS.find_card("j_sgt_kid_gloves_and_fan"))
+            and not G.GAME.saga_event_check.alice_in_wonderland.cry_into_flood then
+                G.GAME.saga_event.alice_in_wonderland.cry_into_flood = true
+            else
+                G.GAME.saga_event.alice_in_wonderland.cry_into_flood = false
+            end
+        end
+    end
+end
+
 function Sagatro.reset_game_globals(run_start)
     for _, v in ipairs(G.jokers.cards) do
         if v.ability.name == "Mouse" then
@@ -129,7 +163,7 @@ end
 Sagatro.config_tab = function()
     return {n = G.UIT.ROOT, config = {r = 0.1, align = "cm", padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 4}, nodes = {
         {n=G.UIT.R, config = {align = 'cm'}, nodes={
-			create_toggle({label = localize('SGT_disable_other_jokers'), ref_table = config, ref_value = 'DisableOtherJokers', info = localize('SGT_disable_other_jokers_desc'), active_colour = G.C.RARITY[4], right = true}),
+			create_toggle({label = localize('SGT_disable_other_jokers'), ref_table = Sagatro.config, ref_value = 'DisableOtherJokers', info = localize('SGT_disable_other_jokers_desc'), active_colour = G.C.RARITY[4], right = true}),
 		}},
     }}
 end

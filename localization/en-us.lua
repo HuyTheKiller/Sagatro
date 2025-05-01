@@ -92,8 +92,8 @@ return {
             k_grin_ex = "Grin!",
             k_gone_ex = "Gone!",
             k_poof_ex = "Poof!",
-            SGT_disable_other_jokers = "Sagatro Jokers Only",
-            SGT_disable_other_jokers_desc = {"Disable all jokers but those from this mod"},
+            SGT_disable_other_jokers = "Sagatro Progression",
+            SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression"},
         },
     },
 }

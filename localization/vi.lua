@@ -92,8 +92,8 @@ return {
             k_grin_ex = "Cười!",
             k_gone_ex = "Biến Mất!",
             k_poof_ex = "Pụp!",
-            SGT_disable_other_jokers = "Chỉ Dùng Joker Của Sagatro",
-            SGT_disable_other_jokers_desc = {"Tắt mọi joker trừ joker thuộc về mod này"},
+            SGT_disable_other_jokers = "Tiến Trình Sagatro",
+            SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính"},
         },
     },
 }
