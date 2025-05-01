@@ -218,7 +218,7 @@ function Card:fuse_card()
 
 			j_fusion:add_to_deck()
 			G.jokers:emplace(j_fusion)
-			play_sound("sgt_page_flip", 1, 1)
+			play_sound("sgt_page_flip", 1, 1.25)
 
 			delay(0.1)
 			G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.3, blocking = false,
