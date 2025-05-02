@@ -277,7 +277,7 @@ local cheshire_cat = {
             end
         end
         if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint then
-            if pseudorandom('cheshire_cat_vanish') < G.GAME.probabilities.normal/card.ability.extra.odds then
+            if pseudorandom('cheshire_cat_vanish') < G.GAME.probabilities.normal/(card.ability.extra.odds*(G.GAME and G.GAME.alice_multiplier or 1)) then
 				G.E_MANAGER:add_event(Event({
 					func = function()
 						play_sound('tarot1')
@@ -314,9 +314,9 @@ local cheshire_cat = {
             if G.P_CENTERS[card.ability.extra.copied_joker.config.center_key] then
                 info_queue[#info_queue+1] = G.P_CENTERS[card.ability.extra.copied_joker.config.center_key]
             end
-            return {vars = {localize{type = 'name_text', set = "Joker", key = card.ability.extra.copied_joker.config.center_key, nodes = {}}, G.GAME.probabilities.normal, card.ability.extra.odds, Sagatro.debug and card.ability.extra.copied_joker_value_id}}
+            return {vars = {localize{type = 'name_text', set = "Joker", key = card.ability.extra.copied_joker.config.center_key, nodes = {}}, G.GAME.probabilities.normal, card.ability.extra.odds*(G.GAME and G.GAME.alice_multiplier or 1), Sagatro.debug and card.ability.extra.copied_joker_value_id}}
         else
-            return {vars = {localize('k_none'), G.GAME.probabilities.normal, card.ability.extra.odds, Sagatro.debug and card.ability.extra.copied_joker_value_id}}
+            return {vars = {localize('k_none'), G.GAME.probabilities.normal, card.ability.extra.odds*(G.GAME and G.GAME.alice_multiplier or 1), Sagatro.debug and card.ability.extra.copied_joker_value_id}}
         end
     end,
     load = function(self, card, card_table, other_card)
