@@ -5,14 +5,18 @@ function Game:init_game_object()
     ret.saga_event = {
         alice_in_wonderland = {
             cry_into_flood = false,
+            white_rabbit_house = false,
             little_bill = false,
+            huge_dog = false,
         },
     }
     -- Event checks to make sure each event only happens once per run
     ret.saga_event_check = {
         alice_in_wonderland = {
             cry_into_flood = false,
+            white_rabbit_house = false,
             little_bill = false,
+            huge_dog = false,
         },
     }
     -- A table to control joker pools during certain events
@@ -22,7 +26,9 @@ function Game:init_game_object()
                 "j_splash",
                 "j_sgt_mouse",
             },
+            white_rabbit_house = nil,
             little_bill = nil,
+            huge_dog = nil,
         },
     }
     ret.alice_multiplier = 1
@@ -114,10 +120,10 @@ function Game:update(dt)
                 G.GAME.saga_event.alice_in_wonderland.cry_into_flood = false
             end
             if next(SMODS.find_card("j_sgt_dodo_bird")) and next(SMODS.find_card("j_sgt_white_rabbit"))
-            and not G.GAME.saga_event_check.alice_in_wonderland.little_bill then
-                G.GAME.saga_event.alice_in_wonderland.little_bill = true
+            and not G.GAME.saga_event_check.alice_in_wonderland.white_rabbit_house then
+                G.GAME.saga_event.alice_in_wonderland.white_rabbit_house = true
             else
-                G.GAME.saga_event.alice_in_wonderland.little_bill = false
+                G.GAME.saga_event.alice_in_wonderland.white_rabbit_house = false
             end
         end
     end

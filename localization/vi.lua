@@ -80,6 +80,22 @@ return {
                     "{C:inactive}Tác dụng là gì nhỉ?",
                 },
             },
+            j_sgt_little_bill = {
+                name = "Bill",
+                text = {
+                    "{C:attention}#1#{} giờ đây {C:attention}biến đổi{}",
+                    "mọi lá ghi điểm thành {C:attention}2{}",
+                },
+            },
+            j_sgt_huge_dog = {
+                name = "Kềnh Khuyển",
+                text = {
+                    "{C:attention}Tái kích{} lá {C:attention}2{} hoặc {C:attention}Át{}",
+                    "thêm {C:attention}#1#{} lần",
+                    "Tái kích {C:attention}#2#{} lần nữa nếu tay bài",
+                    "đã chơi {C:attention}chỉ{} chứa {C:attention}2{} hoặc {C:attention}Át{}",
+                },
+            },
             j_sgt_alice = {
                 name = "Alice",
                 text = {

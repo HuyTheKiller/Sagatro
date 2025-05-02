@@ -80,6 +80,22 @@ return {
                     "{C:inactive}What does it do?",
                 },
             },
+            j_sgt_little_bill = {
+                name = "Little Bill",
+                text = {
+                    "{C:attention}#1#{} now {C:attention}convert{} all",
+                    "scoring cards to {C:attention}2s{} instead",
+                },
+            },
+            j_sgt_huge_dog = {
+                name = "Huge Dog",
+                text = {
+                    "{C:attention}Retrigger{} each played {C:attention}2{} or {C:attention}Ace{}",
+                    "{C:attention}#1#{} additional time(s)",
+                    "Retrigger {C:attention}#2#{} more time(s) if played hand",
+                    "{C:attention}only{} contains {C:attention}2s{} or {C:attention}Aces{}",
+                },
+            },
             j_sgt_alice = {
                 name = "Alice",
                 text = {
