@@ -171,11 +171,13 @@ end
 
 function table.extract_total_value(t)
     local tot = 0
-    for _, v in pairs(t) do
-        if type(v) == "table" then
-            tot = table.extract_total_value(v)
-        elseif type(v) == "number" then
-            tot = tot + v
+    if type(t) == "table" then
+        for _, v in pairs(t) do
+            if type(v) == "table" then
+                tot = table.extract_total_value(v)
+            elseif type(v) == "number" then
+                tot = tot + v
+            end
         end
     end
     return tot
