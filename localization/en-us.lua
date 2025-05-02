@@ -83,8 +83,9 @@ return {
             j_sgt_alice = {
                 name = "Alice",
                 text = {
-                    "{C:attention}Multiply{} all values of jokers",
-                    "belonging to this story by {C:attention}X#1#{}",
+                    "{C:attention}Multiply{} the value of",
+                    "all jokers belonging to {C:dark_edition}Alice in",
+                    "{C:dark_edition}the Wonderland{} by {C:attention}X#1#{}",
                 },
             },
         },

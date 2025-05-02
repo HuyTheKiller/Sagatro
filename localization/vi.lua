@@ -83,8 +83,9 @@ return {
             j_sgt_alice = {
                 name = "Alice",
                 text = {
-                    "{C:attention}Nhân{} giá trị của mọi joker thuộc về",
-                    "câu chuyện này thêm {C:attention}X#1#{} lần",
+                    "{C:attention}Nhân{} giá trị của mọi joker",
+                    "thuộc về {C:dark_edition}Alice ở Xứ Sở Diệu Kì{}",
+                    "thêm {C:attention}X#1#{} lần",
                 },
             },
         },
