@@ -25,7 +25,7 @@ local white_rabbit = {
 				card = card
 			}
 		end
-        if context.discard and not context.blueprint and context.other_card == context.full_hand[1] then
+        if context.discard and not context.blueprint and context.other_card == context.full_hand[1] and not context.hook then
             if G.GAME.current_round.discards_used <= 0 then
                 return {
                     message = localize("k_too_late_ex"),
