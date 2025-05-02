@@ -53,7 +53,7 @@ return {
                 name = "Kid-gloves And The Fan",
                 text = {
                     "If this is the {C:attention}leftmost{} joker:",
-                    "Played cards {C:attention}lose{} #1# rank when scored",
+                    "Played cards {C:attention}lose{} #1# rank(s) when scored",
                     "Played 2s are {C:attention}destroyed{} after scoring",
                 },
             },
