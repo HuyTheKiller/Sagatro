@@ -663,17 +663,23 @@ local huge_dog = {
     calculate = function(self, card, context)
         if context.repetition and context.cardarea == G.play then
             local valid_cards, all_cards = 0, 0
-            for _, v in ipairs(G.hand.cards) do
+            local temp = context.other_card
+            for _, v in ipairs(context.full_hand) do
                 all_cards = all_cards + 1
                 if v:get_id() == 14 or v:get_id() == 2 then
                     valid_cards = valid_cards + 1
                 end
             end
-            return {
-				message = localize("k_again_ex"),
-				repetitions = (card.ability.extra.times + (valid_cards == all_cards and card.ability.extra.extra_times or 0))*(G.GAME and G.GAME.alice_multiplier or 1),
-				card = card,
-			}
+            if temp:get_id() == 14 or temp:get_id() == 2 then
+                return {
+                    message = localize("k_again_ex"),
+                    repetitions = (card.ability.extra.times + (valid_cards == all_cards and card.ability.extra.extra_times or 0))*(G.GAME and G.GAME.alice_multiplier or 1),
+                    card = card,
+                }
+            end
+        end
+        if context.selling_self and not G.GAME.saga_event_check.alice_in_wonderland.caterpillar then
+            G.GAME.saga_event.alice_in_wonderland.caterpillar = true
         end
     end,
     add_to_deck = function(self, card, from_debuff)
