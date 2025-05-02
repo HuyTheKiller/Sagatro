@@ -10,20 +10,23 @@ target = "functions/common_events.lua"
 pattern = "if v.yes_pool_flag and not G.GAME.pool_flags[v.yes_pool_flag] then add = nil end"
 position = "after"
 payload = '''
+
 if Sagatro.config.DisableOtherJokers then
     if v.set == 'Joker' then
         -- Sagatro jokers only
         if not v.saga_group then add = nil end
         
         -- Events that would alter joker pool
-        for event, happening in pairs(G.GAME.saga_event.alice_in_wonderland) do
-            if happening then
-                if G.GAME.saga_spawn_table.alice_in_wonderland[event] then
-                    add = nil
-                    for _, key in pairs(G.GAME.saga_spawn_table.alice_in_wonderland[event]) do
-                        if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not next(find_joker("Showman")))
-                        and v.unlocked ~= false and v.key == key then
-                            add = true
+        for story, events in pairs(G.GAME.saga_event) do    
+            for event, happening in pairs(events) do
+                if happening then
+                    if G.GAME.saga_spawn_table[story][event] then
+                        add = nil
+                        for _, key in pairs(G.GAME.saga_spawn_table[story][event]) do
+                            if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not next(find_joker("Showman")))
+                            and v.unlocked ~= false and v.key == key then
+                                add = true
+                            end
                         end
                     end
                 end
