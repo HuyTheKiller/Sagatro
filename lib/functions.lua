@@ -25,6 +25,7 @@ function Game:init_game_object()
             little_bill = nil,
         },
     }
+    ret.alice_multiplier = 1
 	return ret
 end
 

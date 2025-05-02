@@ -13,6 +13,13 @@ SMODS.Atlas{
     py = 95,
 }
 
+SMODS.Atlas{
+    key = "alice",
+    path = "Alice.png",
+    px = 71,
+    py = 95,
+}
+
 SMODS.Sound{
     key = "run_away",
     path = "run_away.ogg",

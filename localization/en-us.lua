@@ -53,7 +53,7 @@ return {
                 name = "Kid-gloves And The Fan",
                 text = {
                     "If this is the {C:attention}leftmost{} joker:",
-                    "Played cards {C:attention}lose{} a rank when scored",
+                    "Played cards {C:attention}lose{} #1# rank when scored",
                     "Played 2s are {C:attention}destroyed{} after scoring",
                 },
             },
@@ -78,6 +78,13 @@ return {
                 text = {
                     "{C:inactive}No labels?",
                     "{C:inactive}What does it do?",
+                },
+            },
+            j_sgt_alice = {
+                name = "Alice",
+                text = {
+                    "{C:attention}Multiply{} all values of jokers",
+                    "belonging to this story by {C:attention}X#1#{}",
                 },
             },
         },

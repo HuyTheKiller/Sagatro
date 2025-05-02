@@ -13,8 +13,8 @@ local white_rabbit = {
     calculate = function(self, card, context)
         if context.joker_main then
 			return {
-				chip_mod = card.ability.extra.chips,
-				message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } }
+				chip_mod = card.ability.extra.chips*(G.GAME and G.GAME.alice_multiplier or 1),
+				message = localize {type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*(G.GAME and G.GAME.alice_multiplier or 1)}}
 			}
 		end
         if context.before and G.GAME.current_round.discards_used == 0 and not context.blueprint then
@@ -36,7 +36,7 @@ local white_rabbit = {
         end
     end,
     loc_vars = function(self, info_queue, card)
-		return {vars = {card.ability.extra.chips, card.ability.extra.chip_gain}}
+		return {vars = {card.ability.extra.chips*(G.GAME and G.GAME.alice_multiplier or 1), card.ability.extra.chip_gain*(G.GAME and G.GAME.alice_multiplier or 1)}}
 	end,
 }
 
@@ -106,6 +106,9 @@ local drink_me = {
                 end
             end
         end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
     end,
     in_pool = function(self, args)
         if Sagatro.config.DisableOtherJokers then
@@ -188,6 +191,9 @@ local eat_me = {
                 end
             end
         end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
     end,
     in_pool = function(self, args)
         if Sagatro.config.DisableOtherJokers then
@@ -362,8 +368,8 @@ local mouse = {
     calculate = function(self, card, context)
         if context.joker_main then
             return {
-                mult_mod = card.ability.extra.mult,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+                mult_mod = card.ability.extra.mult*(G.GAME and G.GAME.alice_multiplier or 1),
+				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*(G.GAME and G.GAME.alice_multiplier or 1)}}
             }
         end
         if context.after and not context.blueprint then
@@ -382,7 +388,7 @@ local mouse = {
         end
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.mult}}
+        return {vars = {card.ability.extra.mult*(G.GAME and G.GAME.alice_multiplier or 1)}}
     end,
     in_pool = function(self, args)
         if Sagatro.config.DisableOtherJokers then
@@ -398,7 +404,7 @@ local kid_gloves_and_fan = {
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     pos = { x = 5, y = 0 },
-    config = {},
+    config = {extra = 1},
 	rarity = 2,
     cost = 8,
     blueprint_compat = false,
@@ -413,7 +419,7 @@ local kid_gloves_and_fan = {
                     if SMODS.has_no_rank(temp) or temp:get_id() > 2 then
                         G.E_MANAGER:add_event(Event({
                             func = function()
-                                temp.base.id = SMODS.has_no_rank(temp) and temp.base.id or math.max(2, temp.base.id - 1)
+                                temp.base.id = SMODS.has_no_rank(temp) and temp.base.id or math.max(2, temp.base.id - card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1))
                                 local rank_suffix = sgt_get_rank_suffix(temp)
                                 assert(SMODS.change_base(temp, nil, rank_suffix))
 
@@ -437,9 +443,12 @@ local kid_gloves_and_fan = {
             end
         end
     end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)}}
+    end,
     in_pool = function(self, args)
         return not Sagatro.config.DisableOtherJokers
-    end,
+    end
 }
 
 local dodo_bird = {
@@ -464,14 +473,14 @@ local dodo_bird = {
                     end
                 }))
                 return {
-                    message = localize{type='variable',key='a_xmult',vars={card.ability.extra}},
-                    Xmult_mod = card.ability.extra
+                    message = localize{type='variable', key='a_xmult', vars={card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)}},
+                    Xmult_mod = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
                 }
             end
         end
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra}}
+        return {vars = {card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)}}
     end,
     add_to_deck = function(self, card, from_debuff)
         G.GAME.saga_event_check.alice_in_wonderland.cry_into_flood = true
@@ -487,7 +496,7 @@ local unlabeled_bottle = {
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     pos = { x = 1, y = 1 },
-    config = { extra = 2, taken = false },
+    config = { extra = 2*(G.GAME and G.GAME.alice_multiplier or 1), taken = false },
 	rarity = 2,
     cost = 6,
     blueprint_compat = false,
@@ -593,7 +602,35 @@ local unlabeled_bottle = {
     end,
     add_to_deck = function(self, card, from_debuff)
         card.ability.taken = true
+        card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
         G.GAME.saga_event_check.alice_in_wonderland.little_bill = true
+    end,
+    in_pool = function(self, args)
+        return not Sagatro.config.DisableOtherJokers
+    end
+}
+
+local alice = {
+    key = "alice",
+    name = "Alice",
+    atlas = "alice",
+    saga_group = "alice_in_wonderland",
+    pos = { x = 0, y = 0 },
+    soul_pos = { x = 1, y = 0 },
+    config = { extra = 3 },
+	rarity = 4,
+    cost = 20,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    add_to_deck = function(self, card, from_debuff)
+        G.GAME.alice_multiplier = G.GAME.alice_multiplier*card.ability.extra
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        G.GAME.alice_multiplier = G.GAME.alice_multiplier/card.ability.extra
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
     end,
     in_pool = function(self, args)
         return not Sagatro.config.DisableOtherJokers
@@ -609,6 +646,7 @@ local joker_table = {
     kid_gloves_and_fan,
     dodo_bird,
     unlabeled_bottle,
+    alice,
 }
 
 for _, v in ipairs(joker_table) do

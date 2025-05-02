@@ -53,7 +53,7 @@ return {
                 name = "Găng Tay Và Chiếc Quạt",
                 text = {
                     "Nếu lá này ở {C:attention}tít bên trái{}:",
-                    "Lá đã chơi {C:attention}giảm đi{} 1 bậc khi ghi điểm",
+                    "Lá đã chơi {C:attention}giảm đi{} #1# bậc khi ghi điểm",
                     "Lá 2 bị {C:attention}phá huỷ{} sau khi ghi điểm",
                 },
             },
@@ -78,6 +78,13 @@ return {
                 text = {
                     "{C:inactive}Không có nhãn à?",
                     "{C:inactive}Tác dụng là gì nhỉ?",
+                },
+            },
+            j_sgt_alice = {
+                name = "Alice",
+                text = {
+                    "{C:attention}Nhân{} giá trị của mọi joker thuộc về",
+                    "câu chuyện này thêm {C:attention}X#1#{} lần",
                 },
             },
         },
