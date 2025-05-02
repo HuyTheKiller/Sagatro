@@ -1,6 +1,6 @@
 Sagatro = SMODS.current_mod
 Sagatro.load_table = {
-    jokers = true,
+    alice_in_wonderland = true,
 }
 
 -- Danger zone
