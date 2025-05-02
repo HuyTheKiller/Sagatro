@@ -179,6 +179,8 @@ function table.extract_total_value(t)
                 tot = tot + v
             end
         end
+    elseif type(t) == "number" then
+        tot = tot + t
     end
     return tot
 end
