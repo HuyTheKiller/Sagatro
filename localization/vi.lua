@@ -96,6 +96,21 @@ return {
                     "đã chơi {C:attention}chỉ{} chứa {C:attention}2{} hoặc {C:attention}Át{}",
                 },
             },
+            j_sgt_caterpillar = {
+                name = "Sâu Bướm",
+                text = {
+                    "{C:attention}Ngẫu nhiên hoá{} {C:attention}bậc{} và {C:attention}chất{}",
+                    "của {C:attention}#1#{} lá ghi điểm tiếp theo",
+                },
+            },
+            j_sgt_mushroom = {
+                name = "Nấm",
+                text = {
+                    "Nếu lá này ở {C:attention}tít bên trái/phải{},",
+                    "Mọi lá ghi điểm {C:attention}giảm/tăng{} #2# bậc",
+                    "trong {C:attention}#1#{} tay bài tiếp theo",
+                },
+            },
             j_sgt_alice = {
                 name = "Alice",
                 text = {

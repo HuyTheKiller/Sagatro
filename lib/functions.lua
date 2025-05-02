@@ -8,6 +8,7 @@ function Game:init_game_object()
             white_rabbit_house = false,
             little_bill = false,
             huge_dog = false,
+            caterpillar = false,
         },
     }
     -- Event checks to make sure each event only happens once per run
@@ -17,6 +18,7 @@ function Game:init_game_object()
             white_rabbit_house = false,
             little_bill = false,
             huge_dog = false,
+            caterpillar = false,
         },
     }
     -- A table to control joker pools during certain events
@@ -29,6 +31,7 @@ function Game:init_game_object()
             white_rabbit_house = nil,
             little_bill = nil,
             huge_dog = nil,
+            caterpillar = nil,
         },
     }
     ret.alice_multiplier = 1

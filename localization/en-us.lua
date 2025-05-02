@@ -96,6 +96,21 @@ return {
                     "{C:attention}only{} contains {C:attention}2s{} or {C:attention}Aces{}",
                 },
             },
+            j_sgt_caterpillar = {
+                name = "Caterpillar",
+                text = {
+                    "{C:attention}Randomize{} the {C:attention}rank{} and {C:attention}suit{}",
+                    "of the next {C:attention}#1#{} scoring cards",
+                },
+            },
+            j_sgt_mushroom = {
+                name = "Mushroom",
+                text = {
+                    "If this is the {C:attention}leftmost/rightmost{} joker,",
+                    "All scoring cards {C:attention}lose/gain{} #2# rank(s)",
+                    "for the next {C:attention}#1#{} hand(s)",
+                },
+            },
             j_sgt_alice = {
                 name = "Alice",
                 text = {

@@ -697,6 +697,221 @@ local huge_dog = {
     end,
 }
 
+local caterpillar = {
+    key = "caterpillar",
+    name = "Caterpillar",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pos = { x = 4, y = 1 },
+    config = {extra = 20},
+	rarity = 1,
+    cost = 1,
+    blueprint_compat = false,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play
+        and not context.blueprint and card.ability.extra > 0 then
+            if not context.other_card.debuff then
+                local suits = {}
+                local temp = context.other_card
+                for _, v in pairs(SMODS.Suits) do
+                    suits[#suits+1] = tostring(v.key)
+                end
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        temp.base.id = SMODS.has_no_rank(temp) and temp.base.id or pseudorandom("caterpillar_random_rank", 2, 14)
+                        local rank_suffix = sgt_get_rank_suffix(temp)
+                        assert(SMODS.change_base(temp, pseudorandom_element(suits, pseudoseed("caterpillar_random_suit")), rank_suffix))
+                        card.ability.extra = card.ability.extra - 1
+                        return true
+                    end
+                }))
+            end
+        end
+        if context.after then
+            if card.ability.extra <= 0 then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                assert(SMODS.add_card({
+                                    set = "Joker",
+                                    skip_materialize = true,
+                                    key = "j_sgt_mushroom",
+                                }))
+                                return true
+                            end
+                        }))
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(card)
+                                    card:remove()
+                                    card = nil
+                                return true; end}))
+                        return true
+                    end
+                }))
+                if G.GAME.saga_event.alice_in_wonderland.caterpillar then
+                    G.GAME.saga_event.alice_in_wonderland.caterpillar = false
+                    G.GAME.saga_event_check.alice_in_wonderland.caterpillar = true
+                end
+                return {
+                    message = localize('k_gone_ex'),
+                    colour = G.C.FILTER
+                }
+            end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+    end,
+    in_pool = function(self, args)
+        if Sagatro.config.DisableOtherJokers then
+            return G.GAME.saga_event.alice_in_wonderland.caterpillar and true or false
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
+}
+
+local mushroom = {
+    key = "mushroom",
+    name = "Mushroom",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pos = { x = 5, y = 1 },
+    config = {extra = 10, times = 1},
+	rarity = 2,
+    cost = 7,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if G and G.jokers and G.jokers.cards and G.jokers.cards[1] and not context.blueprint then
+            if G.jokers.cards[1] == card and G.jokers.cards[#G.jokers.cards].ability.name ~= "Eat Me!" then
+                if context.before then
+                    for _, v in ipairs(context.scoring_hand) do
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                for _ = 1, card.ability.times*(G.GAME and G.GAME.alice_multiplier or 1) do
+                                    v.base.id = SMODS.has_no_rank(v) and v.base.id or v.base.id == 2 and 14 or math.max(v.base.id-1, 2)
+                                end
+                                if not SMODS.has_no_rank(v) then v:juice_up() end
+                                local rank_suffix = sgt_get_rank_suffix(v)
+                                assert(SMODS.change_base(v, nil, rank_suffix))
+
+                                return true
+                            end
+                        }))
+                    end
+                    return {
+                        message = localize("k_shrunk_ex"),
+                        colour = G.C.BLUE
+                    }
+                end
+                if context.after then
+                    if card.ability.extra - 1 <= 0 then
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                play_sound('tarot1')
+                                card.T.r = -0.2
+                                card:juice_up(0.3, 0.4)
+                                card.states.drag.is = true
+                                card.children.center.pinch.x = true
+                                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                                    func = function()
+                                            G.jokers:remove_card(card)
+                                            card:remove()
+                                            card = nil
+                                        return true; end}))
+                                return true
+                            end
+                        }))
+                        return {
+                            message = localize('k_eaten_ex'),
+                            colour = G.C.FILTER
+                        }
+                    else
+                        card.ability.extra = card.ability.extra - 1
+                        return {
+                            message = card.ability.extra..'',
+                            colour = G.C.FILTER
+                        }
+                    end
+                end
+            elseif G.jokers.cards[#G.jokers.cards] == card and G.jokers.cards[1].ability.name ~= "Drink Me!" then
+                if context.before then
+                    for _, v in ipairs(context.scoring_hand) do
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                for _ = 1, card.ability.times*(G.GAME and G.GAME.alice_multiplier or 1) do
+                                    v.base.id = SMODS.has_no_rank(v) and v.base.id or v.base.id == 14 and 2 or math.min(v.base.id+1, 14)
+                                end
+                                if not SMODS.has_no_rank(v) then v:juice_up() end
+                                local rank_suffix = sgt_get_rank_suffix(v)
+                                assert(SMODS.change_base(v, nil, rank_suffix))
+
+                                return true
+                            end
+                        }))
+                    end
+                    return {
+                        message = localize("k_enlarged_ex"),
+                        colour = G.C.BLUE
+                    }
+                end
+                if context.after then
+                    if card.ability.extra - 1 <= 0 then
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                play_sound('tarot1')
+                                card.T.r = -0.2
+                                card:juice_up(0.3, 0.4)
+                                card.states.drag.is = true
+                                card.children.center.pinch.x = true
+                                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                                    func = function()
+                                            G.jokers:remove_card(card)
+                                            card:remove()
+                                            card = nil
+                                        return true; end}))
+                                return true
+                            end
+                        }))
+                        return {
+                            message = localize('k_eaten_ex'),
+                            colour = G.C.FILTER
+                        }
+                    else
+                        card.ability.extra = card.ability.extra - 1
+                        return {
+                            message = card.ability.extra..'',
+                            colour = G.C.FILTER
+                        }
+                    end
+                end
+            end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+    end,
+    in_pool = function(self, args)
+        return not Sagatro.config.DisableOtherJokers
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra, card.ability.times*(G.GAME and G.GAME.alice_multiplier or 1)}}
+    end,
+}
+
 local alice = {
     key = "alice",
     name = "Alice",
@@ -735,6 +950,8 @@ local joker_table = {
     unlabeled_bottle,
     little_bill,
     huge_dog,
+    caterpillar,
+    mushroom,
     alice,
 }
 
