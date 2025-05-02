@@ -90,8 +90,8 @@ return {
             j_sgt_huge_dog = {
                 name = "Kềnh Khuyển",
                 text = {
-                    "{C:attention}Tái kích{} lá {C:attention}2{} hoặc {C:attention}Át{}",
-                    "thêm {C:attention}#1#{} lần",
+                    "{C:attention}Tái kích{} lá {C:attention}2{}",
+                    "hoặc {C:attention}Át{} thêm {C:attention}#1#{} lần",
                     "Tái kích {C:attention}#2#{} lần nữa nếu tay bài",
                     "đã chơi {C:attention}chỉ{} chứa {C:attention}2{} hoặc {C:attention}Át{}",
                 },
