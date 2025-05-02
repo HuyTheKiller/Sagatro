@@ -26,3 +26,10 @@ SMODS.Sound{
     pitch = 0.7,
     volume = 0.5,
 }
+
+SMODS.Sound{
+    key = "page_scratch",
+    path = "page_scratch.ogg",
+    pitch = 0.7,
+    volume = 0.5,
+}

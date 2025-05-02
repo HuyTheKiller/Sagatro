@@ -146,7 +146,7 @@ function Card:fuse_card()
 
 	if chosen_fusion ~= nil then
 		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function()
-			play_sound('whoosh1')
+			play_sound("sgt_page_scratch", 1, 1.25)
 			for _, pos in ipairs(joker_pos) do
 				if not edition and G.jokers.cards[pos.pos].edition then
 					edition = G.jokers.cards[pos.pos].edition
