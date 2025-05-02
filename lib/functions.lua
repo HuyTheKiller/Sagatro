@@ -108,9 +108,27 @@ function CardArea:update(dt)
     end
 end
 
+alice_dt = 0
 local upd = Game.update
 function Game:update(dt)
 	upd(self, dt)
+
+    alice_dt = alice_dt + dt
+    if G.P_CENTERS and G.P_CENTERS.j_sgt_alice and alice_dt > 0.05 then
+        alice_dt = alice_dt - 0.05
+        local alice = G.P_CENTERS.j_sgt_alice
+        if alice.soul_pos.x == 82 then
+            alice.soul_pos.x = 1
+        else
+            alice.soul_pos.x = alice.soul_pos.x + 1
+        end
+        for _, card in pairs(G.I.CARD) do
+            if card and card.config.center == alice then
+                card.children.floating_sprite:set_sprite_pos(alice.soul_pos)
+            end
+        end
+    end
+
 	if G.GAME and G.GAME.saga_event then
         if G.GAME.saga_event.alice_in_wonderland then
             if next(SMODS.find_card("j_sgt_kid_gloves_and_fan"))
