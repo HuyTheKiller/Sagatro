@@ -34,12 +34,12 @@ local gmm = Game.main_menu
 Game.main_menu = function(change_context)
     local ret = gmm(change_context)
 
-    local selected_card = "j_sgt_white_rabbit"
+    local selected_card = "j_sgt_alice"
     local newcard = Card(
         G.title_top.T.x,
         G.title_top.T.y,
-        G.CARD_W,
-        G.CARD_H,
+        G.CARD_W*1.1*1.2,
+        G.CARD_H*1.1*1.2, -- rescale to match Ace of Spades
         G.P_CARDS.empty,
         G.P_CENTERS[selected_card],
         { bypass_discovery_center = true }
@@ -50,11 +50,9 @@ Game.main_menu = function(change_context)
     end
     G.title_top:emplace(newcard)
 
-    newcard.T.w = newcard.T.w * 1.1 * 1.2 -- rescale to match the size of Ace of Spades
-    newcard.T.h = newcard.T.h * 1.1 * 1.2
     newcard.no_ui = true
     newcard.states.visible = false
-    newcard.sticker_run = "NONE" -- remove stake sticker because of above rescale making it go offset
+    newcard.sticker_run = "NONE" -- remove stake sticker
 
     G.SPLASH_BACK:define_draw_steps({
         {
