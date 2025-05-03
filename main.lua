@@ -3,6 +3,10 @@ Sagatro.load_table = {
     alice_in_wonderland = true,
 }
 
+Sagatro.optional_features = {
+	retrigger_joker = true,
+}
+
 -- Danger zone
 Sagatro.debug = false
 
