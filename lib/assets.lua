@@ -40,3 +40,8 @@ SMODS.Sound{
     pitch = 0.7,
     volume = 0.5,
 }
+
+SMODS.Sound{
+    key = "emult",
+    path = "talisman_emult.wav",
+}
