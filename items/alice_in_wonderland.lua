@@ -46,7 +46,7 @@ local drink_me = {
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     pos = { x = 1, y = 0 },
-    config = {extra = 1},
+    config = {extra = 1, taken = false},
 	rarity = 1,
     cost = 6,
     blueprint_compat = false,
@@ -109,10 +109,11 @@ local drink_me = {
     end,
     add_to_deck = function(self, card, from_debuff)
         card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+        card.ability.taken = true
     end,
     in_pool = function(self, args)
         if Sagatro.config.DisableOtherJokers then
-            return next(SMODS.find_card("j_sgt_white_rabbit"))
+            return next(SMODS.find_card("j_sgt_white_rabbit", true))
         end
         return true
     end,
@@ -120,7 +121,7 @@ local drink_me = {
         if G.P_CENTERS["j_sgt_eat_me"] and not card.fake_card then
             info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_eat_me"]
         end
-        return {vars = {card.ability.extra, localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}}}
+        return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1), localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}}}
     end,
 }
 
@@ -142,13 +143,13 @@ local eat_me = {
         and (G.jokers.cards[1].ability.name ~= "Drink Me!" and G.jokers.cards[1].ability.name ~= "Unlabeled Bottle") then
             if context.before then
                 for _, v in ipairs(context.scoring_hand) do
-                    if SMODS.has_no_rank(v) or (not next(SMODS.find_card("j_sgt_little_bill")) and v:get_id() < 14)
-                    or (next(SMODS.find_card("j_sgt_little_bill")) and v:get_id() > 2) then
+                    if SMODS.has_no_rank(v) or (not next(SMODS.find_card("j_sgt_little_bill", true)) and v:get_id() < 14)
+                    or (next(SMODS.find_card("j_sgt_little_bill", true)) and v:get_id() > 2) then
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 v.base.id = (SMODS.has_no_rank(v) and v.base.id)
-                                or (not next(SMODS.find_card("j_sgt_little_bill")) and 14)
-                                or (next(SMODS.find_card("j_sgt_little_bill")) and 2)
+                                or (not next(SMODS.find_card("j_sgt_little_bill", true)) and 14)
+                                or (next(SMODS.find_card("j_sgt_little_bill", true)) and 2)
                                 if not SMODS.has_no_rank(v) then v:juice_up() end
                                 local rank_suffix = sgt_get_rank_suffix(v)
                                 assert(SMODS.change_base(v, nil, rank_suffix))
@@ -159,7 +160,7 @@ local eat_me = {
                     end
                 end
                 return {
-                    message = not next(SMODS.find_card("j_sgt_little_bill")) and localize("k_enlarged_ex") or localize("k_shrunk_ex"),
+                    message = not next(SMODS.find_card("j_sgt_little_bill", true)) and localize("k_enlarged_ex") or localize("k_shrunk_ex"),
                     colour = G.C.BLUE
                 }
             end
@@ -203,10 +204,11 @@ local eat_me = {
     end,
     add_to_deck = function(self, card, from_debuff)
         card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+        card.ability.taken = true
     end,
     in_pool = function(self, args)
         if Sagatro.config.DisableOtherJokers then
-            return next(SMODS.find_card("j_sgt_white_rabbit"))
+            return next(SMODS.find_card("j_sgt_white_rabbit", true))
         end
         return true
     end,
@@ -214,7 +216,7 @@ local eat_me = {
         if G.P_CENTERS["j_sgt_drink_me"] and not card.fake_card then
             info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_drink_me"]
         end
-        return {vars = {card.ability.extra, localize{type = 'name_text', set = "Joker", key = "j_sgt_drink_me", nodes = {}}}}
+        return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1), localize{type = 'name_text', set = "Joker", key = "j_sgt_drink_me", nodes = {}}}}
     end,
 }
 
@@ -398,7 +400,7 @@ local mouse = {
     end,
     in_pool = function(self, args)
         if Sagatro.config.DisableOtherJokers then
-            return next(SMODS.find_card("j_sgt_kid_gloves_and_fan"))
+            return next(SMODS.find_card("j_sgt_kid_gloves_and_fan", true))
         end
         return true
     end,
@@ -505,7 +507,7 @@ local unlabeled_bottle = {
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     pos = { x = 1, y = 1 },
-    config = {extra = 2*(G.GAME and G.GAME.alice_multiplier or 1), taken = false},
+    config = {extra = 2, taken = false},
 	rarity = 2,
     cost = 6,
     blueprint_compat = false,
@@ -535,37 +537,31 @@ local unlabeled_bottle = {
                 }
             end
             if context.after then
-                if next(SMODS.find_card("j_sgt_white_rabbit")) then
-                    for i = 1, #G.jokers.cards do
-                        local temp = G.jokers.cards[i]
-                        if temp.ability.name == "White Rabbit" then
+                for _, v in ipairs(SMODS.find_card("j_sgt_white_rabbit", true)) do
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            play_sound('sgt_run_away', 1, 1)
                             G.E_MANAGER:add_event(Event({
+                                trigger = "immediate",
+                                blockable = false,
                                 func = function()
-                                    play_sound('sgt_run_away', 1, 1)
-                                    G.E_MANAGER:add_event(Event({
-                                        trigger = "immediate",
-                                        blockable = false,
-                                        func = function()
-                                            card_eval_status_text(temp, 'extra', nil, nil, nil, {message = localize('k_yeet_ex'), instant = true})
-                                            return true
-                                        end
-                                    }))
-                                    temp.T.r = -0.2
-                                    temp:juice_up(0.3, 0.4)
-                                    temp.states.drag.is = true
-                                    temp.children.center.pinch.x = true
-                                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
-                                    func = function()
-                                                G.jokers:remove_card(temp)
-                                                temp:remove()
-                                                temp = nil
-                                            return true; end}))
+                                    card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_yeet_ex'), instant = true})
                                     return true
                                 end
                             }))
-                            i = i - 1
+                            v.T.r = -0.2
+                            v:juice_up(0.3, 0.4)
+                            v.states.drag.is = true
+                            v.children.center.pinch.x = true
+                            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                        G.jokers:remove_card(v)
+                                        v:remove()
+                                        v = nil
+                                    return true; end}))
+                            return true
                         end
-                    end
+                    }))
                 end
                 if card.ability.extra - 1 <= 0 then
                     G.E_MANAGER:add_event(Event({
@@ -703,7 +699,7 @@ local caterpillar = {
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     pos = { x = 4, y = 1 },
-    config = {extra = 20},
+    config = {extra = 20, taken = false},
 	rarity = 1,
     cost = 1,
     blueprint_compat = false,
@@ -770,6 +766,7 @@ local caterpillar = {
     end,
     add_to_deck = function(self, card, from_debuff)
         card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+        card.ability.taken = true
     end,
     in_pool = function(self, args)
         if Sagatro.config.DisableOtherJokers then
@@ -778,7 +775,7 @@ local caterpillar = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra}}
+        return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)}}
     end,
 }
 
@@ -788,7 +785,7 @@ local mushroom = {
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     pos = { x = 5, y = 1 },
-    config = {extra = 10, times = 1},
+    config = {extra = 10, times = 1, taken = false},
 	rarity = 2,
     cost = 7,
     blueprint_compat = false,
@@ -835,6 +832,9 @@ local mushroom = {
                                 return true
                             end
                         }))
+                        if not G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper then
+                            G.GAME.saga_event.alice_in_wonderland.pig_and_pepper = true
+                        end
                         return {
                             message = localize('k_eaten_ex'),
                             colour = G.C.FILTER
@@ -903,12 +903,100 @@ local mushroom = {
     end,
     add_to_deck = function(self, card, from_debuff)
         card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+        card.ability.taken = true
     end,
     in_pool = function(self, args)
         return not Sagatro.config.DisableOtherJokers
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra, card.ability.times*(G.GAME and G.GAME.alice_multiplier or 1)}}
+        return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1), card.ability.times*(G.GAME and G.GAME.alice_multiplier or 1)}}
+    end,
+}
+
+local frog_footman = {
+    key = "frog_footman",
+    name = "Frog-Footman",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pos = { x = 0, y = 2 },
+    config = {extra = 2, consumable_slot = 1, alice_mult_buffer = 1, taken = false},
+	rarity = 1,
+    cost = 5,
+    blueprint_compat = false,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.open_booster and not context.blueprint
+        and #G.consumeables.cards < G.consumeables.config.card_limit then
+            local times = G.consumeables.config.card_limit - #G.consumeables.cards
+            for _ = 1, times do
+                G.E_MANAGER:add_event(Event({
+                trigger = 'before',
+                delay = 0.0,
+                func = (function()
+                        local forced_key = sgt_get_random_consumable('frog_footman', nil, nil)
+                        local _card = create_card('Consumeables',G.consumeables, nil, nil, nil, nil, forced_key.config.center_key, 'frog_footman')
+                        _card:add_to_deck()
+                        G.consumeables:emplace(_card)
+                    return true
+                end)}))
+            end
+            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_ouch_ex'), colour = G.C.SGT_OBSCURE})
+            card.ability.extra = card.ability.extra - 1
+            if card.ability.extra <= 0 then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(card)
+                                    card:remove()
+                                    card = nil
+                                return true; end}))
+                        return true
+                    end
+                }))
+                if not G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog then
+                    G.GAME.saga_event.alice_in_wonderland.pig_and_pepper = false
+                    G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper = true
+                    G.GAME.saga_event.alice_in_wonderland.goodbye_frog = true
+                end
+                return {
+                    message = localize('k_goodbye_ex'),
+                    colour = G.C.FILTER
+                }
+            end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        -- G.E_MANAGER:add_event(Event({trigger = "immediate", func = function()
+        G.consumeables.config.card_limit = G.consumeables.config.card_limit + card.ability.consumable_slot*(G.GAME and G.GAME.alice_multiplier or 1)
+        -- return true end }))
+        if G.GAME and G.GAME.alice_multiplier then
+            card.ability.alice_mult_buffer = G.GAME.alice_multiplier
+        end
+        if not from_debuff then
+            card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+        end
+        card.ability.taken = true
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        -- G.E_MANAGER:add_event(Event({trigger = "immediate", func = function()
+        G.consumeables.config.card_limit = G.consumeables.config.card_limit - card.ability.consumable_slot*(G.GAME and G.GAME.alice_multiplier or 1)
+        -- return true end }))
+    end,
+    in_pool = function(self, args)
+        if Sagatro.config.DisableOtherJokers then
+            return G.GAME.saga_event.alice_in_wonderland.pig_and_pepper and true or false
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.consumable_slot*(G.GAME and G.GAME.alice_multiplier or 1), card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)}}
     end,
 }
 
@@ -927,9 +1015,25 @@ local alice = {
     perishable_compat = true,
     add_to_deck = function(self, card, from_debuff)
         G.GAME.alice_multiplier = G.GAME.alice_multiplier*card.ability.extra
+        for _, v in ipairs(G.jokers.cards) do
+            if v.ability.name == "Frog-Footman" then
+                -- G.E_MANAGER:add_event(Event({trigger = "immediate", func = function()
+                G.consumeables.config.card_limit = G.consumeables.config.card_limit + (G.GAME.alice_multiplier-v.ability.alice_mult_buffer)
+                -- return true end })) -- For some ducking reason events don't work here
+                v.ability.alice_mult_buffer = G.GAME.alice_multiplier
+            end
+        end
     end,
     remove_from_deck = function(self, card, from_debuff)
         G.GAME.alice_multiplier = G.GAME.alice_multiplier/card.ability.extra
+        for _, v in ipairs(G.jokers.cards) do
+            if v.ability.name == "Frog-Footman" then
+                -- G.E_MANAGER:add_event(Event({trigger = "immediate", func = function()
+                G.consumeables.config.card_limit = G.consumeables.config.card_limit + (G.GAME.alice_multiplier-v.ability.alice_mult_buffer)
+                -- return true end }))
+                v.ability.alice_mult_buffer = G.GAME.alice_multiplier
+            end
+        end
     end,
     in_pool = function(self, args)
         return not Sagatro.config.DisableOtherJokers
@@ -952,6 +1056,7 @@ local joker_table = {
     huge_dog,
     caterpillar,
     mushroom,
+    frog_footman,
     alice,
 }
 

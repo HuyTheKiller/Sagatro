@@ -111,6 +111,16 @@ return {
                     "for the next {C:attention}#1#{} hand(s)",
                 },
             },
+            j_sgt_frog_footman = {
+                name = "Frog-Footman",
+                text = {
+                    "{C:attention}+#1#{} consumable slot(s)",
+                    "Opening the next #2# {C:attention}Booster Pack(s){}",
+                    "{C:attention}fill up{} consumable slots",
+                    "with {C:attention}random{} consumables",
+                    "{C:red,s:0.8}Self-destructs{s:0.8} on running out of turns"
+                },
+            },
             j_sgt_alice = {
                 name = "Alice",
                 text = {
@@ -147,6 +157,8 @@ return {
             k_gone_ex = "Gone!",
             k_poof_ex = "Poof!",
             k_yeet_ex = "YEET!",
+            k_ouch_ex = "Ouch!",
+            k_goodbye_ex = "Goodbye!",
             SGT_disable_other_jokers = "Sagatro Progression",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression"},
         },

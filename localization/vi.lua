@@ -111,6 +111,16 @@ return {
                     "trong {C:attention}#1#{} tay bài tiếp theo",
                 },
             },
+            j_sgt_frog_footman = {
+                name = "Ếch Hầu",
+                text = {
+                    "{C:attention}+#1#{} ô tiêu thụ",
+                    "Khi mở #2# {C:attention}Gói Bài{} tiếp theo,",
+                    "{C:attention}lấp đầy{} ô tiêu thụ bằng",
+                    "lá tiêu thụ {C:attention}ngẫu nhiên{}",
+                    "{C:red,s:0.8}Tự huỷ{s:0.8} khi hết lượt"
+                },
+            },
             j_sgt_alice = {
                 name = "Alice",
                 text = {
@@ -147,6 +157,8 @@ return {
             k_gone_ex = "Biến Mất!",
             k_poof_ex = "Pụp!",
             k_yeet_ex = "VÈO!",
+            k_ouch_ex = "Úi!",
+            k_goodbye_ex = "Tạm Biệt!",
             SGT_disable_other_jokers = "Tiến Trình Sagatro",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính"},
         },

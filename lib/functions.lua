@@ -9,6 +9,8 @@ function Game:init_game_object()
             little_bill = false,
             huge_dog = false,
             caterpillar = false,
+            pig_and_pepper = false,
+            goodbye_frog = false,
         },
     }
     -- Event checks to make sure each event only happens once per run
@@ -19,6 +21,8 @@ function Game:init_game_object()
             little_bill = false,
             huge_dog = false,
             caterpillar = false,
+            pig_and_pepper = false,
+            goodbye_frog = false,
         },
     }
     -- A table to control joker pools during certain events
@@ -32,6 +36,8 @@ function Game:init_game_object()
             little_bill = nil,
             huge_dog = nil,
             caterpillar = nil,
+            pig_and_pepper = nil,
+            goodbye_frog = nil,
         },
     }
     ret.alice_multiplier = 1
