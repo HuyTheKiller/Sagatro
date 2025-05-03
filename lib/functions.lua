@@ -199,6 +199,77 @@ function table.contains(t, x)
     return found
 end
 
+function sgt_center_no(center, m, key, no_no)
+	if no_no then
+		return center[m] or (G.GAME and G.GAME[m] and G.GAME[m][key]) or false
+	end
+	return center_no(center, "no_" .. m, key, true)
+end
+
+function sgt_get_random_consumable(seed, excluded_flags, banned_card, pool, no_undiscovered)
+	excluded_flags = excluded_flags or { "hidden", "no_doe", "no_grc" }
+	local selection = "n/a"
+	local passes = 0
+	local tries = 500
+	while true do
+		tries = tries - 1
+		passes = 0
+		local key = pseudorandom_element(pool or G.P_CENTER_POOLS.Consumeables, pseudoseed(seed or "grc")).key
+		selection = G.P_CENTERS[key]
+		if selection.discovered or not no_undiscovered then
+			for k, v in pairs(excluded_flags) do
+				if not sgt_center_no(selection, v, key, true) then				
+					if not banned_card or (banned_card and banned_card ~= key) then
+						passes = passes + 1
+					end
+				end
+			end
+		end
+		if passes >= #excluded_flags or tries <= 0 then
+			if tries <= 0 and no_undiscovered then
+				return G.P_CENTERS["c_strength"]
+			else
+				return selection
+			end
+		end
+	end
+end
+
+if not SMODS.Mods["Talisman" or {}].can_load
+and not SMODS.Mods["Buffoonery" or {}].can_load
+and not SMODS.Mods["Prism" or {}].can_load then
+	if SMODS and SMODS.calculate_individual_effect then
+		local originalCalcIndiv = SMODS.calculate_individual_effect
+		function SMODS.calculate_individual_effect(effect, scored_card, key, amount, from_edition)
+		local ret = originalCalcIndiv(effect, scored_card, key, amount, from_edition)
+		if ret then
+			return ret
+		end
+
+		if (key == 'e_mult' or key == 'emult' or key == 'Emult_mod') and amount ~= 1 then
+			if effect.card then juice_card(effect.card) end
+			mult = mod_mult(mult ^ amount)
+			update_hand_text({delay = 0}, {chips = hand_chips, mult = mult})
+			if not effect.remove_default_message then
+				if from_edition then
+					card_eval_status_text(scored_card, 'jokers', nil, percent, nil, {message = "^"..amount.." Mult", colour =  G.C.EDITION, edition = true})
+				elseif key ~= 'Emult_mod' then
+					if effect.emult_message then
+						card_eval_status_text(scored_card or effect.card or effect.focus, 'extra', nil, percent, nil, effect.emult_message)
+					else
+						card_eval_status_text(scored_card or effect.card or effect.focus, 'e_mult', amount, percent)
+					end
+				end
+			end
+			return true
+		end
+		end
+		for _, v in ipairs({'e_mult','emult','Emult_mod'}) do
+		table.insert(SMODS.calculation_keys, v)
+		end
+	end
+end
+
 Sagatro.config_tab = function()
     return {n = G.UIT.ROOT, config = {r = 0.1, align = "cm", padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 4}, nodes = {
         {n=G.UIT.R, config = {align = 'cm'}, nodes={
