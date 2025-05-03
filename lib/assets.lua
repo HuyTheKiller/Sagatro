@@ -23,22 +23,16 @@ SMODS.Atlas{
 SMODS.Sound{
     key = "run_away",
     path = "run_away.ogg",
-    pitch = 0.7,
-    volume = 0.5,
 }
 
 SMODS.Sound{
     key = "page_flip",
     path = "page_flip.ogg",
-    pitch = 0.7,
-    volume = 0.5,
 }
 
 SMODS.Sound{
     key = "page_scratch",
     path = "page_scratch.ogg",
-    pitch = 0.7,
-    volume = 0.5,
 }
 
 SMODS.Sound{
