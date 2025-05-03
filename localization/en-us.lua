@@ -147,7 +147,13 @@ return {
         },
     },
     misc = {
+        labels = {
+            k_sgt_obscure = "Obscure",
+            k_sgt_esoteric = "Esoteric",
+        },
         dictionary = {
+            k_sgt_obscure = "Obscure",
+            k_sgt_esoteric = "Esoteric",
             b_join = "JOIN",
             k_in_a_hurry_ex = "In a hurry!",
             k_too_late_ex = "Too late!",

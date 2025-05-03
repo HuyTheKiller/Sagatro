@@ -147,7 +147,13 @@ return {
         },
     },
     misc = {
+        labels = {
+            k_sgt_obscure = "Mờ Mịt",
+            k_sgt_esoteric = "Bí Truyền",
+        },
         dictionary = {
+            k_sgt_obscure = "Mờ Mịt",
+            k_sgt_esoteric = "Bí Truyền",
             b_join = "NHẬP",
             k_in_a_hurry_ex = "Tranh thủ lên!",
             k_too_late_ex = "Trễ rồi!",
