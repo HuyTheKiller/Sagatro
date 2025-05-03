@@ -55,3 +55,25 @@ elseif _type == 'Joker' then
     end
 '''
 match_indent = true
+
+# Emult
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "local extrafunc = nil"
+position = "after"
+payload = '''
+if not SMODS.Mods["Talisman" or {}].can_load
+and not SMODS.Mods["Buffoonery" or {}].can_load
+and not SMODS.Mods["Prism" or {}].can_load then
+	if eval_type == 'e_mult' then 
+		sound = 'sgt_emult'
+		amt = amt
+		text = '^' .. amt .. " " .. localize("k_mult")
+		colour = G.C.DARK_EDITION
+		config.type = 'fade'
+		config.scale = 0.7
+	end
+end
+'''
+match_indent = true
