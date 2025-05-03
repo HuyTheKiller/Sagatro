@@ -1,3 +1,20 @@
+local lc = loc_colour
+function loc_colour(_c, _default)
+    if not G.ARGS.LOC_COLOURS then
+        lc()
+    end
+    for k, v in pairs(G.C) do
+		if string.len(k) > 4 and string.sub(k, 1, 4) == "SGT_" then
+			G.ARGS.LOC_COLOURS[string.lower(k)] = v
+		end
+	end
+    return lc(_c, _default)
+end
+
+-- to_big = to_big or function(x)
+--     return x
+-- end
+
 local igo = Game.init_game_object
 function Game:init_game_object()
 	local ret = igo(self)
@@ -75,8 +92,8 @@ Game.main_menu = function(change_context)
             send = {
                 { name = "time", ref_table = G.TIMERS, ref_value = "REAL_SHADER" },
                 { name = "vort_speed", val = 0.4 },
-                { name = "colour_1", ref_table = G.C.RARITY, ref_value = 4 },
-                { name = "colour_2", ref_table = G.C, ref_value = "DARK_EDITION" },
+                { name = "colour_1", ref_table = Sagatro, ref_value = "badge_colour" },
+                { name = "colour_2", ref_table = G.C.RARITY, ref_value = 4 },
             },
         },
     })
@@ -279,7 +296,7 @@ end
 Sagatro.config_tab = function()
     return {n = G.UIT.ROOT, config = {r = 0.1, align = "cm", padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 4}, nodes = {
         {n=G.UIT.R, config = {align = 'cm'}, nodes={
-			create_toggle({label = localize('SGT_disable_other_jokers'), ref_table = Sagatro.config, ref_value = 'DisableOtherJokers', info = localize('SGT_disable_other_jokers_desc'), active_colour = G.C.RARITY[4], right = true}),
+			create_toggle({label = localize('SGT_disable_other_jokers'), ref_table = Sagatro.config, ref_value = 'DisableOtherJokers', info = localize('SGT_disable_other_jokers_desc'), active_colour = Sagatro.badge_colour, right = true}),
 		}},
     }}
 end

@@ -6,6 +6,10 @@ Sagatro.load_table = {
 -- Danger zone
 Sagatro.debug = false
 
+-- Global colours
+G.C.SGT_OBSCURE = HEX("8627D4")
+G.C.SGT_ESOTERIC = HEX("131868")
+
 -- Load library files
 local mod_path = "" .. Sagatro.path
 local files = NFS.getDirectoryItems(mod_path .. "lib")
