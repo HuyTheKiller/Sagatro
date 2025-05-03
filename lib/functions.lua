@@ -258,9 +258,9 @@ function sgt_get_random_consumable(seed, excluded_flags, banned_card, pool, no_u
 	end
 end
 
-if not SMODS.Mods["Talisman" or {}].can_load
-and not SMODS.Mods["Buffoonery" or {}].can_load
-and not SMODS.Mods["Prism" or {}].can_load then
+if not (SMODS.Mods["Talisman"] or {}).can_load
+and not (SMODS.Mods["Buffoonery"] or {}).can_load
+and not (SMODS.Mods["Prism"] or {}).can_load then
 	if SMODS and SMODS.calculate_individual_effect then
 		local originalCalcIndiv = SMODS.calculate_individual_effect
 		function SMODS.calculate_individual_effect(effect, scored_card, key, amount, from_edition)

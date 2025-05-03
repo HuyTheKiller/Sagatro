@@ -63,9 +63,9 @@ target = "functions/common_events.lua"
 pattern = "local extrafunc = nil"
 position = "after"
 payload = '''
-if not SMODS.Mods["Talisman" or {}].can_load
-and not SMODS.Mods["Buffoonery" or {}].can_load
-and not SMODS.Mods["Prism" or {}].can_load then
+if not (SMODS.Mods["Talisman"] or {}).can_load
+and not (SMODS.Mods["Buffoonery"] or {}).can_load
+and not (SMODS.Mods["Prism"] or {}).can_load then
 	if eval_type == 'e_mult' then 
 		sound = 'sgt_emult'
 		amt = amt
