@@ -111,6 +111,15 @@ return {
                     "for the next {C:attention}#1#{} hand(s)",
                 },
             },
+            j_sgt_pigeon = {
+                name = "Pigeon",
+                text = {
+                    "Buy this card to create #2# {C:attention}#1#s{}",
+                    "Add {C:money}$#3#{} of {C:attention}sell value{} to",
+                    "all {C:attention}#1#s{} at end of round",
+                    "{C:attention}Debuffed{} if any {C:attention}#1#{} is sold",
+                },
+            },
             j_sgt_frog_footman = {
                 name = "Frog-Footman",
                 text = {
@@ -165,6 +174,7 @@ return {
             k_yeet_ex = "YEET!",
             k_ouch_ex = "Ouch!",
             k_goodbye_ex = "Goodbye!",
+            k_go_off_ex = "Leaved!",
             SGT_disable_other_jokers = "Sagatro Progression",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression"},
         },

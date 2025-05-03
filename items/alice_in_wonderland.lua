@@ -575,14 +575,25 @@ local caterpillar = {
                         temp.base.id = SMODS.has_no_rank(temp) and temp.base.id or pseudorandom("caterpillar_random_rank", 2, 14)
                         local rank_suffix = sgt_get_rank_suffix(temp)
                         assert(SMODS.change_base(temp, pseudorandom_element(suits, pseudoseed("caterpillar_random_suit")), rank_suffix))
-                        card.ability.extra = card.ability.extra - 1
                         return true
                     end
                 }))
+                card.ability.extra = card.ability.extra - 1
             end
         end
         if context.after then
             if card.ability.extra <= 0 then
+                G.E_MANAGER:add_event(Event({
+                    trigger = "immediate",
+                    func = function()
+                        assert(SMODS.add_card({
+                            set = "Joker",
+                            skip_materialize = true,
+                            key = "j_sgt_mushroom",
+                        }))
+                        return true
+                    end
+                }))
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
@@ -590,16 +601,6 @@ local caterpillar = {
                         card:juice_up(0.3, 0.4)
                         card.states.drag.is = true
                         card.children.center.pinch.x = true
-                        G.E_MANAGER:add_event(Event({
-                            func = function()
-                                assert(SMODS.add_card({
-                                    set = "Joker",
-                                    skip_materialize = true,
-                                    key = "j_sgt_mushroom",
-                                }))
-                                return true
-                            end
-                        }))
                         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
                             func = function()
                                     G.jokers:remove_card(card)
@@ -614,7 +615,7 @@ local caterpillar = {
                     G.GAME.saga_event_check.alice_in_wonderland.caterpillar = true
                 end
                 return {
-                    message = localize('k_gone_ex'),
+                    message = localize('k_go_off_ex'),
                     colour = G.C.FILTER
                 }
             end
@@ -766,6 +767,68 @@ local mushroom = {
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1), card.ability.times*(G.GAME and G.GAME.alice_multiplier or 1)}}
+    end,
+}
+
+local pigeon = {
+    key = "pigeon",
+    name = "Pigeon",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pos = { x = 1, y = 2 },
+    config = {extra = 3, egg_boost = 1, triggered = false, extra_value = -3},
+	rarity = 2,
+    cost = 8,
+    blueprint_compat = false,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint then
+            for _, v in ipairs(G.jokers.cards) do
+                if v.ability.name == "Egg" then
+                    card.ability.triggered = true
+                    v.ability.extra_value = v.ability.extra_value + card.ability.egg_boost*(G.GAME and G.GAME.alice_multiplier or 1)
+                    v:set_cost()
+                end
+            end
+            if card.ability.triggered then
+                card.ability.triggered = false
+                return {
+                    message = localize('k_val_up'),
+                    colour = G.C.MONEY,
+                }
+            end
+        end
+        if context.selling_card and not context.blueprint then
+            if context.card.ability.name == "Egg" then
+                card:set_debuff(true)
+            end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        for _ = 1, card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1) do
+            G.E_MANAGER:add_event(Event({
+            trigger = 'before',
+            delay = 0.0,
+            func = (function()
+                assert(SMODS.add_card({
+                    set = "Joker",
+                    skip_materialize = true,
+                    key = "j_egg",
+                }))
+                return true
+            end)}))
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.config.DisableOtherJokers then
+            return next(SMODS.find_card("j_sgt_mushroom", true))
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.j_egg
+        return {vars = {localize{type = 'name_text', set = "Joker", key = "j_egg", nodes = {}}, card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1), card.ability.egg_boost*(G.GAME and G.GAME.alice_multiplier or 1)}}
     end,
 }
 
@@ -1055,6 +1118,7 @@ local joker_table = {
     huge_dog,
     caterpillar,
     mushroom,
+    pigeon,
     frog_footman,
     cheshire_cat,
     alice,

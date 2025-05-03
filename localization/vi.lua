@@ -111,6 +111,15 @@ return {
                     "trong {C:attention}#1#{} tay bài tiếp theo",
                 },
             },
+            j_sgt_pigeon = {
+                name = "Bồ Câu",
+                text = {
+                    "Mua lá này để tạo ra #2# {C:attention}#1#{}",
+                    "Thêm {C:money}$#3#{} {C:attention}giá bán{} lên",
+                    "mọi {C:attention}#1#{} ở cuối ván",
+                    "{C:attention}Vô hiệu{} nếu {C:attention}#1#{} bị bán đi",
+                },
+            },
             j_sgt_frog_footman = {
                 name = "Ếch Hầu",
                 text = {
@@ -165,6 +174,7 @@ return {
             k_yeet_ex = "VÈO!",
             k_ouch_ex = "Úi!",
             k_goodbye_ex = "Tạm Biệt!",
+            k_go_off_ex = "Bỏ Đi!",
             SGT_disable_other_jokers = "Tiến Trình Sagatro",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính"},
         },
