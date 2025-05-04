@@ -88,7 +88,7 @@ return {
                 },
             },
             j_sgt_huge_dog = {
-                name = "Kềnh Khuyển",
+                name = "Khổng Cún",
                 text = {
                     "{C:attention}Tái kích{} lá {C:attention}2{}",
                     "hoặc {C:attention}Át{} thêm {C:attention}#1#{} lần",

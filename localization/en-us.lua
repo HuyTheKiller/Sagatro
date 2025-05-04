@@ -88,7 +88,7 @@ return {
                 },
             },
             j_sgt_huge_dog = {
-                name = "Huge Dog",
+                name = "Huge Puppy",
                 text = {
                     "{C:attention}Retrigger{} each played {C:attention}2{} or {C:attention}Ace{}",
                     "{C:attention}#1#{} additional time(s)",
