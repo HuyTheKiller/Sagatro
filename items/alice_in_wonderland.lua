@@ -954,7 +954,7 @@ local the_cook = {
     saga_group = "alice_in_wonderland",
     pools = { [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 2, y = 2 },
-    config = {extra = {odds = 4, xmult = 2, card_list = {}}},
+    config = {extra = {odds = 4, xmult = 2, card_list = {}}, value_shift_init = {{3, 1.8}, {4, 2}, {5, 2.2}, {6, 2.4}}},
 	rarity = 3,
     cost = 6,
     blueprint_compat = true,
@@ -991,7 +991,7 @@ local the_cook = {
         if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint and not context.retrigger_joker then
             -- My attempt to make The Cook unique from a Bunco's joker called Vandalism
             local value_shift_list = {}
-            for _, v in ipairs({{3, 1.8}, {4, 2}, {5, 2.2}, {6, 2.4}}) do
+            for _, v in ipairs(card.ability.value_shift_init) do
                 if card.ability.extra.odds ~= v[1] then
                     value_shift_list[#value_shift_list+1] = v
                 end
