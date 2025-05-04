@@ -275,7 +275,7 @@ and not (SMODS.Mods["Prism"] or {}).can_load then
 			update_hand_text({delay = 0}, {chips = hand_chips, mult = mult})
 			if not effect.remove_default_message then
 				if from_edition then
-					card_eval_status_text(scored_card, 'jokers', nil, percent, nil, {message = "^"..amount.." Mult", colour =  G.C.EDITION, edition = true})
+					card_eval_status_text(scored_card, 'jokers', nil, percent, nil, {message = "^"..amount.." "..localize("k_mult"), colour =  G.C.EDITION, edition = true})
 				elseif key ~= 'Emult_mod' then
 					if effect.emult_message then
 						card_eval_status_text(scored_card or effect.card or effect.focus, 'extra', nil, percent, nil, effect.emult_message)
