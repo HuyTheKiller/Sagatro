@@ -50,8 +50,26 @@ elseif _type == 'Joker' then
         else
             _pool[#_pool + 1] = "j_sgt_white_rabbit"
         end
-    else
-        _pool[#_pool + 1] = "j_joker"
+    -- This redundancy is to allow other mods to find the same pattern
+    elseif _type == 'Joker' then _pool[#_pool + 1] = "j_joker"
+    end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''else _pool[#_pool + 1] = "j_joker"'''
+position = "at"
+payload = '''
+else
+    if Sagatro.config.DisableOtherJokers then
+        if G.GAME.saga_event.alice_in_wonderland.cry_into_flood then
+            _pool[#_pool + 1] = "j_splash"
+        else
+            _pool[#_pool + 1] = "j_sgt_white_rabbit"
+        end
+    else _pool[#_pool + 1] = "j_joker"
     end
 '''
 match_indent = true
@@ -77,3 +95,43 @@ and not (SMODS.Mods["Prism"] or {}).can_load then
 end
 '''
 match_indent = true
+
+# The Cook patches (stolen from Bunco's Vandalism)
+[[patches]]
+[patches.pattern]
+target = 'blind.lua'
+pattern = '''if self.name == 'The Wheel' and pseudorandom(pseudoseed('wheel')) < G.GAME.probabilities.normal/7 then'''
+position = 'before'
+match_indent = true
+payload = '''
+
+if G.jokers then
+    for _, v in ipairs(G.jokers.cards) do
+        if v.config.center_key == 'j_sgt_the_cook' and not v.debuff then
+            if (pseudorandom('thecook'..G.SEED) < G.GAME.probabilities.normal/v.ability.extra.odds) and (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.DRAW_TO_HAND) then
+                SMODS.calculate_context({sgt_stay_flipped = true})
+                return true
+            end
+        end
+    end
+end
+
+'''
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''--check the hand first'''
+position = 'after'
+match_indent = true
+payload = '''
+
+if G.jokers then
+    for _, v in ipairs(G.jokers.cards) do
+        if v.config.center.key == 'j_sgt_the_cook' and not v.debuff then
+            SMODS.calculate_context({sgt_play_cards = true})
+        end
+    end
+end
+
+'''

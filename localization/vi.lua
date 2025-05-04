@@ -101,6 +101,8 @@ return {
                 text = {
                     "{C:attention}Ngẫu nhiên hoá{} {C:attention}bậc{} và {C:attention}chất{}",
                     "của {C:attention}#1#{} lá ghi điểm tiếp theo",
+                    "{C:red}Tự huỷ{} và tạo ra",
+                    "{C:attention}#2#{} khi hết lượt",
                 },
             },
             j_sgt_mushroom = {
@@ -127,15 +129,53 @@ return {
                     "Khi mở #2# {C:attention}Gói Bài{} tiếp theo,",
                     "{C:attention}lấp đầy{} ô tiêu thụ bằng",
                     "lá tiêu thụ {C:attention}ngẫu nhiên{}",
-                    "{C:red,s:0.8}Tự huỷ{s:0.8} khi hết lượt"
+                    "{C:red,s:0.8}Tự huỷ{s:0.8} khi hết lượt",
+                },
+            },
+            j_sgt_the_cook = {
+                name = "Nữ Đầu Bếp",
+                text = {
+                    "Xác suất {C:green}#1# trên #2#{}",
+                    "để lá bài bị {C:attention}bốc{} sấp",
+                    "Lá {C:attention}nằm sấp{} ghi thêm",
+                    "{X:mult,C:white}X#3#{} Nhân khi ghi điểm",
+                    "{s:0.8}Chuyển sang 1 cặp giá",
+                    "{s:0.8}trị khác ở cuối ván",
+                },
+            },
+            j_sgt_duchess = {
+                name = "Nữ Công Tước",
+                text = {
+                    "Xác suất {C:green}#1# trên #2#{} để",
+                    "phá huỷ lá {C:attention}mặt{} ghi điểm",
+                    "{X:dark_edition,C:white}^#3#{} Nhân nếu bất kì lá {C:attention}mặt{}",
+                    "nào bị phá huỷ bằng cách này",
+                },
+            },
+            j_sgt_the_baby = {
+                name = "Đứa Bé",
+                text = {
+                    "{C:attention}Tái kích{} mọi lá",
+                    "đã chơi thêm {C:attention}#1#{} lần",
+                    "ở {C:attention}tay bài cuối{} của ván",
+                    "{C:red}Tự huỷ{} nếu không",
+                    "sở hữu {C:attention}#2#{}",
+                },
+            },
+            j_sgt_pepper_caster = {
+                name = "Lọ Hạt Tiêu",
+                text = {
+                    "{C:attention}Tái kích{} mọi joker",
+                    "thêm {C:attention}#1#{} lần",
+                    "{C:red,s:0.8}Tự huỷ{s:0.8} sau {C:attention,s:0.8}#2#{s:0.8} ván",
                 },
             },
             j_sgt_alice = {
                 name = "Alice",
                 text = {
                     "{C:attention}Nhân{} giá trị của mọi joker",
-                    "thuộc về {C:dark_edition}Alice ở Xứ Sở Diệu Kì{}",
-                    "thêm {C:attention}X#1#{} lần",
+                    "thuộc về {C:dark_edition}Alice ở Xứ Sở{}",
+                    "{C:dark_edition}Diệu Kì{} thêm {C:attention}X#1#{} lần",
                 },
             },
         },
@@ -175,6 +215,9 @@ return {
             k_ouch_ex = "Úi!",
             k_goodbye_ex = "Tạm Biệt!",
             k_go_off_ex = "Bỏ Đi!",
+            k_overflow_ex = "Tràn!",
+            k_die_ex = "Chết Đi!",
+            k_stirred_ex = "Khuấy Đều!",
             SGT_disable_other_jokers = "Tiến Trình Sagatro",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính"},
         },

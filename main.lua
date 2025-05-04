@@ -14,6 +14,12 @@ Sagatro.debug = false
 G.C.SGT_OBSCURE = HEX("8627D4")
 G.C.SGT_ESOTERIC = HEX("131868")
 
+-- Joker pool stuff
+SAGA_GROUP_POOL = {
+    alice = "Alice in Wonderland",
+    gfrog = "Goodbye Frog",
+}
+
 -- Load library files
 local mod_path = "" .. Sagatro.path
 local files = NFS.getDirectoryItems(mod_path .. "lib")

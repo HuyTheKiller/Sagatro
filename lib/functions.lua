@@ -173,6 +173,139 @@ function Game:update(dt)
     end
 end
 
+local gcp = get_current_pool
+function get_current_pool(_type, _rarity, _legendary, _append)
+    G.ARGS.TEMP_POOL = EMPTY(G.ARGS.TEMP_POOL)
+    local _pool, _starting_pool, _pool_key, check = G.ARGS.TEMP_POOL, nil, '', false
+
+    _rarity = (_legendary and 4) or (type(_rarity) == "number" and ((_rarity > 0.95 and 3) or (_rarity > 0.7 and 2) or 1)) or _rarity
+    _rarity = ({Common = 1, Uncommon = 2, Rare = 3, Legendary = 4})[_rarity] or _rarity
+    local rarity = _rarity or SMODS.poll_rarity("Joker", 'rarity'..G.GAME.round_resets.ante..(_append or ''))
+
+    _starting_pool, _pool_key = G.P_CENTER_POOLS[_type], 'Joker'..rarity..((not _legendary and _append) or '')
+    for _, group in pairs(SAGA_GROUP_POOL) do
+        if _type == group then
+            check = true
+            for _, v in ipairs(_starting_pool) do
+                local add = nil
+                local in_pool, pool_opts
+                if v.in_pool and type(v.in_pool) == 'function' then
+                    in_pool, pool_opts = v:in_pool({ source = _append })
+                end
+                pool_opts = pool_opts or {}
+
+                if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not next(find_joker("Showman"))) and
+                (v.unlocked ~= false) then add = true end
+
+                if v.no_pool_flag and G.GAME.pool_flags[v.no_pool_flag] then add = nil end
+                if v.yes_pool_flag and not G.GAME.pool_flags[v.yes_pool_flag] then add = nil end
+
+                if add and not G.GAME.banned_keys[v.key] then
+                    _pool[#_pool + 1] = v.key
+                end
+            end
+
+            if #_pool == 0 then
+                _pool[#_pool + 1] = "j_sgt_white_rabbit"
+            end
+        end
+    end
+    if check then return _pool, _pool_key..(not _legendary and G.GAME.round_resets.ante or '') end
+    return gcp(_type, _rarity, _legendary, _append)
+end
+
+local cc = create_card
+function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
+    local card = cc(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
+    for _, group in pairs(SAGA_GROUP_POOL) do
+        if _type == group then
+            if G.GAME.modifiers.all_eternal then
+                card:set_eternal(true)
+            end
+            if (area == G.shop_jokers) or (area == G.pack_cards) then
+                if not Cryptid then
+                    local eternal_perishable_poll = pseudorandom((area == G.pack_cards and 'packetper' or 'etperpoll')..G.GAME.round_resets.ante)
+                    if G.GAME.modifiers.enable_eternals_in_shop and eternal_perishable_poll > 0.7 and not SMODS.Stickers["eternal"].should_apply then
+                        card:set_eternal(true)
+                    elseif G.GAME.modifiers.enable_perishables_in_shop and ((eternal_perishable_poll > 0.4) and (eternal_perishable_poll <= 0.7)) and not SMODS.Stickers["perishable"].should_apply then
+                        card:set_perishable(true)
+                    end
+                    if G.GAME.modifiers.enable_rentals_in_shop and pseudorandom((area == G.pack_cards and 'packssjr' or 'ssjr')..G.GAME.round_resets.ante) > 0.7 and not SMODS.Stickers["rental"].should_apply then
+                        card:set_rental(true)
+                    end
+                else
+                    local eternal_perishable_poll = pseudorandom("cry_et" .. (key_append or "") .. G.GAME.round_resets.ante)
+                    if G.GAME.modifiers.enable_eternals_in_shop and eternal_perishable_poll > 0.7 then
+                        card:set_eternal(true)
+                    end
+                    if G.GAME.modifiers.enable_perishables_in_shop then
+                        if
+                            not G.GAME.modifiers.cry_eternal_perishable_compat
+                            and ((eternal_perishable_poll > 0.4) and (eternal_perishable_poll <= 0.7))
+                        then
+                            card:set_perishable(true)
+                        end
+                        if
+                            G.GAME.modifiers.cry_eternal_perishable_compat
+                            and pseudorandom("cry_per" .. (key_append or "") .. G.GAME.round_resets.ante) > 0.7
+                        then
+                            card:set_perishable(true)
+                        end
+                    end
+                    if
+                        G.GAME.modifiers.enable_rentals_in_shop
+                        and pseudorandom("cry_ssjr" .. (key_append or "") .. G.GAME.round_resets.ante) > 0.7
+                    then
+                        card:set_rental(true)
+                    end
+                    if
+                        G.GAME.modifiers.cry_enable_pinned_in_shop
+                        and pseudorandom("cry_pin" .. (key_append or "") .. G.GAME.round_resets.ante) > 0.7
+                    then
+                        card.pinned = true
+                    end
+                    if
+                        not G.GAME.modifiers.cry_eternal_perishable_compat
+                        and G.GAME.modifiers.enable_banana
+                        and (pseudorandom("cry_banana" .. (key_append or "") .. G.GAME.round_resets.ante) > 0.7)
+                        and (eternal_perishable_poll <= 0.7)
+                    then
+                        card.ability.banana = true
+                    end
+                    if
+                        G.GAME.modifiers.cry_eternal_perishable_compat
+                        and G.GAME.modifiers.enable_banana
+                        and (pseudorandom("cry_banana" .. (key_append or "") .. G.GAME.round_resets.ante) > 0.7)
+                    then
+                        card.ability.banana = true
+                    end
+                    if G.GAME.modifiers.cry_sticker_sheet then
+                        for k, v in pairs(SMODS.Stickers) do
+                            if v.apply and not v.no_sticker_sheet then
+                                v:apply(card, true)
+                            end
+                        end
+                    end
+                    if
+                        not card.ability.eternal
+                        and G.GAME.modifiers.cry_enable_flipped_in_shop
+                        and pseudorandom("cry_flip" .. (key_append or "") .. G.GAME.round_resets.ante) > 0.7
+                    then
+                        card.cry_flipped = true
+                    end
+                end
+            end
+
+            if not SMODS.bypass_create_card_edition and not card.edition then
+                local edition = poll_edition('edi'..(key_append or '')..G.GAME.round_resets.ante)
+            card:set_edition(edition)
+            check_for_unlock({type = 'have_edition'})
+            end
+        end
+    end
+    return card
+end
+
 function Sagatro.reset_game_globals(run_start)
     for _, v in ipairs(G.jokers.cards) do
         if v.ability.name == "Mouse" then

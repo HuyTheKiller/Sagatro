@@ -5,11 +5,45 @@ SMODS.Booster:take_ownership_by_kind('Buffoon', {
             if G.GAME.saga_event.alice_in_wonderland.white_rabbit_house and i == 1 then
                 _card.key = "j_sgt_unlabeled_bottle"
             elseif G.GAME.saga_event.alice_in_wonderland.goodbye_frog then
-                
+                _card.set = "Goodbye Frog"
             end
         end
         return _card
     end,
 },
 true
+)
+
+SMODS.Joker:take_ownership('splash',
+	{
+		add_to_deck = function(self, card, from_debuff)
+            if Sagatro.config.DisableOtherJokers then
+                if (#SMODS.find_card("j_splash", true) > 0 or next(SMODS.find_card("j_sgt_dodo_bird", true))) and not from_debuff then
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            card_eval_status_text(card, 'extra', nil, 1, nil, {message = localize('k_overflow_ex'), sound = "tarot1", volume = 1 , instant = true})
+                            ease_dollars(3)
+                            card.T.r = -0.2
+                            card:juice_up(0.3, 0.4)
+                            card.states.drag.is = true
+                            card.children.center.pinch.x = true
+                            G.E_MANAGER:add_event(Event({
+                                trigger = 'after',
+                                delay = 0.3,
+                                blockable = false,
+                                func = function()
+                                    G.jokers:remove_card(card)
+                                    card:remove()
+                                    card = nil
+                                    return true;
+                                end
+                            }))
+                            return true
+                        end
+                    }))
+                end
+            end
+        end,
+	},
+	true
 )

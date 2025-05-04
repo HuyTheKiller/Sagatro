@@ -3,6 +3,7 @@ local white_rabbit = {
     name = "White Rabbit",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 0 },
     config = {extra = {chips = 0, chip_gain = 6}},
 	rarity = 1,
@@ -45,6 +46,7 @@ local drink_me = {
     name = "Drink Me!",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 0 },
     config = {extra = 1, taken = false},
 	rarity = 1,
@@ -54,7 +56,8 @@ local drink_me = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if G and G.jokers and G.jokers.cards and G.jokers.cards[1]
-        and G.jokers.cards[1] == card and not context.blueprint and G.jokers.cards[#G.jokers.cards].ability.name ~= "Eat Me!" then
+        and G.jokers.cards[1] == card and not context.blueprint and not context.retrigger_joker
+        and G.jokers.cards[#G.jokers.cards].ability.name ~= "Eat Me!" then
             if context.before then
                 for _, v in ipairs(context.scoring_hand) do
                     if SMODS.has_no_rank(v) or v:get_id() > 2 then
@@ -108,7 +111,9 @@ local drink_me = {
         end
     end,
     add_to_deck = function(self, card, from_debuff)
-        card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+        if not from_debuff then
+            card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+        end
         card.ability.taken = true
     end,
     in_pool = function(self, args)
@@ -130,6 +135,7 @@ local eat_me = {
     name = "Eat Me!",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 2, y = 0 },
     config = {extra = 1},
 	rarity = 1,
@@ -139,7 +145,7 @@ local eat_me = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if G and G.jokers and G.jokers.cards and G.jokers.cards[1]
-        and G.jokers.cards[#G.jokers.cards] == card and not context.blueprint
+        and G.jokers.cards[#G.jokers.cards] == card and not context.blueprint and not context.retrigger_joker
         and (G.jokers.cards[1].ability.name ~= "Drink Me!" and G.jokers.cards[1].ability.name ~= "Unlabeled Bottle") then
             if context.before then
                 for _, v in ipairs(context.scoring_hand) do
@@ -203,7 +209,9 @@ local eat_me = {
         end
     end,
     add_to_deck = function(self, card, from_debuff)
-        card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+        if not from_debuff then
+            card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+        end
         card.ability.taken = true
     end,
     in_pool = function(self, args)
@@ -225,6 +233,7 @@ local mouse = {
     name = "Mouse",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 0 },
     config = {extra = {mult = 20, debuff_position = {}}},
 	rarity = 2,
@@ -239,7 +248,7 @@ local mouse = {
 				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*(G.GAME and G.GAME.alice_multiplier or 1)}}
             }
         end
-        if context.after and not context.blueprint then
+        if context.after and not context.blueprint and not context.retrigger_joker then
             for i, v in ipairs(G.jokers.cards) do
                 if v == card then
                     if not table.contains(card.ability.extra.debuff_position, i) then
@@ -270,6 +279,7 @@ local kid_gloves_and_fan = {
     name = "Kid-gloves And The Fan",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 0 },
     config = {extra = 1},
 	rarity = 2,
@@ -323,6 +333,7 @@ local dodo_bird = {
     name = "Dodo Bird",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 1 },
     config = {extra = 1.5},
 	rarity = 3,
@@ -362,6 +373,7 @@ local unlabeled_bottle = {
     name = "Unlabeled Bottle",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 1 },
     config = {extra = 2, taken = false},
 	rarity = 2,
@@ -371,7 +383,7 @@ local unlabeled_bottle = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if G and G.jokers and G.jokers.cards and G.jokers.cards[1]
-        and G.jokers.cards[1] == card and not context.blueprint then
+        and G.jokers.cards[1] == card and not context.blueprint and not context.retrigger_joker then
             if context.before then
                 for _, v in ipairs(context.scoring_hand) do
                     if SMODS.has_no_rank(v) or v:get_id() < 14 then
@@ -455,7 +467,9 @@ local unlabeled_bottle = {
     end,
     add_to_deck = function(self, card, from_debuff)
         card.ability.taken = true
-        card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+        if not from_debuff then
+            card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+        end
         G.GAME.saga_event_check.alice_in_wonderland.white_rabbit_house = true
     end,
     in_pool = function(self, args)
@@ -479,6 +493,7 @@ local little_bill = {
     name = "Little Bill",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 2, y = 1 },
     config = {},
 	rarity = 1,
@@ -502,9 +517,10 @@ local little_bill = {
 
 local huge_dog = {
     key = "huge_dog",
-    name = "Huge Dog",
+    name = "Huge Puppy",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 3, y = 1 },
     config = {extra = {times = 1, extra_times = 1}},
 	rarity = 2,
@@ -530,7 +546,8 @@ local huge_dog = {
                 }
             end
         end
-        if context.selling_self and not G.GAME.saga_event_check.alice_in_wonderland.caterpillar then
+        if context.selling_self and not context.blueprint and not context.retrigger_joker
+        and not G.GAME.saga_event_check.alice_in_wonderland.caterpillar then
             G.GAME.saga_event.alice_in_wonderland.caterpillar = true
         end
     end,
@@ -554,6 +571,7 @@ local caterpillar = {
     name = "Caterpillar",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 1 },
     config = {extra = 20, taken = false},
 	rarity = 1,
@@ -562,8 +580,8 @@ local caterpillar = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.individual and context.cardarea == G.play
-        and not context.blueprint and card.ability.extra > 0 then
+        if context.individual and context.cardarea == G.play and not context.blueprint
+        and not context.retrigger_joker and card.ability.extra > 0 then
             if not context.other_card.debuff then
                 local suits = {}
                 local temp = context.other_card
@@ -581,7 +599,7 @@ local caterpillar = {
                 card.ability.extra = card.ability.extra - 1
             end
         end
-        if context.after then
+        if context.after and not context.blueprint and not context.retrigger_joker then
             if card.ability.extra <= 0 then
                 G.E_MANAGER:add_event(Event({
                     trigger = "immediate",
@@ -622,7 +640,9 @@ local caterpillar = {
         end
     end,
     add_to_deck = function(self, card, from_debuff)
-        card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+        if not from_debuff then
+            card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+        end
         card.ability.taken = true
     end,
     in_pool = function(self, args)
@@ -632,7 +652,10 @@ local caterpillar = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)}}
+        if G.P_CENTERS["j_sgt_mushroom"] then
+            info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_mushroom"]
+        end
+        return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1), localize{type = 'name_text', set = "Joker", key = "j_sgt_mushroom", nodes = {}}}}
     end,
 }
 
@@ -641,12 +664,13 @@ local mushroom = {
     name = "Mushroom",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 1 },
     config = {extra = 10, times = 1, taken = false},
 	rarity = 2,
     cost = 7,
     blueprint_compat = false,
-    eternal_compat = true,
+    eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
         if G and G.jokers and G.jokers.cards and G.jokers.cards[1] and not context.blueprint then
@@ -671,7 +695,7 @@ local mushroom = {
                         colour = G.C.BLUE
                     }
                 end
-                if context.after then
+                if context.after and not context.retrigger_joker then
                     if card.ability.extra - 1 <= 0 then
                         G.E_MANAGER:add_event(Event({
                             func = function()
@@ -725,7 +749,7 @@ local mushroom = {
                         colour = G.C.BLUE
                     }
                 end
-                if context.after then
+                if context.after and not context.retrigger_joker then
                     if card.ability.extra - 1 <= 0 then
                         G.E_MANAGER:add_event(Event({
                             func = function()
@@ -759,7 +783,9 @@ local mushroom = {
         end
     end,
     add_to_deck = function(self, card, from_debuff)
-        card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+        if not from_debuff then
+            card.ability.extra = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1)
+        end
         card.ability.taken = true
     end,
     in_pool = function(self, args)
@@ -775,6 +801,7 @@ local pigeon = {
     name = "Pigeon",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 2 },
     config = {extra = 3, egg_boost = 1, triggered = false, extra_value = -3},
 	rarity = 2,
@@ -799,7 +826,7 @@ local pigeon = {
                 }
             end
         end
-        if context.selling_card and not context.blueprint then
+        if context.selling_card and not context.blueprint and not context.retrigger_joker then
             if context.card.ability.name == "Egg" then
                 card:set_debuff(true)
             end
@@ -837,6 +864,7 @@ local frog_footman = {
     name = "Frog-Footman",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 2 },
     config = {extra = 2, consumable_slot = 1, alice_mult_buffer = 1, taken = false},
 	rarity = 1,
@@ -845,7 +873,7 @@ local frog_footman = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.open_booster and not context.blueprint
+        if context.open_booster and not context.blueprint and not context.retrigger_joker
         and #G.consumeables.cards < G.consumeables.config.card_limit then
             local times = G.consumeables.config.card_limit - #G.consumeables.cards
             for _ = 1, times do
@@ -919,11 +947,77 @@ local frog_footman = {
     end,
 }
 
+local the_cook = {
+    key = "the_cook",
+    name = "The Cook",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
+    pos = { x = 2, y = 2 },
+    config = {extra = {odds = 4, xmult = 2, card_list = {}}},
+	rarity = 3,
+    cost = 6,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.sgt_stay_flipped and not context.blueprint and not context.retrigger_joker then
+            card:juice_up(0.7)
+        end
+        if context.sgt_play_cards and not context.blueprint and not context.retrigger_joker then
+            card.ability.extra.card_list = {}
+            for i = 1, #G.hand.highlighted do
+                if G.hand.highlighted[i].facing == 'back' then
+                    table.insert(card.ability.extra.card_list, G.hand.highlighted[i])
+                end
+            end
+        end
+        if context.individual and context.cardarea == G.play then
+            local condition = false
+            for i = 1, #card.ability.extra.card_list do
+                local flipped_card = card.ability.extra.card_list[i]
+                if context.other_card == flipped_card then
+                    condition = true
+                    break
+                end
+            end
+            if condition then return {
+                x_mult = card.ability.extra.xmult*(G.GAME and G.GAME.alice_multiplier or 1),
+                colour = G.C.RED,
+                card = card
+            }
+            end
+        end
+        if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint and not context.retrigger_joker then
+            -- My attempt to make The Cook unique from a Bunco's joker called Vandalism
+            local value_shift_list = {}
+            for _, v in ipairs({{3, 1.8}, {4, 2}, {5, 2.2}, {6, 2.4}}) do
+                if card.ability.extra.odds ~= v[1] then
+                    value_shift_list[#value_shift_list+1] = v
+                end
+            end
+            local chosen_pair = pseudorandom_element(value_shift_list, pseudoseed("the_cook_shift"))
+            card.ability.extra.odds = chosen_pair[1]
+            card.ability.extra.xmult = chosen_pair[2]
+            return {
+                message = localize("k_stirred_ex")
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return not Sagatro.config.DisableOtherJokers
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.xmult*(G.GAME and G.GAME.alice_multiplier or 1)}}
+    end,
+}
+
 local cheshire_cat = {
     key = "cheshire_cat",
     name = "Cheshire Cat",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 3, y = 0 },
     config = {extra = {copied_joker = nil, copied_joker_value_id = 0, copied_joker_buffer_name = nil, odds = 3}},
 	rarity = 1,
@@ -932,7 +1026,7 @@ local cheshire_cat = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.setting_blind and not card.getting_sliced then
+        if context.setting_blind and not card.getting_sliced and not context.retrigger_joker then
             card.ability.extra.copied_joker = nil
             local potential_jokers = {}
             for i=1, #G.jokers.cards do
@@ -977,7 +1071,7 @@ local cheshire_cat = {
                 return other_joker_ret
             end
         end
-        if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint then
+        if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint and not context.retrigger_joker then
             if pseudorandom('cheshire_cat_vanish') < G.GAME.probabilities.normal/(card.ability.extra.odds*(G.GAME and G.GAME.alice_multiplier or 1)) then
 				G.E_MANAGER:add_event(Event({
 					func = function()
@@ -1009,6 +1103,9 @@ local cheshire_cat = {
 				}
 			end
         end
+    end,
+    in_pool = function(self, args)
+        return not Sagatro.config.DisableOtherJokers
     end,
     loc_vars = function(self, info_queue, card)
         if card.ability.extra.copied_joker then
@@ -1061,6 +1158,187 @@ local cheshire_cat = {
             card.loaded = false
         end
     end
+}
+
+local duchess = {
+    key = "duchess",
+    name = "Duchess",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
+    pos = { x = 3, y = 2 },
+    config = {triggered = false, extra = {e_mult = 1.1, odds = 3, probability_list = {}}},
+	rarity = "sgt_obscure",
+    cost = 12,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint and not context.retrigger_joker then
+            card.ability.extra.probability_list = {}
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:is_face() then
+                    card.ability.extra.probability_list[#card.ability.extra.probability_list+1]
+                    = pseudorandom("duchess_execute") < G.GAME.probabilities.normal/card.ability.extra.odds
+                else
+                    card.ability.extra.probability_list[#card.ability.extra.probability_list+1] = false
+                end
+            end
+            for _, v in ipairs(card.ability.extra.probability_list) do
+                if v then card.ability.triggered = true break end
+            end
+        end
+        if context.destroy_card and context.cardarea == G.play and not context.blueprint and not context.retrigger_joker then
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i] == context.destroying_card and card.ability.extra.probability_list[i] then
+                    return {
+                        message = localize("k_die_ex"),
+                        colour = G.C.RED,
+                        remove = true
+                    }
+                end
+            end
+        end
+        if context.joker_main and card.ability.triggered then
+            card.ability.triggered = false
+            return {
+                e_mult = card.ability.extra.e_mult*(G.GAME and G.GAME.alice_multiplier or 1)
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return not Sagatro.config.DisableOtherJokers
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.e_mult*(G.GAME and G.GAME.alice_multiplier or 1)}}
+    end,
+}
+
+local the_baby = {
+    key = "the_baby",
+    name = "The Baby",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
+    pos = { x = 4, y = 2 },
+    config = {extra = 3},
+	rarity = 2,
+    cost = 7,
+    blueprint_compat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if G.GAME.current_round.hands_left == 0 then
+            if context.repetition and context.cardarea == G.play then
+                return {
+                    message = localize("k_again_ex"),
+                    repetitions = card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1),
+                    card = card,
+                }
+            end
+            if context.after and not context.blueprint and not context.retrigger_joker then
+                if not next(SMODS.find_card("j_sgt_duchess", true)) then
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            play_sound('sgt_run_away', 1, 1)
+                            card.T.r = -0.2
+                            card:juice_up(0.3, 0.4)
+                            card.states.drag.is = true
+                            card.children.center.pinch.x = true
+                            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                                func = function()
+                                        G.jokers:remove_card(card)
+                                        card:remove()
+                                        card = nil
+                                    return true; end}))
+                            return true
+                        end
+                    }))
+                    return {
+                        message = localize('k_yeet_ex'),
+                        colour = G.C.FILTER
+                    }
+                end
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return not Sagatro.config.DisableOtherJokers
+    end,
+    loc_vars = function(self, info_queue, card)
+        if G.P_CENTERS["j_sgt_duchess"] then
+            info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_duchess"]
+        end
+        return {vars = {card.ability.extra*(G.GAME and G.GAME.alice_multiplier or 1), localize{type = 'name_text', set = "Joker", key = "j_sgt_duchess", nodes = {}}}}
+    end,
+}
+
+local pepper_caster = {
+    key = "pepper_caster",
+    name = "Pepper-caster",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pos = { x = 5, y = 2 },
+    config = {extra = {retriggers = 1, uses = 10}, taken = false},
+	rarity = "sgt_obscure",
+    cost = 12,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+		if context.retrigger_joker_check and not context.retrigger_joker and context.other_card ~= self then
+            return {
+                message = localize("k_again_ex"),
+                repetitions = card.ability.extra.retriggers*(G.GAME and G.GAME.alice_multiplier or 1),
+                card = card,
+            }
+		end
+        if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint and not context.retrigger_joker then
+            if card.ability.extra.uses - 1 <= 0 then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(card)
+                                    card:remove()
+                                    card = nil
+                                return true; end}))
+                        return true
+                    end
+                }))
+                return {
+                    message = localize('k_eaten_ex'),
+                    colour = G.C.FILTER
+                }
+            else
+                card.ability.extra.uses = card.ability.extra.uses - 1
+                return {
+                    message = card.ability.extra.uses..'',
+                    colour = G.C.FILTER
+                }
+            end
+        end
+	end,
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            card.ability.extra.uses = card.ability.extra.uses*(G.GAME and G.GAME.alice_multiplier or 1)
+        end
+        card.ability.taken = true
+    end,
+    in_pool = function(self, args)
+        if Sagatro.config.DisableOtherJokers then
+            return next(SMODS.find_card("j_sgt_the_cook", true))
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.retriggers*(G.GAME and G.GAME.alice_multiplier or 1), card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*(G.GAME and G.GAME.alice_multiplier or 1)}}
+    end,
 }
 
 local alice = {
@@ -1120,10 +1398,22 @@ local joker_table = {
     mushroom,
     pigeon,
     frog_footman,
+    the_cook,
+    pepper_caster,
     cheshire_cat,
+    duchess,
+    the_baby,
     alice,
 }
 
 for _, v in ipairs(joker_table) do
     SMODS.Joker(v)
+    if v.pools and type(v.pools) == "table" then
+        for pool, add in pairs(v.pools) do
+            if not G.P_CENTER_POOLS[pool] then G.P_CENTER_POOLS[pool] = {} end
+            if add then
+                SMODS.insert_pool(G.P_CENTER_POOLS[pool], v)
+            end
+        end
+    end
 end

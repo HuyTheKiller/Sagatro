@@ -5,7 +5,7 @@ local obscure = {
 	pools = { ["Joker"] = true },
 	get_weight = function(self, weight, object_type)
 		if Sagatro.DisableOtherJokers then
-			return 0
+			return 0.03
 		end
         return 0.003
 	end,

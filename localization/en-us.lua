@@ -101,6 +101,8 @@ return {
                 text = {
                     "{C:attention}Randomize{} the {C:attention}rank{} and {C:attention}suit{}",
                     "of the next {C:attention}#1#{} scoring cards",
+                    "{C:red}Self-destructs{} and create",
+                    "{C:attention}#2#{} on expiry",
                 },
             },
             j_sgt_mushroom = {
@@ -127,15 +129,53 @@ return {
                     "Opening the next #2# {C:attention}Booster Pack(s){}",
                     "{C:attention}fill up{} consumable slots",
                     "with {C:attention}random{} consumables",
-                    "{C:red,s:0.8}Self-destructs{s:0.8} on running out of turns"
+                    "{C:red,s:0.8}Self-destructs{s:0.8} on expiry",
+                },
+            },
+            j_sgt_the_cook = {
+                name = "The Cook",
+                text = {
+                    "{C:green}#1# in #2#{} chance for",
+                    "cards to be {C:attention}drawn{} face down",
+                    "{C:attention}Face down{} cards give",
+                    "{X:mult,C:white}X#3#{} Mult when scored",
+                    "{s:0.8}Switch to a different",
+                    "{s:0.8}pair at end of round",
+                },
+            },
+            j_sgt_duchess = {
+                name = "Duchess",
+                text = {
+                    "{C:green}#1# in #2#{} chance to",
+                    "destroy scoring {C:attention}face{} cards",
+                    "{X:dark_edition,C:white}^#3#{} Mult if any {C:attention}face{} card",
+                    "is destroyed this way",
+                },
+            },
+            j_sgt_the_baby = {
+                name = "The Baby",
+                text = {
+                    "{C:attention}Retrigger{} all played cards",
+                    "{C:attention}#1#{} additional time(s) on",
+                    "{C:attention}final hand{} of round",
+                    "{C:red}Self-destructs{} if {C:attention}#2#{}",
+                    "is not around",
+                },
+            },
+            j_sgt_pepper_caster = {
+                name = "Pepper-caster",
+                text = {
+                    "{C:attention}Retrigger{} all jokers",
+                    "{C:attention}#1#{} additional time(s)",
+                    "{C:red,s:0.8}Self-destructs{s:0.8} after {C:attention,s:0.8}#2#{s:0.8} round(s)",
                 },
             },
             j_sgt_alice = {
                 name = "Alice",
                 text = {
                     "{C:attention}Multiply{} the value of",
-                    "all jokers belonging to {C:dark_edition}Alice in",
-                    "{C:dark_edition}the Wonderland{} by {C:attention}X#1#{}",
+                    "all jokers belonging to {C:dark_edition}Alice",
+                    "{C:dark_edition}in the Wonderland{} by {C:attention}X#1#{}",
                 },
             },
         },
@@ -175,6 +215,9 @@ return {
             k_ouch_ex = "Ouch!",
             k_goodbye_ex = "Goodbye!",
             k_go_off_ex = "Leaved!",
+            k_overflow_ex = "Overflow!",
+            k_die_ex = "Die!",
+            k_stirred_ex = "Stirred!",
             SGT_disable_other_jokers = "Sagatro Progression",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression"},
         },
