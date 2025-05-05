@@ -12,7 +12,7 @@ local white_rabbit = {
     eternal_compat = true,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if context.joker_main then
+        if context.joker_main and to_big(card.ability.extra.chips) > to_big(0) then
 			return {
 				chip_mod = card.ability.extra.chips*(G.GAME and G.GAME.alice_multiplier or 1),
 				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*(G.GAME and G.GAME.alice_multiplier or 1)}}
@@ -22,7 +22,7 @@ local white_rabbit = {
 			card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
 			return {
 				message = localize("k_in_a_hurry_ex"),
-				colour = G.C.CHIPS,
+				colour = G.C.FILTER,
 				card = card
 			}
 		end
@@ -34,6 +34,19 @@ local white_rabbit = {
                     card = card
                 }
             end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            if next(SMODS.find_card("j_sgt_dodo_bird", true))
+            and not G.GAME.saga_event_check.alice_in_wonderland.white_rabbit_house then
+                G.GAME.saga_event.alice_in_wonderland.white_rabbit_house = true
+            end
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if not from_debuff and G.GAME.saga_event.alice_in_wonderland.white_rabbit_house then
+            G.GAME.saga_event.alice_in_wonderland.white_rabbit_house = false
         end
     end,
     loc_vars = function(self, info_queue, card)
@@ -320,6 +333,17 @@ local kid_gloves_and_fan = {
             end
         end
     end,
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff and not G.GAME.saga_event_check.alice_in_wonderland.cry_into_flood then
+            G.GAME.saga_event.alice_in_wonderland.cry_into_flood = true
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if not from_debuff and G.GAME.saga_event.alice_in_wonderland.cry_into_flood then
+            G.GAME.saga_event.alice_in_wonderland.cry_into_flood = false
+            G.GAME.saga_event_check.alice_in_wonderland.cry_into_flood = true
+        end
+    end,
     in_pool = function(self, args)
         return not Sagatro.config.DisableOtherJokers
     end,
@@ -358,7 +382,18 @@ local dodo_bird = {
         end
     end,
     add_to_deck = function(self, card, from_debuff)
-        G.GAME.saga_event_check.alice_in_wonderland.cry_into_flood = true
+        if not from_debuff then
+            G.GAME.saga_event_check.alice_in_wonderland.cry_into_flood = true
+            if next(SMODS.find_card("j_sgt_white_rabbit", true))
+            and not G.GAME.saga_event_check.alice_in_wonderland.white_rabbit_house then
+                G.GAME.saga_event.alice_in_wonderland.white_rabbit_house = true
+            end
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if not from_debuff and G.GAME.saga_event.alice_in_wonderland.white_rabbit_house then
+            G.GAME.saga_event.alice_in_wonderland.white_rabbit_house = false
+        end
     end,
     in_pool = function(self, args)
         return not Sagatro.config.DisableOtherJokers
@@ -696,6 +731,10 @@ local mushroom = {
                     }
                 end
                 if context.after and not context.retrigger_joker then
+                    if card.ability.extra - 1 <= 5
+                    and not G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper then
+                        G.GAME.saga_event.alice_in_wonderland.pig_and_pepper = true
+                    end
                     if card.ability.extra - 1 <= 0 then
                         G.E_MANAGER:add_event(Event({
                             func = function()
@@ -713,9 +752,6 @@ local mushroom = {
                                 return true
                             end
                         }))
-                        if not G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper then
-                            G.GAME.saga_event.alice_in_wonderland.pig_and_pepper = true
-                        end
                         return {
                             message = localize('k_eaten_ex'),
                             colour = G.C.FILTER
@@ -750,6 +786,10 @@ local mushroom = {
                     }
                 end
                 if context.after and not context.retrigger_joker then
+                    if card.ability.extra - 1 <= 5
+                    and not G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper then
+                        G.GAME.saga_event.alice_in_wonderland.pig_and_pepper = true
+                    end
                     if card.ability.extra - 1 <= 0 then
                         G.E_MANAGER:add_event(Event({
                             func = function()
@@ -1097,6 +1137,7 @@ local cheshire_cat = {
                 if G.GAME.saga_event.alice_in_wonderland.goodbye_frog then
                     G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog = true
                     G.GAME.saga_event.alice_in_wonderland.goodbye_frog = false
+                    G.GAME.saga_deck.alice_in_wonderland.the_party = true
                 end
 				return {
 					message = localize("k_gone_ex")
@@ -1371,18 +1412,21 @@ local mad_hatter = {
         end
     end,
     add_to_deck = function(self, card, from_debuff)
-        if not from_debuff then
+        if not from_debuff and not G.GAME.saga_event_check.alice_in_wonderland.mad_hatter then
             G.GAME.saga_event.alice_in_wonderland.mad_hatter = true
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
-        if not from_debuff then
+        if not from_debuff and G.GAME.saga_event.alice_in_wonderland.mad_hatter then
             G.GAME.saga_event.alice_in_wonderland.mad_hatter = false
             G.GAME.saga_event_check.alice_in_wonderland.mad_hatter = true
         end
     end,
     in_pool = function(self, args)
-        return not Sagatro.config.DisableOtherJokers
+        if Sagatro.config.DisableOtherJokers then
+            return G.GAME.saga_event.alice_in_wonderland.the_party and true or false
+        end
+        return true
     end,
 }
 
@@ -1581,6 +1625,87 @@ local butter = {
     end,
 }
 
+local march_hare = {
+    key = "march_hare",
+    name = "March Hare",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
+    pos = { x = 4, y = 3 },
+    config = {extra = {mult = 0, mult_gain = 3}},
+	rarity = 2,
+    cost = 7,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = false,
+    calculate = function(self, card, context)
+        if context.joker_main and to_big(card.ability.extra.mult) > to_big(0) then
+			return {
+                mult_mod = card.ability.extra.mult*(G.GAME and G.GAME.alice_multiplier or 1),
+				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*(G.GAME and G.GAME.alice_multiplier or 1)}}
+            }
+		end
+        if context.before and G.GAME.current_round.discards_used == 0 and not context.blueprint then
+			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+			return {
+				message = localize("k_shared_ex"),
+				colour = G.C.FILTER,
+				card = card
+			}
+		end
+        if context.discard and not context.blueprint and context.other_card == context.full_hand[1] and not context.hook then
+            if G.GAME.current_round.discards_used <= 0 then
+                return {
+                    message = localize("k_avoided_ex"),
+                    colour = G.C.RED,
+                    card = card
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.config.DisableOtherJokers then
+            return G.GAME.saga_event.alice_in_wonderland.the_party and true or false
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+		return {vars = {card.ability.extra.mult*(G.GAME and G.GAME.alice_multiplier or 1), card.ability.extra.mult_gain*(G.GAME and G.GAME.alice_multiplier or 1)}}
+	end,
+}
+
+local dormouse = {
+    key = "dormouse",
+    name = "Dormouse",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
+    pos = { x = 5, y = 3 },
+    config = {extra = {mult = 80, odds = 4}},
+	rarity = 2,
+    cost = 8,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main and pseudorandom("dormouse") < G.GAME.probabilities.normal/card.ability.extra.odds then
+            return {
+                mult_mod = card.ability.extra.mult*(G.GAME and G.GAME.alice_multiplier or 1),
+				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*(G.GAME and G.GAME.alice_multiplier or 1)}}
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.config.DisableOtherJokers then
+            return G.GAME.saga_event.alice_in_wonderland.the_party and true or false
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+		return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.mult*(G.GAME and G.GAME.alice_multiplier or 1)}}
+	end,
+}
+
 local alice = {
     key = "alice",
     name = "Alice",
@@ -1647,6 +1772,8 @@ local joker_table = {
     tea,
     bread,
     butter,
+    march_hare,
+    dormouse,
     alice,
 }
 

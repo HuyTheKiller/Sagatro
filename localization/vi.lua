@@ -157,8 +157,8 @@ return {
             j_sgt_duchess = {
                 name = "Nữ Công Tước",
                 text = {
-                    "Xác suất {C:green}#1# trên #2#{} để",
-                    "phá huỷ lá {C:attention}mặt{} ghi điểm",
+                    "Xác suất {C:green}#1# trên #2#{} để phá huỷ",
+                    "từng lá {C:attention}mặt{} ghi điểm",
                     "{X:dark_edition,C:white}^#3#{} Nhân nếu bất kì lá {C:attention}mặt{}",
                     "nào bị phá huỷ bằng cách này",
                 },
@@ -208,6 +208,22 @@ return {
                 text = {
                     "{C:mult}+#1#{} Nhân trong",
                     "{C:attention}#2#{} tay bài tiếp theo",
+                },
+            },
+            j_sgt_march_hare = {
+                name = "Thỏ Rừng",
+                text = {
+                    "Joker này thêm {C:mult}+#2#{} Nhân",
+                    "nếu tay bài được chơi khi {C:attention}chưa{}",
+                    "dùng lượt bỏ bài nào ở ván này",
+                    "{C:inactive}(Hiện tại là {C:mult}+#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_dormouse = {
+                name = "Chuột Sóc",
+                text = {
+                    "Xác suất {C:green}#1# trên #2#",
+                    "để được {C:mult}+#3#{} Nhân",
                 },
             },
             j_sgt_alice = {
@@ -260,6 +276,8 @@ return {
             k_overflow_ex = "Tràn!",
             k_die_ex = "Chết Đi!",
             k_stirred_ex = "Khuấy Đều!",
+            k_shared_ex = "Chia Sẻ!",
+            k_avoided_ex = "Lảng Tránh!",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính"},
         },

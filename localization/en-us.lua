@@ -157,8 +157,8 @@ return {
             j_sgt_duchess = {
                 name = "Duchess",
                 text = {
-                    "{C:green}#1# in #2#{} chance to",
-                    "destroy scoring {C:attention}face{} cards",
+                    "{C:green}#1# in #2#{} chance to destroy",
+                    "each scoring {C:attention}face{} card",
                     "{X:dark_edition,C:white}^#3#{} Mult if any {C:attention}face{} card",
                     "is destroyed this way",
                 },
@@ -208,6 +208,22 @@ return {
                 text = {
                     "{C:mult}+#1#{} Mult for",
                     "the next {C:attention}#2#{} hand(s)",
+                },
+            },
+            j_sgt_march_hare = {
+                name = "March Hare",
+                text = {
+                    "This joker gains {C:mult}+#2#{} Mult",
+                    "if hand is played {C:attention}without{}",
+                    "any discards used this round",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_dormouse = {
+                name = "Dormouse",
+                text = {
+                    "{C:green}#1# in #2#{} chance",
+                    "for {C:mult}+#3#{} Mult",
                 },
             },
             j_sgt_alice = {
@@ -260,6 +276,8 @@ return {
             k_overflow_ex = "Overflow!",
             k_die_ex = "Die!",
             k_stirred_ex = "Stirred!",
+            k_shared_ex = "Shared!",
+            k_avoided_ex = "Avoided!",
             SGT_disable_other_jokers = "Story Mode",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression"},
         },

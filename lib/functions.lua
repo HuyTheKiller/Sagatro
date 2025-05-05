@@ -11,9 +11,9 @@ function loc_colour(_c, _default)
     return lc(_c, _default)
 end
 
--- to_big = to_big or function(x)
---     return x
--- end
+to_big = to_big or function(x)
+    return x
+end
 
 local igo = Game.init_game_object
 function Game:init_game_object()
@@ -28,6 +28,7 @@ function Game:init_game_object()
             caterpillar = false,
             pig_and_pepper = false,
             goodbye_frog = false,
+            the_party = false,
             mad_hatter = false,
         },
     }
@@ -41,6 +42,7 @@ function Game:init_game_object()
             caterpillar = false,
             pig_and_pepper = false,
             goodbye_frog = false,
+            the_party = false,
             mad_hatter = false,
         },
     }
@@ -152,23 +154,6 @@ function Game:update(dt)
         for _, card in pairs(G.I.CARD) do
             if card and card.config.center == alice then
                 card.children.floating_sprite:set_sprite_pos(alice.soul_pos)
-            end
-        end
-    end
-
-	if G.GAME and G.GAME.saga_event then
-        if G.GAME.saga_event.alice_in_wonderland then
-            if next(SMODS.find_card("j_sgt_kid_gloves_and_fan"))
-            and not G.GAME.saga_event_check.alice_in_wonderland.cry_into_flood then
-                G.GAME.saga_event.alice_in_wonderland.cry_into_flood = true
-            else
-                G.GAME.saga_event.alice_in_wonderland.cry_into_flood = false
-            end
-            if next(SMODS.find_card("j_sgt_dodo_bird")) and next(SMODS.find_card("j_sgt_white_rabbit"))
-            and not G.GAME.saga_event_check.alice_in_wonderland.white_rabbit_house then
-                G.GAME.saga_event.alice_in_wonderland.white_rabbit_house = true
-            else
-                G.GAME.saga_event.alice_in_wonderland.white_rabbit_house = false
             end
         end
     end
