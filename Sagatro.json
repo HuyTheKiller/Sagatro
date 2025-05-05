@@ -8,6 +8,5 @@
 	"priority": 2147483648,
 	"badge_colour": "6131ac",
 	"display_name": "Sagatro",
-    "conflicts": ["Pokermon"],
 	"version": "0.1~demo"
 }
