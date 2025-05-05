@@ -1,6 +1,7 @@
 Sagatro = SMODS.current_mod
 Sagatro.load_table = {
     alice_in_wonderland = true,
+	decks = true,
 }
 
 Sagatro.optional_features = {
