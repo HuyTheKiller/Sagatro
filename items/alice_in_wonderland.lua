@@ -810,7 +810,7 @@ local pigeon = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint then
+        if context.end_of_round and not context.repetition and not context.blueprint then
             for _, v in ipairs(G.jokers.cards) do
                 if v.ability.name == "Egg" then
                     card.ability.triggered = true
@@ -988,7 +988,7 @@ local the_cook = {
             }
             end
         end
-        if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint and not context.retrigger_joker then
+        if context.end_of_round and not context.repetition and not context.blueprint and not context.retrigger_joker then
             -- My attempt to make The Cook unique from a Bunco's joker called Vandalism
             local value_shift_list = {}
             for _, v in ipairs(card.ability.value_shift_init) do
@@ -1301,7 +1301,7 @@ local pepper_caster = {
                 card = card,
             }
 		end
-        if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint and not context.retrigger_joker then
+        if context.end_of_round and not context.repetition and not context.blueprint and not context.retrigger_joker then
             if card.ability.extra.uses - 1 <= 0 then
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -1363,7 +1363,7 @@ local mad_hatter = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.end_of_round and context.game_over == false and not context.repetition
+        if context.end_of_round and not context.repetition
         and not context.blueprint and not context.retrigger_joker and G.GAME.blind.boss then
             ease_ante(-card.ability.extra.ante_loss)
             G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
