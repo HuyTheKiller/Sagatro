@@ -1,5 +1,16 @@
 return {
     descriptions = {
+        Back = {
+            b_sgt_saga = {
+                name = "Bộ Bài Cổ Tích",
+                text = {
+                    "{C:attention}+#1#{} ô Joker",
+                    "Đánh bại {C:attention}Ante #2#{} để thắng",
+                    "{s:0.8,C:inactive}Một câu chuyện không có hồi kết.",
+                    "{s:0.8,C:inactive}Hãy tạo lối đi vượt xa giới hạn.",
+                },
+            },
+        },
         Joker = {
             j_sgt_white_rabbit = {
                 name = "Thỏ Trắng",
@@ -170,6 +181,35 @@ return {
                     "{C:red,s:0.8}Tự huỷ{s:0.8} sau {C:attention,s:0.8}#2#{s:0.8} ván",
                 },
             },
+            j_sgt_mad_hatter = {
+                name = "Thợ Làm Mũ",
+                text = {
+                    "Vô hiệu {C:attention}Thăng Ante{}",
+                    "Lấp đầy shop bằng",
+                    "joker {C:sgt_trivial}Tầm Thường{}",
+                },
+            },
+            j_sgt_tea = {
+                name = "Trà",
+                text = {
+                    "{C:chips}+#1#{} Chip trong",
+                    "{C:attention}#2#{} tay bài tiếp theo",
+                },
+            },
+            j_sgt_bread = {
+                name = "Bánh Mì",
+                text = {
+                    "{C:chips}+#1#{} Chip trong",
+                    "{C:attention}#2#{} tay bài tiếp theo",
+                },
+            },
+            j_sgt_butter = {
+                name = "Bơ",
+                text = {
+                    "{C:mult}+#1#{} Nhân trong",
+                    "{C:attention}#2#{} tay bài tiếp theo",
+                },
+            },
             j_sgt_alice = {
                 name = "Alice",
                 text = {
@@ -197,10 +237,12 @@ return {
     },
     misc = {
         labels = {
+            k_sgt_trivial = "Tầm Thường",
             k_sgt_obscure = "Mờ Mịt",
             k_sgt_esoteric = "Bí Truyền",
         },
         dictionary = {
+            k_sgt_trivial = "Tầm Thường",
             k_sgt_obscure = "Mờ Mịt",
             k_sgt_esoteric = "Bí Truyền",
             b_join = "NHẬP",
@@ -218,7 +260,7 @@ return {
             k_overflow_ex = "Tràn!",
             k_die_ex = "Chết Đi!",
             k_stirred_ex = "Khuấy Đều!",
-            SGT_disable_other_jokers = "Tiến Trình Sagatro",
+            SGT_disable_other_jokers = "Chế Độ Cốt Truyện",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính"},
         },
     },

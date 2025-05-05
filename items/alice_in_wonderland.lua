@@ -15,7 +15,7 @@ local white_rabbit = {
         if context.joker_main then
 			return {
 				chip_mod = card.ability.extra.chips*(G.GAME and G.GAME.alice_multiplier or 1),
-				message = localize {type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*(G.GAME and G.GAME.alice_multiplier or 1)}}
+				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*(G.GAME and G.GAME.alice_multiplier or 1)}}
 			}
 		end
         if context.before and G.GAME.current_round.discards_used == 0 and not context.blueprint then
@@ -1094,6 +1094,10 @@ local cheshire_cat = {
 						return true
 					end
 				}))
+                if G.GAME.saga_event.alice_in_wonderland.goodbye_frog then
+                    G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog = true
+                    G.GAME.saga_event.alice_in_wonderland.goodbye_frog = false
+                end
 				return {
 					message = localize("k_gone_ex")
 				}
@@ -1105,7 +1109,10 @@ local cheshire_cat = {
         end
     end,
     in_pool = function(self, args)
-        return not Sagatro.config.DisableOtherJokers
+        if Sagatro.config.DisableOtherJokers then
+            return G.GAME.saga_event.alice_in_wonderland.goodbye_frog and true or false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if card.ability.extra.copied_joker then
@@ -1167,7 +1174,7 @@ local duchess = {
     saga_group = "alice_in_wonderland",
     pools = { [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 3, y = 2 },
-    config = {triggered = false, extra = {e_mult = 1.1, odds = 3, probability_list = {}}},
+    config = {triggered = false, extra = {e_mult = 1.5, odds = 3, probability_list = {}}},
 	rarity = "sgt_obscure",
     cost = 12,
     blueprint_compat = true,
@@ -1278,6 +1285,7 @@ local pepper_caster = {
     name = "Pepper-caster",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 2 },
     config = {extra = {retriggers = 1, uses = 10}, taken = false},
 	rarity = "sgt_obscure",
@@ -1338,6 +1346,238 @@ local pepper_caster = {
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.retriggers*(G.GAME and G.GAME.alice_multiplier or 1), card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*(G.GAME and G.GAME.alice_multiplier or 1)}}
+    end,
+}
+
+local mad_hatter = {
+    key = "mad_hatter",
+    name = "Mad Hatter",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
+    pos = { x = 0, y = 3 },
+    config = {extra = {ante_loss = 1}},
+	rarity = "sgt_obscure",
+    cost = 16,
+    blueprint_compat = false,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.end_of_round and context.game_over == false and not context.repetition
+        and not context.blueprint and not context.retrigger_joker and G.GAME.blind.boss then
+            ease_ante(-card.ability.extra.ante_loss)
+            G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+            G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante - card.ability.extra.ante_loss
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            G.GAME.saga_event.alice_in_wonderland.mad_hatter = true
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            G.GAME.saga_event.alice_in_wonderland.mad_hatter = false
+            G.GAME.saga_event_check.alice_in_wonderland.mad_hatter = true
+        end
+    end,
+    in_pool = function(self, args)
+        return not Sagatro.config.DisableOtherJokers
+    end,
+}
+
+local tea = {
+    key = "tea",
+    name = "Tea",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
+    pos = { x = 1, y = 3 },
+    config = {extra = {chips = 10, uses = 1}, taken = false},
+	rarity = "sgt_trivial",
+    cost = 1,
+    blueprint_compat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main then
+			return {
+				chip_mod = card.ability.extra.chips*(G.GAME and G.GAME.alice_multiplier or 1),
+				message = localize {type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*(G.GAME and G.GAME.alice_multiplier or 1)}}
+			}
+		end
+        if context.after and not context.blueprint and not context.retrigger_joker then
+            if card.ability.extra.uses - 1 <= 0 then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(card)
+                                    card:remove()
+                                    card = nil
+                                return true; end}))
+                        return true
+                    end
+                }))
+                return {
+                    message = localize('k_drank_ex'),
+                    colour = G.C.FILTER
+                }
+            else
+                card.ability.extra.uses = card.ability.extra.uses - 1
+                return {
+                    message = card.ability.extra.uses..'',
+                    colour = G.C.FILTER
+                }
+            end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            card.ability.extra.uses = card.ability.extra.uses*(G.GAME and G.GAME.alice_multiplier or 1)
+        end
+        card.ability.taken = true
+    end,
+    in_pool = function(self, args)
+        return true, {allow_duplicates = true}
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.chips*(G.GAME and G.GAME.alice_multiplier or 1), card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*(G.GAME and G.GAME.alice_multiplier or 1)}}
+    end,
+}
+
+local bread = {
+    key = "bread",
+    name = "Bread",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
+    pos = { x = 2, y = 3 },
+    config = {extra = {chips = 20, uses = 1}, taken = false},
+	rarity = "sgt_trivial",
+    cost = 1,
+    blueprint_compat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main then
+			return {
+				chip_mod = card.ability.extra.chips*(G.GAME and G.GAME.alice_multiplier or 1),
+				message = localize {type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*(G.GAME and G.GAME.alice_multiplier or 1)}}
+			}
+		end
+        if context.after and not context.blueprint and not context.retrigger_joker then
+            if card.ability.extra.uses - 1 <= 0 then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(card)
+                                    card:remove()
+                                    card = nil
+                                return true; end}))
+                        return true
+                    end
+                }))
+                return {
+                    message = localize('k_eaten_ex'),
+                    colour = G.C.FILTER
+                }
+            else
+                card.ability.extra.uses = card.ability.extra.uses - 1
+                return {
+                    message = card.ability.extra.uses..'',
+                    colour = G.C.FILTER
+                }
+            end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            card.ability.extra.uses = card.ability.extra.uses*(G.GAME and G.GAME.alice_multiplier or 1)
+        end
+        card.ability.taken = true
+    end,
+    in_pool = function(self, args)
+        return true, {allow_duplicates = true}
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.chips*(G.GAME and G.GAME.alice_multiplier or 1), card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*(G.GAME and G.GAME.alice_multiplier or 1)}}
+    end,
+}
+
+local butter = {
+    key = "butter",
+    name = "Butter",
+    atlas = "alice_in_wonderland",
+    saga_group = "alice_in_wonderland",
+    pools = { [SAGA_GROUP_POOL.alice] = true },
+    pos = { x = 3, y = 3 },
+    config = {extra = {mult = 2, uses = 1}, taken = false},
+	rarity = "sgt_trivial",
+    cost = 1,
+    blueprint_compat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main then
+			return {
+                mult_mod = card.ability.extra.mult*(G.GAME and G.GAME.alice_multiplier or 1),
+				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*(G.GAME and G.GAME.alice_multiplier or 1)}}
+            }
+		end
+        if context.after and not context.blueprint and not context.retrigger_joker then
+            if card.ability.extra.uses - 1 <= 0 then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(card)
+                                    card:remove()
+                                    card = nil
+                                return true; end}))
+                        return true
+                    end
+                }))
+                return {
+                    message = localize('k_eaten_ex'),
+                    colour = G.C.FILTER
+                }
+            else
+                card.ability.extra.uses = card.ability.extra.uses - 1
+                return {
+                    message = card.ability.extra.uses..'',
+                    colour = G.C.FILTER
+                }
+            end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            card.ability.extra.uses = card.ability.extra.uses*(G.GAME and G.GAME.alice_multiplier or 1)
+        end
+        card.ability.taken = true
+    end,
+    in_pool = function(self, args)
+        return true, {allow_duplicates = true}
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.mult*(G.GAME and G.GAME.alice_multiplier or 1), card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*(G.GAME and G.GAME.alice_multiplier or 1)}}
     end,
 }
 
@@ -1403,6 +1643,10 @@ local joker_table = {
     cheshire_cat,
     duchess,
     the_baby,
+    mad_hatter,
+    tea,
+    bread,
+    butter,
     alice,
 }
 

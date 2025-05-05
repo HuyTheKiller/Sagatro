@@ -6,6 +6,10 @@ SMODS.Booster:take_ownership_by_kind('Buffoon', {
                 _card.key = "j_sgt_unlabeled_bottle"
             elseif G.GAME.saga_event.alice_in_wonderland.goodbye_frog then
                 _card.set = "Goodbye Frog"
+            elseif G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog and i == 1
+            and not G.GAME.saga_event.alice_in_wonderland.mad_hatter
+            and not G.GAME.saga_event_check.alice_in_wonderland.mad_hatter then
+                _card.key = "j_sgt_mad_hatter"
             end
         end
         return _card

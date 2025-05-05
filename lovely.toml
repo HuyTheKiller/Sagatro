@@ -17,10 +17,13 @@ if Sagatro.config.DisableOtherJokers then
         if not v.saga_group then add = nil end
         
         -- Events that would alter joker pool
+        -- For some ducking reason this method has unexpected behaviors with modded rarities
         for story, events in pairs(G.GAME.saga_event) do    
             for event, happening in pairs(events) do
                 if happening then
-                    if G.GAME.saga_spawn_table[story][event] then
+                    if G.GAME.saga_spawn_table[story][event]
+                    and type(G.GAME.saga_spawn_table[story][event]) == "table"
+                    and #G.GAME.saga_spawn_table[story][event] > 0 then
                         add = nil
                         for _, key in pairs(G.GAME.saga_spawn_table[story][event]) do
                             if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not next(find_joker("Showman")))
@@ -33,7 +36,18 @@ if Sagatro.config.DisableOtherJokers then
             end
         end
     end
+else
+    if v.set == 'Joker' and next(SMODS.find_card("j_sgt_mad_hatter")) then
+        add = nil
+        for _, key in pairs(G.GAME.saga_spawn_table.alice_in_wonderland.mad_hatter) do
+            if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not next(find_joker("Showman")))
+            and v.unlocked ~= false and v.key == key then
+                add = true
+            end
+        end
+    end
 end
+
 '''
 match_indent = true
 
@@ -47,9 +61,15 @@ elseif _type == 'Joker' then
     if Sagatro.config.DisableOtherJokers then
         if G.GAME.saga_event.alice_in_wonderland.cry_into_flood then
             _pool[#_pool + 1] = "j_splash"
+        elseif G.GAME.saga_event.alice_in_wonderland.goodbye_frog then
+            _pool[#_pool + 1] = "j_sgt_cheshire_cat"
+        elseif G.GAME.saga_event.alice_in_wonderland.mad_hatter then
+            _pool[#_pool + 1] = "j_sgt_tea"
         else
             _pool[#_pool + 1] = "j_sgt_white_rabbit"
         end
+    elseif next(SMODS.find_card("j_sgt_mad_hatter")) then
+        _pool[#_pool + 1] = "j_sgt_tea"
     -- This redundancy is to allow other mods to find the same pattern
     elseif _type == 'Joker' then _pool[#_pool + 1] = "j_joker"
     end
@@ -66,9 +86,13 @@ else
     if Sagatro.config.DisableOtherJokers then
         if G.GAME.saga_event.alice_in_wonderland.cry_into_flood then
             _pool[#_pool + 1] = "j_splash"
+        -- elseif G.GAME.saga_event.alice_in_wonderland.mad_hatter then
+        --     _pool[#_pool + 1] = "j_sgt_tea"
         else
             _pool[#_pool + 1] = "j_sgt_white_rabbit"
         end
+    -- elseif next(SMODS.find_card("j_sgt_mad_hatter", true)) then
+        --     _pool[#_pool + 1] = "j_sgt_tea"
     else _pool[#_pool + 1] = "j_joker"
     end
 '''

@@ -1,5 +1,16 @@
 return {
     descriptions = {
+        Back = {
+            b_sgt_saga = {
+                name = "Saga Deck",
+                text = {
+                    "{C:attention}+#1#{} Joker slots",
+                    "Beat {C:attention}Ante #2#{} to win",
+                    "{s:0.8,C:inactive}A true story never ends.",
+                    "{s:0.8,C:inactive}Carve your own path beyond.",
+                },
+            },
+        },
         Joker = {
             j_sgt_white_rabbit = {
                 name = "White Rabbit",
@@ -170,6 +181,35 @@ return {
                     "{C:red,s:0.8}Self-destructs{s:0.8} after {C:attention,s:0.8}#2#{s:0.8} round(s)",
                 },
             },
+            j_sgt_mad_hatter = {
+                name = "Mad Hatter",
+                text = {
+                    "Disable {C:attention}Up the Ante{}",
+                    "Fill up the shop with",
+                    "{C:sgt_trivial}Trivial{} jokers",
+                },
+            },
+            j_sgt_tea = {
+                name = "Tea",
+                text = {
+                    "{C:chips}+#1#{} Chips for",
+                    "the next {C:attention}#2#{} hand(s)",
+                },
+            },
+            j_sgt_bread = {
+                name = "Bread",
+                text = {
+                    "{C:chips}+#1#{} Chips for",
+                    "the next {C:attention}#2#{} hand(s)",
+                },
+            },
+            j_sgt_butter = {
+                name = "Butter",
+                text = {
+                    "{C:mult}+#1#{} Mult for",
+                    "the next {C:attention}#2#{} hand(s)",
+                },
+            },
             j_sgt_alice = {
                 name = "Alice",
                 text = {
@@ -197,10 +237,12 @@ return {
     },
     misc = {
         labels = {
+            k_sgt_trivial = "Trivial",
             k_sgt_obscure = "Obscure",
             k_sgt_esoteric = "Esoteric",
         },
         dictionary = {
+            k_sgt_trivial = "Trivial",
             k_sgt_obscure = "Obscure",
             k_sgt_esoteric = "Esoteric",
             b_join = "JOIN",
@@ -218,7 +260,7 @@ return {
             k_overflow_ex = "Overflow!",
             k_die_ex = "Die!",
             k_stirred_ex = "Stirred!",
-            SGT_disable_other_jokers = "Sagatro Progression",
+            SGT_disable_other_jokers = "Story Mode",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression"},
         },
     },

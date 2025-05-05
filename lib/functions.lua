@@ -28,6 +28,7 @@ function Game:init_game_object()
             caterpillar = false,
             pig_and_pepper = false,
             goodbye_frog = false,
+            mad_hatter = false,
         },
     }
     -- Event checks to make sure each event only happens once per run
@@ -40,6 +41,7 @@ function Game:init_game_object()
             caterpillar = false,
             pig_and_pepper = false,
             goodbye_frog = false,
+            mad_hatter = false,
         },
     }
     -- A table to control joker pools during certain events
@@ -49,12 +51,11 @@ function Game:init_game_object()
                 "j_splash",
                 "j_sgt_mouse",
             },
-            white_rabbit_house = nil,
-            little_bill = nil,
-            huge_dog = nil,
-            caterpillar = nil,
-            pig_and_pepper = nil,
-            goodbye_frog = nil,
+            mad_hatter = {
+                "j_sgt_tea",
+                "j_sgt_bread",
+                "j_sgt_butter",
+            },
         },
     }
     ret.alice_multiplier = 1
@@ -216,6 +217,7 @@ end
 
 local cc = create_card
 function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
+    if next(SMODS.find_card("j_sgt_mad_hatter")) and _type == "Joker" then _rarity = "sgt_trivial" end
     local card = cc(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
     for _, group in pairs(SAGA_GROUP_POOL) do
         if _type == group then
