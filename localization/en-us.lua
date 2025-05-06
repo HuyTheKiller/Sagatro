@@ -48,7 +48,7 @@ return {
 					"when {C:attention}Blind{} is selected",
                     "{C:green}#2# in #3#{} chance this card is",
                     "destroyed at end of round",
-					"{C:inactive,s:0.9}(Copying {C:attention,s:0.9}#1#"..(SMODS.Mods["Sagatro"].debug and "{C:inactive,s:0.9}with value ID {C:attention,s:0.9}#4#{C:inactive,s:0.9})" or "{C:inactive,s:0.9})"),
+					"{C:inactive,s:0.9}(Copying {C:attention,s:0.9}#1#"..(SMODS.Mods["Sagatro"].debug and "{C:inactive,s:0.9} with value ID {C:attention,s:0.9}#4#{C:inactive,s:0.9})" or "{C:inactive,s:0.9})"),
                 },
             },
             j_sgt_mouse = {
@@ -226,6 +226,48 @@ return {
                     "for {C:mult}+#3#{} Mult",
                 },
             },
+            j_sgt_red_queen = {
+                name = "Red Queen",
+                text = {
+                    "{C:green}#1# in #2#{} chance to",
+                    "destroy each scoring card",
+                    "All played cards give",
+                    "{X:dark_edition,C:white}^#3#{} Mult when scored",
+                },
+            },
+            j_sgt_king = {
+                name = "The King",
+                text = {
+                    "{C:mult}+#1#{} Mult",
+                    "Reduce {C:attention}#2#'s{}",
+                    "chance by {C:attention}#3#{} times",
+                },
+            },
+            j_sgt_flamingo = {
+                name = "The Flamingo",
+                text = {
+                    "{C:chips}+#1#{} Chips",
+                    "Reduce {C:attention}#2#'s{}",
+                    "chance by {C:attention}#3#{} times",
+                },
+            },
+            j_sgt_gryphon = {
+                name = "Gryphon",
+                text = {
+                    "Each {C:attention}Queen{}",
+                    "held in hand",
+                    "gives {X:dark_edition,C:white}^#1#{} Mult",
+                },
+            },
+            j_sgt_mock_turtle = {
+                name = "Mock Turtle",
+                text = {
+                    "{C:green}#1# in #2#{} chance for {X:dark_edition,C:white}^#3#{} Mult",
+                    "{C:green}#1# in #4#{} chance to {C:red}self-destructs{}",
+                    "after every hand played, reduce by {C:attention}1{}",
+                    "every {X:dark_edition,C:white}^Mult{} trigger",
+                },
+            },
             j_sgt_alice = {
                 name = "Alice",
                 text = {
@@ -278,8 +320,9 @@ return {
             k_stirred_ex = "Stirred!",
             k_shared_ex = "Shared!",
             k_avoided_ex = "Avoided!",
+            k_enraged_ex = "Enraged!",
             SGT_disable_other_jokers = "Story Mode",
-            SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression"},
+            SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression (Requires run restart)"},
         },
     },
 }

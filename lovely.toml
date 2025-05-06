@@ -11,7 +11,7 @@ pattern = "if v.yes_pool_flag and not G.GAME.pool_flags[v.yes_pool_flag] then ad
 position = "after"
 payload = '''
 
-if Sagatro.config.DisableOtherJokers then
+if G.GAME.story_mode then
     if v.set == 'Joker' then
         -- Sagatro jokers only
         if not v.saga_group then add = nil end
@@ -39,7 +39,7 @@ if Sagatro.config.DisableOtherJokers then
 else
     if v.set == 'Joker' and next(SMODS.find_card("j_sgt_mad_hatter")) then
         add = nil
-        for _, key in pairs(G.GAME.saga_spawn_table.alice_in_wonderland.mad_hatter) do
+        for _, key in pairs({"j_sgt_tea", "j_sgt_bread", "j_sgt_butter"}) do
             if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not next(find_joker("Showman")))
             and v.unlocked ~= false and v.key == key then
                 add = true
@@ -58,7 +58,7 @@ pattern = '''elseif _type == 'Joker' then _pool[#_pool + 1] = "j_joker"'''
 position = "at"
 payload = '''
 elseif _type == 'Joker' then
-    if Sagatro.config.DisableOtherJokers then
+    if G.GAME.story_mode then
         if G.GAME.saga_event.alice_in_wonderland.cry_into_flood then
             _pool[#_pool + 1] = "j_splash"
         elseif G.GAME.saga_event.alice_in_wonderland.goodbye_frog then
@@ -79,11 +79,21 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
+pattern = '''if _pool_size == 0 then'''
+position = "before"
+payload = '''
+if _type == "Joker" and Sagatro.debug then print(_pool_size.."/"..#_starting_pool, _pool_key) end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
 pattern = '''else _pool[#_pool + 1] = "j_joker"'''
 position = "at"
 payload = '''
 else
-    if Sagatro.config.DisableOtherJokers then
+    if G.GAME.story_mode then
         if G.GAME.saga_event.alice_in_wonderland.cry_into_flood then
             _pool[#_pool + 1] = "j_splash"
         elseif G.GAME.saga_event.alice_in_wonderland.goodbye_frog then

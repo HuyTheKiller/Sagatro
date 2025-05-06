@@ -15,6 +15,10 @@ to_big = to_big or function(x)
     return x
 end
 
+to_number = to_number or function(x)
+	return x
+end
+
 local igo = Game.init_game_object
 function Game:init_game_object()
 	local ret = igo(self)
@@ -30,6 +34,9 @@ function Game:init_game_object()
             goodbye_frog = false,
             the_party = false,
             mad_hatter = false,
+            red_queen = false,
+            gryphon = false,
+            final_showdown = false,
         },
     }
     -- Event checks to make sure each event only happens once per run
@@ -44,6 +51,9 @@ function Game:init_game_object()
             goodbye_frog = false,
             the_party = false,
             mad_hatter = false,
+            red_queen = false,
+            gryphon = false,
+            final_showdown = false,
         },
     }
     -- A table to control joker pools during certain events
@@ -57,10 +67,15 @@ function Game:init_game_object()
                 "j_sgt_tea",
                 "j_sgt_bread",
                 "j_sgt_butter",
+                "j_sgt_march_hare",
+                "j_sgt_dormouse",
             },
         },
     }
     ret.alice_multiplier = 1
+    ret.relief_factor = 1
+    ret.story_mode = true
+    ret.fusion_table = SagaFusion.fusions
 	return ret
 end
 
@@ -126,7 +141,7 @@ function CardArea:update(dt)
 	cardarea_update_ref(self, dt)
     if self == G.jokers and G.jokers.cards[1] then
         for i, v in ipairs(G.jokers.cards) do
-            if v.ability.name == "Mouse" then
+            if v.config.center_key == "j_sgt_mouse" then
                 if table.contains(v.ability.extra.debuff_position, i) then
                     v:set_debuff(true)
                 else
@@ -137,6 +152,7 @@ function CardArea:update(dt)
     end
 end
 
+cause_crash = false
 alice_dt = 0
 local upd = Game.update
 function Game:update(dt)
@@ -157,6 +173,7 @@ function Game:update(dt)
             end
         end
     end
+    if cause_crash then manual_crash() end
 end
 
 local gcp = get_current_pool
@@ -202,7 +219,12 @@ end
 
 local cc = create_card
 function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
-    if next(SMODS.find_card("j_sgt_mad_hatter")) and _type == "Joker" then _rarity = "sgt_trivial" end
+    if G.GAME.saga_event.alice_in_wonderland.final_showdown and G.GAME.story_mode and _type == "Joker" then
+        _type = "Final Showdown"
+        if pseudorandom("alice_in_final_showdown") > 0.997 and not next(SMODS.find_card("j_sgt_alice", true)) then
+            forced_key = "j_sgt_alice"
+        end
+    end
     local card = cc(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
     for _, group in pairs(SAGA_GROUP_POOL) do
         if _type == group then
@@ -295,7 +317,7 @@ end
 
 function Sagatro.reset_game_globals(run_start)
     for _, v in ipairs(G.jokers.cards) do
-        if v.ability.name == "Mouse" then
+        if v.config.center_key == "j_sgt_mouse" then
             for i = #v.ability.extra.debuff_position, 1, -1 do
                 table.remove(v.ability.extra.debuff_position, i)
             end
@@ -346,7 +368,7 @@ function sgt_center_no(center, m, key, no_no)
 	if no_no then
 		return center[m] or (G.GAME and G.GAME[m] and G.GAME[m][key]) or false
 	end
-	return center_no(center, "no_" .. m, key, true)
+	return sgt_center_no(center, "no_" .. m, key, true)
 end
 
 function sgt_get_random_consumable(seed, excluded_flags, banned_card, pool, no_undiscovered)
@@ -361,7 +383,7 @@ function sgt_get_random_consumable(seed, excluded_flags, banned_card, pool, no_u
 		selection = G.P_CENTERS[key]
 		if selection.discovered or not no_undiscovered then
 			for k, v in pairs(excluded_flags) do
-				if not sgt_center_no(selection, v, key, true) then				
+				if not sgt_center_no(selection, v, key, true) then
 					if not banned_card or (banned_card and banned_card ~= key) then
 						passes = passes + 1
 					end
@@ -421,3 +443,73 @@ Sagatro.config_tab = function()
     }}
 end
 
+-- Debug territory
+function sgt_help()
+    if Sagatro.debug then
+        print("Sagatro debug commands:")
+        print("sgt_help(): show this help screen.")
+        print("print_rarity(): print out modifications of each rarity pool.")
+        print("change_joker(index, x): change all numerical values inside 'ability.extra' table (or ability.extra itself if it's a number) of the joker at 'index' slot to 'x'.")
+        print("event_list(): list all stories with their corresponding events.")
+        print("sgt_crash(): manually cause a crash.")
+        return "Remember to always prepend 'eval' because that's how DebugPlus executes lua code directly."
+    end
+    return "Debug commands are unavailable."
+end
+
+function print_rarity()
+    if Sagatro.debug then
+        for k, v in pairs(G.GAME) do
+            if string.len(k) > 4 and string.find(k, "_mod") and type(v) == "number" then
+                print(k..": "..v)
+            end
+        end
+        return "Default value is 1."
+    end
+    return "Debug commands are unavailable."
+end
+
+---@param index number
+---@param x number
+function change_joker(index, x)
+    if not Sagatro.debug then return "Debug commands are unavailable." end
+    if G and not G.jokers then return "Failed: not in a live run." end
+    if G.jokers.cards[index] then
+        if type(G.jokers.cards[index].ability.extra) == "number" then
+            G.jokers.cards[1].ability.extra = x
+        elseif type(G.jokers.cards[index].ability.extra) == "table" then
+            for k, v in pairs(G.jokers.cards[index].ability.extra) do
+                if type(v) == "number" then
+                    G.jokers.cards[index].ability.extra[k] = x
+                end
+            end
+        end
+        return string.format("Successfully changed the value to %q.", x)
+    end
+    return "Failed: index out of range."
+end
+
+function event_list()
+    if Sagatro.debug then
+        for story, events in pairs(G.GAME.saga_event) do
+            print(story..":", events)
+        end
+        return "Currently active events yield true."
+    end
+    return "Debug commands are unavailable."
+end
+
+function sgt_debug()
+    Sagatro.debug = not Sagatro.debug
+    return Sagatro.debug and "Sagatro debug mode enabled." or "Sagatro debug mode disabled."
+end
+
+function sgt_crash()
+    if Sagatro.debug then
+        cause_crash = true
+    end
+end
+
+function manual_crash()
+    assert(false, "A manual crash is called.")
+end

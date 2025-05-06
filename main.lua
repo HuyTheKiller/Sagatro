@@ -9,7 +9,7 @@ Sagatro.optional_features = {
 }
 
 -- Danger zone
-Sagatro.debug = false
+Sagatro.debug = true
 
 -- Global colours
 G.C.SGT_TRIVIAL = HEX("808080")
@@ -20,6 +20,7 @@ G.C.SGT_ESOTERIC = HEX("131868")
 SAGA_GROUP_POOL = {
     alice = "Alice in Wonderland",
     gfrog = "Goodbye Frog",
+	fsd = "Final Showdown",
 }
 
 -- Load library files

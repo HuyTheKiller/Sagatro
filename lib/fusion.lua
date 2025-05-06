@@ -1,4 +1,4 @@
--- Fusion mechanic from Fusion Jokers
+-- Fusion mechanic from Fusion Jokers, modified to only allow fusions in a run with story mode enabled
 SagaFusion = {}
 SagaFusion.fusions = {
 	{ jokers = {
@@ -11,42 +11,20 @@ SagaFusion.fusions = {
 	}, result_joker = "j_sgt_dodo_bird", cost = 9 },
 }
 
--- local rarity = SMODS.Rarity{
--- 	key = "fusion",
--- 	loc_txt = {
--- 		name = "Fusion",
--- 		text = {
--- 			"Can only be obtained",
--- 			"through {C:attention}Fusing{}",
--- 			"two specific Jokers"
--- 		}
--- 	},
--- 	default_weight = 0,
--- 	badge_colour = HEX("F7D762"),
--- 	pools = {["Joker"] = false},
--- 	get_weight = function(self, weight, object_type)
--- 			return weight
--- 	end,
--- }
-
--- local SMODS_Joker_inject=SMODS.Joker.inject
--- SMODS.Joker.inject =function(self)
--- 	if self.rarity == 5 then
--- 		self.rarity = rarity.key
--- 	end
---   SMODS_Joker_inject(self)
--- end
-
-function SagaFusion.fusions:add_fusion(joker1, carry_stat1, extra1, joker2, carry_stat2, extra2, result_joker, cost, merged_stat, merge_stat1, merge_stat2, merge_extra)
-	table.insert(self,
+function add_fusion(joker1, carry_stat1, extra1, joker2, carry_stat2, extra2, result_joker, cost, merged_stat, merge_stat1, merge_stat2, merge_extra)
+	table.insert(SagaFusion.fusions,
 		{ jokers = {
 			{ name = joker1, carry_stat = carry_stat1, extra_stat = extra1, merge_stat = merge_stat1 },
 			{ name = joker2, carry_stat = carry_stat2, extra_stat = extra2, merge_stat = merge_stat2 }
 		}, result_joker = result_joker, cost = cost, merged_stat = merged_stat, merge_extra = merge_extra })
 end
 
-to_number = to_number or function(x)
-	return x
+function remove_fusion(result_joker)
+	for i, v in ipairs(SagaFusion.fusions) do
+		if v.result_joker == result_joker then
+			table.remove(SagaFusion.fusions, i)
+		end
+	end
 end
 
 local function has_joker(val, start_pos)
@@ -62,7 +40,7 @@ local function has_joker(val, start_pos)
 end
 
 function Card:can_fuse_card()
-	for _, fusion in ipairs(SagaFusion.fusions) do
+	for _, fusion in ipairs(G.GAME.fusion_table) do
 		if to_number(G.GAME.dollars) >= fusion.cost then
 			local found_me = false
 			local all_jokers = true
@@ -90,7 +68,7 @@ function Card:can_fuse_card()
 end
 
 function Card:get_card_fusion()
-	for _, fusion in ipairs(SagaFusion.fusions) do
+	for _, fusion in ipairs(G.GAME.fusion_table) do
 		for _, joker in ipairs(fusion.jokers) do
 			if joker.name == self.config.center_key then
 				return fusion
@@ -120,7 +98,7 @@ function Card:fuse_card()
 	local chosen_fusion = nil
 	local joker_pos = {}
 	local found_me = false
-	for _, fusion in ipairs(SagaFusion.fusions) do
+	for _, fusion in ipairs(G.GAME.fusion_table) do
 		joker_pos = {}
 		found_me = false
 		for _, joker in ipairs(fusion.jokers) do
@@ -258,8 +236,6 @@ G.FUNCS.can_fuse_card = function(e)
     end
   end
 
-
-
 local use_and_sell_buttonsref = G.UIDEF.use_and_sell_buttons
 function G.UIDEF.use_and_sell_buttons(card)
 	local retval = use_and_sell_buttonsref(card)
@@ -290,23 +266,6 @@ function G.UIDEF.use_and_sell_buttons(card)
 end
 
 
-local card_h_popupref = G.UIDEF.card_h_popup
-function G.UIDEF.card_h_popup(card)
-    local retval = card_h_popupref(card)
-    if not card.config.center or -- no center
-	(card.config.center.unlocked == false and not card.bypass_lock) or -- locked card
-	card.debuff or -- debuffed card
-	(not card.config.center.discovered and ((card.area ~= G.jokers and card.area ~= G.consumeables and card.area) or not card.area)) -- undiscovered card
-	then return retval end
-
-	-- if card.config.center.rarity == 5 then
-	-- 	retval.nodes[1].nodes[1].nodes[1].nodes[3].nodes[1].nodes[1].nodes[2].config.object:remove()
-	-- 	retval.nodes[1].nodes[1].nodes[1].nodes[3].nodes[1] = create_badge(localize('k_fusion'), loc_colour("fusion", nil), nil, 1.2)
-	-- end
-
-	return retval
-end
-
 local updateref = Card.update
 function Card:update(dt)
   updateref(self, dt)
@@ -318,7 +277,7 @@ function Card:update(dt)
             local my_fusion = self:get_card_fusion()
             self.fusion_cost = my_fusion and my_fusion.cost or 0
 
-            if self:can_fuse_card() and not self.ability.fusion.jiggle then 
+            if self:can_fuse_card() and not self.ability.fusion.jiggle then
                 juice_card_until(self, function(card) return (card:can_fuse_card()) end, true)
 
                 self.ability.fusion.jiggle = true
@@ -329,4 +288,22 @@ function Card:update(dt)
             end
         end
     end
+end
+
+local gsr = Game.start_run
+function Game:start_run(args)
+	gsr(self, args)
+	if not args.savetext then
+		G.GAME.story_mode = Sagatro.config.DisableOtherJokers
+	end
+	if not G.GAME.story_mode then
+		remove_fusion("j_sgt_kid_gloves_and_fan")
+		remove_fusion("j_sgt_dodo_bird")
+		G.GAME.fusion_table = SagaFusion.fusions
+	end
+	if Sagatro.debug then
+		G.GAME.dollars = to_big(250)
+		SMODS.change_free_rerolls(1e10)
+		sendInfoMessage("Welcome to Sagatro debug mode! Make sure you have DebugPlus installed! Type 'eval sgt_help()' for more info. ", "Sagatro")
+	end
 end

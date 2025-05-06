@@ -1,23 +1,21 @@
 local trivial = {
     key = "trivial",
 	badge_colour = G.C.SGT_TRIVIAL,
-	default_weight = 0.05,
 	pools = { ["Joker"] = true },
 	get_weight = function(self, weight, object_type)
-		if Sagatro.DisableOtherJokers then
-			return next(SMODS.find_card("j_sgt_mad_hatter")) and 0.7 or 0
+		if G.GAME.story_mode then
+			return next(SMODS.find_card("j_sgt_mad_hatter")) and 0.75 or 0
 		end
-        return 0.05
+        return next(SMODS.find_card("j_sgt_mad_hatter")) and 1 or 0.05
 	end,
 }
 
 local obscure = {
     key = "obscure",
 	badge_colour = G.C.SGT_OBSCURE,
-	default_weight = 0.003,
 	pools = { ["Joker"] = true },
 	get_weight = function(self, weight, object_type)
-		if Sagatro.DisableOtherJokers then
+		if G.GAME.story_mode then
 			return 0.05
 		end
         return 0.003

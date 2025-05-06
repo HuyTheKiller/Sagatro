@@ -48,7 +48,7 @@ return {
 					"ngẫu nhiên khi {C:attention}Blind{} được chọn",
                     "Xác suất {C:green}#2# trên #3#{} lá này",
                     "bị phá huỷ ở cuối ván",
-					"{C:inactive,s:0.9}(Đang sao chép {C:attention,s:0.9}#1#"..(SMODS.Mods["Sagatro"].debug and "{C:inactive,s:0.9}với ID giá trị {C:attention,s:0.9}#4#{C:inactive,s:0.9})" or "{C:inactive,s:0.9})"),
+					"{C:inactive,s:0.9}(Đang sao chép {C:attention,s:0.9}#1#"..(SMODS.Mods["Sagatro"].debug and "{C:inactive,s:0.9} với ID giá trị {C:attention,s:0.9}#4#{C:inactive,s:0.9})" or "{C:inactive,s:0.9})"),
                 },
             },
             j_sgt_mouse = {
@@ -226,6 +226,48 @@ return {
                     "để được {C:mult}+#3#{} Nhân",
                 },
             },
+            j_sgt_red_queen = {
+                name = "Nữ Hoàng Đỏ",
+                text = {
+                    "Xác suất {C:green}#1# trên #2#{} để",
+                    "phả huỷ lá ghi điểm",
+                    "Mọi lá đã chơi ghi thêm",
+                    "{X:dark_edition,C:white}^#3#{} Nhân khi ghi điểm",
+                },
+            },
+            j_sgt_king = {
+                name = "Ông Vua",
+                text = {
+                    "{C:mult}+#1#{} Nhân",
+                    "Giảm xác suất của",
+                    "{C:attention}#2#{} đi {C:attention}#3#{} lần",
+                },
+            },
+            j_sgt_flamingo = {
+                name = "Hồng Hạc",
+                text = {
+                    "{C:chips}+#1#{} Chip",
+                    "Giảm xác suất của",
+                    "{C:attention}#2#{} đi {C:attention}#3#{} lần",
+                },
+            },
+            j_sgt_gryphon = {
+                name = "Gryphon",
+                text = {
+                    "Mỗi lá {C:attention}Đầm{}",
+                    "giữ trong tay",
+                    "ghi thêm {X:dark_edition,C:white}^#1#{} Nhân",
+                },
+            },
+            j_sgt_mock_turtle = {
+                name = "Giả Rùa",
+                text = {
+                    "Xác suất {C:green}#1# trên #2#{} để được {X:dark_edition,C:white}^#3#{} Nhân",
+                    "Xác suất {C:green}#1# trên #4#{} để {C:red}tự huỷ{}",
+                    "sau mỗi tay bài, giảm đi {C:attention}1{} sau",
+                    "mỗi lần kích hoạt {X:dark_edition,C:white}^Nhân{}",
+                },
+            },
             j_sgt_alice = {
                 name = "Alice",
                 text = {
@@ -278,8 +320,9 @@ return {
             k_stirred_ex = "Khuấy Đều!",
             k_shared_ex = "Chia Sẻ!",
             k_avoided_ex = "Lảng Tránh!",
+            k_enraged_ex = "Điên Tiết!",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",
-            SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính"},
+            SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính (Yêu cầu tạo trận mới)"},
         },
     },
 }
