@@ -448,16 +448,16 @@ function sgt_help()
     if Sagatro.debug then
         print("Sagatro debug commands:")
         print("sgt_help(): show this help screen.")
-        print("print_rarity(): print out modifications of each rarity pool.")
-        print("change_joker(index, x): change all numerical values inside 'ability.extra' table (or ability.extra itself if it's a number) of the joker at 'index' slot to 'x'.")
-        print("event_list(): list all stories with their corresponding events.")
+        print("sgt_print_rarity(): print out modifications of each rarity pool.")
+        print("sgt_change_joker(index, x): change all numerical values inside 'ability.extra' table (or ability.extra itself if it's a number) of the joker at 'index' slot to 'x'.")
+        print("sgt_event_list(): list all stories with their corresponding events.")
         print("sgt_crash(): manually cause a crash.")
         return "Remember to always prepend 'eval' because that's how DebugPlus executes lua code directly."
     end
     return "Debug commands are unavailable."
 end
 
-function print_rarity()
+function sgt_print_rarity()
     if Sagatro.debug then
         for k, v in pairs(G.GAME) do
             if string.len(k) > 4 and string.find(k, "_mod") and type(v) == "number" then
@@ -471,7 +471,7 @@ end
 
 ---@param index number
 ---@param x number
-function change_joker(index, x)
+function sgt_change_joker(index, x)
     if not Sagatro.debug then return "Debug commands are unavailable." end
     if G and not G.jokers then return "Failed: not in a live run." end
     if G.jokers.cards[index] then
@@ -489,7 +489,7 @@ function change_joker(index, x)
     return "Failed: index out of range."
 end
 
-function event_list()
+function sgt_event_list()
     if Sagatro.debug then
         for story, events in pairs(G.GAME.saga_event) do
             print(story..":", events)
