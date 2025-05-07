@@ -1091,7 +1091,8 @@ local cheshire_cat = {
                 local chosen_joker = pseudorandom_element(potential_jokers, pseudoseed('cheshire_cat'))
                 for _, v in ipairs(G.jokers.cards) do
                     if v == chosen_joker then
-                        -- Store buffer name
+                        -- Store buffer nam- I mean, key
+                        -- Geez, I forgor to update the comment
                         card.ability.extra.copied_joker_buffer_key = v.config.center_key
                         -- Store value ID if applicable
                         if v.ability.extra then
