@@ -524,6 +524,7 @@ function sgt_crash()
     if Sagatro.debug then
         cause_crash = true
     end
+    return "Are you sure you want to do this? Thankfully Sagatro debug mode is off. Turn it on before executing this command."
 end
 
 function manual_crash()
