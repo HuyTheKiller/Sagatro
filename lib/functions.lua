@@ -451,6 +451,7 @@ function sgt_help()
         print("sgt_print_rarity(): print out modifications of each rarity pool.")
         print("sgt_change_joker(index, x): change all numerical values inside 'ability.extra' table (or ability.extra itself if it's a number) of the joker at 'index' slot to 'x'.")
         print("sgt_event_list(): list all stories with their corresponding events.")
+        print("sgt_story_mode(): check if a run has story mode enabled.")
         print("sgt_crash(): manually cause a crash.")
         return "Remember to always prepend 'eval' because that's how DebugPlus executes lua code directly."
     end
@@ -495,6 +496,21 @@ function sgt_event_list()
             print(story..":", events)
         end
         return "Currently active events yield true."
+    end
+    return "Debug commands are unavailable."
+end
+
+function sgt_story_mode()
+    if Sagatro.debug then
+        if G.STAGE == G.STAGES.RUN then
+            if G.GAME.story_mode then
+                return "This run is currently in story mode."
+            else
+                return "This run is currently not in story mode."
+            end
+        else
+            return "You're not in a live run."
+        end
     end
     return "Debug commands are unavailable."
 end
