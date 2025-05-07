@@ -1101,7 +1101,14 @@ local cheshire_cat = {
                     end
                 end
                 card.ability.extra.copied_joker = chosen_joker
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_copied_ex')})
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_copied_ex'), instant = true})
+                G.E_MANAGER:add_event(Event({
+                    trigger = "immediate",
+                    func = function()
+                        chosen_joker:juice_up(0.5, 0.5)
+                        return true
+                    end
+                }))
             end
         end
         if card.ability.extra.copied_joker then

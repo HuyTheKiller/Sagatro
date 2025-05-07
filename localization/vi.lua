@@ -48,7 +48,7 @@ return {
 					"ngẫu nhiên khi {C:attention}Blind{} được chọn",
                     "Xác suất {C:green}#2# trên #3#{} lá này",
                     "bị phá huỷ ở cuối ván",
-					"{C:inactive,s:0.9}(Đang sao chép {C:attention,s:0.9}#1#"..(SMODS.Mods["Sagatro"].debug and "{C:inactive,s:0.9} với ID giá trị {C:attention,s:0.9}#4#{C:inactive,s:0.9})" or "{C:inactive,s:0.9})"),
+					"{C:inactive,s:0.9}(Đang sao chép {C:attention,s:0.9}#1#"..(Sagatro.debug and "{C:inactive,s:0.9} với ID giá trị {C:attention,s:0.9}#4#{C:inactive,s:0.9})" or "{C:inactive,s:0.9})"),
                 },
             },
             j_sgt_mouse = {
