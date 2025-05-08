@@ -231,26 +231,31 @@ payload = '''
 '''
 
 
-# Replace Jimbo with Alice if story mode is on
+# Replace Jimbo with Alice
 [[patches]]
 [patches.pattern]
-target = 'game.lua'
-pattern = '''Jimbo = Card_Character({x = 0, y = 5})'''
-position = 'at'
+target = "card_character.lua"
+pattern = 'self.children.card.states.visible = false'
+position = "before"
+payload = "self.children.card:set_ability(G.GAME.story_mode and G.P_CENTERS.j_sgt_alice or G.P_CENTERS.j_joker)"
 match_indent = true
-payload = '''
-Jimbo = Card_Character({x = 0, y = 5, center = G.GAME.story_mode and G.P_CENTERS.j_sgt_alice or nil})
-'''
 
 [[patches]]
 [patches.pattern]
-target = 'functions/state_events.lua'
-pattern = '''Jimbo = Card_Character({x = 0, y = 5})'''
-position = 'at'
+target = "card_character.lua"
+pattern = 'colours = {G.C.RED, G.C.BLUE, G.C.ORANGE},'
+position = "at"
+payload = 'colours = {Sagatro.badge_colour, G.C.BLUE, G.C.RARITY[4]},'
 match_indent = true
-payload = '''
-Jimbo = Card_Character({x = 0, y = 5, center = G.GAME.story_mode and G.P_CENTERS.j_sgt_alice or nil})
-'''
+
+# Overrides Cryptid
+[[patches]]
+[patches.pattern]
+target = "card_character.lua"
+pattern = 'colours = {G.C.CRY_EXOTIC, G.C.BLUE, G.C.CRY_JOLLY},'
+position = "at"
+payload = 'colours = {Sagatro.badge_colour, G.C.BLUE, G.C.RARITY[4]},'
+match_indent = true
 
 # Alice invades Splash screen
 [[patches]]
