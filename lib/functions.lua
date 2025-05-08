@@ -315,6 +315,44 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
     return card
 end
 
+local gnb = get_new_boss
+function get_new_boss()
+    if G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.final_showdown then
+        for _, v in ipairs(G.jokers.cards) do
+            if v.config.center_key == "j_sgt_red_queen" then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
+                        v.T.r = -0.2
+                        v:juice_up(0.3, 0.4)
+                        v.states.drag.is = true
+                        v.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(v)
+                                    v:remove()
+                                    v = nil
+                                return true; end}))
+                        return true
+                    end
+                }))
+            end
+        end
+        return 'bl_sgt_red_queen'
+    end
+    local ret = gnb()
+    return ret
+end
+
+local disable_ref = Blind.disable
+function Blind:disable(...)
+    disable_ref(self)
+    if self.name == "Red Queen" and select(1, ...) then
+        self.chips = self.chips*3
+		self.chip_text = number_format(self.chips)
+    end
+end
+
 function Sagatro.reset_game_globals(run_start)
     for _, v in ipairs(G.jokers.cards) do
         if v.config.center_key == "j_sgt_mouse" then
@@ -449,9 +487,11 @@ function sgt_help()
         print("Sagatro debug commands:")
         print("sgt_help(): show this help screen.")
         print("sgt_print_rarity(): print out modifications of each rarity pool.")
-        print("sgt_change_joker(index, x): change all numerical values inside 'ability.extra' table (or ability.extra itself if it's a number) of the joker at 'index' slot to 'x'.")
+        print("sgt_change_joker(index, x, ...): change the numerical values inside 'ability.extra' table (or ability.extra itself if it's a number) of the joker at 'index' slot to 'x' and the following arguments (if applicable).")
         print("sgt_event_list(): list all stories with their corresponding events.")
         print("sgt_story_mode(): check if a run has story mode enabled.")
+        print("sgt_final_hand(): set hand count to 1.")
+        print("sgt_no_discard(): set discard count to 0.")
         print("sgt_crash(): manually cause a crash.")
         return "Remember to always prepend 'eval' because that's how DebugPlus executes lua code directly."
     end
@@ -472,20 +512,28 @@ end
 
 ---@param index number
 ---@param x number
-function sgt_change_joker(index, x)
+---@param ... number
+function sgt_change_joker(index, x, ...)
     if not Sagatro.debug then return "Debug commands are unavailable." end
     if G and not G.jokers then return "Failed: not in a live run." end
     if G.jokers.cards[index] then
         if type(G.jokers.cards[index].ability.extra) == "number" then
             G.jokers.cards[1].ability.extra = x
         elseif type(G.jokers.cards[index].ability.extra) == "table" then
+            local i = 0
             for k, v in pairs(G.jokers.cards[index].ability.extra) do
                 if type(v) == "number" then
-                    G.jokers.cards[index].ability.extra[k] = x
+                    if i > 0 and select(i, ...) then
+                        G.jokers.cards[index].ability.extra[k] = select(i, ...)
+                        i = i + 1
+                    else
+                        G.jokers.cards[index].ability.extra[k] = x
+                        i = i + 1
+                    end
                 end
             end
         end
-        return string.format("Successfully changed the value to %q.", x)
+        return string.format("Successfully changed the value(s) to %q and the following argument(s).", x)
     end
     return "Failed: index out of range."
 end
@@ -511,6 +559,22 @@ function sgt_story_mode()
         else
             return "You're not in a live run."
         end
+    end
+    return "Debug commands are unavailable."
+end
+
+function sgt_final_hand()
+    if Sagatro.debug then
+        ease_hands_played(-G.GAME.current_round.hands_left + 1)
+        return "Successfully set hand count to 1."
+    end
+    return "Debug commands are unavailable."
+end
+
+function sgt_no_discard()
+    if Sagatro.debug then
+        ease_discards(-G.GAME.current_round.discards_left)
+        return "Successfully set discard count to 0."
     end
     return "Debug commands are unavailable."
 end

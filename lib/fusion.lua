@@ -12,6 +12,13 @@ SagaFusion.fusions = {
 }
 
 function add_fusion(joker1, carry_stat1, extra1, joker2, carry_stat2, extra2, result_joker, cost, merged_stat, merge_stat1, merge_stat2, merge_extra)
+	for _, v in ipairs(SagaFusion.fusions) do
+		if v.jokers[1].name == joker1
+		or v.jokers[2].name == joker2
+		or v.result_joker == result_joker then
+			return
+		end
+	end
 	table.insert(SagaFusion.fusions,
 		{ jokers = {
 			{ name = joker1, carry_stat = carry_stat1, extra_stat = extra1, merge_stat = merge_stat1 },
@@ -295,15 +302,21 @@ function Game:start_run(args)
 	gsr(self, args)
 	if not args.savetext then
 		G.GAME.story_mode = Sagatro.config.DisableOtherJokers
+		if Sagatro.debug then
+			G.GAME.dollars = to_big(250)
+			SMODS.change_free_rerolls(1e10)
+		end
 	end
 	if not G.GAME.story_mode then
 		remove_fusion("j_sgt_kid_gloves_and_fan")
 		remove_fusion("j_sgt_dodo_bird")
 		G.GAME.fusion_table = SagaFusion.fusions
+	else
+		add_fusion("j_sgt_white_rabbit", nil, false, "j_sgt_eat_me", nil, false, "j_sgt_kid_gloves_and_fan", 8)
+		add_fusion("j_sgt_mouse", nil, false, "j_splash", nil, false, "j_sgt_dodo_bird", 9)
+		G.GAME.fusion_table = SagaFusion.fusions
 	end
 	if Sagatro.debug then
-		G.GAME.dollars = to_big(250)
-		SMODS.change_free_rerolls(1e10)
 		sendInfoMessage("Welcome to Sagatro debug mode! Make sure you have DebugPlus installed! Type 'eval sgt_help()' for more info. ", "Sagatro")
 	end
 end

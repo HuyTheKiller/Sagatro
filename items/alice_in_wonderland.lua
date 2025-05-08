@@ -52,6 +52,18 @@ local white_rabbit = {
     loc_vars = function(self, info_queue, card)
 		return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.extra.chip_gain*G.GAME.alice_multiplier}}
 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "chips", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.CHIPS },
+            calc_function = function(card)
+                card.joker_display_values.chips = card.ability.extra.chips*G.GAME.alice_multiplier
+            end,
+        }
+    end,
 }
 
 local drink_me = {
@@ -141,6 +153,28 @@ local drink_me = {
         end
         return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}}}
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "active" },
+                { text = ")" },
+            },
+            text_config = { colour = G.C.UI.TEXT_INACTIVE },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.ability", ref_value = "extra" },
+                { text = "/" },
+                { ref_table = "card.joker_display_values", ref_value = "start_count" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.active = (G.jokers.cards[1] == card and G.jokers.cards[#G.jokers.cards].config.center_key ~= "j_sgt_eat_me")
+                and localize("jdis_active") or localize("jdis_inactive")
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra*G.GAME.alice_multiplier
+            end,
+        }
+    end,
 }
 
 local eat_me = {
@@ -184,6 +218,12 @@ local eat_me = {
                 }
             end
             if context.after and not context.blueprint and not context.retrigger_joker then
+                if G.GAME.blind and G.GAME.blind.name == "Red Queen" then
+                    G.E_MANAGER:add_event(Event({func = function()
+                        local do_not_cut_score = true
+                        G.GAME.blind:disable(do_not_cut_score)
+                    return true end }))
+                end
                 if card.ability.extra - 1 <= 0 then
                     G.E_MANAGER:add_event(Event({
                         func = function()
@@ -239,6 +279,30 @@ local eat_me = {
         end
         return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_drink_me", nodes = {}}}}
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "active" },
+                { text = ")" },
+            },
+            text_config = { colour = G.C.UI.TEXT_INACTIVE },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.ability", ref_value = "extra" },
+                { text = "/" },
+                { ref_table = "card.joker_display_values", ref_value = "start_count" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.active = (G.jokers.cards[#G.jokers.cards] == card
+                and G.jokers.cards[1].config.center_key ~= "j_sgt_drink_me"
+                and G.jokers.cards[1].config.center_key ~= "j_sgt_unlabeled_bottle")
+                and localize("jdis_active") or localize("jdis_inactive")
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra*G.GAME.alice_multiplier
+            end,
+        }
+    end,
 }
 
 local mouse = {
@@ -284,6 +348,28 @@ local mouse = {
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "debuff_position" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                local positions = card.ability.extra.debuff_position
+                if #positions == 0 then positions = nil
+                else table.sort(positions, function(a, b) return a < b end) end
+
+                card.joker_display_values.mult = card.ability.extra.mult*G.GAME.alice_multiplier
+                card.joker_display_values.debuff_position = positions and table.concat(positions, ", ") or ""
+            end
+        }
     end,
 }
 
@@ -401,6 +487,23 @@ local dodo_bird = {
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra*G.GAME.alice_multiplier}}
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "active" },
+                { text = ")" },
+            },
+            text_config = { colour = G.C.UI.TEXT_INACTIVE },
+            mod_function = function(card, mod_joker)
+                card.joker_display_values.active = G.GAME
+                and G.GAME.current_round.hands_left <= 1
+                and G.GAME.current_round.discards_left == 0
+                and localize("jdis_active") or localize("jdis_inactive")
+                return { x_mult = (G.GAME.current_round.hands_left <= 1 and G.GAME.current_round.discards_left == 0 and (mod_joker.ability.extra*G.GAME.alice_multiplier) ^ JokerDisplay.calculate_joker_triggers(mod_joker) or nil) }
+            end
+        }
     end,
 }
 
@@ -522,6 +625,28 @@ local unlabeled_bottle = {
         }
         end
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "active" },
+                { text = ")" },
+            },
+            text_config = { colour = G.C.UI.TEXT_INACTIVE },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.ability", ref_value = "extra" },
+                { text = "/" },
+                { ref_table = "card.joker_display_values", ref_value = "start_count" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.active = G.jokers.cards[1] == card
+                and localize("jdis_active") or localize("jdis_inactive")
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra*G.GAME.alice_multiplier
+            end,
+        }
+    end,
 }
 
 local little_bill = {
@@ -568,7 +693,7 @@ local huge_dog = {
         if context.repetition and context.cardarea == G.play then
             local valid_cards, all_cards = 0, 0
             local temp = context.other_card
-            for _, v in ipairs(context.full_hand) do
+            for _, v in ipairs(context.scoring_hand) do
                 all_cards = all_cards + 1
                 if v:get_id() == 14 or v:get_id() == 2 then
                     valid_cards = valid_cards + 1
@@ -600,6 +725,53 @@ local huge_dog = {
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.times*G.GAME.alice_multiplier, card.ability.extra.extra_times*G.GAME.alice_multiplier}}
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "x" },
+                { ref_table = "card.joker_display_values", ref_value = "retriggers" },
+            },
+            reminder_text = {
+                { text = "(2, " },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text_ace" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                local playing_hand = next(G.play.cards) or next(G.hand.highlighted)
+                local valid_cards, all_cards = 0, 0
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        all_cards = all_cards + 1
+                        if scoring_card:get_id() == 2 or scoring_card:get_id() == 14 then
+                            valid_cards = valid_cards + 1
+                        end
+                    end
+                end
+                local count = playing_hand and valid_cards == all_cards
+                and (card.ability.extra.times+card.ability.extra.extra_times)*G.GAME.alice_multiplier
+                or card.ability.extra.times*G.GAME.alice_multiplier
+
+                card.joker_display_values.retriggers = count
+                card.joker_display_values.localized_text_ace = localize("Ace", "ranks")
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if held_in_hand then return 0 end
+                local valid_cards, all_cards = 0, 0
+                for _, playing_card in ipairs(G.play.cards) do
+                    all_cards = all_cards + 1
+                    if playing_card:get_id() == 2 or playing_card:get_id() == 14 then
+                        valid_cards = valid_cards + 1
+                    end
+                end
+                local count = valid_cards == all_cards
+                and (joker_card.ability.extra.times+joker_card.ability.extra.extra_times)*G.GAME.alice_multiplier
+                or joker_card.ability.extra.times*G.GAME.alice_multiplier
+                return (playing_card:get_id() == 2 or playing_card:get_id() == 14)
+                and count * JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+        }
+    end
 }
 
 local caterpillar = {
@@ -692,6 +864,20 @@ local caterpillar = {
             info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_mushroom"]
         end
         return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_mushroom", nodes = {}}}}
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.ability", ref_value = "extra" },
+                { text = "/" },
+                { ref_table = "card.joker_display_values", ref_value = "start_count" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra*G.GAME.alice_multiplier
+            end,
+        }
     end,
 }
 
@@ -845,6 +1031,28 @@ local mushroom = {
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*G.GAME.alice_multiplier, card.ability.times*G.GAME.alice_multiplier}}
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "active" },
+                { text = ")" },
+            },
+            text_config = { colour = G.C.UI.TEXT_INACTIVE },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.ability", ref_value = "extra" },
+                { text = "/" },
+                { ref_table = "card.joker_display_values", ref_value = "start_count" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.active = (G.jokers.cards[1] == card or G.jokers.cards[#G.jokers.cards] == card)
+                and localize("jdis_active") or localize("jdis_inactive")
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra*G.GAME.alice_multiplier
+            end,
+        }
+    end,
 }
 
 local pigeon = {
@@ -854,7 +1062,7 @@ local pigeon = {
     saga_group = "alice_in_wonderland",
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 2 },
-    config = {extra = 3, egg_boost = 1, triggered = false, extra_value = -3},
+    config = {extra = 3, egg_boost = 1, triggered = false, extra_value = -10},
 	rarity = 2,
     cost = 8,
     blueprint_compat = false,
@@ -907,6 +1115,23 @@ local pigeon = {
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.j_egg
         return {vars = {localize{type = 'name_text', set = "Joker", key = "j_egg", nodes = {}}, card.ability.extra*G.GAME.alice_multiplier, card.ability.egg_boost*G.GAME.alice_multiplier}}
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+$", colour = G.C.GOLD },
+                { ref_table = "card.joker_display_values", ref_value = "egg_boost", colour = G.C.GOLD },
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text", colour = G.C.ORANGE },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.egg_boost = card.ability.egg_boost*G.GAME.alice_multiplier
+                card.joker_display_values.localized_text = localize{type = 'name_text', set = "Joker", key = "j_egg", nodes = {}}
+            end,
+        }
     end,
 }
 
@@ -998,6 +1223,20 @@ local frog_footman = {
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.consumable_slot*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra or card.ability.extra*G.GAME.alice_multiplier}}
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.ability", ref_value = "extra" },
+                { text = "/" },
+                { ref_table = "card.joker_display_values", ref_value = "start_count" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra*G.GAME.alice_multiplier
+            end,
+        }
+    end,
 }
 
 local the_cook = {
@@ -1063,6 +1302,31 @@ local the_cook = {
     loc_vars = function(self, info_queue, card)
         return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.xmult*G.GAME.alice_multiplier}}
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            extra = {
+                {
+                    { text = "(" },
+                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { text = ")" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.ability.extra", ref_value = "xmult" }
+                    }
+                },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text" }
+            },
+            calc_function = function(card)
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+                card.joker_display_values.localized_text = localize("ph_per_face_down")
+            end,
+        }
+    end
 }
 
 local cheshire_cat = {
@@ -1220,12 +1484,35 @@ local cheshire_cat = {
                     card.ability.extra.copied_joker = filtered_list[1]
                 else
                     card.ability.extra.copied_joker = card
-                    --[[Select itself as a fallback if copied joker is sold (does not affect buffer name)
+                    --[[Select itself as a fallback if copied joker is sold
                     This would be entirely your fault for doing such abomination in a live run]]
                 end
             end
             card.loaded = false
         end
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            extra = {
+                {
+                    { text = "(" },
+                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { text = ")" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text", colour = G.C.ORANGE },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.localized_text = card.ability.extra.copied_joker
+                and localize{type = 'name_text', set = "Joker", key = card.ability.extra.copied_joker.config.center_key, nodes = {}}
+                or localize('k_none')
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds*G.GAME.alice_multiplier } }
+            end,
+        }
     end
 }
 
@@ -1269,10 +1556,14 @@ local duchess = {
             end
         end
         if context.joker_main and card.ability.triggered then
-            card.ability.triggered = false
             return {
                 e_mult = card.ability.extra.e_mult*G.GAME.alice_multiplier
             }
+        end
+        if context.after and not context.blueprint and not context.retrigger_joker then
+            G.E_MANAGER:add_event(Event({func = function()
+                card.ability.triggered = false
+            return true end }))
         end
     end,
     in_pool = function(self, args)
@@ -1280,6 +1571,31 @@ local duchess = {
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.e_mult*G.GAME.alice_multiplier}}
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            extra = {
+                {
+                    { text = "(" },
+                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { text = ")" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            text = {
+                {
+                    border_nodes = {
+                        { text = "^" },
+                        { ref_table = "card.joker_display_values", ref_value = "e_mult", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.DARK_EDITION
+                }
+            },
+            calc_function = function(card)
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+                card.joker_display_values.e_mult = card.ability.triggered and card.ability.extra.e_mult*G.GAME.alice_multiplier or 1
+            end,
+        }
     end,
 }
 
@@ -1340,6 +1656,38 @@ local the_baby = {
         end
         return {vars = {card.ability.extra*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_duchess", nodes = {}}}}
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "active" },
+                { text = ")" },
+            },
+            text_config = { colour = G.C.UI.TEXT_INACTIVE },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.active = G.GAME and G.GAME.current_round.hands_left <= 1
+                and localize("jdis_active") or localize("jdis_inactive")
+                card.joker_display_values.localized_text = next(SMODS.find_card("j_sgt_duchess", true)) and localize("k_safe_ex") or localize("k_self_destruct_ex")
+            end,
+            style_function = function(card, text, reminder_text, extra)
+                if reminder_text and reminder_text.children[2] then
+                    reminder_text.children[2].config.colour = next(SMODS.find_card("j_sgt_duchess", true))
+                    and G.C.GREEN or G.C.RED
+                end
+                return false
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if held_in_hand then return 0 end
+                return G.GAME and G.GAME.current_round.hands_left <= 1
+                and (joker_card.ability.extra*G.GAME.alice_multiplier)*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+        }
+    end,
 }
 
 local pepper_caster = {
@@ -1356,7 +1704,7 @@ local pepper_caster = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-		if context.retrigger_joker_check and not context.retrigger_joker and context.other_card ~= self then
+		if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.config.center_key ~= "j_sgt_pepper_caster" then
             return {
                 message = localize("k_again_ex"),
                 repetitions = card.ability.extra.retriggers*G.GAME.alice_multiplier,
@@ -1408,6 +1756,24 @@ local pepper_caster = {
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.retriggers*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier}}
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.ability.extra", ref_value = "uses" },
+                { text = "/" },
+                { ref_table = "card.joker_display_values", ref_value = "start_count" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses*G.GAME.alice_multiplier
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                return card.config.center_key ~= "j_sgt_pepper_caster" and
+                    retrigger_joker.ability.extra.retriggers*G.GAME.alice_multiplier or 0
+            end,
+        }
     end,
 }
 
@@ -1533,6 +1899,26 @@ local tea = {
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier*(G.GAME.story_mode and 1 or 24)}}
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "chips", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.CHIPS },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.ability.extra", ref_value = "uses" },
+                { text = "/" },
+                { ref_table = "card.joker_display_values", ref_value = "start_count" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses*G.GAME.alice_multiplier
+                card.joker_display_values.chips = card.ability.extra.chips*G.GAME.alice_multiplier
+            end,
+        }
+    end,
 }
 
 local bread = {
@@ -1597,6 +1983,26 @@ local bread = {
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier*(G.GAME.story_mode and 1 or 24)}}
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "chips", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.CHIPS },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.ability.extra", ref_value = "uses" },
+                { text = "/" },
+                { ref_table = "card.joker_display_values", ref_value = "start_count" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses*G.GAME.alice_multiplier
+                card.joker_display_values.chips = card.ability.extra.chips*G.GAME.alice_multiplier
+            end,
+        }
     end,
 }
 
@@ -1663,6 +2069,26 @@ local butter = {
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier*(G.GAME.story_mode and 1 or 24)}}
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.ability.extra", ref_value = "uses" },
+                { text = "/" },
+                { ref_table = "card.joker_display_values", ref_value = "start_count" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses*G.GAME.alice_multiplier
+                card.joker_display_values.mult = card.ability.extra.mult*G.GAME.alice_multiplier
+            end,
+        }
+    end,
 }
 
 local march_hare = {
@@ -1712,6 +2138,18 @@ local march_hare = {
     loc_vars = function(self, info_queue, card)
 		return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, card.ability.extra.mult_gain*G.GAME.alice_multiplier}}
 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                card.joker_display_values.mult = card.ability.extra.mult*G.GAME.alice_multiplier
+            end
+        }
+    end,
 }
 
 local dormouse = {
@@ -1744,6 +2182,27 @@ local dormouse = {
     loc_vars = function(self, info_queue, card)
 		return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.mult*G.GAME.alice_multiplier}}
 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            extra = {
+                {
+                    { text = "(" },
+                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { text = ")" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+                card.joker_display_values.mult = card.ability.extra.mult*G.GAME.alice_multiplier
+            end
+        }
+    end,
 }
 
 local red_queen = {
@@ -1809,6 +2268,39 @@ local red_queen = {
     loc_vars = function(self, info_queue, card)
         return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, card.ability.extra.e_mult*G.GAME.alice_multiplier}}
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            extra = {
+                {
+                    { text = "(" },
+                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { text = ")" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            text = {
+                {
+                    border_nodes = {
+                        { text = "^" },
+                        { ref_table = "card.joker_display_values", ref_value = "e_mult", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.DARK_EDITION
+                }
+            },
+            calc_function = function(card)
+                local count = 0
+                local emult = card.ability.extra.e_mult*G.GAME.alice_multiplier
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        count = count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                    end
+                end
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor } }
+                card.joker_display_values.e_mult = emult^count
+            end,
+        }
+    end,
 }
 
 local king = {
@@ -1835,6 +2327,13 @@ local king = {
     add_to_deck = function(self, card, from_debuff)
         G.GAME.relief_factor = G.GAME.relief_factor*card.ability.extra.relief
         if G.GAME.relief_factor >= 25 and G.GAME.saga_event.alice_in_wonderland.red_queen then
+            if next(SMODS.find_card("j_sgt_flamingo", true)) then
+                for _, v in ipairs(G.jokers.cards) do
+                    if v.config.center_key == "j_sgt_red_queen" then
+                        v:set_eternal(nil)
+                    end
+                end
+            end
             G.GAME.saga_event.alice_in_wonderland.red_queen = false
             G.GAME.saga_event_check.alice_in_wonderland.red_queen = true
             G.GAME.saga_event.alice_in_wonderland.gryphon = true
@@ -1855,6 +2354,18 @@ local king = {
         end
 		return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_red_queen", nodes = {}}, card.ability.extra.relief}}
 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.CHIPS },
+            calc_function = function(card)
+                card.joker_display_values.mult = card.ability.extra.mult*G.GAME.alice_multiplier
+            end,
+        }
+    end,
 }
 
 local flamingo = {
@@ -1881,6 +2392,13 @@ local flamingo = {
     add_to_deck = function(self, card, from_debuff)
         G.GAME.relief_factor = G.GAME.relief_factor*card.ability.extra.relief
         if G.GAME.relief_factor >= 25 and G.GAME.saga_event.alice_in_wonderland.red_queen then
+            if next(SMODS.find_card("j_sgt_king", true)) then
+                for _, v in ipairs(G.jokers.cards) do
+                    if v.config.center_key == "j_sgt_red_queen" then
+                        v:set_eternal(nil)
+                    end
+                end
+            end
             G.GAME.saga_event.alice_in_wonderland.red_queen = false
             G.GAME.saga_event_check.alice_in_wonderland.red_queen = true
             G.GAME.saga_event.alice_in_wonderland.gryphon = true
@@ -1901,6 +2419,18 @@ local flamingo = {
         end
 		return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_red_queen", nodes = {}}, card.ability.extra.relief}}
 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "chips", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.CHIPS },
+            calc_function = function(card)
+                card.joker_display_values.chips = card.ability.extra.chips*G.GAME.alice_multiplier
+            end,
+        }
+    end,
 }
 
 local gryphon = {
@@ -1942,6 +2472,32 @@ local gryphon = {
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.e_mult*G.GAME.alice_multiplier}}
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "^" },
+                        { ref_table = "card.joker_display_values", ref_value = "e_mult", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.DARK_EDITION
+                }
+            },
+            calc_function = function(card)
+                local count = 0
+                local emult = card.ability.extra.e_mult*G.GAME.alice_multiplier
+                local playing_hand = next(G.play.cards)
+                for _, playing_card in ipairs(G.hand.cards) do
+                    if playing_hand or not playing_card.highlighted then
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff and playing_card:get_id() == 12 then
+                            count = count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                        end
+                    end
+                end
+                card.joker_display_values.e_mult = emult^count
+            end,
+        }
     end,
 }
 
@@ -2012,6 +2568,40 @@ local mock_turtle = {
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {G.GAME.probabilities.normal, card.ability.extra.e_mult_odds, card.ability.extra.e_mult*G.GAME.alice_multiplier, card.ability.extra.self_destruct_odds}}
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            extra = {
+                {
+                    { text = "(" },
+                    { ref_table = "card.joker_display_values", ref_value = "e_mult_odds" },
+                    { text = ")" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            text = {
+                {
+                    border_nodes = {
+                        { text = "^" },
+                        { ref_table = "card.joker_display_values", ref_value = "e_mult", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.DARK_EDITION
+                },
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "self_destruct_odds", colour = G.C.GREEN },
+                { text = " "..localize("k_to") },
+                { text = " "..localize("k_self_destruct"), colour = G.C.RED },
+                { text = ")" },
+            },
+            reminder_text_config = { scale = 0.2 },
+            calc_function = function(card)
+                card.joker_display_values.e_mult = card.ability.extra.e_mult*G.GAME.alice_multiplier
+                card.joker_display_values.e_mult_odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.e_mult_odds } }
+                card.joker_display_values.self_destruct_odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.self_destruct_odds } }
+            end,
+        }
     end,
 }
 

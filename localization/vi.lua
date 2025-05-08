@@ -11,6 +11,35 @@ return {
                 },
             },
         },
+        Sleeve = {
+            sleeve_sgt_saga = {
+                name = "Bọc Cổ Tích",
+                text = {
+                    "{C:attention}+#1#{} ộ Joker",
+                    "{C:attention}+#2#{} Ante để thắng",
+                    "{s:0.8,C:inactive}Một câu chuyện không có hồi kết.",
+                    "{s:0.8,C:inactive}Hãy tạo lối đi vượt xa giới hạn.",
+                },
+            },
+            sleeve_sgt_saga_alt = {
+                name = "Bọc Cổ Tích",
+                text = {
+                    "{C:attention}+#1#{} ô shop",
+                    "{C:attention}+#1#{} ô gói bài",
+                    "{s:0.8,C:inactive}Tự mình nắm giữ tương lai.",
+                    "{s:0.8,C:inactive}Đừng quên bản thân là ai.",
+                },
+            },
+        },
+        Blind = {
+            bl_sgt_red_queen = {
+                name = "Red Queen",
+                text = {
+                    "Mọi lá bị vô hiệu hoá cho đến khi",
+                    "dùng Hãy Ăn Tôi!; Blind siêu lớn",
+                },
+            },
+        },
         Joker = {
             j_sgt_white_rabbit = {
                 name = "Thỏ Trắng",
@@ -104,7 +133,7 @@ return {
                     "{C:attention}Tái kích{} lá {C:attention}2{}",
                     "hoặc {C:attention}Át{} thêm {C:attention}#1#{} lần",
                     "Tái kích {C:attention}#2#{} lần nữa nếu tay bài",
-                    "đã chơi {C:attention}chỉ{} chứa {C:attention}2{} hoặc {C:attention}Át{}",
+                    "ghi điểm {C:attention}chỉ{} chứa {C:attention}2{} hoặc {C:attention}Át{}",
                 },
             },
             j_sgt_caterpillar = {
@@ -321,6 +350,12 @@ return {
             k_shared_ex = "Chia Sẻ!",
             k_avoided_ex = "Lảng Tránh!",
             k_enraged_ex = "Điên Tiết!",
+            k_guilty_ex = "Có Tội!",
+            k_to = "để",
+            k_self_destruct = "tự huỷ",
+            k_self_destruct_ex = "Tự Huỷ!",
+            ph_per_face_down = " mỗi lá sấp",
+            ph_story_ended = "KẾT TRUYỆN!",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính (Yêu cầu tạo trận mới)"},
         },

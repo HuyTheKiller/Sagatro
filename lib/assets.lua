@@ -27,6 +27,22 @@ SMODS.Atlas{
     py = 95,
 }
 
+SMODS.Atlas{
+    key = "sleeves",
+    path = "Sleeves.png",
+    px = 73,
+    py = 95,
+}
+
+SMODS.Atlas{
+    key = "red_queen",
+    path = "Red_queen.png",
+    atlas_table = 'ANIMATION_ATLAS',
+    frames = 21,
+    px = 34,
+    py = 34,
+}
+
 SMODS.Sound{
     key = "run_away",
     path = "run_away.ogg",

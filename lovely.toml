@@ -16,8 +16,7 @@ if G.GAME.story_mode then
         -- Sagatro jokers only
         if not v.saga_group then add = nil end
         
-        -- Events that would alter joker pool
-        -- For some ducking reason this method has unexpected behaviors with modded rarities
+        -- Events that would alter joker pool (should be paired with modifications of G.GAME.rarity_mod)
         for story, events in pairs(G.GAME.saga_event) do    
             for event, happening in pairs(events) do
                 if happening then
@@ -170,4 +169,26 @@ if G.jokers then
     end
 end
 
+'''
+
+# Force win if Red Queen is defeated
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss' then'''
+position = 'at'
+match_indent = true
+payload = '''
+if (G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss') or G.GAME.blind.name == "Red Queen" then
+'''
+
+# Replace YOU WIN! with STORY ENDED! if Red Queen is defeated
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''{n=G.UIT.O, config={object = DynaText({string = {localize('ph_you_win')}, colours = {G.C.EDITION},shadow = true, float = true, spacing = 10, rotate = true, scale = 1.5, pop_in = 0.4, maxw = 6.5})}},'''
+position = 'at'
+match_indent = true
+payload = '''
+{n=G.UIT.O, config={object = DynaText({string = {G.GAME.blind.name == "Red Queen" and localize('ph_story_ended') or localize('ph_you_win')}, colours = {G.C.EDITION},shadow = true, float = true, spacing = 10, rotate = true, scale = 1.5, pop_in = 0.4, maxw = 6.5})}},
 '''

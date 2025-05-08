@@ -11,6 +11,35 @@ return {
                 },
             },
         },
+        Sleeve = {
+            sleeve_sgt_saga = {
+                name = "Saga Sleeve",
+                text = {
+                    "{C:attention}+#1#{} Joker slots",
+                    "{C:attention}+#2#{} winning Ante",
+                    "{s:0.8,C:inactive}A true story never ends.",
+                    "{s:0.8,C:inactive}Carve your own path beyond.",
+                },
+            },
+            sleeve_sgt_saga_alt = {
+                name = "Saga Sleeve",
+                text = {
+                    "{C:attention}+#1#{} shop slots",
+                    "{C:attention}+#1#{} booster pack slots",
+                    "{s:0.8,C:inactive}For the future you bond.",
+                    "{s:0.8,C:inactive}Never forget who you are.",
+                },
+            },
+        },
+        Blind = {
+            bl_sgt_red_queen = {
+                name = "Red Queen",
+                text = {
+                    "All cards debuff until Eat Me!",
+                    "used; Very large blind",
+                },
+            },
+        },
         Joker = {
             j_sgt_white_rabbit = {
                 name = "White Rabbit",
@@ -103,7 +132,7 @@ return {
                 text = {
                     "{C:attention}Retrigger{} each played {C:attention}2{} or {C:attention}Ace{}",
                     "{C:attention}#1#{} additional time(s)",
-                    "Retrigger {C:attention}#2#{} more time(s) if played hand",
+                    "Retrigger {C:attention}#2#{} more time(s) if scoring hand",
                     "{C:attention}only{} contains {C:attention}2s{} or {C:attention}Aces{}",
                 },
             },
@@ -321,6 +350,12 @@ return {
             k_shared_ex = "Shared!",
             k_avoided_ex = "Avoided!",
             k_enraged_ex = "Enraged!",
+            k_guilty_ex = "Guilty!",
+            k_to = "to",
+            k_self_destruct = "self-destruct",
+            k_self_destruct_ex = "Self-destruct!",
+            ph_per_face_down = " per face-down",
+            ph_story_ended = "STORY ENDED!",
             SGT_disable_other_jokers = "Story Mode",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression (Requires run restart)"},
         },

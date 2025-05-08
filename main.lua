@@ -1,7 +1,8 @@
 Sagatro = SMODS.current_mod
 Sagatro.load_table = {
     alice_in_wonderland = true,
-	decks = true,
+	decks_n_sleeves = true,
+	blinds = true,
 }
 
 Sagatro.optional_features = {
@@ -9,7 +10,7 @@ Sagatro.optional_features = {
 }
 
 -- Danger zone
-Sagatro.debug = true
+Sagatro.debug = false
 
 -- Global colours
 G.C.SGT_TRIVIAL = HEX("808080")
