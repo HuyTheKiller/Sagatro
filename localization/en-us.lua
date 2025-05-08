@@ -306,7 +306,7 @@ return {
                 },
             },
             j_sgt_shepherd_boy = {
-                name = "Sheperd Boy",
+                name = "Shepherd Boy",
                 text = {
                     "This joker gains {C:mult}+#2#{} Mult",
                     "every hand played",

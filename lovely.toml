@@ -251,3 +251,14 @@ match_indent = true
 payload = '''
 Jimbo = Card_Character({x = 0, y = 5, center = G.GAME.story_mode and G.P_CENTERS.j_sgt_alice or nil})
 '''
+
+# Alice invades Splash screen
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_joker'])"
+position = "after"
+payload = '''
+SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_sgt_alice'],{bypass_discovery_center = true, bypass_discovery_ui = true})
+'''
+match_indent = true
