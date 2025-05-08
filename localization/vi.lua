@@ -305,6 +305,16 @@ return {
                     "{C:dark_edition}Diệu Kì{} thêm {C:attention}X#1#{} lần",
                 },
             },
+            j_sgt_shepherd_boy = {
+                name = "Cậu Bé Chăn Cừu",
+                text = {
+                    "Joker này thêm {C:mult}+#2#{} Nhân",
+                    "mỗi tay bài đã chơi",
+                    "Xác suất {C:green}#3# trên #4#{} để phá huỷ một",
+                    "joker ngẫu nhiên và {C:attention}đặt lại{} nhân",
+                    "{C:inactive}(Hiện tại là {C:mult}+#1#{C:inactive} Nhân)",
+                },
+            },
         },
         Mod = {
             Sagatro = {
@@ -354,6 +364,8 @@ return {
             k_to = "để",
             k_self_destruct = "tự huỷ",
             k_self_destruct_ex = "Tự Huỷ!",
+            k_amused_ex = "Hế Hế!",
+            k_wolf_ex = "Sói!",
             ph_per_face_down = " mỗi lá sấp",
             ph_story_ended = "KẾT TRUYỆN!",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",

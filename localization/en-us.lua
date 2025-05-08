@@ -305,6 +305,16 @@ return {
                     "{C:dark_edition}in the Wonderland{} by {C:attention}X#1#{}",
                 },
             },
+            j_sgt_shepherd_boy = {
+                name = "Sheperd Boy",
+                text = {
+                    "This joker gains {C:mult}+#2#{} Mult",
+                    "every hand played",
+                    "{C:green}#3# in #4#{} chance to destroy",
+                    "a random joker and {C:attention}reset{} mult",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)",
+                },
+            },
         },
         Mod = {
             Sagatro = {
@@ -354,6 +364,8 @@ return {
             k_to = "to",
             k_self_destruct = "self-destruct",
             k_self_destruct_ex = "Self-destruct!",
+            k_amused_ex = "Amused!",
+            k_wolf_ex = "Wolf!",
             ph_per_face_down = " per face-down",
             ph_story_ended = "STORY ENDED!",
             SGT_disable_other_jokers = "Story Mode",

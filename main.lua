@@ -1,6 +1,6 @@
 Sagatro = SMODS.current_mod
 Sagatro.load_table = {
-    alice_in_wonderland = true,
+    jokers = true,
 	decks_n_sleeves = true,
 	blinds = true,
 }

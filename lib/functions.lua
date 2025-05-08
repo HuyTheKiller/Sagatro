@@ -353,6 +353,15 @@ function Blind:disable(...)
     end
 end
 
+--Track if Red Queen is defeated to enable endless-like experience before reaching win Ante
+local dft = Blind.defeat
+function Blind:defeat(s)
+	dft(self, s)
+	if not Cryptid then -- Cryptid already does this
+		G.GAME.defeated_blinds[self.config.blind.key] = true
+	end
+end
+
 function Sagatro.reset_game_globals(run_start)
     for _, v in ipairs(G.jokers.cards) do
         if v.config.center_key == "j_sgt_mouse" then

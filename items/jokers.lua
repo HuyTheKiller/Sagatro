@@ -1,8 +1,10 @@
+-- Alice in Wonderland
 local white_rabbit = {
     key = "white_rabbit",
     name = "White Rabbit",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 1,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 0 },
     config = {extra = {chips = 0, chip_gain = 6}},
@@ -71,6 +73,7 @@ local drink_me = {
     name = "Drink Me!",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 2,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 0 },
     config = {extra = 1, taken = false},
@@ -182,6 +185,7 @@ local eat_me = {
     name = "Eat Me!",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 3,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 2, y = 0 },
     config = {extra = 1},
@@ -310,6 +314,7 @@ local mouse = {
     name = "Mouse",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 4,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 0 },
     config = {extra = {mult = 20, debuff_position = {}}},
@@ -378,6 +383,7 @@ local kid_gloves_and_fan = {
     name = "Kid-gloves And The Fan",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 5,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 0 },
     config = {extra = 1},
@@ -436,6 +442,27 @@ local kid_gloves_and_fan = {
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra*G.GAME.alice_multiplier}}
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "active" },
+                { text = ")" },
+            },
+            text_config = { colour = G.C.UI.TEXT_INACTIVE },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "ranks_per_decrease" },
+                { text = " "..localize("k_rank") },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.active = G.jokers.cards[1] == card
+                and localize("jdis_active") or localize("jdis_inactive")
+                card.joker_display_values.ranks_per_decrease = card.ability.extra*G.GAME.alice_multiplier
+            end,
+        }
+    end,
 }
 
 local dodo_bird = {
@@ -443,6 +470,7 @@ local dodo_bird = {
     name = "Dodo Bird",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 6,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 1 },
     config = {extra = 1.5},
@@ -512,6 +540,7 @@ local unlabeled_bottle = {
     name = "Unlabeled Bottle",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 7,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 1 },
     config = {extra = 2, taken = false},
@@ -654,6 +683,7 @@ local little_bill = {
     name = "Little Bill",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 8,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 2, y = 1 },
     config = {},
@@ -681,6 +711,7 @@ local huge_dog = {
     name = "Huge Puppy",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 9,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 3, y = 1 },
     config = {extra = {times = 1, extra_times = 1}},
@@ -779,6 +810,7 @@ local caterpillar = {
     name = "Caterpillar",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 10,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 1 },
     config = {extra = 20, taken = false},
@@ -886,6 +918,7 @@ local mushroom = {
     name = "Mushroom",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 11,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 1 },
     config = {extra = 10, times = 1, taken = false},
@@ -1060,6 +1093,7 @@ local pigeon = {
     name = "Pigeon",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 12,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 2 },
     config = {extra = 3, egg_boost = 1, triggered = false, extra_value = -10},
@@ -1140,6 +1174,7 @@ local frog_footman = {
     name = "Frog-Footman",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 13,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 2 },
     config = {extra = 2, consumable_slot = 1, alice_mult_buffer = 1, taken = false},
@@ -1244,6 +1279,7 @@ local the_cook = {
     name = "The Cook",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 14,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 2, y = 2 },
     config = {extra = {odds = 4, xmult = 2, card_list = {}}, value_shift_init = {{3, 1.8}, {4, 2}, {5, 2.2}, {6, 2.4}}},
@@ -1297,7 +1333,10 @@ local the_cook = {
         end
     end,
     in_pool = function(self, args)
-        return not G.GAME.story_mode
+        if G.GAME.story_mode then
+            return G.GAME.saga_event.alice_in_wonderland.goodbye_frog and true or false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.xmult*G.GAME.alice_multiplier}}
@@ -1334,6 +1373,7 @@ local cheshire_cat = {
     name = "Cheshire Cat",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 16,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 3, y = 0 },
     config = {extra = {copied_joker = nil, copied_joker_value_id = 0, copied_joker_buffer_key = nil, odds = 3}},
@@ -1521,6 +1561,7 @@ local duchess = {
     name = "Duchess",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 17,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 3, y = 2 },
     config = {triggered = false, extra = {e_mult = 1.5, odds = 3, probability_list = {}}},
@@ -1567,7 +1608,10 @@ local duchess = {
         end
     end,
     in_pool = function(self, args)
-        return not G.GAME.story_mode
+        if G.GAME.story_mode then
+            return G.GAME.saga_event.alice_in_wonderland.goodbye_frog and true or false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.e_mult*G.GAME.alice_multiplier}}
@@ -1604,6 +1648,7 @@ local the_baby = {
     name = "The Baby",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 18,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 4, y = 2 },
     config = {extra = 3},
@@ -1648,7 +1693,10 @@ local the_baby = {
         end
     end,
     in_pool = function(self, args)
-        return not G.GAME.story_mode
+        if G.GAME.story_mode then
+            return G.GAME.saga_event.alice_in_wonderland.goodbye_frog and true or false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.P_CENTERS["j_sgt_duchess"] then
@@ -1695,6 +1743,7 @@ local pepper_caster = {
     name = "Pepper-caster",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 15,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 2 },
     config = {extra = {retriggers = 1, uses = 10}, taken = false},
@@ -1782,6 +1831,7 @@ local mad_hatter = {
     name = "Mad Hatter",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 19,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 3 },
     config = {extra = {ante_loss = 1}, temp_table = {}},
@@ -1841,6 +1891,7 @@ local tea = {
     name = "Tea",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 20,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 3 },
     config = {extra = {chips = 10, uses = 1}, taken = false},
@@ -1926,6 +1977,7 @@ local bread = {
     name = "Bread",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 21,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 2, y = 3 },
     config = {extra = {chips = 20, uses = 1}, taken = false},
@@ -2011,6 +2063,7 @@ local butter = {
     name = "Butter",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 22,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 3, y = 3 },
     config = {extra = {mult = 2, uses = 1}, taken = false},
@@ -2096,6 +2149,7 @@ local march_hare = {
     name = "March Hare",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 23,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 3 },
     config = {extra = {mult = 0, mult_gain = 3}},
@@ -2157,6 +2211,7 @@ local dormouse = {
     name = "Dormouse",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 24,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 3 },
     config = {extra = {mult = 80, odds = 4}},
@@ -2210,6 +2265,7 @@ local red_queen = {
     name = "Red Queen",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 25,
     pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 4 },
     config = {extra = {e_mult = 1.1, odds = 1}},
@@ -2222,11 +2278,12 @@ local red_queen = {
         if context.setting_blind and next(SMODS.find_card("j_sgt_cheshire_cat", true))
         and not context.blueprint and not card.getting_sliced and not context.retrigger_joker then
             for _, v in ipairs(G.jokers.cards) do
-                if v ~= card then
+                if v ~= card and not v.ability.eternal then
                     v.getting_sliced = true
                 end
             end
             G.E_MANAGER:add_event(Event({func = function()
+                card:juice_up(0.8, 0.8)
                 for _, v in ipairs(G.jokers.cards) do
                     if v ~= card and v.getting_sliced then
                         v:start_dissolve({G.C.RED}, nil, 1.6)
@@ -2308,6 +2365,7 @@ local king = {
     name = "The King",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 26,
     pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 4 },
     config = {extra = {mult = 10, relief = 5}},
@@ -2373,6 +2431,7 @@ local flamingo = {
     name = "The Flamingo",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 27,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 2, y = 4 },
     config = {extra = {chips = 50, relief = 5}},
@@ -2438,6 +2497,7 @@ local gryphon = {
     name = "Gryphon",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 28,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 3, y = 4 },
     config = {extra = {e_mult = 1.2}},
@@ -2506,6 +2566,7 @@ local mock_turtle = {
     name = "Mock Turtle",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    order = 29,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 4 },
     config = {extra = {e_mult = 2, e_mult_odds = 6, self_destruct_odds = 12}},
@@ -2610,6 +2671,7 @@ local alice = {
     name = "Alice",
     atlas = "alice",
     saga_group = "alice_in_wonderland",
+    order = 30,
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },
     config = {extra = 3},
@@ -2648,6 +2710,81 @@ local alice = {
     end,
 }
 
+-- The Boy who cried wolf
+local shepherd_boy = {
+    key = "shepherd_boy",
+    name = "Shepherd Boy",
+    atlas = "the_boy_who_cried_wolf",
+    saga_group = "the_boy_who_cried_wolf",
+    order = 31,
+    config = {extra = {mult = 0, mult_gain = 4, odds = 6}},
+    rarity = 1,
+    cost = 4,
+    blueprint_compat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint then
+			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+			return {
+				message = localize("k_amused_ex"),
+				colour = G.C.FILTER,
+				card = card
+			}
+		end
+        if context.joker_main then
+			return {
+				mult_mod = card.ability.extra.mult,
+				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+			}
+		end
+        if context.after and not context.blueprint and not context.retrigger_joker
+        and pseudorandom("real_wolf_incoming") < G.GAME.probabilities.normal/card.ability.extra.odds then
+            G.E_MANAGER:add_event(Event({func = function()
+                card.ability.extra.mult = 0
+                local destructable_jokers = {}
+                for i = 1, #G.jokers.cards do
+                    if G.jokers.cards[i] ~= card and not G.jokers.cards[i].ability.eternal and not G.jokers.cards[i].getting_sliced then destructable_jokers[#destructable_jokers+1] = G.jokers.cards[i] end
+                end
+                local joker_to_destroy = #destructable_jokers > 0 and pseudorandom_element(destructable_jokers, pseudoseed('wolf_attack')) or nil
+
+                if joker_to_destroy and not card.getting_sliced then
+                    joker_to_destroy.getting_sliced = true
+                    G.E_MANAGER:add_event(Event({func = function()
+                        card:juice_up(0.8, 0.8)
+                        joker_to_destroy:start_dissolve({G.C.RED}, nil, 1.6)
+                    return true end }))
+                end
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_wolf_ex'), colour = G.C.RED})
+            return true end }))
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.mult, card.ability.extra.mult_gain, G.GAME.probabilities.normal, card.ability.extra.odds}}
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            extra = {
+                {
+                    { text = "(" },
+                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { text = ")" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                card.joker_display_values.mult = card.ability.extra.mult
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+            end
+        }
+    end,
+}
+
 local joker_table = {
     white_rabbit,
     drink_me,
@@ -2679,6 +2816,7 @@ local joker_table = {
     gryphon,
     mock_turtle,
     alice,
+    shepherd_boy,
 }
 
 for _, v in ipairs(joker_table) do

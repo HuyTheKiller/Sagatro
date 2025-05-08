@@ -21,6 +21,13 @@ SMODS.Atlas{
 }
 
 SMODS.Atlas{
+    key = "the_boy_who_cried_wolf",
+    path = "The_boy_who_cried_wolf.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
     key = "decks",
     path = "Decks.png",
     px = 71,

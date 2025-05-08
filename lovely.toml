@@ -179,7 +179,44 @@ pattern = '''if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get
 position = 'at'
 match_indent = true
 payload = '''
-if (G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss') or G.GAME.blind.name == "Red Queen" then
+if (G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss') or (G.GAME.story_mode and G.GAME.blind.name == "Red Queen") then
+'''
+
+# Make losing after Red Queen but before win Ante a valid endless run
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = '''remove_save()'''
+position = 'after'
+match_indent = true
+payload = '''
+local red_queen_defeated = false
+for k, _ in pairs(G.GAME.defeated_blinds) do
+    if k == "bl_sgt_red_queen" then
+        red_queen_defeated = true
+    end
+end
+'''
+
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = '''if G.GAME.round_resets.ante <= G.GAME.win_ante then'''
+position = 'at'
+match_indent = true
+payload = '''
+if (G.GAME.round_resets.ante <= G.GAME.win_ante) or (G.GAME.story_mode and not red_queen_defeated) then
+'''
+
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = '''if G.GAME.round_resets.ante <= G.GAME.win_ante then --Only add Jimbo to say a quip if the game over happens when the run is lost'''
+position = 'at'
+match_indent = true
+payload = '''
+-- Only add Jimbo (or Alice if in story mode) to say a quip if the game over happens when the run is lost
+if (G.GAME.round_resets.ante <= G.GAME.win_ante) or (G.GAME.story_mode and not red_queen_defeated) then
 '''
 
 # Replace YOU WIN! with STORY ENDED! if Red Queen is defeated
@@ -190,5 +227,27 @@ pattern = '''{n=G.UIT.O, config={object = DynaText({string = {localize('ph_you_w
 position = 'at'
 match_indent = true
 payload = '''
-{n=G.UIT.O, config={object = DynaText({string = {G.GAME.blind.name == "Red Queen" and localize('ph_story_ended') or localize('ph_you_win')}, colours = {G.C.EDITION},shadow = true, float = true, spacing = 10, rotate = true, scale = 1.5, pop_in = 0.4, maxw = 6.5})}},
+{n=G.UIT.O, config={object = DynaText({string = {G.GAME.story_mode and G.GAME.blind.name == "Red Queen" and localize('ph_story_ended') or localize('ph_you_win')}, colours = {G.C.EDITION},shadow = true, float = true, spacing = 10, rotate = true, scale = 1.5, pop_in = 0.4, maxw = 6.5})}},
+'''
+
+
+# Replace Jimbo with Alice if story mode is on
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = '''Jimbo = Card_Character({x = 0, y = 5})'''
+position = 'at'
+match_indent = true
+payload = '''
+Jimbo = Card_Character({x = 0, y = 5, center = G.GAME.story_mode and G.P_CENTERS.j_sgt_alice or nil})
+'''
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''Jimbo = Card_Character({x = 0, y = 5})'''
+position = 'at'
+match_indent = true
+payload = '''
+Jimbo = Card_Character({x = 0, y = 5, center = G.GAME.story_mode and G.P_CENTERS.j_sgt_alice or nil})
 '''
