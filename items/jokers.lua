@@ -222,7 +222,7 @@ local eat_me = {
                 }
             end
             if context.after and not context.blueprint and not context.retrigger_joker then
-                if G.GAME.blind and G.GAME.blind.name == "Red Queen" then
+                if G.GAME.blind and G.GAME.blind.config.blind.key == "bl_sgt_red_queen" then
                     G.E_MANAGER:add_event(Event({func = function()
                         local do_not_cut_score = true
                         G.GAME.blind:disable(do_not_cut_score)
