@@ -2,7 +2,7 @@ local saga_deck = {
     key = "saga",
     atlas = "decks",
     pos = { x = 0, y = 0 },
-    config = {joker_slot = 3, extra = {win_ante_gain = 16}},
+    config = {joker_slot = 3, extra = {win_ante_gain = 8}},
     apply = function(self, back)
 		G.GAME.win_ante = G.GAME.win_ante + self.config.extra.win_ante_gain
 	end,
@@ -44,7 +44,7 @@ if CardSleeves then
                 vars = {self.config.extra.bonus_slots}
 			else
 				key = self.key
-                self.config = {joker_slot = 2, extra = {win_ante_gain = 8}}
+                self.config = {joker_slot = 3, extra = {win_ante_gain = 8}}
                 vars = {self.config.joker_slot, self.config.extra.win_ante_gain}
 			end
 			return { key = key, vars = vars }
