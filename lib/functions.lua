@@ -347,7 +347,7 @@ end
 local disable_ref = Blind.disable
 function Blind:disable(...)
     disable_ref(self)
-    if self.name == "Red Queen" and select(1, ...) then
+    if self.config.blind.key == "bl_sgt_red_queen" and select(1, ...) then
         self.chips = self.chips*3
 		self.chip_text = number_format(self.chips)
     end
