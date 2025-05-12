@@ -89,6 +89,7 @@ function Game:init_game_object()
     ret.relief_factor = 1
     ret.story_mode = true
     ret.fusion_table = SagaFusion.fusions
+    ret.defeated_blinds = {}
 	return ret
 end
 
@@ -378,7 +379,6 @@ local dft = Blind.defeat
 function Blind:defeat(s)
 	dft(self, s)
 	if not Cryptid then -- Cryptid already does this
-        G.GAME.defeated_blinds = G.GAME.defeated_blinds or {}
 		G.GAME.defeated_blinds[self.config.blind.key] = true
 	end
 end
