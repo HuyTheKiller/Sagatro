@@ -13,6 +13,9 @@ SMODS.Booster:take_ownership_by_kind('Buffoon', {
             elseif G.GAME.saga_event.alice_in_wonderland.red_queen and i == 1
             and not next(SMODS.find_card("j_sgt_red_queen", true)) then
                 _card.key = "j_sgt_red_queen"
+            elseif G.GAME.saga_event.alice_in_wonderland.gryphon and i == 1
+            and not next(SMODS.find_card("j_sgt_gryphon", true)) then
+                _card.key = "j_sgt_gryphon"
             end
         end
         return _card
