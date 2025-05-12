@@ -265,7 +265,7 @@ return {
                 },
             },
             j_sgt_king = {
-                name = "Ông Vua",
+                name = "Nhà Vua",
                 text = {
                     "{C:mult}+#1#{} Nhân",
                     "Giảm xác suất của",
@@ -402,16 +402,16 @@ return {
             mad_hatter = {
                 text = {
                     "{s:0.8}Cái bàn tiệc dài bao nhiêu là chỗ mà chỉ có {s:0.8,C:sgt_sagadition}ba{s:0.8} người ngồi nguyên một góc mà",
-                    "{s:0.8}cũng kêu là hết chỗ, với lại cái cách nói chuyện thật khó chịu, mình phải tránh",
-                    "{s:0.8}xa chỗ này mới được. Phía trước là một sảnh dài và có 1 cánh cửa cao khoảng 30 cm.",
-                    "{s:0.8}Nhấm nháp một chút {s:0.8,C:sgt_sagadition}nấm{s:0.8} còn giữ trong túi. Tôi men theo con đường sau cánh cửa...",
+                    "{s:0.8}cũng kêu là hết chỗ, với lại cái cách nói chuyện thật khó chịu, mình phải tránh xa",
+                    "{s:0.8}chỗ này mới được. Phía trước là một sảnh dài và có 1 cánh cửa cao khoảng 30 cm.",
+                    "{s:0.8}Nhấm nháp một chút {s:0.8,C:sgt_sagadition}Nấm{s:0.8} còn giữ trong túi. Tôi men theo con đường sau cánh cửa...",
                 },
             },
             red_queen = {
                 text = {
                     "{s:0.8}\"Chặt đầu hắn cho ta!\" - Một nữ hoàng bạo chúa, có vẻ nếu mình không ngoan ngoãn nghe lời",
-                    "{s:0.8}là sẽ rụng đầu mất. Bà ta chơi croquet với con {s:0.8,C:sgt_sagadition}hồng hạc{s:0.8} thay vì dùng mallet, nhưng có vẻ",
-                    "{s:0.8}chúng hợp tác khiến bà vui. {s:0.8,C:sgt_sagadition}Nhà vua{s:0.8} luôn bên cạnh, tâng bốc và xoa dịu cơn giận của bà,",
+                    "{s:0.8}là sẽ rụng đầu mất. Bà ta chơi croquet với con {s:0.8,C:sgt_sagadition}Hồng Hạc{s:0.8} thay vì dùng mallet, nhưng có vẻ",
+                    "{s:0.8}chúng hợp tác khiến bà vui. {s:0.8,C:sgt_sagadition}Nhà Vua{s:0.8} luôn bên cạnh, tâng bốc và xoa dịu cơn giận của bà,",
                     "{s:0.8}ngăn cản lệnh giết người vô lý. Hiện tại mình có vẻ làm sai gì đó khiến bà ta tức giận nhưng",
                     "{s:0.8}nếu chơi cùng bà và được nhà vua nói đỡ thì sao nhỉ? Này! {s:0.8,C:sgt_sagadition}Mèo Cheshire{s:0.8}, đừng quấy rối bà ta!!",
                 },

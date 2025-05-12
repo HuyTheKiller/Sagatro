@@ -409,15 +409,15 @@ return {
                     "{s:0.8}A banquet table is long enough for just {s:0.8,C:sgt_sagadition}three{s:0.8} people to sit in one corner",
                     "{s:0.8}and still claim that there's no space. Also, the way they talk is really",
                     "{s:0.8}annoying; I need to avoid this place. In front is a long hall with a door",
-                    "{s:0.8}about one foot high. I nibble on a bit of {s:0.8,C:sgt_sagadition}mushroom{s:0.8} still kept in my pocket.",
+                    "{s:0.8}about one foot high. I nibble on a bit of {s:0.8,C:sgt_sagadition}Mushroom{s:0.8} still kept in my pocket.",
                     "{s:0.8}I follow the path behind the door...",
                 },
             },
             red_queen = {
                 text = {
                     "{s:0.8}\"Off with his head!\" - A tyrant queen, it seems that if I don't behave and obey,",
-                    "{s:0.8}I'll lose my head. She plays croquet with a {s:0.8,C:sgt_sagadition}flamingo{s:0.8} instead of using a mallet,",
-                    "{s:0.8}but they seem to cooperate to make her happy. The {s:0.8,C:sgt_sagadition}king{s:0.8} is always by her side,",
+                    "{s:0.8}I'll lose my head. She plays croquet with a {s:0.8,C:sgt_sagadition}Flamingo{s:0.8} instead of using a mallet,",
+                    "{s:0.8}but they seem to cooperate to make her happy. {s:0.8,C:sgt_sagadition}The King{s:0.8} is always by her side,",
                     "{s:0.8}flattering her and soothing her anger, preventing her absurd death order. Right now,",
                     "{s:0.8}it seems I've done something wrong that upset her, but what if I join her in the game",
                     "{s:0.8}and have the king intervene on my behalf? Hey! {s:0.8,C:sgt_sagadition}Cheshire Cat{s:0.8}, stop bothering her!!",
