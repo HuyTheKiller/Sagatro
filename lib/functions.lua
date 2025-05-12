@@ -189,7 +189,7 @@ function Game:update(dt)
             end
         end
     end
-    if cause_crash then manual_crash() end
+    if cause_crash then assert(false, "A manual crash is called. Don't be grumpy, you did this on purpose.") end
 end
 
 -- Allow using custom joker pools if prompted
