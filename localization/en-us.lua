@@ -292,7 +292,7 @@ return {
                 name = "Mock Turtle",
                 text = {
                     "{C:green}#1# in #2#{} chance for {X:dark_edition,C:white}^#3#{} Mult",
-                    "{C:green}#1# in #4#{} chance to {C:red}self-destructs{}",
+                    "{C:green}#1# in #4#{} chance to {C:red}self-destruct{}",
                     "after every hand played, reduce by {C:attention}1{}",
                     "every {X:dark_edition,C:white}^Mult{} trigger",
                 },
@@ -313,6 +313,122 @@ return {
                     "{C:green}#3# in #4#{} chance to destroy",
                     "a random joker and {C:attention}reset{} mult",
                     "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)",
+                },
+            },
+        },
+        ["Saga Tooltip"] = {
+            fusion_hint = {
+                text = {
+                    "This card has fusion mechanic.",
+                    "Find the other half and save enough",
+                    "money to fuse them together.",
+                },
+            },
+            white_rabbit = {
+                text = {
+                    "{s:0.8}Chasing the white rabbit in a hurry,",
+                    "{s:0.8}jumping into the seemingly endless",
+                    "{s:0.8}rabbit hole. Ahead is a dead-end with",
+                    "{s:0.8}a locked door, and the {s:0.8,C:sgt_sagadition}key{s:0.8} is on the",
+                    "{s:0.8}table, but it's too high to reach.",
+                },
+            },
+            kid_gloves_and_fan = {
+                text = {
+                    "{s:0.8}It's really hot here, I've been waving the fan",
+                    "{s:0.8}for a while, and I just put on those tiny gloves.",
+                    "{s:0.8}The tears from earlier turned into a flood, and",
+                    "{s:0.8}I got swept away. I need {s:0.8,C:sgt_sagadition}someone{s:0.8} to help me.",
+                },
+            },
+            dodo_bird = {
+                text = {
+                    "{s:0.8}Those creatures are ridiculous. Oh, is that the",
+                    "{s:0.8}White Rabbit? It seems like he's mistaking me for",
+                    "{s:0.8}Mary Ann, his servant, and he's ordering me to",
+                    "{s:0.8}go home and fetch the gloves and fan he dropped",
+                    "{s:0.8}earlier. I guess we need to go to his {s:0.8,C:sgt_sagadition}\"House\"{s:0.8}.",
+                },
+            },
+            unlabeled_bottle = {
+                text = {
+                    "{s:0.8}In this world, drinking something makes you shrink, and eating",
+                    "{s:0.8}something makes you grow. If {s:0.8,C:sgt_sagadition}drinking this water{s:0.8} makes me bigger,",
+                    "{s:0.8}then eating something should make me smaller. I need to shrink",
+                    "{s:0.8}quickly because it's really uncomfortable. It seems like",
+                    "{s:0.8}the White Rabbit is calling someone to pull me outside.",
+                },
+            },
+            little_bill = {
+                text = {
+                    "{s:0.8}It hurts so much, it seems like the lizard was",
+                    "{s:0.8}going to bury me with stones, but when the stones",
+                    "{s:0.8}fell onto the floor, they turned into {s:0.8,C:sgt_sagadition}cakes{s:0.8}.",
+                },
+            },
+            huge_dog = {
+                text = {
+                    "{s:0.8}Wow, a giant puppy! Oh no, actually it's because I'm only about",
+                    "{s:0.8}3 inches tall. It seemed happy to see me, so I decided to steer",
+                    "{s:0.8}clear before something happens. Until the puppy's figure {s:0.8,C:sgt_sagadition}\"FADED\"{s:0.8},",
+                    "{s:0.8}it seemed like someone was humming right in front of me.",
+                },
+            },
+            caterpillar = {
+                text = {
+                    "{s:0.8}\"W-who... are you?\" It was rude for asking without introducing",
+                    "{s:0.8}himself first. Although I felt guilty for mentioning that I'm only",
+                    "{s:0.8}3 inches tall in front of him, he called me over to say something.",
+                    "{s:0.8}Well, I'll just listen to him to the {s:0.8,C:sgt_sagadition}END{s:0.8}.",
+                },
+            },
+            mushroom = {
+                text = {
+                    "{s:0.8}This thing is really useful, I should probably save it",
+                    "{s:0.8}for later. AAAH, I {s:0.8,C:sgt_sagadition}bit off{s:0.8} too big a piece, now my head is",
+                    "{s:0.8}as long as a snake's. Wait, there's something on my head.",
+                },
+            },
+            frog_footman = {
+                text = {
+                    "{s:0.8}\"The way all the creatures argue, it's enough to drive one",
+                    "{s:0.8}crazy!\" I said angrily, but inside the {s:0.8,C:sgt_sagadition}house{s:0.8} seemed to be noisy",
+                    "{s:0.8}and chaotic, and he seemed unwilling to enter because of that.",
+                    "{s:0.8}Welp, I could just ignore him and enter it myself.",
+                },
+            },
+            cheshire_cat = {
+                text = {
+                    "{s:0.8}\"We're all mad here. I'm mad. You're mad.\"",
+                    "{s:0.8}I'm not mad, but stop that {s:0.8,C:sgt_sagadition}disappearing{s:0.8} and",
+                    "{s:0.8}reappearing act, it's making my head spin.",
+                },
+            },
+            mad_hatter = {
+                text = {
+                    "{s:0.8}A banquet table is long enough for just {s:0.8,C:sgt_sagadition}three{s:0.8} people to sit in one corner",
+                    "{s:0.8}and still claim that there's no space. Also, the way they talk is really",
+                    "{s:0.8}annoying; I need to avoid this place. In front is a long hall with a door",
+                    "{s:0.8}about one foot high. I nibble on a bit of {s:0.8,C:sgt_sagadition}mushroom{s:0.8} still kept in my pocket.",
+                    "{s:0.8}I follow the path behind the door...",
+                },
+            },
+            red_queen = {
+                text = {
+                    "{s:0.8}\"Off with his head!\" - A tyrant queen, it seems that if I don't behave and obey,",
+                    "{s:0.8}I'll lose my head. She plays croquet with a {s:0.8,C:sgt_sagadition}flamingo{s:0.8} instead of using a mallet,",
+                    "{s:0.8}but they seem to cooperate to make her happy. The {s:0.8,C:sgt_sagadition}king{s:0.8} is always by her side,",
+                    "{s:0.8}flattering her and soothing her anger, preventing her absurd death order. Right now,",
+                    "{s:0.8}it seems I've done something wrong that upset her, but what if I join her in the game",
+                    "{s:0.8}and have the king intervene on my behalf? Hey! {s:0.8,C:sgt_sagadition}Cheshire Cat{s:0.8}, stop bothering her!!",
+                },
+            },
+            gryphon = {
+                text = {
+                    "{s:0.8}\"That tyrant queen is just deluding herself, she can't really kill anyone.",
+                    "{s:0.8}She must have granted you amnesty and wants you to meet me to hear the song",
+                    "{s:0.8}of the {s:0.8,C:sgt_sagadition}Mock Turtle{s:0.8} Soup. Get on my back and I'll take you to him.\"",
+                    "{s:0.8}That's what the lion-headed bird said to me.",
                 },
             },
         },
@@ -342,6 +458,8 @@ return {
             k_sgt_trivial = "Trivial",
             k_sgt_obscure = "Obscure",
             k_sgt_esoteric = "Esoteric",
+            saga_tooltip = "Hint to progress",
+            saga_fusion_tooltip = "Joker fusion",
             b_join = "JOIN",
             k_in_a_hurry_ex = "In a hurry!",
             k_too_late_ex = "Too late!",
@@ -366,7 +484,9 @@ return {
             k_self_destruct_ex = "Self-destruct!",
             k_amused_ex = "Amused!",
             k_wolf_ex = "Wolf!",
+            k_amnestied_ex = "Amnestied!",
             ph_per_face_down = " per face-down",
+            ph_trial_begins = "Trial Begins!",
             ph_story_ended = "STORY ENDED!",
             SGT_disable_other_jokers = "Story Mode",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression (Requires run restart)"},

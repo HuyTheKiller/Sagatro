@@ -316,6 +316,115 @@ return {
                 },
             },
         },
+        ["Saga Tooltip"] = {
+            fusion_hint = {
+                text = {
+                    "Lá bài này có cơ chế kết hợp.",
+                    "Hãy tìm lá đồng hành và kiếm",
+                    "đủ tiền để sử dụng cơ chế này.",
+                },
+            },
+            white_rabbit = {
+                text = {
+                    "{s:0.8}Chạy theo chú thỏ trắng vội vã, nhảy vào",
+                    "{s:0.8}chiếc hố thỏ không đáy. Phía trước là ngõ cụt",
+                    "{s:0.8}với một cánh cửa khóa, chiếc {s:0.8,C:sgt_sagadition}chìa khóa",
+                    "{s:0.8}trên bàn nhưng quá cao để với tới.",
+                },
+            },
+            kid_gloves_and_fan = {
+                text = {
+                    "{s:0.8}Chỗ này nóng thật, quạt một lúc mà tôi đút vừa được",
+                    "{s:0.8}cái đôi găng tay nhỏ xíu đó, dòng nước mắt hồi nãy",
+                    "{s:0.8}thành lũ khiến tôi bị cuốn trôi, cần {s:0.8,C:sgt_sagadition}ai đó{s:0.8} để giúp đỡ.",
+                },
+            },
+            dodo_bird = {
+                text = {
+                    "{s:0.8}Những con vật đó thật vô lý. À, kia có phải là Thỏ Trắng",
+                    "{s:0.8}không? Có vẻ như nó nhầm mình với Mary Ann, người hầu",
+                    "{s:0.8}của nó, và ra lệnh mình về nhà lấy găng tay và quạt",
+                    "{s:0.8}đã làm rơi trước đó. Chắc chúng ta cần đến {s:0.8,C:sgt_sagadition}\"Nhà\"{s:0.8} của nó.",
+                },
+            },
+            unlabeled_bottle = {
+                text = {
+                    "{s:0.8}Trong thế giới này, uống thứ gì đó thì bị nhỏ lại, ăn thứ gì đó thì",
+                    "{s:0.8}phóng to. Nếu {s:0.8,C:sgt_sagadition}uống nước này{s:0.8} khiến mình to lên, chắc ăn thứ gì đó",
+                    "{s:0.8}sẽ làm mình nhỏ lại. Phải nhanh chóng nhỏ lại vì thật khó chịu.",
+                    "{s:0.8}Hình như Thỏ Trắng đang gọi ai đó để kéo mình ra ngoài.",
+                },
+            },
+            little_bill = {
+                text = {
+                    "{s:0.8}Đau quá, có vẻ như con thằn lằn định chôn mình",
+                    "{s:0.8}bằng sỏi đá, nhưng khi đá sỏi rơi xuống sàn,",
+                    "{s:0.8}nó lại biến thành {s:0.8,C:sgt_sagadition}những chiếc bánh{s:0.8}.",
+                },
+            },
+            huge_dog = {
+                text = {
+                    "{s:0.8}Quào, một con cún khổng lồ! À không, thực ra là vì mình chỉ cao",
+                    "{s:0.8}có gần 8 cm. Nó có vẻ vui khi thấy mình, nên mình quyết định",
+                    "{s:0.8}tránh xa trước khi có mệnh hệ gì. Cho đến khi con cún {s:0.8,C:sgt_sagadition}\"KHUẤT\"",
+                    "{s:0.8}bóng, có vẻ như ai đó đang ngân nga trước mặt mình thì phải.",
+                },
+            },
+            caterpillar = {
+                text = {
+                    "{s:0.8}\"C-cô... là ai?\" Thật thô lỗ khi cứ hỏi mà không tự giới thiệu. Mặc dù",
+                    "{s:0.8}tôi thấy áy náy khi bảo mình chỉ cao 8 cm trước mặt ông ta, nhưng",
+                    "{s:0.8}ông ấy gọi tôi lại để nói gì đó. Thôi thì cứ nghe ổng nói {s:0.8,C:sgt_sagadition}HẾT{s:0.8} vậy.",
+                },
+            },
+            mushroom = {
+                text = {
+                    "{s:0.8}Thứ này thật hữu ích, chắc mình sẽ cần phải để dành về sau.",
+                    "{s:0.8}AAAH, {s:0.8,C:sgt_sagadition}nỡ cắn{s:0.8} miếng lớn quá, giờ đầu mình dài như con rắn vậy.",
+                    "{s:0.8}Ủa, trên đầu mình có gì đó thì phải.",
+                },
+            },
+            frog_footman = {
+                text = {
+                    "{s:0.8}\"Thật ngán ngẩm kinh khủng. Cái kiểu lập luận của các con vật đủ",
+                    "{s:0.8}khiến người ta phát điên!\" Bực tức mà nói, nhưng bên trong {s:0.8,C:sgt_sagadition}nhà",
+                    "{s:0.8}có vẻ ồn ào lộn xộn, hắn ta có vẻ không muốn vào vì lý do đó.",
+                    "{s:0.8}Ờm, tôi cứ lờ hắn đi mà tự đi vào vậy.",
+                },
+            },
+            cheshire_cat = {
+                text = {
+                    "{s:0.8}\"Ở đây tất cả chúng ta đều điên mà. Tôi điên. Cô cũng điên.\"",
+                    "{s:0.8}Tôi đâu có điên đâu, mà thôi ngay cái kiểu {s:0.8,C:sgt_sagadition}thoắt ẩn",
+                    "{s:0.8}thoắt hiện đấy đi, nhìn chóng cả mặt.",
+                },
+            },
+            mad_hatter = {
+                text = {
+                    "{s:0.8}Cái bàn tiệc dài bao nhiêu là chỗ mà chỉ có {s:0.8,C:sgt_sagadition}ba{s:0.8} người ngồi nguyên một góc mà",
+                    "{s:0.8}cũng kêu là hết chỗ, với lại cái cách nói chuyện thật khó chịu, mình phải tránh",
+                    "{s:0.8}xa chỗ này mới được. Phía trước là một sảnh dài và có 1 cánh cửa cao khoảng 30 cm.",
+                    "{s:0.8}Nhấm nháp một chút {s:0.8,C:sgt_sagadition}nấm{s:0.8} còn giữ trong túi. Tôi men theo con đường sau cánh cửa...",
+                },
+            },
+            red_queen = {
+                text = {
+                    "{s:0.8}\"Chặt đầu hắn cho ta!\" - Một nữ hoàng bạo chúa, có vẻ nếu mình không ngoan ngoãn nghe lời",
+                    "{s:0.8}là sẽ rụng đầu mất. Bà ta chơi croquet với con {s:0.8,C:sgt_sagadition}hồng hạc{s:0.8} thay vì dùng mallet, nhưng có vẻ",
+                    "{s:0.8}chúng hợp tác khiến bà vui. {s:0.8,C:sgt_sagadition}Nhà vua{s:0.8} luôn bên cạnh, tâng bốc và xoa dịu cơn giận của bà,",
+                    "{s:0.8}ngăn cản lệnh giết người vô lý. Hiện tại mình có vẻ làm sai gì đó khiến bà ta tức giận nhưng",
+                    "{s:0.8}nếu chơi cùng bà và được nhà vua nói đỡ thì sao nhỉ? Này! {s:0.8,C:sgt_sagadition}Mèo Cheshire{s:0.8}, đừng quấy rối bà ta!!",
+                },
+            },
+            gryphon = {
+                text = {
+                    "{s:0.8}\"Bà bạo chúa đó chỉ là đang ảo tưởng thôi, chứ có giết được",
+                    "{s:0.8}ai đâu. Hẳn là bà ta đã ân xá cho cô và mong muốn cô gặp tôi",
+                    "{s:0.8}để nghe bài ca của Súp {s:0.8,C:sgt_sagadition}Giả Rùa{s:0.8}. Lên lưng tôi đi, tôi chở cô",
+                    "{s:0.8}đến hắn.\" Thứ mình sư tử đầu chim đó nói với tui như thế.",
+                },
+            },
+        },
         Mod = {
             Sagatro = {
                 name = "Sagatro",
@@ -342,6 +451,8 @@ return {
             k_sgt_trivial = "Tầm Thường",
             k_sgt_obscure = "Mờ Mịt",
             k_sgt_esoteric = "Bí Truyền",
+            saga_tooltip = "Gợi ý tiến triển",
+            saga_fusion_tooltip = "Kết hợp joker",
             b_join = "NHẬP",
             k_in_a_hurry_ex = "Tranh thủ lên!",
             k_too_late_ex = "Trễ rồi!",
@@ -366,7 +477,9 @@ return {
             k_self_destruct_ex = "Tự Huỷ!",
             k_amused_ex = "Hế Hế!",
             k_wolf_ex = "Sói!",
+            k_amnestied_ex = "Ân Xá!",
             ph_per_face_down = " mỗi lá sấp",
+            ph_trial_begins = "Khai Toà!",
             ph_story_ended = "KẾT TRUYỆN!",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính (Yêu cầu tạo trận mới)"},

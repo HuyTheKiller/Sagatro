@@ -87,7 +87,8 @@ function Game:init_game_object()
     }
     ret.alice_multiplier = 1
     ret.relief_factor = 1
-    ret.story_mode = true
+    ret.saga_event_forced_buffoon = false
+    ret.story_mode = Sagatro.config.DisableOtherJokers
     ret.fusion_table = SagaFusion.fusions
     ret.defeated_blinds = {}
 	return ret
@@ -383,6 +384,52 @@ function Blind:defeat(s)
 	end
 end
 
+-- Custom tooltip as hints for story mode advancement (modified from Ortalab)
+function saga_hint_tooltip(_c, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+    localize{type = 'descriptions', set = 'Saga Tooltip', key = _c.key, nodes = desc_nodes, vars = specific_vars or _c.vars}
+    desc_nodes['colour'] = Sagatro.badge_colour
+    desc_nodes.saga_tooltip = true
+    desc_nodes.title = _c.title or localize('saga_tooltip')
+end
+
+local itfr = info_tip_from_rows
+function info_tip_from_rows(desc_nodes, name)
+    if desc_nodes.saga_tooltip then
+        local t = {}
+        for _, v in ipairs(desc_nodes) do
+        t[#t+1] = {n=G.UIT.R, config={align = "cm"}, nodes=v}
+        end
+        return {n=G.UIT.R, config={align = "cm", colour = darken(desc_nodes.colour, 0.15), r = 0.1}, nodes={
+            {n=G.UIT.R, config={align = "tm", minh = 0.36, padding = 0.03}, nodes={{n=G.UIT.T, config={text = desc_nodes.title, scale = 0.32, colour = G.C.UI.TEXT_LIGHT}}}},
+            {n=G.UIT.R, config={align = "cm", minw = 1.5, minh = 0.4, r = 0.1, padding = 0.05, colour = lighten(desc_nodes.colour, 0.5)}, nodes={{n=G.UIT.R, config={align = "cm", padding = 0.03}, nodes=t}}}
+        }}
+    else
+        return itfr(desc_nodes, name)
+    end
+end
+
+-- Force the first pack in shop to be buffoon in certain events
+local gp = get_pack
+function get_pack(_key, _type)
+    if G.GAME.story_mode and not G.GAME.saga_event_forced_buffoon
+    and ((G.GAME.saga_event.alice_in_wonderland.white_rabbit_house
+    and not G.GAME.saga_event_check.alice_in_wonderland.white_rabbit_house)
+    or (G.GAME.saga_event.alice_in_wonderland.goodbye_frog
+    and not G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog)
+    or (G.GAME.saga_event.alice_in_wonderland.the_party
+    and not G.GAME.saga_event_check.alice_in_wonderland.the_party)
+    or (G.GAME.saga_event.alice_in_wonderland.red_queen
+    and not G.GAME.saga_event_check.alice_in_wonderland.red_queen)
+    or (G.GAME.saga_event.alice_in_wonderland.gryphon
+    and not G.GAME.saga_event_check.alice_in_wonderland.gryphon)) then
+        G.GAME.saga_event_forced_buffoon = true
+        local buffoon_pool = {"p_buffoon_normal_1", "p_buffoon_normal_2", "p_buffoon_jumbo_1", "p_buffoon_mega_1"}
+        local chosen_buffoon = pseudorandom_element(buffoon_pool, pseudoseed("saga_event_forced_buffoon"))
+        return G.P_CENTERS[chosen_buffoon]
+    end
+    return gp(_key, _type)
+end
+
 -- Reset debuff positions of all Mouses outside their own code (because they can't do that if debuffed)
 -- Also replenish first-slot buffoon pack if said events are yet to progress
 function Sagatro.reset_game_globals(run_start)
@@ -392,6 +439,19 @@ function Sagatro.reset_game_globals(run_start)
                 table.remove(v.ability.extra.debuff_position, i)
             end
         end
+    end
+    if G.GAME.story_mode and G.GAME.saga_event_forced_buffoon
+    and ((G.GAME.saga_event.alice_in_wonderland.white_rabbit_house
+    and not G.GAME.saga_event_check.alice_in_wonderland.white_rabbit_house)
+    or (G.GAME.saga_event.alice_in_wonderland.goodbye_frog
+    and not G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog)
+    or (G.GAME.saga_event.alice_in_wonderland.the_party
+    and not G.GAME.saga_event_check.alice_in_wonderland.the_party)
+    or (G.GAME.saga_event.alice_in_wonderland.red_queen
+    and not G.GAME.saga_event_check.alice_in_wonderland.red_queen)
+    or (G.GAME.saga_event.alice_in_wonderland.gryphon
+    and not G.GAME.saga_event_check.alice_in_wonderland.gryphon)) then
+        G.GAME.saga_event_forced_buffoon = false
     end
 end
 
