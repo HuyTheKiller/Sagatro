@@ -519,18 +519,20 @@ end
 function sgt_help()
     if Sagatro.debug then
         print("Sagatro debug commands:")
-        print("sgt_help(): show this help screen.")
+        print("sgt_help() or help(): show this help screen.")
         print("sgt_print_rarity(): print out modifications of each rarity pool.")
         print("sgt_change_joker(index, x, ...): change the numerical values inside 'ability.extra' table (or ability.extra itself if it's a number) of the joker at 'index' slot to 'x' and the following arguments (if applicable).")
         print("sgt_event_list(): list all stories with their corresponding events.")
         print("sgt_story_mode(): check if a run has story mode enabled.")
         print("sgt_final_hand(): set hand count to 1.")
         print("sgt_no_discard(): set discard count to 0.")
-        print("sgt_crash(): manually cause a crash.")
+        print("sgt_crash() or crash(): manually cause a crash.")
         return "Remember to always prepend 'eval' because that's how DebugPlus executes lua code directly."
     end
     return "Debug commands are unavailable."
 end
+
+help = help or sgt_help
 
 function sgt_print_rarity()
     if Sagatro.debug then
@@ -625,6 +627,4 @@ function sgt_crash()
     return "Are you sure you want to do this? Thankfully Sagatro debug mode is off. Turn it on before executing this command."
 end
 
-function manual_crash()
-    assert(false, "A manual crash is called.")
-end
+crash = crash or sgt_crash
