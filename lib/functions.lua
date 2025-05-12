@@ -1,3 +1,15 @@
+-- Global colours
+G.C.SGT_TRIVIAL = HEX("808080")
+G.C.SGT_OBSCURE = HEX("8627D4")
+G.C.SGT_ESOTERIC = HEX("131868")
+SMODS.Gradient{
+    key = "sagadition",
+    colours = {Sagatro.badge_colour, G.C.RARITY[4]},
+    cycle = 2,
+} -- Skull, not putting inside assets.lua for preventive measures
+G.C.SGT_SAGADITION = SMODS.Gradients["sgt_sagadition"]
+
+-- Add them to loc_colour for text formatting
 local lc = loc_colour
 function loc_colour(_c, _default)
     if not G.ARGS.LOC_COLOURS then
