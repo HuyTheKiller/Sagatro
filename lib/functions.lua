@@ -23,6 +23,7 @@ function loc_colour(_c, _default)
     return lc(_c, _default)
 end
 
+-- Talisman compat
 to_big = to_big or function(x)
     return x
 end
@@ -148,6 +149,7 @@ Game.main_menu = function(change_context)
     return ret
 end
 
+-- Mouse's conditional debuff mechanic
 local cardarea_update_ref = CardArea.update
 function CardArea:update(dt)
 	cardarea_update_ref(self, dt)
@@ -164,6 +166,7 @@ function CardArea:update(dt)
     end
 end
 
+-- Pseudo-animation for Alice; manual crash injection
 cause_crash = false
 alice_dt = 0
 local upd = Game.update
@@ -188,6 +191,7 @@ function Game:update(dt)
     if cause_crash then manual_crash() end
 end
 
+-- Allow using custom joker pools if prompted
 local gcp = get_current_pool
 function get_current_pool(_type, _rarity, _legendary, _append)
     G.ARGS.TEMP_POOL = EMPTY(G.ARGS.TEMP_POOL)
@@ -229,8 +233,10 @@ function get_current_pool(_type, _rarity, _legendary, _append)
     return gcp(_type, _rarity, _legendary, _append)
 end
 
+-- Sticker-compat for custom joker pools
 local cc = create_card
 function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
+    -- Forcing joker pools also happens here
     if G.GAME.saga_event.alice_in_wonderland.final_showdown and G.GAME.story_mode and _type == "Joker" then
         _type = "Final Showdown"
         if pseudorandom("alice_in_final_showdown") > 0.997 and not next(SMODS.find_card("j_sgt_alice", true)) then
@@ -327,6 +333,7 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
     return card
 end
 
+-- If you own Red Queen in story mode, triggering Final Showdown event "turns" her into Showdown Blind
 local gnb = get_new_boss
 function get_new_boss()
     if G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.final_showdown then
@@ -356,6 +363,7 @@ function get_new_boss()
     return ret
 end
 
+-- Disabling Red Queen via using Eat Me! won't cut the score down to 2X base
 local disable_ref = Blind.disable
 function Blind:disable(...)
     disable_ref(self)
@@ -365,7 +373,7 @@ function Blind:disable(...)
     end
 end
 
---Track if Red Queen is defeated to enable endless-like experience before reaching win Ante
+-- Track if Red Queen is defeated to enable endless-like experience before reaching win Ante
 local dft = Blind.defeat
 function Blind:defeat(s)
 	dft(self, s)
@@ -375,6 +383,8 @@ function Blind:defeat(s)
 	end
 end
 
+-- Reset debuff positions of all Mouses outside their own code (because they can't do that if debuffed)
+-- Also replenish first-slot buffoon pack if said events are yet to progress
 function Sagatro.reset_game_globals(run_start)
     for _, v in ipairs(G.jokers.cards) do
         if v.config.center_key == "j_sgt_mouse" then
@@ -424,6 +434,7 @@ function table.contains(t, x)
     return found
 end
 
+-- Honestly, no idea what there really are for (from Cryptid's Tarot called Blessing)
 function sgt_center_no(center, m, key, no_no)
 	if no_no then
 		return center[m] or (G.GAME and G.GAME[m] and G.GAME[m][key]) or false
@@ -460,6 +471,7 @@ function sgt_get_random_consumable(seed, excluded_flags, banned_card, pool, no_u
 	end
 end
 
+-- Implement exponential Mult without Talisman dependency (some other mods also do this)
 if not (SMODS.Mods["Talisman"] or {}).can_load
 and not (SMODS.Mods["Buffoonery"] or {}).can_load
 and not (SMODS.Mods["Prism"] or {}).can_load then
