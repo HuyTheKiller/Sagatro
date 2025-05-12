@@ -336,7 +336,7 @@ end
 -- If you own Red Queen in story mode, triggering Final Showdown event "turns" her into Showdown Blind
 local gnb = get_new_boss
 function get_new_boss()
-    if G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.final_showdown then
+    if G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.final_showdown and not next(SMODS.find_card("j_sgt_mad_hatter")) and not G.GAME.won then
         for _, v in ipairs(G.jokers.cards) do
             if v.config.center_key == "j_sgt_red_queen" then
                 G.E_MANAGER:add_event(Event({
