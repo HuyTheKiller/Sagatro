@@ -1389,7 +1389,7 @@ local the_cook = {
             }
             end
         end
-        if context.end_of_round and not context.repetition and not context.blueprint and not context.retrigger_joker then
+        if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and not context.retrigger_joker then
             -- My attempt to make The Cook unique from a Bunco's joker called Vandalism
             local value_shift_list = {}
             for _, v in ipairs(card.ability.value_shift_init) do
