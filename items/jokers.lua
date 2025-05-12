@@ -1428,12 +1428,13 @@ local the_cook = {
                 {
                     border_nodes = {
                         { text = "X" },
-                        { ref_table = "card.ability.extra", ref_value = "xmult" }
+                        { ref_table = "card.joker_display_values", ref_value = "xmult" }
                     }
                 },
                 { ref_table = "card.joker_display_values", ref_value = "localized_text" }
             },
             calc_function = function(card)
+                card.joker_display_values.xmult = card.ability.extra.xmult*G.GAME.alice_multiplier
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
                 card.joker_display_values.localized_text = localize("ph_per_face_down")
             end,
