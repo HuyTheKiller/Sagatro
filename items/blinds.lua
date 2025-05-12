@@ -21,8 +21,13 @@ local red_queen = {
 		G.GAME.blind.chips = G.GAME.blind.chips/3
 		G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
 	end,
+    defeat = function(self, silent)
+        if G.GAME.story_mode then
+            G.GAME.saga_event_check.alice_in_wonderland.final_showdown = true
+		end
+    end,
     in_pool = function(self)
-        return not G.GAME.story_mode
+        return not (G.GAME.story_mode or next(SMODS.find_card("j_sgt_red_queen", true)))
     end,
 }
 
