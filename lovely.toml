@@ -179,7 +179,8 @@ pattern = '''if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get
 position = 'at'
 match_indent = true
 payload = '''
-if (G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss') or (G.GAME.story_mode and G.GAME.blind.name == "Red Queen") then
+if (not G.GAME.story_mode and G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss')
+or (G.GAME.story_mode and G.GAME.blind.config.blind.key == "bl_sgt_red_queen") then
 '''
 
 # Make losing after Red Queen but before win Ante a valid endless run
@@ -194,6 +195,7 @@ local red_queen_defeated = false
 for k, _ in pairs(G.GAME.defeated_blinds) do
     if k == "bl_sgt_red_queen" then
         red_queen_defeated = true
+        break
     end
 end
 '''
@@ -205,7 +207,27 @@ pattern = '''if G.GAME.round_resets.ante <= G.GAME.win_ante then'''
 position = 'at'
 match_indent = true
 payload = '''
-if (G.GAME.round_resets.ante <= G.GAME.win_ante) or (G.GAME.story_mode and not red_queen_defeated) then
+if (not G.GAME.story_mode and G.GAME.round_resets.ante <= G.GAME.win_ante)
+or (G.GAME.story_mode and not red_queen_defeated) then
+'''
+
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''local eased_red = copy_table(G.GAME.round_resets.ante <= G.GAME.win_ante and G.C.RED or G.C.BLUE)'''
+position = 'at'
+match_indent = true
+payload = '''
+local red_queen_defeated = false
+for k, _ in pairs(G.GAME.defeated_blinds) do
+    if k == "bl_sgt_red_queen" then
+        red_queen_defeated = true
+        break
+    end
+end
+
+local eased_red = copy_table(((not G.GAME.story_mode and G.GAME.round_resets.ante <= G.GAME.win_ante)
+or (G.GAME.story_mode and not red_queen_defeated)) and G.C.RED or G.C.BLUE)
 '''
 
 [[patches]]
@@ -216,7 +238,8 @@ position = 'at'
 match_indent = true
 payload = '''
 -- Only add Jimbo (or Alice if in story mode) to say a quip if the game over happens when the run is lost
-if (G.GAME.round_resets.ante <= G.GAME.win_ante) or (G.GAME.story_mode and not red_queen_defeated) then
+if (not G.GAME.story_mode and G.GAME.round_resets.ante <= G.GAME.win_ante)
+or (G.GAME.story_mode and not red_queen_defeated) then
 '''
 
 # Replace YOU WIN! with STORY ENDED! if Red Queen is defeated
@@ -227,17 +250,17 @@ pattern = '''{n=G.UIT.O, config={object = DynaText({string = {localize('ph_you_w
 position = 'at'
 match_indent = true
 payload = '''
-{n=G.UIT.O, config={object = DynaText({string = {G.GAME.story_mode and G.GAME.blind.name == "Red Queen" and localize('ph_story_ended') or localize('ph_you_win')}, colours = {G.C.EDITION},shadow = true, float = true, spacing = 10, rotate = true, scale = 1.5, pop_in = 0.4, maxw = 6.5})}},
+{n=G.UIT.O, config={object = DynaText({string = {G.GAME.story_mode and G.GAME.blind.config.blind.key == "bl_sgt_red_queen" and localize('ph_story_ended') or localize('ph_you_win')}, colours = {G.C.EDITION},shadow = true, float = true, spacing = 10, rotate = true, scale = 1.5, pop_in = 0.4, maxw = 6.5})}},
 '''
 
 
-# Replace Jimbo with Alice
+# Replace Jimbo with Alice (still allowing Joseph if Cryptid is also installed)
 [[patches]]
 [patches.pattern]
 target = "card_character.lua"
 pattern = 'self.children.card.states.visible = false'
 position = "before"
-payload = "self.children.card:set_ability(G.GAME.story_mode and G.P_CENTERS.j_sgt_alice or G.P_CENTERS.j_joker)"
+payload = '''self.children.card:set_ability(G.P_CENTERS[G.GAME.story_mode and "j_sgt_alice" or Cryptid and "j_jolly" or "j_joker"])'''
 match_indent = true
 
 [[patches]]
@@ -245,7 +268,11 @@ match_indent = true
 target = "card_character.lua"
 pattern = 'colours = {G.C.RED, G.C.BLUE, G.C.ORANGE},'
 position = "at"
-payload = 'colours = {Sagatro.badge_colour, G.C.BLUE, G.C.RARITY[4]},'
+payload = '''
+colours = G.GAME.story_mode
+and {Sagatro.badge_colour, G.C.BLUE, G.C.RARITY[4]}
+or {G.C.RED, G.C.BLUE, G.C.ORANGE},
+'''
 match_indent = true
 
 # Overrides Cryptid
@@ -254,7 +281,11 @@ match_indent = true
 target = "card_character.lua"
 pattern = 'colours = {G.C.CRY_EXOTIC, G.C.BLUE, G.C.CRY_JOLLY},'
 position = "at"
-payload = 'colours = {Sagatro.badge_colour, G.C.BLUE, G.C.RARITY[4]},'
+payload = '''
+colours = G.GAME.story_mode
+and {Sagatro.badge_colour, G.C.BLUE, G.C.RARITY[4]}
+or {G.C.CRY_EXOTIC, G.C.BLUE, G.C.CRY_JOLLY},
+'''
 match_indent = true
 
 # Alice invades Splash screen
