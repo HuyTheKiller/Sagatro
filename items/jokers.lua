@@ -1920,7 +1920,7 @@ local pepper_caster = {
                 { text = ")" },
             },
             calc_function = function(card)
-                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses*G.GAME.alice_multiplier
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
             end,
             retrigger_joker_function = function(card, retrigger_joker)
                 return card.config.center_key ~= "j_sgt_pepper_caster" and
@@ -2089,7 +2089,7 @@ local tea = {
                 { text = ")" },
             },
             calc_function = function(card)
-                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses*G.GAME.alice_multiplier
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
                 card.joker_display_values.chips = card.ability.extra.chips*G.GAME.alice_multiplier
             end,
         }
@@ -2175,7 +2175,7 @@ local bread = {
                 { text = ")" },
             },
             calc_function = function(card)
-                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses*G.GAME.alice_multiplier
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
                 card.joker_display_values.chips = card.ability.extra.chips*G.GAME.alice_multiplier
             end,
         }
@@ -2261,7 +2261,7 @@ local butter = {
                 { text = ")" },
             },
             calc_function = function(card)
-                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses*G.GAME.alice_multiplier
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
                 card.joker_display_values.mult = card.ability.extra.mult*G.GAME.alice_multiplier
             end,
         }
