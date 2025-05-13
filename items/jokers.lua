@@ -2428,7 +2428,7 @@ local red_queen = {
                 }
             end
         end
-        if context.destroy_card and context.cardarea == G.play then
+        if context.destroy_card and context.cardarea == G.play and not context.blueprint and not context.retrigger_joker then
             if not context.destroying_card.debuff and pseudorandom("red_queen_decapitate") < G.GAME.probabilities.normal/(card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor) then
                 return {
                     message = localize("k_die_ex"),
@@ -2449,7 +2449,7 @@ local red_queen = {
         if G.GAME.story_mode then
             return G.GAME.saga_event.alice_in_wonderland.red_queen and true or false
         end
-        return true
+        return not G.GAME.red_queen_blind
     end,
     loc_vars = function(self, info_queue, card)
         if (G.GAME.story_mode and G.STAGE == G.STAGES.RUN and not card.fake_card

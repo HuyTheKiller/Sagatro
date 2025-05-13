@@ -91,6 +91,7 @@ function Game:init_game_object()
     ret.story_mode = Sagatro.config.DisableOtherJokers
     ret.fusion_table = SagaFusion.fusions
     ret.defeated_blinds = {}
+    ret.red_queen_blind = false
 	return ret
 end
 
@@ -362,6 +363,7 @@ function get_new_boss()
         return 'bl_sgt_red_queen'
     end
     local ret = gnb()
+    if ret == 'bl_sgt_red_queen' then G.GAME.red_queen_blind = true end
     return ret
 end
 
