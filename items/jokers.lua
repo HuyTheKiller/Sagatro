@@ -1506,7 +1506,7 @@ local cheshire_cat = {
             end
         end
         if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint and not context.retrigger_joker then
-            if pseudorandom('cheshire_cat_vanish') < G.GAME.probabilities.normal/(card.ability.extra.odds*G.GAME.alice_multiplier) then
+            if pseudorandom('cheshire_cat_vanish') < G.GAME.probabilities.normal/(card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)) then
 				G.E_MANAGER:add_event(Event({
 					func = function()
 						play_sound('tarot1')
@@ -1560,7 +1560,7 @@ local cheshire_cat = {
             or Sagatro.debug then
                 info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "cheshire_cat"}
             end
-            return {vars = {localize{type = 'name_text', set = "Joker", key = card.ability.extra.copied_joker.config.center_key, nodes = {}}, G.GAME.probabilities.normal, card.ability.extra.odds*G.GAME.alice_multiplier, Sagatro.debug and card.ability.extra.copied_joker_value_id}}
+            return {vars = {localize{type = 'name_text', set = "Joker", key = card.ability.extra.copied_joker.config.center_key, nodes = {}}, G.GAME.probabilities.normal, card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), Sagatro.debug and card.ability.extra.copied_joker_value_id}}
         else
             if (G.GAME.story_mode and G.STAGE == G.STAGES.RUN and not card.fake_card
             and G.GAME.saga_event.alice_in_wonderland.goodbye_frog
@@ -1568,7 +1568,7 @@ local cheshire_cat = {
             or Sagatro.debug then
                 info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "cheshire_cat"}
             end
-            return {vars = {localize('k_none'), G.GAME.probabilities.normal, card.ability.extra.odds*G.GAME.alice_multiplier, Sagatro.debug and card.ability.extra.copied_joker_value_id}}
+            return {vars = {localize('k_none'), G.GAME.probabilities.normal, card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), Sagatro.debug and card.ability.extra.copied_joker_value_id}}
         end
     end,
     load = function(self, card, card_table, other_card)
