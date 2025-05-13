@@ -1630,7 +1630,7 @@ local cheshire_cat = {
             },
             calc_function = function(card)
                 card.joker_display_values.localized_text = localize('k_none')
-                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds*G.GAME.alice_multiplier } }
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier) } }
                 local copied_joker, copied_debuff = JokerDisplay.calculate_blueprint_copy(card)
                 JokerDisplay.copy_display(card, copied_joker, copied_debuff)
             end,
