@@ -33,7 +33,7 @@ SMODS.Joker:take_ownership('splash',
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             card_eval_status_text(card, 'extra', nil, 1, nil, {message = localize('k_overflow_ex'), sound = "tarot1", volume = 1 , instant = true})
-                            ease_dollars(3)
+                            ease_dollars(card.cost)
                             card.T.r = -0.2
                             card:juice_up(0.3, 0.4)
                             card.states.drag.is = true
