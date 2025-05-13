@@ -2856,9 +2856,9 @@ local alice = {
         end
     end,
     in_pool = function(self, args)
-        if G.GAME.story_mode then
-            return next(SMODS.find_card("j_sgt_mock_turtle", true))
-        end
+        -- if G.GAME.story_mode then
+        --     return G.GAME.saga_event.alice_in_wonderland.final_showdown and true or false
+        -- end
         return true
     end,
     loc_vars = function(self, info_queue, card)
