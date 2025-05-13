@@ -280,7 +280,7 @@ local eat_me = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return next(SMODS.find_card("j_sgt_white_rabbit", true)) and not next(SMODS.find_card("j_sgt_mad_hatter"))
+            return (next(SMODS.find_card("j_sgt_white_rabbit", true)) or next(SMODS.find_card("j_sgt_little_bill", true))) and not next(SMODS.find_card("j_sgt_mad_hatter"))
         end
         return true
     end,
