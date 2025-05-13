@@ -147,7 +147,7 @@ local drink_me = {
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            card.ability.extra = card.ability.extra*G.GAME.alice_multiplier
+            card.ability.extra = card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)
         end
         card.ability.taken = true
     end,
@@ -161,7 +161,7 @@ local drink_me = {
         if G.P_CENTERS["j_sgt_eat_me"] and not card.fake_card then
             info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_eat_me"]
         end
-        return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}}}
+        return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}}}
     end,
     joker_display_def = function(JokerDisplay)
         return {
@@ -274,7 +274,7 @@ local eat_me = {
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            card.ability.extra = card.ability.extra*G.GAME.alice_multiplier
+            card.ability.extra = card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)
         end
         card.ability.taken = true
     end,
@@ -288,7 +288,7 @@ local eat_me = {
         if G.P_CENTERS["j_sgt_drink_me"] and not card.fake_card then
             info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_drink_me"]
         end
-        return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_drink_me", nodes = {}}}}
+        return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), localize{type = 'name_text', set = "Joker", key = "j_sgt_drink_me", nodes = {}}}}
     end,
     joker_display_def = function(JokerDisplay)
         return {
@@ -655,7 +655,7 @@ local unlabeled_bottle = {
     add_to_deck = function(self, card, from_debuff)
         card.ability.taken = true
         if not from_debuff then
-            card.ability.extra = card.ability.extra*G.GAME.alice_multiplier
+            card.ability.extra = card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)
         end
         G.GAME.saga_event.alice_in_wonderland.white_rabbit_house = false
         G.GAME.saga_event_check.alice_in_wonderland.white_rabbit_house = true
@@ -674,7 +674,7 @@ local unlabeled_bottle = {
         if card.ability.taken or Sagatro.debug then
             return {
                 key = "j_sgt_unlabeled_bottle",
-                vars = {card.ability.taken and card.ability.extra or card.ability.extra*G.GAME.alice_multiplier}
+                vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)}
             }
         else return {
             key = "j_sgt_unlabeled_bottle_collection"
@@ -1107,7 +1107,7 @@ local mushroom = {
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            card.ability.extra = card.ability.extra*G.GAME.alice_multiplier
+            card.ability.extra = card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)
         end
         card.ability.taken = true
     end,
@@ -1122,7 +1122,7 @@ local mushroom = {
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "mushroom"}
         end
-        return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*G.GAME.alice_multiplier, card.ability.times*G.GAME.alice_multiplier}}
+        return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), card.ability.times*G.GAME.alice_multiplier}}
     end,
     joker_display_def = function(JokerDisplay)
         return {
@@ -1302,7 +1302,7 @@ local frog_footman = {
             card.ability.alice_mult_buffer = G.GAME.alice_multiplier
         end
         if not from_debuff then
-            card.ability.extra = card.ability.extra*G.GAME.alice_multiplier
+            card.ability.extra = card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)
         end
         card.ability.taken = true
     end,
@@ -1324,7 +1324,7 @@ local frog_footman = {
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "frog_footman"}
         end
-        return {vars = {card.ability.consumable_slot*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra or card.ability.extra*G.GAME.alice_multiplier}}
+        return {vars = {card.ability.consumable_slot*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)}}
     end,
     joker_display_def = function(JokerDisplay)
         return {
