@@ -181,7 +181,7 @@ local drink_me = {
             calc_function = function(card)
                 card.joker_display_values.active = (G.jokers.cards[1] == card and G.jokers.cards[#G.jokers.cards].config.center_key ~= "j_sgt_eat_me")
                 and localize("jdis_active") or localize("jdis_inactive")
-                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra*G.GAME.alice_multiplier
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
             end,
         }
     end,
@@ -310,7 +310,7 @@ local eat_me = {
                 and G.jokers.cards[1].config.center_key ~= "j_sgt_drink_me"
                 and G.jokers.cards[1].config.center_key ~= "j_sgt_unlabeled_bottle")
                 and localize("jdis_active") or localize("jdis_inactive")
-                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra*G.GAME.alice_multiplier
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
             end,
         }
     end,
@@ -699,7 +699,7 @@ local unlabeled_bottle = {
             calc_function = function(card)
                 card.joker_display_values.active = G.jokers.cards[1] == card
                 and localize("jdis_active") or localize("jdis_inactive")
-                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra*G.GAME.alice_multiplier
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
             end,
         }
     end,
@@ -967,7 +967,7 @@ local caterpillar = {
                 { text = ")" },
             },
             calc_function = function(card)
-                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra*G.GAME.alice_multiplier
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
             end,
         }
     end,
@@ -1150,7 +1150,7 @@ local mushroom = {
                 ((G.jokers.cards[1] == card and G.jokers.cards[#G.jokers.cards].config.center_key ~= "j_sgt_eat_me")
                 or (G.jokers.cards[#G.jokers.cards] == card and G.jokers.cards[1].config.center_key ~= "j_sgt_drink_me"))
                 and localize("jdis_active") or localize("jdis_inactive")
-                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra*G.GAME.alice_multiplier
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
             end,
         }
     end,
@@ -1342,7 +1342,7 @@ local frog_footman = {
                 { text = ")" },
             },
             calc_function = function(card)
-                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra*G.GAME.alice_multiplier
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
             end,
         }
     end,
