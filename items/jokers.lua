@@ -20,7 +20,7 @@ local white_rabbit = {
 				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
 			}
 		end
-        if context.before and G.GAME.current_round.discards_used == 0 and not context.blueprint then
+        if context.before and G.GAME.current_round.discards_used <= 0 and not context.blueprint then
 			card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
 			return {
 				message = localize("k_in_a_hurry_ex"),
@@ -28,7 +28,7 @@ local white_rabbit = {
 				card = card
 			}
 		end
-        if context.discard and not context.blueprint and not context.retrigger_joker and context.other_card == context.full_hand[1] and not context.hook then
+        if context.pre_discard and not context.blueprint and not context.retrigger_joker and not context.hook then
             if G.GAME.current_round.discards_used <= 0 then
                 return {
                     message = localize("k_too_late_ex"),
@@ -2295,7 +2295,7 @@ local march_hare = {
 				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
             }
 		end
-        if context.before and G.GAME.current_round.discards_used == 0 and not context.blueprint then
+        if context.before and G.GAME.current_round.discards_used <= 0 and not context.blueprint then
 			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
 			return {
 				message = localize("k_shared_ex"),
@@ -2303,7 +2303,7 @@ local march_hare = {
 				card = card
 			}
 		end
-        if context.discard and not context.blueprint and not context.retrigger_joker and context.other_card == context.full_hand[1] and not context.hook then
+        if context.pre_discard and not context.blueprint and not context.retrigger_joker and not context.hook then
             if G.GAME.current_round.discards_used <= 0 then
                 return {
                     message = localize("k_avoided_ex"),
