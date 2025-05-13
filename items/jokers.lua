@@ -1123,7 +1123,8 @@ local mushroom = {
     loc_vars = function(self, info_queue, card)
         if (G.GAME.story_mode and G.STAGE == G.STAGES.RUN and not card.fake_card
         and G.GAME.saga_event_check.alice_in_wonderland.caterpillar
-        and not G.GAME.saga_event.alice_in_wonderland.pig_and_pepper)
+        and not G.GAME.saga_event.alice_in_wonderland.pig_and_pepper
+        and not G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper)
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "mushroom"}
         end
