@@ -867,7 +867,7 @@ local caterpillar = {
     order = 10,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 1 },
-    config = {extra = 12, taken = false},
+    config = {extra = 12},
 	rarity = 1,
     cost = 1,
     blueprint_compat = false,
@@ -933,12 +933,6 @@ local caterpillar = {
             end
         end
     end,
-    add_to_deck = function(self, card, from_debuff)
-        if not from_debuff then
-            card.ability.extra = card.ability.extra*G.GAME.alice_multiplier
-        end
-        card.ability.taken = true
-    end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
             return G.GAME.saga_event.alice_in_wonderland.caterpillar and true or false
@@ -955,7 +949,7 @@ local caterpillar = {
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "caterpillar"}
         end
-        return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_mushroom", nodes = {}}}}
+        return {vars = {card.ability.extra, localize{type = 'name_text', set = "Joker", key = "j_sgt_mushroom", nodes = {}}}}
     end,
     joker_display_def = function(JokerDisplay)
         return {
