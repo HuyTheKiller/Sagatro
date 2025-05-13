@@ -90,8 +90,8 @@ function Game:init_game_object()
     ret.saga_event_forced_buffoon = false
     ret.story_mode = Sagatro.config.DisableOtherJokers
     ret.fusion_table = SagaFusion.fusions
-    ret.defeated_blinds = {}
     ret.red_queen_blind = false
+    ret.red_queen_defeated = false
 	return ret
 end
 
@@ -381,9 +381,9 @@ end
 local dft = Blind.defeat
 function Blind:defeat(s)
 	dft(self, s)
-	if not Cryptid then -- Cryptid already does this
-		G.GAME.defeated_blinds[self.config.blind.key] = true
-	end
+    if self.config.blind.key and self.config.blind.key == "bl_sgt_red_queen" then
+        G.GAME.red_queen_defeated = true
+    end
 end
 
 -- Custom tooltip as hints for story mode advancement (modified from Ortalab)

@@ -187,47 +187,12 @@ or (G.GAME.story_mode and G.GAME.blind.config.blind.key == "bl_sgt_red_queen") t
 [[patches]]
 [patches.pattern]
 target = 'game.lua'
-pattern = '''remove_save()'''
-position = 'after'
-match_indent = true
-payload = '''
-local red_queen_defeated = false
-for k, _ in pairs(G.GAME.defeated_blinds) do
-    if k == "bl_sgt_red_queen" then
-        red_queen_defeated = true
-        break
-    end
-end
-'''
-
-[[patches]]
-[patches.pattern]
-target = 'game.lua'
 pattern = '''if G.GAME.round_resets.ante <= G.GAME.win_ante then'''
 position = 'at'
 match_indent = true
 payload = '''
 if (not G.GAME.story_mode and G.GAME.round_resets.ante <= G.GAME.win_ante)
-or (G.GAME.story_mode and not red_queen_defeated) then
-'''
-
-[[patches]]
-[patches.pattern]
-target = 'functions/UI_definitions.lua'
-pattern = '''local eased_red = copy_table(G.GAME.round_resets.ante <= G.GAME.win_ante and G.C.RED or G.C.BLUE)'''
-position = 'at'
-match_indent = true
-payload = '''
-local red_queen_defeated = false
-for k, _ in pairs(G.GAME.defeated_blinds) do
-    if k == "bl_sgt_red_queen" then
-        red_queen_defeated = true
-        break
-    end
-end
-
-local eased_red = copy_table(((not G.GAME.story_mode and G.GAME.round_resets.ante <= G.GAME.win_ante)
-or (G.GAME.story_mode and not red_queen_defeated)) and G.C.RED or G.C.BLUE)
+or (G.GAME.story_mode and not G.GAME.red_queen_defeated) then
 '''
 
 [[patches]]
@@ -239,7 +204,18 @@ match_indent = true
 payload = '''
 -- Only add Jimbo (or Alice if in story mode) to say a quip if the game over happens when the run is lost
 if (not G.GAME.story_mode and G.GAME.round_resets.ante <= G.GAME.win_ante)
-or (G.GAME.story_mode and not red_queen_defeated) then
+or (G.GAME.story_mode and not G.GAME.red_queen_defeated) then
+'''
+
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''local eased_red = copy_table(G.GAME.round_resets.ante <= G.GAME.win_ante and G.C.RED or G.C.BLUE)'''
+position = 'at'
+match_indent = true
+payload = '''
+local eased_red = copy_table(((not G.GAME.story_mode and G.GAME.round_resets.ante <= G.GAME.win_ante)
+or (G.GAME.story_mode and not G.GAME.red_queen_defeated)) and G.C.RED or G.C.BLUE)
 '''
 
 # Replace YOU WIN! with STORY ENDED! if Red Queen is defeated
