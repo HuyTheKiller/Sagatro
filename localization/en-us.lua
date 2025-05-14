@@ -137,7 +137,7 @@ return {
                 },
             },
             j_sgt_caterpillar = {
-                name = "Caterpillar",
+                name = "SauKhongHu",
                 text = {
                     "{C:attention}Randomize{} the {C:attention}rank{} and {C:attention}suit{}",
                     "of the next {C:attention}#1#{} scoring cards",

@@ -137,7 +137,7 @@ return {
                 },
             },
             j_sgt_caterpillar = {
-                name = "Sâu Bướm",
+                name = "Sâu Không Hư",
                 text = {
                     "{C:attention}Ngẫu nhiên hoá{} {C:attention}bậc{} và {C:attention}chất{}",
                     "của {C:attention}#1#{} lá ghi điểm tiếp theo",
