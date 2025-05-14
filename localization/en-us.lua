@@ -141,7 +141,7 @@ return {
                 text = {
                     "{C:attention}Randomize{} the {C:attention}rank{} and {C:attention}suit{}",
                     "of the next {C:attention}#1#{} scoring cards",
-                    "{C:red}Self-destructs{} and create",
+                    "{C:red,E:2}self destructs{} and create",
                     "{C:attention}#2#{} on expiry",
                 },
             },
@@ -169,7 +169,7 @@ return {
                     "Opening the next #2# {C:attention}Booster Pack(s){}",
                     "{C:attention}fill up{} consumable slots",
                     "with {C:attention}random{} consumables",
-                    "{C:red,s:0.8}Self-destructs{s:0.8} on expiry",
+                    "{C:red,s:0.8,E:2}self destructs{s:0.8} on expiry",
                 },
             },
             j_sgt_the_cook = {
@@ -198,7 +198,7 @@ return {
                     "{C:attention}Retrigger{} all played cards",
                     "{C:attention}#1#{} additional time(s) on",
                     "{C:attention}final hand{} of round",
-                    "{C:red}Self-destructs{} if {C:attention}#2#{}",
+                    "{C:red,E:2}self destructs{} if {C:attention}#2#{}",
                     "is not around",
                 },
             },
@@ -207,7 +207,7 @@ return {
                 text = {
                     "{C:attention}Retrigger{} all jokers",
                     "{C:attention}#1#{} additional time(s)",
-                    "{C:red,s:0.8}Self-destructs{s:0.8} after {C:attention,s:0.8}#2#{s:0.8} round(s)",
+                    "{C:red,s:0.8,E:2}self destructs{s:0.8} after {C:attention,s:0.8}#2#{s:0.8} round(s)",
                 },
             },
             j_sgt_mad_hatter = {
@@ -292,7 +292,7 @@ return {
                 name = "Mock Turtle",
                 text = {
                     "{C:green}#1# in #2#{} chance for {X:dark_edition,C:white}^#3#{} Mult",
-                    "{C:green}#1# in #4#{} chance to {C:red}self-destruct{}",
+                    "{C:green}#1# in #4#{} chance to {C:red,E:2}self destruct{}",
                     "after every hand played, reduce by {C:attention}1{}",
                     "every {X:dark_edition,C:white}^Mult{} trigger",
                 },
@@ -480,8 +480,8 @@ return {
             k_enraged_ex = "Enraged!",
             k_guilty_ex = "Guilty!",
             k_to = "to",
-            k_self_destruct = "self-destruct",
-            k_self_destruct_ex = "Self-destruct!",
+            k_self_destruct = "self destructs",
+            k_self_destruct_ex = "Self destructs!",
             k_amused_ex = "Amused!",
             k_wolf_ex = "Wolf!",
             k_amnestied_ex = "Amnestied!",

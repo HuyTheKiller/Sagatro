@@ -141,7 +141,7 @@ return {
                 text = {
                     "{C:attention}Ngẫu nhiên hoá{} {C:attention}bậc{} và {C:attention}chất{}",
                     "của {C:attention}#1#{} lá ghi điểm tiếp theo",
-                    "{C:red}Tự huỷ{} và tạo ra",
+                    "{C:red,E:2}Tự huỷ{} và tạo ra",
                     "{C:attention}#2#{} khi hết lượt",
                 },
             },
@@ -169,7 +169,7 @@ return {
                     "Khi mở #2# {C:attention}Gói Bài{} tiếp theo,",
                     "{C:attention}lấp đầy{} ô tiêu thụ bằng",
                     "lá tiêu thụ {C:attention}ngẫu nhiên{}",
-                    "{C:red,s:0.8}Tự huỷ{s:0.8} khi hết lượt",
+                    "{C:red,s:0.8,E:2}Tự huỷ{s:0.8} khi hết lượt",
                 },
             },
             j_sgt_the_cook = {
@@ -198,7 +198,7 @@ return {
                     "{C:attention}Tái kích{} mọi lá",
                     "đã chơi thêm {C:attention}#1#{} lần",
                     "ở {C:attention}tay bài cuối{} của ván",
-                    "{C:red}Tự huỷ{} nếu không",
+                    "{C:red,E:2}Tự huỷ{} nếu không",
                     "sở hữu {C:attention}#2#{}",
                 },
             },
@@ -207,7 +207,7 @@ return {
                 text = {
                     "{C:attention}Tái kích{} mọi joker",
                     "thêm {C:attention}#1#{} lần",
-                    "{C:red,s:0.8}Tự huỷ{s:0.8} sau {C:attention,s:0.8}#2#{s:0.8} ván",
+                    "{C:red,s:0.8,E:2}Tự huỷ{s:0.8} sau {C:attention,s:0.8}#2#{s:0.8} ván",
                 },
             },
             j_sgt_mad_hatter = {
@@ -292,7 +292,7 @@ return {
                 name = "Giả Rùa",
                 text = {
                     "Xác suất {C:green}#1# trên #2#{} để được {X:dark_edition,C:white}^#3#{} Nhân",
-                    "Xác suất {C:green}#1# trên #4#{} để {C:red}tự huỷ{}",
+                    "Xác suất {C:green}#1# trên #4#{} để {C:red,E:2}tự huỷ{}",
                     "sau mỗi tay bài, giảm đi {C:attention}1{} sau",
                     "mỗi lần kích hoạt {X:dark_edition,C:white}^Nhân{}",
                 },
