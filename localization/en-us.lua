@@ -439,7 +439,7 @@ return {
                     "{s:1.3}Adds {s:1.3,C:dark_edition}fairy tale {s:1.3}elements to Balatro.",
                     " ",
                     "Credits:",
-                    "{C:attention}Art{}: HuyCorn, Amy",
+                    "{C:attention}Art{}: HuyCorn, Amy, TNhie",
                     "{C:attention}Idea{}: HuyCorn",
                     "{C:attention}Balancing{}: HuyTheKiller, HuyCorn",
                     " ",
