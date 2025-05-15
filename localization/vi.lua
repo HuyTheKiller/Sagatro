@@ -432,7 +432,7 @@ return {
                     "{s:1.3}Thêm yếu tố {s:1.3,C:dark_edition}cổ tích {s:1.3}vào Balatro.",
                     " ",
                     "Danh đề:",
-                    "{C:attention}Hình Ảnh{}: HuyCorn, Amy, TNhie",
+                    "{C:attention}Hình Ảnh{}: HuyCorn, Amy, TNhie, Kazumi",
                     "{C:attention}Ý Tưởng{}: HuyCorn",
                     "{C:attention}Cân Bằng{}: HuyTheKiller, HuyCorn",
                     " ",
