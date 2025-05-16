@@ -315,6 +315,15 @@ return {
                     "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)",
                 },
             },
+            j_sgt_puss_in_boots = {
+                name = "Puss In Boots",
+                text = {
+                    "Played {C:attention}Kings{} and {C:attention}Queens{}",
+                    "each give {C:money}$#1#{} when scored",
+                    "{X:mult,C:white}X#2#{} Mult if scoring hand",
+                    "contains a {C:attention}Jack{}",
+                },
+            },
         },
         ["Saga Tooltip"] = {
             fusion_hint = {

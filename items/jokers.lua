@@ -2944,6 +2944,81 @@ local shepherd_boy = {
     end,
 }
 
+-- Puss in Boots
+local puss_in_boots = {
+    key = "puss_in_boots",
+    name = "Puss In Boots",
+    atlas = "puss_in_boots",
+    saga_group = "puss_in_boots",
+    order = 32,
+    config = {extra = {money = 2, xmult = 2, jack_triggered = false}},
+    rarity = 2,
+    cost = 7,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint and not context.retrigger_joker then
+            for i = 1, #context.scoring_hand do
+                local temp = context.scoring_hand[i]
+                if temp:get_id() == 11 then
+                    card.ability.extra.jack_triggered = true
+                    break
+                end
+            end
+        end
+        if context.individual and context.cardarea == G.play then
+            local temp = context.other_card
+            if temp:get_id() == 12 or temp:get_id() == 13 then
+                return {
+                    dollars = card.ability.extra.money
+                }
+            end
+        end
+        if context.joker_main and card.ability.extra.jack_triggered then
+            card.ability.extra.jack_triggered = false
+            return {
+                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                Xmult_mod = card.ability.extra.xmult
+            }
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.money, card.ability.extra.xmult}}
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+$", colour = G.C.GOLD },
+                { ref_table = "card.joker_display_values", ref_value = "money", retrigger_type = "mult", colour = G.C.GOLD },
+                { text = " " },
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    }
+                }
+            },
+            calc_function = function(card)
+                local count = 0
+                local jack_triggered = false
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        if scoring_card:get_id() == 13 or scoring_card:get_id() == 12 then
+                            count = count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                        elseif scoring_card:get_id() == 11 then
+                            jack_triggered = true
+                        end
+                    end
+                end
+                card.joker_display_values.money = card.ability.extra.money * count
+                card.joker_display_values.xmult = jack_triggered and card.ability.extra.xmult or 1
+            end,
+        }
+    end,
+}
+
 local joker_table = {
     white_rabbit,
     drink_me,
@@ -2976,6 +3051,7 @@ local joker_table = {
     mock_turtle,
     alice,
     shepherd_boy,
+    puss_in_boots,
 }
 
 for _, v in ipairs(joker_table) do

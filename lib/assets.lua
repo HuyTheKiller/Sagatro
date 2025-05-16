@@ -28,6 +28,13 @@ SMODS.Atlas{
 }
 
 SMODS.Atlas{
+    key = "puss_in_boots",
+    path = "Puss_in_boots.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
     key = "decks",
     path = "Decks.png",
     px = 71,

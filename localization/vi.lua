@@ -315,6 +315,15 @@ return {
                     "{C:inactive}(Hiện tại là {C:mult}+#1#{C:inactive} Nhân)",
                 },
             },
+            j_sgt_puss_in_boots = {
+                name = "Mèo Đi Hia",
+                text = {
+                    "Mỗi lá {C:attention}Già{} và {C:attention}Đầm{} đã chơi",
+                    "cho {C:money}$#1#{} khi ghi điểm",
+                    "{X:mult,C:white}X#2#{} Nhân nếu tay bài",
+                    "ghi điểm chứa {C:attention}Bồi{}",
+                },
+            },
         },
         ["Saga Tooltip"] = {
             fusion_hint = {
