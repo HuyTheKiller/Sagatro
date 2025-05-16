@@ -11,7 +11,7 @@ From whimsical Jokers to enchanting booster packs, this mod reimagines the game 
 ---
 
 🛠️ **Current Features**  
-- ✨ 31 New Jokers: 30 from **Alice in the Wonderland**, 1 from **The Boy who cried wolf**.
+- ✨ 32 New Jokers: 30 from **Alice in the Wonderland**, 1 from **The Boy who cried wolf**, 1 from **Puss In Boots**.
 - 📕 Story Mode: Enable the natural flow of a story - progress to get stronger, defeat the final boss to win regardless of win Ante. You can treat this mod as a simple content pack by turning it off.
 - 🔴 1 New Showdown Boss Blind: Red Queen - originally a Joker, but will become the final boss in Story Mode.
 - 📘 1 New Deck (+Sleeve): Saga Deck - simple yet powerful effects, specifically designed for Story Mode.
