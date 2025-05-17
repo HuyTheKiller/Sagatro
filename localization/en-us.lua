@@ -84,6 +84,7 @@ return {
                 name = "Mouse",
                 text = {
                     "{C:mult}+#1#{} Mult",
+                    "Apply {C:attention}#2#{}",
                     "Stay {C:attention}debuffed{} if",
                     "this joker is at a {C:attention}previously",
                     "{C:attention}known{} location this round",

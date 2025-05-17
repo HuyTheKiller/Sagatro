@@ -84,6 +84,7 @@ return {
                 name = "Chuột",
                 text = {
                     "{C:mult}+#1#{} Nhân",
+                    "Áp dụng {C:attention}#2#{}",
                     "Giữ nguyên trạng thái {C:attention}vô hiệu{}",
                     "nếu joker này ở vị trí",
                     "{C:attention}đã đặt từ trước{} trong ván này",

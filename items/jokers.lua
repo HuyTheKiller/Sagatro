@@ -331,6 +331,9 @@ local mouse = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
+        if context.modify_scoring_hand and not context.blueprint and not context.retrigger_joker then
+			return {add_to_hand = true}
+		end
         if context.joker_main then
             return {
                 mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
@@ -359,13 +362,14 @@ local mouse = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS["j_splash"]
         if (G.GAME.story_mode and G.STAGE == G.STAGES.RUN and not card.fake_card
         and G.GAME.saga_event.alice_in_wonderland.cry_into_flood
         and not G.GAME.saga_event_check.alice_in_wonderland.cry_into_flood)
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "fusion_hint", title = localize("saga_fusion_tooltip")}
         end
-        return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
+        return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_splash", nodes = {}}}}
     end,
     joker_display_def = function(JokerDisplay)
         return {
@@ -386,6 +390,9 @@ local mouse = {
 
                 card.joker_display_values.mult = card.ability.extra.mult*G.GAME.alice_multiplier
                 card.joker_display_values.debuff_position = positions and table.concat(positions, ", ") or ""
+            end,
+            scoring_function = function(playing_card, scoring_hand, joker_card)
+                return true
             end
         }
     end,
