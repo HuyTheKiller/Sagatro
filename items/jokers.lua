@@ -61,6 +61,9 @@ local white_rabbit = {
         end
 		return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.extra.chip_gain*G.GAME.alice_multiplier}}
 	end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -163,6 +166,9 @@ local drink_me = {
         end
         return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -290,6 +296,9 @@ local eat_me = {
         end
         return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), localize{type = 'name_text', set = "Joker", key = "j_sgt_drink_me", nodes = {}}}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -371,6 +380,9 @@ local mouse = {
         end
         return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_splash", nodes = {}}}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -462,6 +474,9 @@ local kid_gloves_and_fan = {
         end
         return {vars = {card.ability.extra*G.GAME.alice_multiplier}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -542,6 +557,9 @@ local dodo_bird = {
         end
         return {vars = {card.ability.extra*G.GAME.alice_multiplier}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -688,6 +706,9 @@ local unlabeled_bottle = {
         }
         end
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -744,6 +765,9 @@ local little_bill = {
         end
         return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -815,6 +839,9 @@ local huge_dog = {
         end
         return {vars = {card.ability.extra.times*G.GAME.alice_multiplier, card.ability.extra.extra_times*G.GAME.alice_multiplier}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -958,6 +985,9 @@ local caterpillar = {
         end
         return {vars = {card.ability.extra, localize{type = 'name_text', set = "Joker", key = "j_sgt_mushroom", nodes = {}}}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -1131,6 +1161,9 @@ local mushroom = {
         end
         return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), card.ability.times*G.GAME.alice_multiplier}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -1229,6 +1262,9 @@ local pigeon = {
         info_queue[#info_queue+1] = G.P_CENTERS.j_egg
         return {vars = {localize{type = 'name_text', set = "Joker", key = "j_egg", nodes = {}}, card.ability.extra*G.GAME.alice_multiplier, card.ability.egg_boost*G.GAME.alice_multiplier, card.ability.value_loss}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -1346,6 +1382,9 @@ local frog_footman = {
         end
         return {vars = {card.ability.consumable_slot*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -1429,6 +1468,9 @@ local the_cook = {
     loc_vars = function(self, info_queue, card)
         return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.xmult*G.GAME.alice_multiplier}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -1591,6 +1633,9 @@ local cheshire_cat = {
             return {vars = {localize('k_none'), G.GAME.probabilities.normal, card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), Sagatro.debug and card.ability.extra.copied_joker_value_id}}
         end
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     load = function(self, card, card_table, other_card)
         card.loaded = true
     end,
@@ -1740,6 +1785,9 @@ local duchess = {
     loc_vars = function(self, info_queue, card)
         return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -1828,6 +1876,9 @@ local the_baby = {
         end
         return {vars = {card.ability.extra*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_duchess", nodes = {}}}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -1930,6 +1981,9 @@ local pepper_caster = {
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.retriggers*(Sagatro.demo and 1 or G.GAME.alice_multiplier), card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -2016,6 +2070,9 @@ local mad_hatter = {
             info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "mad_hatter"}
         end
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -2094,6 +2151,9 @@ local tea = {
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier*(G.GAME.story_mode and 1 or 24)}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -2180,6 +2240,9 @@ local bread = {
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier*(G.GAME.story_mode and 1 or 24)}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -2266,6 +2329,9 @@ local butter = {
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier*(G.GAME.story_mode and 1 or 24)}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -2336,6 +2402,9 @@ local march_hare = {
     loc_vars = function(self, info_queue, card)
 		return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, card.ability.extra.mult_gain*G.GAME.alice_multiplier}}
 	end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -2381,6 +2450,9 @@ local dormouse = {
     loc_vars = function(self, info_queue, card)
 		return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.mult*G.GAME.alice_multiplier}}
 	end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -2475,6 +2547,9 @@ local red_queen = {
         end
         return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -2563,6 +2638,9 @@ local king = {
         end
 		return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_red_queen", nodes = {}}, card.ability.extra.relief}}
 	end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -2630,6 +2708,9 @@ local flamingo = {
         end
 		return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_red_queen", nodes = {}}, card.ability.extra.relief}}
 	end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -2691,6 +2772,9 @@ local gryphon = {
         end
         return {vars = {card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -2797,6 +2881,9 @@ local mock_turtle = {
     loc_vars = function(self, info_queue, card)
         return {vars = {G.GAME.probabilities.normal, card.ability.extra.e_mult_odds, card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier), card.ability.taken and card.ability.extra.self_destruct_odds or (G.GAME.story_mode and 100 or 18)}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -2941,6 +3028,9 @@ local shepherd_boy = {
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.mult, card.ability.extra.mult_gain, G.GAME.probabilities.normal, card.ability.extra.odds}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -3006,6 +3096,9 @@ local puss_in_boots = {
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.money, card.ability.extra.xmult}}
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {

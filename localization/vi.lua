@@ -302,8 +302,8 @@ return {
                 name = "Alice",
                 text = {
                     "{C:attention}Nhân{} giá trị của mọi joker",
-                    "thuộc về {C:dark_edition}Alice ở Xứ Sở{}",
-                    "{C:dark_edition}Diệu Kì{} thêm {C:attention}X#1#{} lần",
+                    "thuộc về {C:sgt_sagadition}Alice ở Xứ Sở{}",
+                    "{C:sgt_sagadition}Diệu Kì{} thêm {C:attention}X#1#{} lần",
                 },
             },
             j_sgt_shepherd_boy = {
@@ -491,6 +491,8 @@ return {
             ph_per_face_down = " mỗi lá sấp",
             ph_trial_begins = "Khai Toà!",
             ph_story_ended = "KẾT TRUYỆN!",
+            ph_alice_in_wond = "Alice ở Xứ Sở Diệu Kì",
+            ph_misc_story = "Truyện Khác",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính (Yêu cầu tạo trận mới)"},
         },

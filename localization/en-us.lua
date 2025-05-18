@@ -302,8 +302,8 @@ return {
                 name = "Alice",
                 text = {
                     "{C:attention}Multiply{} the value of",
-                    "all jokers belonging to {C:dark_edition}Alice",
-                    "{C:dark_edition}in the Wonderland{} by {C:attention}X#1#{}",
+                    "all jokers belonging to {C:sgt_sagadition}Alice",
+                    "{C:sgt_sagadition}in the Wonderland{} by {C:attention}X#1#{}",
                 },
             },
             j_sgt_shepherd_boy = {
@@ -498,6 +498,8 @@ return {
             ph_per_face_down = " per face-down",
             ph_trial_begins = "Trial Begins!",
             ph_story_ended = "STORY ENDED!",
+            ph_alice_in_wond = "Alice in the Wonderland",
+            ph_misc_story = "Misc. Story",
             SGT_disable_other_jokers = "Story Mode",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression (Requires run restart)"},
         },
