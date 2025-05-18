@@ -1190,7 +1190,7 @@ local pigeon = {
         end
         if context.selling_card and not context.blueprint and not context.retrigger_joker then
             if context.card.config.center_key == "j_egg" then
-                card.ability.extra_value = (card.ability.extra_value or 0) - card.abilty.value_loss
+                card.ability.extra_value = (card.ability.extra_value or 0) - card.ability.value_loss
                 card.ability.value_loss = card.ability.value_loss*2
             end
         end
