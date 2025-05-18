@@ -158,9 +158,9 @@ return {
                 name = "Pigeon",
                 text = {
                     "Buy this card to create #2# {C:attention}#1#s{}",
-                    "Add {C:money}$#3#{} of {C:attention}sell value{} to",
-                    "all {C:attention}#1#s{} at end of round",
-                    "{C:attention}Debuffed{} if any {C:attention}#1#{} is sold",
+                    "Add {C:money}$#3#{} of {C:attention}sell value{} to all {C:attention}#1#s{} at end of round",
+                    "Lose {C:money}$#4#{} of {C:attention}sell value{} if any {C:attention}#1#{} is sold",
+                    "{C:attention}Debuff{} all {C:attention}#1#s{} if sold",
                 },
             },
             j_sgt_frog_footman = {

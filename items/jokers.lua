@@ -1165,7 +1165,7 @@ local pigeon = {
     order = 12,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 2 },
-    config = {extra = 3, egg_boost = 1, triggered = false, extra_value = -14},
+    config = {extra = 3, egg_boost = 1, triggered = false, value_loss = 2},
 	rarity = 2,
     cost = 8,
     blueprint_compat = false,
@@ -1190,7 +1190,15 @@ local pigeon = {
         end
         if context.selling_card and not context.blueprint and not context.retrigger_joker then
             if context.card.config.center_key == "j_egg" then
-                card:set_debuff(true)
+                card.ability.extra_value = (card.ability.extra_value or 0) - card.abilty.value_loss
+                card.ability.value_loss = card.ability.value_loss*2
+            end
+        end
+        if context.selling_self and not context.blueprint and not context.retrigger_joker then
+            for _, v in ipairs(G.jokers.cards) do
+                if v.config.center_key == "j_egg" then
+                    v:set_debuff(true)
+                end
             end
         end
     end,
@@ -1217,7 +1225,7 @@ local pigeon = {
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.j_egg
-        return {vars = {localize{type = 'name_text', set = "Joker", key = "j_egg", nodes = {}}, card.ability.extra*G.GAME.alice_multiplier, card.ability.egg_boost*G.GAME.alice_multiplier}}
+        return {vars = {localize{type = 'name_text', set = "Joker", key = "j_egg", nodes = {}}, card.ability.extra*G.GAME.alice_multiplier, card.ability.egg_boost*G.GAME.alice_multiplier, card.ability.value_loss}}
     end,
     joker_display_def = function(JokerDisplay)
         return {

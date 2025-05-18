@@ -158,9 +158,9 @@ return {
                 name = "Bồ Câu",
                 text = {
                     "Mua lá này để tạo ra #2# {C:attention}#1#{}",
-                    "Thêm {C:money}$#3#{} {C:attention}giá bán{} lên",
-                    "mọi {C:attention}#1#{} ở cuối ván",
-                    "{C:attention}Vô hiệu{} nếu {C:attention}#1#{} bị bán đi",
+                    "Thêm {C:money}$#3#{} {C:attention}giá bán{} lên mọi {C:attention}#1#{} ở cuối ván",
+                    "Mất {C:money}$#4#{} {C:attention}giá bán{} nếu {C:attention}#1#{} bị bán đi",
+                    "{C:attention}Vô hiệu{} mọi {C:attention}#1#{} khi bán",
                 },
             },
             j_sgt_frog_footman = {
