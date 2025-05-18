@@ -1192,6 +1192,8 @@ local pigeon = {
             if context.card.config.center_key == "j_egg" then
                 card.ability.extra_value = (card.ability.extra_value or 0) - card.ability.value_loss
                 card.ability.value_loss = card.ability.value_loss*2
+                card:set_cost()
+                card:juice_up(0.5, 0.5)
             end
         end
         if context.selling_self and not context.blueprint and not context.retrigger_joker then
@@ -1236,6 +1238,9 @@ local pigeon = {
             reminder_text = {
                 { text = "(" },
                 { ref_table = "card.joker_display_values", ref_value = "localized_text", colour = G.C.ORANGE },
+                { text = ", " },
+                { text = "-$", colour = G.C.RED },
+                { ref_table = "card.ability", ref_value = "value_loss", colour = G.C.RED },
                 { text = ")" },
             },
             calc_function = function(card)
