@@ -16,6 +16,9 @@ local deck_table = {
 }
 
 for _, v in ipairs(deck_table) do
+    if Sagatro.debug then
+        v.unlocked = true
+    end
     SMODS.Back(v)
 end
 
@@ -56,6 +59,9 @@ if CardSleeves then
     }
 
     for _, v in ipairs(sleeve_table) do
+        if Sagatro.debug then
+            v.unlocked = true
+        end
         CardSleeves.Sleeve(v)
     end
 end

@@ -3062,6 +3062,10 @@ local joker_table = {
 }
 
 for _, v in ipairs(joker_table) do
+    if Sagatro.debug then
+        v.unlocked = true
+        v.discovered = true
+    end
     SMODS.Joker(v)
     if v.pools and type(v.pools) == "table" then
         for pool, add in pairs(v.pools) do

@@ -36,5 +36,8 @@ local blind_table = {
 }
 
 for _, v in ipairs(blind_table) do
+    if Sagatro.debug then
+        v.discovered = true
+    end
     SMODS.Blind(v)
 end
