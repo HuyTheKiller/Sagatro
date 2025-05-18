@@ -1709,7 +1709,7 @@ local duchess = {
         end
         if context.joker_main and card.ability.triggered then
             return {
-                e_mult = card.ability.extra.e_mult*G.GAME.alice_multiplier
+                e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)
             }
         end
         if context.after and not context.blueprint and not context.retrigger_joker then
@@ -1725,7 +1725,7 @@ local duchess = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.e_mult*G.GAME.alice_multiplier}}
+        return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)}}
     end,
     joker_display_def = function(JokerDisplay)
         return {
@@ -1748,7 +1748,7 @@ local duchess = {
             },
             calc_function = function(card)
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
-                card.joker_display_values.e_mult = card.ability.triggered and card.ability.extra.e_mult*G.GAME.alice_multiplier or 1
+                card.joker_display_values.e_mult = card.ability.triggered and card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier) or 1
             end,
         }
     end,
@@ -1867,7 +1867,7 @@ local pepper_caster = {
 		if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.config.center_key ~= "j_sgt_pepper_caster" then
             return {
                 message = localize("k_again_ex"),
-                repetitions = card.ability.extra.retriggers*G.GAME.alice_multiplier,
+                repetitions = card.ability.extra.retriggers*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
                 card = card,
             }
 		end
@@ -1915,7 +1915,7 @@ local pepper_caster = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.retriggers*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier}}
+        return {vars = {card.ability.extra.retriggers*(Sagatro.demo and 1 or G.GAME.alice_multiplier), card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier}}
     end,
     joker_display_def = function(JokerDisplay)
         return {
@@ -1931,7 +1931,7 @@ local pepper_caster = {
             end,
             retrigger_joker_function = function(card, retrigger_joker)
                 return card.config.center_key ~= "j_sgt_pepper_caster" and
-                    retrigger_joker.ability.extra.retriggers*G.GAME.alice_multiplier or 0
+                    retrigger_joker.ability.extra.retriggers*(Sagatro.demo and 1 or G.GAME.alice_multiplier) or 0
             end,
         }
     end,
@@ -2426,7 +2426,7 @@ local red_queen = {
         if context.individual and context.cardarea == G.play then
             if not context.other_card.debuff then
                 return {
-                    e_mult = card.ability.extra.e_mult*G.GAME.alice_multiplier
+                    e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)
                 }
             end
         end
@@ -2460,7 +2460,7 @@ local red_queen = {
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "red_queen"}
         end
-        return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, card.ability.extra.e_mult*G.GAME.alice_multiplier}}
+        return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)}}
     end,
     joker_display_def = function(JokerDisplay)
         return {
@@ -2483,7 +2483,7 @@ local red_queen = {
             },
             calc_function = function(card)
                 local count = 0
-                local emult = card.ability.extra.e_mult*G.GAME.alice_multiplier
+                local emult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)
                 local text, _, scoring_hand = JokerDisplay.evaluate_hand()
                 if text ~= 'Unknown' then
                     for _, scoring_card in pairs(scoring_hand) do
@@ -2656,7 +2656,7 @@ local gryphon = {
                     }
                 else
                     return {
-                        e_mult = card.ability.extra.e_mult*G.GAME.alice_multiplier,
+                        e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
                         card = context.other_card,
                     }
                 end
@@ -2676,7 +2676,7 @@ local gryphon = {
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "gryphon"}
         end
-        return {vars = {card.ability.extra.e_mult*G.GAME.alice_multiplier}}
+        return {vars = {card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)}}
     end,
     joker_display_def = function(JokerDisplay)
         return {
@@ -2691,7 +2691,7 @@ local gryphon = {
             },
             calc_function = function(card)
                 local count = 0
-                local emult = card.ability.extra.e_mult*G.GAME.alice_multiplier
+                local emult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)
                 local playing_hand = next(G.play.cards)
                 for _, playing_card in ipairs(G.hand.cards) do
                     if playing_hand or not playing_card.highlighted then
@@ -2732,7 +2732,7 @@ local mock_turtle = {
                 card.ability.extra.self_destruct_odds = card.ability.extra.self_destruct_odds - 1
             end
             return {
-                e_mult = card.ability.extra.e_mult*G.GAME.alice_multiplier
+                e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)
             }
         end
         if context.after and not context.blueprint and not context.retrigger_joker then
@@ -2782,7 +2782,7 @@ local mock_turtle = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {G.GAME.probabilities.normal, card.ability.extra.e_mult_odds, card.ability.extra.e_mult*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra.self_destruct_odds or (G.GAME.story_mode and 100 or 18)}}
+        return {vars = {G.GAME.probabilities.normal, card.ability.extra.e_mult_odds, card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier), card.ability.taken and card.ability.extra.self_destruct_odds or (G.GAME.story_mode and 100 or 18)}}
     end,
     joker_display_def = function(JokerDisplay)
         return {
@@ -2812,7 +2812,7 @@ local mock_turtle = {
             },
             reminder_text_config = { scale = 0.2 },
             calc_function = function(card)
-                card.joker_display_values.e_mult = card.ability.extra.e_mult*G.GAME.alice_multiplier
+                card.joker_display_values.e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)
                 card.joker_display_values.e_mult_odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.e_mult_odds } }
                 card.joker_display_values.self_destruct_odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.self_destruct_odds } }
             end,
