@@ -85,9 +85,9 @@ return {
                 text = {
                     "{C:mult}+#1#{} Mult",
                     "Apply {C:attention}#2#{}",
-                    "Stay {C:attention}debuffed{} if",
-                    "this joker is at a {C:attention}previously",
-                    "{C:attention}known{} location this round",
+                    "Stay {C:attention}debuffed{} if this joker",
+                    "is at a {C:attention}previously known{}",
+                    "location this round",
                 },
             },
             j_sgt_kid_gloves_and_fan = {
