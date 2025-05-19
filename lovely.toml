@@ -236,7 +236,10 @@ payload = '''
 target = "card_character.lua"
 pattern = 'self.children.card.states.visible = false'
 position = "before"
-payload = '''self.children.card:set_ability(G.P_CENTERS[G.GAME.story_mode and "j_sgt_alice" or Cryptid and "j_jolly" or "j_joker"])'''
+payload = '''
+self.children.card:set_ability(G.P_CENTERS[G.GAME.story_mode and "j_sgt_alice" or Cryptid and "j_jolly" or "j_joker"])
+self.children.card:set_debuff(false)
+'''
 match_indent = true
 
 [[patches]]
