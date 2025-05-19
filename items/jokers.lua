@@ -2967,6 +2967,9 @@ local alice = {
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra}}
     end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
