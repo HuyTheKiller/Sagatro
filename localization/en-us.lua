@@ -304,6 +304,7 @@ return {
                     "{C:attention}Multiply{} the value of",
                     "all jokers belonging to {C:sgt_sagadition}Alice",
                     "{C:sgt_sagadition}in the Wonderland{} by {C:attention}X#1#{}",
+                    "{s:0.8,C:inactive}Does not affect other Alices",
                 },
             },
             j_sgt_shepherd_boy = {

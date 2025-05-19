@@ -304,6 +304,7 @@ return {
                     "{C:attention}Nhân{} giá trị của mọi joker",
                     "thuộc về {C:sgt_sagadition}Alice ở Xứ Sở{}",
                     "{C:sgt_sagadition}Diệu Kì{} thêm {C:attention}X#1#{} lần",
+                    "{s:0.8,C:inactive}Không tác dụng lên Alice khác",
                 },
             },
             j_sgt_shepherd_boy = {
