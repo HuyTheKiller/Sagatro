@@ -237,8 +237,10 @@ local eat_me = {
             if context.after and not context.blueprint and not context.retrigger_joker then
                 if G.GAME.blind and G.GAME.blind.config.blind.key == "bl_sgt_red_queen" then
                     G.E_MANAGER:add_event(Event({func = function()
-                        local do_not_cut_score = true
-                        G.GAME.blind:disable(do_not_cut_score)
+                        if to_big(G.GAME.chips) < to_big(G.GAME.blind.chips) then
+                            local do_not_cut_score = true
+                            G.GAME.blind:disable(do_not_cut_score)
+                        end
                     return true end }))
                 end
                 if card.ability.extra - 1 <= 0 then
