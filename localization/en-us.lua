@@ -355,7 +355,7 @@ return {
             dodo_bird = {
                 text = {
                     "{s:0.8}Those creatures are ridiculous. Oh, is that the",
-                    "{s:0.8}White Rabbit? It seems like he's mistaking me for",
+                    "{s:0.8,C:sgt_sagadition}White Rabbit{s:0.8}? It seems like he's mistaking me for",
                     "{s:0.8}Mary Ann, his servant, and he's ordering me to",
                     "{s:0.8}go home and fetch the gloves and fan he dropped",
                     "{s:0.8}earlier. I guess we need to go to his {s:0.8,C:sgt_sagadition}\"House\"{s:0.8}.",

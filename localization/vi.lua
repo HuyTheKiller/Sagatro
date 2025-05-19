@@ -352,7 +352,7 @@ return {
             },
             dodo_bird = {
                 text = {
-                    "{s:0.8}Những con vật đó thật vô lý. À, kia có phải là Thỏ Trắng",
+                    "{s:0.8}Những con vật đó thật vô lý. À, kia có phải là {s:0.8,C:sgt_sagadition}Thỏ Trắng",
                     "{s:0.8}không? Có vẻ như nó nhầm mình với Mary Ann, người hầu",
                     "{s:0.8}của nó, và ra lệnh mình về nhà lấy găng tay và quạt",
                     "{s:0.8}đã làm rơi trước đó. Chắc chúng ta cần đến {s:0.8,C:sgt_sagadition}\"Nhà\"{s:0.8} của nó.",
