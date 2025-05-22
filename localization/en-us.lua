@@ -395,7 +395,7 @@ return {
             },
             mushroom = {
                 text = {
-                    "{s:0.8}This thing is really useful, I should probably save it",
+                    "{s:0.8}This thing is really useful, I should probably {s:0.8,C:sgt_sagadition}save{s:0.8} it",
                     "{s:0.8}for later. AAAH, I {s:0.8,C:sgt_sagadition}bit off{s:0.8} too big a piece, now my head is",
                     "{s:0.8}as long as a snake's. Wait, there's something on my head.",
                 },
