@@ -2020,14 +2020,6 @@ local mad_hatter = {
     blueprint_compat = false,
     eternal_compat = false,
     perishable_compat = true,
-    calculate = function(self, card, context)
-        if context.end_of_round and not context.repetition and not context.individual
-        and not context.blueprint and not context.retrigger_joker and G.GAME.blind.boss then
-            ease_ante(-card.ability.extra.ante_loss)
-            G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
-            G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante - card.ability.extra.ante_loss
-        end
-    end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff and not G.GAME.saga_event_check.alice_in_wonderland.mad_hatter then
             G.GAME.saga_event.alice_in_wonderland.mad_hatter = true
@@ -2037,7 +2029,7 @@ local mad_hatter = {
             if string.len(k) > 4 and string.find(k, "_mod")
             and type(v) == "number" and k ~= "sgt_trivial_mod" then
                 if k ~= "uncommon_mod" or not G.GAME.story_mode then
-                    table.insert(card.ability.temp_table, {[k] = v})
+                    table.insert(card.ability.temp_table, {[k] = v ~= 0 and v or 1})
                     G.GAME[k] = 0
                 end
             end
