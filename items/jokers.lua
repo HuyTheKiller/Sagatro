@@ -1514,7 +1514,7 @@ local cheshire_cat = {
     order = 16,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 3, y = 0 },
-    config = {extra = {copied_joker = nil, copied_joker_value_id = 0, copied_joker_buffer_key = nil, odds = 3}},
+    config = {extra = {copied_joker = nil, copied_joker_value_id = 0, copied_joker_buffer_key = nil, odds = 3}, taken = false},
 	rarity = 1,
     cost = 6,
     blueprint_compat = true,
@@ -1524,9 +1524,10 @@ local cheshire_cat = {
         if context.setting_blind and not card.getting_sliced and not context.retrigger_joker then
             card.ability.extra.copied_joker = nil
             card.ability.extra.copied_joker_buffer_key = nil
+            card.ability.extra.copied_joker_value_id = 0
             local potential_jokers = {}
             for i=1, #G.jokers.cards do
-                if G.jokers.cards[i] ~= card and G.jokers.cards[i].config.center.key ~= "j_sgt_cheshire_cat" and G.jokers.cards[i].config.center.blueprint_compat then
+                if G.jokers.cards[i] ~= card and G.jokers.cards[i].config.center_key ~= "j_sgt_cheshire_cat" and G.jokers.cards[i].config.center.blueprint_compat then
                     potential_jokers[#potential_jokers+1] = G.jokers.cards[i]
                 end
             end
@@ -1611,6 +1612,46 @@ local cheshire_cat = {
 				}
 			end
         end
+        if context.selling_card and not context.blueprint and not context.retrigger_joker then
+            if context.card == card.ability.extra.copied_joker then
+                card.ability.extra.copied_joker = nil
+                card.ability.extra.copied_joker_buffer_key = nil
+                card.ability.extra.copied_joker_value_id = 0
+            end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            card.ability.extra.odds = G.GAME.story_mode and 2 or 3
+            card.ability.extra.copied_joker = nil
+            card.ability.extra.copied_joker_buffer_key = nil
+            card.ability.extra.copied_joker_value_id = 0
+        end
+        card.ability.taken = true
+        if #SMODS.find_card("j_sgt_cheshire_cat") > 0 and not from_debuff then
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    card_eval_status_text(card, 'extra', nil, 1, nil, {message = localize('k_gone_ex'), sound = "tarot1", volume = 1 , instant = true})
+                    ease_dollars(card.cost)
+                    card.T.r = -0.2
+                    card:juice_up(0.3, 0.4)
+                    card.states.drag.is = true
+                    card.children.center.pinch.x = true
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        delay = 0.3,
+                        blockable = false,
+                        func = function()
+                            G.jokers:remove_card(card)
+                            card:remove()
+                            card = nil
+                            return true;
+                        end
+                    }))
+                    return true
+                end
+            }))
+        end
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
@@ -1637,7 +1678,7 @@ local cheshire_cat = {
             or Sagatro.debug then
                 info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "cheshire_cat"}
             end
-            return {vars = {localize('k_none'), G.GAME.probabilities.normal, card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), Sagatro.debug and card.ability.extra.copied_joker_value_id}}
+            return {vars = {localize('k_none'), G.GAME.probabilities.normal, card.ability.taken and card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier) or (G.GAME.story_mode and 2 or 3)*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), Sagatro.debug and card.ability.extra.copied_joker_value_id}}
         end
     end,
     set_badges = function(self, card, badges)
