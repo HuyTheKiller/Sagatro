@@ -2074,7 +2074,13 @@ local mad_hatter = {
         for k, v in pairs(G.GAME) do
             if string.len(k) > 4 and string.find(k, "_mod")
             and type(v) == "number" and k ~= "sgt_trivial_mod" then
-                if k ~= "uncommon_mod" or not G.GAME.story_mode then
+                if (k ~= "uncommon_mod" or not G.GAME.story_mode)
+                and k ~= "legendary_mod"
+                -- TARGET: exclude rarity that require specific conditions to spawn here
+                -- (e.g. Cryptid's Exotic, Entropy's Entropic)
+                and k ~= "cry_exotic_mod"
+                and k ~= "entr_entropic_mod"
+                then
                     table.insert(card.ability.temp_table, {[k] = v ~= 0 and v or 1})
                     G.GAME[k] = 0
                 end
@@ -2090,7 +2096,13 @@ local mad_hatter = {
         for k, v in pairs(G.GAME) do
             if string.len(k) > 4 and string.find(k, "_mod")
             and type(v) == "number" and k ~= "sgt_trivial_mod" then
-                if k ~= "uncommon_mod" or not G.GAME.story_mode then
+                if (k ~= "uncommon_mod" or not G.GAME.story_mode)
+                and k ~= "legendary_mod"
+                -- TARGET: exclude rarity that require specific conditions to spawn here
+                -- (e.g. Cryptid's Exotic, Entropy's Entropic)
+                and k ~= "cry_exotic_mod"
+                and k ~= "entr_entropic_mod"
+                then
                     G.GAME[k] = card.ability.temp_table[k] or 1
                 end
             end
