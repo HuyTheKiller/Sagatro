@@ -3123,12 +3123,15 @@ local puss_in_boots = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.before and not context.blueprint and not context.retrigger_joker then
-            for i = 1, #context.scoring_hand do
-                local temp = context.scoring_hand[i]
-                if temp:get_id() == 11 then
-                    card.ability.extra.jack_triggered = true
-                    break
+        if context.before then
+            card.ability.extra.jack_triggered = false
+            if not context.blueprint and not context.retrigger_joker then
+                for i = 1, #context.scoring_hand do
+                    local temp = context.scoring_hand[i]
+                    if temp:get_id() == 11 then
+                        card.ability.extra.jack_triggered = true
+                        break
+                    end
                 end
             end
         end
@@ -3141,7 +3144,6 @@ local puss_in_boots = {
             end
         end
         if context.joker_main and card.ability.extra.jack_triggered then
-            card.ability.extra.jack_triggered = false
             return {
                 message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
                 Xmult_mod = card.ability.extra.xmult
