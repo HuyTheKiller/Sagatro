@@ -335,7 +335,7 @@ local mouse = {
     order = 4,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 0 },
-    config = {extra = {mult = 20, debuff_position = {}}},
+    config = {extra = {mult = 20, buffer_mult = 0, debuff_position = {}}},
 	rarity = 2,
     cost = 5,
     blueprint_compat = true,
@@ -345,7 +345,7 @@ local mouse = {
         if context.modify_scoring_hand and not context.blueprint and not context.retrigger_joker then
 			return {add_to_hand = true}
 		end
-        if context.joker_main then
+        if context.joker_main and to_big(card.ability.extra.mult) > to_big(0) then
             return {
                 mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
 				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
@@ -364,6 +364,11 @@ local mouse = {
                     end
                 end
             end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            card.ability.extra.buffer_mult = card.ability.extra.mult
         end
     end,
     in_pool = function(self, args)

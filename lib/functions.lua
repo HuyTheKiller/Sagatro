@@ -159,10 +159,14 @@ function CardArea:update(dt)
     if self == G.jokers and G.jokers.cards[1] then
         for i, v in ipairs(G.jokers.cards) do
             if v.config.center_key == "j_sgt_mouse" then
-                if table.contains(v.ability.extra.debuff_position, i) then
-                    v:set_debuff(true)
-                else
-                    v:set_debuff(false)
+                if #v.ability.extra.debuff_position > 0 then
+                    if table.contains(v.ability.extra.debuff_position, i) then
+                        v.ability.extra.mult = 0
+                        v:set_debuff(true)
+                    else
+                        v:set_debuff(false)
+                        v.ability.extra.mult = v.ability.extra.buffer_mult
+                    end
                 end
             end
         end
@@ -440,6 +444,7 @@ function Sagatro.reset_game_globals(run_start)
             for i = #v.ability.extra.debuff_position, 1, -1 do
                 table.remove(v.ability.extra.debuff_position, i)
             end
+            v.ability.extra.mult = v.ability.extra.buffer_mult
         end
     end
     if G.GAME.story_mode and G.GAME.saga_event_forced_buffoon
