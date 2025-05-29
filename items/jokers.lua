@@ -343,7 +343,7 @@ local mouse = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 0 },
     config = {extra = {mult = 20, buffer_mult = 0, debuff_position = {}}},
-	rarity = 2,
+	rarity = 1,
     cost = 5,
     blueprint_compat = true,
     eternal_compat = true,
