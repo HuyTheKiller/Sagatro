@@ -33,7 +33,8 @@ local white_rabbit = {
                 return {
                     message = localize("k_too_late_ex"),
                     colour = G.C.RED,
-                    card = card
+                    card = card,
+                    no_retrigger = true
                 }
             end
         end
@@ -113,10 +114,11 @@ local drink_me = {
                 end
                 return {
                     message = localize("k_shrunk_ex"),
-                    colour = G.C.BLUE
+                    colour = G.C.BLUE,
+                    no_retrigger = true
                 }
             end
-            if context.after and not context.blueprint and not context.retrigger_joker then
+            if context.after then
                 if card.ability.extra - 1 <= 0 then
                     G.E_MANAGER:add_event(Event({
                         func = function()
@@ -136,13 +138,15 @@ local drink_me = {
                     }))
                     return {
                         message = localize('k_drank_ex'),
-                        colour = G.C.FILTER
+                        colour = G.C.FILTER,
+                        no_retrigger = true
                     }
                 else
                     card.ability.extra = card.ability.extra - 1
                     return {
                         message = card.ability.extra..'',
-                        colour = G.C.FILTER
+                        colour = G.C.FILTER,
+                        no_retrigger = true
                     }
                 end
             end
@@ -231,10 +235,11 @@ local eat_me = {
                 end
                 return {
                     message = not next(SMODS.find_card("j_sgt_little_bill", true)) and localize("k_enlarged_ex") or localize("k_shrunk_ex"),
-                    colour = G.C.BLUE
+                    colour = G.C.BLUE,
+                    no_retrigger = true
                 }
             end
-            if context.after and not context.blueprint and not context.retrigger_joker then
+            if context.after then
                 if G.GAME.blind and G.GAME.blind.config.blind.key == "bl_sgt_red_queen" then
                     G.E_MANAGER:add_event(Event({func = function()
                         if to_big(G.GAME.chips) < to_big(G.GAME.blind.chips) then
@@ -268,13 +273,15 @@ local eat_me = {
                     end
                     return {
                         message = localize('k_eaten_ex'),
-                        colour = G.C.FILTER
+                        colour = G.C.FILTER,
+                        no_retrigger = true
                     }
                 else
                     card.ability.extra = card.ability.extra - 1
                     return {
                         message = card.ability.extra..'',
-                        colour = G.C.FILTER
+                        colour = G.C.FILTER,
+                        no_retrigger = true
                     }
                 end
             end
@@ -343,7 +350,10 @@ local mouse = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.modify_scoring_hand and not context.blueprint and not context.retrigger_joker then
-			return {add_to_hand = true}
+			return {
+                add_to_hand = true,
+                no_retrigger = true
+            }
 		end
         if context.joker_main and to_big(card.ability.extra.mult) > to_big(0) then
             return {
@@ -620,10 +630,11 @@ local unlabeled_bottle = {
                 end
                 return {
                     message = localize("k_enlarged_ex"),
-                    colour = G.C.FILTER
+                    colour = G.C.FILTER,
+                    no_retrigger = true
                 }
             end
-            if context.after and not context.blueprint and not context.retrigger_joker then
+            if context.after then
                 for _, v in ipairs(SMODS.find_card("j_sgt_white_rabbit", true)) do
                     G.E_MANAGER:add_event(Event({
                         func = function()
@@ -672,13 +683,15 @@ local unlabeled_bottle = {
                     end
                     return {
                         message = localize('k_drank_ex'),
-                        colour = G.C.FILTER
+                        colour = G.C.FILTER,
+                        no_retrigger = true
                     }
                 else
                     card.ability.extra = card.ability.extra - 1
                     return {
                         message = card.ability.extra..'',
-                        colour = G.C.FILTER
+                        colour = G.C.FILTER,
+                        no_retrigger = true
                     }
                 end
             end
@@ -969,7 +982,8 @@ local caterpillar = {
                 end
                 return {
                     message = localize('k_go_off_ex'),
-                    colour = G.C.FILTER
+                    colour = G.C.FILTER,
+                    no_retrigger = true
                 }
             end
         end
@@ -1026,7 +1040,7 @@ local mushroom = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G and G.jokers and G.jokers.cards and G.jokers.cards[1] and not context.blueprint then
+        if G and G.jokers and G.jokers.cards and G.jokers.cards[1] and not context.blueprint and not context.retrigger_joker then
             if G.jokers.cards[1] == card and G.jokers.cards[#G.jokers.cards].config.center_key ~= "j_sgt_eat_me" then
                 if context.before then
                     for _, v in ipairs(context.scoring_hand) do
@@ -1045,10 +1059,11 @@ local mushroom = {
                     end
                     return {
                         message = localize("k_shrunk_ex"),
-                        colour = G.C.BLUE
+                        colour = G.C.BLUE,
+                        no_retrigger = true
                     }
                 end
-                if context.after and not context.blueprint and not context.retrigger_joker then
+                if context.after then
                     if G.GAME.saga_event.alice_in_wonderland.the_party then
                         G.GAME.saga_event.alice_in_wonderland.the_party = false
                         G.GAME.saga_event_check.alice_in_wonderland.the_party = true
@@ -1077,13 +1092,15 @@ local mushroom = {
                         }))
                         return {
                             message = localize('k_eaten_ex'),
-                            colour = G.C.FILTER
+                            colour = G.C.FILTER,
+                            no_retrigger = true
                         }
                     else
                         card.ability.extra = card.ability.extra - 1
                         return {
                             message = card.ability.extra..'',
-                            colour = G.C.FILTER
+                            colour = G.C.FILTER,
+                            no_retrigger = true
                         }
                     end
                 end
@@ -1105,10 +1122,11 @@ local mushroom = {
                     end
                     return {
                         message = localize("k_enlarged_ex"),
-                        colour = G.C.BLUE
+                        colour = G.C.BLUE,
+                        no_retrigger = true
                     }
                 end
-                if context.after and not context.blueprint and not context.retrigger_joker then
+                if context.after then
                     if G.GAME.saga_event.alice_in_wonderland.the_party then
                         G.GAME.saga_event.alice_in_wonderland.the_party = false
                         G.GAME.saga_event_check.alice_in_wonderland.the_party = true
@@ -1137,13 +1155,15 @@ local mushroom = {
                         }))
                         return {
                             message = localize('k_eaten_ex'),
-                            colour = G.C.FILTER
+                            colour = G.C.FILTER,
+                            no_retrigger = true
                         }
                     else
                         card.ability.extra = card.ability.extra - 1
                         return {
                             message = card.ability.extra..'',
-                            colour = G.C.FILTER
+                            colour = G.C.FILTER,
+                            no_retrigger = true
                         }
                     end
                 end
@@ -1353,7 +1373,8 @@ local frog_footman = {
                 end
                 return {
                     message = localize('k_goodbye_ex'),
-                    colour = G.C.FILTER
+                    colour = G.C.FILTER,
+                    no_retrigger = true
                 }
             end
         end
@@ -1463,7 +1484,9 @@ local the_cook = {
             card.ability.extra.odds = chosen_pair[1]
             card.ability.extra.xmult = chosen_pair[2]
             return {
-                message = localize("k_stirred_ex")
+                message = localize("k_stirred_ex"),
+                colour = G.C.RED,
+                no_retrigger = true
             }
         end
     end,
@@ -1605,11 +1628,13 @@ local cheshire_cat = {
                     G.GAME.saga_event.alice_in_wonderland.the_party = true
                 end
 				return {
-					message = localize("k_gone_ex")
+					message = localize("k_gone_ex"),
+                    no_retrigger = true
 				}
 			else
 				return {
-					message = localize("k_grin_ex")
+					message = localize("k_grin_ex"),
+                    no_retrigger = true
 				}
 			end
         end
@@ -1809,7 +1834,8 @@ local duchess = {
                     return {
                         message = localize("k_die_ex"),
                         colour = G.C.RED,
-                        remove = true
+                        remove = true,
+                        no_retrigger = true
                     }
                 end
             end
@@ -1907,7 +1933,8 @@ local the_baby = {
                     }))
                     return {
                         message = localize('k_yeet_ex'),
-                        colour = G.C.FILTER
+                        colour = G.C.FILTER,
+                        no_retrigger = true
                     }
                 end
             end
@@ -2004,13 +2031,15 @@ local pepper_caster = {
                 }))
                 return {
                     message = localize('k_eaten_ex'),
-                    colour = G.C.FILTER
+                    colour = G.C.FILTER,
+                    no_retrigger = true
                 }
             else
                 card.ability.extra.uses = card.ability.extra.uses - 1
                 return {
                     message = card.ability.extra.uses..'',
-                    colour = G.C.FILTER
+                    colour = G.C.FILTER,
+                    no_retrigger = true
                 }
             end
         end
@@ -2181,13 +2210,15 @@ local tea = {
                 }))
                 return {
                     message = localize('k_drank_ex'),
-                    colour = G.C.FILTER
+                    colour = G.C.FILTER,
+                    no_retrigger = true
                 }
             else
                 card.ability.extra.uses = card.ability.extra.uses - 1
                 return {
                     message = card.ability.extra.uses..'',
-                    colour = G.C.FILTER
+                    colour = G.C.FILTER,
+                    no_retrigger = true
                 }
             end
         end
@@ -2270,13 +2301,15 @@ local bread = {
                 }))
                 return {
                     message = localize('k_eaten_ex'),
-                    colour = G.C.FILTER
+                    colour = G.C.FILTER,
+                    no_retrigger = true
                 }
             else
                 card.ability.extra.uses = card.ability.extra.uses - 1
                 return {
                     message = card.ability.extra.uses..'',
-                    colour = G.C.FILTER
+                    colour = G.C.FILTER,
+                    no_retrigger = true
                 }
             end
         end
@@ -2359,13 +2392,15 @@ local butter = {
                 }))
                 return {
                     message = localize('k_eaten_ex'),
-                    colour = G.C.FILTER
+                    colour = G.C.FILTER,
+                    no_retrigger = true
                 }
             else
                 card.ability.extra.uses = card.ability.extra.uses - 1
                 return {
                     message = card.ability.extra.uses..'',
-                    colour = G.C.FILTER
+                    colour = G.C.FILTER,
+                    no_retrigger = true
                 }
             end
         end
@@ -2441,7 +2476,8 @@ local march_hare = {
                 return {
                     message = localize("k_avoided_ex"),
                     colour = G.C.RED,
-                    card = card
+                    card = card,
+                    no_retrigger = true
                 }
             end
         end
@@ -2573,7 +2609,8 @@ local red_queen = {
                 return {
                     message = localize("k_die_ex"),
                     colour = G.C.RED,
-                    remove = true
+                    remove = true,
+                    no_retrigger = true
                 }
             end
         end
@@ -2879,7 +2916,9 @@ local mock_turtle = {
         end
         if context.joker_main and (card.ability.extra.probability_list.e_mult or card.ability.extra.probability_list.self_destruct) then
             if not context.blueprint then
-                card.ability.extra.self_destruct_odds = card.ability.extra.self_destruct_odds - 1
+                G.E_MANAGER:add_event(Event({func = function()
+                    card.ability.extra.self_destruct_odds = card.ability.extra.self_destruct_odds - 1
+                return true end }))
             end
             return {
                 e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)
@@ -2905,12 +2944,14 @@ local mock_turtle = {
                 }))
                 return {
                     message = localize('k_poof_ex'),
-                    colour = G.C.RED
+                    colour = G.C.RED,
+                    no_retrigger = true
                 }
             else
                 return {
                     message = localize('k_safe_ex'),
-                    colour = G.C.FILTER
+                    colour = G.C.FILTER,
+                    no_retrigger = true
                 }
             end
         end
