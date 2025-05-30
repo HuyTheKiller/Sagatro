@@ -1258,10 +1258,18 @@ local pigeon = {
             end
         end
         if context.selling_self and not context.blueprint and not context.retrigger_joker then
+            local found_egg = false
             for _, v in ipairs(G.jokers.cards) do
                 if v.config.center_key == "j_egg" then
                     v:set_debuff(true)
+                    v:juice_up(0.5, 0.5)
+                    if not found_egg then found_egg = true end
                 end
+            end
+            if found_egg then
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
+                    play_sound('tarot2', 0.76, 0.4);return true end}))
+                play_sound('tarot2', 1, 0.4)
             end
         end
     end,
