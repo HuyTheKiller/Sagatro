@@ -162,6 +162,12 @@ function CardArea:update(dt)
                 if #v.ability.extra.debuff_position > 0 then
                     if table.contains(v.ability.extra.debuff_position, i) then
                         v.ability.extra.mult = 0
+                        if not v.debuff then
+                            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
+                                play_sound('tarot2', 0.76, 0.4);return true end}))
+                            play_sound('tarot2', 1, 0.4)
+                            v:juice_up(0.5, 0.5)
+                        end
                         v:set_debuff(true)
                     else
                         v:set_debuff(false)
