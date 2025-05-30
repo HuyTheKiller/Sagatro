@@ -697,7 +697,7 @@ function sgt_crash()
     if Sagatro.debug then
         cause_crash = true
     end
-    return Sagatro.debug and "Are you sure you want to do this? Thankfully Sagatro debug mode is off. Turn it on before executing this command." or "Crashing game..."
+    return not Sagatro.debug and "Are you sure you want to do this? Thankfully Sagatro debug mode is off. Turn it on before executing this command." or "Crashing game..."
 end
 
 crash = crash or sgt_crash
