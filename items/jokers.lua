@@ -1070,7 +1070,6 @@ local mushroom = {
                         G.GAME.saga_event.alice_in_wonderland.red_queen = true
                     end
                     if not G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper then
-                        if Sagatro.debug then print("mushroom used") end
                         G.GAME.saga_event.alice_in_wonderland.pig_and_pepper = true
                     end
                     if card.ability.extra - 1 <= 0 then
@@ -1133,7 +1132,6 @@ local mushroom = {
                         G.GAME.saga_event.alice_in_wonderland.red_queen = true
                     end
                     if not G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper then
-                        if Sagatro.debug then print("mushroom used") end
                         G.GAME.saga_event.alice_in_wonderland.pig_and_pepper = true
                     end
                     if card.ability.extra - 1 <= 0 then
