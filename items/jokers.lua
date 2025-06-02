@@ -265,7 +265,7 @@ local eat_me = {
                             return true
                         end
                     }))
-                    if G.GAME.saga_event.alice_in_wonderland.little_bill
+                    if G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.little_bill
                     and not G.GAME.saga_event_check.alice_in_wonderland.huge_dog then
                         G.GAME.saga_event_check.alice_in_wonderland.little_bill = true
                         G.GAME.saga_event.alice_in_wonderland.little_bill = false
@@ -548,7 +548,7 @@ local dodo_bird = {
         end
     end,
     add_to_deck = function(self, card, from_debuff)
-        if not from_debuff and G.GAME.saga_event.alice_in_wonderland.cry_into_flood then
+        if not from_debuff and G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.cry_into_flood then
             G.GAME.saga_event_check.alice_in_wonderland.cry_into_flood = true
             G.GAME.saga_event.alice_in_wonderland.cry_into_flood = false
             if next(SMODS.find_card("j_sgt_white_rabbit", true))
@@ -678,7 +678,7 @@ local unlabeled_bottle = {
                             return true
                         end
                     }))
-                    if not G.GAME.saga_event_check.alice_in_wonderland.little_bill then
+                    if G.GAME.story_mode and not G.GAME.saga_event_check.alice_in_wonderland.little_bill then
                         G.GAME.saga_event.alice_in_wonderland.little_bill = true
                     end
                     return {
@@ -835,13 +835,15 @@ local huge_dog = {
             end
         end
         if context.selling_self and not context.blueprint and not context.retrigger_joker
-        and not G.GAME.saga_event_check.alice_in_wonderland.caterpillar then
+        and G.GAME.story_mode and not G.GAME.saga_event_check.alice_in_wonderland.caterpillar then
             G.GAME.saga_event.alice_in_wonderland.caterpillar = true
         end
     end,
     add_to_deck = function(self, card, from_debuff)
-        G.GAME.saga_event.alice_in_wonderland.huge_dog = false
-        G.GAME.saga_event_check.alice_in_wonderland.huge_dog = true
+        if G.GAME.story_mode then
+            G.GAME.saga_event.alice_in_wonderland.huge_dog = false
+            G.GAME.saga_event_check.alice_in_wonderland.huge_dog = true
+        end
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
@@ -976,7 +978,7 @@ local caterpillar = {
                         return true
                     end
                 }))
-                if G.GAME.saga_event.alice_in_wonderland.caterpillar then
+                if G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.caterpillar then
                     G.GAME.saga_event.alice_in_wonderland.caterpillar = false
                     G.GAME.saga_event_check.alice_in_wonderland.caterpillar = true
                 end
@@ -1064,12 +1066,12 @@ local mushroom = {
                     }
                 end
                 if context.after then
-                    if G.GAME.saga_event.alice_in_wonderland.the_party then
+                    if G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.the_party then
                         G.GAME.saga_event.alice_in_wonderland.the_party = false
                         G.GAME.saga_event_check.alice_in_wonderland.the_party = true
                         G.GAME.saga_event.alice_in_wonderland.red_queen = true
                     end
-                    if not G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper then
+                    if G.GAME.story_mode and not G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper then
                         G.GAME.saga_event.alice_in_wonderland.pig_and_pepper = true
                     end
                     if card.ability.extra - 1 <= 0 then
@@ -1126,12 +1128,12 @@ local mushroom = {
                     }
                 end
                 if context.after then
-                    if G.GAME.saga_event.alice_in_wonderland.the_party then
+                    if G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.the_party then
                         G.GAME.saga_event.alice_in_wonderland.the_party = false
                         G.GAME.saga_event_check.alice_in_wonderland.the_party = true
                         G.GAME.saga_event.alice_in_wonderland.red_queen = true
                     end
-                    if not G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper then
+                    if G.GAME.story_mode and not G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper then
                         G.GAME.saga_event.alice_in_wonderland.pig_and_pepper = true
                     end
                     if card.ability.extra - 1 <= 0 then
@@ -1372,7 +1374,7 @@ local frog_footman = {
                         return true
                     end
                 }))
-                if not G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog then
+                if G.GAME.story_mode and not G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog then
                     G.GAME.saga_event.alice_in_wonderland.pig_and_pepper = false
                     G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper = true
                     G.GAME.saga_event.alice_in_wonderland.goodbye_frog = true
@@ -1628,7 +1630,7 @@ local cheshire_cat = {
 						return true
 					end
 				}))
-                if G.GAME.saga_event.alice_in_wonderland.goodbye_frog then
+                if G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.goodbye_frog then
                     G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog = true
                     G.GAME.saga_event.alice_in_wonderland.goodbye_frog = false
                     G.GAME.saga_event.alice_in_wonderland.the_party = true
@@ -2103,7 +2105,7 @@ local mad_hatter = {
     eternal_compat = false,
     perishable_compat = true,
     add_to_deck = function(self, card, from_debuff)
-        if not from_debuff and not G.GAME.saga_event_check.alice_in_wonderland.mad_hatter then
+        if not from_debuff and G.GAME.story_mode and not G.GAME.saga_event_check.alice_in_wonderland.mad_hatter then
             G.GAME.saga_event.alice_in_wonderland.mad_hatter = true
         end
         card.ability.temp_table = {}
@@ -2124,7 +2126,7 @@ local mad_hatter = {
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
-        if not from_debuff and G.GAME.saga_event.alice_in_wonderland.mad_hatter then
+        if not from_debuff and G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.mad_hatter then
             G.GAME.saga_event.alice_in_wonderland.mad_hatter = false
             G.GAME.saga_event_check.alice_in_wonderland.mad_hatter = true
         end
@@ -2705,7 +2707,7 @@ local king = {
     end,
     add_to_deck = function(self, card, from_debuff)
         G.GAME.relief_factor = G.GAME.relief_factor*card.ability.extra.relief
-        if G.GAME.relief_factor >= 25 and G.GAME.saga_event.alice_in_wonderland.red_queen then
+        if G.GAME.relief_factor >= 25 and G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.red_queen then
             if next(SMODS.find_card("j_sgt_flamingo", true)) then
                 for _, v in ipairs(G.jokers.cards) do
                     if v.config.center_key == "j_sgt_red_queen" then
@@ -2775,7 +2777,7 @@ local flamingo = {
     end,
     add_to_deck = function(self, card, from_debuff)
         G.GAME.relief_factor = G.GAME.relief_factor*card.ability.extra.relief
-        if G.GAME.relief_factor >= 25 and G.GAME.saga_event.alice_in_wonderland.red_queen then
+        if G.GAME.relief_factor >= 25 and G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.red_queen then
             if next(SMODS.find_card("j_sgt_king", true)) then
                 for _, v in ipairs(G.jokers.cards) do
                     if v.config.center_key == "j_sgt_red_queen" then
