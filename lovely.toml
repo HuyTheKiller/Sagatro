@@ -35,16 +35,16 @@ if G.GAME.story_mode then
             end
         end
     end
-else
-    if v.set == 'Joker' and next(SMODS.find_card("j_sgt_mad_hatter")) then
-        add = nil
-        for _, key in pairs({"j_sgt_tea", "j_sgt_bread", "j_sgt_butter"}) do
-            if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not next(find_joker("Showman")))
-            and v.unlocked ~= false and v.key == key then
-                add = true
-            end
-        end
-    end
+-- else
+--    if v.set == 'Joker' and next(SMODS.find_card("j_sgt_mad_hatter")) then
+--        add = nil
+--        for _, key in pairs({"j_sgt_tea", "j_sgt_bread", "j_sgt_butter", "j_sgt_alice"}) do
+--            if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not next(find_joker("Showman")))
+--            and v.unlocked ~= false and v.key == key then
+--                add = true
+--            end
+--        end
+--    end
 end
 
 '''

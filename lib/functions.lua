@@ -88,6 +88,7 @@ function Game:init_game_object()
                 "j_sgt_butter",
                 "j_sgt_march_hare",
                 "j_sgt_dormouse",
+                "j_sgt_alice",
             },
         },
     }
