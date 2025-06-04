@@ -40,6 +40,79 @@ return {
                 },
             },
         },
+        Other = {
+            sgt_blue_streak_seal = {
+                name = "Blue Streak",
+                text = {
+                    "{C:chips}+#1#{} chips",
+                },
+            },
+            sgt_red_streak_seal = {
+                name = "Red Streak",
+                text = {
+                    "{C:mult}+#1#{} Mult",
+                },
+            },
+            sgt_gold_streak_seal = {
+                name = "Gold Streak",
+                text = {
+                    "Earn {C:money}$#1#{} when this",
+                    "card is played",
+                    "and scores",
+                },
+            },
+            sgt_purple_streak_seal = {
+                name = "Purple Streak",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult",
+                },
+            },
+            sgt_celurean_streak_seal = {
+                name = "Celurean Streak",
+                text = {
+                    "{X:chips,C:white}X#1#{} Chips",
+                },
+            },
+            sgt_crimson_streak_seal = {
+                name = "Crimson Streak",
+                text = {
+                    "{X:dark_edition,C:white}^#1#{} Mult",
+                },
+            },
+            sgt_black_streak_seal = {
+                name = "Black Streak",
+                text = {
+                    "{X:dark_edition,C:white}^^#1#{} Mult",
+                },
+            },
+            sgt_cosmic_streak_seal = {
+                name = "Cosmic Streak",
+                text = {
+                    "Create {C:attention}#1#{} {C:dark_edition}Negative{}",
+                    "{C:planet}Planet{} card(s)",
+                    "when scored",
+                },
+            },
+            sgt_gods_miracle_seal = {
+                name = "God's Miracle",
+                text = {
+                    "{X:dark_edition,C:white}^^^#1#{} Mult",
+                    "Prevents Death if held",
+                    "in hand at end of round",
+                    "{S:1.1,C:red,E:2}self destructs{}",
+                },
+            },
+        },
+        Spectral = {
+            c_sgt_streak = {
+                name = "The Streak",
+                text = {
+                    "Paint a {C:attention}random streak{}",
+                    "to {C:attention}#1#{} selected",
+                    "card(s) in your hand",
+                },
+            },
+        },
         Joker = {
             j_sgt_white_rabbit = {
                 name = "White Rabbit",
@@ -465,6 +538,15 @@ return {
             k_sgt_trivial = "Trivial",
             k_sgt_obscure = "Obscure",
             k_sgt_esoteric = "Esoteric",
+            sgt_blue_streak_seal = "Blue Streak",
+            sgt_red_streak_seal = "Red Streak",
+            sgt_gold_streak_seal = "Gold Streak",
+            sgt_purple_streak_seal = "Purple Streak",
+            sgt_celurean_streak_seal = "Celurean Streak",
+            sgt_crimson_streak_seal = "Crimson Streak",
+            sgt_black_streak_seal = "Black Streak",
+            sgt_cosmic_streak_seal = "Cosmic Streak",
+            sgt_gods_miracle_seal = "God's Miracle",
         },
         dictionary = {
             k_sgt_trivial = "Trivial",
@@ -502,6 +584,7 @@ return {
             ph_story_ended = "STORY ENDED!",
             ph_alice_in_wond = "Alice in the Wonderland",
             ph_misc_story = "Misc. Story",
+            ph_gods_miracle = "Saved by God's Miracle",
             SGT_disable_other_jokers = "Story Mode",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression (Requires run restart)"},
         },

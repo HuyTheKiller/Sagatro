@@ -49,6 +49,27 @@ SMODS.Atlas{
 }
 
 SMODS.Atlas{
+    key = "colour_streaks",
+    path = "Colour_streaks.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
+    key = "gods_miracle",
+    path = "God's_miracle.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
+    key = "misc",
+    path = "Misc_atlas.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
     key = "red_queen",
     path = "Red_queen.png",
     atlas_table = 'ANIMATION_ATLAS',
@@ -70,6 +91,11 @@ SMODS.Sound{
 SMODS.Sound{
     key = "page_scratch",
     path = "page_scratch.ogg",
+}
+
+SMODS.Sound{
+    key = "painting",
+    path = "painting.ogg",
 }
 
 SMODS.Sound{

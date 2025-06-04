@@ -40,6 +40,78 @@ return {
                 },
             },
         },
+        Other = {
+            sgt_blue_streak_seal = {
+                name = "Vệt Lam",
+                text = {
+                    "{C:chips}+#1#{} chip",
+                },
+            },
+            sgt_red_streak_seal = {
+                name = "Vệt Đỏ",
+                text = {
+                    "{C:mult}+#1#{} Nhân",
+                },
+            },
+            sgt_gold_streak_seal = {
+                name = "Vệt Vàng",
+                text = {
+                    "Nhận {C:money}$#1#{} khi lá này",
+                    "được chơi và",
+                    "ghi điểm"
+                },
+            },
+            sgt_purple_streak_seal = {
+                name = "Vệt Tím",
+                text = {
+                    "{X:mult,C:white}X#1#{} Nhân",
+                },
+            },
+            sgt_celurean_streak_seal = {
+                name = "Vệt Da Trời",
+                text = {
+                    "{X:chips,C:white}X#1#{} Chip",
+                },
+            },
+            sgt_crimson_streak_seal = {
+                name = "Vệt Đỏ Thẫm",
+                text = {
+                    "{X:dark_edition,C:white}^#1#{} Nhân",
+                },
+            },
+            sgt_black_streak_seal = {
+                name = "Vệt Đen",
+                text = {
+                    "{X:dark_edition,C:white}^^#1#{} Nhân",
+                },
+            },
+            sgt_cosmic_streak_seal = {
+                name = "Vệt Vũ Trụ",
+                text = {
+                    "Tạo ra {C:attention}#1#{} lá {C:planet}Hành Tinh{}",
+                    "{C:dark_edition}Âm Bản{} khi ghi điểm",
+                },
+            },
+            sgt_gods_miracle_seal = {
+                name = "Phép Lạ Của Chúa",
+                text = {
+                    "{X:dark_edition,C:white}^^^#1#{} Nhân",
+                    "Ngăn thua trận nếu giữ",
+                    "trong tay ở cuối ván",
+                    "rồi {S:1.1,C:red,E:2}tự huỷ{}",
+                },
+            },
+        },
+        Spectral = {
+            c_sgt_streak = {
+                name = "Vệt Màu",
+                text = {
+                    "Tô một {C:attention}vệt màu",
+                    "{C:attention}ngẫu nhiên{} lên {C:attention}#1#{} lá",
+                    "đã chọn trong tay",
+                },
+            },
+        },
         Joker = {
             j_sgt_white_rabbit = {
                 name = "Thỏ Trắng",
@@ -458,6 +530,15 @@ return {
             k_sgt_trivial = "Tầm Thường",
             k_sgt_obscure = "Mờ Mịt",
             k_sgt_esoteric = "Bí Truyền",
+            sgt_blue_streak_seal = "Vệt Lam",
+            sgt_red_streak_seal = "Vệt Đỏ",
+            sgt_gold_streak_seal = "Vệt Vàng",
+            sgt_purple_streak_seal = "Vệt Tím",
+            sgt_celurean_streak_seal = "Vệt Da Trời",
+            sgt_crimson_streak_seal = "Vệt Đỏ Thẫm",
+            sgt_black_streak_seal = "Vệt Đen",
+            sgt_cosmic_streak_seal = "Vệt Vũ Trụ",
+            sgt_gods_miracle_seal = "Phép Lạ Của Chúa",
         },
         dictionary = {
             k_sgt_trivial = "Tầm Thường",
@@ -495,6 +576,7 @@ return {
             ph_story_ended = "KẾT TRUYỆN!",
             ph_alice_in_wond = "Alice ở Xứ Sở Diệu Kì",
             ph_misc_story = "Truyện Khác",
+            ph_gods_miracle = "Được cứu bởi Phép Lạ Của Chúa",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính (Yêu cầu tạo trận mới)"},
         },

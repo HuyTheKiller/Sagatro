@@ -8,6 +8,12 @@ SMODS.Gradient{
     cycle = 2,
 } -- Skull, not putting inside assets.lua for preventive measures
 G.C.SGT_SAGADITION = SMODS.Gradients["sgt_sagadition"]
+SMODS.Gradient{
+    key = "miracle",
+    colours = {HEX('E7A73D'), HEX('FFEE00')},
+    cycle = 2,
+}
+G.C.SGT_MIRACLE = SMODS.Gradients["sgt_miracle"]
 
 -- Add them to loc_colour for text formatting
 local lc = loc_colour
@@ -92,6 +98,7 @@ function Game:init_game_object()
     ret.fusion_table = SagaFusion.fusions
     ret.red_queen_blind = false
     ret.red_queen_defeated = false
+    ret.saved_by_gods_miracle = false
 	return ret
 end
 
@@ -182,6 +189,8 @@ end
 -- Pseudo-animation for Alice; manual crash injection
 cause_crash = false
 alice_dt = 0
+miracle_dt = 0
+miracle_animate = false
 local upd = Game.update
 function Game:update(dt)
 	upd(self, dt)
@@ -201,6 +210,31 @@ function Game:update(dt)
             end
         end
     end
+
+    miracle_dt = miracle_dt + dt
+    if G.shared_seals and G.shared_seals.sgt_gods_miracle and miracle_dt > 0.1 then
+        miracle_dt = miracle_dt - 0.1
+        local miracle = G.shared_seals.sgt_gods_miracle
+        for _, card in pairs(G.I.CARD) do
+            if card and card.seal and card.seal == "sgt_gods_miracle"
+            and card.sprite_facing == "front" then
+                miracle_animate = true
+                break
+            end
+        end
+        if miracle_animate then
+            if miracle.sprite_pos.x == 101 then
+                miracle.sprite_pos.x = 87
+            else
+                miracle.sprite_pos.x = miracle.sprite_pos.x + 1
+            end
+            miracle:set_sprite_pos(miracle.sprite_pos)
+            miracle_animate = false
+        else
+            miracle.sprite_pos.x = 0
+        end
+    end
+
     if cause_crash then error("A manual crash is called. Don't be grumpy, you did this on purpose.", 0) end
 end
 
@@ -465,6 +499,9 @@ function Sagatro.reset_game_globals(run_start)
     or (G.GAME.saga_event.alice_in_wonderland.gryphon
     and not G.GAME.saga_event_check.alice_in_wonderland.gryphon)) then
         G.GAME.saga_event_forced_buffoon = false
+    end
+    if G.GAME.saved_by_gods_miracle then
+        G.GAME.saved_by_gods_miracle = false
     end
 end
 
