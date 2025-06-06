@@ -187,7 +187,7 @@ function CardArea:update(dt)
     end
 end
 
--- Pseudo-animation for Alice; manual crash injection
+-- Pseudo-animation for Alice and God's Miracle; manual crash injection
 cause_crash = false
 alice_dt = 0
 miracle_dt = 0
@@ -239,6 +239,25 @@ function Game:update(dt)
     if cause_crash then error("A manual crash is called. Don't be grumpy, you did this on purpose.", 0) end
 end
 
+-- Esoteric jokers are Exotic equivalents in this mod
+local set_spritesref = Card.set_sprites
+function Card:set_sprites(_center, _front)
+	set_spritesref(self, _center, _front)
+	if _center and _center.soul_pos and _center.soul_pos.extra and not Cryptid then
+		self.children.floating_sprite2 = Sprite(
+			self.T.x,
+			self.T.y,
+			self.T.w,
+			self.T.h,
+			G.ASSET_ATLAS[_center.atlas or _center.set],
+			_center.soul_pos.extra
+		)
+		self.children.floating_sprite2.role.draw_major = self
+		self.children.floating_sprite2.states.hover.can = false
+		self.children.floating_sprite2.states.click.can = false
+	end
+end
+
 -- Allow using custom joker pools if prompted
 local gcp = get_current_pool
 function get_current_pool(_type, _rarity, _legendary, _append)
@@ -285,7 +304,7 @@ end
 local cc = create_card
 function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
     -- Forcing joker pools also happens here
-    if G.GAME.saga_event.alice_in_wonderland.final_showdown and G.GAME.story_mode and _type == "Joker" then
+    if G.GAME.saga_event and G.GAME.saga_event.alice_in_wonderland.final_showdown and G.GAME.story_mode and _type == "Joker" then
         _type = "Final Showdown"
         if pseudorandom("alice_in_final_showdown") > 0.997 and not next(SMODS.find_card("j_sgt_alice", true)) then
             forced_key = "j_sgt_alice"
@@ -616,6 +635,108 @@ and not (SMODS.Mods["Prism"] or {}).can_load then
 		table.insert(SMODS.calculation_keys, v)
 		end
 	end
+end
+
+if not Cryptid then
+    SMODS.DrawStep({
+        key = "floating_sprite2",
+        order = 59,
+        func = function(self)
+            -- leaving Gateway here for now, will change it to Gateway-equivalent from this mod
+            if self.ability.name == "cry-Gateway" and (self.config.center.discovered or self.bypass_discovery_center) then
+                local scale_mod2 = 0.07 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
+                local rotate_mod2 = 0 --0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
+                self.children.floating_sprite2:draw_shader(
+                    "dissolve",
+                    0,
+                    nil,
+                    nil,
+                    self.children.center,
+                    scale_mod2,
+                    rotate_mod2,
+                    nil,
+                    0.1 --[[ + 0.03*math.cos(1.8*G.TIMERS.REAL)--]],
+                    nil,
+                    0.6
+                )
+                self.children.floating_sprite2:draw_shader(
+                    "dissolve",
+                    nil,
+                    nil,
+                    nil,
+                    self.children.center,
+                    scale_mod2,
+                    rotate_mod2
+                )
+
+                local scale_mod = 0.05
+                    + 0.05 * math.sin(1.8 * G.TIMERS.REAL)
+                    + 0.07
+                        * math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL)) * math.pi * 14)
+                        * (1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL))) ^ 3
+                local rotate_mod = 0.1 * math.sin(1.219 * G.TIMERS.REAL)
+                    + 0.07
+                        * math.sin(G.TIMERS.REAL * math.pi * 5)
+                        * (1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL))) ^ 2
+
+                self.children.floating_sprite.role.draw_major = self
+                self.children.floating_sprite:draw_shader(
+                    "dissolve",
+                    0,
+                    nil,
+                    nil,
+                    self.children.center,
+                    scale_mod,
+                    rotate_mod,
+                    nil,
+                    0.1 + 0.03 * math.sin(1.8 * G.TIMERS.REAL),
+                    nil,
+                    0.6
+                )
+                self.children.floating_sprite:draw_shader(
+                    "dissolve",
+                    nil,
+                    nil,
+                    nil,
+                    self.children.center,
+                    scale_mod,
+                    rotate_mod
+                )
+            end
+            if
+                self.config.center.soul_pos
+                and self.config.center.soul_pos.extra
+                and (self.config.center.discovered or self.bypass_discovery_center)
+            then
+                local scale_mod = 0.07 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
+                local rotate_mod = 0 --0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
+                self.children.floating_sprite2:draw_shader(
+                    "dissolve",
+                    0,
+                    nil,
+                    nil,
+                    self.children.center,
+                    scale_mod,
+                    rotate_mod,
+                    nil,
+                    0.1 --[[ + 0.03*math.cos(1.8*G.TIMERS.REAL)--]],
+                    nil,
+                    0.6
+                )
+                self.children.floating_sprite2:draw_shader(
+                    "dissolve",
+                    nil,
+                    nil,
+                    nil,
+                    self.children.center,
+                    scale_mod,
+                    rotate_mod
+                )
+            end
+        end,
+        conditions = { vortex = false, facing = "front" },
+    })
+    SMODS.draw_ignore_keys.floating_sprite2 = true
 end
 
 Sagatro.config_tab = function()

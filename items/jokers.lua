@@ -834,15 +834,16 @@ local huge_dog = {
                 }
             end
         end
-        if context.selling_self and not context.blueprint and not context.retrigger_joker
-        and G.GAME.story_mode and not G.GAME.saga_event_check.alice_in_wonderland.caterpillar then
-            G.GAME.saga_event.alice_in_wonderland.caterpillar = true
-        end
     end,
     add_to_deck = function(self, card, from_debuff)
-        if G.GAME.story_mode then
+        if not from_debuff and G.GAME.story_mode then
             G.GAME.saga_event.alice_in_wonderland.huge_dog = false
             G.GAME.saga_event_check.alice_in_wonderland.huge_dog = true
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if not from_debuff and G.GAME.story_mode and not G.GAME.saga_event_check.alice_in_wonderland.caterpillar then
+            G.GAME.saga_event.alice_in_wonderland.caterpillar = true
         end
     end,
     in_pool = function(self, args)
@@ -1274,18 +1275,20 @@ local pigeon = {
         end
     end,
     add_to_deck = function(self, card, from_debuff)
-        for _ = 1, card.ability.extra*G.GAME.alice_multiplier do
-            G.E_MANAGER:add_event(Event({
-            trigger = 'before',
-            delay = 0.0,
-            func = (function()
-                assert(SMODS.add_card({
-                    set = "Joker",
-                    skip_materialize = true,
-                    key = "j_egg",
-                }))
-                return true
-            end)}))
+        if not from_debuff then
+            for _ = 1, card.ability.extra*G.GAME.alice_multiplier do
+                G.E_MANAGER:add_event(Event({
+                trigger = 'before',
+                delay = 0.0,
+                func = (function()
+                    assert(SMODS.add_card({
+                        set = "Joker",
+                        skip_materialize = true,
+                        key = "j_egg",
+                    }))
+                    return true
+                end)}))
+            end
         end
     end,
     in_pool = function(self, args)
@@ -1553,13 +1556,15 @@ local cheshire_cat = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.setting_blind and not card.getting_sliced and not context.retrigger_joker then
+        if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
             card.ability.extra.copied_joker = nil
             card.ability.extra.copied_joker_buffer_key = nil
             card.ability.extra.copied_joker_value_id = 0
             local potential_jokers = {}
             for i=1, #G.jokers.cards do
-                if G.jokers.cards[i] ~= card and G.jokers.cards[i].config.center_key ~= "j_sgt_cheshire_cat" and G.jokers.cards[i].config.center.blueprint_compat then
+                if G.jokers.cards[i] ~= card and G.jokers.cards[i].config.center_key ~= "j_sgt_cheshire_cat"
+                and G.jokers.cards[i].config.center_key ~= "j_sgt_the_cook" -- Copying The Cook crashes the game :skull:
+                and G.jokers.cards[i].config.center.blueprint_compat then
                     potential_jokers[#potential_jokers+1] = G.jokers.cards[i]
                 end
             end
@@ -2965,7 +2970,7 @@ local mock_turtle = {
         end
     end,
     add_to_deck = function(self, card, from_debuff)
-        if G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.gryphon then
+        if not from_debuff and G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.gryphon then
             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('ph_trial_begins'), colour = G.C.RED, instant = true})
             G.GAME.saga_event.alice_in_wonderland.gryphon = false
             G.GAME.saga_event_check.alice_in_wonderland.gryphon = true
@@ -3088,6 +3093,7 @@ local shepherd_boy = {
     atlas = "the_boy_who_cried_wolf",
     saga_group = "the_boy_who_cried_wolf",
     order = 31,
+    pos = { x = 0, y = 0 },
     config = {extra = {mult = 0, mult_gain = 6, odds = 6}},
     rarity = 1,
     cost = 4,
@@ -3166,6 +3172,7 @@ local puss_in_boots = {
     atlas = "puss_in_boots",
     saga_group = "puss_in_boots",
     order = 32,
+    pos = { x = 0, y = 0 },
     config = {extra = {money = 2, xmult = 2, jack_triggered = false}},
     rarity = 2,
     cost = 7,
@@ -3239,6 +3246,218 @@ local puss_in_boots = {
     end,
 }
 
+-- Aladdin and the Magic Lamp
+local aladdin = {
+    key = "aladdin",
+    name = "Aladdin",
+    atlas = "aladdin_and_the_magic_lamp",
+    saga_group = "aladdin_and_the_magic_lamp",
+    order = 33,
+    pos = { x = 0, y = 0 },
+    config = {buffed = false, extra = {tax = 0.25, xmult = 1, xmult_gain = 0.5}},
+    rarity = 3,
+    cost = 8,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = false,
+    calculate = function(self, card, context)
+        if context.joker_main and to_big(card.ability.extra.xmult) > to_big(1) then
+			return {
+                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                Xmult_mod = card.ability.extra.xmult
+			}
+		end
+        if context.end_of_round and not context.repetition and not context.individual
+        and not context.blueprint and not context.retrigger_joker and G.GAME.dollars > to_big(0) then
+            ease_dollars(-math.floor(to_number(G.GAME.dollars)*card.ability.extra.tax))
+            card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
+            return {
+                message = localize("k_steal_ex"),
+                colour = G.C.FILTER,
+                no_retrigger = true
+            }
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult, card.ability.extra.tax*100, card.ability.extra.xmult_gain}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.ability.extra", ref_value = "xmult", retrigger_type = "exp" }
+                    }
+                }
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "tax", colour = G.C.ORANGE },
+                { text = "%", colour = G.C.ORANGE },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.tax = card.ability.extra.tax*100
+            end,
+        }
+    end,
+}
+
+local magic_lamp = {
+    key = "magic_lamp",
+    name = "Magic Lamp",
+    atlas = "aladdin_and_the_magic_lamp",
+    saga_group = "aladdin_and_the_magic_lamp",
+    order = 34,
+    pos = { x = 1, y = 0 },
+    config = {magic_lamp_rounds = 0, extra = {xmult = 3, rounds_goal = 3}},
+    rarity = "sgt_obscure",
+    cost = 12,
+    blueprint_compat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                Xmult_mod = card.ability.extra.xmult
+			}
+        end
+        if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and not context.retrigger_joker then
+            card.ability.magic_lamp_rounds = card.ability.magic_lamp_rounds + 1
+            if card.ability.magic_lamp_rounds >= card.ability.extra.rounds_goal then
+                local has_aladdin = false
+                for _, v in ipairs(G.jokers.cards) do
+                    if v.config.center_key == "j_sgt_aladdin" then
+                        has_aladdin = true
+                        G.E_MANAGER:add_event(Event({
+                            trigger = "immediate",
+                            func = function()
+                                assert(SMODS.add_card({
+                                    set = "Joker",
+                                    skip_materialize = true,
+                                    key = "j_sgt_lamp_genie",
+                                }))
+                                return true
+                            end
+                        }))
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                play_sound('tarot1')
+                                card.T.r = -0.2
+                                card:juice_up(0.3, 0.4)
+                                card.states.drag.is = true
+                                card.children.center.pinch.x = true
+                                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                                    func = function()
+                                            G.jokers:remove_card(card)
+                                            card:remove()
+                                            card = nil
+                                        return true; end}))
+                                return true
+                            end
+                        }))
+                        break
+                    end
+                end
+                if not has_aladdin then
+                    return {
+                        message = localize("k_huh_qm"),
+                        colour = G.C.FILTER
+                    }
+                end
+            else
+                return {
+                    message = (card.ability.magic_lamp_rounds..'/'..card.ability.extra.rounds_goal),
+                    colour = G.C.FILTER
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return false
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult, card.ability.magic_lamp_rounds, card.ability.extra.rounds_goal}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.ability.extra", ref_value = "xmult", retrigger_type = "exp" }
+                    }
+                }
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "active" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.active = card.ability.magic_lamp_rounds >= card.ability.extra.rounds_goal and
+                localize{type = 'name_text', set = "Joker", key = "j_sgt_aladdin", nodes = {}}
+                or (card.ability.magic_lamp_rounds .. "/" .. card.ability.extra.rounds_goal)
+            end,
+            style_function = function(card, text, reminder_text, extra)
+                if reminder_text and reminder_text.children[2] then
+                    reminder_text.children[2].config.colour = card.ability.magic_lamp_rounds >= card.ability.extra.rounds_goal
+                    and G.C.ORANGE or G.C.UI.TEXT_INACTIVE
+                end
+                return false
+            end,
+        }
+    end
+}
+
+local lamp_genie = {
+    key = "lamp_genie",
+    name = "Lamp Genie",
+    atlas = "esoteric",
+    saga_group = "aladdin_and_the_magic_lamp",
+    order = 35,
+    pos = { x = 0, y = 0 },
+    soul_pos = { x = 2, y = 0, extra = { x = 1, y = 0 } },
+    config = {universal = 1, money = 500, retriggers = 2,
+        wishlist = {
+            c_sgt_fertility = false,
+            c_sgt_prosperity = false,
+            c_sgt_love = false,
+            c_sgt_peace = false,
+            c_sgt_ease = false,
+            c_sgt_aestheticism = false,
+            c_sgt_freedom = false,
+        }
+    },
+    rarity = "sgt_esoteric",
+    cost = 50,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        -- Pending calc
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            -- pending display
+        }
+    end
+}
+
 local joker_table = {
     white_rabbit,
     drink_me,
@@ -3272,6 +3491,9 @@ local joker_table = {
     alice,
     shepherd_boy,
     puss_in_boots,
+    aladdin,
+    magic_lamp,
+    lamp_genie,
 }
 
 for _, v in ipairs(joker_table) do

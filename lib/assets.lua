@@ -35,6 +35,20 @@ SMODS.Atlas{
 }
 
 SMODS.Atlas{
+    key = "aladdin_and_the_magic_lamp",
+    path = "Aladdin_and_the_magic_lamp.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
+    key = "esoteric",
+    path = "Esoteric.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
     key = "decks",
     path = "Decks.png",
     px = 71,
@@ -101,4 +115,12 @@ SMODS.Sound{
 SMODS.Sound{
     key = "emult",
     path = "talisman_emult.wav",
+}
+
+SMODS.Sound{
+    key = "music_sagatro",
+    path = "music_sagatro.ogg",
+    select_music_track = function()
+		return G.STATE and G.STATE == G.STATES.MENU
+	end,
 }

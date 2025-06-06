@@ -41,3 +41,13 @@ for _, v in ipairs(blind_table) do
     end
     SMODS.Blind(v)
 end
+
+if JokerDisplay then
+    local jd_blind_def = JokerDisplay.Blind_Definitions
+
+    jd_blind_def["bl_sgt_red_queen"] = {
+        trigger_function = function(blind, text, poker_hands, scoring_hand, full_hand)
+            return true
+        end
+    }
+end

@@ -398,6 +398,31 @@ return {
                     "ghi điểm chứa {C:attention}Bồi{}",
                 },
             },
+            j_sgt_aladdin = {
+                name = "Aladdin",
+                text = {
+                    "Mất {C:attention}#2#%{} số tiền hiện có",
+                    "và thêm {X:mult,C:white}X#3#{} Nhân",
+                    "ở cuối ván",
+                    "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_magic_lamp = {
+                name = "Đèn Thần",
+                text = {
+                    "{X:mult,C:white}X#1#{} Nhân",
+                    "Sau {C:attention}#3#{} ván, nếu đang",
+                    "sở hữu {C:attention}Aladdin{}, {C:red,E:2}tự huỷ{}",
+                    "và tạo ra {C:sgt_esoteric}Thần Đèn{}",
+                    "{C:inactive}(Hiện tại là {C:attention}#2#{C:inactive}/#3#)",
+                },
+            },
+            j_sgt_lamp_genie = {
+                name = "Thần Đèn",
+                text = {
+                    "WIP",
+                },
+            },
         },
         ["Saga Tooltip"] = {
             fusion_hint = {
@@ -571,6 +596,8 @@ return {
             k_amused_ex = "Hế Hế!",
             k_wolf_ex = "Sói!",
             k_amnestied_ex = "Ân Xá!",
+            k_steal_ex = "Cướp!",
+            k_huh_qm = "Hở?",
             ph_per_face_down = " mỗi lá sấp",
             ph_trial_begins = "Khai Toà!",
             ph_story_ended = "KẾT TRUYỆN!",

@@ -3,8 +3,8 @@ Sagatro.load_table = {
     jokers = true,
 	decks_n_sleeves = true,
 	blinds = true,
-	streaks = false,
-	misc = false,
+	streaks = true,
+	misc = true,
 }
 
 Sagatro.optional_features = {

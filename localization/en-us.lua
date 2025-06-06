@@ -399,6 +399,31 @@ return {
                     "contains a {C:attention}Jack{}",
                 },
             },
+            j_sgt_aladdin = {
+                name = "Aladdin",
+                text = {
+                    "Lose {C:attention}#2#%{} of current money",
+                    "and gain {X:mult,C:white}X#3#{} Mult",
+                    "at end of round",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_magic_lamp = {
+                name = "Magic Lamp",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult",
+                    "After {C:attention}#3#{} rounds, if {C:attention}Aladdin{}",
+                    "is around, {C:red,E:2}self destructs{}",
+                    "and create {C:sgt_esoteric}Lamp Genie{}",
+                    "{C:inactive}(Currently {C:attention}#2#{C:inactive}/#3#)",
+                },
+            },
+            j_sgt_lamp_genie = {
+                name = "Lamp Genie",
+                text = {
+                    "WIP",
+                },
+            },
         },
         ["Saga Tooltip"] = {
             fusion_hint = {
@@ -579,6 +604,8 @@ return {
             k_amused_ex = "Amused!",
             k_wolf_ex = "Wolf!",
             k_amnestied_ex = "Amnestied!",
+            k_steal_ex = "Steal!",
+            k_huh_qm = "Huh?",
             ph_per_face_down = " per face-down",
             ph_trial_begins = "Trial Begins!",
             ph_story_ended = "STORY ENDED!",

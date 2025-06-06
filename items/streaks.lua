@@ -111,50 +111,6 @@ local celurean_streak = {
     end,
 }
 
-local crimson_streak = {
-    key = "crimson_streak",
-    name = "Crimson Streak",
-    atlas = "colour_streaks",
-    pos = {x = 5, y = 0},
-    config = {emult = 1.1},
-    badge_colour = HEX('760808'),
-    sound = { sound = 'sgt_painting', per = 1, vol = 1 },
-    weight = 0,
-    calculate = function(self, card, context)
-        if context.main_scoring and context.cardarea == G.play then
-            return {
-                e_mult = card.ability.seal.emult,
-                card = card
-			}
-        end
-    end,
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card and card.ability.seal.emult or self.config.emult}}
-    end,
-}
-
-local black_streak = {
-    key = "black_streak",
-    name = "Black Streak",
-    atlas = "colour_streaks",
-    pos = {x = 6, y = 0},
-    config = {eemult = 1.09},
-    badge_colour = HEX('2D2E29'),
-    sound = { sound = 'sgt_painting', per = 1, vol = 1 },
-    weight = 0,
-    calculate = function(self, card, context)
-        if context.main_scoring and context.cardarea == G.play then
-            return {
-                ee_mult = card.ability.seal.eemult,
-                card = card
-			}
-        end
-    end,
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card and card.ability.seal.eemult or self.config.eemult}}
-    end,
-}
-
 local cosmic_streak = {
     key = "cosmic_streak",
     name = "Cosmic Streak",
@@ -184,12 +140,56 @@ local cosmic_streak = {
     end,
 }
 
+local crimson_streak = {
+    key = "crimson_streak",
+    name = "Crimson Streak",
+    atlas = "colour_streaks",
+    pos = {x = 5, y = 0},
+    config = {emult = 1.1},
+    badge_colour = HEX('760808'),
+    sound = { sound = 'sgt_painting', per = 1, vol = 1 },
+    weight = 0,
+    calculate = function(self, card, context)
+        if context.main_scoring and context.cardarea == G.play then
+            return {
+                e_mult = card.ability.seal.emult,
+                card = card
+			}
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card and card.ability.seal.emult or self.config.emult}}
+    end,
+}
+
+local black_streak = {
+    key = "black_streak",
+    name = "Black Streak",
+    atlas = "colour_streaks",
+    pos = {x = 6, y = 0},
+    config = {eemult = 1.05},
+    badge_colour = HEX('2D2E29'),
+    sound = { sound = 'sgt_painting', per = 1, vol = 1 },
+    weight = 0,
+    calculate = function(self, card, context)
+        if context.main_scoring and context.cardarea == G.play then
+            return {
+                ee_mult = card.ability.seal.eemult,
+                card = card
+			}
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card and card.ability.seal.eemult or self.config.eemult}}
+    end,
+}
+
 local gods_miracle = {
     key = "gods_miracle",
     name = "God's Miracle",
     atlas = "gods_miracle",
     pos = {x = 0, y = 0},
-    config = {eeemult = 1.05},
+    config = {eeemult = 1.02},
     badge_colour = G.C.SGT_MIRACLE,
     sound = { sound = 'sgt_painting', per = 1, vol = 1 },
     weight = 0,
@@ -216,7 +216,6 @@ local gods_miracle = {
             return {
                 message = localize('k_saved_ex'),
                 saved = "ph_gods_miracle",
-                colour = G.C.SGT_MIRACLE
             }
         end
     end,
@@ -233,8 +232,8 @@ local streak_table = {
     gold_streak,
     purple_streak,
     celurean_streak,
-    crimson_streak,
     cosmic_streak,
+    crimson_streak,
     talisman and black_streak or nil,
     talisman and gods_miracle or nil,
 }
