@@ -41,6 +41,22 @@ return {
             },
         },
         Other = {
+            p_sgt_wish_primary = {
+                name = "Gói Điều Ước",
+                text = {
+                    "Chọn {C:attention}#1#{} trong tối đa",
+                    "{C:attention}#2#{} lá {C:sgt_wish}Điều Ước{}",
+                    "để dùng ngay"
+                },
+            },
+            p_sgt_wish_secondary = {
+                name = "Gói Điều Ước",
+                text = {
+                    "Chọn {C:attention}#1#{} trong tối đa",
+                    "{C:attention}#2#{} lá {C:sgt_wish}Điều Ước{}",
+                    "để dùng ngay"
+                },
+            },
             sgt_blue_streak_seal = {
                 name = "Vệt Lam",
                 text = {
@@ -109,6 +125,65 @@ return {
                     "Tô một {C:attention}vệt màu",
                     "{C:attention}ngẫu nhiên{} lên {C:attention}#1#{} lá",
                     "đã chọn trong tay",
+                },
+            },
+            c_sgt_lamp = {
+                name = "Chiếc Đèn Thần",
+                text = {
+                    "Tạo ra một",
+                    "{C:sgt_obscure}#1#{}",
+                },
+            },
+        },
+        Wish = {
+            c_sgt_fertility = {
+                name = "Trù Phú",
+                text = {
+                    "Vĩnh viễn thêm {C:blue}+#1#{} tay bài, {C:red}+#1#{} lượt bỏ bài,",
+                    "{C:attention}+#1#{} lá giữ trong tay, {C:attention}+#1#{} ô tiêu thụ",
+                    "và {C:dark_edition}+#1#{} ô Joker",
+                },
+            },
+            c_sgt_prosperity = {
+                name = "Sung Túc",
+                text = {
+                    "Nhận {C:money}$#1#{}",
+                },
+            },
+            c_sgt_love = {
+                name = "Tình Yêu",
+                text = {
+                    "{C:sgt_esoteric}#1#{} tái kích mọi joker",
+                    "thêm {C:attention}#2#{} lần",
+                },
+            },
+            c_sgt_peace = {
+                name = "Hoà Bình",
+                text = {
+                    "{C:sgt_esoteric}#1#{} vô hiệu hoá khả năng",
+                    "của mọi {C:attention}Boss Blind{}",
+                },
+            },
+            c_sgt_ease = {
+                name = "Dễ Dàng",
+                text = {
+                    "{C:red}#1#{} giờ đây cho",
+                    "{C:chips}+#2#{} chip và {X:red,C:white}X#3#{} Nhân",
+                },
+            },
+            c_sgt_aestheticism = {
+                name = "Sắc Đẹp",
+                text = {
+                    "Mọi {C:attention}lá bài thường{} nhận",
+                    "một {C:dark_edition}Ấn bản{} ngẫu nhiên",
+                },
+            },
+            c_sgt_freedom = {
+                name = "Tự Do",
+                text = {
+                    "Giải phóng {C:sgt_esoteric}#1#{}",
+                    "{C:inactive}Đừng lo, anh ta vẫn ở lại{}",
+                    "{C:inactive}và cho {X:dark_edition,C:white}^#2#{C:inactive} Nhân",
                 },
             },
         },
@@ -407,18 +482,47 @@ return {
                     "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
                 },
             },
+            j_sgt_aladdin_buffed = {
+                name = "Aladdin",
+                text = {
+                    "{C:chips}+#1#{} chip",
+                    "{X:mult,C:white}X#2#{} Nhân",
+                },
+            },
             j_sgt_magic_lamp = {
                 name = "Đèn Thần",
                 text = {
                     "{X:mult,C:white}X#1#{} Nhân",
                     "Sau {C:attention}#3#{} ván, nếu đang",
-                    "sở hữu {C:attention}Aladdin{}, {C:red,E:2}tự huỷ{}",
-                    "và tạo ra {C:sgt_esoteric}Thần Đèn{}",
+                    "sở hữu {C:attention}#4#{}, {C:red,E:2}tự huỷ{}",
+                    "và tạo ra {C:sgt_esoteric}#5#{}",
                     "{C:inactive}(Hiện tại là {C:attention}#2#{C:inactive}/#3#)",
                 },
             },
             j_sgt_lamp_genie = {
                 name = "Thần Đèn",
+                text = {
+                    "Cho {C:attention}hiệu ứng{} dựa trên",
+                    "{C:sgt_wish}điều ước{} đã chọn",
+                },
+            },
+            j_sgt_lamp_genie_pending = {
+                name = "Thần Đèn",
+                text = {
+                    "Nhận một {C:sgt_wish}Gói",
+                    "{C:sgt_wish}Điều Ước{} miễn phí",
+                    "{C:inactive}(Đang chờ)",
+                },
+            },
+            j_sgt_lincoln_ship = {
+                name = "Tàu Lincoln",
+                text = {
+                    "{C:mult}+#1#{} Nhân",
+                    "Áp dụng {C:attention}#2#{}",
+                },
+            },
+            j_sgt_submarine = {
+                name = "Tàu Ngầm",
                 text = {
                     "WIP",
                 },
@@ -565,10 +669,16 @@ return {
             sgt_cosmic_streak_seal = "Vệt Vũ Trụ",
             sgt_gods_miracle_seal = "Phép Lạ Của Chúa",
         },
+        v_dictionary = {
+            a_sgt_powmult = { "^#1# Nhân" },
+        },
         dictionary = {
             k_sgt_trivial = "Tầm Thường",
             k_sgt_obscure = "Mờ Mịt",
             k_sgt_esoteric = "Bí Truyền",
+            k_wish = "Điều Ước",
+            b_wish_cards = "Lá Điều Ước",
+            sgt_wish_pack = "Gói Điều Ước",
             saga_tooltip = "Gợi ý tiến triển",
             saga_fusion_tooltip = "Kết hợp joker",
             b_join = "NHẬP",
@@ -597,12 +707,17 @@ return {
             k_wolf_ex = "Sói!",
             k_amnestied_ex = "Ân Xá!",
             k_steal_ex = "Cướp!",
+            k_emerged_ex = "Lòi Ra!",
+            k_wish_granted_ex = "Đã Ban Ước!",
+            k_released_ex = "Đã Giải Phóng!",
             k_huh_qm = "Hở?",
+            k_buffed = "Siêu Cấp",
             ph_per_face_down = " mỗi lá sấp",
             ph_trial_begins = "Khai Toà!",
             ph_story_ended = "KẾT TRUYỆN!",
             ph_alice_in_wond = "Alice ở Xứ Sở Diệu Kì",
             ph_misc_story = "Truyện Khác",
+            ph_20k = "2 Vạn Dặm Dưới Biến",
             ph_gods_miracle = "Được cứu bởi Phép Lạ Của Chúa",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính (Yêu cầu tạo trận mới)"},

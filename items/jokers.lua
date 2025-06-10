@@ -869,7 +869,7 @@ local huge_dog = {
         return {
             text = {
                 { text = "x" },
-                { ref_table = "card.joker_display_values", ref_value = "retriggers" },
+                { ref_table = "card.joker_display_values", ref_value = "retriggers", retrigger_type = "mult" },
             },
             reminder_text = {
                 { text = "(2, " },
@@ -1855,7 +1855,15 @@ local duchess = {
         end
         if context.joker_main and card.ability.triggered then
             return {
-                e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)
+                message = localize({
+					type = "variable",
+					key = "a_sgt_powmult",
+					vars = {
+						number_format(card.ability.extra.e_mult),
+					},
+				}),
+				Emult_mod = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
+				colour = G.C.DARK_EDITION,
             }
         end
         if context.after and not context.blueprint and not context.retrigger_joker then
@@ -2613,7 +2621,7 @@ local red_queen = {
         if context.individual and context.cardarea == G.play then
             if not context.other_card.debuff then
                 return {
-                    e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)
+                    e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
                 }
             end
         end
@@ -2849,12 +2857,12 @@ local gryphon = {
                     return {
                         message = localize('k_debuffed'),
                         colour = G.C.RED,
-                        card = context.other_card,
+                        card = card,
                     }
                 else
                     return {
                         e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
-                        card = context.other_card,
+                        card = card,
                     }
                 end
             end
@@ -2934,7 +2942,15 @@ local mock_turtle = {
                 return true end }))
             end
             return {
-                e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)
+                message = localize({
+					type = "variable",
+					key = "a_sgt_powmult",
+					vars = {
+						number_format(card.ability.extra.e_mult),
+					},
+				}),
+				Emult_mod = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
+				colour = G.C.DARK_EDITION,
             }
         end
         if context.after and not context.blueprint and not context.retrigger_joker then
@@ -3254,32 +3270,51 @@ local aladdin = {
     saga_group = "aladdin_and_the_magic_lamp",
     order = 33,
     pos = { x = 0, y = 0 },
-    config = {buffed = false, extra = {tax = 0.25, xmult = 1, xmult_gain = 0.5}},
+    config = {buffed = false, extra = {tax = 0.25, xmult = 1, xmult_gain = 0.5, chips = 0}},
     rarity = 3,
     cost = 8,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if context.joker_main and to_big(card.ability.extra.xmult) > to_big(1) then
-			return {
-                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
-                Xmult_mod = card.ability.extra.xmult
-			}
-		end
-        if context.end_of_round and not context.repetition and not context.individual
-        and not context.blueprint and not context.retrigger_joker and G.GAME.dollars > to_big(0) then
-            ease_dollars(-math.floor(to_number(G.GAME.dollars)*card.ability.extra.tax))
-            card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
-            return {
-                message = localize("k_steal_ex"),
-                colour = G.C.FILTER,
-                no_retrigger = true
-            }
+        if not card.ability.buffed then
+            if context.joker_main and to_big(card.ability.extra.xmult) > to_big(1) then
+                return {
+                    message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                    Xmult_mod = card.ability.extra.xmult
+                }
+            end
+            if context.end_of_round and not context.repetition and not context.individual
+            and not context.blueprint and not context.retrigger_joker and G.GAME.dollars > to_big(0) then
+                ease_dollars(-math.floor(to_number(G.GAME.dollars)*card.ability.extra.tax))
+                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
+                return {
+                    message = localize("k_steal_ex"),
+                    colour = G.C.FILTER,
+                    no_retrigger = true
+                }
+            end
+        else
+            if context.joker_main then
+                return {
+                    message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                    Xmult_mod = card.ability.extra.xmult,
+                    chip_mod = card.ability.extra.chips,
+                    sound = "multhit2"
+                }
+            end
         end
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.xmult, card.ability.extra.tax*100, card.ability.extra.xmult_gain}}
+        local ret = {}
+        if card.ability.buffed then
+            ret.key = "j_sgt_aladdin_buffed"
+            ret.vars = {card.ability.extra.chips, card.ability.extra.xmult}
+        else
+            ret.key = "j_sgt_aladdin"
+            ret.vars = {card.ability.extra.xmult, card.ability.extra.tax*100, card.ability.extra.xmult_gain}
+        end
+        return ret
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -3287,6 +3322,9 @@ local aladdin = {
     joker_display_def = function(JokerDisplay)
         return {
             text = {
+                { ref_table = "card.joker_display_values", ref_value = "plus", colour = G.C.CHIPS },
+                { ref_table = "card.joker_display_values", ref_value = "chips", colour = G.C.CHIPS, retrigger_type = "mult" },
+                { ref_table = "card.joker_display_values", ref_value = "space" },
                 {
                     border_nodes = {
                         { text = "X" },
@@ -3295,13 +3333,22 @@ local aladdin = {
                 }
             },
             reminder_text = {
-                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "open_bracket" },
                 { ref_table = "card.joker_display_values", ref_value = "tax", colour = G.C.ORANGE },
-                { text = "%", colour = G.C.ORANGE },
-                { text = ")" },
+                { ref_table = "card.joker_display_values", ref_value = "percent", colour = G.C.ORANGE },
+                { ref_table = "card.joker_display_values", ref_value = "close_bracket" },
+                { ref_table = "card.joker_display_values", ref_value = "buffed" },
             },
             calc_function = function(card)
-                card.joker_display_values.tax = card.ability.extra.tax*100
+                -- My lord, text abomination
+                card.joker_display_values.plus = card.ability.buffed and "+" or ""
+                card.joker_display_values.chips = card.ability.buffed and card.ability.extra.chips or ""
+                card.joker_display_values.space = card.ability.buffed and " " or ""
+                card.joker_display_values.open_bracket = card.ability.buffed and " " or "("
+                card.joker_display_values.tax = card.ability.buffed and "" or card.ability.extra.tax*100
+                card.joker_display_values.percent = card.ability.buffed and "" or "%"
+                card.joker_display_values.close_bracket = card.ability.buffed and "" or ")"
+                card.joker_display_values.buffed = card.ability.buffed and localize("k_buffed") or ""
             end,
         }
     end,
@@ -3369,6 +3416,11 @@ local magic_lamp = {
                         message = localize("k_huh_qm"),
                         colour = G.C.FILTER
                     }
+                else
+                    return {
+                        message = localize("k_poof_ex"),
+                        colour = G.C.FILTER
+                    }
                 end
             else
                 return {
@@ -3382,7 +3434,11 @@ local magic_lamp = {
         return false
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.xmult, card.ability.magic_lamp_rounds, card.ability.extra.rounds_goal}}
+        info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_aladdin"]
+        info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_lamp_genie"]
+        return {vars = {card.ability.extra.xmult, card.ability.magic_lamp_rounds, card.ability.extra.rounds_goal,
+        localize{type = 'name_text', set = "Joker", key = "j_sgt_aladdin", nodes = {}},
+        localize{type = 'name_text', set = "Joker", key = "j_sgt_lamp_genie", nodes = {}}}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -3426,10 +3482,10 @@ local lamp_genie = {
     order = 35,
     pos = { x = 0, y = 0 },
     soul_pos = { x = 2, y = 0, extra = { x = 1, y = 0 } },
-    config = {universal = 1, money = 500, retriggers = 2,
+    config = { extra = {retriggers = 2, e_mult = 3}, collected_wish = 0,
         wishlist = {
-            c_sgt_fertility = false,
             c_sgt_prosperity = false,
+            c_sgt_fertility = false,
             c_sgt_love = false,
             c_sgt_peace = false,
             c_sgt_ease = false,
@@ -3439,24 +3495,258 @@ local lamp_genie = {
     },
     rarity = "sgt_esoteric",
     cost = 50,
-    blueprint_compat = false,
+    blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        card.ability.from_wish_card = G.GAME.wish_card_spawns_genie
+        if card.ability.from_wish_card then
+            card.ability.init = nil
+        else
+            card.ability.init = not next(SMODS.find_card("j_sgt_lamp_genie", true))
+        end
+    end,
     calculate = function(self, card, context)
-        -- Pending calc
+        if context.retrigger_joker_check and not context.retrigger_joker
+        and card.ability.wishlist.c_sgt_love then
+            return {
+                message = localize("k_again_ex"),
+                repetitions = card.ability.extra.retriggers,
+                card = card,
+            }
+		end
+        if context.setting_blind and not card.getting_sliced and context.blind.boss
+        and not context.blueprint and not context.retrigger_joker and card.ability.wishlist.c_sgt_peace then
+            G.E_MANAGER:add_event(Event({func = function()
+                G.E_MANAGER:add_event(Event({func = function()
+                    -- Nope, I'm not checking for G.GAME.blind.disabled
+                    -- because Chicot never did in the first place
+                    -- Enjoy your Lamp Genie + Chicot combo folks
+                    G.GAME.blind:disable()
+                    play_sound('timpani')
+                    delay(0.4)
+                    return true end }))
+                card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('ph_boss_disabled')})
+            return true end }))
+        end
+        if context.joker_main and card.ability.wishlist.c_sgt_freedom then
+            return {
+                message = localize({
+					type = "variable",
+					key = "a_sgt_powmult",
+					vars = {
+						number_format(card.ability.extra.e_mult),
+					},
+				}),
+				Emult_mod = card.ability.extra.e_mult,
+				colour = G.C.DARK_EDITION,
+            }
+        end
+        -- Aestheticism affects future playing cards as well
+        if context.playing_card_added and not card.getting_sliced
+        and not context.blueprint and not context.retrigger_joker
+        and card.ability.wishlist.c_sgt_aestheticism then
+            for _, v in ipairs(context.cards) do
+                if not v.edition then
+                    v:set_edition(poll_edition("future_aesthetic_edition", nil, nil, true), nil, true)
+                end
+            end
+        end
+        if context.skipping_booster and not context.blueprint and not context.retrigger_joker then
+            if context.booster.key == "p_sgt_wish_primary" and card.ability.collected_wish == 2 then
+                card.ability.skipped_first_pack = true
+                if #SMODS.find_card("j_sgt_lamp_genie", true) > 1 then
+                    local lamp_genies = SMODS.find_card("j_sgt_lamp_genie", true)
+                    for i = 2, #lamp_genies do
+                        lamp_genies[i].ability.skipped_first_pack = nil
+                    end
+                end
+            end
+        end
+    end,
+    update = function(self, card, dt)
+        if not (card.ability.from_wish_card or G.SETTINGS.paused) then
+            if G.STATE == G.STATES.BLIND_SELECT and card.ability.init then
+                card.ability.init = nil
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                    G.CONTROLLER.locks.genie_init = true
+                    G.E_MANAGER:add_event(Event({func = function()
+                        local key = "p_sgt_wish_primary"
+                        local card = Card(G.play.T.x + G.play.T.w/2 - G.CARD_W*1.27/2,
+                        G.play.T.y + G.play.T.h/2-G.CARD_H*1.27/2, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
+                        card.cost = 0
+                        card.from_tag = true
+                        G.FUNCS.use_card({config = {ref_table = card}})
+                        card:start_materialize()
+                        G.CONTROLLER.locks.genie_init = nil
+                    return true end }))
+                return true end }))
+            end
+            if G.STATE == G.STATES.SHOP and card.ability.skipped_first_pack then
+                card.ability.skipped_first_pack = nil
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.8, func = function()
+                    G.CONTROLLER.locks.genie_second_pack = true
+                    G.E_MANAGER:add_event(Event({func = function()
+                        local key = "p_sgt_wish_secondary"
+                        local card = Card(G.play.T.x + G.play.T.w/2 - G.CARD_W*1.27/2,
+                        G.play.T.y + G.play.T.h/2-G.CARD_H*1.27/2, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
+                        card.cost = 0
+                        card.from_tag = true
+                        booster_obj = card.config.center
+                        G.FUNCS.use_card({config = {ref_table = card}})
+                        card:start_materialize()
+                        G.CONTROLLER.locks.genie_second_pack = nil
+                    return true end }))
+                return true end }))
+            end
+        end
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {}}
+        for k, v in pairs(card.ability.wishlist) do
+            if v then info_queue[#info_queue+1] = G.P_CENTERS[k] end
+        end
+        local ret = {}
+        if card.ability.init then
+            ret.key = "j_sgt_lamp_genie_pending"
+            info_queue[#info_queue+1] = G.P_CENTERS.p_sgt_wish_primary
+        end
+        return ret
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
  	end,
     joker_display_def = function(JokerDisplay)
         return {
-            -- pending display
+            text = {
+                { ref_table = "card.joker_display_values", ref_value = "pre_space" },
+                { ref_table = "card.joker_display_values", ref_value = "times" },
+                { ref_table = "card.joker_display_values", ref_value = "retriggers" },
+                { ref_table = "card.joker_display_values", ref_value = "space" },
+                {
+                    border_nodes = {
+                        { ref_table = "card.joker_display_values", ref_value = "hat" },
+                        { ref_table = "card.joker_display_values", ref_value = "emult", retrigger_type = "exp" }
+                    },
+                }
+            },
+            calc_function = function(card)
+                card.joker_display_values.pre_space = card.ability.wishlist.c_sgt_love and not card.ability.wishlist.c_sgt_freedom
+                and " " or ""
+                card.joker_display_values.times = card.ability.wishlist.c_sgt_love
+                and "x" or ""
+                card.joker_display_values.retriggers = card.ability.wishlist.c_sgt_love
+                and card.ability.extra.retriggers or ""
+                card.joker_display_values.space = card.ability.wishlist.c_sgt_love and card.ability.wishlist.c_sgt_freedom
+                and " " or ""
+                card.joker_display_values.hat = card.ability.wishlist.c_sgt_freedom
+                and "^" or ""
+                card.joker_display_values.emult = card.ability.wishlist.c_sgt_freedom
+                and card.ability.extra.e_mult or ""
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                return retrigger_joker.ability.wishlist.c_sgt_love
+                and retrigger_joker.ability.extra.retriggers or 0
+            end,
+            style_function = function(card, text, reminder_text, extra)
+                if text and text.children[5] then
+                    text.children[5].config.colour = card.ability.wishlist.c_sgt_freedom
+                    and G.C.DARK_EDITION or G.C.CLEAR
+                end
+                return false
+            end,
         }
     end
 }
+
+-- 20k miles under the sea
+local lincoln_ship = {
+    key = "lincoln_ship",
+    name = "Lincoln Ship",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 36,
+    pos = { x = 0, y = 0 },
+    config = {extra = {mult = 4}},
+	rarity = 1,
+    cost = 5,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.modify_scoring_hand and not context.blueprint and not context.retrigger_joker then
+			return {
+                add_to_hand = true,
+                no_retrigger = true
+            }
+		end
+        if context.joker_main then
+            return {
+                mult_mod = card.ability.extra.mult,
+				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+            }
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        -- does nothing for now Ig
+    end,
+    in_pool = function(self, args)
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS["j_splash"]
+        return {vars = {card.ability.extra.mult, localize{type = 'name_text', set = "Joker", key = "j_splash", nodes = {}}}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.ability.extra", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+        }
+    end,
+}
+
+local submarine = {
+    key = "submarine",
+    name = "Submarine",
+    atlas = "submarine",
+    saga_group = "20k_miles_under_the_sea",
+    order = 36,
+    pos = { x = 0, y = 0 },
+    extra_pos = { x = 0, y = 9 },
+    config = {},
+	rarity = 1,
+    cost = 5,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = false,
+    calculate = function(self, card, context)
+        -- Pending calc
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff and G.GAME.story_mode then
+            card:set_eternal(true)
+        end
+    end,
+    in_pool = function(self, args)
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {}
+    end,
+}
+
+local talisman = Sagatro.mod_compat.talisman
 
 local joker_table = {
     white_rabbit,
@@ -3492,10 +3782,13 @@ local joker_table = {
     shepherd_boy,
     puss_in_boots,
     aladdin,
-    magic_lamp,
-    lamp_genie,
+    talisman and magic_lamp or nil,
+    talisman and lamp_genie or nil,
+    lincoln_ship,
+    submarine,
 }
 
+table.sort(joker_table, function(a, b) return a.order < b.order end)
 for _, v in ipairs(joker_table) do
     if Sagatro.debug then
         v.unlocked = true

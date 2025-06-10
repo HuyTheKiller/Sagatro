@@ -1,4 +1,4 @@
-local talisman = (SMODS.Mods["Talisman"] or {}).can_load
+local talisman = Sagatro.mod_compat.talisman
 
 local streak_pairs = {
     sgt_blue_streak_seal = "chips",
@@ -98,8 +98,41 @@ local streak = {
 	end,
 }
 
+local lamp = {
+    key = "lamp",
+    name = "The Magic Lamp",
+    set = "Spectral",
+    atlas = "esoteric",
+    pos = {x = 0, y = 1},
+    config = {},
+    cost = 4,
+    hidden = true,
+    soul_rate = 0.009,
+    can_use = function(self, card)
+        return true
+    end,
+    use = function(self, card, area, copier)
+		local used_consumable = copier or card
+		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('timpani')
+            card:juice_up(0.3, 0.5)
+            assert(SMODS.add_card({
+                set = "Joker",
+                skip_materialize = true,
+                key = "j_sgt_magic_lamp",
+            }))
+            return true end }))
+        delay(0.6)
+	end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_magic_lamp"]
+		return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_magic_lamp", nodes = {}}}}
+	end,
+}
+
 local consumable_table = {
     streak,
+    talisman and lamp or nil,
 }
 
 for _, v in ipairs(consumable_table) do

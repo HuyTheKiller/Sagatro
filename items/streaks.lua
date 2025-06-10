@@ -114,8 +114,8 @@ local celurean_streak = {
 local cosmic_streak = {
     key = "cosmic_streak",
     name = "Cosmic Streak",
-    atlas = "colour_streaks",
-    pos = {x = 0, y = 1},
+    atlas = "cosmic_streak",
+    pos = {x = 0, y = 0},
     config = {planet_count = 1},
     badge_colour = HEX('47666C'),
     sound = { sound = 'sgt_painting', per = 1, vol = 1 },
@@ -224,7 +224,7 @@ local gods_miracle = {
     end,
 }
 
-local talisman = (SMODS.Mods["Talisman"] or {}).can_load
+local talisman = Sagatro.mod_compat.talisman
 
 local streak_table = {
     blue_streak,

@@ -41,6 +41,22 @@ return {
             },
         },
         Other = {
+            p_sgt_wish_primary = {
+                name = "Wish Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:sgt_wish} Wish{} cards to",
+                    "be used immediately"
+                },
+            },
+            p_sgt_wish_secondary = {
+                name = "Wish Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:sgt_wish} Wish{} cards to",
+                    "be used immediately"
+                },
+            },
             sgt_blue_streak_seal = {
                 name = "Blue Streak",
                 text = {
@@ -110,6 +126,65 @@ return {
                     "Paint a {C:attention}random streak{}",
                     "to {C:attention}#1#{} selected",
                     "card(s) in your hand",
+                },
+            },
+            c_sgt_lamp = {
+                name = "The Magic Lamp",
+                text = {
+                    "Create a",
+                    "{C:sgt_obscure}#1#{}",
+                },
+            },
+        },
+        Wish = {
+            c_sgt_fertility = {
+                name = "Fertility",
+                text = {
+                    "Permanently gain {C:blue}+#1#{} hand(s), {C:red}+#1#{} discard(s),",
+                    "{C:attention}+#1#{} hand size(s), {C:attention}+#1#{} consumable slot(s)",
+                    "and {C:dark_edition}+#1#{} Joker slot(s)",
+                },
+            },
+            c_sgt_prosperity = {
+                name = "Prosperity",
+                text = {
+                    "Earn {C:money}$#1#{}",
+                },
+            },
+            c_sgt_love = {
+                name = "Love",
+                text = {
+                    "{C:sgt_esoteric}#1#{} retriggers all jokers",
+                    "{C:attention}#2#{} additional time(s)",
+                },
+            },
+            c_sgt_peace = {
+                name = "Peace",
+                text = {
+                    "{C:sgt_esoteric}#1#{} disables the effect",
+                    "of all {C:attention}Boss Blinds{}",
+                },
+            },
+            c_sgt_ease = {
+                name = "Ease",
+                text = {
+                    "{C:red}#1#{} now gives",
+                    "{C:chips}+#2#{} chips and {X:red,C:white}X#3#{} Mult",
+                },
+            },
+            c_sgt_aestheticism = {
+                name = "Aestheticism",
+                text = {
+                    "All {C:attention}playing cards{} get",
+                    "a random {C:dark_edition}Edition{}",
+                },
+            },
+            c_sgt_freedom = {
+                name = "Freedom",
+                text = {
+                    "Release the {C:sgt_esoteric}#1#{}",
+                    "{C:inactive}Don't worry, he stays around{}",
+                    "{C:inactive}and gives {X:dark_edition,C:white}^#2#{C:inactive} Mult",
                 },
             },
         },
@@ -408,18 +483,47 @@ return {
                     "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
                 },
             },
+            j_sgt_aladdin_buffed = {
+                name = "Aladdin",
+                text = {
+                    "{C:chips}+#1#{} chips",
+                    "{X:mult,C:white}X#2#{} Mult",
+                },
+            },
             j_sgt_magic_lamp = {
                 name = "Magic Lamp",
                 text = {
                     "{X:mult,C:white}X#1#{} Mult",
-                    "After {C:attention}#3#{} rounds, if {C:attention}Aladdin{}",
+                    "After {C:attention}#3#{} rounds, if {C:attention}#4#{}",
                     "is around, {C:red,E:2}self destructs{}",
-                    "and create {C:sgt_esoteric}Lamp Genie{}",
+                    "and create {C:sgt_esoteric}#5#{}",
                     "{C:inactive}(Currently {C:attention}#2#{C:inactive}/#3#)",
                 },
             },
             j_sgt_lamp_genie = {
                 name = "Lamp Genie",
+                text = {
+                    "Gives {C:attention}effects{} based on",
+                    "chosen {C:sgt_wish}wishes{}",
+                },
+            },
+            j_sgt_lamp_genie_pending = {
+                name = "Lamp Genie",
+                text = {
+                    "Gives a free",
+                    "{C:sgt_wish}Wish Pack",
+                    "{C:inactive}(Pending)",
+                },
+            },
+            j_sgt_lincoln_ship = {
+                name = "Lincoln Ship",
+                text = {
+                    "{C:mult}+#1#{} Mult",
+                    "Apply {C:attention}#2#{}",
+                },
+            },
+            j_sgt_submarine = {
+                name = "Submarine",
                 text = {
                     "WIP",
                 },
@@ -573,10 +677,16 @@ return {
             sgt_cosmic_streak_seal = "Cosmic Streak",
             sgt_gods_miracle_seal = "God's Miracle",
         },
+        v_dictionary = {
+            a_sgt_powmult = { "^#1# Mult" },
+        },
         dictionary = {
             k_sgt_trivial = "Trivial",
             k_sgt_obscure = "Obscure",
             k_sgt_esoteric = "Esoteric",
+            k_wish = "Wish",
+            b_wish_cards = "Wish Cards",
+            sgt_wish_pack = "Wish Pack",
             saga_tooltip = "Hint to progress",
             saga_fusion_tooltip = "Joker fusion",
             b_join = "JOIN",
@@ -605,12 +715,17 @@ return {
             k_wolf_ex = "Wolf!",
             k_amnestied_ex = "Amnestied!",
             k_steal_ex = "Steal!",
+            k_emerged_ex = "Emerged!",
+            k_wish_granted_ex = "Wish Granted!",
+            k_released_ex = "Genie Released!",
             k_huh_qm = "Huh?",
+            k_buffed = "Buffed",
             ph_per_face_down = " per face-down",
             ph_trial_begins = "Trial Begins!",
             ph_story_ended = "STORY ENDED!",
             ph_alice_in_wond = "Alice in the Wonderland",
             ph_misc_story = "Misc. Story",
+            ph_20k = "20k Miles Under The Sea",
             ph_gods_miracle = "Saved by God's Miracle",
             SGT_disable_other_jokers = "Story Mode",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression (Requires run restart)"},

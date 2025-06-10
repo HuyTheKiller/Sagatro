@@ -9,5 +9,5 @@
 	"badge_colour": "6131ac",
 	"display_name": "Sagatro",
 	"dependencies": ["Steamodded (>=1.0.0~BETA-0301a)"],
-	"version": "0.1~demo"
+	"version": "0.1.1~demo"
 }

@@ -42,6 +42,20 @@ SMODS.Atlas{
 }
 
 SMODS.Atlas{
+    key = "20k_miles_under_the_sea",
+    path = "20k_miles_under_the_sea.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
+    key = "submarine",
+    path = "Submarine.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
     key = "esoteric",
     path = "Esoteric.png",
     px = 71,
@@ -70,8 +84,29 @@ SMODS.Atlas{
 }
 
 SMODS.Atlas{
+    key = "cosmic_streak",
+    path = "Cosmic_streak.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
     key = "gods_miracle",
     path = "God's_miracle.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
+    key = "booster",
+    path = "Boosters.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
+    key = "wish",
+    path = "Wish.png",
     px = 71,
     py = 95,
 }
@@ -121,6 +156,17 @@ SMODS.Sound{
     key = "music_sagatro",
     path = "music_sagatro.ogg",
     select_music_track = function()
-		return G.STATE and G.STATE == G.STATES.MENU
+		if G.STATE == G.STATES.MENU then
+            return 100
+        end
+        return false
+	end,
+}
+
+SMODS.Sound{
+    key = "music_aladdin",
+    path = "music_aladdin.ogg",
+    select_music_track = function()
+		return G.STATE and G.STATE == G.STATES.SMODS_BOOSTER_OPENED and SMODS.OPENED_BOOSTER.label:find("wish")
 	end,
 }

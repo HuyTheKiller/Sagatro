@@ -2,6 +2,7 @@
 G.C.SGT_TRIVIAL = HEX("808080")
 G.C.SGT_OBSCURE = HEX("8627D4")
 G.C.SGT_ESOTERIC = HEX("131868")
+G.C.SGT_WISH = HEX("9bbcfd")
 SMODS.Gradient{
     key = "sagadition",
     colours = {Sagatro.badge_colour, G.C.RARITY[4]},
@@ -100,6 +101,7 @@ function Game:init_game_object()
     ret.red_queen_blind = false
     ret.red_queen_defeated = false
     ret.saved_by_gods_miracle = false
+    ret.wish_card_spawns_genie = false -- Deck of Equilibrium compat
 	return ret
 end
 
@@ -187,14 +189,37 @@ function CardArea:update(dt)
     end
 end
 
--- Pseudo-animation for Alice and God's Miracle; manual crash injection
+-- Pseudo-animation and manual crash
 cause_crash = false
 alice_dt = 0
+cosmic_dt = 0
 miracle_dt = 0
 miracle_animate = false
+submarine_dt = 0
 local upd = Game.update
 function Game:update(dt)
 	upd(self, dt)
+
+    submarine_dt = submarine_dt + dt
+    if G.P_CENTERS and G.P_CENTERS.j_sgt_submarine and submarine_dt > 0.1 then
+        submarine_dt = submarine_dt - 0.1
+        local submarine = G.P_CENTERS.j_sgt_submarine
+        if submarine.pos.x == 11 then
+            submarine.pos.x = 0
+        else
+            submarine.pos.x = submarine.pos.x + 1
+        end
+        if submarine.extra_pos.x == 8 then
+            submarine.extra_pos.x = 0
+        else
+            submarine.extra_pos.x = submarine.extra_pos.x + 1
+        end
+        for _, card in pairs(G.I.CARD) do
+            if card and card.config.center == submarine then
+                card.children.extra_sprite:set_sprite_pos(submarine.extra_pos)
+            end
+        end
+    end
 
     alice_dt = alice_dt + dt
     if G.P_CENTERS and G.P_CENTERS.j_sgt_alice and alice_dt > 0.05 then
@@ -210,6 +235,18 @@ function Game:update(dt)
                 card.children.floating_sprite:set_sprite_pos(alice.soul_pos)
             end
         end
+    end
+
+    cosmic_dt = cosmic_dt + dt
+    if G.shared_seals and G.shared_seals.sgt_cosmic_streak and cosmic_dt > 0.125 then
+        cosmic_dt = cosmic_dt - 0.125
+        local cosmic = G.shared_seals.sgt_cosmic_streak
+        if cosmic.sprite_pos.x == 14 then
+            cosmic.sprite_pos.x = 0
+        else
+            cosmic.sprite_pos.x = cosmic.sprite_pos.x + 1
+        end
+        cosmic:set_sprite_pos(cosmic.sprite_pos)
     end
 
     miracle_dt = miracle_dt + dt
@@ -243,6 +280,44 @@ end
 local set_spritesref = Card.set_sprites
 function Card:set_sprites(_center, _front)
 	set_spritesref(self, _center, _front)
+    if _center and _center.name == "Submarine" then
+		self.children.extra_sprite = Sprite(
+			self.T.x,
+			self.T.y,
+			self.T.w,
+			self.T.h,
+			G.ASSET_ATLAS[_center.atlas or _center.set],
+			_center.extra_pos
+		)
+		self.children.extra_sprite.role.draw_major = self
+		self.children.extra_sprite.states.hover.can = false
+		self.children.extra_sprite.states.click.can = false
+        self.children.extra_sprite.custom_draw = true
+	end
+    if _center and _center.name == "The Magic Lamp" then
+		self.children.floating_sprite = Sprite(
+			self.T.x,
+			self.T.y,
+			self.T.w,
+			self.T.h,
+			G.ASSET_ATLAS[_center.atlas or _center.set],
+			{ x = 2, y = 1 }
+		)
+		self.children.floating_sprite.role.draw_major = self
+		self.children.floating_sprite.states.hover.can = false
+		self.children.floating_sprite.states.click.can = false
+		self.children.floating_sprite2 = Sprite(
+			self.T.x,
+			self.T.y,
+			self.T.w,
+			self.T.h,
+			G.ASSET_ATLAS[_center.atlas or _center.set],
+			{ x = 1, y = 1 }
+		)
+		self.children.floating_sprite2.role.draw_major = self
+		self.children.floating_sprite2.states.hover.can = false
+		self.children.floating_sprite2.states.click.can = false
+	end
 	if _center and _center.soul_pos and _center.soul_pos.extra and not Cryptid then
 		self.children.floating_sprite2 = Sprite(
 			self.T.x,
@@ -496,6 +571,26 @@ function get_pack(_key, _type)
     return gp(_key, _type)
 end
 
+local csb = G.FUNCS.can_skip_booster
+G.FUNCS.can_skip_booster = function(e)
+    csb(e)
+    if G.pack_cards and (not (G.GAME.STOP_USE and G.GAME.STOP_USE > 0)) and
+    (G.STATE == G.STATES.SMODS_BOOSTER_OPENED and SMODS.OPENED_BOOSTER.label:find("wish_primary")) then
+        if next(SMODS.find_card("j_sgt_lamp_genie", true)) then
+            local max_collected_wish = 0
+            for _, card in ipairs(G.jokers.cards) do
+                if card.config.center_key == "j_sgt_lamp_genie" and card.ability.collected_wish > max_collected_wish then
+                    max_collected_wish = card.ability.collected_wish
+                end
+            end
+            if max_collected_wish < 2 then
+                e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+                e.config.button = nil
+            end
+        end
+    end
+end
+
 -- Reset debuff positions of all Mouses outside their own code (because they can't do that if debuffed)
 -- Also replenish first-slot buffoon pack if said events are yet to progress
 function Sagatro.reset_game_globals(run_start)
@@ -564,7 +659,10 @@ function table.contains(t, x)
     return found
 end
 
--- Honestly, no idea what there really are for (from Cryptid's Tarot called Blessing)
+-- from Cryptid's Tarot called Blessing, and Ig it works with Deck of Equilibrium as well
+-- just have to add "no_doe = true" to exclude Deck of Equilibrium
+-- or "no_grc = true" to exclude get_random_consumable, neat
+-- wish cards are gonna use the latter, no way I'm letting Frog-Footman steal the show
 function sgt_center_no(center, m, key, no_no)
 	if no_no then
 		return center[m] or (G.GAME and G.GAME[m] and G.GAME[m][key]) or false
@@ -583,7 +681,7 @@ function sgt_get_random_consumable(seed, excluded_flags, banned_card, pool, no_u
 		local key = pseudorandom_element(pool or G.P_CENTER_POOLS.Consumeables, pseudoseed(seed or "grc")).key
 		selection = G.P_CENTERS[key]
 		if selection.discovered or not no_undiscovered then
-			for k, v in pairs(excluded_flags) do
+			for _, v in ipairs(excluded_flags) do
 				if not sgt_center_no(selection, v, key, true) then
 					if not banned_card or (banned_card and banned_card ~= key) then
 						passes = passes + 1
@@ -595,7 +693,8 @@ function sgt_get_random_consumable(seed, excluded_flags, banned_card, pool, no_u
 			if tries <= 0 and no_undiscovered then
 				return G.P_CENTERS["c_strength"]
 			else
-				return selection
+				if Sagatro.debug then print(selection.key) end
+                return selection
 			end
 		end
 	end
@@ -637,107 +736,140 @@ and not (SMODS.Mods["Prism"] or {}).can_load then
 	end
 end
 
-if not Cryptid then
-    SMODS.DrawStep({
-        key = "floating_sprite2",
-        order = 59,
-        func = function(self)
-            -- leaving Gateway here for now, will change it to Gateway-equivalent from this mod
-            if self.ability.name == "cry-Gateway" and (self.config.center.discovered or self.bypass_discovery_center) then
-                local scale_mod2 = 0.07 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
-                local rotate_mod2 = 0 --0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
-                self.children.floating_sprite2:draw_shader(
-                    "dissolve",
-                    0,
-                    nil,
-                    nil,
-                    self.children.center,
-                    scale_mod2,
-                    rotate_mod2,
-                    nil,
-                    0.1 --[[ + 0.03*math.cos(1.8*G.TIMERS.REAL)--]],
-                    nil,
-                    0.6
-                )
-                self.children.floating_sprite2:draw_shader(
-                    "dissolve",
-                    nil,
-                    nil,
-                    nil,
-                    self.children.center,
-                    scale_mod2,
-                    rotate_mod2
-                )
-
-                local scale_mod = 0.05
-                    + 0.05 * math.sin(1.8 * G.TIMERS.REAL)
-                    + 0.07
-                        * math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL)) * math.pi * 14)
-                        * (1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL))) ^ 3
-                local rotate_mod = 0.1 * math.sin(1.219 * G.TIMERS.REAL)
-                    + 0.07
-                        * math.sin(G.TIMERS.REAL * math.pi * 5)
-                        * (1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL))) ^ 2
-
-                self.children.floating_sprite.role.draw_major = self
-                self.children.floating_sprite:draw_shader(
-                    "dissolve",
-                    0,
-                    nil,
-                    nil,
-                    self.children.center,
-                    scale_mod,
-                    rotate_mod,
-                    nil,
-                    0.1 + 0.03 * math.sin(1.8 * G.TIMERS.REAL),
-                    nil,
-                    0.6
-                )
-                self.children.floating_sprite:draw_shader(
-                    "dissolve",
-                    nil,
-                    nil,
-                    nil,
-                    self.children.center,
-                    scale_mod,
-                    rotate_mod
-                )
+SMODS.DrawStep({
+    key = "extra_sprite",
+    order = 21,
+    func = function(self, layer)
+        if self.ability.name == "Submarine" and (self.config.center.discovered or self.bypass_discovery_center) then
+            local scale_mod = 0 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
+            local rotate_mod = 0 --0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
+            self.children.extra_sprite:draw_shader(
+                "dissolve",
+                nil,
+                nil,
+                nil,
+                self.children.center,
+                scale_mod,
+                rotate_mod
+            )
+            if self.edition and not self.delay_edition then
+                for k, v in pairs(G.P_CENTER_POOLS.Edition) do
+                    if self.edition[v.key:sub(3)] and v.shader then
+                        if type(v.draw) == 'function' then
+                            v:draw(self, layer)
+                        else
+                            self.children.extra_sprite:draw_shader(v.shader, nil, self.ARGS.send_to_shader, nil, self.children.center)
+                        end
+                    end
+                end
             end
-            if
-                self.config.center.soul_pos
-                and self.config.center.soul_pos.extra
-                and (self.config.center.discovered or self.bypass_discovery_center)
-            then
-                local scale_mod = 0.07 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
-                local rotate_mod = 0 --0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
-                self.children.floating_sprite2:draw_shader(
-                    "dissolve",
-                    0,
-                    nil,
-                    nil,
-                    self.children.center,
-                    scale_mod,
-                    rotate_mod,
-                    nil,
-                    0.1 --[[ + 0.03*math.cos(1.8*G.TIMERS.REAL)--]],
-                    nil,
-                    0.6
-                )
-                self.children.floating_sprite2:draw_shader(
-                    "dissolve",
-                    nil,
-                    nil,
-                    nil,
-                    self.children.center,
-                    scale_mod,
-                    rotate_mod
-                )
+            if self.edition and self.edition.negative then
+                self.children.extra_sprite:draw_shader('negative_shine', nil, self.ARGS.send_to_shader, nil, self.children.center)
             end
-        end,
-        conditions = { vortex = false, facing = "front" },
-    })
-    SMODS.draw_ignore_keys.floating_sprite2 = true
-end
+        end
+    end,
+    conditions = { vortex = false, facing = "front" },
+})
+SMODS.draw_ignore_keys.extra_sprite = true
+
+SMODS.DrawStep({
+    key = "floating_sprite2",
+    order = 58,
+    func = function(self)
+        if self.ability.name == "The Magic Lamp" and (self.config.center.discovered or self.bypass_discovery_center) then
+            local scale_mod2 = 0.07 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
+            local rotate_mod2 = 0 --0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
+            self.children.floating_sprite2:draw_shader(
+                "dissolve",
+                0,
+                nil,
+                nil,
+                self.children.center,
+                scale_mod2,
+                rotate_mod2,
+                nil,
+                0.1 --[[ + 0.03*math.cos(1.8*G.TIMERS.REAL)--]],
+                nil,
+                0.6
+            )
+            self.children.floating_sprite2:draw_shader(
+                "dissolve",
+                nil,
+                nil,
+                nil,
+                self.children.center,
+                scale_mod2,
+                rotate_mod2
+            )
+
+            local scale_mod = 0.05
+                + 0.05 * math.sin(1.8 * G.TIMERS.REAL)
+                + 0.07
+                    * math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL)) * math.pi * 14)
+                    * (1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL))) ^ 3
+            local rotate_mod = 0.1 * math.sin(1.219 * G.TIMERS.REAL)
+                + 0.07
+                    * math.sin(G.TIMERS.REAL * math.pi * 5)
+                    * (1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL))) ^ 2
+
+            self.children.floating_sprite.role.draw_major = self
+            self.children.floating_sprite:draw_shader(
+                "dissolve",
+                0,
+                nil,
+                nil,
+                self.children.center,
+                scale_mod,
+                rotate_mod,
+                nil,
+                0.1 + 0.03 * math.sin(1.8 * G.TIMERS.REAL),
+                nil,
+                0.6
+            )
+            self.children.floating_sprite:draw_shader(
+                "dissolve",
+                nil,
+                nil,
+                nil,
+                self.children.center,
+                scale_mod,
+                rotate_mod
+            )
+        elseif
+            not Cryptid
+            and self.config.center.soul_pos
+            and self.config.center.soul_pos.extra
+            and (self.config.center.discovered or self.bypass_discovery_center)
+        then
+            local scale_mod = 0.07 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
+            local rotate_mod = 0 --0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
+            self.children.floating_sprite2:draw_shader(
+                "dissolve",
+                0,
+                nil,
+                nil,
+                self.children.center,
+                scale_mod,
+                rotate_mod,
+                nil,
+                0.1 --[[ + 0.03*math.cos(1.8*G.TIMERS.REAL)--]],
+                nil,
+                0.6
+            )
+            self.children.floating_sprite2:draw_shader(
+                "dissolve",
+                nil,
+                nil,
+                nil,
+                self.children.center,
+                scale_mod,
+                rotate_mod
+            )
+        end
+    end,
+    conditions = { vortex = false, facing = "front" },
+})
+SMODS.draw_ignore_keys.floating_sprite2 = true
 
 Sagatro.config_tab = function()
     return {n = G.UIT.ROOT, config = {r = 0.1, align = "cm", padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 4}, nodes = {

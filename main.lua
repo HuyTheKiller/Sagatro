@@ -5,6 +5,12 @@ Sagatro.load_table = {
 	blinds = true,
 	streaks = true,
 	misc = true,
+	wishes = true,
+	boosters = true,
+}
+
+Sagatro.mod_compat = {
+	talisman = (SMODS.Mods["Talisman"] or {}).can_load,
 }
 
 Sagatro.optional_features = {
@@ -20,6 +26,7 @@ SAGA_GROUP_POOL = {
     alice = "Alice in Wonderland",
     gfrog = "Goodbye Frog",
 	fsd = "Final Showdown",
+	-- ["20k"] = "20k Miles Under The Sea",
 }
 
 -- Load library files
