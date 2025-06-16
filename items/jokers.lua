@@ -1854,15 +1854,7 @@ local duchess = {
         end
         if context.joker_main and card.ability.triggered then
             return {
-                message = localize({
-					type = "variable",
-					key = "a_sgt_powmult",
-					vars = {
-						number_format(card.ability.extra.e_mult),
-					},
-				}),
-				Emult_mod = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
-				colour = G.C.DARK_EDITION,
+                e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
             }
         end
         if context.after and not context.blueprint and not context.retrigger_joker then
@@ -2941,15 +2933,7 @@ local mock_turtle = {
                 return true end }))
             end
             return {
-                message = localize({
-					type = "variable",
-					key = "a_sgt_powmult",
-					vars = {
-						number_format(card.ability.extra.e_mult),
-					},
-				}),
-				Emult_mod = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
-				colour = G.C.DARK_EDITION,
+                e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
             }
         end
         if context.after and not context.blueprint and not context.retrigger_joker then
