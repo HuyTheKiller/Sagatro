@@ -3702,7 +3702,7 @@ local submarine = {
     order = 37,
     pos = { x = 0, y = 0 },
     extra_pos = { x = 0, y = 9 },
-    config = {depth_level = 1, old_depth_level = 1, extra = {chips = 0, chip_gain = 4}},
+    config = {depth_level = 1, old_depth_level = 1, extra = {chips = 0, chip_gain = 4}, depth_list = {0, 100, 300, 750, 1600}},
 	rarity = 3,
     cost = 10,
     blueprint_compat = true,
@@ -3718,16 +3718,11 @@ local submarine = {
         if context.individual and context.cardarea == G.play and not context.blueprint then
             if not context.other_card.debuff then
                 card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
-                if card.ability.extra.chips >= 1600 then
-                    card.ability.depth_level = 5
-                elseif card.ability.extra.chips >= 750 then
-                    card.ability.depth_level = 4
-                elseif card.ability.extra.chips >= 300 then
-                    card.ability.depth_level = 3
-                elseif card.ability.extra.chips >= 100 then
-                    card.ability.depth_level = 2
-                else
-                    card.ability.depth_level = 1
+                for i = 5, 1, -1 do
+                    if card.ability.extra.chips >= card.ability.depth_list[i] then
+                        card.ability.depth_level = i
+                        break
+                    end
                 end
                 return {
                     extra = {focus = card, message = localize("k_submerge_ex")},
@@ -3752,8 +3747,8 @@ local submarine = {
         if card.ability then
             card.ability.anim_dt = card.ability.anim_dt + dt
             card.ability.anim_transition_path = card.ability.old_depth_level - card.ability.depth_level
-            if card.ability.anim_dt > 0.125*G.SETTINGS.GAMESPEED then
-                card.ability.anim_dt = card.ability.anim_dt - 0.125*G.SETTINGS.GAMESPEED
+            if card.ability.anim_dt > 0.125*G.SETTINGS.GAMESPEED*(Handy and Handy.speed_multiplier.value or 1) then
+                card.ability.anim_dt = card.ability.anim_dt - 0.125*G.SETTINGS.GAMESPEED*(Handy and Handy.speed_multiplier.value or 1)
                 if card.ability.anim_pos.x == 11 and card.ability.anim_transition_path ~= 0 and not card.ability.in_transition then
                     if card.ability.anim_transition_path > 0 then
                         card.ability.anim_pos.x = 6
