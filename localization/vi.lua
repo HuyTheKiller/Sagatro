@@ -408,7 +408,7 @@ return {
                 text = {
                     "Xác suất {C:green}#1# trên #2#{} để",
                     "phả huỷ lá ghi điểm",
-                    "Mọi lá đã chơi ghi thêm",
+                    "Mỗi lá đã chơi ghi thêm",
                     "{X:dark_edition,C:white}^#3#{} Nhân khi ghi điểm",
                 },
             },

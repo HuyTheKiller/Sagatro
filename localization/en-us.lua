@@ -409,7 +409,7 @@ return {
                 text = {
                     "{C:green}#1# in #2#{} chance to",
                     "destroy each scoring card",
-                    "All played cards give",
+                    "Each played card gives",
                     "{X:dark_edition,C:white}^#3#{} Mult when scored",
                 },
             },
@@ -709,7 +709,7 @@ return {
             k_enraged_ex = "Enraged!",
             k_guilty_ex = "Guilty!",
             k_to = "to",
-            k_self_destruct = "self destructs",
+            k_self_destruct = "self destruct",
             k_self_destruct_ex = "Self destructs!",
             k_amused_ex = "Amused!",
             k_wolf_ex = "Wolf!",
