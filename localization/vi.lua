@@ -524,7 +524,19 @@ return {
             j_sgt_submarine = {
                 name = "Tàu Ngầm",
                 text = {
-                    "WIP",
+                    "Joker này thêm {C:chips}+#2#{} Chip",
+                    "cho mỗi lá bài ghi điểm",
+                    "{C:inactive}(Hiện tại là {C:chips}+#1#{C:inactive} Chip)",
+                    "{C:inactive}(Tầng độ sâu: {C:blue}#3#{C:inactive})",
+                },
+            },
+            j_sgt_shub = {
+                name = "Shub-Niggurath",
+                text = {
+                    "Mỗi lá đã chơi ghi thêm {X:dark_edition,C:white}^#2#{} Nhân khi ghi điểm,",
+                    "tăng thêm {X:dark_edition,C:white}^#3#{} cho mỗi lá bài trên mức {C:attention}#4#{} trong cả bộ bài",
+                    "Tạo ra lá {C:attention}ngẫu nhiên{} bằng số lượng lá {C:attention}đã chơi{}",
+                    "{C:inactive}(Hiện tại là {X:dark_edition,C:white}^#1#{C:inactive} Nhân)",
                 },
             },
         },
@@ -710,6 +722,7 @@ return {
             k_emerged_ex = "Lòi Ra!",
             k_wish_granted_ex = "Đã Ban Ước!",
             k_released_ex = "Đã Giải Phóng!",
+            k_submerge_ex = "Lặn!",
             k_huh_qm = "Hở?",
             k_buffed = "Siêu Cấp",
             ph_per_face_down = " mỗi lá sấp",
@@ -719,6 +732,8 @@ return {
             ph_misc_story = "Truyện Khác",
             ph_20k = "2 Vạn Dặm Dưới Biến",
             ph_gods_miracle = "Được cứu bởi Phép Lạ Của Chúa",
+            ph_depth_level = "Tầng độ sâu",
+            ph_lovecraft = "Lovecraft",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính (Yêu cầu tạo trận mới)"},
         },

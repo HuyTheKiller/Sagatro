@@ -525,7 +525,19 @@ return {
             j_sgt_submarine = {
                 name = "Submarine",
                 text = {
-                    "WIP",
+                    "This joker gains {C:chips}+#2#{} Chips",
+                    "for every card scored",
+                    "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
+                    "{C:inactive}(Depth level: {C:blue}#3#{C:inactive})",
+                },
+            },
+            j_sgt_shub = {
+                name = "Shub-Niggurath",
+                text = {
+                    "Each played card gives {X:dark_edition,C:white}^#2#{} Mult when scored,",
+                    "increase by {X:dark_edition,C:white}^#3#{} for every card above {C:attention}#4#{} in full deck",
+                    "Create {C:attention}random{} cards equal to number of {C:attention}played{} cards",
+                    "{C:inactive}(Currently {X:dark_edition,C:white}^#1#{C:inactive} Mult)",
                 },
             },
         },
@@ -718,6 +730,7 @@ return {
             k_emerged_ex = "Emerged!",
             k_wish_granted_ex = "Wish Granted!",
             k_released_ex = "Genie Released!",
+            k_submerge_ex = "Submerge!",
             k_huh_qm = "Huh?",
             k_buffed = "Buffed",
             ph_per_face_down = " per face-down",
@@ -727,6 +740,8 @@ return {
             ph_misc_story = "Misc. Story",
             ph_20k = "20k Miles Under The Sea",
             ph_gods_miracle = "Saved by God's Miracle",
+            ph_depth_level = "Depth level",
+            ph_lovecraft = "Lovecraft",
             SGT_disable_other_jokers = "Story Mode",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression (Requires run restart)"},
         },
