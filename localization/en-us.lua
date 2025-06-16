@@ -534,10 +534,9 @@ return {
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
-                    "Each played card gives {X:dark_edition,C:white}^#2#{} Mult when scored,",
-                    "increase by {X:dark_edition,C:white}^#3#{} for every card above {C:attention}#4#{} in full deck",
+                    "Each played card gives {X:dark_edition,C:white}^#1#{} Mult when scored,",
+                    "increase by {X:dark_edition,C:white}^#2#{} for every card above {C:attention}#3#{} in full deck",
                     "Create {C:attention}random{} cards equal to number of {C:attention}played{} cards",
-                    "{C:inactive}(Currently {X:dark_edition,C:white}^#1#{C:inactive} Mult)",
                 },
             },
         },

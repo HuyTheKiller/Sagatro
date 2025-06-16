@@ -3862,8 +3862,8 @@ local shub = {
         end
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.e_mult + (card.ability.extra.e_mult_gain*(G.playing_cards and #G.playing_cards - G.GAME.starting_deck_size or 0)),
-            card.ability.extra.e_mult, card.ability.extra.e_mult_gain, G.GAME.starting_deck_size}}
+        return {vars = {card.ability.extra.e_mult + (card.ability.extra.e_mult_gain*(G.playing_cards and #G.playing_cards > G.GAME.starting_deck_size and #G.playing_cards - G.GAME.starting_deck_size or 0)),
+            card.ability.extra.e_mult_gain, G.GAME.starting_deck_size}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )

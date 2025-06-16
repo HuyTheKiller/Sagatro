@@ -533,10 +533,9 @@ return {
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
-                    "Mỗi lá đã chơi ghi thêm {X:dark_edition,C:white}^#2#{} Nhân khi ghi điểm,",
-                    "tăng thêm {X:dark_edition,C:white}^#3#{} cho mỗi lá bài trên mức {C:attention}#4#{} trong cả bộ bài",
+                    "Mỗi lá đã chơi ghi thêm {X:dark_edition,C:white}^#1#{} Nhân khi ghi điểm, tăng thêm",
+                    "{X:dark_edition,C:white}^#2#{} cho mỗi lá bài trên mức {C:attention}#3#{} trong cả bộ bài",
                     "Tạo ra lá {C:attention}ngẫu nhiên{} bằng số lượng lá {C:attention}đã chơi{}",
-                    "{C:inactive}(Hiện tại là {X:dark_edition,C:white}^#1#{C:inactive} Nhân)",
                 },
             },
         },
