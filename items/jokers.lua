@@ -3747,6 +3747,91 @@ local submarine = {
 }
 
 local talisman = Sagatro.mod_compat.talisman
+local shub = {
+    key = "shub",
+    name = "Shub-Niggurath",
+    atlas = "esoteric",
+    saga_group = "lovecraft",
+    dependencies = {"Talisman"},
+    order = 50,
+    pos = { x = 0, y = 2 },
+    soul_pos = { x = 2, y = 2, extra = { x = 1, y = 2 } },
+    config = {extra = {e_mult = 1, e_mult_gain = 0.03}},
+    rarity = "sgt_esoteric",
+    cost = 50,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = false,
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint and not context.retrigger_joker then
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    local new_cards = {}
+                    for i=1, #context.full_hand do
+                        G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+                        local new_card = copy_card(context.full_hand[i], nil, nil, G.playing_card)
+                        local _rank = pseudorandom_element(SMODS.Ranks, pseudoseed('shub_debaunched'))
+                        SMODS.change_base(new_card, nil, _rank.key)
+                        table.insert(new_cards, new_card)
+                    end
+                    for i, new_card in ipairs(new_cards) do
+                        new_card:add_to_deck()
+                        G.deck.config.card_limit = G.deck.config.card_limit + 1
+                        table.insert(G.playing_cards, new_card)
+                        G.deck:emplace(new_card)
+                        context.full_hand[i]:juice_up()
+                        new_card:juice_up()
+                    end
+                    playing_card_joker_effects(new_cards)
+                    G.deck:shuffle('shub_shuffle')
+                    return true
+                end
+            }))
+        end
+        if context.individual and context.cardarea == G.play and #G.playing_cards + #context.full_hand > G.GAME.starting_deck_size then
+            if not context.other_card.debuff then
+                return {
+                    -- This is actually delayed - it takes the value before new cards are added by Shub-Niggurath
+                    -- I'm adding #context.full_hand to compensate for the delay
+                    -- since Shub create cards equal to #context.full_hand
+                    e_mult = card.ability.extra.e_mult
+                    + (card.ability.extra.e_mult_gain*(#G.playing_cards + #context.full_hand - G.GAME.starting_deck_size)),
+                }
+            end
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.e_mult + (card.ability.extra.e_mult_gain*(G.playing_cards and #G.playing_cards - G.GAME.starting_deck_size or 0)),
+            card.ability.extra.e_mult, card.ability.extra.e_mult_gain, G.GAME.starting_deck_size}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "^" },
+                        { ref_table = "card.joker_display_values", ref_value = "e_mult", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.DARK_EDITION
+                }
+            },
+            calc_function = function(card)
+                local count = 0
+                local emult = card.ability.extra.e_mult + (card.ability.extra.e_mult_gain*(#G.playing_cards - G.GAME.starting_deck_size))
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        count = count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                    end
+                end
+                card.joker_display_values.e_mult = emult^count
+            end,
+        }
+    end,
+}
 
 local joker_table = {
     white_rabbit,
@@ -3786,6 +3871,7 @@ local joker_table = {
     talisman and lamp_genie or nil,
     lincoln_ship,
     submarine,
+    shub,
 }
 
 table.sort(joker_table, function(a, b) return a.order < b.order end)
