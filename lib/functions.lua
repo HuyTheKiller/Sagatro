@@ -200,15 +200,44 @@ local upd = Game.update
 function Game:update(dt)
 	upd(self, dt)
 
+    if G.your_collection and type(G.your_collection) == "table" then
+        for _, collection_row in ipairs(G.your_collection) do
+            if collection_row.cards and type(collection_row.cards) == "table" then
+                for _, v in ipairs(collection_row.cards) do
+                    if v.config.center_key == "j_sgt_submarine" then
+                        v.ability.anim_dt = v.ability.anim_dt + dt
+                        v.ability.anim_transition_path = v.ability.old_depth_level - v.ability.depth_level
+                        if v.ability.anim_dt > 0.125 then
+                            v.ability.anim_dt = v.ability.anim_dt - 0.125
+                            if v.ability.anim_pos.x == 11 and v.ability.anim_transition_path ~= 0 and not v.ability.in_transition then
+                                if v.ability.anim_transition_path > 0 then
+                                    v.ability.anim_pos.x = 6
+                                elseif v.ability.anim_transition_path < 0 then
+                                    v.ability.anim_pos.x = 0
+                                end
+                                v.ability.in_transition = true
+                            elseif (v.ability.anim_pos.x == 5 and v.ability.anim_transition_path < 0 and v.ability.in_transition)
+                            or v.ability.anim_pos.x == 11 then
+                                v.ability.anim_pos.x = 0
+                                v.ability.in_transition = false
+                                v.ability.old_depth_level = v.ability.depth_level
+                            else
+                                v.ability.anim_pos.x = v.ability.anim_pos.x + 1
+                            end
+                            v.ability.anim_pos.y = (math.min(v.ability.old_depth_level, v.ability.depth_level) - 1)
+                            + (v.ability.in_transition and 5 or 0)
+                            v.children.center:set_sprite_pos(v.ability.anim_pos)
+                        end
+                    end
+                end
+            end
+        end
+    end
+
     submarine_dt = submarine_dt + dt
     if G.P_CENTERS and G.P_CENTERS.j_sgt_submarine and submarine_dt > 0.125 then
         submarine_dt = submarine_dt - 0.125
         local submarine = G.P_CENTERS.j_sgt_submarine
-        -- if submarine.pos.x == 11 then
-        --     submarine.pos.x = 0
-        -- else
-        --     submarine.pos.x = submarine.pos.x + 1
-        -- end
         if submarine.extra_pos.x == 8 then
             submarine.extra_pos.x = 0
         else
