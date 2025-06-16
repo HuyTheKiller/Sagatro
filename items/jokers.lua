@@ -3283,7 +3283,6 @@ local aladdin = {
                     message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
                     Xmult_mod = card.ability.extra.xmult,
                     chip_mod = card.ability.extra.chips,
-                    sound = "multhit2"
                 }
             end
         end

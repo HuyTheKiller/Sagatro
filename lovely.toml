@@ -300,3 +300,17 @@ payload = '''
 SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_sgt_alice'],{bypass_discovery_center = true, bypass_discovery_ui = true})
 '''
 match_indent = true
+
+# I don't like buffed Aladdin evaluating G.C.BLUE with Xmult sfx
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+end
+if extra.chip_mod or extra.Xchip_mod then
+'''
+position = "at"
+payload = '''
+elseif extra.chip_mod or extra.Xchip_mod then
+'''
+match_indent = true
