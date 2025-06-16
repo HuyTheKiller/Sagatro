@@ -103,6 +103,7 @@ local lamp = {
     name = "The Magic Lamp",
     set = "Spectral",
     atlas = "esoteric",
+    dependencies = {"Talisman"},
     pos = {x = 0, y = 1},
     config = {},
     cost = 4,
@@ -132,7 +133,7 @@ local lamp = {
 
 local consumable_table = {
     streak,
-    talisman and lamp or nil,
+    lamp,
 }
 
 for _, v in ipairs(consumable_table) do

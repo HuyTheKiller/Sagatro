@@ -3359,6 +3359,7 @@ local magic_lamp = {
     name = "Magic Lamp",
     atlas = "aladdin_and_the_magic_lamp",
     saga_group = "aladdin_and_the_magic_lamp",
+    dependencies = {"Talisman"},
     order = 34,
     pos = { x = 1, y = 0 },
     config = {magic_lamp_rounds = 0, extra = {xmult = 3, rounds_goal = 3}},
@@ -3479,6 +3480,7 @@ local lamp_genie = {
     name = "Lamp Genie",
     atlas = "esoteric",
     saga_group = "aladdin_and_the_magic_lamp",
+    dependencies = {"Talisman"},
     order = 35,
     pos = { x = 0, y = 0 },
     soul_pos = { x = 2, y = 0, extra = { x = 1, y = 0 } },
@@ -3746,7 +3748,6 @@ local submarine = {
     end,
 }
 
-local talisman = Sagatro.mod_compat.talisman
 local shub = {
     key = "shub",
     name = "Shub-Niggurath",
@@ -3867,8 +3868,8 @@ local joker_table = {
     shepherd_boy,
     puss_in_boots,
     aladdin,
-    talisman and magic_lamp or nil,
-    talisman and lamp_genie or nil,
+    magic_lamp,
+    lamp_genie,
     lincoln_ship,
     submarine,
     shub,

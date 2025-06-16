@@ -3,6 +3,7 @@ local fertility = {
     name = "Fertility",
     set = "Wish",
     atlas = "wish",
+    dependencies = {"Talisman"},
     discovered = true,
     pos = {x = 1, y = 0},
     config = {universal = 1},
@@ -63,6 +64,7 @@ local prosperity = {
     name = "Prosperity",
     set = "Wish",
     atlas = "wish",
+    dependencies = {"Talisman"},
     discovered = true,
     pos = {x = 0, y = 0},
     config = {money = 500},
@@ -115,6 +117,7 @@ local love = {
     name = "Love",
     set = "Wish",
     atlas = "wish",
+    dependencies = {"Talisman"},
     discovered = true,
     pos = {x = 2, y = 0},
     config = {retriggers = 2},
@@ -170,6 +173,7 @@ local peace = {
     name = "Peace",
     set = "Wish",
     atlas = "wish",
+    dependencies = {"Talisman"},
     discovered = true,
     pos = {x = 3, y = 0},
     config = {},
@@ -224,6 +228,7 @@ local ease = {
     name = "Ease",
     set = "Wish",
     atlas = "wish",
+    dependencies = {"Talisman"},
     discovered = true,
     pos = {x = 4, y = 0},
     config = {chips = 1000, xmult = 10},
@@ -293,6 +298,7 @@ local asetheticism = {
     name = "Aestheticism",
     set = "Wish",
     atlas = "wish",
+    dependencies = {"Talisman"},
     discovered = true,
     pos = {x = 5, y = 0},
     config = {},
@@ -361,6 +367,7 @@ local freedom = {
     name = "Freedom",
     set = "Wish",
     atlas = "wish",
+    dependencies = {"Talisman"},
     discovered = true,
     pos = {x = 6, y = 0},
     config = {emult = 3},
@@ -414,6 +421,7 @@ local freedom = {
 
 local wish = {
     key = "Wish",
+    dependencies = {"Talisman"},
     primary_colour = HEX("1350c7"),
 	secondary_colour = G.C.SGT_WISH,
 	collection_rows = { 3, 3 },
@@ -424,10 +432,8 @@ local wish = {
 	can_divide = true,
 }
 
-local talisman = Sagatro.mod_compat.talisman
-
 local consumabletype_table = {
-    talisman and wish or nil,
+    wish,
 }
 
 for _, v in ipairs(consumabletype_table) do
@@ -435,7 +441,7 @@ for _, v in ipairs(consumabletype_table) do
 end
 
 
-local wish_table = talisman and {
+local wish_table = {
     prosperity,
     fertility,
     love,
@@ -443,7 +449,7 @@ local wish_table = talisman and {
     ease,
     asetheticism,
     freedom,
-} or {}
+}
 
 for _, v in ipairs(wish_table) do
     if Sagatro.debug then
