@@ -447,12 +447,13 @@ local kid_gloves_and_fan = {
             if context.individual and context.cardarea == G.play then
                 if not context.other_card.debuff then
                     local temp = context.other_card
-                    if SMODS.has_no_rank(temp) or temp:get_id() > 2 then
+                    if not SMODS.has_no_rank(temp) and temp:get_id() > 2 then
                         G.E_MANAGER:add_event(Event({
                             func = function()
-                                temp.base.id = SMODS.has_no_rank(temp) and temp.base.id or math.max(2, temp.base.id - card.ability.extra*G.GAME.alice_multiplier)
-                                local rank_suffix = sgt_get_rank_suffix(temp)
-                                assert(SMODS.change_base(temp, nil, rank_suffix))
+                                for _ = 1, G.GAME.alice_multiplier do
+                                    assert(SMODS.modify_rank(temp, -1))
+                                    if temp:get_id() <= 2 then break end
+                                end
 
                                 return true
                             end
@@ -934,16 +935,14 @@ local caterpillar = {
         if context.individual and context.cardarea == G.play and not context.blueprint
         and not context.retrigger_joker and card.ability.extra > 0 then
             if not context.other_card.debuff then
-                local suits = {}
                 local temp = context.other_card
-                for _, v in pairs(SMODS.Suits) do
-                    suits[#suits+1] = tostring(v.key)
-                end
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        temp.base.id = SMODS.has_no_rank(temp) and temp.base.id or pseudorandom("caterpillar_random_rank", 2, 14)
-                        local rank_suffix = sgt_get_rank_suffix(temp)
-                        assert(SMODS.change_base(temp, pseudorandom_element(suits, pseudoseed("caterpillar_random_suit")), rank_suffix))
+                        if not SMODS.has_no_rank(temp) then
+                            local _rank = pseudorandom_element(SMODS.Ranks, pseudoseed('caterpillar_random_rank'))
+                            local _suit = pseudorandom_element(SMODS.Suits, pseudoseed('caterpillar_random_suit'))
+                            assert(SMODS.change_base(temp, _suit.key, _rank.key))
+                        end
                         return true
                     end
                 }))
