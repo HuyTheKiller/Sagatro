@@ -336,16 +336,17 @@ end
 -- Allow using custom joker pools if prompted
 local gcp = get_current_pool
 function get_current_pool(_type, _rarity, _legendary, _append)
-    G.ARGS.TEMP_POOL = EMPTY(G.ARGS.TEMP_POOL)
-    local _pool, _starting_pool, _pool_key, check = G.ARGS.TEMP_POOL, nil, '', false
-
-    _rarity = (_legendary and 4) or (type(_rarity) == "number" and ((_rarity > 0.95 and 3) or (_rarity > 0.7 and 2) or 1)) or _rarity
-    _rarity = ({Common = 1, Uncommon = 2, Rare = 3, Legendary = 4})[_rarity] or _rarity
-    local rarity = _rarity or SMODS.poll_rarity("Joker", 'rarity'..G.GAME.round_resets.ante..(_append or ''))
-
-    _starting_pool, _pool_key = G.P_CENTER_POOLS[_type], 'Joker'..rarity..((not _legendary and _append) or '')
+    local _pool_key, check = '', false
     for _, group in pairs(SAGA_GROUP_POOL) do
         if _type == group then
+            G.ARGS.TEMP_POOL = EMPTY(G.ARGS.TEMP_POOL)
+            local _pool, _starting_pool = G.ARGS.TEMP_POOL, nil
+
+            _rarity = (_legendary and 4) or (type(_rarity) == "number" and ((_rarity > 0.95 and 3) or (_rarity > 0.7 and 2) or 1)) or _rarity
+            _rarity = ({Common = 1, Uncommon = 2, Rare = 3, Legendary = 4})[_rarity] or _rarity
+            local rarity = _rarity or SMODS.poll_rarity("Joker", 'rarity'..G.GAME.round_resets.ante..(_append or ''))
+
+            _starting_pool, _pool_key = G.P_CENTER_POOLS[_type], 'Joker'..rarity..((not _legendary and _append) or '')
             check = true
             for _, v in ipairs(_starting_pool) do
                 local add = nil
@@ -369,6 +370,7 @@ function get_current_pool(_type, _rarity, _legendary, _append)
             if #_pool == 0 then
                 _pool[#_pool + 1] = "j_sgt_white_rabbit"
             end
+            break
         end
     end
     if check then return _pool, _pool_key..(not _legendary and G.GAME.round_resets.ante or '') end
