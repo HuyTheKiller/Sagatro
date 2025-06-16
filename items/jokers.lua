@@ -99,13 +99,11 @@ local drink_me = {
         and G.jokers.cards[#G.jokers.cards].config.center_key ~= "j_sgt_eat_me" then
             if context.before then
                 for _, v in ipairs(context.scoring_hand) do
-                    if SMODS.has_no_rank(v) or v:get_id() > 2 then
+                    if not SMODS.has_no_rank(v) and v:get_id() ~= 2 then
                         G.E_MANAGER:add_event(Event({
                             func = function()
-                                v.base.id = SMODS.has_no_rank(v) and v.base.id or 2
-                                if not SMODS.has_no_rank(v) then v:juice_up() end
-                                local rank_suffix = sgt_get_rank_suffix(v)
-                                assert(SMODS.change_base(v, nil, rank_suffix))
+                                v:juice_up()
+                                assert(SMODS.change_base(v, nil, "2"))
 
                                 return true
                             end
@@ -217,16 +215,12 @@ local eat_me = {
         and (G.jokers.cards[1].config.center_key ~= "j_sgt_drink_me" and G.jokers.cards[1].config.center_key ~= "j_sgt_unlabeled_bottle") then
             if context.before then
                 for _, v in ipairs(context.scoring_hand) do
-                    if SMODS.has_no_rank(v) or (not next(SMODS.find_card("j_sgt_little_bill", true)) and v:get_id() < 14)
-                    or (next(SMODS.find_card("j_sgt_little_bill", true)) and v:get_id() > 2) then
+                    if not SMODS.has_no_rank(v) and ((not next(SMODS.find_card("j_sgt_little_bill")) and v:get_id() ~= 14)
+                    or (next(SMODS.find_card("j_sgt_little_bill")) and v:get_id() ~= 2)) then
                         G.E_MANAGER:add_event(Event({
                             func = function()
-                                v.base.id = (SMODS.has_no_rank(v) and v.base.id)
-                                or (not next(SMODS.find_card("j_sgt_little_bill", true)) and 14)
-                                or (next(SMODS.find_card("j_sgt_little_bill", true)) and 2)
-                                if not SMODS.has_no_rank(v) then v:juice_up() end
-                                local rank_suffix = sgt_get_rank_suffix(v)
-                                assert(SMODS.change_base(v, nil, rank_suffix))
+                                v:juice_up()
+                                assert(SMODS.change_base(v, nil, next(SMODS.find_card("j_sgt_little_bill")) and "2" or "Ace"))
 
                                 return true
                             end
@@ -447,7 +441,7 @@ local kid_gloves_and_fan = {
             if context.individual and context.cardarea == G.play then
                 if not context.other_card.debuff then
                     local temp = context.other_card
-                    if not SMODS.has_no_rank(temp) and temp:get_id() > 2 then
+                    if not SMODS.has_no_rank(temp) and temp:get_id() ~= 2 then
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 for _ = 1, G.GAME.alice_multiplier do
@@ -616,13 +610,11 @@ local unlabeled_bottle = {
         and G.jokers.cards[1] == card and not context.blueprint and not context.retrigger_joker then
             if context.before then
                 for _, v in ipairs(context.scoring_hand) do
-                    if SMODS.has_no_rank(v) or v:get_id() < 14 then
+                    if not SMODS.has_no_rank(v) and v:get_id() ~= 14 then
                         G.E_MANAGER:add_event(Event({
                             func = function()
-                                v.base.id = SMODS.has_no_rank(v) and v.base.id or 14
-                                if not SMODS.has_no_rank(v) then v:juice_up() end
-                                local rank_suffix = sgt_get_rank_suffix(v)
-                                assert(SMODS.change_base(v, nil, rank_suffix))
+                                v:juice_up()
+                                assert(SMODS.change_base(v, nil, "Ace"))
 
                                 return true
                             end
@@ -1049,11 +1041,8 @@ local mushroom = {
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 for _ = 1, card.ability.times*G.GAME.alice_multiplier do
-                                    v.base.id = SMODS.has_no_rank(v) and v.base.id or v.base.id == 2 and 14 or math.max(v.base.id-1, 2)
+                                    assert(SMODS.modify_rank(v, -1))
                                 end
-                                if not SMODS.has_no_rank(v) then v:juice_up() end
-                                local rank_suffix = sgt_get_rank_suffix(v)
-                                assert(SMODS.change_base(v, nil, rank_suffix))
 
                                 return true
                             end
@@ -1111,11 +1100,8 @@ local mushroom = {
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 for _ = 1, card.ability.times*G.GAME.alice_multiplier do
-                                    v.base.id = SMODS.has_no_rank(v) and v.base.id or v.base.id == 14 and 2 or math.min(v.base.id+1, 14)
+                                    assert(SMODS.modify_rank(v, 1))
                                 end
-                                if not SMODS.has_no_rank(v) then v:juice_up() end
-                                local rank_suffix = sgt_get_rank_suffix(v)
-                                assert(SMODS.change_base(v, nil, rank_suffix))
 
                                 return true
                             end
