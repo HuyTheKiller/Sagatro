@@ -919,7 +919,7 @@ local huge_dog = {
 
 local caterpillar = {
     key = "caterpillar",
-    name = "Caterpillar",
+    name = "SauKhongHu",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 10,
