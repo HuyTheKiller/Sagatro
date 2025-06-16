@@ -11,16 +11,17 @@ local white_rabbit = {
 	rarity = 1,
     cost = 4,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if context.joker_main and to_big(card.ability.extra.chips) > to_big(0) then
+        if (context.joker_main or context.forcetrigger) and to_big(card.ability.extra.chips) > to_big(0) then
 			return {
 				chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
 				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
 			}
 		end
-        if context.before and G.GAME.current_round.discards_used <= 0 and not context.blueprint then
+        if (context.before and G.GAME.current_round.discards_used <= 0 and not context.blueprint) or context.forcetrigger then
 			card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
 			return {
 				message = localize("k_in_a_hurry_ex"),
@@ -28,7 +29,7 @@ local white_rabbit = {
 				card = card
 			}
 		end
-        if context.pre_discard and not context.blueprint and not context.retrigger_joker and not context.hook then
+        if context.pre_discard and not context.blueprint and not context.retrigger_joker and not context.forcetrigger and not context.hook then
             if G.GAME.current_round.discards_used <= 0 then
                 return {
                     message = localize("k_too_late_ex"),
@@ -91,6 +92,7 @@ local drink_me = {
 	rarity = 1,
     cost = 6,
     blueprint_compat = false,
+    demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
@@ -207,6 +209,7 @@ local eat_me = {
 	rarity = 1,
     cost = 6,
     blueprint_compat = false,
+    demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
@@ -340,22 +343,23 @@ local mouse = {
 	rarity = 1,
     cost = 5,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.modify_scoring_hand and not context.blueprint and not context.retrigger_joker then
+        if context.modify_scoring_hand and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
 			return {
                 add_to_hand = true,
                 no_retrigger = true
             }
 		end
-        if context.joker_main and to_big(card.ability.extra.mult) > to_big(0) then
+        if (context.joker_main or context.forcetrigger) and to_big(card.ability.extra.mult) > to_big(0) then
             return {
                 mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
 				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
             }
         end
-        if context.after and not context.blueprint and not context.retrigger_joker then
+        if context.after and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             for i, v in ipairs(G.jokers.cards) do
                 if v == card then
                     if not table.contains(card.ability.extra.debuff_position, i) then
@@ -433,6 +437,7 @@ local kid_gloves_and_fan = {
 	rarity = 2,
     cost = 8,
     blueprint_compat = false,
+    demicoloncompat = false,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
@@ -461,7 +466,7 @@ local kid_gloves_and_fan = {
                     if not SMODS.has_no_rank(temp) and temp:get_id() <= 2 then
                         return {
                             message = localize("k_poof_ex"),
-                            colour = G.C.YELLOW,
+                            colour = G.C.FILTER,
                             remove = true
                         }
                     end
@@ -524,10 +529,11 @@ local dodo_bird = {
 	rarity = 3,
     cost = 9,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.other_joker then
+        if context.other_joker and not context.forcetrigger then
             if G.GAME.current_round.hands_left == 0 and G.GAME.current_round.discards_left == 0 then
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -540,6 +546,12 @@ local dodo_bird = {
                     Xmult_mod = card.ability.extra*G.GAME.alice_multiplier
                 }
             end
+        end
+        if context.forcetrigger then
+            return {
+                message = localize{type='variable', key='a_xmult', vars={card.ability.extra*G.GAME.alice_multiplier}},
+                Xmult_mod = card.ability.extra*G.GAME.alice_multiplier
+            }
         end
     end,
     add_to_deck = function(self, card, from_debuff)
@@ -603,6 +615,7 @@ local unlabeled_bottle = {
 	rarity = 2,
     cost = 6,
     blueprint_compat = false,
+    demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
@@ -758,6 +771,7 @@ local little_bill = {
 	rarity = 1,
     cost = 2,
     blueprint_compat = false,
+    demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
     in_pool = function(self, args)
@@ -807,6 +821,7 @@ local huge_dog = {
 	rarity = 2,
     cost = 6,
     blueprint_compat = true,
+    demicoloncompat = false,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
@@ -921,6 +936,7 @@ local caterpillar = {
 	rarity = 1,
     cost = 1,
     blueprint_compat = false,
+    demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
@@ -1031,6 +1047,7 @@ local mushroom = {
 	rarity = 2,
     cost = 7,
     blueprint_compat = false,
+    demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
@@ -1216,10 +1233,11 @@ local pigeon = {
 	rarity = 2,
     cost = 8,
     blueprint_compat = false,
+    demicoloncompat = true,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.end_of_round and not context.repetition and not context.individual and not context.blueprint then
+        if (context.end_of_round and not context.repetition and not context.individual and not context.blueprint) or context.forcetrigger then
             for _, v in ipairs(G.jokers.cards) do
                 if v.config.center_key == "j_egg" then
                     card.ability.triggered = true
@@ -1235,7 +1253,7 @@ local pigeon = {
                 }
             end
         end
-        if context.selling_card and not context.blueprint and not context.retrigger_joker then
+        if context.selling_card and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             if context.card.config.center_key == "j_egg" then
                 card.ability.extra_value = (card.ability.extra_value or 0) - card.ability.value_loss
                 card.ability.value_loss = card.ability.value_loss*2
@@ -1243,7 +1261,7 @@ local pigeon = {
                 card:juice_up(0.5, 0.5)
             end
         end
-        if context.selling_self and not context.blueprint and not context.retrigger_joker then
+        if context.selling_self and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             local found_egg = false
             for _, v in ipairs(G.jokers.cards) do
                 if v.config.center_key == "j_egg" then
@@ -1323,10 +1341,11 @@ local frog_footman = {
 	rarity = 1,
     cost = 5,
     blueprint_compat = false,
+    demicoloncompat = true,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.open_booster and not context.blueprint and not context.retrigger_joker
+        if ((context.open_booster and not context.blueprint and not context.retrigger_joker) or context.forcetrigger)
         and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
             local times = G.consumeables.config.card_limit - #G.consumeables.cards
             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + times
@@ -1438,13 +1457,14 @@ local the_cook = {
 	rarity = 3,
     cost = 6,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.sgt_stay_flipped and not context.blueprint and not context.retrigger_joker then
+        if context.sgt_stay_flipped and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             card:juice_up(0.7)
         end
-        if context.sgt_play_cards and not context.blueprint and not context.retrigger_joker then
+        if context.sgt_play_cards and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             card.ability.extra.card_list = {}
             for i = 1, #G.hand.highlighted do
                 if G.hand.highlighted[i].facing == 'back' then
@@ -1452,7 +1472,7 @@ local the_cook = {
                 end
             end
         end
-        if context.individual and context.cardarea == G.play then
+        if context.individual and context.cardarea == G.play and not context.forcetrigger then
             local condition = false
             for i = 1, #card.ability.extra.card_list do
                 local flipped_card = card.ability.extra.card_list[i]
@@ -1468,7 +1488,14 @@ local the_cook = {
             }
             end
         end
-        if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and not context.retrigger_joker then
+        if context.forcetrigger then
+            return {
+                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult*G.GAME.alice_multiplier}},
+                Xmult_mod = card.ability.extra.xmult*G.GAME.alice_multiplier
+            }
+        end
+        if context.end_of_round and not context.repetition and not context.individual
+        and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             -- My attempt to make The Cook unique from a Bunco's joker called Vandalism
             local value_shift_list = {}
             for _, v in ipairs(card.ability.value_shift_init) do
@@ -1538,6 +1565,7 @@ local cheshire_cat = {
 	rarity = 1,
     cost = 6,
     blueprint_compat = true,
+    demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
@@ -1809,10 +1837,11 @@ local duchess = {
 	rarity = "sgt_obscure",
     cost = 12,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.before and not context.blueprint and not context.retrigger_joker then
+        if context.before and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             card.ability.extra.probability_list = {}
             for i = 1, #context.scoring_hand do
                 if context.scoring_hand[i]:is_face() then
@@ -1826,7 +1855,7 @@ local duchess = {
                 if v then card.ability.triggered = true break end
             end
         end
-        if context.destroy_card and context.cardarea == G.play and not context.blueprint and not context.retrigger_joker then
+        if context.destroy_card and context.cardarea == G.play and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             for i = 1, #context.scoring_hand do
                 if context.scoring_hand[i] == context.destroying_card and card.ability.extra.probability_list[i] then
                     return {
@@ -1838,12 +1867,12 @@ local duchess = {
                 end
             end
         end
-        if context.joker_main and card.ability.triggered then
+        if (context.joker_main and card.ability.triggered) or context.forcetrigger then
             return {
                 e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
             }
         end
-        if context.after and not context.blueprint and not context.retrigger_joker then
+        if context.after and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             G.E_MANAGER:add_event(Event({func = function()
                 card.ability.triggered = false
             return true end }))
@@ -1900,6 +1929,7 @@ local the_baby = {
 	rarity = 2,
     cost = 7,
     blueprint_compat = true,
+    demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
@@ -1999,6 +2029,7 @@ local pepper_caster = {
 	rarity = "sgt_obscure",
     cost = 12,
     blueprint_compat = false,
+    demicoloncompat = false,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
@@ -2092,6 +2123,7 @@ local mad_hatter = {
 	rarity = "sgt_obscure",
     cost = 16,
     blueprint_compat = false,
+    demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
     add_to_deck = function(self, card, from_debuff)
@@ -2179,16 +2211,17 @@ local tea = {
 	rarity = "sgt_trivial",
     cost = 1,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.joker_main then
+        if context.joker_main or context.forcetrigger then
 			return {
 				chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
 				message = localize {type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
 			}
 		end
-        if context.after and not context.blueprint and not context.retrigger_joker then
+        if (context.after and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
             if card.ability.extra.uses - 1 <= 0 then
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -2270,16 +2303,17 @@ local bread = {
 	rarity = "sgt_trivial",
     cost = 1,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.joker_main then
+        if context.joker_main or context.forcetrigger then
 			return {
 				chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
 				message = localize {type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
 			}
 		end
-        if context.after and not context.blueprint and not context.retrigger_joker then
+        if (context.after and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
             if card.ability.extra.uses - 1 <= 0 then
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -2361,16 +2395,17 @@ local butter = {
 	rarity = "sgt_trivial",
     cost = 1,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.joker_main then
+        if context.joker_main or context.forcetrigger then
 			return {
                 mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
 				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
             }
 		end
-        if context.after and not context.blueprint and not context.retrigger_joker then
+        if (context.after and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
             if card.ability.extra.uses - 1 <= 0 then
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -2452,16 +2487,17 @@ local march_hare = {
 	rarity = 2,
     cost = 7,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if context.joker_main and to_big(card.ability.extra.mult) > to_big(0) then
+        if (context.joker_main or context.forcetrigger) and to_big(card.ability.extra.mult) > to_big(0) then
 			return {
                 mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
 				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
             }
 		end
-        if context.before and G.GAME.current_round.discards_used <= 0 and not context.blueprint then
+        if (context.before and G.GAME.current_round.discards_used <= 0 and not context.blueprint) or context.forcetrigger then
 			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
 			return {
 				message = localize("k_shared_ex"),
@@ -2469,7 +2505,7 @@ local march_hare = {
 				card = card
 			}
 		end
-        if context.pre_discard and not context.blueprint and not context.retrigger_joker and not context.hook then
+        if context.pre_discard and not context.blueprint and not context.retrigger_joker and not context.forcetrigger and not context.hook then
             if G.GAME.current_round.discards_used <= 0 then
                 return {
                     message = localize("k_avoided_ex"),
@@ -2518,10 +2554,11 @@ local dormouse = {
 	rarity = 2,
     cost = 8,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.joker_main and pseudorandom("dormouse") < G.GAME.probabilities.normal/card.ability.extra.odds then
+        if (context.joker_main and pseudorandom("dormouse") < G.GAME.probabilities.normal/card.ability.extra.odds) or context.forcetrigger then
             return {
                 mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
 				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
@@ -2575,11 +2612,12 @@ local red_queen = {
 	rarity = "sgt_obscure",
     cost = 16,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.setting_blind and G.GAME.story_mode and next(SMODS.find_card("j_sgt_cheshire_cat", true))
-        and not context.blueprint and not card.getting_sliced and not context.retrigger_joker then
+        and not context.blueprint and not card.getting_sliced and not context.retrigger_joker and not context.forcetrigger then
             for _, v in ipairs(G.jokers.cards) do
                 if v ~= card and not v.ability.eternal then
                     v.getting_sliced = true
@@ -2595,14 +2633,19 @@ local red_queen = {
             return true end }))
             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_enraged_ex'), colour = G.C.RED})
         end
-        if context.individual and context.cardarea == G.play then
+        if context.individual and context.cardarea == G.play and not context.forcetrigger then
             if not context.other_card.debuff then
                 return {
                     e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
                 }
             end
         end
-        if context.destroy_card and context.cardarea == G.play and not context.blueprint and not context.retrigger_joker then
+        if context.forcetrigger then
+            return {
+                e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
+            }
+        end
+        if context.destroy_card and context.cardarea == G.play and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             if not context.destroying_card.debuff and pseudorandom("red_queen_decapitate") < G.GAME.probabilities.normal/(card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor) then
                 return {
                     message = localize("k_die_ex"),
@@ -2685,10 +2728,11 @@ local king = {
 	rarity = 2,
     cost = 5,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.joker_main then
+        if context.joker_main or context.forcetrigger then
             return {
                 mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
 				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
@@ -2755,10 +2799,11 @@ local flamingo = {
 	rarity = 2,
     cost = 5,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.joker_main then
+        if context.joker_main or context.forcetrigger then
 			return {
 				chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
 				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
@@ -2825,10 +2870,11 @@ local gryphon = {
 	rarity = "sgt_obscure",
     cost = 14,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.individual and context.cardarea == G.hand and not context.end_of_round then
+        if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
             if context.other_card:get_id() == 12 then
                 if context.other_card.debuff then
                     return {
@@ -2843,6 +2889,12 @@ local gryphon = {
                     }
                 end
             end
+        end
+        if context.forcetrigger then
+            return {
+                e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
+                card = card,
+            }
         end
     end,
     in_pool = function(self, args)
@@ -2903,16 +2955,17 @@ local mock_turtle = {
 	rarity = 3,
     cost = 10,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.before and not context.blueprint and not context.retrigger_joker then
+        if context.before and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             card.ability.extra.probability_list.e_mult
             = pseudorandom("mock_turtle_critical") < G.GAME.probabilities.normal/card.ability.extra.e_mult_odds
             card.ability.extra.probability_list.self_destruct
             = pseudorandom("mock_turtle_vanish") < G.GAME.probabilities.normal/card.ability.extra.self_destruct_odds
         end
-        if context.joker_main and (card.ability.extra.probability_list.e_mult or card.ability.extra.probability_list.self_destruct) then
+        if (context.joker_main and (card.ability.extra.probability_list.e_mult or card.ability.extra.probability_list.self_destruct)) or context.forcetrigger then
             if not context.blueprint then
                 G.E_MANAGER:add_event(Event({func = function()
                     card.ability.extra.self_destruct_odds = card.ability.extra.self_destruct_odds - 1
@@ -2922,7 +2975,7 @@ local mock_turtle = {
                 e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
             }
         end
-        if context.after and not context.blueprint and not context.retrigger_joker then
+        if context.after and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             if card.ability.extra.probability_list.self_destruct then
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -3024,6 +3077,7 @@ local alice = {
 	rarity = 4,
     cost = 20,
     blueprint_compat = false,
+    demicoloncompat = false,
     eternal_compat = true,
     perishable_compat = true,
     add_to_deck = function(self, card, from_debuff)
@@ -3083,10 +3137,11 @@ local shepherd_boy = {
     rarity = 1,
     cost = 4,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if context.before and not context.blueprint then
+        if (context.before and not context.blueprint) or context.forcetrigger then
 			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
 			return {
 				message = localize("k_amused_ex"),
@@ -3094,14 +3149,14 @@ local shepherd_boy = {
 				card = card
 			}
 		end
-        if context.joker_main then
+        if context.joker_main or context.forcetrigger then
 			return {
 				mult_mod = card.ability.extra.mult,
 				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
 			}
 		end
-        if context.after and not context.blueprint and not context.retrigger_joker
-        and pseudorandom("real_wolf_incoming") < G.GAME.probabilities.normal/card.ability.extra.odds then
+        if (context.after and not context.blueprint and not context.retrigger_joker
+        and pseudorandom("real_wolf_incoming") < G.GAME.probabilities.normal/card.ability.extra.odds) or context.forcetrigger then
             G.E_MANAGER:add_event(Event({func = function()
                 card.ability.extra.mult = 0
                 local destructable_jokers = {}
@@ -3162,10 +3217,11 @@ local puss_in_boots = {
     rarity = 2,
     cost = 7,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.before then
+        if context.before and not context.forcetrigger then
             card.ability.extra.jack_triggered = false
             if not context.blueprint and not context.retrigger_joker then
                 for i = 1, #context.scoring_hand do
@@ -3177,15 +3233,22 @@ local puss_in_boots = {
                 end
             end
         end
-        if context.individual and context.cardarea == G.play then
+        if context.individual and context.cardarea == G.play and not context.forcetrigger then
             local temp = context.other_card
             if temp:get_id() == 12 or temp:get_id() == 13 then
+                G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
+            if Talisman and not Talisman.config_file.disable_anims then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end
                 return {
                     dollars = card.ability.extra.money
                 }
             end
         end
-        if context.joker_main and card.ability.extra.jack_triggered then
+        if context.forcetrigger then
+            ease_dollars(card.ability.extra.money)
+            G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
+            if Talisman and not Talisman.config_file.disable_anims then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end
+        end
+        if (context.joker_main and card.ability.extra.jack_triggered) or context.forcetrigger then
             return {
                 message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
                 Xmult_mod = card.ability.extra.xmult
@@ -3243,18 +3306,13 @@ local aladdin = {
     rarity = 3,
     cost = 8,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = false,
     calculate = function(self, card, context)
         if not card.ability.buffed then
-            if context.joker_main and to_big(card.ability.extra.xmult) > to_big(1) then
-                return {
-                    message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
-                    Xmult_mod = card.ability.extra.xmult
-                }
-            end
-            if context.end_of_round and not context.repetition and not context.individual
-            and not context.blueprint and not context.retrigger_joker and G.GAME.dollars > to_big(0) then
+            if ((context.end_of_round and not context.repetition and not context.individual
+            and not context.blueprint and not context.retrigger_joker) or context.forcetrigger) and G.GAME.dollars > to_big(0) then
                 ease_dollars(-math.floor(to_number(G.GAME.dollars)*card.ability.extra.tax))
                 card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
                 return {
@@ -3263,8 +3321,14 @@ local aladdin = {
                     no_retrigger = true
                 }
             end
+            if (context.joker_main or context.forcetrigger) and to_big(card.ability.extra.xmult) > to_big(1) then
+                return {
+                    message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                    Xmult_mod = card.ability.extra.xmult
+                }
+            end
         else
-            if context.joker_main then
+            if context.joker_main or context.forcetrigger then
                 return {
                     message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
                     Xmult_mod = card.ability.extra.xmult,
@@ -3334,21 +3398,22 @@ local magic_lamp = {
     rarity = "sgt_obscure",
     cost = 12,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.joker_main then
+        if context.joker_main or context.forcetrigger then
             return {
                 message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
                 Xmult_mod = card.ability.extra.xmult
 			}
         end
-        if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and not context.retrigger_joker then
+        if (context.end_of_round and not context.repetition and not context.individual and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
             card.ability.magic_lamp_rounds = card.ability.magic_lamp_rounds + 1
-            if card.ability.magic_lamp_rounds >= card.ability.extra.rounds_goal then
+            if (card.ability.magic_lamp_rounds >= card.ability.extra.rounds_goal) or context.forcetrigger then
                 local has_aladdin = false
                 for _, v in ipairs(G.jokers.cards) do
-                    if v.config.center_key == "j_sgt_aladdin" then
+                    if (v.config.center_key == "j_sgt_aladdin") or context.forcetrigger then
                         has_aladdin = true
                         G.E_MANAGER:add_event(Event({
                             trigger = "immediate",
@@ -3466,6 +3531,7 @@ local lamp_genie = {
     rarity = "sgt_esoteric",
     cost = 50,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
@@ -3478,14 +3544,14 @@ local lamp_genie = {
     end,
     calculate = function(self, card, context)
         if context.retrigger_joker_check and not context.retrigger_joker
-        and card.ability.wishlist.c_sgt_love then
+        and card.ability.wishlist.c_sgt_love and not context.forcetrigger then
             return {
                 message = localize("k_again_ex"),
                 repetitions = card.ability.extra.retriggers,
                 card = card,
             }
 		end
-        if context.setting_blind and not card.getting_sliced and context.blind.boss
+        if context.setting_blind and not card.getting_sliced and context.blind.boss and not context.forcetrigger
         and not context.blueprint and not context.retrigger_joker and card.ability.wishlist.c_sgt_peace then
             G.E_MANAGER:add_event(Event({func = function()
                 G.E_MANAGER:add_event(Event({func = function()
@@ -3499,17 +3565,12 @@ local lamp_genie = {
                 card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('ph_boss_disabled')})
             return true end }))
         end
-        if context.joker_main and card.ability.wishlist.c_sgt_freedom then
+        if context.forcetrigger and G.GAME.blind and G.GAME.blind:get_type() == "Boss" then
+            G.GAME.blind:disable()
+        end
+        if (context.joker_main or context.forcetrigger) and card.ability.wishlist.c_sgt_freedom then
             return {
-                message = localize({
-					type = "variable",
-					key = "a_sgt_powmult",
-					vars = {
-						number_format(card.ability.extra.e_mult),
-					},
-				}),
-				Emult_mod = card.ability.extra.e_mult,
-				colour = G.C.DARK_EDITION,
+				e_mult = card.ability.extra.e_mult,
             }
         end
         -- Aestheticism affects future playing cards as well
@@ -3640,16 +3701,17 @@ local lincoln_ship = {
 	rarity = 1,
     cost = 5,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.modify_scoring_hand and not context.blueprint and not context.retrigger_joker then
+        if context.modify_scoring_hand and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
 			return {
                 add_to_hand = true,
                 no_retrigger = true
             }
 		end
-        if context.joker_main then
+        if context.joker_main or context.forcetrigger then
             return {
                 mult_mod = card.ability.extra.mult,
 				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
@@ -3692,6 +3754,7 @@ local submarine = {
 	rarity = 3,
     cost = 10,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = false,
     set_ability = function(self, card, initial, delay_sprites)
@@ -3701,7 +3764,7 @@ local submarine = {
         card.ability.in_transition = false
     end,
     calculate = function(self, card, context)
-        if context.individual and context.cardarea == G.play and not context.blueprint then
+        if context.individual and context.cardarea == G.play and not context.blueprint and not context.forcetrigger then
             if not context.other_card.debuff then
                 card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
                 for i = 5, 1, -1 do
@@ -3717,7 +3780,10 @@ local submarine = {
                 }
             end
         end
-        if context.joker_main and to_big(card.ability.extra.chips) > to_big(0) then
+        if (context.joker_main or context.forcetrigger) and to_big(card.ability.extra.chips) > to_big(0) then
+            if context.forcetrigger then
+                card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
+            end
             return {
                 chip_mod = card.ability.extra.chips,
                 message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
@@ -3798,14 +3864,15 @@ local shub = {
     order = 50,
     pos = { x = 0, y = 2 },
     soul_pos = { x = 2, y = 2, extra = { x = 1, y = 2 } },
-    config = {extra = {e_mult = 1, e_mult_gain = 0.03}},
+    config = {extra = {e_mult = 1, e_mult_gain = 0.02}},
     rarity = "sgt_esoteric",
     cost = 50,
     blueprint_compat = true,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if context.before and not context.blueprint and not context.retrigger_joker then
+        if (context.before and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     local new_cards = {}
@@ -3840,6 +3907,12 @@ local shub = {
                     + (card.ability.extra.e_mult_gain*(#G.playing_cards + #context.full_hand - G.GAME.starting_deck_size)),
                 }
             end
+        end
+        if context.forcetrigger then
+            return { -- not tested
+                e_mult = card.ability.extra.e_mult
+                + (card.ability.extra.e_mult_gain*(#G.playing_cards + 2*#context.full_hand - G.GAME.starting_deck_size)),
+            }
         end
     end,
     loc_vars = function(self, info_queue, card)
