@@ -3699,34 +3699,112 @@ local submarine = {
     name = "Submarine",
     atlas = "submarine",
     saga_group = "20k_miles_under_the_sea",
-    order = 36,
+    order = 37,
     pos = { x = 0, y = 0 },
     extra_pos = { x = 0, y = 9 },
-    config = {},
-	rarity = 1,
-    cost = 5,
+    config = {depth_level = 1, old_depth_level = 1, extra = {chips = 0, chip_gain = 4}},
+	rarity = 3,
+    cost = 10,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = false,
+    set_ability = function(self, card, initial, delay_sprites)
+        card.ability.anim_dt = 0
+        card.ability.anim_pos = { x = 0, y = 0 }
+        card.ability.anim_transition_path = 0
+        card.ability.in_transition = false
+    end,
     calculate = function(self, card, context)
-        -- Pending calc
+        if context.individual and context.cardarea == G.play and not context.blueprint then
+            if not context.other_card.debuff then
+                card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
+                if card.ability.extra.chips >= 1600 then
+                    card.ability.depth_level = 5
+                elseif card.ability.extra.chips >= 750 then
+                    card.ability.depth_level = 4
+                elseif card.ability.extra.chips >= 300 then
+                    card.ability.depth_level = 3
+                elseif card.ability.extra.chips >= 100 then
+                    card.ability.depth_level = 2
+                else
+                    card.ability.depth_level = 1
+                end
+                return {
+                    extra = {focus = card, message = localize("k_submerge_ex")},
+                    colour = G.C.CHIPS,
+                    card = card
+                }
+            end
+        end
+        if context.joker_main and to_big(card.ability.extra.chips) > to_big(0) then
+            return {
+                chip_mod = card.ability.extra.chips,
+                message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
+            }
+        end
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff and G.GAME.story_mode then
             card:set_eternal(true)
         end
     end,
+    update = function(self, card, dt)
+        if card.ability then
+            card.ability.anim_dt = card.ability.anim_dt + dt
+            card.ability.anim_transition_path = card.ability.old_depth_level - card.ability.depth_level
+            if card.ability.anim_dt > 0.5 then
+                card.ability.anim_dt = card.ability.anim_dt - 0.5
+                if card.ability.anim_pos.x == 11 and card.ability.anim_transition_path ~= 0 and not card.ability.in_transition then
+                    if card.ability.anim_transition_path > 0 then
+                        card.ability.anim_pos.x = 6
+                    elseif card.ability.anim_transition_path < 0 then
+                        card.ability.anim_pos.x = 0
+                    end
+                    card.ability.in_transition = true
+                elseif (card.ability.anim_pos.x == 5 and card.ability.anim_transition_path < 0 and card.ability.in_transition)
+                or card.ability.anim_pos.x == 11 then
+                    card.ability.anim_pos.x = 0
+                    card.ability.in_transition = false
+                    card.ability.old_depth_level = card.ability.depth_level
+                else
+                    card.ability.anim_pos.x = card.ability.anim_pos.x + 1
+                end
+                card.ability.anim_pos.y = (math.min(card.ability.old_depth_level, card.ability.depth_level) - 1)
+                + (card.ability.in_transition and 5 or 0)
+                card.children.center:set_sprite_pos(card.ability.anim_pos)
+            end
+        end
+    end,
     in_pool = function(self, args)
+        if G.GAME.story_mode then
+            return next(SMODS.find_card("j_sgt_lincoln_ship", true))
+        end
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {}
+        return {vars = {card.ability.extra.chips, card.ability.extra.chip_gain, card.ability.depth_level}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
  	end,
     joker_display_def = function(JokerDisplay)
-        return {}
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.ability.extra", ref_value = "chips", retrigger_type = "mult" }
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text" },
+                { text = ": " },
+                { ref_table = "card.ability", ref_value = "depth_level", colour = G.C.BLUE },
+                { text = ")" },
+            },
+            text_config = { colour = G.C.CHIPS },
+            calc_function = function(card)
+                card.joker_display_values.localized_text = localize("ph_depth_level")
+            end,
+        }
     end,
 }
 

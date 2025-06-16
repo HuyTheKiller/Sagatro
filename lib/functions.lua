@@ -201,14 +201,14 @@ function Game:update(dt)
 	upd(self, dt)
 
     submarine_dt = submarine_dt + dt
-    if G.P_CENTERS and G.P_CENTERS.j_sgt_submarine and submarine_dt > 0.1 then
-        submarine_dt = submarine_dt - 0.1
+    if G.P_CENTERS and G.P_CENTERS.j_sgt_submarine and submarine_dt > 0.125 then
+        submarine_dt = submarine_dt - 0.125
         local submarine = G.P_CENTERS.j_sgt_submarine
-        if submarine.pos.x == 11 then
-            submarine.pos.x = 0
-        else
-            submarine.pos.x = submarine.pos.x + 1
-        end
+        -- if submarine.pos.x == 11 then
+        --     submarine.pos.x = 0
+        -- else
+        --     submarine.pos.x = submarine.pos.x + 1
+        -- end
         if submarine.extra_pos.x == 8 then
             submarine.extra_pos.x = 0
         else
