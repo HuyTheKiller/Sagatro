@@ -3752,8 +3752,8 @@ local submarine = {
         if card.ability then
             card.ability.anim_dt = card.ability.anim_dt + dt
             card.ability.anim_transition_path = card.ability.old_depth_level - card.ability.depth_level
-            if card.ability.anim_dt > 0.5 then
-                card.ability.anim_dt = card.ability.anim_dt - 0.5
+            if card.ability.anim_dt > 0.125*G.SETTINGS.GAMESPEED then
+                card.ability.anim_dt = card.ability.anim_dt - 0.125*G.SETTINGS.GAMESPEED
                 if card.ability.anim_pos.x == 11 and card.ability.anim_transition_path ~= 0 and not card.ability.in_transition then
                     if card.ability.anim_transition_path > 0 then
                         card.ability.anim_pos.x = 6
