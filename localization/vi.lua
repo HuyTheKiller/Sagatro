@@ -694,9 +694,9 @@ return {
             sgt_cosmic_streak_seal = "Vệt Vũ Trụ",
             sgt_gods_miracle_seal = "Phép Lạ Của Chúa",
         },
-        v_dictionary = {
-            a_sgt_powmult = { "^#1# Nhân" },
-        },
+        -- v_dictionary = {
+        --     a_sgt_powmult = { "^#1# Nhân" },
+        -- },
         dictionary = {
             k_sgt_trivial = "Tầm Thường",
             k_sgt_obscure = "Mờ Mịt",

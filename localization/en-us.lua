@@ -35,7 +35,7 @@ return {
             bl_sgt_red_queen = {
                 name = "Red Queen",
                 text = {
-                    "All cards debuff until Eat Me!",
+                    "All cards debuffed until Eat Me!",
                     "used; Very large blind",
                 },
             },
@@ -702,9 +702,9 @@ return {
             sgt_cosmic_streak_seal = "Cosmic Streak",
             sgt_gods_miracle_seal = "God's Miracle",
         },
-        v_dictionary = {
-            a_sgt_powmult = { "^#1# Mult" },
-        },
+        -- v_dictionary = {
+        --     a_sgt_powmult = { "^#1# Mult" },
+        -- },
         dictionary = {
             k_sgt_trivial = "Trivial",
             k_sgt_obscure = "Obscure",
