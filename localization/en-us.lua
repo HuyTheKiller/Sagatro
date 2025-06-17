@@ -531,12 +531,26 @@ return {
                     "{C:inactive}(Depth level: {C:blue}#3#{C:inactive})",
                 },
             },
+            j_sgt_clownfish = {
+                name = "Clownfish",
+                text = {
+                    "{C:mult}+#1#{} Mult",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
                     "Each played card gives {X:dark_edition,C:white}^#1#{} Mult when scored,",
                     "increase by {X:dark_edition,C:white}^#2#{} for every card above {C:attention}#3#{} in full deck",
                     "Create {C:attention}random{} cards equal to number of {C:attention}played{} cards",
+                },
+            },
+        },
+        OceanMap = {
+            sgt_tropical = {
+                text = {
+                    "Tropical",
+                    "Ocean"
                 },
             },
         },
@@ -700,6 +714,7 @@ return {
             sgt_wish_pack = "Wish Pack",
             saga_tooltip = "Hint to progress",
             saga_fusion_tooltip = "Joker fusion",
+            saga_ocean_tooltip = "Location",
             b_join = "JOIN",
             k_in_a_hurry_ex = "In a hurry!",
             k_too_late_ex = "Too late!",

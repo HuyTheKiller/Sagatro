@@ -3858,6 +3858,49 @@ local submarine = {
     end,
 }
 
+local clownfish = {
+    key = "clownfish",
+    name = "Clownfish",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 38,
+    pos = { x = 5, y = 0 },
+    config = {depth_level = 1, weight_level = 1, extra = {mult = 6}},
+	rarity = 1,
+    cost = 3,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main or context.forcetrigger then
+            return {
+                mult_mod = card.ability.extra.mult,
+				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "OceanMap", key = "sgt_tropical", title = localize("saga_ocean_tooltip")}
+        return {vars = {card.ability.extra.mult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.ability.extra", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+        }
+    end,
+}
+
 local shub = {
     key = "shub",
     name = "Shub-Niggurath",
@@ -3989,6 +4032,7 @@ local joker_table = {
     lamp_genie,
     lincoln_ship,
     submarine,
+    clownfish,
     shub,
 }
 

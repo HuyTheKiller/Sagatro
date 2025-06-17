@@ -530,12 +530,26 @@ return {
                     "{C:inactive}(Tầng độ sâu: {C:blue}#3#{C:inactive})",
                 },
             },
+            j_sgt_clownfish = {
+                name = "Cá Hề",
+                text = {
+                    "{C:mult}+#1#{} Nhân",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
                     "Mỗi lá đã chơi ghi thêm {X:dark_edition,C:white}^#1#{} Nhân khi ghi điểm, tăng thêm",
                     "{X:dark_edition,C:white}^#2#{} cho mỗi lá bài trên mức {C:attention}#3#{} trong cả bộ bài",
                     "Tạo ra lá {C:attention}ngẫu nhiên{} bằng số lượng lá {C:attention}đã chơi{}",
+                },
+            },
+        },
+        OceanMap = {
+            sgt_tropical = {
+                text = {
+                    "Đại Dương",
+                    "Nhiệt Đới"
                 },
             },
         },
@@ -692,6 +706,7 @@ return {
             sgt_wish_pack = "Gói Điều Ước",
             saga_tooltip = "Gợi ý tiến triển",
             saga_fusion_tooltip = "Kết hợp joker",
+            saga_ocean_tooltip = "Địa Điểm",
             b_join = "NHẬP",
             k_in_a_hurry_ex = "Tranh thủ lên!",
             k_too_late_ex = "Trễ rồi!",
