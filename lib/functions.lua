@@ -556,10 +556,10 @@ function Blind:defeat(s)
     end
 end
 
--- Custom tooltip as hints for story mode advancement (modified from Ortalab)
-function saga_hint_tooltip(_c, info_queue, card, desc_nodes, specific_vars, full_UI_table)
-    localize{type = 'descriptions', set = 'Saga Tooltip', key = _c.key, nodes = desc_nodes, vars = specific_vars or _c.vars}
-    desc_nodes['colour'] = Sagatro.badge_colour
+-- Custom tooltip (modified from Ortalab)
+function saga_tooltip(_c, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+    localize{type = 'descriptions', set = _c.set or 'Saga Tooltip', key = _c.key, nodes = desc_nodes, vars = specific_vars or _c.vars}
+    desc_nodes['colour'] = _c.colour or Sagatro.badge_colour
     desc_nodes.saga_tooltip = true
     desc_nodes.title = _c.title or localize('saga_tooltip')
 end

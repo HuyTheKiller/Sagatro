@@ -58,8 +58,8 @@ local white_rabbit = {
         and not G.GAME.saga_event.alice_in_wonderland.cry_into_flood
         and not G.GAME.saga_event_check.alice_in_wonderland.cry_into_flood)
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "white_rabbit"}
-            info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "fusion_hint", title = localize("saga_fusion_tooltip")}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "white_rabbit"}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "fusion_hint", title = localize("saga_fusion_tooltip")}
         end
 		return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.extra.chip_gain*G.GAME.alice_multiplier}}
 	end,
@@ -391,7 +391,7 @@ local mouse = {
         and G.GAME.saga_event.alice_in_wonderland.cry_into_flood
         and not G.GAME.saga_event_check.alice_in_wonderland.cry_into_flood)
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "fusion_hint", title = localize("saga_fusion_tooltip")}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "fusion_hint", title = localize("saga_fusion_tooltip")}
         end
         return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_splash", nodes = {}}}}
     end,
@@ -487,7 +487,7 @@ local kid_gloves_and_fan = {
         and G.GAME.saga_event.alice_in_wonderland.cry_into_flood
         and not G.GAME.saga_event_check.alice_in_wonderland.cry_into_flood)
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "kid_gloves_and_fan"}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "kid_gloves_and_fan"}
         end
         return {vars = {card.ability.extra*G.GAME.alice_multiplier}}
     end,
@@ -577,7 +577,7 @@ local dodo_bird = {
         and G.GAME.saga_event_check.alice_in_wonderland.cry_into_flood
         and not G.GAME.saga_event_check.alice_in_wonderland.white_rabbit_house)
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "dodo_bird"}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "dodo_bird"}
         end
         return {vars = {card.ability.extra*G.GAME.alice_multiplier}}
     end,
@@ -720,7 +720,7 @@ local unlabeled_bottle = {
         and not G.GAME.saga_event.alice_in_wonderland.little_bill
         and not G.GAME.saga_event.alice_in_wonderland.final_showdown)
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "unlabeled_bottle"}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "unlabeled_bottle"}
         end
         if card.ability.taken or Sagatro.debug then
             return {
@@ -788,7 +788,7 @@ local little_bill = {
         and G.GAME.saga_event.alice_in_wonderland.little_bill
         and not G.GAME.saga_event_check.alice_in_wonderland.little_bill)
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "little_bill"}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "little_bill"}
         end
         return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}}}
     end,
@@ -866,7 +866,7 @@ local huge_dog = {
         and not G.GAME.saga_event.alice_in_wonderland.caterpillar
         and not G.GAME.saga_event_check.alice_in_wonderland.caterpillar)
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "huge_dog"}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "huge_dog"}
         end
         return {vars = {card.ability.extra.times*G.GAME.alice_multiplier, card.ability.extra.extra_times*G.GAME.alice_multiplier}}
     end,
@@ -1012,7 +1012,7 @@ local caterpillar = {
         and G.GAME.saga_event.alice_in_wonderland.caterpillar
         and not G.GAME.saga_event_check.alice_in_wonderland.caterpillar)
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "caterpillar"}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "caterpillar"}
         end
         return {vars = {card.ability.extra, localize{type = 'name_text', set = "Joker", key = "j_sgt_mushroom", nodes = {}}}}
     end,
@@ -1188,7 +1188,7 @@ local mushroom = {
         and not G.GAME.saga_event.alice_in_wonderland.pig_and_pepper
         and not G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper)
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "mushroom"}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "mushroom"}
         end
         return {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), card.ability.times*G.GAME.alice_multiplier}}
     end,
@@ -1422,7 +1422,7 @@ local frog_footman = {
         and G.GAME.saga_event.alice_in_wonderland.pig_and_pepper
         and not G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper)
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "frog_footman"}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "frog_footman"}
         end
         return {vars = {card.ability.consumable_slot*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)}}
     end,
@@ -1720,7 +1720,7 @@ local cheshire_cat = {
             and G.GAME.saga_event.alice_in_wonderland.goodbye_frog
             and not G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog)
             or Sagatro.debug then
-                info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "cheshire_cat"}
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "cheshire_cat"}
             end
             return {vars = {localize{type = 'name_text', set = "Joker", key = card.ability.extra.copied_joker.config.center_key, nodes = {}}, G.GAME.probabilities.normal, card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), Sagatro.debug and card.ability.extra.copied_joker_value_id}}
         else
@@ -1728,7 +1728,7 @@ local cheshire_cat = {
             and G.GAME.saga_event.alice_in_wonderland.goodbye_frog
             and not G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog)
             or Sagatro.debug then
-                info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "cheshire_cat"}
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "cheshire_cat"}
             end
             return {vars = {localize('k_none'), G.GAME.probabilities.normal, card.ability.taken and card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier) or (G.GAME.story_mode and 2 or 3)*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), Sagatro.debug and card.ability.extra.copied_joker_value_id}}
         end
@@ -2179,7 +2179,7 @@ local mad_hatter = {
         and G.GAME.saga_event.alice_in_wonderland.the_party
         and not G.GAME.saga_event_check.alice_in_wonderland.the_party)
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "mad_hatter"}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "mad_hatter"}
         end
     end,
     set_badges = function(self, card, badges)
@@ -2674,7 +2674,7 @@ local red_queen = {
         and G.GAME.saga_event.alice_in_wonderland.red_queen
         and not G.GAME.saga_event_check.alice_in_wonderland.red_queen)
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "red_queen"}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "red_queen"}
         end
         return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)}}
     end,
@@ -2908,7 +2908,7 @@ local gryphon = {
         and G.GAME.saga_event.alice_in_wonderland.gryphon
         and not G.GAME.saga_event_check.alice_in_wonderland.gryphon)
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_hint_tooltip, key = "gryphon"}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "gryphon"}
         end
         return {vars = {card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)}}
     end,
@@ -3738,6 +3738,9 @@ local lincoln_ship = {
                 { ref_table = "card.ability.extra", ref_value = "mult", retrigger_type = "mult" }
             },
             text_config = { colour = G.C.MULT },
+            scoring_function = function(playing_card, scoring_hand, joker_card)
+                return true
+            end
         }
     end,
 }
