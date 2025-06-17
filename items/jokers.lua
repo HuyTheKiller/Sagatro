@@ -3947,8 +3947,7 @@ local shub = {
             if not context.other_card.debuff then
                 return {
                     -- This is actually delayed - it takes the value before new cards are added by Shub-Niggurath
-                    -- I'm adding #context.full_hand to compensate for the delay
-                    -- since Shub create cards equal to #context.full_hand
+                    -- I'm adding #context.full_hand to compensate for it
                     e_mult = card.ability.extra.e_mult
                     + (card.ability.extra.e_mult_gain*(#G.playing_cards + #context.full_hand - G.GAME.starting_deck_size)),
                 }
