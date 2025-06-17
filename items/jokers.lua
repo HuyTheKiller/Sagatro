@@ -3595,7 +3595,32 @@ local lamp_genie = {
             end
         end
     end,
+    load = function(self, card, card_table, other_card)
+        card.loaded = true
+    end,
     update = function(self, card, dt)
+        if card.loaded then
+            card.loaded = nil
+            if not card.ability.from_wish_card then
+                if card.ability.collected_wish == 0 then
+                    card.ability.init = true
+                    if #SMODS.find_card("j_sgt_lamp_genie", true) > 1 then
+                        local lamp_genies = SMODS.find_card("j_sgt_lamp_genie", true)
+                        for i = 2, #lamp_genies do
+                            lamp_genies[i].ability.init = nil
+                        end
+                    end
+                elseif card.ability.collected_wish == 2 then
+                    card.ability.skipped_first_pack = true
+                    if #SMODS.find_card("j_sgt_lamp_genie", true) > 1 then
+                        local lamp_genies = SMODS.find_card("j_sgt_lamp_genie", true)
+                        for i = 2, #lamp_genies do
+                            lamp_genies[i].ability.skipped_first_pack = nil
+                        end
+                    end
+                end
+            end
+        end
         if not (card.ability.from_wish_card or G.SETTINGS.paused) then
             if G.STATE == G.STATES.BLIND_SELECT and card.ability.init then
                 card.ability.init = nil
