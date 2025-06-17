@@ -684,10 +684,8 @@ function table.contains(t, x)
     return found
 end
 
--- from Cryptid's Tarot called Blessing, and Ig it works with Deck of Equilibrium as well
--- just have to add "no_doe = true" to exclude Deck of Equilibrium
--- or "no_grc = true" to exclude get_random_consumable, neat
--- wish cards are gonna use the latter, no way I'm letting Frog-Footman steal the show
+-- from Cryptid's Tarot called Blessing
+-- and I thought it could exclude cards from getting called in get_random_consumable and from Deck of Equilibrium
 function sgt_center_no(center, m, key, no_no)
 	if no_no then
 		return center[m] or (G.GAME and G.GAME[m] and G.GAME[m][key]) or false
