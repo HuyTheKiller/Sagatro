@@ -3926,6 +3926,506 @@ local clownfish = {
     end,
 }
 
+local blue_tang = {
+    key = "blue_tang",
+    name = "Blue Tang",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 39,
+    pos = { x = 6, y = 0 },
+    config = {depth_level = 1, weight_level = 1, extra = {chips = 35}},
+	rarity = 1,
+    cost = 3,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main or context.forcetrigger then
+            return {
+                chip_mod = card.ability.extra.chips,
+				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "OceanMap", key = "sgt_tropical", title = localize("saga_ocean_tooltip")}
+        return {vars = {card.ability.extra.chips}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.ability.extra", ref_value = "chips", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.CHIPS },
+        }
+    end,
+}
+
+local pufferfish = {
+    key = "pufferfish",
+    name = "Pufferfish",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 40,
+    pos = { x = 0, y = 1 },
+    config = {depth_level = 1, weight_level = 1, extra = {xmult = 4}},
+	rarity = 2,
+    cost = 5,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main or context.forcetrigger then
+            return {
+                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                Xmult_mod = card.ability.extra.xmult
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "OceanMap", key = "sgt_tropical", title = localize("saga_ocean_tooltip")}
+        return {vars = {card.ability.extra.xmult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.ability.extra", ref_value = "xmult", retrigger_type = "exp" }
+                    }
+                }
+            },
+        }
+    end,
+}
+
+local white_jellyfish = {
+    key = "white_jellyfish",
+    name = "White Jellyfish",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 41,
+    pos = { x = 1, y = 1 },
+    config = {extra = {every = 2, xmult = 3, odds = 4}},
+    no_pool_flag = "white_jellyfish_pop",
+	rarity = 2,
+    cost = 6,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        card.ability.loyalty_remaining = card.ability.extra.every
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main or context.forcetrigger then
+            card.ability.loyalty_remaining = (card.ability.extra.every-1-(G.GAME.hands_played - card.ability.hands_played_at_create))%(card.ability.extra.every+1)
+            if context.blueprint then
+                if card.ability.loyalty_remaining == card.ability.extra.every then
+                    return {
+                        message = localize{type='variable',key='a_xmult',vars={card.ability.extra.xmult}},
+                        Xmult_mod = card.ability.extra.xmult
+                    }
+                end
+            else
+                if card.ability.loyalty_remaining == 0 then
+                    local eval = function(_card) return (_card.ability.loyalty_remaining == 0) end
+                    juice_card_until(card, eval, true)
+                elseif card.ability.loyalty_remaining == card.ability.extra.every then
+                    return {
+                        message = localize{type='variable',key='a_xmult',vars={card.ability.extra.xmult}},
+                        Xmult_mod = card.ability.extra.xmult
+                    }
+                end
+            end
+        end
+        if context.after and not context.blueprint and not context.retrigger_joker and not context.forcetrigger
+        and card.ability.loyalty_remaining == card.ability.extra.every then
+            if pseudorandom("white_jellyfish_pop") < G.GAME.probabilities.normal/card.ability.extra.odds then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(card)
+                                    card:remove()
+                                    card = nil
+                                return true; end}))
+                        return true
+                    end
+                }))
+                G.GAME.pool_flags.white_jellyfish_pop = true
+                return {
+                    message = localize('k_pop_ex'),
+                    colour = G.C.RED,
+                    no_retrigger = true
+                }
+            else
+                return {
+                    message = localize('k_safe_ex'),
+                    colour = G.C.FILTER,
+                    no_retrigger = true
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "OceanMap", key = "sgt_tropical", title = localize("saga_ocean_tooltip")}
+        return {vars = {card.ability.extra.xmult, card.ability.extra.every+1, G.GAME.probabilities.normal, card.ability.extra.odds, localize{type = 'variable', key = (card.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.loyalty_remaining or card.ability.extra.every}}}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            extra = {
+                {
+                    { text = "(" },
+                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { text = ")" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "x_mult", retrigger_type = "exp" }
+                    }
+                }
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "loyalty_text" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                local loyalty_remaining = card.ability.loyalty_remaining + (next(G.play.cards) and 1 or 0)
+                card.joker_display_values.loyalty_text = localize { type = 'variable', key = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = { loyalty_remaining } }
+                card.joker_display_values.x_mult = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and card.ability.extra.xmult or 1)
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+            end
+        }
+    end,
+}
+
+local red_jellyfish = {
+    key = "red_jellyfish",
+    name = "Red Jellyfish",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 42,
+    pos = { x = 2, y = 1 },
+    config = {extra = {every = 2, xmult = 6, odds = 32}},
+    yes_pool_flag = "white_jellyfish_pop",
+    no_pool_flag = "red_jellyfish_pop",
+	rarity = 3,
+    cost = 10,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        card.ability.loyalty_remaining = card.ability.extra.every
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main or context.forcetrigger then
+            card.ability.loyalty_remaining = (card.ability.extra.every-1-(G.GAME.hands_played - card.ability.hands_played_at_create))%(card.ability.extra.every+1)
+            if context.blueprint then
+                if card.ability.loyalty_remaining == card.ability.extra.every then
+                    return {
+                        message = localize{type='variable',key='a_xmult',vars={card.ability.extra.xmult}},
+                        Xmult_mod = card.ability.extra.xmult
+                    }
+                end
+            else
+                if card.ability.loyalty_remaining == 0 then
+                    local eval = function(_card) return (_card.ability.loyalty_remaining == 0) end
+                    juice_card_until(card, eval, true)
+                elseif card.ability.loyalty_remaining == card.ability.extra.every then
+                    return {
+                        message = localize{type='variable',key='a_xmult',vars={card.ability.extra.xmult}},
+                        Xmult_mod = card.ability.extra.xmult
+                    }
+                end
+            end
+        end
+        if context.after and not context.blueprint and not context.retrigger_joker and not context.forcetrigger
+        and card.ability.loyalty_remaining == card.ability.extra.every then
+            if pseudorandom("red_jellyfish_pop") < G.GAME.probabilities.normal/card.ability.extra.odds then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(card)
+                                    card:remove()
+                                    card = nil
+                                return true; end}))
+                        return true
+                    end
+                }))
+                G.GAME.pool_flags.red_jellyfish_pop = true
+                return {
+                    message = localize('k_pop_ex'),
+                    colour = G.C.RED,
+                    no_retrigger = true
+                }
+            else
+                return {
+                    message = localize('k_safe_ex'),
+                    colour = G.C.FILTER,
+                    no_retrigger = true
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "OceanMap", key = "sgt_tropical", title = localize("saga_ocean_tooltip")}
+        return {vars = {card.ability.extra.xmult, card.ability.extra.every+1, G.GAME.probabilities.normal, card.ability.extra.odds, localize{type = 'variable', key = (card.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.loyalty_remaining or card.ability.extra.every}}}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            extra = {
+                {
+                    { text = "(" },
+                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { text = ")" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "x_mult", retrigger_type = "exp" }
+                    }
+                }
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "loyalty_text" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                local loyalty_remaining = card.ability.loyalty_remaining + (next(G.play.cards) and 1 or 0)
+                card.joker_display_values.loyalty_text = localize { type = 'variable', key = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = { loyalty_remaining } }
+                card.joker_display_values.x_mult = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and card.ability.extra.xmult or 1)
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+            end
+        }
+    end,
+}
+
+local queen_jellyfish = {
+    key = "queen_jellyfish",
+    name = "Queen Jellyfish",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 43,
+    pos = { x = 3, y = 1 },
+    config = {extra = {every = 2, e_mult = 1.5, odds = 256}},
+    yes_pool_flag = "red_jellyfish_pop",
+	rarity = "sgt_obscure",
+    cost = 15,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        card.ability.loyalty_remaining = card.ability.extra.every
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main or context.forcetrigger then
+            card.ability.loyalty_remaining = (card.ability.extra.every-1-(G.GAME.hands_played - card.ability.hands_played_at_create))%(card.ability.extra.every+1)
+            if context.blueprint then
+                if card.ability.loyalty_remaining == card.ability.extra.every then
+                    return {
+                        e_mult = card.ability.extra.e_mult
+                    }
+                end
+            else
+                if card.ability.loyalty_remaining == 0 then
+                    local eval = function(_card) return (_card.ability.loyalty_remaining == 0) end
+                    juice_card_until(card, eval, true)
+                elseif card.ability.loyalty_remaining == card.ability.extra.every then
+                    return {
+                        e_mult = card.ability.extra.e_mult
+                    }
+                end
+            end
+        end
+        if context.after and not context.blueprint and not context.retrigger_joker and not context.forcetrigger
+        and card.ability.loyalty_remaining == card.ability.extra.every then
+            if pseudorandom("red_jellyfish_pop") < G.GAME.probabilities.normal/card.ability.extra.odds then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(card)
+                                    card:remove()
+                                    card = nil
+                                return true; end}))
+                        return true
+                    end
+                }))
+                return {
+                    message = localize('k_pop_ex'),
+                    colour = G.C.RED,
+                    no_retrigger = true
+                }
+            else
+                return {
+                    message = localize('k_safe_ex'),
+                    colour = G.C.FILTER,
+                    no_retrigger = true
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "OceanMap", key = "sgt_tropical", title = localize("saga_ocean_tooltip")}
+        return {vars = {card.ability.extra.e_mult, card.ability.extra.every+1, G.GAME.probabilities.normal, card.ability.extra.odds, localize{type = 'variable', key = (card.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.loyalty_remaining or card.ability.extra.every}}}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            extra = {
+                {
+                    { text = "(" },
+                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { text = ")" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            text = {
+                {
+                    border_nodes = {
+                        { text = "^" },
+                        { ref_table = "card.joker_display_values", ref_value = "e_mult", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.DARK_EDITION
+                }
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "loyalty_text" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                local loyalty_remaining = card.ability.loyalty_remaining + (next(G.play.cards) and 1 or 0)
+                card.joker_display_values.loyalty_text = localize { type = 'variable', key = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = { loyalty_remaining } }
+                card.joker_display_values.e_mult = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and card.ability.extra.e_mult or 1)
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+            end
+        }
+    end,
+}
+
+local mandarin_fish = {
+    key = "mandarin_fish",
+    name = "Mandarin Fish",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 44,
+    pos = { x = 4, y = 1 },
+    config = {extra = {money = 75}},
+    no_pool_flag = "mandarin_fish_extinct",
+	rarity = 3,
+    cost = 7,
+    blueprint_compat = false,
+    demicoloncompat = false,
+    eternal_compat = false,
+    perishable_compat = false,
+    add_to_deck = function(self, card, from_debuff)
+        delay(0.06*G.SETTINGS.GAMESPEED)
+        ease_dollars(card.ability.extra.money)
+        delay(0.06*G.SETTINGS.GAMESPEED)
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED,
+            func = function()
+                card_eval_status_text(card, 'extra', nil, 1, nil, {message = localize('k_extinct_ex'), sound = "tarot1", volume = 1, instant = true})
+                card.T.r = -0.2
+                card:juice_up(0.3, 0.4)
+                card.states.drag.is = true
+                card.children.center.pinch.x = true
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.3,
+                    blockable = false,
+                    func = function()
+                        G.jokers:remove_card(card)
+                        card:remove()
+                        card = nil
+                        return true;
+                    end
+                }))
+                G.GAME.pool_flags.mandarin_fish_extinct = true
+                return true
+            end
+        }))
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "OceanMap", key = "sgt_tropical", title = localize("saga_ocean_tooltip")}
+        return {vars = {card.ability.extra.money}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = localize("k_self_destruct"), colour = G.C.RED },
+            },
+        }
+    end,
+}
+
 local shub = {
     key = "shub",
     name = "Shub-Niggurath",
@@ -4057,6 +4557,12 @@ local joker_table = {
     lincoln_ship,
     submarine,
     clownfish,
+    blue_tang,
+    pufferfish,
+    white_jellyfish,
+    red_jellyfish,
+    queen_jellyfish,
+    mandarin_fish,
     shub,
 }
 

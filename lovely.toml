@@ -314,3 +314,21 @@ payload = '''
 elseif extra.chip_mod or extra.Xchip_mod then
 '''
 match_indent = true
+
+# Pufferfish debuffing adjacent jokers would be too dangerous if it constantly debuffs and undebuffs jokers that add hand size
+# This patch aims to fix that, but also removes Beanstalk trick to get naneinf
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = '''
+if delta > 0 and self.config.real_card_limit > 1 and self == G.hand and self.cards[1] and (G.STATE == G.STATES.DRAW_TO_HAND or G.STATE == G.STATES.SELECTING_HAND) then 
+    local card_count = math.abs(delta)
+'''
+position = "at"
+payload = '''
+if delta > 0 and self.config.real_card_limit > 1 and self == G.hand and self.cards[1]
+and (G.STATE == G.STATES.DRAW_TO_HAND or G.STATE == G.STATES.SELECTING_HAND)
+and #self.cards < self.config.card_limit then
+    local card_count = self.config.card_limit - #self.cards
+'''
+match_indent = true

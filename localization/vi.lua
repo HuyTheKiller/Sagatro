@@ -536,6 +536,51 @@ return {
                     "{C:mult}+#1#{} Nhân",
                 },
             },
+            j_sgt_blue_tang = {
+                name = "Cá Nẻ Xanh",
+                text = {
+                    "{C:chips}+#1#{} Chip",
+                },
+            },
+            j_sgt_pufferfish = {
+                name = "Cá Nóc",
+                text = {
+                    "{X:mult,C:white}X#1#{} Nhân",
+                    "{C:attention}Vô hiệu{} joker liền kề",
+                    "bên ngoài shop",
+                },
+            },
+            j_sgt_white_jellyfish = {
+                name = "Sứa Trắng",
+                text = {
+                    "{X:red,C:white}X#1#{} Nhân mỗi {C:attention}#2#{} tay bài đã chơi",
+                    "Xác suất {C:green}#3# trên #4#{} để {C:red,E:2}tự huỷ{} khi kích hoạt",
+                    "{C:inactive}#5#",
+                },
+            },
+            j_sgt_red_jellyfish = {
+                name = "Sứa Đỏ",
+                text = {
+                    "{X:red,C:white}X#1#{} Nhân mỗi {C:attention}#2#{} tay bài đã chơi",
+                    "Xác suất {C:green}#3# trên #4#{} để {C:red,E:2}tự huỷ{} khi kích hoạt",
+                    "{C:inactive}#5#",
+                },
+            },
+            j_sgt_queen_jellyfish = {
+                name = "Sứa Chúa",
+                text = {
+                    "{X:dark_edition,C:white}^#1#{} Nhân mỗi {C:attention}#2#{} tay bài đã chơi",
+                    "Xác suất {C:green}#3# trên #4#{} để {C:red,E:2}tự huỷ{} khi kích hoạt",
+                    "{C:inactive}#5#",
+                },
+            },
+            j_sgt_mandarin_fish = {
+                name = "Cá Trạng Nguyên",
+                text = {
+                    "Nhận {C:money}$#1#{}",
+                    "rồi {C:red,E:2}tự huỷ{}",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -739,6 +784,7 @@ return {
             k_submerge_ex = "Lặn!",
             k_huh_qm = "Hở?",
             k_buffed = "Siêu Cấp",
+            k_pop_ex = "Vỡ!",
             ph_per_face_down = " mỗi lá sấp",
             ph_trial_begins = "Khai Toà!",
             ph_story_ended = "KẾT TRUYỆN!",

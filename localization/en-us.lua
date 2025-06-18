@@ -537,6 +537,51 @@ return {
                     "{C:mult}+#1#{} Mult",
                 },
             },
+            j_sgt_blue_tang = {
+                name = "Blue Tang",
+                text = {
+                    "{C:chips}+#1#{} Chips",
+                },
+            },
+            j_sgt_pufferfish = {
+                name = "Pufferfish",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult",
+                    "{C:attention}Debuff{} adjacent jokers",
+                    "outside the shop",
+                },
+            },
+            j_sgt_white_jellyfish = {
+                name = "White Jellyfish",
+                text = {
+                    "{X:red,C:white}X#1#{} Mult every {C:attention}#2#{} hands played",
+                    "{C:green}#3# in #4#{} chance to {C:red,E:2}self destruct{} when triggered",
+                    "{C:inactive}#5#",
+                },
+            },
+            j_sgt_red_jellyfish = {
+                name = "Red Jellyfish",
+                text = {
+                    "{X:red,C:white}X#1#{} Mult every {C:attention}#2#{} hands played",
+                    "{C:green}#3# in #4#{} chance to {C:red,E:2}self destruct{} when triggered",
+                    "{C:inactive}#5#",
+                },
+            },
+            j_sgt_queen_jellyfish = {
+                name = "Queen Jellyfish",
+                text = {
+                    "{X:dark_edition,C:white}^#1#{} Mult every {C:attention}#2#{} hands played",
+                    "{C:green}#3# in #4#{} chance to {C:red,E:2}self destruct{} when triggered",
+                    "{C:inactive}#5#",
+                },
+            },
+            j_sgt_mandarin_fish = {
+                name = "Mandarin Fish",
+                text = {
+                    "Earn {C:money}$#1#{}",
+                    "{C:red,E:2}self destructs{}",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -747,6 +792,7 @@ return {
             k_submerge_ex = "Submerge!",
             k_huh_qm = "Huh?",
             k_buffed = "Buffed",
+            k_pop_ex = "Pop!",
             ph_per_face_down = " per face-down",
             ph_trial_begins = "Trial Begins!",
             ph_story_ended = "STORY ENDED!",

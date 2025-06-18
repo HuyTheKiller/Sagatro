@@ -162,7 +162,7 @@ Game.main_menu = function(change_context)
     return ret
 end
 
--- Mouse's conditional debuff mechanic
+-- Mouse and Pufferfish's conditional debuff mechanic
 local cardarea_update_ref = CardArea.update
 function CardArea:update(dt)
 	cardarea_update_ref(self, dt)
@@ -183,6 +183,29 @@ function CardArea:update(dt)
                         v:set_debuff(false)
                         v.ability.extra.mult = v.ability.extra.buffer_mult
                     end
+                end
+            end
+            if v.debuffed_by_pufferfish then
+                local unpoisoned = {false, false}
+                if not G.jokers.cards[i-1] or G.jokers.cards[i-1].config.center_key ~= "j_sgt_pufferfish" then
+                    unpoisoned[1] = true
+                end
+                if not G.jokers.cards[i+1] or G.jokers.cards[i+1].config.center_key ~= "j_sgt_pufferfish" then
+                    unpoisoned[2] = true
+                end
+                if (unpoisoned[1] and unpoisoned[2]) or G.STATE == G.STATES.SHOP then
+                    v:set_debuff(false)
+                    v.debuffed_by_pufferfish = nil
+                end
+            end
+            if v.config.center_key == "j_sgt_pufferfish" and G.STATE ~= G.STATES.SHOP then
+                if G.jokers.cards[i-1] and G.jokers.cards[i-1].config.center_key ~= "j_sgt_pufferfish" then
+                    G.jokers.cards[i-1]:set_debuff(true)
+                    G.jokers.cards[i-1].debuffed_by_pufferfish = true
+                end
+                if G.jokers.cards[i+1] and G.jokers.cards[i+1].config.center_key ~= "j_sgt_pufferfish" then
+                    G.jokers.cards[i+1]:set_debuff(true)
+                    G.jokers.cards[i+1].debuffed_by_pufferfish = true
                 end
             end
         end
