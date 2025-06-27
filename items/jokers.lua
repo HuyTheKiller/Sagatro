@@ -1561,7 +1561,7 @@ local cheshire_cat = {
     order = 16,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 3, y = 0 },
-    config = {extra = {copied_joker = nil, copied_joker_value_id = 0, copied_joker_buffer_key = nil, odds = 3}, taken = false},
+    config = {extra = {odds = 3}, taken = false},
 	rarity = 1,
     cost = 6,
     blueprint_compat = true,
@@ -1569,61 +1569,18 @@ local cheshire_cat = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
-            card.ability.extra.copied_joker = nil
-            card.ability.extra.copied_joker_buffer_key = nil
-            card.ability.extra.copied_joker_value_id = 0
-            local potential_jokers = {}
-            for i=1, #G.jokers.cards do
-                if G.jokers.cards[i] ~= card and G.jokers.cards[i].config.center_key ~= "j_sgt_cheshire_cat"
-                and G.jokers.cards[i].config.center_key ~= "j_sgt_the_cook" -- Copying The Cook crashes the game :skull:
-                and G.jokers.cards[i].config.center.blueprint_compat then
-                    potential_jokers[#potential_jokers+1] = G.jokers.cards[i]
-                end
-            end
-            if #potential_jokers > 0 then
-                local chosen_joker = pseudorandom_element(potential_jokers, pseudoseed('cheshire_cat'))
-                for _, v in ipairs(G.jokers.cards) do
-                    if v == chosen_joker then
-                        -- Store buffer key
-                        card.ability.extra.copied_joker_buffer_key = v.config.center_key
-                        -- Store value ID if applicable
-                        if v.ability.extra then
-                            card.ability.extra.copied_joker_value_id = table.extract_total_value(v.ability.extra)
-                        end
-                        break
-                    end
-                end
-                card.ability.extra.copied_joker = chosen_joker
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_copied_ex'), instant = true})
-                G.E_MANAGER:add_event(Event({
-                    trigger = "immediate",
-                    func = function()
-                        chosen_joker:juice_up(0.5, 0.5)
-                        return true
-                    end
-                }))
+        local left_joker, right_joker = nil, nil
+        for i = 1, #G.jokers.cards do
+            if G.jokers.cards[i] == card then
+                left_joker = G.jokers.cards[i-1]
+                right_joker = G.jokers.cards[i+1]
             end
         end
-        if card.ability.extra.copied_joker then
-            context.blueprint = (context.blueprint and (context.blueprint + 1)) or 1
-            context.blueprint_card = context.blueprint_card or card
-            if context.blueprint > #G.jokers.cards + 1 then return end
-            local other_joker_ret = card.ability.extra.copied_joker:calculate_joker(context)
-            context.blueprint = nil
-            context.blueprint_card = nil
-            -- Recalculate value ID if applicable
-            for _, v in ipairs(G.jokers.cards) do
-                if v == card.ability.extra.copied_joker and v.ability.extra then
-                    card.ability.extra.copied_joker_value_id = table.extract_total_value(v.ability.extra)
-                    break
-                end
-            end
-            if other_joker_ret then
-                other_joker_ret.card = card
-                other_joker_ret.colour = G.C.GREY
-                return other_joker_ret
-            end
+        local left_joker_ret = SMODS.blueprint_effect(card, left_joker, context)
+        local right_joker_ret = SMODS.blueprint_effect(card, right_joker, context)
+        if left_joker_ret or right_joker_ret then
+            local full_ret = SMODS.merge_effects({left_joker_ret or {}, right_joker_ret or {}})
+            return full_ret
         end
         if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint and not context.retrigger_joker then
             if pseudorandom('cheshire_cat_vanish') < G.GAME.probabilities.normal/(card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)) then
@@ -1664,46 +1621,12 @@ local cheshire_cat = {
 				}
 			end
         end
-        if context.selling_card and not context.blueprint and not context.retrigger_joker then
-            if context.card == card.ability.extra.copied_joker then
-                card.ability.extra.copied_joker = nil
-                card.ability.extra.copied_joker_buffer_key = nil
-                card.ability.extra.copied_joker_value_id = 0
-            end
-        end
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
             card.ability.extra.odds = G.GAME.story_mode and 2 or 3
-            card.ability.extra.copied_joker = nil
-            card.ability.extra.copied_joker_buffer_key = nil
-            card.ability.extra.copied_joker_value_id = 0
         end
         card.ability.taken = true
-        if #SMODS.find_card("j_sgt_cheshire_cat") > 0 and not from_debuff then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    card_eval_status_text(card, 'extra', nil, 1, nil, {message = localize('k_gone_ex'), sound = "tarot1", volume = 1 , instant = true})
-                    ease_dollars(card.cost)
-                    card.T.r = -0.2
-                    card:juice_up(0.3, 0.4)
-                    card.states.drag.is = true
-                    card.children.center.pinch.x = true
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'after',
-                        delay = 0.3,
-                        blockable = false,
-                        func = function()
-                            G.jokers:remove_card(card)
-                            card:remove()
-                            card = nil
-                            return true;
-                        end
-                    }))
-                    return true
-                end
-            }))
-        end
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
@@ -1712,72 +1635,50 @@ local cheshire_cat = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        if card.ability.extra.copied_joker then
-            if G.P_CENTERS[card.ability.extra.copied_joker.config.center_key] then
-                info_queue[#info_queue+1] = G.P_CENTERS[card.ability.extra.copied_joker.config.center_key]
+        if (G.GAME.story_mode and G.STAGE == G.STAGES.RUN and not card.fake_card
+        and G.GAME.saga_event.alice_in_wonderland.goodbye_frog
+        and not G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog)
+        or Sagatro.debug then
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "cheshire_cat"}
+        end
+        local ret = {vars = {G.GAME.probabilities.normal, card.ability.taken and card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier) or (G.GAME.story_mode and 2 or 3)*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)}}
+        if card.area and card.area == G.jokers then
+            local left_joker, right_joker
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i] == card then
+                    left_joker = G.jokers.cards[i-1]
+                    right_joker = G.jokers.cards[i+1]
+                end
             end
-            if (G.GAME.story_mode and G.STAGE == G.STAGES.RUN and not card.fake_card
-            and G.GAME.saga_event.alice_in_wonderland.goodbye_frog
-            and not G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog)
-            or Sagatro.debug then
-                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "cheshire_cat"}
-            end
-            return {vars = {localize{type = 'name_text', set = "Joker", key = card.ability.extra.copied_joker.config.center_key, nodes = {}}, G.GAME.probabilities.normal, card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), Sagatro.debug and card.ability.extra.copied_joker_value_id}}
-        else
-            if (G.GAME.story_mode and G.STAGE == G.STAGES.RUN and not card.fake_card
-            and G.GAME.saga_event.alice_in_wonderland.goodbye_frog
-            and not G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog)
-            or Sagatro.debug then
-                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "cheshire_cat"}
-            end
-            return {vars = {localize('k_none'), G.GAME.probabilities.normal, card.ability.taken and card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier) or (G.GAME.story_mode and 2 or 3)*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), Sagatro.debug and card.ability.extra.copied_joker_value_id}}
+            local left_compatible = left_joker and left_joker ~= card and left_joker.config.center.blueprint_compat
+            local right_compatible = right_joker and right_joker ~= card and right_joker.config.center.blueprint_compat
+            ret.main_end = {
+                {
+                    n = G.UIT.C,
+                    config = { align = "bm", minh = 0.4 },
+                    nodes = {
+                        {
+                            n = G.UIT.C,
+                            config = { ref_table = card, align = "m", colour = left_compatible and mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8) or mix_colours(G.C.RED, G.C.JOKER_GREY, 0.8), r = 0.05, padding = 0.06 },
+                            nodes = {
+                                { n = G.UIT.T, config = { text = ' ' .. localize('k_' .. (left_compatible and 'compatible' or 'incompatible')) .. ' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.8 } },
+                            }
+                        },
+                        {
+                            n = G.UIT.C,
+                            config = { ref_table = card, align = "m", colour = right_compatible and mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8) or mix_colours(G.C.RED, G.C.JOKER_GREY, 0.8), r = 0.05, padding = 0.06 },
+                            nodes = {
+                                { n = G.UIT.T, config = { text = ' ' .. localize('k_' .. (right_compatible and 'compatible' or 'incompatible')) .. ' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.8 } },
+                            }
+                        },
+                    }
+                }
+            }
         end
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
  	end,
-    load = function(self, card, card_table, other_card)
-        card.loaded = true
-    end,
-    update = function(self, card, dt)
-        if card.loaded then
-            if card.ability.extra.copied_joker_buffer_key then
-                local filtered_list = {}
-                -- Scan for jokers matching buffer key
-                for _, v in ipairs(G.jokers.cards) do
-                    if card.ability.extra.copied_joker_buffer_key == v.config.center_key then
-                        filtered_list[#filtered_list+1] = v
-                    end
-                end
-                --[[If there is more than one, check value ID to pin-point the exact joker
-                (useful for detecting among duplicates of scaling jokers)]]
-                if #filtered_list > 1 then
-                    for _, v in ipairs(filtered_list) do
-                        if v.ability.extra then
-                            --[[This complicated check would simply fall apart if
-                            a modded scaling joker didn't store its initial variables in config.extra,
-                            but who cares anyway, it's the modder's fault, not mine]]
-                            if card.ability.extra.copied_joker_value_id == table.extract_total_value(v.ability.extra) then
-                                card.ability.extra.copied_joker = v
-                                break
-                            end
-                        else
-                            card.ability.extra.copied_joker = filtered_list[1]
-                            break
-                        end
-                    end
-                -- If there is only one, simply select it
-                elseif #filtered_list == 1 then
-                    card.ability.extra.copied_joker = filtered_list[1]
-                else
-                    card.ability.extra.copied_joker = card
-                    --[[Select itself as a fallback if copied joker is sold
-                    This would be entirely your fault for doing such abomination in a live run]]
-                end
-            end
-            card.loaded = false
-        end
-    end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -1789,38 +1690,33 @@ local cheshire_cat = {
             },
             extra_config = { colour = G.C.GREEN, scale = 0.3 },
             text = {
-                { text = "(" },
-                { ref_table = "card.joker_display_values", ref_value = "localized_text", colour = G.C.ORANGE },
-                { text = ")" },
+                { text = "<=" },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text", colour = G.C.FILTER },
+                { text = "=>" },
             },
             calc_function = function(card)
-                card.joker_display_values.localized_text = localize('k_none')
+                card.joker_display_values.localized_text = localize('k_compatible')
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier) } }
                 local copied_joker, copied_debuff = JokerDisplay.calculate_blueprint_copy(card)
                 JokerDisplay.copy_display(card, copied_joker, copied_debuff)
             end,
-            get_blueprint_joker = function(card)
-                local filtered_list = {}
-                for _, v in ipairs(G.jokers.cards) do
-                    if card.ability.extra.copied_joker_buffer_key == v.config.center_key then
-                        filtered_list[#filtered_list+1] = v
-                    end
-                end
-                if #filtered_list > 1 then
-                    for _, v in ipairs(filtered_list) do
-                        if v.ability.extra then
-                            if card.ability.extra.copied_joker_value_id == table.extract_total_value(v.ability.extra) then
-                                return v
-                            end
-                        else
-                            return filtered_list[1]
+            style_function = function(card, text, reminder_text, extra)
+                if text and text.children[1] and text.children[3] then
+                    local left_joker, right_joker
+                    for i = 1, #G.jokers.cards do
+                        if G.jokers.cards[i] == card then
+                            left_joker = G.jokers.cards[i-1]
+                            right_joker = G.jokers.cards[i+1]
                         end
                     end
-                elseif #filtered_list == 1 then
-                    return filtered_list[1]
+                    local left_compatible = left_joker and left_joker ~= card and left_joker.config.center.blueprint_compat
+                    local right_compatible = right_joker and right_joker ~= card and right_joker.config.center.blueprint_compat
+                    text.children[1].config.colour = left_compatible and G.C.GREEN or G.C.RED
+                    text.children[3].config.colour = right_compatible and G.C.GREEN or G.C.RED
                 end
-                return nil
-            end
+                return false
+            end,
+            
         }
     end,
 }

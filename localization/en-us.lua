@@ -221,11 +221,11 @@ return {
             j_sgt_cheshire_cat = {
                 name = "Cheshire Cat",
                 text = {
-                    "Copies ability of a random {C:attention}Joker{}",
-					"when {C:attention}Blind{} is selected",
-                    "{C:green}#2# in #3#{} chance this card is",
-                    "destroyed at end of round",
-					"{C:inactive,s:0.9}(Copying {C:attention,s:0.9}#1#"..(Sagatro.debug and "{C:inactive,s:0.9} with value ID {C:attention,s:0.9}#4#{C:inactive,s:0.9})" or "{C:inactive,s:0.9})"),
+                    "Copies ability of",
+                    "adjacent {C:attention}Jokers{}",
+                    "{C:green}#1# in #2#{} chance",
+                    "this card is destroyed",
+                    "at end of round",
                 },
             },
             j_sgt_mouse = {
