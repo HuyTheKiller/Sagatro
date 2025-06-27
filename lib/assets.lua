@@ -166,6 +166,14 @@ SMODS.Sound{
         end
         return false
 	end,
+
+}
+SMODS.Sound{
+    key = "music_sagatro_story_mode",
+    path = "music_sagatro_story_mode.ogg",
+    select_music_track = function()
+        return G.STATE ~= G.STATES.MENU and G.GAME.story_mode
+	end,
 }
 
 SMODS.Sound{
