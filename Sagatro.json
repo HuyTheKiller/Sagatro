@@ -1,7 +1,7 @@
 {
 	"id": "Sagatro",
 	"name": "Sagatro",
-	"author": ["HuyTheKiller", "Hisme"],
+	"author": ["HuyTheKiller"],
 	"description": "Adds fairy tale elements to Balatro. Load this mod for more information.",
 	"prefix": "sgt",
 	"main_file": "main.lua",
