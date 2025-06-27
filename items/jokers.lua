@@ -3786,7 +3786,7 @@ local clownfish = {
     saga_group = "20k_miles_under_the_sea",
     order = 38,
     pos = { x = 5, y = 0 },
-    config = {depth_level = 1, weight_level = 1, extra = {mult = 6}},
+    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {mult = 2}},
 	rarity = 1,
     cost = 3,
     blueprint_compat = true,
@@ -3794,10 +3794,26 @@ local clownfish = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.joker_main or context.forcetrigger then
+        if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
+            if context.other_card:is_suit("Hearts", nil, true) then
+                if context.other_card.debuff then
+                    return {
+                        message = localize('k_debuffed'),
+                        colour = G.C.RED,
+                        card = card,
+                    }
+                else
+                    return {
+                        h_mult = card.ability.extra.mult,
+                        card = card,
+                    }
+                end
+            end
+        end
+        if context.forcetrigger then
             return {
                 mult_mod = card.ability.extra.mult,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+                card = card,
             }
         end
     end,
@@ -3815,9 +3831,22 @@ local clownfish = {
         return {
             text = {
                 { text = "+" },
-                { ref_table = "card.ability.extra", ref_value = "mult", retrigger_type = "mult" }
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
             },
             text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                local count = 0
+                local mult = card.ability.extra.mult
+                local playing_hand = next(G.play.cards)
+                for _, playing_card in ipairs(G.hand.cards) do
+                    if playing_hand or not playing_card.highlighted then
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff and playing_card:is_suit("Hearts", nil, true) then
+                            count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
+                        end
+                    end
+                end
+                card.joker_display_values.mult = mult*count
+            end,
         }
     end,
 }
@@ -3829,7 +3858,7 @@ local blue_tang = {
     saga_group = "20k_miles_under_the_sea",
     order = 39,
     pos = { x = 6, y = 0 },
-    config = {depth_level = 1, weight_level = 1, extra = {chips = 35}},
+    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {chips = 15}},
 	rarity = 1,
     cost = 3,
     blueprint_compat = true,
@@ -3837,10 +3866,26 @@ local blue_tang = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.joker_main or context.forcetrigger then
+        if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
+            if context.other_card:is_suit("Spades", nil, true) then
+                if context.other_card.debuff then
+                    return {
+                        message = localize('k_debuffed'),
+                        colour = G.C.RED,
+                        card = card,
+                    }
+                else
+                    return {
+                        h_chips = card.ability.extra.chips,
+                        card = card,
+                    }
+                end
+            end
+        end
+        if context.forcetrigger then
             return {
                 chip_mod = card.ability.extra.chips,
-				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
+                card = card,
             }
         end
     end,
@@ -3858,9 +3903,22 @@ local blue_tang = {
         return {
             text = {
                 { text = "+" },
-                { ref_table = "card.ability.extra", ref_value = "chips", retrigger_type = "mult" }
+                { ref_table = "card.joker_display_values", ref_value = "chips", retrigger_type = "mult" }
             },
             text_config = { colour = G.C.CHIPS },
+            calc_function = function(card)
+                local count = 0
+                local chips = card.ability.extra.chips
+                local playing_hand = next(G.play.cards)
+                for _, playing_card in ipairs(G.hand.cards) do
+                    if playing_hand or not playing_card.highlighted then
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff and playing_card:is_suit("Spades", nil, true) then
+                            count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
+                        end
+                    end
+                end
+                card.joker_display_values.chips = chips*count
+            end,
         }
     end,
 }
@@ -3872,7 +3930,7 @@ local pufferfish = {
     saga_group = "20k_miles_under_the_sea",
     order = 40,
     pos = { x = 0, y = 1 },
-    config = {depth_level = 1, weight_level = 1, extra = {xmult = 4}},
+    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {xmult = 3}},
 	rarity = 2,
     cost = 5,
     blueprint_compat = true,
@@ -3918,7 +3976,7 @@ local white_jellyfish = {
     saga_group = "20k_miles_under_the_sea",
     order = 41,
     pos = { x = 1, y = 1 },
-    config = {extra = {every = 2, xmult = 3, odds = 4}},
+    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {every = 2, xmult = 2.25, odds = 4}},
     no_pool_flag = "white_jellyfish_pop",
 	rarity = 2,
     cost = 6,
@@ -4035,7 +4093,7 @@ local red_jellyfish = {
     saga_group = "20k_miles_under_the_sea",
     order = 42,
     pos = { x = 2, y = 1 },
-    config = {extra = {every = 2, xmult = 6, odds = 32}},
+    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {every = 2, xmult = 4, odds = 32}},
     yes_pool_flag = "white_jellyfish_pop",
     no_pool_flag = "red_jellyfish_pop",
 	rarity = 3,
@@ -4153,7 +4211,7 @@ local queen_jellyfish = {
     saga_group = "20k_miles_under_the_sea",
     order = 43,
     pos = { x = 3, y = 1 },
-    config = {extra = {every = 2, e_mult = 1.5, odds = 256}},
+    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {every = 2, e_mult = 1.25, odds = 256}},
     yes_pool_flag = "red_jellyfish_pop",
 	rarity = "sgt_obscure",
     cost = 15,
@@ -4186,7 +4244,7 @@ local queen_jellyfish = {
         end
         if context.after and not context.blueprint and not context.retrigger_joker and not context.forcetrigger
         and card.ability.loyalty_remaining == card.ability.extra.every then
-            if pseudorandom("red_jellyfish_pop") < G.GAME.probabilities.normal/card.ability.extra.odds then
+            if pseudorandom("queen_jellyfish_pop") < G.GAME.probabilities.normal/card.ability.extra.odds then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
@@ -4268,7 +4326,7 @@ local mandarin_fish = {
     saga_group = "20k_miles_under_the_sea",
     order = 44,
     pos = { x = 4, y = 1 },
-    config = {extra = {money = 75}},
+    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {money = 75}},
     no_pool_flag = "mandarin_fish_extinct",
 	rarity = 3,
     cost = 7,
@@ -4319,6 +4377,111 @@ local mandarin_fish = {
                 { text = localize("k_self_destruct"), colour = G.C.RED },
             },
         }
+    end,
+}
+
+local barracuda = {
+    key = "barracuda",
+    name = "Barracuda",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 45,
+    pos = { x = 5, y = 1 },
+    config = {immutable = {depth_level = 1, weight_level = 2}, extra = {mult = 5, mult_gain = 5}},
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = false,
+    calculate = function(self, card, context)
+        if context.setting_blind and not card.getting_sliced and not context.forcetrigger
+        and not context.blueprint and not context.retrigger_joker then
+            local pos = nil
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i] == card then
+                    pos = i
+                    break
+                end
+            end
+            if pos and G.jokers.cards[pos+1] and not card.getting_sliced
+            and not G.jokers.cards[pos+1].ability.eternal and not G.jokers.cards[pos+1].getting_sliced
+            and G.jokers.cards[pos+1].ability.immutable
+            and G.jokers.cards[pos+1].ability.immutable.weight_level
+            and G.jokers.cards[pos+1].ability.immutable.weight_level < card.ability.immutable.weight_level then
+                local eaten_fish = G.jokers.cards[pos+1]
+                eaten_fish.getting_sliced = true
+                G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.joker_buffer = 0
+                    card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+                    card:juice_up(0.8, 0.8)
+                    eaten_fish:start_dissolve({G.C.RED}, true, 1.6)
+                    play_sound('sgt_swallow', 0.96+math.random()*0.08)
+                return true end }))
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult+card.ability.extra.mult_gain}}, colour = G.C.RED, no_juice = true})
+            end
+        end
+        if context.joker_main or context.forcetrigger then
+            return {
+                mult_mod = card.ability.extra.mult,
+				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "OceanMap", key = "sgt_tropical", title = localize("saga_ocean_tooltip")}
+        return {vars = {card.ability.extra.mult, card.ability.extra.mult_gain}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.ability.extra", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+        }
+    end,
+}
+
+local school = {
+    key = "school",
+    name = "School Of Fish",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 46,
+    pos = { x = 6, y = 1 },
+    config = {},
+    rarity = 1,
+    cost = 3,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if (context.pre_discard and not context.blueprint and not context.hook) or context.forcetrigger then
+            if #G.hand.highlighted == 1 or context.forcetrigger then
+                local buffer = G.hand.config.highlighted_limit
+                G.hand.config.highlighted_limit = #G.hand.cards
+                for _, v in ipairs(G.hand.cards) do
+                    if not v.highlighted then
+                        G.hand.add_to_highlighted(G.hand, v, true)
+                    end
+                end
+                play_sound('cardSlide1')
+                G.hand.config.highlighted_limit = buffer
+                G.FUNCS.discard_cards_from_highlighted(nil, true)
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
     end,
 }
 
@@ -4414,6 +4577,46 @@ local shub = {
     end,
 }
 
+local test = {
+    key = "test",
+    name = "Test Joker",
+    loc_txt = {
+        name = "Test Joker",
+        text = {
+            "This joker does {C:attention}something{}",
+            "on {C:dark_edition}HuyTheKiller{}'s demand",
+            "",
+            "Current effect:",
+            "If discard has only {C:attention}1{} card,",
+            "{C:attention}discard{} every other card in hand",
+        }
+    },
+    order = 9999,
+    config = {},
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.pre_discard and not context.blueprint and not context.hook then
+            if #G.hand.highlighted == 1 then
+                local buffer = G.hand.config.highlighted_limit
+                G.hand.config.highlighted_limit = #G.hand.cards
+                for _, v in ipairs(G.hand.cards) do
+                    if not v.highlighted then
+                        G.hand.add_to_highlighted(G.hand, v, true)
+                    end
+                end
+                G.hand.config.highlighted_limit = buffer
+                play_sound('cardSlide1')
+                G.FUNCS.discard_cards_from_highlighted(nil, true)
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return false
+    end,
+}
+
 local joker_table = {
     white_rabbit,
     drink_me,
@@ -4459,7 +4662,10 @@ local joker_table = {
     red_jellyfish,
     queen_jellyfish,
     mandarin_fish,
+    barracuda,
+    school,
     shub,
+    test,
 }
 
 table.sort(joker_table, function(a, b) return a.order < b.order end)

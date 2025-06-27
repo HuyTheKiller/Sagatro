@@ -148,6 +148,11 @@ SMODS.Sound{
 }
 
 SMODS.Sound{
+    key = "swallow",
+    path = "swallow.ogg",
+}
+
+SMODS.Sound{
     key = "emult",
     path = "talisman_emult.wav",
 }

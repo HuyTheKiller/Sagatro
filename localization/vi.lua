@@ -125,6 +125,8 @@ return {
                     "Tô một {C:attention}vệt màu",
                     "{C:attention}ngẫu nhiên{} lên {C:attention}#1#{} lá",
                     "đã chọn trong tay",
+                    "{s:0.8,C:inactive}Có trọng số - vệt màu",
+                    "{s:0.8,C:inactive}mạnh hơn thì hiếm hơn",
                 },
             },
             c_sgt_lamp = {
@@ -533,13 +535,17 @@ return {
             j_sgt_clownfish = {
                 name = "Cá Hề",
                 text = {
-                    "{C:mult}+#1#{} Nhân",
+                    "Mỗi lá {C:hearts}Cơ{}",
+                    "giữ trong tay",
+                    "cho {C:mult}+#1#{} Nhân",
                 },
             },
             j_sgt_blue_tang = {
                 name = "Cá Nẻ Xanh",
                 text = {
-                    "{C:chips}+#1#{} Chip",
+                    "Mỗi lá {C:spades}Bích{}",
+                    "giữ trong tay",
+                    "cho {C:chips}+#1#{} Chip",
                 },
             },
             j_sgt_pufferfish = {
@@ -581,6 +587,22 @@ return {
                     "rồi {C:red,E:2}tự huỷ{}",
                 },
             },
+            j_sgt_barracuda = {
+                name = "Cá Nhồng",
+                text = {
+                    "Khi {C:attention}Blind{} được chọn,",
+                    "{C:attention}ăn{} cá cân nặng cấp {C:attention}1{}",
+                    "liền phải và thêm {C:mult}+#2#{} Nhân",
+                    "{C:inactive}(Hiện tại là {C:mult}+#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_school = {
+                name = "Bầy Cá",
+                text = {
+                    "Nếu lượt bỏ bài chỉ có {C:attention}1{} lá,",
+                    "{C:attention}bỏ{} mọi lá bài khác trên tay",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -592,6 +614,7 @@ return {
         },
         OceanMap = {
             sgt_tropical = {
+                name = "Địa Điểm",
                 text = {
                     "Đại Dương",
                     "Nhiệt Đới"

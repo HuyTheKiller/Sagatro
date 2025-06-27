@@ -193,12 +193,18 @@ function CardArea:update(dt)
                 if not G.jokers.cards[i+1] or G.jokers.cards[i+1].config.center_key ~= "j_sgt_pufferfish" then
                     unpoisoned[2] = true
                 end
-                if (unpoisoned[1] and unpoisoned[2]) or G.STATE == G.STATES.SHOP then
+                if (unpoisoned[1] and unpoisoned[2])
+                or G.STATE == G.STATES.SHOP
+                or G.STATE == G.STATES.PLAY_TAROT
+                or G.STATE == G.STATES.SMODS_BOOSTER_OPENED then
                     v:set_debuff(false)
                     v.debuffed_by_pufferfish = nil
                 end
             end
-            if v.config.center_key == "j_sgt_pufferfish" and G.STATE ~= G.STATES.SHOP then
+            if v.config.center_key == "j_sgt_pufferfish"
+            and G.STATE ~= G.STATES.SHOP
+            and G.STATE ~= G.STATES.PLAY_TAROT
+            and G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED then
                 if G.jokers.cards[i-1] and G.jokers.cards[i-1].config.center_key ~= "j_sgt_pufferfish" then
                     G.jokers.cards[i-1]:set_debuff(true)
                     G.jokers.cards[i-1].debuffed_by_pufferfish = true

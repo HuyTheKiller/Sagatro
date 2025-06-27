@@ -126,6 +126,8 @@ return {
                     "Paint a {C:attention}random streak{}",
                     "to {C:attention}#1#{} selected",
                     "card(s) in your hand",
+                    "{s:0.8,C:inactive}Weighted - stronger",
+                    "{s:0.8,C:inactive}streaks are rarer",
                 },
             },
             c_sgt_lamp = {
@@ -534,13 +536,17 @@ return {
             j_sgt_clownfish = {
                 name = "Clownfish",
                 text = {
-                    "{C:mult}+#1#{} Mult",
+                    "Each card held in hand",
+                    "with {C:hearts}Hearts{} suit",
+                    "gives {C:mult}+#1#{} Mult",
                 },
             },
             j_sgt_blue_tang = {
                 name = "Blue Tang",
                 text = {
-                    "{C:chips}+#1#{} Chips",
+                    "Each card held in hand",
+                    "with {C:spades}Spades{} suit",
+                    "gives {C:chips}+#1#{} Chips",
                 },
             },
             j_sgt_pufferfish = {
@@ -582,6 +588,22 @@ return {
                     "{C:red,E:2}self destructs{}",
                 },
             },
+            j_sgt_barracuda = {
+                name = "Barracuda",
+                text = {
+                    "When {C:attention}Blind{} is selected,",
+                    "{C:attention}eat{} a weight level {C:attention}1{} fish",
+                    "to the right and gain {C:mult}+#2#{} Mult",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_school = {
+                name = "School Of Fish",
+                text = {
+                    "If discard has only {C:attention}1{} card,",
+                    "{C:attention}discard{} every other card in hand",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -593,6 +615,7 @@ return {
         },
         OceanMap = {
             sgt_tropical = {
+                name = "Location",
                 text = {
                     "Tropical",
                     "Ocean"
