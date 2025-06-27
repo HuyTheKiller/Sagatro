@@ -1675,6 +1675,7 @@ local cheshire_cat = {
                 }
             }
         end
+        return ret
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -2517,9 +2518,11 @@ local red_queen = {
             for _, v in ipairs(G.jokers.cards) do
                 if v ~= card and not v.ability.eternal then
                     v.getting_sliced = true
+                    G.GAME.joker_buffer = G.GAME.joker_buffer - 1
                 end
             end
             G.E_MANAGER:add_event(Event({func = function()
+                G.GAME.joker_buffer = 0
                 card:juice_up(0.8, 0.8)
                 for _, v in ipairs(G.jokers.cards) do
                     if v ~= card and v.getting_sliced then
