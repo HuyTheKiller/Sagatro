@@ -233,7 +233,7 @@ function Game:update(dt)
         for _, collection_row in ipairs(G.your_collection) do
             if collection_row.cards and type(collection_row.cards) == "table" then
                 for _, v in ipairs(collection_row.cards) do
-                    if v.config.center_key == "j_sgt_submarine" then
+                    if v.config.center_key == "j_sgt_submarine" and v.config.center.discovered then
                         v.ability.anim_dt = v.ability.anim_dt + dt
                         v.ability.anim_transition_path = v.ability.old_depth_level - v.ability.depth_level
                         if v.ability.anim_dt > 0.125 then
