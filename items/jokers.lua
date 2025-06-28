@@ -1925,7 +1925,7 @@ local pepper_caster = {
     config = {extra = {retriggers = 1, uses = 10}, taken = false},
 	rarity = "sgt_obscure",
     cost = 12,
-    blueprint_compat = false,
+    blueprint_compat = true,
     demicoloncompat = false,
     eternal_compat = true,
     perishable_compat = true,
