@@ -4012,9 +4012,9 @@ local white_jellyfish = {
                 end
             end
         end
-        if context.after and not context.blueprint and not context.retrigger_joker and not context.forcetrigger
-        and card.ability.loyalty_remaining == card.ability.extra.every then
-            if pseudorandom("white_jellyfish_pop") < G.GAME.probabilities.normal/card.ability.extra.odds then
+        if (context.after and not context.blueprint and not context.retrigger_joker
+        and card.ability.loyalty_remaining == card.ability.extra.every) or context.forcetrigger then
+            if pseudorandom("white_jellyfish_pop") < G.GAME.probabilities.normal/card.ability.extra.odds or context.forcetrigger then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
@@ -4130,9 +4130,9 @@ local red_jellyfish = {
                 end
             end
         end
-        if context.after and not context.blueprint and not context.retrigger_joker and not context.forcetrigger
-        and card.ability.loyalty_remaining == card.ability.extra.every then
-            if pseudorandom("red_jellyfish_pop") < G.GAME.probabilities.normal/card.ability.extra.odds then
+        if (context.after and not context.blueprint and not context.retrigger_joker
+        and card.ability.loyalty_remaining == card.ability.extra.every) or context.forcetrigger then
+            if pseudorandom("red_jellyfish_pop") < G.GAME.probabilities.normal/card.ability.extra.odds or context.forcetrigger then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
@@ -4245,9 +4245,9 @@ local queen_jellyfish = {
                 end
             end
         end
-        if context.after and not context.blueprint and not context.retrigger_joker and not context.forcetrigger
-        and card.ability.loyalty_remaining == card.ability.extra.every then
-            if pseudorandom("queen_jellyfish_pop") < G.GAME.probabilities.normal/card.ability.extra.odds then
+        if (context.after and not context.blueprint and not context.retrigger_joker
+        and card.ability.loyalty_remaining == card.ability.extra.every) or context.forcetrigger then
+            if pseudorandom("queen_jellyfish_pop") < G.GAME.probabilities.normal/card.ability.extra.odds or context.forcetrigger then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
