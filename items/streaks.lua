@@ -239,8 +239,5 @@ local streak_table = {
 }
 
 for _, v in ipairs(streak_table) do
-    if not Sagatro.debug then
-        v.no_collection = true
-    end
     SMODS.Seal(v) -- LMAO, declaring these stuff as seals is absolute cinema
 end
