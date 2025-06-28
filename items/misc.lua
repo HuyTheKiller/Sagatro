@@ -48,7 +48,6 @@ local streak = {
     hidden = true,
     soul_set = "Tarot",
     soul_rate = 0.05,
-    can_repeat_soul = true,
     use = function(self, card, area, copier)
 		local used_consumable = copier or card
 		for i = 1, #G.hand.highlighted do
