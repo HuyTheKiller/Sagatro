@@ -82,6 +82,7 @@ function Game:init_game_object()
             cry_into_flood = {
                 "j_splash",
                 "j_sgt_mouse",
+                "j_sgt_alice",
             },
             mad_hatter = {
                 "j_sgt_tea",
