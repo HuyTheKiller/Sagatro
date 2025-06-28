@@ -130,6 +130,9 @@ local lamp = {
         info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_magic_lamp"]
 		return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_magic_lamp", nodes = {}}}}
 	end,
+    in_pool = function(self, args)
+        return not next(SMODS.find_card("j_sgt_lamp_genie", true))
+    end
 }
 
 local consumable_table = {
