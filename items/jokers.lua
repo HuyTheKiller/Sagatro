@@ -4486,6 +4486,23 @@ local school = {
     in_pool = function(self, args)
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "active" },
+                { text = ")" },
+            },
+            text_config = { colour = G.C.UI.TEXT_INACTIVE },
+            calc_function = function(card)
+                card.joker_display_values.active = #G.hand.highlighted == 1
+                and localize("jdis_active") or localize("jdis_inactive")
+            end,
+        }
+    end,
 }
 
 local shub = {
