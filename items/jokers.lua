@@ -1966,6 +1966,10 @@ local pepper_caster = {
  	end,
     joker_display_def = function(JokerDisplay)
         return {
+            text = {
+                { text = "x" },
+                { ref_table = "card.joker_display_values", ref_value = "retriggers" },
+            },
             reminder_text = {
                 { text = "(" },
                 { ref_table = "card.ability.extra", ref_value = "uses" },
@@ -1974,6 +1978,7 @@ local pepper_caster = {
                 { text = ")" },
             },
             calc_function = function(card)
+                card.joker_display_values.retriggers = card.ability.extra.retriggers*(Sagatro.demo and 1 or G.GAME.alice_multiplier)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
             end,
             retrigger_joker_function = function(card, retrigger_joker)
