@@ -4698,12 +4698,4 @@ for _, v in ipairs(joker_table) do
     if not v.debug_obj or (v.debug_obj and Sagatro.debug) then
         SMODS.Joker(v)
     end
-    if v.pools and type(v.pools) == "table" then
-        for pool, add in pairs(v.pools) do
-            if not G.P_CENTER_POOLS[pool] then G.P_CENTER_POOLS[pool] = {} end
-            if add and not table.contains(G.P_CENTER_POOLS[pool], v) then
-                SMODS.insert_pool(G.P_CENTER_POOLS[pool], v)
-            end
-        end
-    end
 end
