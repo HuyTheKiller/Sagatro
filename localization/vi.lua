@@ -223,7 +223,7 @@ return {
                 name = "Mèo Cheshire",
                 text = {
                     "Sao chép khả năng của",
-                    "{C:attention}Joker{} liền kề",
+                    "{C:attention}Joker{} ở bên trái",
                     "Xác suất {C:green}#1# trên #2#{}",
                     "lá này bị phá huỷ",
                     "ở cuối ván",

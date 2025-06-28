@@ -1569,19 +1569,6 @@ local cheshire_cat = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        local left_joker, right_joker = nil, nil
-        for i = 1, #G.jokers.cards do
-            if G.jokers.cards[i] == card then
-                left_joker = G.jokers.cards[i-1]
-                right_joker = G.jokers.cards[i+1]
-            end
-        end
-        local left_joker_ret = SMODS.blueprint_effect(card, left_joker, context)
-        local right_joker_ret = SMODS.blueprint_effect(card, right_joker, context)
-        if left_joker_ret or right_joker_ret then
-            local full_ret = SMODS.merge_effects({left_joker_ret or {}, right_joker_ret or {}})
-            return full_ret
-        end
         if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint and not context.retrigger_joker then
             if pseudorandom('cheshire_cat_vanish') < G.GAME.probabilities.normal/(card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)) then
 				G.E_MANAGER:add_event(Event({
@@ -1621,6 +1608,13 @@ local cheshire_cat = {
 				}
 			end
         end
+        local left_joker = nil
+        for i = 1, #G.jokers.cards do
+            if G.jokers.cards[i] == card then
+                left_joker = G.jokers.cards[i-1]
+            end
+        end
+        return SMODS.blueprint_effect(card, left_joker, context)
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
@@ -1643,15 +1637,13 @@ local cheshire_cat = {
         end
         local ret = {vars = {G.GAME.probabilities.normal, card.ability.taken and card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier) or (G.GAME.story_mode and 2 or 3)*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)}}
         if card.area and card.area == G.jokers then
-            local left_joker, right_joker
+            local left_joker
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i] == card then
                     left_joker = G.jokers.cards[i-1]
-                    right_joker = G.jokers.cards[i+1]
                 end
             end
             local left_compatible = left_joker and left_joker ~= card and left_joker.config.center.blueprint_compat
-            local right_compatible = right_joker and right_joker ~= card and right_joker.config.center.blueprint_compat
             ret.main_end = {
                 {
                     n = G.UIT.C,
@@ -1663,14 +1655,7 @@ local cheshire_cat = {
                             nodes = {
                                 { n = G.UIT.T, config = { text = ' ' .. localize('k_' .. (left_compatible and 'compatible' or 'incompatible')) .. ' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.8 } },
                             }
-                        },
-                        {
-                            n = G.UIT.C,
-                            config = { ref_table = card, align = "m", colour = right_compatible and mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8) or mix_colours(G.C.RED, G.C.JOKER_GREY, 0.8), r = 0.05, padding = 0.06 },
-                            nodes = {
-                                { n = G.UIT.T, config = { text = ' ' .. localize('k_' .. (right_compatible and 'compatible' or 'incompatible')) .. ' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.8 } },
-                            }
-                        },
+                        }
                     }
                 }
             }
@@ -1691,33 +1676,24 @@ local cheshire_cat = {
             },
             extra_config = { colour = G.C.GREEN, scale = 0.3 },
             text = {
-                { text = "<=" },
-                { ref_table = "card.joker_display_values", ref_value = "localized_text", colour = G.C.FILTER },
-                { text = "=>" },
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "blueprint_compat", colour = G.C.RED },
+                { text = ")" }
             },
             calc_function = function(card)
-                card.joker_display_values.localized_text = localize('k_compatible')
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier) } }
                 local copied_joker, copied_debuff = JokerDisplay.calculate_blueprint_copy(card)
+                card.joker_display_values.blueprint_compat = localize('k_incompatible')
                 JokerDisplay.copy_display(card, copied_joker, copied_debuff)
             end,
-            style_function = function(card, text, reminder_text, extra)
-                if text and text.children[1] and text.children[3] then
-                    local left_joker, right_joker
-                    for i = 1, #G.jokers.cards do
-                        if G.jokers.cards[i] == card then
-                            left_joker = G.jokers.cards[i-1]
-                            right_joker = G.jokers.cards[i+1]
-                        end
+            get_blueprint_joker = function(card)
+                for i = 1, #G.jokers.cards do
+                    if G.jokers.cards[i] == card then
+                        return G.jokers.cards[i-1]
                     end
-                    local left_compatible = left_joker and left_joker ~= card and left_joker.config.center.blueprint_compat
-                    local right_compatible = right_joker and right_joker ~= card and right_joker.config.center.blueprint_compat
-                    text.children[1].config.colour = left_compatible and G.C.GREEN or G.C.RED
-                    text.children[3].config.colour = right_compatible and G.C.GREEN or G.C.RED
                 end
-                return false
-            end,
-            
+                return nil
+            end
         }
     end,
 }

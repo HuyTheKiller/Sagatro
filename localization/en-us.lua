@@ -224,7 +224,7 @@ return {
                 name = "Cheshire Cat",
                 text = {
                     "Copies ability of",
-                    "adjacent {C:attention}Jokers{}",
+                    "{C:attention}Joker{} to the left",
                     "{C:green}#1# in #2#{} chance",
                     "this card is destroyed",
                     "at end of round",
