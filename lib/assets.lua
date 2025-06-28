@@ -166,8 +166,40 @@ SMODS.Sound{
         end
         return false
 	end,
-
 }
+
+SMODS.Sound{
+    key = "music_sagatro_story_mode_boss",
+    path = "music_sagatro_story_mode_boss.ogg",
+    select_music_track = function()
+        return G.GAME.blind and G.GAME.blind.boss and G.GAME.story_mode and 10
+	end,
+}
+
+SMODS.Sound{
+    key = "music_sagatro_story_mode_shop",
+    path = "music_sagatro_story_mode_shop.ogg",
+    select_music_track = function()
+        return G.shop and not G.shop.REMOVED and G.GAME.story_mode and 10
+	end,
+}
+
+SMODS.Sound{
+    key = "music_sagatro_story_mode_meteor",
+    path = "music_sagatro_story_mode_meteor.ogg",
+    select_music_track = function()
+        return G.booster_pack_meteors and not G.booster_pack_meteors.REMOVED and G.GAME.story_mode and 100
+	end,
+}
+
+SMODS.Sound{
+    key = "music_sagatro_story_mode_sparkle",
+    path = "music_sagatro_story_mode_sparkle.ogg",
+    select_music_track = function()
+        return G.booster_pack and not G.booster_pack.REMOVED and G.GAME.story_mode and 100
+	end,
+}
+
 SMODS.Sound{
     key = "music_sagatro_story_mode",
     path = "music_sagatro_story_mode.ogg",
