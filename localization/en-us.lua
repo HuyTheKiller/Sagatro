@@ -118,6 +118,18 @@ return {
                     "{S:1.1,C:red,E:2}self destructs{}",
                 },
             },
+            sgt_require_talisman_for_emult = {
+                name = "n",
+                text = {
+                    "{C:inactive,s:0.8}Require Talisman to affect {X:dark_edition,C:white,s:0.8}^Mult{}",
+                },
+            },
+            sgt_require_talisman_for_retriggers = {
+                name = "n",
+                text = {
+                    "{C:inactive,s:0.8}Require Talisman to affect {C:attention,s:0.8}Retriggers{}",
+                },
+            },
         },
         Spectral = {
             c_sgt_streak = {

@@ -10,7 +10,7 @@ Sagatro.load_table = {
 }
 
 Sagatro.mod_compat = {
-	talisman = (SMODS.Mods["Talisman"] or {}).can_load,
+	talisman = (SMODS.Mods["Talisman"] or {}).can_load or false,
 }
 
 Sagatro.optional_features = {
@@ -19,7 +19,6 @@ Sagatro.optional_features = {
 
 -- Danger zone
 Sagatro.debug = false
-Sagatro.demo = true
 
 -- Joker pool stuff
 SAGA_GROUP_POOL = {

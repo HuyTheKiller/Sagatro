@@ -117,6 +117,18 @@ return {
                     "rồi {S:1.1,C:red,E:2}tự huỷ{}",
                 },
             },
+            sgt_require_talisman_for_emult = {
+                name = "n",
+                text = {
+                    "{C:inactive,s:0.8}Yêu cầu Talisman để tác dụng lên {X:dark_edition,C:white,s:0.8}^Nhân{}",
+                },
+            },
+            sgt_require_talisman_for_retriggers = {
+                name = "n",
+                text = {
+                    "{C:inactive,s:0.8}Yêu cầu Talisman để tác dụng lên {C:attention,s:0.8}Tái kích{}",
+                },
+            },
         },
         Spectral = {
             c_sgt_streak = {

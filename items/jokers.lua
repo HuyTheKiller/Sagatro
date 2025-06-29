@@ -1742,7 +1742,7 @@ local duchess = {
         end
         if (context.joker_main and card.ability.triggered) or context.forcetrigger then
             return {
-                e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
+                e_mult = card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
             }
         end
         if context.after and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
@@ -1758,7 +1758,13 @@ local duchess = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)}}
+        local ret = {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
+        if next(SMODS.find_card("j_sgt_alice")) and not Sagatro.mod_compat.talisman then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_require_talisman_for_emult", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
+        end
+        return ret
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -1784,7 +1790,7 @@ local duchess = {
             },
             calc_function = function(card)
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
-                card.joker_display_values.e_mult = card.ability.triggered and card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier) or 1
+                card.joker_display_values.e_mult = card.ability.triggered and card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier) or 1
             end,
         }
     end,
@@ -1909,7 +1915,7 @@ local pepper_caster = {
 		if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.config.center_key ~= "j_sgt_pepper_caster" then
             return {
                 message = localize("k_again_ex"),
-                repetitions = card.ability.extra.retriggers*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
+                repetitions = card.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
                 card = card,
             }
 		end
@@ -1959,7 +1965,13 @@ local pepper_caster = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.retriggers*(Sagatro.demo and 1 or G.GAME.alice_multiplier), card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier}}
+        local ret = {vars = {card.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier), card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier}}
+        if next(SMODS.find_card("j_sgt_alice")) and not Sagatro.mod_compat.talisman then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_require_talisman_for_retriggers", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
+        end
+        return ret
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -1978,12 +1990,12 @@ local pepper_caster = {
                 { text = ")" },
             },
             calc_function = function(card)
-                card.joker_display_values.retriggers = card.ability.extra.retriggers*(Sagatro.demo and 1 or G.GAME.alice_multiplier)
+                card.joker_display_values.retriggers = card.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
             end,
             retrigger_joker_function = function(card, retrigger_joker)
                 return card.config.center_key ~= "j_sgt_pepper_caster" and
-                    retrigger_joker.ability.extra.retriggers*(Sagatro.demo and 1 or G.GAME.alice_multiplier) or 0
+                    retrigger_joker.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier) or 0
             end,
         }
     end,
@@ -2516,13 +2528,13 @@ local red_queen = {
         if context.individual and context.cardarea == G.play and not context.forcetrigger then
             if not context.other_card.debuff then
                 return {
-                    e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
+                    e_mult = card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
                 }
             end
         end
         if context.forcetrigger then
             return {
-                e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
+                e_mult = card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
             }
         end
         if context.destroy_card and context.cardarea == G.play and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
@@ -2556,7 +2568,13 @@ local red_queen = {
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "red_queen"}
         end
-        return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)}}
+        local ret = {vars = {G.GAME.probabilities.normal, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
+        if next(SMODS.find_card("j_sgt_alice")) and not Sagatro.mod_compat.talisman then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_require_talisman_for_emult", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
+        end
+        return ret
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -2582,7 +2600,7 @@ local red_queen = {
             },
             calc_function = function(card)
                 local count = 0
-                local emult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)
+                local emult = card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)
                 local text, _, scoring_hand = JokerDisplay.evaluate_hand()
                 if text ~= 'Unknown' then
                     for _, scoring_card in pairs(scoring_hand) do
@@ -2764,7 +2782,7 @@ local gryphon = {
                     }
                 else
                     return {
-                        e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
+                        e_mult = card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
                         card = card,
                     }
                 end
@@ -2772,7 +2790,7 @@ local gryphon = {
         end
         if context.forcetrigger then
             return {
-                e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
+                e_mult = card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
                 card = card,
             }
         end
@@ -2790,7 +2808,13 @@ local gryphon = {
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "gryphon"}
         end
-        return {vars = {card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)}}
+        local ret = {vars = {card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
+        if next(SMODS.find_card("j_sgt_alice")) and not Sagatro.mod_compat.talisman then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_require_talisman_for_emult", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
+        end
+        return ret
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -2808,7 +2832,7 @@ local gryphon = {
             },
             calc_function = function(card)
                 local count = 0
-                local emult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)
+                local emult = card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)
                 local playing_hand = next(G.play.cards)
                 for _, playing_card in ipairs(G.hand.cards) do
                     if playing_hand or not playing_card.highlighted then
@@ -2852,7 +2876,7 @@ local mock_turtle = {
                 return true end }))
             end
             return {
-                e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier),
+                e_mult = card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
             }
         end
         if context.after and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
@@ -2904,7 +2928,13 @@ local mock_turtle = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {G.GAME.probabilities.normal, card.ability.extra.e_mult_odds, card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier), card.ability.taken and card.ability.extra.self_destruct_odds or (G.GAME.story_mode and 100 or 18)}}
+        local ret = {vars = {G.GAME.probabilities.normal, card.ability.extra.e_mult_odds, card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier), card.ability.taken and card.ability.extra.self_destruct_odds or (G.GAME.story_mode and 100 or 18)}}
+        if next(SMODS.find_card("j_sgt_alice")) and not Sagatro.mod_compat.talisman then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_require_talisman_for_emult", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
+        end
+        return ret
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -2937,7 +2967,7 @@ local mock_turtle = {
             },
             reminder_text_config = { scale = 0.2 },
             calc_function = function(card)
-                card.joker_display_values.e_mult = card.ability.extra.e_mult*(Sagatro.demo and 1 or G.GAME.alice_multiplier)
+                card.joker_display_values.e_mult = card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)
                 card.joker_display_values.e_mult_odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.e_mult_odds } }
                 card.joker_display_values.self_destruct_odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.self_destruct_odds } }
             end,
