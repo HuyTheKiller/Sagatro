@@ -1759,9 +1759,13 @@ local duchess = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
-        if next(SMODS.find_card("j_sgt_alice")) and not Sagatro.mod_compat.talisman then
+        if next(SMODS.find_card("j_sgt_alice")) then
             ret.main_end = {}
-            localize{type = "other", key = "sgt_require_talisman_for_emult", nodes = ret.main_end, vars = {}}
+            if not Sagatro.mod_compat.talisman then
+                localize{type = "other", key = "sgt_require_talisman_for_emult", nodes = ret.main_end, vars = {}}
+            else
+                localize{type = "other", key = "sgt_talisman_detected", nodes = ret.main_end, vars = {}}
+            end
             ret.main_end = ret.main_end[1]
         end
         return ret
@@ -1966,9 +1970,13 @@ local pepper_caster = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier), card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier}}
-        if next(SMODS.find_card("j_sgt_alice")) and not Sagatro.mod_compat.talisman then
+        if next(SMODS.find_card("j_sgt_alice")) then
             ret.main_end = {}
-            localize{type = "other", key = "sgt_require_talisman_for_retriggers", nodes = ret.main_end, vars = {}}
+            if not Sagatro.mod_compat.talisman then
+                localize{type = "other", key = "sgt_require_talisman_for_retriggers", nodes = ret.main_end, vars = {}}
+            else
+                localize{type = "other", key = "sgt_talisman_detected", nodes = ret.main_end, vars = {}}
+            end
             ret.main_end = ret.main_end[1]
         end
         return ret
@@ -2569,9 +2577,13 @@ local red_queen = {
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "red_queen"}
         end
         local ret = {vars = {G.GAME.probabilities.normal, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
-        if next(SMODS.find_card("j_sgt_alice")) and not Sagatro.mod_compat.talisman then
+        if next(SMODS.find_card("j_sgt_alice")) then
             ret.main_end = {}
-            localize{type = "other", key = "sgt_require_talisman_for_emult", nodes = ret.main_end, vars = {}}
+            if not Sagatro.mod_compat.talisman then
+                localize{type = "other", key = "sgt_require_talisman_for_emult", nodes = ret.main_end, vars = {}}
+            else
+                localize{type = "other", key = "sgt_talisman_detected", nodes = ret.main_end, vars = {}}
+            end
             ret.main_end = ret.main_end[1]
         end
         return ret
@@ -2809,9 +2821,13 @@ local gryphon = {
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "gryphon"}
         end
         local ret = {vars = {card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
-        if next(SMODS.find_card("j_sgt_alice")) and not Sagatro.mod_compat.talisman then
+        if next(SMODS.find_card("j_sgt_alice")) then
             ret.main_end = {}
-            localize{type = "other", key = "sgt_require_talisman_for_emult", nodes = ret.main_end, vars = {}}
+            if not Sagatro.mod_compat.talisman then
+                localize{type = "other", key = "sgt_require_talisman_for_emult", nodes = ret.main_end, vars = {}}
+            else
+                localize{type = "other", key = "sgt_talisman_detected", nodes = ret.main_end, vars = {}}
+            end
             ret.main_end = ret.main_end[1]
         end
         return ret
@@ -2929,9 +2945,13 @@ local mock_turtle = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {G.GAME.probabilities.normal, card.ability.extra.e_mult_odds, card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier), card.ability.taken and card.ability.extra.self_destruct_odds or (G.GAME.story_mode and 100 or 18)}}
-        if next(SMODS.find_card("j_sgt_alice")) and not Sagatro.mod_compat.talisman then
+        if next(SMODS.find_card("j_sgt_alice")) then
             ret.main_end = {}
-            localize{type = "other", key = "sgt_require_talisman_for_emult", nodes = ret.main_end, vars = {}}
+            if not Sagatro.mod_compat.talisman then
+                localize{type = "other", key = "sgt_require_talisman_for_emult", nodes = ret.main_end, vars = {}}
+            else
+                localize{type = "other", key = "sgt_talisman_detected", nodes = ret.main_end, vars = {}}
+            end
             ret.main_end = ret.main_end[1]
         end
         return ret

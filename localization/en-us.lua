@@ -130,6 +130,12 @@ return {
                     "{C:inactive,s:0.8}Require Talisman to affect {C:attention,s:0.8}Retriggers{}",
                 },
             },
+            sgt_talisman_detected = {
+                name = "n",
+                text = {
+                    "{C:inactive,s:0.8}Enjoy Talisman's {C:attention,s:0.8}insanity{C:inactive,s:0.8}!",
+                },
+            },
         },
         Spectral = {
             c_sgt_streak = {

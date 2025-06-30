@@ -129,6 +129,12 @@ return {
                     "{C:inactive,s:0.8}Yêu cầu Talisman để tác dụng lên {C:attention,s:0.8}Tái kích{}",
                 },
             },
+            sgt_talisman_detected = {
+                name = "n",
+                text = {
+                    "{C:inactive,s:0.8}Tận hưởng sự {C:attention,s:0.8}điên rồ{C:inactive,s:0.8} của Talisman nhé!",
+                },
+            },
         },
         Spectral = {
             c_sgt_streak = {
