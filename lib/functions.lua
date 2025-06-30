@@ -179,14 +179,14 @@ function CardArea:update(dt)
                             play_sound('tarot2', 1, 0.4)
                             v:juice_up(0.5, 0.5)
                         end
-                        v:set_debuff(true)
+                        SMODS.debuff_card(v, true, "j_sgt_mouse")
                     else
-                        v:set_debuff(false)
+                        SMODS.debuff_card(v, false, "j_sgt_mouse")
                         v.ability.extra.mult = v.ability.extra.buffer_mult
                     end
                 end
             end
-            if v.debuffed_by_pufferfish then
+            if v.ability.debuff_sources and v.ability.debuff_sources.j_sgt_pufferfish then
                 local unpoisoned = {false, false}
                 if not G.jokers.cards[i-1] or G.jokers.cards[i-1].config.center_key ~= "j_sgt_pufferfish" then
                     unpoisoned[1] = true
@@ -198,8 +198,7 @@ function CardArea:update(dt)
                 or G.STATE == G.STATES.SHOP
                 or G.STATE == G.STATES.PLAY_TAROT
                 or G.STATE == G.STATES.SMODS_BOOSTER_OPENED then
-                    v:set_debuff(false)
-                    v.debuffed_by_pufferfish = nil
+                    SMODS.debuff_card(v, false, "j_sgt_pufferfish")
                 end
             end
             if v.config.center_key == "j_sgt_pufferfish"
@@ -207,12 +206,10 @@ function CardArea:update(dt)
             and G.STATE ~= G.STATES.PLAY_TAROT
             and G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED then
                 if G.jokers.cards[i-1] and G.jokers.cards[i-1].config.center_key ~= "j_sgt_pufferfish" then
-                    G.jokers.cards[i-1]:set_debuff(true)
-                    G.jokers.cards[i-1].debuffed_by_pufferfish = true
+                    SMODS.debuff_card(G.jokers.cards[i-1], true, "j_sgt_pufferfish")
                 end
                 if G.jokers.cards[i+1] and G.jokers.cards[i+1].config.center_key ~= "j_sgt_pufferfish" then
-                    G.jokers.cards[i+1]:set_debuff(true)
-                    G.jokers.cards[i+1].debuffed_by_pufferfish = true
+                    SMODS.debuff_card(G.jokers.cards[i+1], true, "j_sgt_pufferfish")
                 end
             end
         end

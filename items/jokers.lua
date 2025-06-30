@@ -1265,7 +1265,7 @@ local pigeon = {
             local found_egg = false
             for _, v in ipairs(G.jokers.cards) do
                 if v.config.center_key == "j_egg" then
-                    v:set_debuff(true)
+                    SMODS.debuff_card(v, true, "j_sgt_pigeon")
                     v:juice_up(0.5, 0.5)
                     if not found_egg then found_egg = true end
                 end
@@ -1291,6 +1291,12 @@ local pigeon = {
                     }))
                     return true
                 end)}))
+            end
+            for _, v in ipairs(G.jokers.cards) do
+                if v.config.center_key == "j_egg" and v.ability.debuff_sources and v.ability.debuff_sources.j_sgt_pigeon then
+                    SMODS.debuff_card(v, false, "j_sgt_pigeon")
+                    v:juice_up(0.5, 0.5)
+                end
             end
         end
     end,
