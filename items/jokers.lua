@@ -1676,7 +1676,7 @@ local cheshire_cat = {
             extra = {
                 {
                     { text = "(" },
-                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { ref_table = "card.joker_display_values", ref_value = "cat_odds" },
                     { text = ")" },
                 }
             },
@@ -1687,10 +1687,25 @@ local cheshire_cat = {
                 { text = ")" }
             },
             calc_function = function(card)
-                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier) } }
+                card.joker_display_values.cat_odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier) } }
                 local copied_joker, copied_debuff = JokerDisplay.calculate_blueprint_copy(card)
                 card.joker_display_values.blueprint_compat = localize('k_incompatible')
                 JokerDisplay.copy_display(card, copied_joker, copied_debuff)
+                card.joker_display_values.copy = card.joker_display_values.copy or card
+                if copied_joker and copied_joker ~= card.joker_display_values.copy then
+                    if Sagatro.init_JDdebug then
+                        print(card.joker_display_values.copy)
+                        Sagatro.init_JDdebug = nil
+                    end
+                    card.children.joker_display:add_extra({
+                        {
+                            { text = "(" },
+                            { ref_table = "card.joker_display_values", ref_value = "cat_odds" },
+                            { text = ")" },
+                        }
+                    }, { colour = G.C.GREEN, scale = 0.3 })
+                end
+                card.joker_display_values.copy = copied_joker
             end,
             get_blueprint_joker = function(card)
                 for i = 1, #G.jokers.cards do
@@ -3734,6 +3749,7 @@ local submarine = {
                 for i = 5, 1, -1 do
                     if card.ability.extra.chips >= card.ability.depth_list[i] then
                         card.ability.depth_level = i
+                        ease_background_colour_blind(G.STATE)
                         break
                     end
                 end
@@ -3757,9 +3773,24 @@ local submarine = {
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff and G.GAME.story_mode then
             card:set_eternal(true)
+            G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
+                ease_background_colour_blind(G.STATE)
+            return true end }))
         end
     end,
+    remove_from_deck = function(self, card, from_debuff)
+        G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
+            ease_background_colour_blind(G.STATE)
+        return true end }))
+    end,
+    load = function(self, card, card_table, other_card)
+        card.loaded = true
+    end,
     update = function(self, card, dt)
+        if card.loaded then
+            card.loaded = nil
+            ease_background_colour_blind(G.STATE)
+        end
         if card.ability then
             card.ability.anim_dt = card.ability.anim_dt + dt
             card.ability.anim_transition_path = card.ability.old_depth_level - card.ability.depth_level

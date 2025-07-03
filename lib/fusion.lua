@@ -307,15 +307,10 @@ function Game:start_run(args)
 			SMODS.change_free_rerolls(1e10)
 		end
 	end
-	if not G.GAME.story_mode then
-		remove_fusion("j_sgt_kid_gloves_and_fan")
-		remove_fusion("j_sgt_dodo_bird")
-		G.GAME.fusion_table = SagaFusion.fusions
-	else
-		add_fusion("j_sgt_white_rabbit", nil, false, "j_sgt_eat_me", nil, false, "j_sgt_kid_gloves_and_fan", 8)
-		add_fusion("j_sgt_mouse", nil, false, "j_splash", nil, false, "j_sgt_dodo_bird", 9)
-		G.GAME.fusion_table = SagaFusion.fusions
-	end
+	G.GAME.fusion_table = G.GAME.story_mode and SagaFusion.fusions or {}
+	-- Change colour in story mode, but the hook is over here, I just want to save space
+	G.C.BLIND.Small = G.GAME.story_mode and Sagatro.badge_colour or HEX("50846e")
+	G.C.BLIND.Big = G.GAME.story_mode and Sagatro.badge_colour or HEX("50846e")
 	if Sagatro.debug then
 		sendInfoMessage("Welcome to Sagatro debug mode! Make sure you have DebugPlus installed! Type 'eval sgt_help()' for more info. ", "Sagatro")
 	end

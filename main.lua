@@ -19,6 +19,7 @@ Sagatro.optional_features = {
 
 -- Danger zone
 Sagatro.debug = false
+Sagatro.init_JDdebug = false
 
 -- Joker pool stuff
 SAGA_GROUP_POOL = {

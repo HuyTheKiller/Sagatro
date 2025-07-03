@@ -3,6 +3,13 @@ G.C.SGT_TRIVIAL = HEX("808080")
 G.C.SGT_OBSCURE = HEX("8627D4")
 G.C.SGT_ESOTERIC = HEX("131868")
 G.C.SGT_WISH = HEX("9bbcfd")
+G.C.SUBMARINE_DEPTH = {
+    HEX("3a86e1"),
+    HEX("265792"),
+    HEX("122d4c"),
+    HEX("0f243d"),
+    HEX("060f1a"),
+}
 SMODS.Gradient{
     key = "sagadition",
     colours = {Sagatro.badge_colour, G.C.RARITY[4]},
@@ -651,6 +658,7 @@ function Sagatro.reset_game_globals(run_start)
             for i = #v.ability.extra.debuff_position, 1, -1 do
                 table.remove(v.ability.extra.debuff_position, i)
             end
+            SMODS.debuff_card(v, false, "j_sgt_mouse")
             v.ability.extra.mult = v.ability.extra.buffer_mult
         end
     end
@@ -815,6 +823,9 @@ SMODS.DrawStep({
             end
             if self.edition and self.edition.negative then
                 self.children.extra_sprite:draw_shader('negative_shine', nil, self.ARGS.send_to_shader, nil, self.children.center)
+            end
+            if self.debuff then
+                self.children.extra_sprite:draw_shader('debuff', nil, self.ARGS.send_to_shader, nil, self.children.center)
             end
         end
     end,
