@@ -4458,7 +4458,7 @@ local barracuda = {
     saga_group = "20k_miles_under_the_sea",
     order = 45,
     pos = { x = 5, y = 1 },
-    config = {immutable = {depth_level = 1, weight_level = 2}, extra = {mult = 5, mult_gain = 5}},
+    config = {immutable = {depth_level = 1, weight_level = 2}, extra = {mult = 10, mult_gain = 10}},
     rarity = 2,
     cost = 6,
     blueprint_compat = true,
