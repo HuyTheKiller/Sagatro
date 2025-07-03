@@ -952,6 +952,7 @@ G.FUNCS.delete_ace_in_menu = function(e)
             end
         end
     end
+    G.FUNCS.exit_overlay_menu()
 end
 
 Sagatro.config_tab = function()
