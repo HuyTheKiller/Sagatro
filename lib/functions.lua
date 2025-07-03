@@ -719,6 +719,16 @@ function table.contains(t, x)
     return found
 end
 
+function get_submarine_depth_colour()
+    local max_depth = 1
+    for _, v in ipairs(SMODS.find_card("j_sgt_submarine", true)) do
+        if max_depth < v.ability.depth_level then
+            max_depth = v.ability.depth_level
+        end
+    end
+    return max_depth
+end
+
 -- from Cryptid's Tarot called Blessing
 -- and I thought it could exclude cards from getting called in get_random_consumable and from Deck of Equilibrium
 function sgt_center_no(center, m, key, no_no)
