@@ -802,6 +802,7 @@ return {
             saga_fusion_tooltip = "Joker fusion",
             saga_ocean_tooltip = "Location",
             b_join = "JOIN",
+            b_delete_ace = "Delete Ace",
             k_in_a_hurry_ex = "In a hurry!",
             k_too_late_ex = "Too late!",
             k_shrunk_ex = "Shrunk!",

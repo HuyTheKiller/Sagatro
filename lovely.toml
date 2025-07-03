@@ -301,6 +301,41 @@ SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CA
 '''
 match_indent = true
 
+# Add a "Delete Ace" button in options in menu
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+if G.STAGE == G.STAGES.MAIN_MENU then
+  credits = UIBox_button{ label = {localize('b_credits')}, button = "show_credits", minw = 5}
+end
+'''
+position = "at"
+payload = '''
+local delete_ace = nil
+
+if G.STAGE == G.STAGES.MAIN_MENU then
+  credits = UIBox_button{ label = {localize('b_credits')}, button = "show_credits", minw = 5}
+  delete_ace = UIBox_button{id = 'sgt_delete_ace', label = {localize('b_delete_ace')}, button = "delete_ace_in_menu", minw = 5}
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+customize,
+credits
+'''
+position = "at"
+payload = '''
+customize,
+credits,
+delete_ace
+'''
+match_indent = true
+
 # I don't like buffed Aladdin evaluating G.C.BLUE with Xmult sfx
 [[patches]]
 [patches.pattern]

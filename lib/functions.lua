@@ -932,6 +932,18 @@ SMODS.DrawStep({
 })
 SMODS.draw_ignore_keys.floating_sprite2 = true
 
+G.FUNCS.delete_ace_in_menu = function(e)
+    if G.title_top then
+        for _, card in ipairs(G.title_top.cards) do
+            if card.config.card_key then -- "Delete Ace" is cosmetic, this should delete any playing card
+                card:remove()
+                G.title_top.config.type = "title_2"
+                break
+            end
+        end
+    end
+end
+
 Sagatro.config_tab = function()
     return {n = G.UIT.ROOT, config = {r = 0.1, align = "cm", padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 4}, nodes = {
         {n=G.UIT.R, config = {align = 'cm'}, nodes={

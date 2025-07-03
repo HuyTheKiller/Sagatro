@@ -794,6 +794,7 @@ return {
             saga_fusion_tooltip = "Kết hợp joker",
             saga_ocean_tooltip = "Địa Điểm",
             b_join = "NHẬP",
+            b_delete_ace = "Huỷ Át",
             k_in_a_hurry_ex = "Tranh thủ lên!",
             k_too_late_ex = "Trễ rồi!",
             k_shrunk_ex = "Thu Nhỏ!",
