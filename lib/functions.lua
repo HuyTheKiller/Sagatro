@@ -7,7 +7,7 @@ G.C.SUBMARINE_DEPTH = {
     HEX("3a86e1"),
     HEX("265792"),
     HEX("122d4c"),
-    HEX("0f243d"),
+    HEX("091829"),
     HEX("060f1a"),
 }
 SMODS.Gradient{
