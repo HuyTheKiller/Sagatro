@@ -26,7 +26,7 @@ SAGA_GROUP_POOL = {
     alice = "Alice in Wonderland",
     gfrog = "Goodbye Frog",
 	fsd = "Final Showdown",
-	-- ["20k"] = "20k Miles Under The Sea",
+	["20k"] = "20k Miles Under The Sea",
 }
 
 -- Load library files
