@@ -291,7 +291,9 @@ return {
             j_sgt_little_bill = {
                 name = "Bill",
                 text = {
-                    "{C:attention}#1#{} giờ đây {C:attention}biến đổi{}",
+                    "{C:attention}Tái kích{} lá ghi điểm đầu tiên {C:attention}#1#{} lần",
+                    "nếu tay bài đã chơi chứa {C:attention}#2#{}",
+                    "{C:attention}#3#{} giờ đây {C:attention}biến đổi{}",
                     "mọi lá ghi điểm thành {C:attention}2{}",
                 },
             },

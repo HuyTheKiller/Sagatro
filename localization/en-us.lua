@@ -292,7 +292,9 @@ return {
             j_sgt_little_bill = {
                 name = "Little Bill",
                 text = {
-                    "{C:attention}#1#{} now {C:attention}convert{} all",
+                    "{C:attention}Retrigger{} first scoring card {C:attention}#1#{} times",
+                    "if played hand contains a {C:attention}#2#{}",
+                    "{C:attention}#3#{} now {C:attention}convert{} all",
                     "scoring cards to {C:attention}2s{} instead",
                 },
             },
