@@ -831,7 +831,7 @@ local little_bill = {
                 if held_in_hand then return 0 end
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return first_card and playing_card == first_card and card.joker_display_values.is_full_house and
-                    joker_card.ability.extra*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+                    joker_card.ability.extra*G.GAME.alice_multiplier*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
         }
     end,
