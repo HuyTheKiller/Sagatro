@@ -4612,6 +4612,69 @@ local school = {
     end,
 }
 
+local nemo = {
+    key = "nemo",
+    name = "Cpt. Nemo",
+    atlas = "nemo",
+    saga_group = "20k_miles_under_the_sea",
+    order = 47,
+    pos = { x = 0, y = 0 },
+    soul_pos = { x = 1, y = 0 },
+    config = {},
+    rarity = 4,
+    cost = 20,
+    blueprint_compat = true,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.repetition then
+            if context.cardarea == G.play then
+                return {
+                    message = localize("k_again_ex"),
+                    repetitions = #G.jokers.cards,
+                    card = card,
+                }
+            end
+            if context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
+                return {
+                    message = localize("k_again_ex"),
+                    repetitions = #G.jokers.cards,
+                    card = card,
+                }
+            end
+        end
+        if context.end_of_round and context.repetition
+        and context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
+            return {
+                message = localize("k_again_ex"),
+                repetitions = #G.jokers.cards,
+                card = card,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return true
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "x" },
+                { ref_table = "card.joker_display_values", ref_value = "retriggers" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.retriggers = #G.jokers.cards
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                return JokerDisplay.calculate_joker_triggers(joker_card)
+            end,
+        }
+    end,
+}
+
 local shub = {
     key = "shub",
     name = "Shub-Niggurath",
@@ -4792,6 +4855,7 @@ local joker_table = {
     mandarin_fish,
     barracuda,
     school,
+    nemo,
     shub,
     test,
 }

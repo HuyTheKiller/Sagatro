@@ -624,6 +624,14 @@ return {
                     "{C:attention}discard{} every other card in hand",
                 },
             },
+            j_sgt_nemo = {
+                name = "Cpt. Nemo",
+                text = {
+                    "{C:attention}Retrigger{} all cards {C:attention}played{}",
+                    "and {C:attention}held in hand{} abilities",
+                    "once for every joker card",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {

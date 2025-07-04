@@ -623,6 +623,14 @@ return {
                     "{C:attention}bỏ{} mọi lá bài khác trên tay",
                 },
             },
+            j_sgt_nemo = {
+                name = "Thuyền Trưởng Nemo",
+                text = {
+                    "{C:attention}Tái kích{} mọi lá {C:attention}đã chơi{}",
+                    "và khả năng {C:attention}giữ trên tay{}",
+                    "một lần cho mỗi joker",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
