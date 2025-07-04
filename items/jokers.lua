@@ -4669,7 +4669,7 @@ local nemo = {
                 card.joker_display_values.retriggers = #G.jokers.cards
             end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
-                return JokerDisplay.calculate_joker_triggers(joker_card)
+                return #G.jokers.cards*JokerDisplay.calculate_joker_triggers(joker_card)
             end,
         }
     end,
