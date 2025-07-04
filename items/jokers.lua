@@ -810,7 +810,7 @@ local little_bill = {
         return {
             text = {
                 { text = "x" },
-                { ref_table = "card.joker_display_values", ref_value = "retriggers" },
+                { ref_table = "card.joker_display_values", ref_value = "retriggers", retrigger_type = "mult" },
             },
             reminder_text = {
                 { text = "(" },
@@ -4663,7 +4663,7 @@ local nemo = {
         return {
             text = {
                 { text = "x" },
-                { ref_table = "card.joker_display_values", ref_value = "retriggers" },
+                { ref_table = "card.joker_display_values", ref_value = "retriggers", retrigger_type = "mult" },
             },
             calc_function = function(card)
                 card.joker_display_values.retriggers = #G.jokers.cards
