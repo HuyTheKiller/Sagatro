@@ -440,8 +440,18 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
     -- Forcing joker pools also happens here
     if G.GAME.saga_event and G.GAME.saga_event.alice_in_wonderland.final_showdown and G.GAME.story_mode and _type == "Joker" then
         _type = "Final Showdown"
-        if pseudorandom("alice_in_final_showdown") > 0.997 and not next(SMODS.find_card("j_sgt_alice", true)) then
-            forced_key = "j_sgt_alice"
+        if pseudorandom("alice_in_final_showdown") > 0.997 then
+            if not G.GAME.won and not next(SMODS.find_card("j_sgt_alice", true)) then
+                forced_key = "j_sgt_alice"
+            elseif G.GAME.won then
+                local jokers = {"j_sgt_alice", "j_sgt_nemo"}
+                forced_key = pseudorandom_element(jokers, pseudoseed("showdown_endless_roll"))
+                if next(SMODS.find_card("j_sgt_alice", true)) then
+                    forced_key = "j_sgt_nemo"
+                elseif next(SMODS.find_card("j_sgt_nemo", true)) then
+                    forced_key = nil
+                end
+            end
         end
     end
     local card = cc(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
