@@ -701,7 +701,7 @@ return {
             huge_dog = {
                 text = {
                     "{s:0.8}Trời ơi, một chú cún to khôn!",
-                    "{s:0.8}À không—mình chỉ tám phân vuông tròn.",
+                    "{s:0.8}À không mình chỉ tám phân vuông tròn.",
                     "{s:0.8}Nó hí hửng chạy, mình né chẳng buông.",
                     "{s:0.8}Chờ nó {s:0.8,C:sgt_sagadition}KHUẤT{s:0.8} bóng, chợt nghe tiếng ruôn.",
                     "{s:0.8}Ai đó ngân nga... ngay trước mặt luôn.",
