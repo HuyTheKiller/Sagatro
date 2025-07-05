@@ -624,6 +624,14 @@ return {
                     "{C:attention}discard{} every other card in hand",
                 },
             },
+            j_sgt_prawn = {
+                name = "Sugpo Prawn",
+                text = {
+                    "Each card held in hand",
+                    "with {C:diamonds}Diamonds{} suit",
+                    "gives {C:money}$#1#{} at end of round",
+                },
+            },
             j_sgt_nemo = {
                 name = "Cpt. Nemo",
                 text = {

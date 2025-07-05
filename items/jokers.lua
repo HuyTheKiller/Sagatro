@@ -4612,12 +4612,74 @@ local school = {
     end,
 }
 
+local prawn = {
+    key = "prawn",
+    name = "Sugpo Prawn",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 47,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 0, y = 2 },
+    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {money = 1}},
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.end_of_round and context.individual and context.cardarea == G.hand then
+            if context.other_card:is_suit("Diamonds", nil, true) then
+                return {
+                    dollars = card.ability.extra.money,
+                    card = card
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.money}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+$" },
+                { ref_table = "card.joker_display_values", ref_value = "dollars", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.GOLD },
+            reminder_text = {
+                { ref_table = "card.joker_display_values", ref_value = "localized_text" },
+            },
+            calc_function = function(card)
+                local count = 0
+                local dollars = card.ability.extra.money
+                local playing_hand = next(G.play.cards)
+                for _, playing_card in ipairs(G.hand.cards) do
+                    if playing_hand or not playing_card.highlighted then
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff and playing_card:is_suit("Diamonds", nil, true) then
+                            count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
+                        end
+                    end
+                end
+                card.joker_display_values.dollars = dollars*count
+                card.joker_display_values.localized_text = "(" .. localize("k_round") .. ")"
+            end,
+        }
+    end,
+}
+
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 47,
+    order = 48,
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },
     config = {},
@@ -4855,6 +4917,7 @@ local joker_table = {
     mandarin_fish,
     barracuda,
     school,
+    prawn,
     nemo,
     shub,
     test,

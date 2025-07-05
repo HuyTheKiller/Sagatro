@@ -623,6 +623,14 @@ return {
                     "{C:attention}bỏ{} mọi lá bài khác trên tay",
                 },
             },
+            j_sgt_prawn = {
+                name = "Tôm Sú",
+                text = {
+                    "Mỗi lá {C:diamonds}Rô{}",
+                    "giữ trong tay",
+                    "cho {C:money}$#1#{} ở cuối ván",
+                },
+            },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
                 text = {
