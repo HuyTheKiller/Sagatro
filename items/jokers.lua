@@ -1701,15 +1701,15 @@ local cheshire_cat = {
  	end,
     joker_display_def = function(JokerDisplay)
         return {
-            extra = {
+            text = {
                 {
                     { text = "(" },
                     { ref_table = "card.joker_display_values", ref_value = "cat_odds" },
                     { text = ")" },
                 }
             },
-            extra_config = { colour = G.C.GREEN, scale = 0.3 },
-            text = {
+            text_config = { colour = G.C.GREEN, scale = 0.3 },
+            reminder_text = {
                 { text = "(" },
                 { ref_table = "card.joker_display_values", ref_value = "blueprint_compat", colour = G.C.RED },
                 { text = ")" }
