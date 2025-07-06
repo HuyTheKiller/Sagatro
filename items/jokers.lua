@@ -4676,12 +4676,240 @@ local prawn = {
     end,
 }
 
+local john_dory = {
+    key = "john_dory",
+    name = "John Dory",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 48,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 6, y = 3 },
+    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {money = 4}},
+    rarity = 3,
+    cost = 8,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if ((context.individual or context.repetition) and context.cardarea == G.play) or context.forcetrigger then
+            if (context.other_card:is_suit("Diamonds", nil, true) and context.other_card:get_id() == 11) or context.forcetrigger then
+                if context.repetition then
+                    return {
+                        message = localize("k_again_ex"),
+                        repetitions = 1,
+                        card = card,
+                    }
+                end
+                if context.individual or context.forcetrigger then
+                    return {
+                        dollars = card.ability.extra.money,
+                        card = context.forcetrigger and card
+                    }
+                end
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.money, localize("Jack", 'ranks'), localize("Diamonds", 'suits_plural')}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+$", colour = G.C.GOLD },
+                { ref_table = "card.joker_display_values", ref_value = "money", retrigger_type = "mult", colour = G.C.GOLD },
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "john_dory_card", colour = G.C.FILTER },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                local count = 0
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        if scoring_card:is_suit("Diamonds", nil, true) and scoring_card:get_id() == 11 then
+                            count = count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                        end
+                    end
+                end
+                card.joker_display_values.money = card.ability.extra.money * count
+                card.joker_display_values.john_dory_card = localize { type = 'variable', key = "jdis_rank_of_suit", vars = { localize("Jack", 'ranks'), localize("Diamonds", 'suits_plural') } }
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if held_in_hand then return 0 end
+                return (playing_card:is_suit("Diamonds", nil, true) and playing_card:get_id() == 11)
+                and JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+        }
+    end,
+}
+
+local octopus = {
+    key = "octopus",
+    name = "Octopus",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 49,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 2, y = 3 },
+    config = {immutable = {depth_level = 2, weight_level = 3}},
+    rarity = 3,
+    cost = 10,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        local other_joker = nil
+        for i = 1, #G.jokers.cards do
+            if G.jokers.cards[i] == card then other_joker = G.jokers.cards[i+1] end
+        end
+        local other_joker_ret = SMODS.blueprint_effect(card, other_joker, context)
+        if other_joker_ret then
+            other_joker_ret.colour = G.C.RED
+        end
+        return other_joker_ret
+        -- simply blueprint for now
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        if card.area and card.area == G.jokers then
+            local other_joker
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i] == card then other_joker = G.jokers.cards[i+1] end
+            end
+            local compatible = other_joker and other_joker ~= card and other_joker.config.center.blueprint_compat
+            main_end = {
+                {
+                    n = G.UIT.C,
+                    config = { align = "bm", minh = 0.4 },
+                    nodes = {
+                        {
+                            n = G.UIT.C,
+                            config = { ref_table = card, align = "m", colour = compatible and mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8) or mix_colours(G.C.RED, G.C.JOKER_GREY, 0.8), r = 0.05, padding = 0.06 },
+                            nodes = {
+                                { n = G.UIT.T, config = { text = ' ' .. localize('k_' .. (compatible and 'compatible' or 'incompatible')) .. ' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.8 } },
+                            }
+                        }
+                    }
+                }
+            }
+            return { main_end = main_end }
+        end
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "blueprint_compat", colour = G.C.RED },
+                { text = ")" }
+            },
+            calc_function = function(card)
+                local copied_joker, copied_debuff = JokerDisplay.calculate_blueprint_copy(card)
+                card.joker_display_values.blueprint_compat = localize('k_incompatible')
+                JokerDisplay.copy_display(card, copied_joker, copied_debuff)
+            end,
+            get_blueprint_joker = function(card)
+                for i = 1, #G.jokers.cards do
+                    if G.jokers.cards[i] == card then
+                        return G.jokers.cards[i+1]
+                    end
+                end
+                return nil
+            end
+        }
+    end,
+}
+
+local squid = {
+    key = "squid",
+    name = "Squid",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 50,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 3, y = 3 },
+    config = {immutable = {depth_level = 2, weight_level = 3}},
+    rarity = 3,
+    cost = 10,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        local other_joker_ret = SMODS.blueprint_effect(card, G.jokers.cards[1], context)
+        if other_joker_ret then
+            other_joker_ret.colour = G.C.FILTER
+        end
+        return other_joker_ret
+        -- simply brainstorm for now
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        if card.area and card.area == G.jokers then
+            local compatible = G.jokers.cards[1] and G.jokers.cards[1] ~= card and
+                G.jokers.cards[1].config.center.blueprint_compat
+            main_end = {
+                {
+                    n = G.UIT.C,
+                    config = { align = "bm", minh = 0.4 },
+                    nodes = {
+                        {
+                            n = G.UIT.C,
+                            config = { ref_table = card, align = "m", colour = compatible and mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8) or mix_colours(G.C.RED, G.C.JOKER_GREY, 0.8), r = 0.05, padding = 0.06 },
+                            nodes = {
+                                { n = G.UIT.T, config = { text = ' ' .. localize('k_' .. (compatible and 'compatible' or 'incompatible')) .. ' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.8 } },
+                            }
+                        }
+                    }
+                }
+            }
+            return { main_end = main_end }
+        end
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "blueprint_compat", colour = G.C.RED },
+                { text = ")" }
+            },
+            calc_function = function(card)
+                local copied_joker, copied_debuff = JokerDisplay.calculate_blueprint_copy(card)
+                card.joker_display_values.blueprint_compat = localize('k_incompatible')
+                JokerDisplay.copy_display(card, copied_joker, copied_debuff)
+            end,
+            get_blueprint_joker = function(card)
+                return G.jokers.cards[1]
+            end
+        }
+    end,
+}
+
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 48,
+    order = 51,
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },
     config = {},
@@ -4745,7 +4973,7 @@ local shub = {
     atlas = "esoteric",
     saga_group = "lovecraft",
     dependencies = {"Talisman"},
-    order = 50,
+    order = 999,
     pos = { x = 0, y = 2 },
     soul_pos = { x = 2, y = 2, extra = { x = 1, y = 2 } },
     config = {extra = {e_mult = 1, e_mult_gain = 0.02}},
@@ -4920,6 +5148,9 @@ local joker_table = {
     barracuda,
     school,
     prawn,
+    john_dory,
+    octopus,
+    squid,
     nemo,
     shub,
     test,

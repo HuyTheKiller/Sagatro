@@ -632,6 +632,28 @@ return {
                     "gives {C:money}$#1#{} at end of round",
                 },
             },
+            j_sgt_john_dory = {
+                name = "John Dory",
+                text = {
+                    "Played {C:attention}#2#{} of {C:diamonds}#3#{}",
+                    "are {C:attention}retriggered{} and",
+                    "give {C:money}$#1#{} when scored",
+                },
+            },
+            j_sgt_octopus = {
+                name = "Octopus",
+                text = {
+                    "Copies ability of",
+                    "{C:attention}Joker{} to the right",
+                },
+            },
+            j_sgt_squid = {
+                name = "Squid",
+                text = {
+                    "Copies ability of",
+                    "leftmost {C:attention}Joker{}",
+                },
+            },
             j_sgt_nemo = {
                 name = "Cpt. Nemo",
                 text = {

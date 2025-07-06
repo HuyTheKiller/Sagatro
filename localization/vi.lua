@@ -631,6 +631,28 @@ return {
                     "cho {C:money}$#1#{} ở cuối ván",
                 },
             },
+            j_sgt_john_dory = {
+                name = "Cá Dây",
+                text = {
+                    "Lá {C:attention}#2#{} {C:diamonds}#3#{} đã chơi",
+                    "được {C:attention}tái kích{} và cho",
+                    "{C:money}$#1#{} khi ghi điểm",
+                },
+            },
+            j_sgt_octopus = {
+                name = "Bạch Tuộc",
+                text = {
+                    "Sao chép khả năng",
+                    "của {C:attention}Joker{} liền phải"
+                },
+            },
+            j_sgt_squid = {
+                name = "Mực",
+                text = {
+                    "Sao chép khả năng của",
+                    "{C:attention}Joker{} ở tít bên trái"
+                },
+            },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
                 text = {
