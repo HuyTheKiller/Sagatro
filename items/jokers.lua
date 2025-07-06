@@ -3759,7 +3759,7 @@ local submarine = {
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 0 },
     extra_pos = { x = 0, y = 9 },
-    config = {depth_level = 1, old_depth_level = 1, extra = {chips = 0, chip_gain = 4}, depth_list = {0, 100, 300, 750, 1600}},
+    config = {immutable = {depth_level = 1, old_depth_level = 1, depth_list = {0, 100, 300, 750, 1600}}, extra = {chips = 0, chip_gain = 4}},
 	rarity = 3,
     cost = 10,
     blueprint_compat = true,
@@ -3777,8 +3777,8 @@ local submarine = {
             if not context.other_card.debuff then
                 card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
                 for i = 5, 1, -1 do
-                    if card.ability.extra.chips >= card.ability.depth_list[i] then
-                        card.ability.depth_level = i
+                    if card.ability.extra.chips >= card.ability.immutable.depth_list[i] then
+                        card.ability.immutable.depth_level = i
                         ease_background_colour_blind(G.STATE)
                         break
                     end
@@ -3801,7 +3801,7 @@ local submarine = {
         end
     end,
     add_to_deck = function(self, card, from_debuff)
-        if not from_debuff and G.GAME.story_mode then
+        if not from_debuff then
             card:set_eternal(true)
             G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
                 ease_background_colour_blind(G.STATE)
@@ -3809,9 +3809,11 @@ local submarine = {
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
-        G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
-            ease_background_colour_blind(G.STATE)
-        return true end }))
+        if not from_debuff then
+            G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
+                ease_background_colour_blind(G.STATE)
+            return true end }))
+        end
     end,
     load = function(self, card, card_table, other_card)
         card.loaded = true
@@ -3823,7 +3825,7 @@ local submarine = {
         end
         if card.ability then
             card.ability.anim_dt = card.ability.anim_dt + dt
-            card.ability.anim_transition_path = card.ability.old_depth_level - card.ability.depth_level
+            card.ability.anim_transition_path = card.ability.immutable.old_depth_level - card.ability.immutable.depth_level
             if card.ability.anim_dt > 0.125*G.SETTINGS.GAMESPEED*(Handy and Handy.speed_multiplier.value or 1) then
                 card.ability.anim_dt = card.ability.anim_dt - 0.125*G.SETTINGS.GAMESPEED*(Handy and Handy.speed_multiplier.value or 1)
                 if card.ability.anim_pos.x == 11 and card.ability.anim_transition_path ~= 0 and not card.ability.in_transition then
@@ -3837,11 +3839,11 @@ local submarine = {
                 or card.ability.anim_pos.x == 11 then
                     card.ability.anim_pos.x = 0
                     card.ability.in_transition = false
-                    card.ability.old_depth_level = card.ability.depth_level
+                    card.ability.immutable.old_depth_level = card.ability.immutable.depth_level
                 else
                     card.ability.anim_pos.x = card.ability.anim_pos.x + 1
                 end
-                card.ability.anim_pos.y = (math.min(card.ability.old_depth_level, card.ability.depth_level) - 1)
+                card.ability.anim_pos.y = (math.min(card.ability.immutable.old_depth_level, card.ability.immutable.depth_level) - 1)
                 + (card.ability.in_transition and 5 or 0)
                 card.children.center:set_sprite_pos(card.ability.anim_pos)
             end
@@ -3854,7 +3856,7 @@ local submarine = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.chips, card.ability.extra.chip_gain, card.ability.depth_level}}
+        return {vars = {card.ability.extra.chips, card.ability.extra.chip_gain, card.ability.immutable.depth_level}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -3869,7 +3871,7 @@ local submarine = {
                 { text = "(" },
                 { ref_table = "card.joker_display_values", ref_value = "localized_text" },
                 { text = ": " },
-                { ref_table = "card.ability", ref_value = "depth_level", colour = G.C.BLUE },
+                { ref_table = "card.ability.immutable", ref_value = "depth_level", colour = G.C.BLUE },
                 { text = ")" },
             },
             text_config = { colour = G.C.CHIPS },

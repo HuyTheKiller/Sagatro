@@ -240,7 +240,7 @@ function Game:update(dt)
                 for _, v in ipairs(collection_row.cards) do
                     if v.config.center_key == "j_sgt_submarine" and v.config.center.discovered then
                         v.ability.anim_dt = v.ability.anim_dt + dt
-                        v.ability.anim_transition_path = v.ability.old_depth_level - v.ability.depth_level
+                        v.ability.anim_transition_path = v.ability.immutable.old_depth_level - v.ability.immutable.depth_level
                         if v.ability.anim_dt > 0.125 then
                             v.ability.anim_dt = v.ability.anim_dt - 0.125
                             if v.ability.anim_pos.x == 11 and v.ability.anim_transition_path ~= 0 and not v.ability.in_transition then
@@ -254,11 +254,11 @@ function Game:update(dt)
                             or v.ability.anim_pos.x == 11 then
                                 v.ability.anim_pos.x = 0
                                 v.ability.in_transition = false
-                                v.ability.old_depth_level = v.ability.depth_level
+                                v.ability.immutable.old_depth_level = v.ability.immutable.depth_level
                             else
                                 v.ability.anim_pos.x = v.ability.anim_pos.x + 1
                             end
-                            v.ability.anim_pos.y = (math.min(v.ability.old_depth_level, v.ability.depth_level) - 1)
+                            v.ability.anim_pos.y = (math.min(v.ability.immutable.old_depth_level, v.ability.immutable.depth_level) - 1)
                             + (v.ability.in_transition and 5 or 0)
                             v.children.center:set_sprite_pos(v.ability.anim_pos)
                         end
