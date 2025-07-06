@@ -450,8 +450,8 @@ local kid_gloves_and_fan = {
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 for _ = 1, G.GAME.alice_multiplier do
-                                    assert(SMODS.modify_rank(temp, -1))
                                     if temp:get_id() <= 2 then break end
+                                    assert(SMODS.modify_rank(temp, -1))
                                 end
 
                                 return true
