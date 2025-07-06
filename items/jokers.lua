@@ -4630,8 +4630,8 @@ local prawn = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.end_of_round and context.individual and context.cardarea == G.hand then
-            if context.other_card:is_suit("Diamonds", nil, true) then
+        if (context.end_of_round and context.individual and context.cardarea == G.hand) or context.forcetrigger then
+            if context.other_card:is_suit("Diamonds", nil, true) or context.forcetrigger then
                 return {
                     dollars = card.ability.extra.money,
                     card = card
