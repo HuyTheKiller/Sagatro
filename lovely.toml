@@ -135,7 +135,7 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = 'blind.lua'
-pattern = '''if self.name == 'The Wheel' and pseudorandom(pseudoseed('wheel')) < G.GAME.probabilities.normal/7 then'''
+pattern = '''if self.name == 'The Wheel' and SMODS.pseudorandom_probability(self, pseudoseed('wheel'), 1, 7, 'wheel') then'''
 position = 'before'
 match_indent = true
 payload = '''
@@ -143,7 +143,7 @@ payload = '''
 if G.jokers then
     for _, v in ipairs(G.jokers.cards) do
         if v.config.center_key == 'j_sgt_the_cook' and not v.debuff then
-            if (pseudorandom('thecook'..G.SEED) < G.GAME.probabilities.normal/v.ability.extra.odds) and (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.DRAW_TO_HAND) then
+            if (SMODS.pseudorandom_probability(v, 'thecook'..G.SEED, 1, v.ability.extra.odds, 'thecook')) and (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.DRAW_TO_HAND) then
                 SMODS.calculate_context({sgt_stay_flipped = true})
                 return true
             end

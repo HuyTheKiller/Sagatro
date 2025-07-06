@@ -462,7 +462,7 @@ return {
                 name = "Giả Rùa",
                 text = {
                     "Xác suất {C:green}#1# trên #2#{} để được {X:dark_edition,C:white}^#3#{} Nhân",
-                    "Xác suất {C:green}#1# trên #4#{} để {C:red,E:2}tự huỷ{}",
+                    "Xác suất {C:green}#4# trên #5#{} để {C:red,E:2}tự huỷ{}",
                     "sau mỗi tay bài, giảm đi {C:attention}1{} sau",
                     "mỗi lần kích hoạt {X:dark_edition,C:white}^Nhân{}",
                 },
@@ -651,6 +651,14 @@ return {
                 text = {
                     "Sao chép khả năng của",
                     "{C:attention}Joker{} ở tít bên trái"
+                },
+            },
+            j_sgt_turtle_egg = {
+                name = "Trứng Rùa",
+                text = {
+                    "Ở cuối ván, xác suất {C:green}#2# trên #3#{} để",
+                    "{C:red,E:2}tự huỷ{} và tạo ra {C:attention}WIP{}",
+                    "Nếu trật, thêm {C:money}$#1#{} giá bán",
                 },
             },
             j_sgt_nemo = {
@@ -880,6 +888,7 @@ return {
             k_huh_qm = "Hở?",
             k_buffed = "Siêu Cấp",
             k_pop_ex = "Vỡ!",
+            k_hatched_ex = "Nở!",
             ph_per_face_down = " mỗi lá sấp",
             ph_trial_begins = "Khai Toà!",
             ph_story_ended = "KẾT TRUYỆN!",

@@ -463,7 +463,7 @@ return {
                 name = "Mock Turtle",
                 text = {
                     "{C:green}#1# in #2#{} chance for {X:dark_edition,C:white}^#3#{} Mult",
-                    "{C:green}#1# in #4#{} chance to {C:red,E:2}self destruct{}",
+                    "{C:green}#4# in #5#{} chance to {C:red,E:2}self destruct{}",
                     "after every hand played, reduce by {C:attention}1{}",
                     "every {X:dark_edition,C:white}^Mult{} trigger",
                 },
@@ -652,6 +652,14 @@ return {
                 text = {
                     "Copies ability of",
                     "leftmost {C:attention}Joker{}",
+                },
+            },
+            j_sgt_turtle_egg = {
+                name = "Turtle Egg",
+                text = {
+                    "At end of round, {C:green}#2# in #3#{} chance to",
+                    "{C:red,E:2}self destruct{} and create {C:attention}WIP{}",
+                    "Otherwise, gain {C:money}$#1#{} of sell value",
                 },
             },
             j_sgt_nemo = {
@@ -881,6 +889,7 @@ return {
             k_huh_qm = "Huh?",
             k_buffed = "Buffed",
             k_pop_ex = "Pop!",
+            k_hatched_ex = "Hatched!",
             ph_per_face_down = " per face-down",
             ph_trial_begins = "Trial Begins!",
             ph_story_ended = "STORY ENDED!",

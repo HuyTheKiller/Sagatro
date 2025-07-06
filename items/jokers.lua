@@ -618,6 +618,9 @@ local unlabeled_bottle = {
     demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        card.ability.taken = not G.GAME.story_mode
+    end,
     calculate = function(self, card, context)
         if G and G.jokers and G.jokers.cards and G.jokers.cards[1]
         and G.jokers.cards[1] == card and not context.blueprint and not context.retrigger_joker then
@@ -1265,7 +1268,7 @@ local pigeon = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if (context.end_of_round and not context.repetition and not context.individual and not context.blueprint) or context.forcetrigger then
+        if (context.end_of_round and context.main_eval and not context.blueprint) or context.forcetrigger then
             for _, v in ipairs(G.jokers.cards) do
                 if v.config.center_key == "j_egg" then
                     card.ability.triggered = true
@@ -1528,7 +1531,7 @@ local the_cook = {
                 Xmult_mod = card.ability.extra.xmult*G.GAME.alice_multiplier
             }
         end
-        if context.end_of_round and not context.repetition and not context.individual
+        if context.end_of_round and context.main_eval
         and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             -- My attempt to make The Cook unique from a Bunco's joker called Vandalism
             local value_shift_list = {}
@@ -1554,7 +1557,7 @@ local the_cook = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.xmult*G.GAME.alice_multiplier}}
+        return {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "thecook"), card.ability.extra.xmult*G.GAME.alice_multiplier}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -1580,7 +1583,7 @@ local the_cook = {
             },
             calc_function = function(card)
                 card.joker_display_values.xmult = card.ability.extra.xmult*G.GAME.alice_multiplier
-                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "thecook") } }
                 card.joker_display_values.localized_text = localize("ph_per_face_down")
             end,
         }
@@ -1602,9 +1605,12 @@ local cheshire_cat = {
     demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        card.ability.extra.odds = G.GAME.story_mode and 2 or 3
+    end,
     calculate = function(self, card, context)
         if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint and not context.retrigger_joker then
-            if pseudorandom('cheshire_cat_vanish') < G.GAME.probabilities.normal/(card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)) then
+            if SMODS.pseudorandom_probability(card, 'cheshire_cat_vanish', 1, card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), "cheshire_cat") then
 				G.E_MANAGER:add_event(Event({
 					func = function()
 						play_sound('tarot1')
@@ -1652,9 +1658,16 @@ local cheshire_cat = {
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            card.ability.extra.odds = G.GAME.story_mode and 2 or 3
+            G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.8, func = function()
+                card.children.joker_display:add_extra({
+                    {
+                        { text = "(" },
+                        { ref_table = "card.joker_display_values", ref_value = "cat_odds" },
+                        { text = ")" },
+                    }
+                }, { colour = G.C.GREEN, scale = 0.3 })
+            return true end }))
         end
-        card.ability.taken = true
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
@@ -1669,7 +1682,7 @@ local cheshire_cat = {
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "cheshire_cat"}
         end
-        local ret = {vars = {G.GAME.probabilities.normal, card.ability.taken and card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier) or (G.GAME.story_mode and 2 or 3)*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)}}
+        local ret = {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), "cheshire_cat")}}
         if card.area and card.area == G.jokers then
             local left_joker
             for i = 1, #G.jokers.cards do
@@ -1715,7 +1728,7 @@ local cheshire_cat = {
                 { text = ")" }
             },
             calc_function = function(card)
-                card.joker_display_values.cat_odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier) } }
+                card.joker_display_values.cat_odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), "cheshire_cat") } }
                 local copied_joker, copied_debuff = JokerDisplay.calculate_blueprint_copy(card)
                 card.joker_display_values.blueprint_compat = localize('k_incompatible')
                 JokerDisplay.copy_display(card, copied_joker, copied_debuff)
@@ -1768,7 +1781,7 @@ local duchess = {
             for i = 1, #context.scoring_hand do
                 if context.scoring_hand[i]:is_face() then
                     card.ability.extra.probability_list[#card.ability.extra.probability_list+1]
-                    = pseudorandom("duchess_execute") < G.GAME.probabilities.normal/card.ability.extra.odds
+                    = SMODS.pseudorandom_probability(card, 'duchess_execute', 1, card.ability.extra.odds, "duchess")
                 else
                     card.ability.extra.probability_list[#card.ability.extra.probability_list+1] = false
                 end
@@ -1807,7 +1820,7 @@ local duchess = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        local ret = {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
+        local ret = {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "duchess"), card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
         if next(SMODS.find_card("j_sgt_alice")) then
             ret.main_end = {}
             if not Sagatro.mod_compat.talisman then
@@ -1842,7 +1855,7 @@ local duchess = {
                 }
             },
             calc_function = function(card)
-                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "duchess") } }
                 card.joker_display_values.e_mult = card.ability.triggered and card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier) or 1
             end,
         }
@@ -1972,7 +1985,7 @@ local pepper_caster = {
                 card = card,
             }
 		end
-        if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and not context.retrigger_joker then
+        if context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker then
             if card.ability.extra.uses - 1 <= 0 then
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -2505,7 +2518,7 @@ local dormouse = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if (context.joker_main and pseudorandom("dormouse") < G.GAME.probabilities.normal/card.ability.extra.odds) or context.forcetrigger then
+        if (context.joker_main and SMODS.pseudorandom_probability(card, "dormouse", 1, card.ability.extra.odds, "dormouse")) or context.forcetrigger then
             return {
                 mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
 				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
@@ -2519,7 +2532,7 @@ local dormouse = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-		return {vars = {G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.mult*G.GAME.alice_multiplier}}
+		return {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "dormouse"), card.ability.extra.mult*G.GAME.alice_multiplier}}
 	end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -2540,7 +2553,7 @@ local dormouse = {
             },
             text_config = { colour = G.C.MULT },
             calc_function = function(card)
-                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "dormouse") } }
                 card.joker_display_values.mult = card.ability.extra.mult*G.GAME.alice_multiplier
             end
         }
@@ -2592,10 +2605,11 @@ local red_queen = {
         if context.forcetrigger then
             return {
                 e_mult = card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
+                card = card,
             }
         end
         if context.destroy_card and context.cardarea == G.play and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
-            if not context.destroying_card.debuff and pseudorandom("red_queen_decapitate") < G.GAME.probabilities.normal/(card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor) then
+            if not context.destroying_card.debuff and SMODS.pseudorandom_probability(card, "red_queen_decapitate", 1, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, "red_queen") then
                 return {
                     message = localize("k_die_ex"),
                     colour = G.C.RED,
@@ -2625,7 +2639,7 @@ local red_queen = {
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "red_queen"}
         end
-        local ret = {vars = {G.GAME.probabilities.normal, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
+        local ret = {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, "red_queen"), card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
         if next(SMODS.find_card("j_sgt_alice")) then
             ret.main_end = {}
             if not Sagatro.mod_compat.talisman then
@@ -2668,7 +2682,7 @@ local red_queen = {
                         count = count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
                     end
                 end
-                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor } }
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, "red_queen") } }
                 card.joker_display_values.e_mult = emult^count
             end,
         }
@@ -2927,12 +2941,15 @@ local mock_turtle = {
     demicoloncompat = true,
     eternal_compat = false,
     perishable_compat = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        card.ability.extra.self_destruct_odds = G.GAME.story_mode and 100 or 18
+    end,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             card.ability.extra.probability_list.e_mult
-            = pseudorandom("mock_turtle_critical") < G.GAME.probabilities.normal/card.ability.extra.e_mult_odds
+            = SMODS.pseudorandom_probability(card, "mock_turtle_critical", 1, card.ability.extra.e_mult_odds)
             card.ability.extra.probability_list.self_destruct
-            = pseudorandom("mock_turtle_vanish") < G.GAME.probabilities.normal/card.ability.extra.self_destruct_odds
+            = SMODS.pseudorandom_probability(card, "mock_turtle_vanish", 1, card.ability.extra.self_destruct_odds)
         end
         if (context.joker_main and (card.ability.extra.probability_list.e_mult or card.ability.extra.probability_list.self_destruct)) or context.forcetrigger then
             if not context.blueprint then
@@ -2983,8 +3000,6 @@ local mock_turtle = {
             G.GAME.saga_event_check.alice_in_wonderland.gryphon = true
             G.GAME.saga_event.alice_in_wonderland.final_showdown = true
         end
-        card.ability.taken = true
-        card.ability.extra.self_destruct_odds = G.GAME.story_mode and 100 or 18
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
@@ -2993,7 +3008,9 @@ local mock_turtle = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        local ret = {vars = {G.GAME.probabilities.normal, card.ability.extra.e_mult_odds, card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier), card.ability.taken and card.ability.extra.self_destruct_odds or (G.GAME.story_mode and 100 or 18)}}
+        local ret = {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.e_mult_odds, "mock_turtle_critical"),
+        card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
+        SMODS.get_probability_vars(card, 1, card.ability.extra.self_destruct_odds, "mock_turtle_vanish")}}
         if next(SMODS.find_card("j_sgt_alice")) then
             ret.main_end = {}
             if not Sagatro.mod_compat.talisman then
@@ -3037,8 +3054,8 @@ local mock_turtle = {
             reminder_text_config = { scale = 0.2 },
             calc_function = function(card)
                 card.joker_display_values.e_mult = card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)
-                card.joker_display_values.e_mult_odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.e_mult_odds } }
-                card.joker_display_values.self_destruct_odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.self_destruct_odds } }
+                card.joker_display_values.e_mult_odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.e_mult_odds, "mock_turtle_critical") } }
+                card.joker_display_values.self_destruct_odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.self_destruct_odds, "mock_turtle_vanish") } }
             end,
         }
     end,
@@ -3135,7 +3152,7 @@ local shepherd_boy = {
 			}
 		end
         if (context.after and not context.blueprint and not context.retrigger_joker
-        and pseudorandom("real_wolf_incoming") < G.GAME.probabilities.normal/card.ability.extra.odds) or context.forcetrigger then
+        and SMODS.pseudorandom_probability(card, "real_wolf_incoming", 1, card.ability.extra.odds, "shepherd_boy")) or context.forcetrigger then
             G.E_MANAGER:add_event(Event({func = function()
                 card.ability.extra.mult = 0
                 local destructable_jokers = {}
@@ -3156,7 +3173,7 @@ local shepherd_boy = {
         end
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.mult, card.ability.extra.mult_gain, G.GAME.probabilities.normal, card.ability.extra.odds}}
+        return {vars = {card.ability.extra.mult, card.ability.extra.mult_gain, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "shepherd_boy")}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -3173,12 +3190,11 @@ local shepherd_boy = {
             extra_config = { colour = G.C.GREEN, scale = 0.3 },
             text = {
                 { text = "+" },
-                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+                { ref_table = "card.ability.extra", ref_value = "mult", retrigger_type = "mult" }
             },
             text_config = { colour = G.C.MULT },
             calc_function = function(card)
-                card.joker_display_values.mult = card.ability.extra.mult
-                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "shepherd_boy") } }
             end
         }
     end,
@@ -3290,7 +3306,7 @@ local aladdin = {
     perishable_compat = false,
     calculate = function(self, card, context)
         if not card.ability.buffed then
-            if ((context.end_of_round and not context.repetition and not context.individual
+            if ((context.end_of_round and context.main_eval
             and not context.blueprint and not context.retrigger_joker) or context.forcetrigger) and G.GAME.dollars > to_big(0) then
                 ease_dollars(-math.floor(to_number(G.GAME.dollars)*card.ability.extra.tax))
                 card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
@@ -3387,7 +3403,7 @@ local magic_lamp = {
                 Xmult_mod = card.ability.extra.xmult
 			}
         end
-        if (context.end_of_round and not context.repetition and not context.individual and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+        if (context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
             card.ability.magic_lamp_rounds = card.ability.magic_lamp_rounds + 1
             if (card.ability.magic_lamp_rounds >= card.ability.extra.rounds_goal) or context.forcetrigger then
                 local has_aladdin = false
@@ -4118,7 +4134,7 @@ local white_jellyfish = {
         end
         if (context.after and not context.blueprint and not context.retrigger_joker
         and card.ability.loyalty_remaining == card.ability.extra.every) or context.forcetrigger then
-            if pseudorandom("white_jellyfish_pop") < G.GAME.probabilities.normal/card.ability.extra.odds or context.forcetrigger then
+            if SMODS.pseudorandom_probability(card, "white_jellyfish_pop", 1, card.ability.extra.odds, "white_jellyfish") or context.forcetrigger then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
@@ -4155,7 +4171,8 @@ local white_jellyfish = {
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "OceanMap", key = "sgt_tropical", title = localize("saga_ocean_tooltip")}
-        return {vars = {card.ability.extra.xmult, card.ability.extra.every+1, G.GAME.probabilities.normal, card.ability.extra.odds, localize{type = 'variable', key = (card.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.loyalty_remaining or card.ability.extra.every}}}}
+        return {vars = {card.ability.extra.xmult, card.ability.extra.every+1, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "white_jellyfish"),
+        localize{type = 'variable', key = (card.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.loyalty_remaining or card.ability.extra.every}}}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4187,7 +4204,7 @@ local white_jellyfish = {
                 local loyalty_remaining = card.ability.loyalty_remaining + (next(G.play.cards) and 1 or 0)
                 card.joker_display_values.loyalty_text = localize { type = 'variable', key = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = { loyalty_remaining } }
                 card.joker_display_values.x_mult = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and card.ability.extra.xmult or 1)
-                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "white_jellyfish") } }
             end
         }
     end,
@@ -4237,7 +4254,7 @@ local red_jellyfish = {
         end
         if (context.after and not context.blueprint and not context.retrigger_joker
         and card.ability.loyalty_remaining == card.ability.extra.every) or context.forcetrigger then
-            if pseudorandom("red_jellyfish_pop") < G.GAME.probabilities.normal/card.ability.extra.odds or context.forcetrigger then
+            if SMODS.pseudorandom_probability(card, "red_jellyfish_pop", 1, card.ability.extra.odds, "red_jellyfish") or context.forcetrigger then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
@@ -4274,7 +4291,8 @@ local red_jellyfish = {
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "OceanMap", key = "sgt_tropical", title = localize("saga_ocean_tooltip")}
-        return {vars = {card.ability.extra.xmult, card.ability.extra.every+1, G.GAME.probabilities.normal, card.ability.extra.odds, localize{type = 'variable', key = (card.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.loyalty_remaining or card.ability.extra.every}}}}
+        return {vars = {card.ability.extra.xmult, card.ability.extra.every+1, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "red_jellyfish"),
+        localize{type = 'variable', key = (card.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.loyalty_remaining or card.ability.extra.every}}}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4306,7 +4324,7 @@ local red_jellyfish = {
                 local loyalty_remaining = card.ability.loyalty_remaining + (next(G.play.cards) and 1 or 0)
                 card.joker_display_values.loyalty_text = localize { type = 'variable', key = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = { loyalty_remaining } }
                 card.joker_display_values.x_mult = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and card.ability.extra.xmult or 1)
-                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "red_jellyfish") } }
             end
         }
     end,
@@ -4353,7 +4371,7 @@ local queen_jellyfish = {
         end
         if (context.after and not context.blueprint and not context.retrigger_joker
         and card.ability.loyalty_remaining == card.ability.extra.every) or context.forcetrigger then
-            if pseudorandom("queen_jellyfish_pop") < G.GAME.probabilities.normal/card.ability.extra.odds or context.forcetrigger then
+            if SMODS.pseudorandom_probability(card, "queen_jellyfish_pop", 1, card.ability.extra.odds, "queen_jellyfish") or context.forcetrigger then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
@@ -4389,7 +4407,8 @@ local queen_jellyfish = {
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "OceanMap", key = "sgt_tropical", title = localize("saga_ocean_tooltip")}
-        return {vars = {card.ability.extra.e_mult, card.ability.extra.every+1, G.GAME.probabilities.normal, card.ability.extra.odds, localize{type = 'variable', key = (card.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.loyalty_remaining or card.ability.extra.every}}}}
+        return {vars = {card.ability.extra.e_mult, card.ability.extra.every+1, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "queen_jellyfish"),
+        localize{type = 'variable', key = (card.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.loyalty_remaining or card.ability.extra.every}}}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4422,7 +4441,8 @@ local queen_jellyfish = {
                 local loyalty_remaining = card.ability.loyalty_remaining + (next(G.play.cards) and 1 or 0)
                 card.joker_display_values.loyalty_text = localize { type = 'variable', key = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = { loyalty_remaining } }
                 card.joker_display_values.e_mult = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and card.ability.extra.e_mult or 1)
-                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+                local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds)
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "queen_jellyfish") } }
             end
         }
     end,
@@ -4904,12 +4924,95 @@ local squid = {
     end,
 }
 
+local turtle_egg = {
+    key = "turtle_egg",
+    name = "Turtle Egg",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 51,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 1, y = 2 },
+    config = {extra = {sell_value_gain = 3, odds = 15}},
+    rarity = 1,
+    cost = 4,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.end_of_round and context.main_eval and not context.blueprint then
+            if SMODS.pseudorandom_probability(card, "turtle_egg_hatched", 1, card.ability.extra.odds, "turtle_egg") then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(card)
+                                    card:remove()
+                                    card = nil
+                                return true; end}))
+                        return true
+                    end
+                }))
+                -- add Baby Turtle here
+                return {
+                    message = localize('k_hatched_ex'),
+                    colour = G.C.FILTER,
+                    no_retrigger = true
+                }
+            else
+                card.ability.extra_value = card.ability.extra_value + card.ability.extra.sell_value_gain
+                card:set_cost()
+                return {
+                    message = localize('k_val_up'),
+                    colour = G.C.MONEY
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.sell_value_gain, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "turtle_egg")}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            extra = {
+                {
+                    { text = "(" },
+                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { text = ")" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            reminder_text = {
+                { text = "(" },
+                { text = "$", colour = G.C.GOLD },
+                { ref_table = "card", ref_value = "sell_cost", colour = G.C.GOLD },
+                { text = ")" },
+            },
+            reminder_text_config = { scale = 0.35 },
+            calc_function = function(card)
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "turtle_egg") } }
+            end,
+        }
+    end
+}
+
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 51,
+    order = 52,
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },
     config = {},
@@ -5151,6 +5254,7 @@ local joker_table = {
     john_dory,
     octopus,
     squid,
+    turtle_egg,
     nemo,
     shub,
     test,
