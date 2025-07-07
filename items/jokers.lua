@@ -1657,19 +1657,19 @@ local cheshire_cat = {
         end
         return SMODS.blueprint_effect(card, left_joker, context)
     end,
-    add_to_deck = function(self, card, from_debuff)
-        if not from_debuff then
-            G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.8, func = function()
-                card.children.joker_display:add_extra({
-                    {
-                        { text = "(" },
-                        { ref_table = "card.joker_display_values", ref_value = "cat_odds" },
-                        { text = ")" },
-                    }
-                }, { colour = G.C.GREEN, scale = 0.3 })
-            return true end }))
-        end
-    end,
+    -- add_to_deck = function(self, card, from_debuff)
+    --     if not from_debuff then
+    --         G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.8, func = function()
+    --             card.children.joker_display:add_extra({
+    --                 {
+    --                     { text = "(" },
+    --                     { ref_table = "card.joker_display_values", ref_value = "cat_odds" },
+    --                     { text = ")" },
+    --                 }
+    --             }, { colour = G.C.GREEN, scale = 0.3 })
+    --         return true end }))
+    --     end
+    -- end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
             return G.GAME.saga_event_check.alice_in_wonderland.pig_and_pepper and true or false
