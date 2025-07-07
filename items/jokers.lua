@@ -2534,7 +2534,8 @@ local dormouse = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-		return {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "dormouse"), card.ability.extra.mult*G.GAME.alice_multiplier}}
+        local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "dormouse")
+		return {vars = {n, d, card.ability.extra.mult*G.GAME.alice_multiplier}}
 	end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
