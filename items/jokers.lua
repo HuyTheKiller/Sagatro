@@ -1557,7 +1557,8 @@ local the_cook = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "thecook"), card.ability.extra.xmult*G.GAME.alice_multiplier}}
+        local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "thecook")
+        return {vars = {n, d, card.ability.extra.xmult*G.GAME.alice_multiplier}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -1820,7 +1821,8 @@ local duchess = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        local ret = {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "duchess"), card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
+        local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "duchess")
+        local ret = {vars = {n, d, card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
         if next(SMODS.find_card("j_sgt_alice")) then
             ret.main_end = {}
             if not Sagatro.mod_compat.talisman then
@@ -2639,7 +2641,8 @@ local red_queen = {
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "red_queen"}
         end
-        local ret = {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, "red_queen"), card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
+        local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, "red_queen")
+        local ret = {vars = {n, d, card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
         if next(SMODS.find_card("j_sgt_alice")) then
             ret.main_end = {}
             if not Sagatro.mod_compat.talisman then
@@ -3008,7 +3011,8 @@ local mock_turtle = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        local ret = {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.e_mult_odds, "mock_turtle_critical"),
+        local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.e_mult_odds, "mock_turtle_critical")
+        local ret = {vars = {n, d,
         card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
         SMODS.get_probability_vars(card, 1, card.ability.extra.self_destruct_odds, "mock_turtle_vanish")}}
         if next(SMODS.find_card("j_sgt_alice")) then
@@ -4171,7 +4175,8 @@ local white_jellyfish = {
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "OceanMap", key = "sgt_tropical", title = localize("saga_ocean_tooltip")}
-        return {vars = {card.ability.extra.xmult, card.ability.extra.every+1, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "white_jellyfish"),
+        local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "white_jellyfish")
+        return {vars = {card.ability.extra.xmult, card.ability.extra.every+1, n, d,
         localize{type = 'variable', key = (card.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.loyalty_remaining or card.ability.extra.every}}}}
     end,
     set_badges = function(self, card, badges)
@@ -4291,7 +4296,8 @@ local red_jellyfish = {
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "OceanMap", key = "sgt_tropical", title = localize("saga_ocean_tooltip")}
-        return {vars = {card.ability.extra.xmult, card.ability.extra.every+1, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "red_jellyfish"),
+        local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "red_jellyfish")
+        return {vars = {card.ability.extra.xmult, card.ability.extra.every+1, n, d,
         localize{type = 'variable', key = (card.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.loyalty_remaining or card.ability.extra.every}}}}
     end,
     set_badges = function(self, card, badges)
@@ -4407,7 +4413,8 @@ local queen_jellyfish = {
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "OceanMap", key = "sgt_tropical", title = localize("saga_ocean_tooltip")}
-        return {vars = {card.ability.extra.e_mult, card.ability.extra.every+1, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "queen_jellyfish"),
+        local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "queen_jellyfish")
+        return {vars = {card.ability.extra.e_mult, card.ability.extra.every+1, n, d,
         localize{type = 'variable', key = (card.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.loyalty_remaining or card.ability.extra.every}}}}
     end,
     set_badges = function(self, card, badges)
@@ -5007,12 +5014,29 @@ local turtle_egg = {
     end
 }
 
+local baby_turtle = {
+    key = "baby_turtle",
+    name = "Baby Turtle",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 52,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 2, y = 2 },
+    config = {extra = {xmult = 0.5}},
+    rarity = 1,
+    cost = 4,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+}
+
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 52,
+    order = 53,
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },
     config = {},
@@ -5267,6 +5291,7 @@ for _, v in ipairs(joker_table) do
         v.discovered = true
     end
     if not v.debug_obj or (v.debug_obj and Sagatro.debug) then
+        v.debug_obj = nil
         SMODS.Joker(v)
     end
 end
