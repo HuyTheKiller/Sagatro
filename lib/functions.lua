@@ -732,8 +732,8 @@ end
 function get_submarine_depth_colour()
     local max_depth = 1
     for _, v in ipairs(SMODS.find_card("j_sgt_submarine", true)) do
-        if max_depth < v.ability.depth_level then
-            max_depth = v.ability.depth_level
+        if max_depth < v.ability.immutable.depth_level then
+            max_depth = v.ability.immutable.depth_level
         end
     end
     return max_depth

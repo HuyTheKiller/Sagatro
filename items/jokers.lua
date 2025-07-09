@@ -4940,7 +4940,7 @@ local turtle_egg = {
     order = 51,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 2 },
-    config = {extra = {sell_value_gain = 3, odds = 15}},
+    config = {extra = {sell_value_gain = 3, odds = 15, sell_odds = 30}},
     rarity = 1,
     cost = 4,
     blueprint_compat = false,
@@ -4949,7 +4949,19 @@ local turtle_egg = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.end_of_round and context.main_eval and not context.blueprint then
-            if SMODS.pseudorandom_probability(card, "turtle_egg_hatched", 1, card.ability.extra.odds, "turtle_egg") then
+            if SMODS.pseudorandom_probability(card, "turtle_egg_hatched", 1, card.ability.extra.odds, "turtle_egg_hatch") and not G.GAME.turtle_egg_hatched then
+                G.E_MANAGER:add_event(Event({
+                    trigger = "immediate",
+                    func = function()
+                        assert(SMODS.add_card({
+                            set = "Joker",
+                            skip_materialize = true,
+                            key = "j_sgt_baby_turtle",
+                        }))
+                        G.GAME.turtle_egg_hatched = true
+                        return true
+                    end
+                }))
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
@@ -4966,7 +4978,6 @@ local turtle_egg = {
                         return true
                     end
                 }))
-                -- add Baby Turtle here
                 return {
                     message = localize('k_hatched_ex'),
                     colour = G.C.FILTER,
@@ -4981,12 +4992,34 @@ local turtle_egg = {
                 }
             end
         end
+        if context.selling_self and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
+            if SMODS.pseudorandom_probability(card, "sold_turtle_egg_hatched", 1, card.ability.extra.sell_odds, "turtle_egg_sell_hatch") and not G.GAME.turtle_egg_hatched then
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_hatched_ex'), instant = true})
+                G.E_MANAGER:add_event(Event({
+                    trigger = "immediate",
+                    func = function()
+                        assert(SMODS.add_card({
+                            set = "Joker",
+                            skip_materialize = true,
+                            key = "j_sgt_baby_turtle",
+                        }))
+                        G.GAME.turtle_egg_hatched = true
+                        return true
+                    end
+                }))
+            else
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_nope_ex'), instant = true})
+            end
+        end
     end,
     in_pool = function(self, args)
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.sell_value_gain, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "turtle_egg")}}
+        -- info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_baby_turtle"] -- this breaks multi-box wtf
+        local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "turtle_egg_hatch")
+        return {vars = {card.ability.extra.sell_value_gain, localize{type = 'name_text', set = "Joker", key = "j_sgt_baby_turtle", nodes = {}},
+        n, d, SMODS.get_probability_vars(card, 1, card.ability.extra.sell_odds, "turtle_egg_sell_hatch")}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -5023,13 +5056,157 @@ local baby_turtle = {
     order = 52,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 2 },
-    config = {extra = {xmult = 0.5}},
+    config = {extra = {xmult = 2}},
     rarity = 1,
-    cost = 4,
-    blueprint_compat = false,
+    cost = 5,
+    blueprint_compat = true,
     demicoloncompat = true,
     eternal_compat = false,
     perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play then
+            local first_found = nil
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:get_id() == 3
+                or context.scoring_hand[i]:get_id() == 7
+                or context.scoring_hand[i]:get_id() == 9 then
+                    first_found = context.scoring_hand[i]
+                    break
+                end
+            end
+            if context.other_card == first_found then
+                return {
+                    x_mult = card.ability.extra.xmult,
+                    colour = G.C.RED,
+                    card = card
+                }
+            end
+        end
+        if context.forcetrigger then
+            return {
+                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                Xmult_mod = card.ability.extra.xmult
+            }
+        end
+        if context.selling_self and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
+            G.GAME.pool_flags.mature_turtle = true
+        end
+    end,
+    in_pool = function(self, args)
+        return false
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult, localize{type = 'name_text', set = "Joker", key = "j_sgt_green_turtle", nodes = {}}}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    }
+                }
+            },
+            reminder_text = {
+                { text = "(3, 7, 9)" },
+            },
+            calc_function = function(card)
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                local target_cards = {}
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        if scoring_card:get_id() == 3
+                        or scoring_card:get_id() == 7
+                        or scoring_card:get_id() == 9 then
+                            table.insert(target_cards, scoring_card)
+                        end
+                    end
+                end
+                local first_found = JokerDisplay.calculate_leftmost_card(target_cards)
+                card.joker_display_values.xmult = first_found and
+                    (card.ability.extra.xmult ^ JokerDisplay.calculate_card_triggers(first_found, scoring_hand)) or 1
+            end
+        }
+    end,
+}
+
+local green_turtle = {
+    key = "green_turtle",
+    name = "Green Turtle",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 52,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 3, y = 2 },
+    config = {extra = {xmult = 1.5}},
+    yes_pool_flag = "mature_turtle",
+    rarity = 3,
+    cost = 8,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play then
+            if context.other_card:get_id() == 3
+            or context.other_card:get_id() == 7
+            or context.other_card:get_id() == 9 then
+                return {
+                    x_mult = card.ability.extra.xmult,
+                    colour = G.C.RED,
+                    card = card
+                }
+            end
+        end
+        if context.forcetrigger then
+            return {
+                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                Xmult_mod = card.ability.extra.xmult
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    }
+                }
+            },
+            reminder_text = {
+                { text = "(3, 7, 9)" },
+            },
+            calc_function = function(card)
+                local count = 0
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        if scoring_card:get_id() == 3
+                        or scoring_card:get_id() == 7
+                        or scoring_card:get_id() == 9 then
+                            count = count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                        end
+                    end
+                end
+                card.joker_display_values.xmult = card.ability.extra.xmult ^ count
+            end,
+        }
+    end
 }
 
 local nemo = {
@@ -5280,6 +5457,8 @@ local joker_table = {
     octopus,
     squid,
     turtle_egg,
+    baby_turtle,
+    green_turtle,
     nemo,
     shub,
     test,

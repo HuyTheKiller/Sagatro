@@ -656,9 +656,38 @@ return {
             j_sgt_turtle_egg = {
                 name = "Trứng Rùa",
                 text = {
-                    "Ở cuối ván, xác suất {C:green}#2# trên #3#{} để",
-                    "{C:red,E:2}tự huỷ{} và tạo ra {C:attention}WIP{}",
-                    "Nếu trật, thêm {C:money}$#1#{} giá bán",
+                    {
+                        "Ở cuối ván, xác suất {C:green}#3# trên #4#{} để",
+                        "{C:red,E:2}tự huỷ{} và tạo ra {C:attention}#2#{}",
+                        "Nếu trật, thêm {C:money}$#1#{} giá bán",
+                    },
+                    {
+                        "{C:attention}Bán{} lá này để lăn",
+                        "xác suất {C:green}#5# trên #6#{}",
+                        "Chỉ nở {C:attention}một lần{} mỗi trận",
+                    },
+                },
+            },
+            j_sgt_baby_turtle = {
+                name = "Rùa Non",
+                text = {
+                    {
+                        "Lá {C:attention}3{}, {C:attention}7{} hoặc {C:attention}9{}",
+                        "đầu tiên ghi thêm",
+                        "X#1# Nhân khi ghi điểm",
+                    },
+                    {
+                        "{C:attention}Bán{} lá này để có thể",
+                        "tìm thấy {C:attention}#2#{}",
+                    },
+                },
+            },
+            j_sgt_green_turtle = {
+                name = "Rùa Xanh",
+                text = {
+                    "Lá {C:attention}3{}, {C:attention}7{} và {C:attention}9{}",
+                    "đã chơi ghi thêm",
+                    "X#1# Nhân khi ghi điểm",
                 },
             },
             j_sgt_nemo = {

@@ -657,9 +657,38 @@ return {
             j_sgt_turtle_egg = {
                 name = "Turtle Egg",
                 text = {
-                    "At end of round, {C:green}#2# in #3#{} chance to",
-                    "{C:red,E:2}self destruct{} and create {C:attention}WIP{}",
-                    "Otherwise, gain {C:money}$#1#{} of sell value",
+                    {
+                        "At end of round, {C:green}#3# in #4#{} chance to",
+                        "{C:red,E:2}self destruct{} and create {C:attention}#2#{}",
+                        "Otherwise, gain {C:money}$#1#{} of sell value",
+                    },
+                    {
+                        "{C:attention}Sell{} this card for",
+                        "{C:green}#5# in #6#{} chance instead",
+                        "Only hatch {C:attention}once{} per run",
+                    },
+                },
+            },
+            j_sgt_baby_turtle = {
+                name = "Baby Turtle",
+                text = {
+                    {
+                        "First played {C:attention}3{}, {C:attention}7{} or {C:attention}9{}",
+                        "gives {X:mult,C:white}X#1#{} Mult",
+                        "when scored",
+                    },
+                    {
+                        "{C:attention}Sell{} this card to be able",
+                        "to find {C:attention}#2#{}",
+                    },
+                },
+            },
+            j_sgt_green_turtle = {
+                name = "Green Turtle",
+                text = {
+                    "Each played {C:attention}3{}, {C:attention}7{} and {C:attention}9{}",
+                    "gives {X:mult,C:white}X#1#{} Mult",
+                    "when scored",
                 },
             },
             j_sgt_nemo = {
