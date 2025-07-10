@@ -5142,7 +5142,7 @@ local green_turtle = {
     order = 52,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 2 },
-    config = {extra = {xmult = 1.5}},
+    config = {immutable = {depth_level = 2, weight_level = 3}, extra = {xmult = 1.5}},
     yes_pool_flag = "mature_turtle",
     rarity = 3,
     cost = 8,
