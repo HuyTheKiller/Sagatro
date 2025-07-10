@@ -770,7 +770,7 @@ local little_bill = {
     order = 8,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 2, y = 1 },
-    config = {extra = 2},
+    config = {type = "Full House", extra = 2},
 	rarity = 1,
     cost = 5,
     blueprint_compat = true,
@@ -778,7 +778,7 @@ local little_bill = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.poker_hands and next(context.poker_hands["Full House"]) and context.repetition and context.cardarea == G.play then
+        if context.poker_hands and next(context.poker_hands[card.ability.type]) and context.repetition and context.cardarea == G.play then
             if context.other_card == context.scoring_hand[1] then
                 return {
                     message = localize('k_again_ex'),
@@ -804,7 +804,7 @@ local little_bill = {
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "little_bill"}
         end
-        return {vars = {card.ability.extra*G.GAME.alice_multiplier, localize("Full House", 'poker_hands'), localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}}}
+        return {vars = {card.ability.extra*G.GAME.alice_multiplier, localize(card.ability.type, 'poker_hands'), localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -824,7 +824,7 @@ local little_bill = {
                 card.joker_display_values.localized_text = localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}
                 card.joker_display_values.is_full_house = false
                 local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                if poker_hands["Full House"] and next(poker_hands["Full House"]) then
+                if poker_hands[card.ability.type] and next(poker_hands[card.ability.type]) then
                     card.joker_display_values.is_full_house = true
                 end
                 card.joker_display_values.retriggers = card.joker_display_values.is_full_house
