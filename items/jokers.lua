@@ -5209,12 +5209,133 @@ local green_turtle = {
     end
 }
 
+local electric_eel = {
+    key = "electric_eel",
+    name = "Electric Eel",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 53,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 4, y = 2 },
+    config = {immutable = {depth_level = 4, weight_level = 3}, extra = {}},
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+}
+
+local sea_angel = {
+    key = "sea_angel",
+    name = "Sea Angel",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 54,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 1, y = 4 },
+    config = {type = "Three of a Kind", immutable = {depth_level = 5, weight_level = 1}, extra = {e_mult = 1.23}},
+    rarity = "sgt_obscure",
+    cost = 12,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if (context.joker_main and next(context.poker_hands[card.ability.type])) or context.forcetrigger then
+            return {
+                e_mult = card.ability.extra.e_mult
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.e_mult, localize(card.ability.type, 'poker_hands')}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "^" },
+                        { ref_table = "card.joker_display_values", ref_value = "e_mult", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.DARK_EDITION
+                }
+            },
+            calc_function = function(card)
+                card.joker_display_values.is_3oak = false
+                local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                if poker_hands[card.ability.type] and next(poker_hands[card.ability.type]) then
+                    card.joker_display_values.is_3oak = true
+                end
+                card.joker_display_values.e_mult = card.joker_display_values.is_3oak and card.ability.extra.e_mult or 1
+            end,
+        }
+    end,
+}
+
+local stonefish = {
+    key = "stonefish",
+    name = "Stonefish",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 55,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 0, y = 4 },
+    config = {immutable = {depth_level = 1, weight_level = 1}},
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = false,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint and not context.retrigger_joker then
+            local faces = {}
+            for _, v in ipairs(context.scoring_hand) do
+                if v:is_face() then
+                    faces[#faces+1] = v
+                    v:set_ability(G.P_CENTERS.m_stone, nil, true)
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            v:juice_up()
+                            return true
+                        end
+                    }))
+                end
+            end
+            if #faces > 0 then
+                return {
+                    message = localize('k_petrified_ex'),
+                    colour = G.C.FILTER,
+                    card = card,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {}
+    end,
+}
+
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 53,
+    order = 56,
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },
     config = {},
@@ -5459,6 +5580,8 @@ local joker_table = {
     turtle_egg,
     baby_turtle,
     green_turtle,
+    sea_angel,
+    stonefish,
     nemo,
     shub,
     test,

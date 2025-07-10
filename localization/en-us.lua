@@ -691,6 +691,22 @@ return {
                     "when scored",
                 },
             },
+            j_sgt_sea_angel = {
+                name = "Sea Angel",
+                text = {
+                    "{X:dark_edition,C:white}^#1#{} Mult if played",
+                    "hand contains",
+                    "a {C:attention}#2#{}",
+                },
+            },
+            j_sgt_stonefish = {
+                name = "Stonefish",
+                text = {
+                    "All played {C:attention}face{} cards",
+                    "become {C:attention}Stone{} cards",
+                    "when scored",
+                },
+            },
             j_sgt_nemo = {
                 name = "Cpt. Nemo",
                 text = {
@@ -919,6 +935,7 @@ return {
             k_buffed = "Buffed",
             k_pop_ex = "Pop!",
             k_hatched_ex = "Hatched!",
+            k_petrified_ex = "Petrified!",
             ph_per_face_down = " per face-down",
             ph_trial_begins = "Trial Begins!",
             ph_story_ended = "STORY ENDED!",

@@ -690,6 +690,22 @@ return {
                     "X#1# Nhân khi ghi điểm",
                 },
             },
+            j_sgt_sea_angel = {
+                name = "Thiên Thần Biển",
+                text = {
+                    "{X:dark_edition,C:white}^#1#{} Nhân",
+                    "nếu tay bài đã chơi",
+                    "chứa {C:attention}#2#{}",
+                },
+            },
+            j_sgt_stonefish = {
+                name = "Cá Mặt Quỷ",
+                text = {
+                    "Mọi lá {C:attention}mặt{} đã chơi",
+                    "trở thành lá {C:attention}Đá",
+                    "khi ghi điểm",
+                }
+            },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
                 text = {
@@ -918,6 +934,7 @@ return {
             k_buffed = "Siêu Cấp",
             k_pop_ex = "Vỡ!",
             k_hatched_ex = "Nở!",
+            k_petrified_ex = "Hoá Đá!",
             ph_per_face_down = " mỗi lá sấp",
             ph_trial_begins = "Khai Toà!",
             ph_story_ended = "KẾT TRUYỆN!",
