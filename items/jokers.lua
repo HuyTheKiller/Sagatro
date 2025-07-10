@@ -2843,7 +2843,7 @@ local gryphon = {
     order = 28,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 3, y = 4 },
-    config = {extra = {e_mult = 1.2}},
+    config = {extra = {e_mult = 1.1}},
 	rarity = "sgt_obscure",
     cost = 14,
     blueprint_compat = true,
