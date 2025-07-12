@@ -1715,19 +1715,20 @@ local cheshire_cat = {
  	end,
     joker_display_def = function(JokerDisplay)
         return {
-            text = {
+            extra = {
                 {
                     { text = "(" },
                     { ref_table = "card.joker_display_values", ref_value = "cat_odds" },
                     { text = ")" },
                 }
             },
-            text_config = { colour = G.C.GREEN, scale = 0.3 },
-            reminder_text = {
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            text = {
                 { text = "(" },
                 { ref_table = "card.joker_display_values", ref_value = "blueprint_compat", colour = G.C.RED },
                 { text = ")" }
             },
+            text_config = { colour = G.C.UI.TEXT_INACTIVE },
             calc_function = function(card)
                 card.joker_display_values.cat_odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), "cheshire_cat") } }
                 local copied_joker, copied_debuff = JokerDisplay.calculate_blueprint_copy(card)
