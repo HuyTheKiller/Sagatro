@@ -225,6 +225,7 @@ end
 
 -- Pseudo-animation and manual crash
 cause_crash = false
+nemo_dt = 0
 alice_dt = 0
 cosmic_dt = 0
 miracle_dt = 0
@@ -280,6 +281,22 @@ function Game:update(dt)
         for _, card in pairs(G.I.CARD) do
             if card and card.config.center == submarine then
                 card.children.extra_sprite:set_sprite_pos(submarine.extra_pos)
+            end
+        end
+    end
+
+    nemo_dt = nemo_dt + dt
+    if G.P_CENTERS and G.P_CENTERS.j_sgt_nemo and nemo_dt > 0.125 then
+        nemo_dt = nemo_dt - 0.125
+        local nemo = G.P_CENTERS.j_sgt_nemo
+        if nemo.soul_pos.x == 24 then
+            nemo.soul_pos.x = 1
+        else
+            nemo.soul_pos.x = nemo.soul_pos.x + 1
+        end
+        for _, card in pairs(G.I.CARD) do
+            if card and card.config.center == nemo then
+                card.children.floating_sprite:set_sprite_pos(nemo.soul_pos)
             end
         end
     end
