@@ -5185,7 +5185,7 @@ local green_turtle = {
     name = "Green Turtle",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 52,
+    order = 53,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 2 },
     config = {immutable = {depth_level = 2, weight_level = 3}, extra = {xmult = 1.5}},
@@ -5260,16 +5260,123 @@ local electric_eel = {
     name = "Electric Eel",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 53,
+    order = 54,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 2 },
     config = {immutable = {depth_level = 4, weight_level = 3}, extra = {}},
     rarity = 2,
     cost = 6,
     blueprint_compat = true,
-    demicoloncompat = true,
+    demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.repetition then
+            if context.cardarea == G.play then
+                for i, v in ipairs(G.play.cards) do
+                    if context.other_card == v then
+                        local count = 0
+                        if Sagatro.conductive_enhancement(G.play.cards[i-1]) then
+                            count = count + 1
+                        end
+                        if Sagatro.conductive_enhancement(G.play.cards[i+1]) then
+                            count = count + 1
+                        end
+                        if count > 0 then
+                            return {
+                                message = localize("k_again_ex"),
+                                repetitions = count,
+                                card = card,
+                            }
+                        end
+                    end
+                end
+            end
+            if context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
+                for i, v in ipairs(G.hand.cards) do
+                    if context.other_card == v then
+                        local count = 0
+                        if Sagatro.conductive_enhancement(G.hand.cards[i-1]) then
+                            count = count + 1
+                        end
+                        if Sagatro.conductive_enhancement(G.hand.cards[i+1]) then
+                            count = count + 1
+                        end
+                        if count > 0 then
+                            return {
+                                message = localize("k_again_ex"),
+                                repetitions = count,
+                                card = card,
+                            }
+                        end
+                    end
+                end
+            end
+        end
+        if context.end_of_round and context.repetition
+        and context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
+            for i, v in ipairs(G.hand.cards) do
+                if context.other_card == v then
+                    local count = 0
+                    if Sagatro.conductive_enhancement(G.hand.cards[i-1]) then
+                        count = count + 1
+                    end
+                    if Sagatro.conductive_enhancement(G.hand.cards[i+1]) then
+                        count = count + 1
+                    end
+                    if count > 0 then
+                        return {
+                            message = localize("k_again_ex"),
+                            repetitions = count,
+                            card = card,
+                        }
+                    end
+                end
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        Sagatro.electric_eel_info_queue_append(info_queue, Sagatro.electric_eel_info_queue)
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if held_in_hand then
+                    local count = 0
+                    for i, v in ipairs(G.hand.cards) do
+                        if playing_card == v then
+                            if Sagatro.conductive_enhancement(G.hand.cards[i-1]) then
+                                count = count + 1
+                            end
+                            if Sagatro.conductive_enhancement(G.hand.cards[i+1]) then
+                                count = count + 1
+                            end
+                        end
+                    end
+                    return count*JokerDisplay.calculate_joker_triggers(joker_card)
+                else
+                    local count = 0
+                    for i, v in ipairs(G.play.cards) do
+                        if playing_card == v then
+                            if Sagatro.conductive_enhancement(G.play.cards[i-1]) then
+                                count = count + 1
+                            end
+                            if Sagatro.conductive_enhancement(G.play.cards[i+1]) then
+                                count = count + 1
+                            end
+                        end
+                    end
+                    return count*JokerDisplay.calculate_joker_triggers(joker_card)
+                end
+            end,
+        }
+    end,
 }
 
 local sea_angel = {
@@ -5277,7 +5384,7 @@ local sea_angel = {
     name = "Sea Angel",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 54,
+    order = 55,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 4 },
     config = {type = "Three of a Kind", immutable = {depth_level = 5, weight_level = 1}, extra = {e_mult = 1.23}},
@@ -5331,14 +5438,14 @@ local stonefish = {
     name = "Stonefish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 55,
+    order = 56,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 4 },
     config = {immutable = {depth_level = 1, weight_level = 1}},
     rarity = 2,
     cost = 6,
     blueprint_compat = false,
-    demicoloncompat = false,
+    demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
@@ -5364,6 +5471,37 @@ local stonefish = {
                 }
             end
         end
+        if context.forcetrigger then
+            if context.scoring_hand then
+				for k, v in ipairs(context.scoring_hand) do
+					if v:is_face() then
+						v:set_ability(G.P_CENTERS.m_gold, nil, true)
+						G.E_MANAGER:add_event(Event({
+							trigger = "after",
+							delay = 0.4,
+							func = function()
+								v:juice_up()
+								return true
+							end,
+						}))
+					end
+				end
+			elseif G and G.hand and #G.hand.highlighted > 0 then
+				for k, v in ipairs(G.hand.highlighted) do
+					if v:is_face() then
+						v:set_ability(G.P_CENTERS.m_gold, nil, true)
+						G.E_MANAGER:add_event(Event({
+							trigger = "after",
+							delay = 0.4,
+							func = function()
+								v:juice_up()
+								return true
+							end,
+						}))
+					end
+				end
+			end
+        end
     end,
     in_pool = function(self, args)
         return next(SMODS.find_card("j_sgt_submarine", true))
@@ -5376,12 +5514,228 @@ local stonefish = {
     end,
 }
 
+local blobfish = {
+    key = "blobfish",
+    name = "Blobfish",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 57,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
+    pos = { x = 5, y = 2 },
+    config = {immutable = {depth_level = 5, weight_level = 2}, extra = {mult = 0, mult_gain = 3}},
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = true,
+    demicoloncompat = false,
+    eternal_compat = false,
+    perishable_compat = false,
+    calculate = function(self, card, context)
+        if (context.joker_main or context.forcetrigger) and to_big(card.ability.extra.mult) > to_big(0) then
+            return {
+                mult_mod = card.ability.extra.mult,
+				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+            }
+        end
+        if context.end_of_round and context.main_eval and not context.blueprint then
+            card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain*G.GAME.current_round.discards_left
+            return {
+                message = localize('k_blob_ex'),
+                colour = G.C.FILTER,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.mult, card.ability.extra.mult_gain}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.ability.extra", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+        }
+    end,
+}
+
+local ugly_blobfish = {
+    key = "ugly_blobfish",
+    name = "Ugly Blobfish",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 58,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 6, y = 2 },
+    config = {extra = {xmult = 5}},
+    rarity = 3,
+    cost = 10,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            for _, v in ipairs(context.scoring_hand) do
+                if v:is_face() then
+                    return {
+                        message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                        Xmult_mod = card.ability.extra.xmult
+                    }
+                end
+            end
+        end
+        if context.forcetrigger then
+            return {
+                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                Xmult_mod = card.ability.extra.xmult
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    }
+                }
+            },
+            calc_function = function(card)
+                local triggered = false
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        if scoring_card:is_face() then
+                            triggered = true
+                        end
+                    end
+                end
+                card.joker_display_values.xmult = triggered and card.ability.extra.xmult or 1
+            end,
+        }
+    end,
+}
+
+local coral_kingdom = {
+    key = "coral_kingdom",
+    name = "Coral Kingdom",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 59,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 3, y = 4 },
+    config = {extra = {joker_count = 2, chips = 0, chip_gain = 15}},
+    rarity = 2,
+    cost = 7,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = false,
+    calculate = function(self, card, context)
+        if context.setting_blind and not (context.blueprint_card or card).getting_sliced
+        and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+            local jokers_to_create = math.min(card.ability.extra.joker_count, G.jokers.config.card_limit - (#G.jokers.cards + G.GAME.joker_buffer))
+            G.GAME.joker_buffer = G.GAME.joker_buffer + jokers_to_create
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    for i = 1, jokers_to_create do
+                        local card = SMODS.create_card{
+                            set = 'Common Fish',
+                            area = G.jokers,
+                            rarity = 0,
+                        }
+                        card:add_to_deck()
+                        G.jokers:emplace(card)
+                        card:start_materialize()
+                        G.GAME.joker_buffer = 0
+                    end
+                return true
+            end}))
+            card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_joker'), colour = G.C.BLUE})
+        end
+        if context.discard and not context.blueprint then
+            if not context.other_card.debuff and SMODS.has_no_rank(context.other_card) then
+                card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
+                return {
+                    message = localize('k_upgrade_ex'),
+                    colour = G.C.CHIPS,
+                    card = card,
+                }
+            end
+        end
+        if context.joker_main and to_big(card.ability.extra.chips) > to_big(0) then
+            return {
+				chip_mod = card.ability.extra.chips,
+				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
+			}
+        end
+        if context.forcetrigger then
+            local jokers_to_create = math.min(card.ability.extra.joker_count, G.jokers.config.card_limit - (#G.jokers.cards + G.GAME.joker_buffer))
+            G.GAME.joker_buffer = G.GAME.joker_buffer + jokers_to_create
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    for i = 1, jokers_to_create do
+                        local card = SMODS.create_card{
+                            set = 'Common Fish',
+                            area = G.jokers,
+                            rarity = 0,
+                        }
+                        card:add_to_deck()
+                        G.jokers:emplace(card)
+                        card:start_materialize()
+                        G.GAME.joker_buffer = 0
+                    end
+                return true
+            end}))
+            card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
+            return {
+				chip_mod = card.ability.extra.chips,
+				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
+			}
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.joker_count, card.ability.extra.chips, card.ability.extra.chip_gain}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.ability.extra", ref_value = "chips", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.CHIPS },
+        }
+    end,
+}
+
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 56,
+    order = 60,
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },
     config = {},
@@ -5626,8 +5980,12 @@ local joker_table = {
     turtle_egg,
     baby_turtle,
     green_turtle,
+    electric_eel,
     sea_angel,
     stonefish,
+    blobfish,
+    ugly_blobfish,
+    coral_kingdom,
     nemo,
     shub,
     test,

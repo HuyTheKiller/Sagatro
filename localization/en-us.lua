@@ -691,6 +691,14 @@ return {
                     "when scored",
                 },
             },
+            j_sgt_electric_eel = {
+                name = "Electric Eel",
+                text = {
+                    "{C:attention}Retrigger{} cards adjacent",
+                    "to {C:attention}conductive enhancements{}",
+                    "{C:inactive}(ex: Steel, Gold)"
+                },
+            },
             j_sgt_sea_angel = {
                 name = "Sea Angel",
                 text = {
@@ -705,6 +713,38 @@ return {
                     "All played {C:attention}face{} cards",
                     "become {C:attention}Stone{} cards",
                     "when scored",
+                },
+            },
+            j_sgt_blobfish = {
+                name = "Blobfish",
+                text = {
+                    "This joker gains {C:mult}+#2#{} Mult",
+                    "per remaining {C:attention}discard{}",
+                    "at end of round",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_ugly_blobfish = {
+                name = "Ugly Blobfish",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult if scoring",
+                    "hand contains",
+                    "a {C:attention}face{} card",
+                },
+            },
+            j_sgt_coral_kingdom = {
+                name = "Coral Kingdom",
+                text = {
+                    {
+                        "When {C:attention}Blind{} is selected,",
+                        "create {C:attention}#1# {C:blue}Common{} Fish jokers",
+                        "{C:inactive}(Must have room)",
+                    },
+                    {
+                        "Gain {C:chips}+#3#{} Chips per",
+                        "{C:attention}rankless{} card discarded",
+                        "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
+                    },
                 },
             },
             j_sgt_nemo = {

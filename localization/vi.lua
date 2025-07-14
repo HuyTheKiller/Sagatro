@@ -674,7 +674,7 @@ return {
                     {
                         "Lá {C:attention}3{}, {C:attention}7{} hoặc {C:attention}9{}",
                         "đầu tiên ghi thêm",
-                        "X#1# Nhân khi ghi điểm",
+                        "{X:red,C:white}X#1#{} Nhân khi ghi điểm",
                     },
                     {
                         "{C:attention}Bán{} lá này để có thể",
@@ -687,7 +687,15 @@ return {
                 text = {
                     "Lá {C:attention}3{}, {C:attention}7{} và {C:attention}9{}",
                     "đã chơi ghi thêm",
-                    "X#1# Nhân khi ghi điểm",
+                    "{X:red,C:white}X#1#{} Nhân khi ghi điểm",
+                },
+            },
+            j_sgt_electric_eel = {
+                name = "Lươn Điện",
+                text = {
+                    "{C:attention}Tái kích{} lá bài bên cạnh",
+                    "lá {C:attention}cường hoá dẫn điện{}",
+                    "{C:inactive}(VD: Thép, Vàng)"
                 },
             },
             j_sgt_sea_angel = {
@@ -705,6 +713,38 @@ return {
                     "trở thành lá {C:attention}Đá",
                     "khi ghi điểm",
                 }
+            },
+            j_sgt_blobfish = {
+                name = "Cá Giọt Nước",
+                text = {
+                    "Joker này thêm {C:mult}+#2#{} Nhân",
+                    "mỗi {C:attention}lượt bỏ bài{} còn lại",
+                    "ở cuối ván",
+                    "{C:inactive}(Hiện tại là {C:mult}+#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_ugly_blobfish = {
+                name = "Cá Giọt Nước Xấu Xí",
+                text = {
+                    "{X:mult,C:white}X#1#{} Nhân",
+                    "nếu tay bài ghi điểm",
+                    "chứa lá {C:attention}mặt{}",
+                },
+            },
+            j_sgt_coral_kingdom = {
+                name = "Vương Quốc San Hô",
+                text = {
+                    {
+                        "Khi {C:attention}Blind{} được chọn,",
+                        "tạo ra {C:attention}#1#{} joker Cá {C:blue}Thường",
+                        "{C:inactive}(Phải có ô trống)",
+                    },
+                    {
+                        "Thêm {C:chips}+#3#{} Chip mỗi",
+                        "lá {C:attention}không bậc{} bị bỏ",
+                        "{C:inactive}(Hiện tại là {C:chips}+#2#{C:inactive} Chip)",
+                    },
+                },
             },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
