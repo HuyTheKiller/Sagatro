@@ -5817,7 +5817,7 @@ local hansels_cheat_dice = {
                 G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + 1
             end
         end
-        if card.ability.immutable.current_roll > 0 then
+        if card.ability.immutable.current_roll > 0 and not context.blueprint then
             if context.mod_probability then
                 if card.ability.immutable.current_roll == 2 then
                     return { numerator = context.numerator + 2 }
@@ -5860,7 +5860,7 @@ local hansels_cheat_dice = {
                 { ref_table = "card.joker_display_values", ref_value = "localized_text" },
             },
             calc_function = function(card)
-                card.joker_display_values.localized_text = 
+                card.joker_display_values.localized_text =
                 card.ability.immutable.current_roll == 0 and localize("k_none") or
                 card.ability.immutable.current_roll == 1 and localize("ph_plus_ante") or
                 card.ability.immutable.current_roll == 2 and localize("ph_numer_plus_2") or
