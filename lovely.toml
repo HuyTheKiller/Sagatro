@@ -390,6 +390,6 @@ pattern = '''elseif blindname == 'Small Blind' or blindname == 'Big Blind' or bl
 position = "before"
 payload = '''
 elseif G.GAME.story_mode and next(SMODS.find_card("j_sgt_submarine", true)) then
-    ease_background_colour{new_colour = G.C.SUBMARINE_DEPTH[get_submarine_depth_colour()], contrast = 1}
+    ease_background_colour{new_colour = G.C.SUBMARINE_DEPTH[Sagatro.get_submarine_depth_colour()], contrast = 1}
 '''
 match_indent = true

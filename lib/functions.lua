@@ -472,10 +472,25 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
         end
     end
     local card = cc(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
+    if card.config.center_key == "j_sgt_ugly_blobfish" then
+		card:set_perishable(true)
+	end
     for _, group in pairs(SAGA_GROUP_POOL) do
         if _type == group then
             if G.GAME.modifiers.all_eternal then
                 card:set_eternal(true)
+            end
+            if G.GAME.modifiers.cry_all_perishable then
+                card:set_perishable(true)
+            end
+            if G.GAME.modifiers.cry_all_rental then
+                card:set_rental(true)
+            end
+            if G.GAME.modifiers.cry_all_pinned then
+                card.pinned = true
+            end
+            if G.GAME.modifiers.cry_all_banana then
+                card.ability.banana = true
             end
             if (area == G.shop_jokers) or (area == G.pack_cards) then
                 if not Cryptid then
@@ -617,6 +632,7 @@ function saga_tooltip(_c, info_queue, card, desc_nodes, specific_vars, full_UI_t
     desc_nodes['colour'] = _c.colour or Sagatro.badge_colour
     desc_nodes.saga_tooltip = true
     desc_nodes.title = _c.title or localize('saga_tooltip')
+    desc_nodes.default_colour = _c.default_colour
 end
 
 local itfr = info_tip_from_rows
@@ -626,9 +642,9 @@ function info_tip_from_rows(desc_nodes, name)
         for _, v in ipairs(desc_nodes) do
         t[#t+1] = {n=G.UIT.R, config={align = "cm"}, nodes=v}
         end
-        return {n=G.UIT.R, config={align = "cm", colour = darken(desc_nodes.colour, 0.15), r = 0.1}, nodes={
+        return {n=G.UIT.R, config={align = "cm", colour = desc_nodes.default_colour and mix_colours(G.C.WHITE, G.C.GREY, 0.2) or darken(desc_nodes.colour, 0.15), r = 0.1}, nodes={
             {n=G.UIT.R, config={align = "tm", minh = 0.36, padding = 0.03}, nodes={{n=G.UIT.T, config={text = desc_nodes.title, scale = 0.32, colour = G.C.UI.TEXT_LIGHT}}}},
-            {n=G.UIT.R, config={align = "cm", minw = 1.5, minh = 0.4, r = 0.1, padding = 0.05, colour = lighten(desc_nodes.colour, 0.5)}, nodes={{n=G.UIT.R, config={align = "cm", padding = 0.03}, nodes=t}}}
+            {n=G.UIT.R, config={align = "cm", minw = 1.5, minh = 0.4, r = 0.1, padding = 0.05, colour = desc_nodes.default_colour and G.C.WHITE or lighten(desc_nodes.colour, 0.5)}, nodes={{n=G.UIT.R, config={align = "cm", padding = 0.03}, nodes=t}}}
         }}
     else
         return itfr(desc_nodes, name)
@@ -707,18 +723,6 @@ function Sagatro.reset_game_globals(run_start)
     end
 end
 
--- Yet another get_rank_suffix()
-function sgt_get_rank_suffix(card)
-    local rank_suffix = (card.base.id - 2) % 13 + 2
-    if rank_suffix < 11 then rank_suffix = tostring(rank_suffix)
-    elseif rank_suffix == 11 then rank_suffix = 'Jack'
-    elseif rank_suffix == 12 then rank_suffix = 'Queen'
-    elseif rank_suffix == 13 then rank_suffix = 'King'
-    elseif rank_suffix == 14 then rank_suffix = 'Ace'
-    end
-    return rank_suffix
-end
-
 function table.extract_total_value(t)
     local tot = 0
     if type(t) == "table" then
@@ -736,7 +740,7 @@ function table.extract_total_value(t)
 end
 
 function table.contains(t, x)
-    found = false
+    local found = false
     for _, v in pairs(t) do
         if v == x then
             found = true
@@ -746,7 +750,7 @@ function table.contains(t, x)
     return found
 end
 
-function get_submarine_depth_colour()
+function Sagatro.get_submarine_depth_colour()
     local max_depth = 1
     for _, v in ipairs(SMODS.find_card("j_sgt_submarine", true)) do
         if max_depth < v.ability.immutable.depth_level then
