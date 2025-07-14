@@ -15,13 +15,13 @@ local white_rabbit = {
     eternal_compat = true,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if (context.joker_main or context.forcetrigger) and to_big(card.ability.extra.chips) > to_big(0) then
+        if context.joker_main and to_big(card.ability.extra.chips) > to_big(0) then
 			return {
 				chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
 				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
 			}
 		end
-        if (context.before and G.GAME.current_round.discards_used <= 0 and not context.blueprint) or context.forcetrigger then
+        if context.before and G.GAME.current_round.discards_used <= 0 and not context.blueprint then
 			card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
 			return {
 				message = localize("k_in_a_hurry_ex"),
@@ -38,6 +38,13 @@ local white_rabbit = {
                     no_retrigger = true
                 }
             end
+        end
+        if context.forcetrigger then
+            card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
+            return {
+				chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
+				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
+			}
         end
     end,
     add_to_deck = function(self, card, from_debuff)
@@ -2454,13 +2461,13 @@ local march_hare = {
     eternal_compat = true,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if (context.joker_main or context.forcetrigger) and to_big(card.ability.extra.mult) > to_big(0) then
+        if context.joker_main and to_big(card.ability.extra.mult) > to_big(0) then
 			return {
                 mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
 				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
             }
 		end
-        if (context.before and G.GAME.current_round.discards_used <= 0 and not context.blueprint) or context.forcetrigger then
+        if context.before and G.GAME.current_round.discards_used <= 0 and not context.blueprint then
 			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
 			return {
 				message = localize("k_shared_ex"),
@@ -2477,6 +2484,13 @@ local march_hare = {
                     no_retrigger = true
                 }
             end
+        end
+        if context.forcetrigger then
+            card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+            return {
+				chip_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
+				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
+			}
         end
     end,
     in_pool = function(self, args)
@@ -3143,7 +3157,7 @@ local shepherd_boy = {
     eternal_compat = true,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if (context.before and not context.blueprint) or context.forcetrigger then
+        if context.before and not context.blueprint then
 			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
 			return {
 				message = localize("k_amused_ex"),
@@ -3151,14 +3165,14 @@ local shepherd_boy = {
 				card = card
 			}
 		end
-        if context.joker_main or context.forcetrigger then
+        if context.joker_main then
 			return {
 				mult_mod = card.ability.extra.mult,
 				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
 			}
 		end
-        if (context.after and not context.blueprint and not context.retrigger_joker
-        and SMODS.pseudorandom_probability(card, "real_wolf_incoming", 1, card.ability.extra.odds, "shepherd_boy")) or context.forcetrigger then
+        if context.after and not context.blueprint and not context.retrigger_joker
+        and SMODS.pseudorandom_probability(card, "real_wolf_incoming", 1, card.ability.extra.odds, "shepherd_boy") then
             G.E_MANAGER:add_event(Event({func = function()
                 card.ability.extra.mult = 0
                 local destructable_jokers = {}
@@ -3176,6 +3190,29 @@ local shepherd_boy = {
                 end
                 card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_wolf_ex'), colour = G.C.RED})
             return true end }))
+        end
+        if context.forcetrigger then
+            card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+            G.E_MANAGER:add_event(Event({func = function()
+                local destructable_jokers = {}
+                for i = 1, #G.jokers.cards do
+                    if G.jokers.cards[i] ~= card and not G.jokers.cards[i].ability.eternal and not G.jokers.cards[i].getting_sliced then destructable_jokers[#destructable_jokers+1] = G.jokers.cards[i] end
+                end
+                local joker_to_destroy = #destructable_jokers > 0 and pseudorandom_element(destructable_jokers, pseudoseed('wolf_attack')) or nil
+
+                if joker_to_destroy and not card.getting_sliced then
+                    joker_to_destroy.getting_sliced = true
+                    G.E_MANAGER:add_event(Event({func = function()
+                        card:juice_up(0.8, 0.8)
+                        joker_to_destroy:start_dissolve({G.C.RED}, nil, 1.6)
+                    return true end }))
+                end
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_wolf_ex'), colour = G.C.RED})
+            return true end }))
+            return {
+				mult_mod = card.ability.extra.mult,
+				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+			}
         end
     end,
     loc_vars = function(self, info_queue, card)
@@ -3312,8 +3349,8 @@ local aladdin = {
     perishable_compat = false,
     calculate = function(self, card, context)
         if not card.ability.buffed then
-            if ((context.end_of_round and context.main_eval
-            and not context.blueprint and not context.retrigger_joker) or context.forcetrigger) and G.GAME.dollars > to_big(0) then
+            if (context.end_of_round and context.main_eval
+            and not context.blueprint and not context.retrigger_joker) and G.GAME.dollars > to_big(0) then
                 ease_dollars(-math.floor(to_number(G.GAME.dollars)*card.ability.extra.tax))
                 card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
                 return {
@@ -3322,7 +3359,15 @@ local aladdin = {
                     no_retrigger = true
                 }
             end
-            if (context.joker_main or context.forcetrigger) and to_big(card.ability.extra.xmult) > to_big(1) then
+            if context.joker_main and to_big(card.ability.extra.xmult) > to_big(1) then
+                return {
+                    message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                    Xmult_mod = card.ability.extra.xmult
+                }
+            end
+            if context.forcetrigger then
+                ease_dollars(-math.floor(to_number(G.GAME.dollars)*card.ability.extra.tax))
+                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
                 return {
                     message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
                     Xmult_mod = card.ability.extra.xmult
