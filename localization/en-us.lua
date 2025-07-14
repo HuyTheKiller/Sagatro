@@ -747,6 +747,14 @@ return {
                     },
                 },
             },
+            j_sgt_hansels_cheat_dice = {
+                name = "Hansel's Cheat Dice",
+                text = {
+                    "At the end of the {C:attention}shop{},",
+                    "roll a {C:green}D6{} to determine the outcome",
+                    "{C:inactive}(Current roll: {V:1}#1#{C:inactive})",
+                },
+            },
             j_sgt_nemo = {
                 name = "Cpt. Nemo",
                 text = {
@@ -761,6 +769,50 @@ return {
                     "Each played card gives {X:dark_edition,C:white}^#1#{} Mult when scored,",
                     "increase by {X:dark_edition,C:white}^#2#{} for every card above {C:attention}#3#{} in full deck",
                     "Create {C:attention}random{} cards equal to number of {C:attention}played{} cards",
+                },
+            },
+        },
+        HanselsDice = {
+            sgt_roll0 = {
+                text = {
+                    "Most of the {C:attention}outcomes{} are",
+                    "{C:green,E:1}probability{} manipulations.",
+                    "Or, you could get unlucky...",
+                },
+            },
+            sgt_roll1 = {
+                text = {
+                    "{C:red}+1{} Ante",
+                },
+            },
+            sgt_roll2 = {
+                text = {
+                    "{C:green}+2{} to numerators of",
+                    "{C:attention}listed {C:green,E:1}probabilities",
+                },
+            },
+            sgt_roll3 = {
+                text = {
+                    "{C:green}-3{} to denominators of",
+                    "{C:attention}listed {C:green,E:1}probabilities",
+                },
+            },
+            sgt_roll4 = {
+                text = {
+                    "Quadruples all {C:attention}listed",
+                    "{C:green,E:1}probabilities",
+                },
+            },
+            sgt_roll5 = {
+                text = {
+                    "Cuts all {C:attention}listed",
+                    "{C:green,E:1}probabilities{} in five",
+                },
+            },
+            sgt_roll6 = {
+                text = {
+                    "All {C:attention}listed {C:green,E:1}probabilities{}",
+                    "are {C:green}guaranteed",
                 },
             },
         },
@@ -940,6 +992,13 @@ return {
             saga_tooltip = "Hint to progress",
             saga_fusion_tooltip = "Joker fusion",
             saga_ocean_tooltip = "Location",
+            sgt_roll0 = "Oops! A Real Die",
+            sgt_roll1 = "Number one",
+            sgt_roll2 = "Number two",
+            sgt_roll3 = "Number three",
+            sgt_roll4 = "Number four",
+            sgt_roll5 = "Number five",
+            sgt_roll6 = "Number six",
             b_join = "JOIN",
             b_delete_ace = "Delete Ace",
             k_in_a_hurry_ex = "In a hurry!",
@@ -976,8 +1035,16 @@ return {
             k_pop_ex = "Pop!",
             k_hatched_ex = "Hatched!",
             k_petrified_ex = "Petrified!",
+            k_blob_ex = "Blob!",
+            k_roll_ex = "Roll!",
             ph_per_face_down = " per face-down",
             ph_trial_begins = "Trial Begins!",
+            ph_plus_ante = "+1 Ante",
+            ph_numer_plus_2 = "Numerator +2",
+            ph_denom_minus_3 = "Denominator -3",
+            ph_X4_numer = "Numerator X4",
+            ph_D5_numer = "Numerator /5",
+            ph_guaranteed = "Guaranteed",
             ph_story_ended = "STORY ENDED!",
             ph_alice_in_wond = "Alice in the Wonderland",
             ph_misc_story = "Misc. Story",

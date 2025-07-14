@@ -13,6 +13,11 @@ Sagatro.mod_compat = {
 	talisman = (SMODS.Mods["Talisman"] or {}).can_load or false,
 }
 
+Sagatro.electric_eel_info_queue = {
+	"m_steel",
+	"m_gold",
+}
+
 Sagatro.optional_features = {
 	retrigger_joker = true,
 }

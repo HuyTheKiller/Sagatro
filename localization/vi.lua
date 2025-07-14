@@ -746,6 +746,14 @@ return {
                     },
                 },
             },
+            j_sgt_hansels_cheat_dice = {
+                name = "Xúc Sắc Gian Của Hansel",
+                text = {
+                    "Ở cuối {C:attention}shop{}, gieo xúc sắc",
+                    "{C:green}6 mặt{} để xác định kết quả",
+                    "{C:inactive}(Đợt gieo hiện tại: {V:1}#1#{C:inactive})",
+                },
+            },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
                 text = {
@@ -760,6 +768,50 @@ return {
                     "Mỗi lá đã chơi ghi thêm {X:dark_edition,C:white}^#1#{} Nhân khi ghi điểm, tăng thêm",
                     "{X:dark_edition,C:white}^#2#{} cho mỗi lá bài trên mức {C:attention}#3#{} trong cả bộ bài",
                     "Tạo ra lá {C:attention}ngẫu nhiên{} bằng số lượng lá {C:attention}đã chơi{}",
+                },
+            },
+        },
+        HanselsDice = {
+            sgt_roll0 = {
+                text = {
+                    "Phần lớn {C:attention}kết quả{} đều",
+                    "là thao túng {C:green,E:1}xác suất{}.",
+                    "Hoặc, tạch gacha...",
+                },
+            },
+            sgt_roll1 = {
+                text = {
+                    "{C:red}+1{} Ante",
+                },
+            },
+            sgt_roll2 = {
+                text = {
+                    "{C:green}+2{} vào tử số của",
+                    "{C:green,E:1}xác suất{C:attention} được liệt kê",
+                },
+            },
+            sgt_roll3 = {
+                text = {
+                    "{C:green}-3{} vào mẫu số của",
+                    "{C:green,E:1}xác suất{C:attention} được liệt kê",
+                },
+            },
+            sgt_roll4 = {
+                text = {
+                    "Nhân bốn toàn bộ",
+                    "{C:green,E:1}xác suất {C:attention}được liệt kê",
+                },
+            },
+            sgt_roll5 = {
+                text = {
+                    "Chia năm toàn bộ",
+                    "{C:green,E:1}xác suất {C:attention}được liệt kê",
+                },
+            },
+            sgt_roll6 = {
+                text = {
+                    "Mọi {C:green,E:1}xác suất {C:attention}được liệt kê",
+                    "đều {C:green}đảm bảo trúng",
                 },
             },
         },
@@ -939,6 +991,13 @@ return {
             saga_tooltip = "Gợi ý tiến triển",
             saga_fusion_tooltip = "Kết hợp joker",
             saga_ocean_tooltip = "Địa Điểm",
+            sgt_roll0 = "Úi! Xúc Sắc Real",
+            sgt_roll1 = "Số một",
+            sgt_roll2 = "Số hai",
+            sgt_roll3 = "Số ba",
+            sgt_roll4 = "Số bốn",
+            sgt_roll5 = "Số năm",
+            sgt_roll6 = "Số sáu",
             b_join = "NHẬP",
             b_delete_ace = "Huỷ Át",
             k_in_a_hurry_ex = "Tranh thủ lên!",
@@ -975,8 +1034,16 @@ return {
             k_pop_ex = "Vỡ!",
             k_hatched_ex = "Nở!",
             k_petrified_ex = "Hoá Đá!",
+            k_blob_ex = "Blob!",
+            k_roll_ex = "Gieo!",
             ph_per_face_down = " mỗi lá sấp",
             ph_trial_begins = "Khai Toà!",
+            ph_plus_ante = "+1 Ante",
+            ph_numer_plus_2 = "Tử số +2",
+            ph_denom_minus_3 = "Mẫu số -3",
+            ph_X4_numer = "Tử số X4",
+            ph_D5_numer = "Tử số /5",
+            ph_guaranteed = "Đảm bảo trúng",
             ph_story_ended = "KẾT TRUYỆN!",
             ph_alice_in_wond = "Alice ở Xứ Sở Diệu Kì",
             ph_misc_story = "Truyện Khác",

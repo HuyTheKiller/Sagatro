@@ -5793,6 +5793,95 @@ local nemo = {
     end,
 }
 
+local hansels_cheat_dice = {
+    key = "hansels_cheat_dice",
+    name = "Hansel's Cheat Dice",
+    atlas = "gambling_hansel",
+    saga_group = "gambling_hansel",
+    order = 998,
+    pos = { x = 0, y = 0 },
+    config = {immutable = {current_roll = 0}},
+    rarity = 3,
+    cost = 8,
+    blueprint_compat = false,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.ending_shop and not context.blueprint and not context.retrigger_joker then
+            card.ability.immutable.current_roll = pseudorandom("cheat_dice_roll", 1, 6)
+            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_roll_ex')})
+            if card.ability.immutable.current_roll == 1 then
+                ease_ante(1)
+                G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+                G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + 1
+            end
+        end
+        if card.ability.immutable.current_roll > 0 then
+            if context.mod_probability then
+                if card.ability.immutable.current_roll == 2 then
+                    return { numerator = context.numerator + 2 }
+                elseif card.ability.immutable.current_roll == 3 then
+                    return { denominator = math.max(Cryptid and 0.001 or 1, context.denominator - 3) }
+                elseif card.ability.immutable.current_roll == 4 then
+                    return { numerator = context.numerator*4 }
+                elseif card.ability.immutable.current_roll == 5 then
+                    return { numerator = context.numerator/5 }
+                end
+            end
+            if context.fix_probability then
+                if card.ability.immutable.current_roll == 6 then
+                    return { numerator = context.denominator }
+                end
+            end
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        if Sagatro.debug then
+            for i = 1, 6 do
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "HanselsDice",
+                key = "sgt_roll"..i, title = localize("sgt_roll"..i), default_colour = true}
+            end
+        else
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "HanselsDice",
+            key = "sgt_roll"..card.ability.immutable.current_roll,
+            title = localize("sgt_roll"..card.ability.immutable.current_roll),
+            default_colour = true}
+        end
+        return {vars = {card.ability.immutable.current_roll > 0 and card.ability.immutable.current_roll or localize("k_none"),
+        colours = {card.ability.immutable.current_roll > 1 and G.C.GREEN or card.ability.immutable.current_roll > 0 and G.C.RED or G.C.UI.TEXT_INACTIVE}}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { ref_table = "card.joker_display_values", ref_value = "localized_text" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.localized_text = 
+                card.ability.immutable.current_roll == 0 and localize("k_none") or
+                card.ability.immutable.current_roll == 1 and localize("ph_plus_ante") or
+                card.ability.immutable.current_roll == 2 and localize("ph_numer_plus_2") or
+                card.ability.immutable.current_roll == 3 and localize("ph_denom_minus_3") or
+                card.ability.immutable.current_roll == 4 and localize("ph_X4_numer") or
+                card.ability.immutable.current_roll == 5 and localize("ph_D5_numer") or
+                card.ability.immutable.current_roll == 6 and localize("ph_guaranteed")
+            end,
+            style_function = function(card, text, reminder_text, extra)
+                if text and text.children[1] then
+                    text.children[1].config.colour =
+                    card.ability.immutable.current_roll == 0 and G.C.UI.TEXT_INACTIVE or
+                    card.ability.immutable.current_roll == 1 and G.C.RED or
+                    G.C.GREEN
+                end
+                return false
+            end,
+        }
+    end,
+}
+
 local shub = {
     key = "shub",
     name = "Shub-Niggurath",
@@ -5987,6 +6076,7 @@ local joker_table = {
     ugly_blobfish,
     coral_kingdom,
     nemo,
+    hansels_cheat_dice,
     shub,
     test,
 }

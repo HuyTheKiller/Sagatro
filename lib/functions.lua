@@ -760,6 +760,23 @@ function Sagatro.get_submarine_depth_colour()
     return max_depth
 end
 
+-- Hook this function in your mod code for cross-mod compat
+function Sagatro.conductive_enhancement(card)
+    if not card then return end
+    return SMODS.has_enhancement(card, 'm_steel') or SMODS.has_enhancement(card, 'm_gold')
+end
+
+-- Append enhancement keys to Sagatro.electric_eel_info_queue to include your target enhancements
+function Sagatro.electric_eel_info_queue_append(info_queue, center_table)
+    if center_table and type(center_table) == 'table' then
+        for _, center in ipairs(center_table) do
+            if G.P_CENTERS[center] then
+                info_queue[#info_queue+1] = G.P_CENTERS[center]
+            end
+        end
+    end
+end
+
 -- from Cryptid's Tarot called Blessing
 -- and I thought it could exclude cards from getting called in get_random_consumable and from Deck of Equilibrium
 function sgt_center_no(center, m, key, no_no)
