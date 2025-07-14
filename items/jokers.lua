@@ -532,7 +532,7 @@ local dodo_bird = {
     order = 6,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 1 },
-    config = {extra = 1.5},
+    config = {extra = {xmult = 1.5}},
 	rarity = 3,
     cost = 9,
     blueprint_compat = true,
@@ -549,15 +549,15 @@ local dodo_bird = {
                     end
                 }))
                 return {
-                    message = localize{type='variable', key='a_xmult', vars={card.ability.extra*G.GAME.alice_multiplier}},
-                    Xmult_mod = card.ability.extra*G.GAME.alice_multiplier
+                    message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult*G.GAME.alice_multiplier}},
+                    Xmult_mod = card.ability.extra.xmult*G.GAME.alice_multiplier
                 }
             end
         end
         if context.forcetrigger then
             return {
-                message = localize{type='variable', key='a_xmult', vars={card.ability.extra*G.GAME.alice_multiplier}},
-                Xmult_mod = card.ability.extra*G.GAME.alice_multiplier
+                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult*G.GAME.alice_multiplier}},
+                Xmult_mod = card.ability.extra.xmult*G.GAME.alice_multiplier
             }
         end
     end,
@@ -586,7 +586,7 @@ local dodo_bird = {
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "dodo_bird"}
         end
-        return {vars = {card.ability.extra*G.GAME.alice_multiplier}}
+        return {vars = {card.ability.extra.xmult*G.GAME.alice_multiplier}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -604,7 +604,7 @@ local dodo_bird = {
                 and G.GAME.current_round.hands_left <= 1
                 and G.GAME.current_round.discards_left == 0
                 and localize("jdis_active") or localize("jdis_inactive")
-                return { x_mult = (G.GAME.current_round.hands_left <= 1 and G.GAME.current_round.discards_left == 0 and (mod_joker.ability.extra*G.GAME.alice_multiplier) ^ JokerDisplay.calculate_joker_triggers(mod_joker) or nil) }
+                return { x_mult = (G.GAME.current_round.hands_left <= 1 and G.GAME.current_round.discards_left == 0 and (mod_joker.ability.extra.xmult*G.GAME.alice_multiplier) ^ JokerDisplay.calculate_joker_triggers(mod_joker) or nil) }
             end
         }
     end,
