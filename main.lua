@@ -21,14 +21,6 @@ Sagatro.optional_features = {
 Sagatro.debug = false
 Sagatro.init_JDdebug = false
 
--- Joker pool stuff
-SAGA_GROUP_POOL = {
-    alice = "Alice in Wonderland",
-    gfrog = "Goodbye Frog",
-	fsd = "Final Showdown",
-	["20k"] = "20k Miles Under The Sea",
-}
-
 -- Load library files
 local mod_path = "" .. Sagatro.path
 local files = NFS.getDirectoryItems(mod_path .. "lib")
