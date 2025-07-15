@@ -979,9 +979,15 @@ return {
             sgt_cosmic_streak_seal = "Cosmic Streak",
             sgt_gods_miracle_seal = "God's Miracle",
         },
+        challenge_names = {
+            c_sgt_gambling_hansel = "Gambling Hansel",
+        },
         -- v_dictionary = {
         --     a_sgt_powmult = { "^#1# Mult" },
         -- },
+        v_text = {
+            ch_c_sgt_disable_sagatro_items = { "{C:sgt_sagadition}Sagatro{} items no longer appear in the {C:attention}shop" },
+        },
         dictionary = {
             k_sgt_trivial = "Trivial",
             k_sgt_obscure = "Obscure",

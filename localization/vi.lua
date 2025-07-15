@@ -978,9 +978,15 @@ return {
             sgt_cosmic_streak_seal = "Vệt Vũ Trụ",
             sgt_gods_miracle_seal = "Phép Lạ Của Chúa",
         },
+        challenge_names = {
+            c_sgt_gambling_hansel = "Hansel Đỏ Đen",
+        },
         -- v_dictionary = {
         --     a_sgt_powmult = { "^#1# Nhân" },
         -- },
+        v_text = {
+            ch_c_sgt_disable_sagatro_items = { "Vật phẩm của {C:sgt_sagadition}Sagatro{} không còn xuất hiện trong {C:attention}shop" },
+        },
         dictionary = {
             k_sgt_trivial = "Tầm Thường",
             k_sgt_obscure = "Mờ Mịt",

@@ -7,6 +7,7 @@ Sagatro.load_table = {
 	misc = true,
 	wishes = true,
 	boosters = true,
+	challenges = true,
 }
 
 Sagatro.mod_compat = {

@@ -302,6 +302,9 @@ function Game:start_run(args)
 	gsr(self, args)
 	if not args.savetext then
 		G.GAME.story_mode = Sagatro.config.DisableOtherJokers
+		if G.GAME.modifiers.sgt_disable_sagatro_items then
+			G.GAME.story_mode = false
+		end
 		if Sagatro.debug then
 			G.GAME.dollars = to_big(250)
 			SMODS.change_free_rerolls(1e10)

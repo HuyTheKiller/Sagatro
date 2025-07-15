@@ -96,6 +96,9 @@ local streak = {
         end
 		return {vars = {card and card.ability.max_highlighted or self.config.max_highlighted}}
 	end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items
+    end
 }
 
 local lamp = {
@@ -130,7 +133,7 @@ local lamp = {
 		return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_magic_lamp", nodes = {}}}}
 	end,
     in_pool = function(self, args)
-        return not next(SMODS.find_card("j_sgt_lamp_genie", true))
+        return not (next(SMODS.find_card("j_sgt_lamp_genie", true)) or G.GAME.modifiers.sgt_disable_sagatro_items)
     end
 }
 
