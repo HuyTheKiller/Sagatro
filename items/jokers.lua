@@ -4653,15 +4653,13 @@ local school = {
     calculate = function(self, card, context)
         if (context.pre_discard and not context.blueprint and not context.hook) or context.forcetrigger then
             if #G.hand.highlighted == 1 or context.forcetrigger then
-                local buffer = G.hand.config.highlighted_limit
-                G.hand.config.highlighted_limit = #G.hand.cards
                 for _, v in ipairs(G.hand.cards) do
                     if not v.highlighted then
-                        G.hand.add_to_highlighted(G.hand, v, true)
+                        G.hand.highlighted[#G.hand.highlighted+1] = v
+					    v:highlight(true)
                     end
                 end
                 play_sound('cardSlide1')
-                G.hand.config.highlighted_limit = buffer
                 G.FUNCS.discard_cards_from_highlighted(nil, true)
             end
         end
@@ -4681,7 +4679,7 @@ local school = {
             },
             text_config = { colour = G.C.UI.TEXT_INACTIVE },
             calc_function = function(card)
-                card.joker_display_values.active = #G.hand.highlighted == 1
+                card.joker_display_values.active = G.hand and #G.hand.highlighted == 1
                 and localize("jdis_active") or localize("jdis_inactive")
             end,
         }
@@ -5995,14 +5993,12 @@ local test = {
     calculate = function(self, card, context)
         if context.pre_discard and not context.blueprint and not context.hook then
             if #G.hand.highlighted == 1 then
-                local buffer = G.hand.config.highlighted_limit
-                G.hand.config.highlighted_limit = #G.hand.cards
                 for _, v in ipairs(G.hand.cards) do
                     if not v.highlighted then
-                        G.hand.add_to_highlighted(G.hand, v, true)
+                        G.hand.highlighted[#G.hand.highlighted+1] = v
+					    v:highlight(true)
                     end
                 end
-                G.hand.config.highlighted_limit = buffer
                 play_sound('cardSlide1')
                 G.FUNCS.discard_cards_from_highlighted(nil, true)
             end
