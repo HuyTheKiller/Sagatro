@@ -98,11 +98,11 @@ local gambling_hansel = {
             { id = 'v_illusion' },
 		},
         banned_tags = {
-            {id = 'tag_standard'},
+            { id = 'tag_standard' },
         },
 		banned_other = {},
 	},
-    button_colour = Sagatro.badge_colour,
+    button_colour = G.C.SGT_SAGADITION,
 }
 
 local challenge_table = {

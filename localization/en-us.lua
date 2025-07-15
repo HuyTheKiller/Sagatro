@@ -1060,6 +1060,8 @@ return {
             ph_lovecraft = "Lovecraft",
             SGT_disable_other_jokers = "Story Mode",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression (Requires run restart)"},
+            SGT_disable_sagatro_items = "Disable Sagatro Items",
+            SGT_disable_sagatro_items_desc = {"(Requires run restart, Story Mode","must be off to work)"},
         },
     },
 }

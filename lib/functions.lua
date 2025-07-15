@@ -105,7 +105,7 @@ function Game:init_game_object()
     ret.relief_factor = 1
     ret.saga_event_forced_buffoon = false
     ret.story_mode = Sagatro.config.DisableOtherJokers
-    ret.fusion_table = SagaFusion.fusions
+    ret.fusion_table = Sagatro.config.DisableOtherJokers and SagaFusion.fusions or {}
     ret.red_queen_blind = false
     ret.red_queen_defeated = false
     ret.saved_by_gods_miracle = false
@@ -1007,6 +1007,7 @@ Sagatro.config_tab = function()
     return {n = G.UIT.ROOT, config = {r = 0.1, align = "cm", padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 4}, nodes = {
         {n=G.UIT.R, config = {align = 'cm'}, nodes={
 			create_toggle({label = localize('SGT_disable_other_jokers'), ref_table = Sagatro.config, ref_value = 'DisableOtherJokers', info = localize('SGT_disable_other_jokers_desc'), active_colour = Sagatro.badge_colour, right = true}),
+			create_toggle({label = localize('SGT_disable_sagatro_items'), ref_table = Sagatro.config, ref_value = 'DisableSagatroItems', info = localize('SGT_disable_sagatro_items_desc'), active_colour = Sagatro.badge_colour, right = true}),
 		}},
     }}
 end
