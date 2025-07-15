@@ -302,14 +302,14 @@ function Game:start_run(args)
 	gsr(self, args)
 	if not args.savetext then
 		G.GAME.story_mode = Sagatro.config.DisableOtherJokers
-		if G.GAME.modifiers.sgt_disable_sagatro_items then
-			G.GAME.story_mode = false
-		end
 		if Sagatro.debug then
 			G.GAME.dollars = to_big(250)
 			SMODS.change_free_rerolls(1e10)
 		end
 	end
+	if G.GAME.modifiers.sgt_disable_sagatro_items then
+			G.GAME.story_mode = false
+		end
 	G.GAME.fusion_table = G.GAME.story_mode and SagaFusion.fusions or {}
 	-- Change colour in story mode, but the hook is over here, I just want to save space
 	G.C.BLIND.Small = G.GAME.story_mode and Sagatro.badge_colour or HEX("50846e")
