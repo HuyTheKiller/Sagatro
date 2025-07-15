@@ -27,7 +27,7 @@ local red_queen = {
 		end
     end,
     in_pool = function(self)
-        return not (G.GAME.story_mode or next(SMODS.find_card("j_sgt_red_queen", true)))
+        return not (G.GAME.story_mode or next(SMODS.find_card("j_sgt_red_queen", true)) or G.GAME.modifiers.sgt_disable_sagatro_items)
     end,
 }
 
