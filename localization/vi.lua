@@ -1061,6 +1061,8 @@ return {
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính (Yêu cầu tạo trận mới)"},
             SGT_disable_sagatro_items = "Tắt Vật Phẩm Sagatro",
             SGT_disable_sagatro_items_desc = {"(Yêu cầu tạo trận mới, chỉ hoạt động","khi tắt Chế Độ Cốt Truyện)"},
+            SGT_sagatro_music = "Nhạc Sagatro",
+            SGT_sagatro_music_desc = {"Bật nhạc Sagatro ngoài Chế Độ Cốt Truyện"},
         },
     },
 }
