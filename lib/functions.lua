@@ -631,7 +631,7 @@ function saga_tooltip(_c, info_queue, card, desc_nodes, specific_vars, full_UI_t
     localize{type = 'descriptions', set = _c.set or 'Saga Tooltip', key = _c.key, nodes = desc_nodes, vars = specific_vars or _c.vars}
     desc_nodes['colour'] = _c.colour or Sagatro.badge_colour
     desc_nodes.saga_tooltip = true
-    desc_nodes.title = _c.title or localize('saga_tooltip')
+    desc_nodes.title = _c.title or localize(_c.key) ~= "ERROR" and localize(_c.key) or localize('saga_tooltip')
     desc_nodes.default_colour = _c.default_colour
 end
 

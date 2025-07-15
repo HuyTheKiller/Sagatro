@@ -5840,13 +5840,11 @@ local hansels_cheat_dice = {
         if Sagatro.debug then
             for i = 1, 6 do
                 info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "HanselsDice",
-                key = "sgt_roll"..i, title = localize("sgt_roll"..i), default_colour = true}
+                key = "sgt_roll"..i, default_colour = true}
             end
         else
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "HanselsDice",
-            key = "sgt_roll"..card.ability.immutable.current_roll,
-            title = localize("sgt_roll"..card.ability.immutable.current_roll),
-            default_colour = true}
+            key = "sgt_roll"..card.ability.immutable.current_roll, default_colour = true}
         end
         return {vars = {card.ability.immutable.current_roll > 0 and card.ability.immutable.current_roll or localize("k_none"),
         colours = {card.ability.immutable.current_roll > 1 and G.C.GREEN or card.ability.immutable.current_roll > 0 and G.C.RED or G.C.UI.TEXT_INACTIVE}}}
