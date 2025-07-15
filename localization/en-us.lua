@@ -747,6 +747,16 @@ return {
                     },
                 },
             },
+            j_sgt_dolphin = {
+                name = "Dolphin",
+                text = {
+                    "This Joker gains {X:mult,C:white}X#2#{} Mult",
+                    "every time a {C:attention}Lucky{} card",
+                    "{C:green}successfully{} triggers",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+                    "{C:inactive}(Temporary effect)",
+                },
+            },
             j_sgt_hansels_cheat_dice = {
                 name = "Hansel's Cheat Dice",
                 text = {

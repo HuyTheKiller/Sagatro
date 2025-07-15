@@ -754,6 +754,16 @@ return {
                     "{C:inactive}(Đợt gieo hiện tại: {V:1}#1#{C:inactive})",
                 },
             },
+            j_sgt_dolphin = {
+                name = "Cá Heo",
+                text = {
+                    "Joker này thêm {X:mult,C:white}X#2#{} Nhân",
+                    "mỗi khi một lá {C:attention}May Mắn",
+                    "kích {C:green}thành công",
+                    "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
+                    "{C:inactive}(Hiệu ứng tạm thời)",
+                },
+            },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
                 text = {

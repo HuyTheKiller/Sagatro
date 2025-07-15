@@ -5728,12 +5728,73 @@ local coral_kingdom = {
     end,
 }
 
+local dolphin = {
+    key = "dolphin",
+    name = "Dolphin",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 59,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 0, y = 3 },
+    config = {immutable = {depth_level = 3, weight_level = 3}, extra = {xmult = 1, xmult_gain = 0.25--[[temporary value]]}},
+    rarity = 2,
+    cost = 6--[[temporary value]],
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = false,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play and not context.blueprint then
+            if context.other_card.lucky_trigger then
+                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
+                return {
+                    extra = {focus = card, message = localize('k_upgrade_ex'), colour = G.C.MULT},
+                    card = card
+                }
+            end
+        end
+        if (context.joker_main and to_big(card.ability.extra.xmult) > to_big(1)) or context.forcetrigger then
+            if context.forcetrigger then
+                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
+            end
+            return {
+                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                Xmult_mod = card.ability.extra.xmult
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_gain}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    }
+                }
+            },
+            calc_function = function(card)
+                card.joker_display_values.xmult = card.ability.extra.xmult -- More on this later
+            end
+        }
+    end,
+}
+
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 60,
+    order = 61,
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },
     config = {},
@@ -6069,6 +6130,7 @@ local joker_table = {
     blobfish,
     ugly_blobfish,
     coral_kingdom,
+    dolphin,
     nemo,
     hansels_cheat_dice,
     shub,
