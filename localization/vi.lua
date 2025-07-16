@@ -764,6 +764,15 @@ return {
                     "{C:inactive}(Hiệu ứng tạm thời)",
                 },
             },
+            j_sgt_coelacanthiformes = {
+                name = "Cà Vây Tay",
+                text = {
+                    "Nếu {C:attention}lượt bỏ đầu tiên{} của ván",
+                    "là một lá {C:attention}4{}, phá huỷ nó",
+                    "và tạo ra {C:tarot}#1#{}",
+                    "{C:inactive}(Phải có ô trống)",
+                },
+            },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
                 text = {
@@ -1052,6 +1061,7 @@ return {
             k_petrified_ex = "Hoá Đá!",
             k_blob_ex = "Blob!",
             k_roll_ex = "Gieo!",
+            k_prevented_ex = "Ngăn Ngừa!",
             ph_per_face_down = " mỗi lá sấp",
             ph_trial_begins = "Khai Toà!",
             ph_plus_ante = "+1 Ante",

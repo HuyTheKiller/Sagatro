@@ -5729,7 +5729,7 @@ local dolphin = {
     name = "Dolphin",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 59,
+    order = 60,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 3 },
     config = {immutable = {depth_level = 3, weight_level = 3}, extra = {xmult = 1, xmult_gain = 0.25--[[temporary value]]}},
@@ -5785,12 +5785,88 @@ local dolphin = {
     end,
 }
 
+local coelacanthiformes = {
+    key = "coelacanthiformes",
+    name = "Coelacanthiformes",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 61,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 1, y = 3 },
+    config = {immutable = {depth_level = 3, weight_level = 3}, extra = {}},
+    rarity = 3,
+    cost = 7,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = false,
+    calculate = function(self, card, context)
+        if context.discard then
+            if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 and context.other_card:get_id() == 4
+            and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                return {
+                    extra = {focus = card, message = localize('k_prevented_ex'), func = function()
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'before',
+                            delay = 0.0,
+                            func = (function()
+                                assert(SMODS.add_card({
+                                    set = "Tarot",
+                                    key = "c_death",
+                                }))
+                                G.GAME.consumeable_buffer = 0
+                            return true
+                        end)}))
+                    end},
+                    colour = G.C.SECONDARY_SET.Tarot,
+                    -- delay = 0.45,
+                    remove = true,
+                    card = card,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.c_death
+        return {vars = {localize{type = 'name_text', set = "Tarot", key = "c_death", nodes = {}}}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { ref_table = "card.joker_display_values", ref_value = "death_count", colour = G.C.GOLD, retrigger_type = "mult" },
+            },
+            calc_function = function(card)
+                local is_discarding_one_card = #G.hand.highlighted == 1
+                local is_four = G.hand.highlighted[1] and G.hand.highlighted[1]:get_id() == 4
+                card.joker_display_values.active = G.GAME and G.GAME.current_round.discards_used == 0
+                and G.GAME.current_round.discards_left > 0
+                card.joker_display_values.death_count = card.joker_display_values.active
+                and is_discarding_one_card and ("+" .. (is_four and 1 or 0)) or "-"
+            end,
+            style_function = function(card, text, reminder_text, extra)
+                if text and text.children[1] then
+                    text.children[1].config.colour = card.joker_display_values.active and #G.hand.highlighted == 1
+                    and G.C.SECONDARY_SET.Tarot or G.C.UI.TEXT_INACTIVE
+                end
+                return false
+            end
+        }
+    end
+}
+
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 61,
+    order = 62,
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },
     config = {},

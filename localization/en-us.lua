@@ -757,6 +757,15 @@ return {
                     "{C:inactive}(Temporary effect)",
                 },
             },
+            j_sgt_coelacanthiformes = {
+                name = "Coelacanthiformes",
+                text = {
+                    "If {C:attention}first discard{} of round",
+                    "is a single {C:attention}4{}, destroy it",
+                    "and create {C:tarot}#1#{}",
+                    "{C:inactive}(Must have room)",
+                },
+            },
             j_sgt_hansels_cheat_dice = {
                 name = "Hansel's Cheat Dice",
                 text = {
@@ -1053,6 +1062,7 @@ return {
             k_petrified_ex = "Petrified!",
             k_blob_ex = "Blob!",
             k_roll_ex = "Roll!",
+            k_prevented_ex = "Prevented!",
             ph_per_face_down = " per face-down",
             ph_trial_begins = "Trial Begins!",
             ph_plus_ante = "+1 Ante",
