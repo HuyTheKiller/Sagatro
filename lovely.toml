@@ -180,6 +180,18 @@ if not next(SMODS.find_card("j_sgt_mad_hatter")) then
 end
 '''
 
+[[patches]] # For Cryptid
+[patches.pattern]
+match_indent = true
+target = 'functions/state_events.lua'
+pattern = '''delay(0.4); ease_ante(G.GAME.blind and G.GAME.blind:cry_calc_ante_gain() or 1); Cryptid.apply_ante_tax(); delay(0.4); check_for_unlock({type = 'ante_up', ante = G.GAME.round_resets.ante + 1})'''
+position = 'at'
+payload = '''
+if not next(SMODS.find_card("j_sgt_mad_hatter")) then
+    delay(0.4); ease_ante(G.GAME.blind and G.GAME.blind:cry_calc_ante_gain() or 1); Cryptid.apply_ante_tax(); delay(0.4); check_for_unlock({type = 'ante_up', ante = G.GAME.round_resets.ante + 1})
+end
+'''
+
 [[patches]]
 [patches.pattern]
 target = 'functions/UI_definitions.lua'
