@@ -5653,14 +5653,10 @@ local coral_kingdom = {
             G.E_MANAGER:add_event(Event({
                 func = function()
                     for i = 1, jokers_to_create do
-                        local card = SMODS.create_card{
+                        assert(SMODS.add_card({
                             set = 'Common Fish',
                             area = G.jokers,
-                            rarity = 0,
-                        }
-                        card:add_to_deck()
-                        G.jokers:emplace(card)
-                        card:start_materialize()
+                        }))
                         G.GAME.joker_buffer = 0
                     end
                 return true
