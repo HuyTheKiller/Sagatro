@@ -789,6 +789,23 @@ return {
                     "Tạo ra lá {C:attention}ngẫu nhiên{} bằng số lượng lá {C:attention}đã chơi{}",
                 },
             },
+            j_sgt_ragnarok = {
+                name = "Ragnarök",
+                text = {
+                    "Mọi {C:attention}blind{} đều là {C:attention}boss blind/blind hạ màn{}",
+                    "Thêm {X:dark_edition,C:white}^#2#{} Nhân mỗi {C:attention}Boss Blind{} bị đánh bại",
+                    "hoặc {X:dark_edition,C:white}^#3#{} Nhân mỗi {C:attention}Blind Hạ Màn{} bị đánh bại",
+                    "{C:inactive}(Hiện tại là {X:dark_edition,C:white}^#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_azathoth = {
+                name = "Azathoth",
+                text = {
+                    "Ở cuối {C:attention}shop{}, tạo ra",
+                    "{C:attention}#1# {C:tarot}#3#{C:dark_edition} Âm Bản{},",
+                    "tăng thêm {C:attention}#2#{} mỗi lần kích hoạt",
+                },
+            },
         },
         HanselsDice = {
             sgt_roll0 = {
@@ -1062,6 +1079,7 @@ return {
             k_blob_ex = "Blob!",
             k_roll_ex = "Gieo!",
             k_prevented_ex = "Ngăn Ngừa!",
+            k_zzz = "ZZZ",
             ph_per_face_down = " mỗi lá sấp",
             ph_trial_begins = "Khai Toà!",
             ph_plus_ante = "+1 Ante",
@@ -1077,6 +1095,7 @@ return {
             ph_gods_miracle = "Được cứu bởi Phép Lạ Của Chúa",
             ph_depth_level = "Tầng độ sâu",
             ph_lovecraft = "Lovecraft",
+            ph_norse = "Thần Thoại Bắc Âu",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính (Yêu cầu tạo trận mới)"},
             SGT_disable_sagatro_items = "Tắt Vật Phẩm Sagatro",

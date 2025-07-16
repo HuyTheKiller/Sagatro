@@ -777,6 +777,54 @@ function Sagatro.electric_eel_info_queue_append(info_queue, center_table)
     end
 end
 
+function get_new_showdown()
+    G.GAME.perscribed_showdown = G.GAME.perscribed_showdown or {
+    }
+    if G.GAME.perscribed_showdown and G.GAME.perscribed_showdown[G.GAME.round_resets.ante] then 
+        local ret_boss = G.GAME.perscribed_showdown[G.GAME.round_resets.ante] 
+        G.GAME.perscribed_showdown[G.GAME.round_resets.ante] = nil
+        G.GAME.bosses_used[ret_boss] = G.GAME.bosses_used[ret_boss] + 1
+        return ret_boss
+    end
+    if G.FORCE_SHOWDOWN then return G.FORCE_SHOWDOWN end
+
+    local eligible_bosses = {}
+    for k, v in pairs(G.P_BLINDS) do
+        if v.boss and v.boss.showdown then
+            if v.in_pool and type(v.in_pool) == 'function' then
+                local res = v:in_pool()
+                eligible_bosses[k] = res and true or nil
+            else
+                eligible_bosses[k] = true
+            end
+        end
+    end
+    for k, v in pairs(G.GAME.banned_keys) do
+        if eligible_bosses[k] then eligible_bosses[k] = nil end
+    end
+
+    local min_use = 100
+    for k, v in pairs(G.GAME.bosses_used) do
+        if eligible_bosses[k] then
+            eligible_bosses[k] = v
+            if eligible_bosses[k] <= min_use then
+                min_use = eligible_bosses[k]
+            end
+        end
+    end
+    for k, v in pairs(eligible_bosses) do
+        if eligible_bosses[k] then
+            if eligible_bosses[k] > min_use then
+                eligible_bosses[k] = nil
+            end
+        end
+    end
+    local _, boss = pseudorandom_element(eligible_bosses, pseudoseed('showdown'))
+    G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] + 1
+
+    return boss
+end
+
 -- from Cryptid's Tarot called Blessing
 -- and I thought it could exclude cards from getting called in get_random_consumable and from Deck of Equilibrium
 function sgt_center_no(center, m, key, no_no)

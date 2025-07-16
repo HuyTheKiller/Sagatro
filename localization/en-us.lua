@@ -790,6 +790,23 @@ return {
                     "Create {C:attention}random{} cards equal to number of {C:attention}played{} cards",
                 },
             },
+            j_sgt_ragnarok = {
+                name = "Ragnarök",
+                text = {
+                    "All {C:attention}blinds{} are {C:attention}boss/showdown blinds{}",
+                    "Gain {X:dark_edition,C:white}^#2#{} Mult per {C:attention}Boss Blind{} defeated",
+                    "or {X:dark_edition,C:white}^#3#{} Mult per {C:attention}Showdown Blind{} defeated",
+                    "{C:inactive}(Currently {X:dark_edition,C:white}^#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_azathoth = {
+                name = "Azathoth",
+                text = {
+                    "At the end of the {C:attention}shop{}, create",
+                    "{C:attention}#1#{C:dark_edition} Negative {C:tarot}#3#{},",
+                    "increase by {C:attention}#2#{} more every trigger",
+                },
+            },
         },
         HanselsDice = {
             sgt_roll0 = {
@@ -1063,6 +1080,7 @@ return {
             k_blob_ex = "Blob!",
             k_roll_ex = "Roll!",
             k_prevented_ex = "Prevented!",
+            k_zzz = "ZZZ",
             ph_per_face_down = " per face-down",
             ph_trial_begins = "Trial Begins!",
             ph_plus_ante = "+1 Ante",
@@ -1078,6 +1096,7 @@ return {
             ph_gods_miracle = "Saved by God's Miracle",
             ph_depth_level = "Depth level",
             ph_lovecraft = "Lovecraft",
+            ph_norse = "Norse Mythology",
             SGT_disable_other_jokers = "Story Mode",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression (Requires run restart)"},
             SGT_disable_sagatro_items = "Disable Sagatro Items",

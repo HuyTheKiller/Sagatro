@@ -6103,6 +6103,120 @@ local shub = {
     end,
 }
 
+local ragnarok = {
+    key = "ragnarok",
+    name = "Ragnarok",
+    atlas = "esoteric",
+    saga_group = "norse_mythology",
+    dependencies = {"Talisman"},
+    order = 1000,
+    pos = { x = 0, y = 3 },
+    soul_pos = { x = 2, y = 3, extra = { x = 1, y = 3 } },
+    config = {extra = {e_mult = 1, e_mult_gain_boss = 0.25, e_mult_gain_showdown = 0.5}},
+    rarity = "sgt_esoteric",
+    cost = 50,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = false,
+    calculate = function(self, card, context)
+        if context.end_of_round and context.main_eval and not context.blueprint and G.GAME.blind.boss then
+            if  G.GAME.blind.config.blind.boss.showdown then
+                card.ability.extra.e_mult = card.ability.extra.e_mult + card.ability.extra.e_mult_gain_showdown
+            else
+                card.ability.extra.e_mult = card.ability.extra.e_mult + card.ability.extra.e_mult_gain_boss
+            end
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.FILTER,
+                card = card,
+            }
+        end
+        if context.joker_main and to_big(card.ability.extra.e_mult) > to_big(1) then
+            return {
+                e_mult = card.ability.extra.e_mult
+            }
+        end
+        if context.forcetrigger then
+            card.ability.extra.e_mult = card.ability.extra.e_mult + card.ability.extra.e_mult_gain_showdown
+            return {
+                e_mult = card.ability.extra.e_mult
+            }
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.e_mult, card.ability.extra.e_mult_gain_boss, card.ability.extra.e_mult_gain_showdown}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "^" },
+                        { ref_table = "card.ability.extra", ref_value = "e_mult", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.DARK_EDITION
+                }
+            },
+        }
+    end
+}
+
+local azathoth = {
+    key = "azathoth",
+    name = "Azathoth",
+    atlas = "esoteric",
+    saga_group = "norse_mythology",
+    dependencies = {"Talisman"},
+    order = 1001,
+    pos = { x = 0, y = 4 },
+    soul_pos = { x = 2, y = 4, extra = { x = 1, y = 4 } },
+    config = {extra = {amount = 1, amount_gain = 2}},
+    rarity = "sgt_esoteric",
+    cost = 50,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = false,
+    calculate = function(self, card, context)
+        if context.ending_shop or context.forcetrigger then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'immediate',
+                func = (function()
+                    for _ = 1, card.ability.extra.amount do
+                        assert(SMODS.add_card({
+                            set = "Tarot",
+                            key = "c_fool",
+                            edition = "e_negative",
+                        }))
+                    end
+                    card.ability.extra.amount = card.ability.extra.amount + card.ability.extra.amount_gain
+                return true
+            end)}))
+            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_zzz'), colour = G.C.SECONDARY_SET.Tarot})
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.c_fool
+        return {vars = {card.ability.extra.amount, card.ability.extra.amount_gain, localize{type = 'name_text', set = "Tarot", key = "c_fool", nodes = {}}}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.ability.extra", ref_value = "amount", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.SECONDARY_SET.Tarot },
+        }
+    end,
+}
+
 local test = {
     key = "test",
     name = "Test Joker",
@@ -6203,9 +6317,12 @@ local joker_table = {
     ugly_blobfish,
     coral_kingdom,
     dolphin,
+    coelacanthiformes,
     nemo,
     hansels_cheat_dice,
     shub,
+    ragnarok,
+    azathoth,
     test,
 }
 
