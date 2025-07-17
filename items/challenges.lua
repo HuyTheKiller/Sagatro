@@ -119,7 +119,7 @@ local ragnarok = {
             { id = "sgt_demo_challenge_text5" },
         },
         modifiers = {
-			{ id = "joker_slots", value = 1 },
+			{ id = "joker_slots", value = 0 },
 		},
     },
     jokers = {
