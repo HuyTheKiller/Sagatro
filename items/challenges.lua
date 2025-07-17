@@ -127,6 +127,7 @@ local ragnarok = {
 	},
 	restrictions = {
 		banned_cards = {
+			{ id = 'c_ectoplasm' },
 			{ id = 'v_antimatter' },
 		},
         banned_tags = {},
