@@ -1016,12 +1016,20 @@ return {
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Hansel Đỏ Đen",
+            c_sgt_ragnarok = "Tận Thế Ragnarök",
         },
         -- v_dictionary = {
         --     a_sgt_powmult = { "^#1# Nhân" },
         -- },
         v_text = {
             ch_c_sgt_disable_sagatro_items = { "Vật phẩm của {C:sgt_sagadition}Sagatro{} không còn xuất hiện trong {C:attention}shop" },
+            ch_c_sgt_no_tags = { "Khả năng bỏ qua bị {C:attention}vô hiệu hóa{}" },
+            ch_c_sgt_ragnarok_challenge_text = { "Điểm yêu cầu tăng rất nhanh sau mỗi {C:attention}Ante" },
+            ch_c_sgt_demo_challenge_text1 = { "{C:sgt_sagadition}Sagatro{} hiện đang ở bản demo." },
+            ch_c_sgt_demo_challenge_text2 = { "Không có cách nào để lấy joker này" },
+            ch_c_sgt_demo_challenge_text3 = { "ngoài Bộ Bài Cân Bằng của Cryptid." },
+            ch_c_sgt_demo_challenge_text4 = { "Thử thách này nhằm cung cấp trước" },
+            ch_c_sgt_demo_challenge_text5 = { "trải nghiệm cho người chơi Talisman." },
         },
         dictionary = {
             k_sgt_trivial = "Tầm Thường",

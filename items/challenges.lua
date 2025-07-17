@@ -105,9 +105,46 @@ local gambling_hansel = {
     button_colour = G.C.SGT_SAGADITION,
 }
 
+local ragnarok = {
+	key = "ragnarok",
+    rules = {
+        custom = {
+            { id = "sgt_disable_sagatro_items" },
+            { id = "sgt_no_tags" },
+            { id = "sgt_ragnarok_challenge_text" },
+            { id = "sgt_demo_challenge_text1" },
+            { id = "sgt_demo_challenge_text2" },
+            { id = "sgt_demo_challenge_text3" },
+            { id = "sgt_demo_challenge_text4" },
+            { id = "sgt_demo_challenge_text5" },
+        },
+        modifiers = {
+			{ id = "joker_slots", value = 1 },
+		},
+    },
+    jokers = {
+		{ id = "j_sgt_ragnarok", eternal = true },
+	},
+	restrictions = {
+		banned_cards = {
+			{ id = 'v_antimatter' },
+		},
+        banned_tags = {},
+		banned_other = {
+			{ id = 'bl_final_heart', type = 'blind' },
+			{ id = 'bl_final_leaf', type = 'blind' },
+		},
+	},
+	button_colour = G.C.SGT_SAGADITION,
+}
+
 local challenge_table = {
     gambling_hansel,
 }
+
+if Sagatro.mod_compat.talisman then
+	challenge_table[#challenge_table+1] = ragnarok
+end
 
 for _, v in ipairs(challenge_table) do
     SMODS.Challenge(v)

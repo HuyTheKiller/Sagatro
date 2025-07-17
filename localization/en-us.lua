@@ -1017,12 +1017,20 @@ return {
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Gambling Hansel",
+            c_sgt_ragnarok = "The Ragnarök",
         },
         -- v_dictionary = {
         --     a_sgt_powmult = { "^#1# Mult" },
         -- },
         v_text = {
             ch_c_sgt_disable_sagatro_items = { "{C:sgt_sagadition}Sagatro{} items no longer appear in the {C:attention}shop" },
+            ch_c_sgt_no_tags = { "Skipping is {C:attention}disabled{}" },
+            ch_c_sgt_ragnarok_challenge_text = { "Required score scales very fast for each {C:attention}Ante" },
+            ch_c_sgt_demo_challenge_text1 = { "{C:sgt_sagadition}Sagatro{} is currently in demo state." },
+            ch_c_sgt_demo_challenge_text2 = { "There is no way to get this joker" },
+            ch_c_sgt_demo_challenge_text3 = { "except Cryptid's Deck of Equilibrium." },
+            ch_c_sgt_demo_challenge_text4 = { "This challenge serves as a sneak peek" },
+            ch_c_sgt_demo_challenge_text5 = { "for Talisman enjoyers out there." },
         },
         dictionary = {
             k_sgt_trivial = "Trivial",

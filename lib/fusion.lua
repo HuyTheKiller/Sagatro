@@ -302,7 +302,19 @@ function Game:start_run(args)
 	gsr(self, args)
 	if not args.savetext then
 		G.GAME.story_mode = Sagatro.config.DisableOtherJokers
-		if args.challenge then G.GAME.story_mode = false end
+		if args.challenge then
+			G.GAME.story_mode = false
+			if args.challenge.key == "c_sgt_ragnarok" then
+				G.GAME.round_resets.blind_choices.Small = G.GAME.round_resets.blind_choices.Boss
+				G.GAME.round_resets.blind_choices.Big = get_new_boss()
+				G.GAME.round_resets.blind_choices.Boss = get_new_showdown()
+				G.GAME.modifiers.scaling = 10
+				G.GAME.modifiers.sgt_ragnarok_challenge_text = nil
+				for i = 1, 5 do
+					G.GAME.modifiers["sgt_demo_challenge_text"..i] = nil
+				end
+			end
+		end
 		if not G.GAME.story_mode and Sagatro.config.DisableSagatroItems then
 			G.GAME.modifiers.sgt_disable_sagatro_items = true
 		end
