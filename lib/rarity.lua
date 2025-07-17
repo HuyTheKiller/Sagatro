@@ -5,6 +5,8 @@ local trivial = {
 	get_weight = function(self, weight, object_type)
 		if G.GAME.story_mode then
 			return next(SMODS.find_card("j_sgt_mad_hatter")) and 0.75 or 0
+		elseif G.GAME.modifiers.sgt_disable_sagatro_items then
+			return 0
 		end
         return next(SMODS.find_card("j_sgt_mad_hatter")) and 1 or 0.05
 	end,
@@ -15,10 +17,8 @@ local obscure = {
 	badge_colour = G.C.SGT_OBSCURE,
 	pools = { ["Joker"] = true },
 	get_weight = function(self, weight, object_type)
-		if G.GAME.story_mode then
-			return 0.05
-		end
-        return 0.003
+		if G.GAME.story_mode then return 0.05 end
+        return G.GAME.modifiers.sgt_disable_sagatro_items and 0 or 0.003
 	end,
 }
 
