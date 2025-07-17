@@ -5806,7 +5806,7 @@ local coelacanthiformes = {
             and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                 return {
-                    extra = {focus = card, message = localize('k_prevented_ex'), func = function()
+                    extra = {focus = card, message = localize('k_prevented_ex'), instant = true, func = function()
                         G.E_MANAGER:add_event(Event({
                             trigger = 'before',
                             delay = 0.0,
@@ -5820,7 +5820,6 @@ local coelacanthiformes = {
                         end)}))
                     end},
                     colour = G.C.SECONDARY_SET.Tarot,
-                    -- delay = 0.45,
                     remove = true,
                     card = card,
                 }
@@ -6105,7 +6104,7 @@ local shub = {
 
 local ragnarok = {
     key = "ragnarok",
-    name = "Ragnarok",
+    name = "Ragnarök",
     atlas = "esoteric",
     saga_group = "norse_mythology",
     dependencies = {"Talisman"},
@@ -6213,6 +6212,14 @@ local azathoth = {
                 { ref_table = "card.ability.extra", ref_value = "amount", retrigger_type = "mult" }
             },
             text_config = { colour = G.C.SECONDARY_SET.Tarot },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text", colour = G.C.ORANGE },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.localized_text = localize{type = 'name_text', set = "Tarot", key = "c_fool", nodes = {}}
+            end,
         }
     end,
 }
