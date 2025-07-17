@@ -802,9 +802,9 @@ return {
             j_sgt_azathoth = {
                 name = "Azathoth",
                 text = {
-                    "At the end of the {C:attention}shop{}, create",
-                    "{C:attention}#1#{C:dark_edition} Negative {C:tarot}#3#{},",
-                    "increase by {C:attention}#2#{} more every trigger",
+                    "At the end of the {C:attention}shop{},",
+                    "create {C:attention}#1#{C:dark_edition} Negative {C:tarot}#3#{},",
+                    "increase by {C:attention}#2#{} every trigger",
                 },
             },
         },

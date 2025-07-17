@@ -803,7 +803,7 @@ return {
                 text = {
                     "Ở cuối {C:attention}shop{}, tạo ra",
                     "{C:attention}#1# {C:tarot}#3#{C:dark_edition} Âm Bản{},",
-                    "tăng thêm {C:attention}#2#{} mỗi lần kích hoạt",
+                    "tăng thêm {C:attention}#2#{} mỗi lần kích",
                 },
             },
         },
