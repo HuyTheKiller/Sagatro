@@ -495,6 +495,15 @@ return {
                     "ghi điểm chứa {C:attention}Bồi{}",
                 },
             },
+            j_sgt_iron_john = {
+                name = "Hanxơ Sắt",
+                text = {
+                    "Nếu lá này ở {C:attention}tít bên phải{},",
+                    "{C:attention}xả {X:mult,C:white}XNhân{} rồi đặt lại",
+                    "Nếu không, thêm {X:mult,C:white}X#2#{} Nhân",
+                    "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
+                },
+            },
             j_sgt_aladdin = {
                 name = "Aladdin",
                 text = {
@@ -1088,6 +1097,8 @@ return {
             k_roll_ex = "Gieo!",
             k_prevented_ex = "Ngăn Ngừa!",
             k_zzz = "ZZZ",
+            k_charge = "Nạp",
+            k_release = "Xả",
             ph_per_face_down = " mỗi lá sấp",
             ph_trial_begins = "Khai Toà!",
             ph_plus_ante = "+1 Ante",

@@ -3147,7 +3147,7 @@ local shepherd_boy = {
     name = "Shepherd Boy",
     atlas = "the_boy_who_cried_wolf",
     saga_group = "the_boy_who_cried_wolf",
-    order = 31,
+    order = 992,
     pos = { x = 0, y = 0 },
     config = {extra = {mult = 0, mult_gain = 6, odds = 6}},
     rarity = 1,
@@ -3249,7 +3249,7 @@ local puss_in_boots = {
     name = "Puss In Boots",
     atlas = "puss_in_boots",
     saga_group = "puss_in_boots",
-    order = 32,
+    order = 993,
     pos = { x = 0, y = 0 },
     config = {extra = {money = 2, xmult = 2, jack_triggered = false}},
     rarity = 2,
@@ -3332,13 +3332,86 @@ local puss_in_boots = {
     end,
 }
 
+-- Iron John
+local iron_john = {
+    key = "iron_john",
+    name = "Iron John",
+    atlas = "iron_john",
+    saga_group = "iron_john",
+    order = 993,
+    pos = { x = 0, y = 0 },
+    config = {extra = {xmult = 1, xmult_gain = 1}},
+    rarity = 3,
+    cost = 8,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if G and G.jokers and G.jokers.cards and G.jokers.cards[1] and G.jokers.cards[#G.jokers.cards] == card then
+            if context.joker_main and to_big(card.ability.extra.xmult) > to_big(1) then
+                G.E_MANAGER:add_event(Event({func = function()
+                    card.ability.extra.xmult = 1
+                    return true end }))
+                return {
+                    message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                    Xmult_mod = card.ability.extra.xmult
+                }
+            end
+        else
+            if context.before and not context.blueprint then
+                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
+                return {
+                    message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                    colour = G.C.FILTER,
+                    card = card
+                }
+            end
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_gain}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.ability.extra", ref_value = "xmult", retrigger_type = "exp" }
+                    }
+                }
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.localized_text = G.jokers.cards[#G.jokers.cards] == card
+                and localize("k_release") or localize("k_charge")
+            end,
+            style_function = function(card, text, reminder_text, extra)
+                if reminder_text and reminder_text.children[2] then
+                    reminder_text.children[2].config.colour = G.jokers.cards[#G.jokers.cards] == card
+                    and G.C.GREEN or G.C.ORANGE
+                end
+                return false
+            end,
+        }
+    end,
+}
+
 -- Aladdin and the Magic Lamp
 local aladdin = {
     key = "aladdin",
     name = "Aladdin",
     atlas = "aladdin_and_the_magic_lamp",
     saga_group = "aladdin_and_the_magic_lamp",
-    order = 33,
+    order = 996,
     pos = { x = 0, y = 0 },
     config = {buffed = false, extra = {tax = 0.25, xmult = 1, xmult_gain = 0.5, chips = 0}},
     rarity = 3,
@@ -3438,7 +3511,7 @@ local magic_lamp = {
     atlas = "aladdin_and_the_magic_lamp",
     saga_group = "aladdin_and_the_magic_lamp",
     dependencies = {"Talisman"},
-    order = 34,
+    order = 997,
     pos = { x = 1, y = 0 },
     config = {magic_lamp_rounds = 0, extra = {xmult = 3, rounds_goal = 3}},
     rarity = "sgt_obscure",
@@ -3560,7 +3633,7 @@ local lamp_genie = {
     atlas = "esoteric",
     saga_group = "aladdin_and_the_magic_lamp",
     dependencies = {"Talisman"},
-    order = 35,
+    order = 998,
     pos = { x = 0, y = 0 },
     soul_pos = { x = 2, y = 0, extra = { x = 1, y = 0 } },
     config = { extra = {retriggers = 2, e_mult = 3}, collected_wish = 0,
@@ -3766,7 +3839,7 @@ local lincoln_ship = {
     name = "Lincoln Ship",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 36,
+    order = 31,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 0 },
     config = {extra = {mult = 4}},
@@ -3822,7 +3895,7 @@ local submarine = {
     name = "Submarine",
     atlas = "submarine",
     saga_group = "20k_miles_under_the_sea",
-    order = 37,
+    order = 32,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 0 },
     extra_pos = { x = 0, y = 9 },
@@ -3954,7 +4027,7 @@ local clownfish = {
     name = "Clownfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 38,
+    order = 33,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 5, y = 0 },
     config = {immutable = {depth_level = 1, weight_level = 1}, extra = {mult = 4}},
@@ -4027,7 +4100,7 @@ local blue_tang = {
     name = "Blue Tang",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 39,
+    order = 34,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 6, y = 0 },
     config = {immutable = {depth_level = 1, weight_level = 1}, extra = {chips = 25}},
@@ -4100,7 +4173,7 @@ local pufferfish = {
     name = "Pufferfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 40,
+    order = 35,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 1}, extra = {xmult = 3}},
@@ -4147,7 +4220,7 @@ local white_jellyfish = {
     name = "White Jellyfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 41,
+    order = 36,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 1}, extra = {every = 2, xmult = 2.25, odds = 4}},
@@ -4267,7 +4340,7 @@ local red_jellyfish = {
     name = "Red Jellyfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 42,
+    order = 37,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 1}, extra = {every = 2, xmult = 4, odds = 32}},
@@ -4388,7 +4461,7 @@ local queen_jellyfish = {
     name = "Queen Jellyfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 43,
+    order = 38,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 1}, extra = {every = 2, e_mult = 1.25, odds = 256}},
@@ -4507,7 +4580,7 @@ local mandarin_fish = {
     name = "Mandarin Fish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 44,
+    order = 39,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 1}, extra = {money = 75}},
@@ -4569,7 +4642,7 @@ local barracuda = {
     name = "Barracuda",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 45,
+    order = 40,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 5, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 2}, extra = {mult = 10, mult_gain = 10}},
@@ -4640,7 +4713,7 @@ local school = {
     name = "School Of Fish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 46,
+    order = 41,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 6, y = 1 },
     config = {},
@@ -4691,7 +4764,7 @@ local prawn = {
     name = "Sugpo Prawn",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 47,
+    order = 42,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 0, y = 2 },
     config = {immutable = {depth_level = 1, weight_level = 1}, extra = {money = 1}},
@@ -4753,7 +4826,7 @@ local john_dory = {
     name = "John Dory",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 48,
+    order = 43,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 6, y = 3 },
     config = {immutable = {depth_level = 1, weight_level = 1}, extra = {money = 4}},
@@ -4829,7 +4902,7 @@ local octopus = {
     name = "Octopus",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 49,
+    order = 44,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 3 },
     config = {immutable = {depth_level = 2, weight_level = 3}},
@@ -4911,7 +4984,7 @@ local squid = {
     name = "Squid",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 50,
+    order = 45,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 3 },
     config = {immutable = {depth_level = 2, weight_level = 3}},
@@ -4981,7 +5054,7 @@ local turtle_egg = {
     name = "Turtle Egg",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 51,
+    order = 46,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 1, y = 2 },
     config = {extra = {sell_value_gain = 3, odds = 15, sell_odds = 30}},
@@ -5097,7 +5170,7 @@ local baby_turtle = {
     name = "Baby Turtle",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 52,
+    order = 47,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 2 },
     config = {extra = {xmult = 2}},
@@ -5183,7 +5256,7 @@ local green_turtle = {
     name = "Green Turtle",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 53,
+    order = 48,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 2 },
     config = {immutable = {depth_level = 2, weight_level = 3}, extra = {xmult = 1.5}},
@@ -5258,7 +5331,7 @@ local electric_eel = {
     name = "Electric Eel",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 54,
+    order = 49,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 2 },
     config = {immutable = {depth_level = 4, weight_level = 3}, extra = {}},
@@ -5382,7 +5455,7 @@ local sea_angel = {
     name = "Sea Angel",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 55,
+    order = 50,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 4 },
     config = {type = "Three of a Kind", immutable = {depth_level = 5, weight_level = 1}, extra = {e_mult = 1.23}},
@@ -5436,7 +5509,7 @@ local stonefish = {
     name = "Stonefish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 56,
+    order = 51,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 4 },
     config = {immutable = {depth_level = 1, weight_level = 1}},
@@ -5517,7 +5590,7 @@ local blobfish = {
     name = "Blobfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 57,
+    order = 52,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 5, y = 2 },
     config = {immutable = {depth_level = 5, weight_level = 2}, extra = {mult = 0, mult_gain = 3}},
@@ -5567,7 +5640,7 @@ local ugly_blobfish = {
     name = "Ugly Blobfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 58,
+    order = 53,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 6, y = 2 },
     config = {extra = {xmult = 5}},
@@ -5635,7 +5708,7 @@ local coral_kingdom = {
     name = "Coral Kingdom",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 59,
+    order = 54,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 4 },
     config = {extra = {joker_count = 2, chips = 0, chip_gain = 15}},
@@ -5729,7 +5802,7 @@ local dolphin = {
     name = "Dolphin",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 60,
+    order = 55,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 3 },
     config = {immutable = {depth_level = 3, weight_level = 3}, extra = {xmult = 1, xmult_gain = 0.25--[[temporary value]]}},
@@ -5790,7 +5863,7 @@ local coelacanthiformes = {
     name = "Coelacanthiformes",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 61,
+    order = 56,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 3 },
     config = {immutable = {depth_level = 3, weight_level = 3}, extra = {}},
@@ -5865,7 +5938,7 @@ local nemo = {
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 62,
+    order = 57,
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },
     config = {},
@@ -5928,7 +6001,7 @@ local hansels_cheat_dice = {
     name = "Hansel's Cheat Dice",
     atlas = "gambling_hansel",
     saga_group = "gambling_hansel",
-    order = 998,
+    order = 995,
     pos = { x = 0, y = 0 },
     config = {immutable = {current_roll = 0}},
     rarity = 3,
@@ -6296,6 +6369,7 @@ local joker_table = {
     alice,
     shepherd_boy,
     puss_in_boots,
+    iron_john,
     aladdin,
     magic_lamp,
     lamp_genie,

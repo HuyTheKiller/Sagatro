@@ -496,6 +496,15 @@ return {
                     "contains a {C:attention}Jack{}",
                 },
             },
+            j_sgt_iron_john = {
+                name = "Iron John",
+                text = {
+                    "If this is the {C:attention}rightmost{} joker,",
+                    "{C:attention}release{} stored {X:mult,C:white}XMult{} and reset",
+                    "Otherwise, gain {X:mult,C:white}X#2#{} Mult",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+                },
+            },
             j_sgt_aladdin = {
                 name = "Aladdin",
                 text = {
@@ -1089,6 +1098,8 @@ return {
             k_roll_ex = "Roll!",
             k_prevented_ex = "Prevented!",
             k_zzz = "ZZZ",
+            k_charge = "Charge",
+            k_release = "Release",
             ph_per_face_down = " per face-down",
             ph_trial_begins = "Trial Begins!",
             ph_plus_ante = "+1 Ante",
