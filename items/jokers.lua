@@ -7,7 +7,7 @@ local white_rabbit = {
     order = 1,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 0 },
-    config = {extra = {chips = 0, chip_gain = 6}},
+    config = {extra = {chips = 0, chip_mod = 6}},
 	rarity = 1,
     cost = 4,
     blueprint_compat = true,
@@ -22,7 +22,7 @@ local white_rabbit = {
 			}
 		end
         if context.before and G.GAME.current_round.discards_used <= 0 and not context.blueprint then
-			card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
+			card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
 			return {
 				message = localize("k_in_a_hurry_ex"),
 				colour = G.C.FILTER,
@@ -40,7 +40,7 @@ local white_rabbit = {
             end
         end
         if context.forcetrigger then
-            card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
+            card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
             return {
 				chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
 				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
@@ -68,7 +68,7 @@ local white_rabbit = {
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "white_rabbit"}
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, key = "fusion_hint", title = localize("saga_fusion_tooltip")}
         end
-		return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.extra.chip_gain*G.GAME.alice_multiplier}}
+		return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.extra.chip_mod*G.GAME.alice_multiplier}}
 	end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -788,7 +788,7 @@ local little_bill = {
         if context.poker_hands and next(context.poker_hands[card.ability.type]) and context.repetition and context.cardarea == G.play then
             if context.other_card == context.scoring_hand[1] then
                 return {
-                    message = localize('k_again_ex'),
+                    message = localize('k_amod_ex'),
                     repetitions = card.ability.extra*G.GAME.alice_multiplier,
                     card = card
                 }
@@ -874,7 +874,7 @@ local huge_dog = {
             end
             if temp:get_id() == 14 or temp:get_id() == 2 then
                 return {
-                    message = localize("k_again_ex"),
+                    message = localize("k_amod_ex"),
                     repetitions = (card.ability.extra.times + (valid_cards == all_cards and card.ability.extra.extra_times or 0))*G.GAME.alice_multiplier,
                     card = card,
                 }
@@ -1891,7 +1891,7 @@ local the_baby = {
         if G.GAME.current_round.hands_left == 0 then
             if context.repetition and context.cardarea == G.play then
                 return {
-                    message = localize("k_again_ex"),
+                    message = localize("k_amod_ex"),
                     repetitions = card.ability.extra*G.GAME.alice_multiplier,
                     card = card,
                 }
@@ -1990,7 +1990,7 @@ local pepper_caster = {
     calculate = function(self, card, context)
 		if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.config.center_key ~= "j_sgt_pepper_caster" then
             return {
-                message = localize("k_again_ex"),
+                message = localize("k_amod_ex"),
                 repetitions = card.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
                 card = card,
             }
@@ -2453,7 +2453,7 @@ local march_hare = {
     order = 23,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 3 },
-    config = {extra = {mult = 0, mult_gain = 3}},
+    config = {extra = {mult = 0, mult_mod = 3}},
 	rarity = 2,
     cost = 7,
     blueprint_compat = true,
@@ -2468,7 +2468,7 @@ local march_hare = {
             }
 		end
         if context.before and G.GAME.current_round.discards_used <= 0 and not context.blueprint then
-			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
 			return {
 				message = localize("k_shared_ex"),
 				colour = G.C.FILTER,
@@ -2486,7 +2486,7 @@ local march_hare = {
             end
         end
         if context.forcetrigger then
-            card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+            card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
             return {
 				chip_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
 				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
@@ -2500,7 +2500,7 @@ local march_hare = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-		return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, card.ability.extra.mult_gain*G.GAME.alice_multiplier}}
+		return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, card.ability.extra.mult_mod*G.GAME.alice_multiplier}}
 	end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -3149,7 +3149,7 @@ local shepherd_boy = {
     saga_group = "the_boy_who_cried_wolf",
     order = 992,
     pos = { x = 0, y = 0 },
-    config = {extra = {mult = 0, mult_gain = 6, odds = 6}},
+    config = {extra = {mult = 0, mult_mod = 6, odds = 6}},
     rarity = 1,
     cost = 4,
     blueprint_compat = true,
@@ -3158,7 +3158,7 @@ local shepherd_boy = {
     perishable_compat = false,
     calculate = function(self, card, context)
         if context.before and not context.blueprint then
-			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+			card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
 			return {
 				message = localize("k_amused_ex"),
 				colour = G.C.FILTER,
@@ -3192,7 +3192,7 @@ local shepherd_boy = {
             return true end }))
         end
         if context.forcetrigger then
-            card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+            card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
             G.E_MANAGER:add_event(Event({func = function()
                 local destructable_jokers = {}
                 for i = 1, #G.jokers.cards do
@@ -3216,7 +3216,7 @@ local shepherd_boy = {
         end
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.mult, card.ability.extra.mult_gain, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "shepherd_boy")}}
+        return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "shepherd_boy")}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -3340,7 +3340,7 @@ local iron_john = {
     saga_group = "iron_john",
     order = 993,
     pos = { x = 0, y = 0 },
-    config = {extra = {xmult = 1, xmult_gain = 1}},
+    config = {extra = {xmult = 1, xmult_mod = 1}},
     rarity = 3,
     cost = 8,
     blueprint_compat = true,
@@ -3360,7 +3360,7 @@ local iron_john = {
             end
         else
             if context.before and not context.blueprint then
-                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
+                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                 return {
                     message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
                     colour = G.C.FILTER,
@@ -3370,7 +3370,7 @@ local iron_john = {
         end
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_gain}}
+        return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -3413,7 +3413,7 @@ local aladdin = {
     saga_group = "aladdin_and_the_magic_lamp",
     order = 996,
     pos = { x = 0, y = 0 },
-    config = {buffed = false, extra = {tax = 0.25, xmult = 1, xmult_gain = 0.5, chips = 0}},
+    config = {buffed = false, extra = {tax = 0.25, xmult = 1, xmult_mod = 0.5, chips = 0}},
     rarity = 3,
     cost = 8,
     blueprint_compat = true,
@@ -3425,7 +3425,7 @@ local aladdin = {
             if (context.end_of_round and context.main_eval
             and not context.blueprint and not context.retrigger_joker) and G.GAME.dollars > to_big(0) then
                 ease_dollars(-math.floor(to_number(G.GAME.dollars)*card.ability.extra.tax))
-                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
+                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                 return {
                     message = localize("k_steal_ex"),
                     colour = G.C.FILTER,
@@ -3440,7 +3440,7 @@ local aladdin = {
             end
             if context.forcetrigger then
                 ease_dollars(-math.floor(to_number(G.GAME.dollars)*card.ability.extra.tax))
-                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
+                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                 return {
                     message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
                     Xmult_mod = card.ability.extra.xmult
@@ -3463,7 +3463,7 @@ local aladdin = {
             ret.vars = {card.ability.extra.chips, card.ability.extra.xmult}
         else
             ret.key = "j_sgt_aladdin"
-            ret.vars = {card.ability.extra.xmult, card.ability.extra.tax*100, card.ability.extra.xmult_gain}
+            ret.vars = {card.ability.extra.xmult, card.ability.extra.tax*100, card.ability.extra.xmult_mod}
         end
         return ret
     end,
@@ -3665,7 +3665,7 @@ local lamp_genie = {
         if context.retrigger_joker_check and not context.retrigger_joker
         and card.ability.wishlist.c_sgt_love and not context.forcetrigger then
             return {
-                message = localize("k_again_ex"),
+                message = localize("k_amod_ex"),
                 repetitions = card.ability.extra.retriggers,
                 card = card,
             }
@@ -3899,7 +3899,7 @@ local submarine = {
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 0 },
     extra_pos = { x = 0, y = 9 },
-    config = {immutable = {depth_level = 1, old_depth_level = 1, depth_list = {0, 100, 300, 750, 1600}}, extra = {chips = 0, chip_gain = 4}},
+    config = {immutable = {depth_level = 1, old_depth_level = 1, depth_list = {0, 100, 300, 750, 1600}}, extra = {chips = 0, chip_mod = 4}},
 	rarity = 3,
     cost = 10,
     blueprint_compat = true,
@@ -3915,7 +3915,7 @@ local submarine = {
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and not context.blueprint and not context.forcetrigger then
             if not context.other_card.debuff then
-                card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
+                card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
                 for i = 5, 1, -1 do
                     if card.ability.extra.chips >= card.ability.immutable.depth_list[i] then
                         card.ability.immutable.depth_level = i
@@ -3932,7 +3932,7 @@ local submarine = {
         end
         if (context.joker_main or context.forcetrigger) and to_big(card.ability.extra.chips) > to_big(0) then
             if context.forcetrigger then
-                card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
+                card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
             end
             return {
                 chip_mod = card.ability.extra.chips,
@@ -3996,7 +3996,7 @@ local submarine = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.chips, card.ability.extra.chip_gain, card.ability.immutable.depth_level}}
+        return {vars = {card.ability.extra.chips, card.ability.extra.chip_mod, card.ability.immutable.depth_level}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4645,7 +4645,7 @@ local barracuda = {
     order = 40,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 5, y = 1 },
-    config = {immutable = {depth_level = 1, weight_level = 2}, extra = {mult = 10, mult_gain = 10}},
+    config = {immutable = {depth_level = 1, weight_level = 2}, extra = {mult = 10, mult_mod = 10}},
     rarity = 2,
     cost = 6,
     blueprint_compat = true,
@@ -4672,12 +4672,12 @@ local barracuda = {
                 G.GAME.joker_buffer = G.GAME.joker_buffer - 1
                 G.E_MANAGER:add_event(Event({func = function()
                     G.GAME.joker_buffer = 0
-                    card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+                    card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
                     card:juice_up(0.8, 0.8)
                     eaten_fish:start_dissolve({G.C.RED}, true, 1.6)
                     play_sound('sgt_swallow', 0.96+math.random()*0.08)
                 return true end }))
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult+card.ability.extra.mult_gain}}, colour = G.C.RED, no_juice = true})
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult+card.ability.extra.mult_mod}}, colour = G.C.RED, no_juice = true})
             end
         end
         if context.joker_main or context.forcetrigger then
@@ -4692,7 +4692,7 @@ local barracuda = {
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "OceanMap", key = "sgt_tropical", title = localize("saga_ocean_tooltip")}
-        return {vars = {card.ability.extra.mult, card.ability.extra.mult_gain}}
+        return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4841,7 +4841,7 @@ local john_dory = {
             if (context.other_card:is_suit("Diamonds", nil, true) and context.other_card:get_id() == 11) or context.forcetrigger then
                 if context.repetition then
                     return {
-                        message = localize("k_again_ex"),
+                        message = localize("k_amod_ex"),
                         repetitions = 1,
                         card = card,
                     }
@@ -5057,7 +5057,7 @@ local turtle_egg = {
     order = 46,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 1, y = 2 },
-    config = {extra = {sell_value_gain = 3, odds = 15, sell_odds = 30}},
+    config = {extra = {sell_value_mod = 3, odds = 15, sell_odds = 30}},
     rarity = 1,
     cost = 4,
     blueprint_compat = false,
@@ -5101,7 +5101,7 @@ local turtle_egg = {
                     no_retrigger = true
                 }
             else
-                card.ability.extra_value = card.ability.extra_value + card.ability.extra.sell_value_gain
+                card.ability.extra_value = card.ability.extra_value + card.ability.extra.sell_value_mod
                 card:set_cost()
                 return {
                     message = localize('k_val_up'),
@@ -5135,7 +5135,7 @@ local turtle_egg = {
     loc_vars = function(self, info_queue, card)
         -- info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_baby_turtle"] -- this breaks multi-box wtf
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "turtle_egg_hatch")
-        return {vars = {card.ability.extra.sell_value_gain, localize{type = 'name_text', set = "Joker", key = "j_sgt_baby_turtle", nodes = {}},
+        return {vars = {card.ability.extra.sell_value_mod, localize{type = 'name_text', set = "Joker", key = "j_sgt_baby_turtle", nodes = {}},
         n, d, SMODS.get_probability_vars(card, 1, card.ability.extra.sell_odds, "turtle_egg_sell_hatch")}}
     end,
     set_badges = function(self, card, badges)
@@ -5355,7 +5355,7 @@ local electric_eel = {
                         end
                         if count > 0 then
                             return {
-                                message = localize("k_again_ex"),
+                                message = localize("k_amod_ex"),
                                 repetitions = count,
                                 card = card,
                             }
@@ -5375,7 +5375,7 @@ local electric_eel = {
                         end
                         if count > 0 then
                             return {
-                                message = localize("k_again_ex"),
+                                message = localize("k_amod_ex"),
                                 repetitions = count,
                                 card = card,
                             }
@@ -5397,7 +5397,7 @@ local electric_eel = {
                     end
                     if count > 0 then
                         return {
-                            message = localize("k_again_ex"),
+                            message = localize("k_amod_ex"),
                             repetitions = count,
                             card = card,
                         }
@@ -5593,7 +5593,7 @@ local blobfish = {
     order = 52,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 5, y = 2 },
-    config = {immutable = {depth_level = 5, weight_level = 2}, extra = {mult = 0, mult_gain = 3}},
+    config = {immutable = {depth_level = 5, weight_level = 2}, extra = {mult = 0, mult_mod = 3}},
     rarity = 1,
     cost = 5,
     blueprint_compat = true,
@@ -5608,7 +5608,7 @@ local blobfish = {
             }
         end
         if context.end_of_round and context.main_eval and not context.blueprint then
-            card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain*G.GAME.current_round.discards_left
+            card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod*G.GAME.current_round.discards_left
             return {
                 message = localize('k_blob_ex'),
                 colour = G.C.FILTER,
@@ -5619,7 +5619,7 @@ local blobfish = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.mult, card.ability.extra.mult_gain}}
+        return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -5711,7 +5711,7 @@ local coral_kingdom = {
     order = 54,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 4 },
-    config = {extra = {joker_count = 2, chips = 0, chip_gain = 15}},
+    config = {extra = {joker_count = 2, chips = 0, chip_mod = 15}},
     rarity = 2,
     cost = 7,
     blueprint_compat = true,
@@ -5738,7 +5738,7 @@ local coral_kingdom = {
         end
         if context.discard and not context.blueprint then
             if not context.other_card.debuff and SMODS.has_no_rank(context.other_card) then
-                card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
+                card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
                 return {
                     message = localize('k_upgrade_ex'),
                     colour = G.C.CHIPS,
@@ -5770,7 +5770,7 @@ local coral_kingdom = {
                     end
                 return true
             end}))
-            card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
+            card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
             return {
 				chip_mod = card.ability.extra.chips,
 				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
@@ -5781,7 +5781,7 @@ local coral_kingdom = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.joker_count, card.ability.extra.chips, card.ability.extra.chip_gain}}
+        return {vars = {card.ability.extra.joker_count, card.ability.extra.chips, card.ability.extra.chip_mod}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -5805,7 +5805,7 @@ local dolphin = {
     order = 55,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 3 },
-    config = {immutable = {depth_level = 3, weight_level = 3}, extra = {xmult = 1, xmult_gain = 0.25--[[temporary value]]}},
+    config = {immutable = {depth_level = 3, weight_level = 3}, extra = {xmult = 1, xmult_mod = 0.25--[[temporary value]]}},
     rarity = 2,
     cost = 6--[[temporary value]],
     blueprint_compat = true,
@@ -5815,7 +5815,7 @@ local dolphin = {
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and not context.blueprint then
             if context.other_card.lucky_trigger then
-                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
+                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                 return {
                     extra = {focus = card, message = localize('k_upgrade_ex'), colour = G.C.MULT},
                     card = card
@@ -5824,7 +5824,7 @@ local dolphin = {
         end
         if (context.joker_main and to_big(card.ability.extra.xmult) > to_big(1)) or context.forcetrigger then
             if context.forcetrigger then
-                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
+                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
             end
             return {
                 message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
@@ -5836,7 +5836,7 @@ local dolphin = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_gain}}
+        return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -5952,14 +5952,14 @@ local nemo = {
         if context.repetition then
             if context.cardarea == G.play then
                 return {
-                    message = localize("k_again_ex"),
+                    message = localize("k_amod_ex"),
                     repetitions = #G.jokers.cards,
                     card = card,
                 }
             end
             if context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
                 return {
-                    message = localize("k_again_ex"),
+                    message = localize("k_amod_ex"),
                     repetitions = #G.jokers.cards,
                     card = card,
                 }
@@ -5968,7 +5968,7 @@ local nemo = {
         if context.end_of_round and context.repetition
         and context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
             return {
-                message = localize("k_again_ex"),
+                message = localize("k_amod_ex"),
                 repetitions = #G.jokers.cards,
                 card = card,
             }
@@ -6092,7 +6092,7 @@ local shub = {
     order = 999,
     pos = { x = 0, y = 2 },
     soul_pos = { x = 2, y = 2, extra = { x = 1, y = 2 } },
-    config = {extra = {e_mult = 1, e_mult_gain = 0.02}},
+    config = {extra = {e_mult = 1, e_mult_mod = 0.02}},
     rarity = "sgt_esoteric",
     cost = 50,
     blueprint_compat = true,
@@ -6131,20 +6131,20 @@ local shub = {
                     -- This is actually delayed - it takes the value before new cards are added by Shub-Niggurath
                     -- I'm adding #context.full_hand to compensate for it
                     e_mult = card.ability.extra.e_mult
-                    + (card.ability.extra.e_mult_gain*(#G.playing_cards + #context.full_hand - G.GAME.starting_deck_size)),
+                    + (card.ability.extra.e_mult_mod*(#G.playing_cards + #context.full_hand - G.GAME.starting_deck_size)),
                 }
             end
         end
         if context.forcetrigger then
             return { -- not tested
                 e_mult = card.ability.extra.e_mult
-                + (card.ability.extra.e_mult_gain*(#G.playing_cards + 2*#context.full_hand - G.GAME.starting_deck_size)),
+                + (card.ability.extra.e_mult_mod*(#G.playing_cards + 2*#context.full_hand - G.GAME.starting_deck_size)),
             }
         end
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.e_mult + (card.ability.extra.e_mult_gain*(G.playing_cards and #G.playing_cards > G.GAME.starting_deck_size and #G.playing_cards - G.GAME.starting_deck_size or 0)),
-            card.ability.extra.e_mult_gain, G.GAME.starting_deck_size}}
+        return {vars = {card.ability.extra.e_mult + (card.ability.extra.e_mult_mod*(G.playing_cards and #G.playing_cards > G.GAME.starting_deck_size and #G.playing_cards - G.GAME.starting_deck_size or 0)),
+            card.ability.extra.e_mult_mod, G.GAME.starting_deck_size}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -6162,7 +6162,7 @@ local shub = {
             },
             calc_function = function(card)
                 local count = 0
-                local emult = card.ability.extra.e_mult + (card.ability.extra.e_mult_gain*(#G.playing_cards - G.GAME.starting_deck_size))
+                local emult = card.ability.extra.e_mult + (card.ability.extra.e_mult_mod*(#G.playing_cards - G.GAME.starting_deck_size))
                 local text, _, scoring_hand = JokerDisplay.evaluate_hand()
                 if text ~= 'Unknown' then
                     for _, scoring_card in pairs(scoring_hand) do
@@ -6184,7 +6184,7 @@ local ragnarok = {
     order = 1000,
     pos = { x = 0, y = 3 },
     soul_pos = { x = 2, y = 3, extra = { x = 1, y = 3 } },
-    config = {extra = {e_mult = 1, e_mult_gain_boss = 0.25, e_mult_gain_showdown = 0.5}},
+    config = {extra = {e_mult = 1, e_mult_mod_boss = 0.25, e_mult_mod_showdown = 0.5}},
     rarity = "sgt_esoteric",
     cost = 50,
     blueprint_compat = true,
@@ -6194,9 +6194,9 @@ local ragnarok = {
     calculate = function(self, card, context)
         if context.end_of_round and context.main_eval and not context.blueprint and G.GAME.blind.boss then
             if  G.GAME.blind.config.blind.boss.showdown then
-                card.ability.extra.e_mult = card.ability.extra.e_mult + card.ability.extra.e_mult_gain_showdown
+                card.ability.extra.e_mult = card.ability.extra.e_mult + card.ability.extra.e_mult_mod_showdown
             else
-                card.ability.extra.e_mult = card.ability.extra.e_mult + card.ability.extra.e_mult_gain_boss
+                card.ability.extra.e_mult = card.ability.extra.e_mult + card.ability.extra.e_mult_mod_boss
             end
             return {
                 message = localize('k_upgrade_ex'),
@@ -6210,14 +6210,14 @@ local ragnarok = {
             }
         end
         if context.forcetrigger then
-            card.ability.extra.e_mult = card.ability.extra.e_mult + card.ability.extra.e_mult_gain_showdown
+            card.ability.extra.e_mult = card.ability.extra.e_mult + card.ability.extra.e_mult_mod_showdown
             return {
                 e_mult = card.ability.extra.e_mult
             }
         end
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.e_mult, card.ability.extra.e_mult_gain_boss, card.ability.extra.e_mult_gain_showdown}}
+        return {vars = {card.ability.extra.e_mult, card.ability.extra.e_mult_mod_boss, card.ability.extra.e_mult_mod_showdown}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -6246,7 +6246,7 @@ local azathoth = {
     order = 1001,
     pos = { x = 0, y = 4 },
     soul_pos = { x = 2, y = 4, extra = { x = 1, y = 4 } },
-    config = {extra = {amount = 1, amount_gain = 2}},
+    config = {extra = {amount = 1, amount_mod = 2}},
     rarity = "sgt_esoteric",
     cost = 50,
     blueprint_compat = true,
@@ -6265,7 +6265,7 @@ local azathoth = {
                             edition = "e_negative",
                         }))
                     end
-                    card.ability.extra.amount = card.ability.extra.amount + card.ability.extra.amount_gain
+                    card.ability.extra.amount = card.ability.extra.amount + card.ability.extra.amount_mod
                 return true
             end)}))
             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_zzz'), colour = G.C.SECONDARY_SET.Tarot})
@@ -6273,7 +6273,7 @@ local azathoth = {
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.c_fool
-        return {vars = {card.ability.extra.amount, card.ability.extra.amount_gain, localize{type = 'name_text', set = "Tarot", key = "c_fool", nodes = {}}}}
+        return {vars = {card.ability.extra.amount, card.ability.extra.amount_mod, localize{type = 'name_text', set = "Tarot", key = "c_fool", nodes = {}}}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
