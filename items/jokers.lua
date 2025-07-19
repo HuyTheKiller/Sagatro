@@ -788,7 +788,7 @@ local little_bill = {
         if context.poker_hands and next(context.poker_hands[card.ability.type]) and context.repetition and context.cardarea == G.play then
             if context.other_card == context.scoring_hand[1] then
                 return {
-                    message = localize('k_amod_ex'),
+                    message = localize('k_again_ex'),
                     repetitions = card.ability.extra*G.GAME.alice_multiplier,
                     card = card
                 }
@@ -874,7 +874,7 @@ local huge_dog = {
             end
             if temp:get_id() == 14 or temp:get_id() == 2 then
                 return {
-                    message = localize("k_amod_ex"),
+                    message = localize("k_again_ex"),
                     repetitions = (card.ability.extra.times + (valid_cards == all_cards and card.ability.extra.extra_times or 0))*G.GAME.alice_multiplier,
                     card = card,
                 }
@@ -1891,7 +1891,7 @@ local the_baby = {
         if G.GAME.current_round.hands_left == 0 then
             if context.repetition and context.cardarea == G.play then
                 return {
-                    message = localize("k_amod_ex"),
+                    message = localize("k_again_ex"),
                     repetitions = card.ability.extra*G.GAME.alice_multiplier,
                     card = card,
                 }
@@ -1990,7 +1990,7 @@ local pepper_caster = {
     calculate = function(self, card, context)
 		if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.config.center_key ~= "j_sgt_pepper_caster" then
             return {
-                message = localize("k_amod_ex"),
+                message = localize("k_again_ex"),
                 repetitions = card.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
                 card = card,
             }
@@ -3087,6 +3087,7 @@ local alice = {
     atlas = "alice",
     saga_group = "alice_in_wonderland",
     order = 30,
+    pools = { [SAGA_GROUP_POOL.legend] = true },
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },
     config = {extra = 3},
@@ -3367,6 +3368,16 @@ local iron_john = {
                     card = card
                 }
             end
+        end
+        if context.forcetrigger then
+            card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
+            G.E_MANAGER:add_event(Event({func = function()
+                card.ability.extra.xmult = 1
+                return true end }))
+            return {
+                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                Xmult_mod = card.ability.extra.xmult
+            }
         end
     end,
     loc_vars = function(self, info_queue, card)
@@ -3665,7 +3676,7 @@ local lamp_genie = {
         if context.retrigger_joker_check and not context.retrigger_joker
         and card.ability.wishlist.c_sgt_love and not context.forcetrigger then
             return {
-                message = localize("k_amod_ex"),
+                message = localize("k_again_ex"),
                 repetitions = card.ability.extra.retriggers,
                 card = card,
             }
@@ -4841,7 +4852,7 @@ local john_dory = {
             if (context.other_card:is_suit("Diamonds", nil, true) and context.other_card:get_id() == 11) or context.forcetrigger then
                 if context.repetition then
                     return {
-                        message = localize("k_amod_ex"),
+                        message = localize("k_again_ex"),
                         repetitions = 1,
                         card = card,
                     }
@@ -5355,7 +5366,7 @@ local electric_eel = {
                         end
                         if count > 0 then
                             return {
-                                message = localize("k_amod_ex"),
+                                message = localize("k_again_ex"),
                                 repetitions = count,
                                 card = card,
                             }
@@ -5375,7 +5386,7 @@ local electric_eel = {
                         end
                         if count > 0 then
                             return {
-                                message = localize("k_amod_ex"),
+                                message = localize("k_again_ex"),
                                 repetitions = count,
                                 card = card,
                             }
@@ -5397,7 +5408,7 @@ local electric_eel = {
                     end
                     if count > 0 then
                         return {
-                            message = localize("k_amod_ex"),
+                            message = localize("k_again_ex"),
                             repetitions = count,
                             card = card,
                         }
@@ -5952,14 +5963,14 @@ local nemo = {
         if context.repetition then
             if context.cardarea == G.play then
                 return {
-                    message = localize("k_amod_ex"),
+                    message = localize("k_again_ex"),
                     repetitions = #G.jokers.cards,
                     card = card,
                 }
             end
             if context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
                 return {
-                    message = localize("k_amod_ex"),
+                    message = localize("k_again_ex"),
                     repetitions = #G.jokers.cards,
                     card = card,
                 }
@@ -5968,7 +5979,7 @@ local nemo = {
         if context.end_of_round and context.repetition
         and context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
             return {
-                message = localize("k_amod_ex"),
+                message = localize("k_again_ex"),
                 repetitions = #G.jokers.cards,
                 card = card,
             }
