@@ -455,6 +455,11 @@ end
 local cc = create_card
 function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
     -- Forcing joker pools also happens here
+    if next(SMODS.find_card("j_sgt_yggdrasil")) and _type == "Joker" then
+        if pseudorandom("yggdrasil") > 0.95 then
+            _type = "Norse Gods"
+        end
+    end
     if G.GAME.saga_event and G.GAME.saga_event.alice_in_wonderland.final_showdown and G.GAME.story_mode and _type == "Joker" then
         _type = "Final Showdown"
         if pseudorandom("alice_in_final_showdown") > 0.997 then

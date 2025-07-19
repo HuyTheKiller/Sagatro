@@ -807,6 +807,22 @@ return {
                     "{C:inactive}(Hiện tại là {X:dark_edition,C:white}^#1#{C:inactive} Nhân)",
                 },
             },
+            j_sgt_yggdrasil = {
+                name = "Yggdrasil",
+                text = {
+                    "Thần từ {C:sgt_sagadition}Thần Thoại Bắc Âu{}",
+                    "có xác suất cứng {C:green}5%{}",
+                    "xuất hiện trong shop",
+                },
+            },
+            j_sgt_thor = {
+                name = "Thórr",
+                text = {
+                    "{C:attention}Tái kích{} lá bài bên cạnh {C:attention}cường hoá dẫn điện",
+                    "Mỗi lá {C:attention}giữ trên tay{} có {C:attention}cường hoá",
+                    "{C:attention}dẫn điện{} cho {X:dark_edition,C:white}^#1#{} Nhân",
+                },
+            },
             j_sgt_azathoth = {
                 name = "Azathoth",
                 text = {

@@ -5444,13 +5444,15 @@ local electric_eel = {
                     return count*JokerDisplay.calculate_joker_triggers(joker_card)
                 else
                     local count = 0
-                    for i, v in ipairs(G.play.cards) do
-                        if playing_card == v then
-                            if Sagatro.conductive_enhancement(G.play.cards[i-1]) then
-                                count = count + 1
-                            end
-                            if Sagatro.conductive_enhancement(G.play.cards[i+1]) then
-                                count = count + 1
+                    if scoring_hand then
+                        for i, v in ipairs(G.play.cards) do
+                            if playing_card == v then
+                                if Sagatro.conductive_enhancement(G.play.cards[i-1]) and table.contains(scoring_hand, v) then
+                                    count = count + 1
+                                end
+                                if Sagatro.conductive_enhancement(G.play.cards[i+1]) and table.contains(scoring_hand, v) then
+                                    count = count + 1
+                                end
                             end
                         end
                     end
@@ -5591,9 +5593,6 @@ local stonefish = {
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
  	end,
-    joker_display_def = function(JokerDisplay)
-        return {}
-    end,
 }
 
 local blobfish = {
@@ -6101,7 +6100,7 @@ local shub = {
     atlas = "esoteric",
     saga_group = "lovecraft",
     dependencies = {"Talisman"},
-    order = 1000,
+    order = 1003,
     pools = { [SAGA_GROUP_POOL.lcraft] = true },
     pos = { x = 0, y = 2 },
     soul_pos = { x = 2, y = 2, extra = { x = 1, y = 2 } },
@@ -6251,13 +6250,204 @@ local ragnarok = {
     end
 }
 
+local yggdrasil = {
+    key = "yggdrasil",
+    name = "Yggdrasil",
+    atlas = "esoteric",
+    saga_group = "norse_mythology",
+    dependencies = {"Talisman"},
+    order = 1000,
+    pools = { [SAGA_GROUP_POOL.norse] = true },
+    pos = { x = 3, y = 0 },
+    soul_pos = { x = 5, y = 0, extra = { x = 4, y = 0 } },
+    config = {},
+    rarity = "sgt_esoteric",
+    cost = 50,
+    blueprint_compat = false,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
+local thor = {
+    key = "thor",
+    name = "Thórr",
+    atlas = "esoteric",
+    saga_group = "norse_mythology",
+    dependencies = {"Talisman"},
+    order = 1001,
+    pools = { [SAGA_GROUP_POOL.norse] = true, [SAGA_GROUP_POOL.ngods] = true },
+    pos = { x = 3, y = 1 },
+    soul_pos = { x = 5, y = 1, extra = { x = 4, y = 1 } },
+    config = {extra = {e_mult = 1.5}},
+    rarity = "sgt_esoteric",
+    cost = 50,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.repetition then
+            if context.cardarea == G.play then
+                for i, v in ipairs(G.play.cards) do
+                    if context.other_card == v then
+                        local count = 0
+                        if Sagatro.conductive_enhancement(G.play.cards[i-1]) then
+                            count = count + 1
+                        end
+                        if Sagatro.conductive_enhancement(G.play.cards[i+1]) then
+                            count = count + 1
+                        end
+                        if count > 0 then
+                            return {
+                                message = localize("k_again_ex"),
+                                repetitions = count,
+                                card = card,
+                            }
+                        end
+                    end
+                end
+            end
+            if context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
+                for i, v in ipairs(G.hand.cards) do
+                    if context.other_card == v then
+                        local count = 0
+                        if Sagatro.conductive_enhancement(G.hand.cards[i-1]) then
+                            count = count + 1
+                        end
+                        if Sagatro.conductive_enhancement(G.hand.cards[i+1]) then
+                            count = count + 1
+                        end
+                        if count > 0 then
+                            return {
+                                message = localize("k_again_ex"),
+                                repetitions = count,
+                                card = card,
+                            }
+                        end
+                    end
+                end
+            end
+        end
+        if context.end_of_round and context.repetition
+        and context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
+            for i, v in ipairs(G.hand.cards) do
+                if context.other_card == v then
+                    local count = 0
+                    if Sagatro.conductive_enhancement(G.hand.cards[i-1]) then
+                        count = count + 1
+                    end
+                    if Sagatro.conductive_enhancement(G.hand.cards[i+1]) then
+                        count = count + 1
+                    end
+                    if count > 0 then
+                        return {
+                            message = localize("k_again_ex"),
+                            repetitions = count,
+                            card = card,
+                        }
+                    end
+                end
+            end
+        end
+        if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
+            if Sagatro.conductive_enhancement(context.other_card) then
+                if context.other_card.debuff then
+                    return {
+                        message = localize('k_debuffed'),
+                        colour = G.C.RED,
+                        card = card,
+                    }
+                else
+                    return {
+                        e_mult = card.ability.extra.e_mult,
+                        card = card,
+                    }
+                end
+            end
+        end
+        if context.forcetrigger then
+            return {
+                e_mult = card.ability.extra.e_mult,
+            }
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        Sagatro.electric_eel_info_queue_append(info_queue, Sagatro.electric_eel_info_queue)
+        return {vars = {card.ability.extra.e_mult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "^" },
+                        { ref_table = "card.joker_display_values", ref_value = "e_mult", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.DARK_EDITION
+                }
+            },
+            calc_function = function(card)
+                local count = 0
+                local emult = card.ability.extra.e_mult
+                local playing_hand = next(G.play.cards)
+                for _, playing_card in ipairs(G.hand.cards) do
+                    if playing_hand or not playing_card.highlighted then
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff and Sagatro.conductive_enhancement(playing_card) then
+                            count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
+                        end
+                    end
+                end
+                card.joker_display_values.e_mult = emult^count
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if held_in_hand then
+                    local count = 0
+                    for i, v in ipairs(G.hand.cards) do
+                        if playing_card == v then
+                            if Sagatro.conductive_enhancement(G.hand.cards[i-1]) then
+                                count = count + 1
+                            end
+                            if Sagatro.conductive_enhancement(G.hand.cards[i+1]) then
+                                count = count + 1
+                            end
+                        end
+                    end
+                    return count*JokerDisplay.calculate_joker_triggers(joker_card)
+                else
+                    local count = 0
+                    if scoring_hand then
+                        for i, v in ipairs(G.play.cards) do
+                            if playing_card == v then
+                                if Sagatro.conductive_enhancement(G.play.cards[i-1]) and table.contains(scoring_hand, v) then
+                                    count = count + 1
+                                end
+                                if Sagatro.conductive_enhancement(G.play.cards[i+1]) and table.contains(scoring_hand, v) then
+                                    count = count + 1
+                                end
+                            end
+                        end
+                    end
+                    return count*JokerDisplay.calculate_joker_triggers(joker_card)
+                end
+            end,
+        }
+    end,
+}
+
 local azathoth = {
     key = "azathoth",
     name = "Azathoth",
     atlas = "esoteric",
     saga_group = "norse_mythology",
     dependencies = {"Talisman"},
-    order = 1001,
+    order = 1004,
     pools = { [SAGA_GROUP_POOL.lcraft] = true },
     pos = { x = 0, y = 4 },
     soul_pos = { x = 2, y = 4, extra = { x = 1, y = 4 } },
@@ -6418,6 +6608,8 @@ local joker_table = {
     hansels_cheat_dice,
     shub,
     ragnarok,
+    yggdrasil,
+    thor,
     azathoth,
     test,
 }
