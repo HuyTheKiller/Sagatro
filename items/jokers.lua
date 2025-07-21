@@ -6471,6 +6471,7 @@ local odin = {
         if context.before and not context.blueprint and not context.retrigger_joker then
             for _, v in ipairs(context.full_hand) do
                 v:set_ability(G.P_CENTERS.m_sgt_omnicient, nil, true)
+                SMODS.debuff_card(v, "prevent_debuff", "j_sgt_odin")
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         v:juice_up()

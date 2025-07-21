@@ -834,8 +834,14 @@ return {
             j_sgt_odin = {
                 name = "Ódinn",
                 text = {
-                    "Mọi lá đã chơi trở",
-                    "thành lá {C:attention}Toàn Tri{}",
+                    {
+                        "Mọi lá đã chơi trở",
+                        "thành lá {C:attention}Toàn Tri{}",
+                    },
+                    {
+                        "Lá bị biến đổi bởi {C:attention}Ódinn",
+                        "không thể bị {C:attention}vô hiệu hoá"
+                    },
                 },
             },
             j_sgt_azathoth = {

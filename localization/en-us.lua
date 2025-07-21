@@ -835,8 +835,14 @@ return {
             j_sgt_odin = {
                 name = "Ódinn",
                 text = {
-                    "All played cards become",
-                    "{C:attention}Omnicient{} cards",
+                    {
+                        "All played cards become",
+                        "{C:attention}Omnicient{} cards",
+                    },
+                    {
+                        "Cards transformed by {C:attention}Ódinn",
+                        "can't be {C:attention}debuffed"
+                    },
                 },
             },
             j_sgt_azathoth = {
