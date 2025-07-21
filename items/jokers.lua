@@ -5559,7 +5559,7 @@ local stonefish = {
             if context.scoring_hand then
 				for k, v in ipairs(context.scoring_hand) do
 					if v:is_face() then
-						v:set_ability(G.P_CENTERS.m_gold, nil, true)
+						v:set_ability(G.P_CENTERS.m_stone, nil, true)
 						G.E_MANAGER:add_event(Event({
 							trigger = "after",
 							delay = 0.4,
@@ -5573,7 +5573,7 @@ local stonefish = {
 			elseif G and G.hand and #G.hand.highlighted > 0 then
 				for k, v in ipairs(G.hand.highlighted) do
 					if v:is_face() then
-						v:set_ability(G.P_CENTERS.m_gold, nil, true)
+						v:set_ability(G.P_CENTERS.m_stone, nil, true)
 						G.E_MANAGER:add_event(Event({
 							trigger = "after",
 							delay = 0.4,
@@ -5589,6 +5589,9 @@ local stonefish = {
     end,
     in_pool = function(self, args)
         return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.m_stone
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
