@@ -188,13 +188,15 @@ local omnicient = {
     any_suit = true,
     shatters = true,
     always_score = true,
-    weight = 0,
     calculate = function(self, card, context)
         if context.destroy_card and context.cardarea == G.play and context.destroy_card == card
         and SMODS.pseudorandom_probability(card, 'omnicient_glass', 1, card.ability.extra, "omnicient") then
             card.glass_trigger = true
             return { remove = true }
         end
+    end,
+    in_pool = function(self, args)
+        return false
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra, "omnicient")}}
