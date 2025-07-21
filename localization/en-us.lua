@@ -148,6 +148,14 @@ return {
                     "{s:0.8,C:inactive}streaks are rarer",
                 },
             },
+            c_sgt_omnicience = {
+                name = "The Omnicience",
+                text = {
+                    "Enhances {C:attention}#1#{} selected",
+                    "card into an",
+                    "{C:attention}#2#",
+                }
+            },
             c_sgt_lamp = {
                 name = "The Magic Lamp",
                 text = {
@@ -824,6 +832,13 @@ return {
                     "{C:attention}enhancement{} gives {X:dark_edition,C:white}^#1#{} Mult",
                 },
             },
+            j_sgt_odin = {
+                name = "Ódinn",
+                text = {
+                    "All played cards become",
+                    "{C:attention}Omnicient{} cards",
+                },
+            },
             j_sgt_azathoth = {
                 name = "Azathoth",
                 text = {
@@ -883,6 +898,17 @@ return {
                 text = {
                     "Tropical",
                     "Ocean"
+                },
+            },
+        },
+        Enhanced = {
+            m_sgt_omnicient={
+                name="Omnicient Card",
+                text={
+                    "{C:attention}8{} enhancements in {C:attention}1{}",
+                    "{C:green}Guaranteed {C:attention}lucky{} trigger",
+                    "{C:green}#1# in #2#{} chance to",
+                    "destroy card",
                 },
             },
         },
@@ -1116,6 +1142,7 @@ return {
             k_zzz = "ZZZ",
             k_charge = "Charge",
             k_release = "Release",
+            k_omnicient_ex = "Omnicient!",
             ph_per_face_down = " per face-down",
             ph_trial_begins = "Trial Begins!",
             ph_plus_ante = "+1 Ante",

@@ -147,6 +147,14 @@ return {
                     "{s:0.8,C:inactive}mạnh hơn thì hiếm hơn",
                 },
             },
+            c_sgt_omnicience = {
+                name = "Toàn Tri",
+                text = {
+                    "Cường hoá {C:attention}#1#",
+                    "lá đã chọn thành",
+                    "{C:attention}#2#",
+                }
+            },
             c_sgt_lamp = {
                 name = "Chiếc Đèn Thần",
                 text = {
@@ -823,6 +831,13 @@ return {
                     "{C:attention}dẫn điện{} cho {X:dark_edition,C:white}^#1#{} Nhân",
                 },
             },
+            j_sgt_odin = {
+                name = "Ódinn",
+                text = {
+                    "Mọi lá đã chơi trở",
+                    "thành lá {C:attention}Toàn Tri{}",
+                },
+            },
             j_sgt_azathoth = {
                 name = "Azathoth",
                 text = {
@@ -882,6 +897,17 @@ return {
                 text = {
                     "Đại Dương",
                     "Nhiệt Đới"
+                },
+            },
+        },
+        Enhanced = {
+            m_sgt_omnicient={
+                name="Lá Toàn Tri",
+                text={
+                    "{C:attention}8{} cường hoá trong {C:attention}1{}",
+                    "{C:attention}May mắn {C:green}đảm bảo trúng{}",
+                    "Xác suất {C:green}#1# trên #2#{} để",
+                    "phá huỷ lá bài",
                 },
             },
         },
@@ -1115,6 +1141,7 @@ return {
             k_zzz = "ZZZ",
             k_charge = "Nạp",
             k_release = "Xả",
+            k_omnicient_ex = "Toàn Tri!",
             ph_per_face_down = " mỗi lá sấp",
             ph_trial_begins = "Khai Toà!",
             ph_plus_ante = "+1 Ante",

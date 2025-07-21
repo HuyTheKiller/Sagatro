@@ -6444,6 +6444,82 @@ local thor = {
     end,
 }
 
+local odin = {
+    key = "odin",
+    name = "Ódinn",
+    atlas = "esoteric",
+    saga_group = "norse_mythology",
+    dependencies = {"Talisman"},
+    order = 1002,
+    pools = { [SAGA_GROUP_POOL.norse] = true, [SAGA_GROUP_POOL.ngods] = true },
+    pos = { x = 3, y = 2 },
+    soul_pos = { x = 5, y = 2, extra = { x = 4, y = 2 } },
+    config = {},
+    rarity = "sgt_esoteric",
+    cost = 50,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.modify_scoring_hand and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
+			return {
+                add_to_hand = true,
+                no_retrigger = true
+            }
+		end
+        if context.before and not context.blueprint and not context.retrigger_joker then
+            for _, v in ipairs(context.full_hand) do
+                v:set_ability(G.P_CENTERS.m_sgt_omnicient, nil, true)
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        v:juice_up()
+                        return true
+                    end
+                }))
+            end
+            return {
+                message = localize('k_omnicient_ex'),
+                colour = G.C.FILTER,
+                card = card,
+            }
+        end
+        if context.forcetrigger then
+            if context.scoring_hand then
+				for _, v in ipairs(context.full_hand) do
+                    v:set_ability(G.P_CENTERS.m_sgt_omnicient, nil, true)
+                    G.E_MANAGER:add_event(Event({
+                        trigger = "after",
+                        delay = 0.4,
+                        func = function()
+                            v:juice_up()
+                            return true
+                        end,
+                    }))
+				end
+			elseif G and G.hand and #G.hand.highlighted > 0 then
+				for _, v in ipairs(G.hand.highlighted) do
+                    v:set_ability(G.P_CENTERS.m_sgt_omnicient, nil, true)
+                    G.E_MANAGER:add_event(Event({
+                        trigger = "after",
+                        delay = 0.4,
+                        func = function()
+                            v:juice_up()
+                            return true
+                        end,
+                    }))
+				end
+			end
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_omnicient
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
 local azathoth = {
     key = "azathoth",
     name = "Azathoth",
@@ -6613,6 +6689,7 @@ local joker_table = {
     ragnarok,
     yggdrasil,
     thor,
+    odin,
     azathoth,
     test,
 }

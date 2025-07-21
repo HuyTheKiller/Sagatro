@@ -768,7 +768,7 @@ end
 -- Hook this function in your mod code for cross-mod compat
 function Sagatro.conductive_enhancement(card)
     if not card then return end
-    return SMODS.has_enhancement(card, 'm_steel') or SMODS.has_enhancement(card, 'm_gold')
+    return SMODS.has_enhancement(card, 'm_steel') or SMODS.has_enhancement(card, 'm_gold') or SMODS.has_enhancement(card, 'm_sgt_omnicient')
 end
 
 -- Append enhancement keys to Sagatro.electric_eel_info_queue to include your target enhancements
@@ -828,6 +828,10 @@ function get_new_showdown()
     G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] + 1
 
     return boss
+end
+
+function Sagatro.omnicient(card, key)
+    return SMODS.has_enhancement(card, key) or SMODS.has_enhancement(card, "m_sgt_omnicient")
 end
 
 -- from Cryptid's Tarot called Blessing

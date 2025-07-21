@@ -137,8 +137,28 @@ local lamp = {
     end
 }
 
+local omnicience = {
+    key = "omnicience",
+    name = "The Omnicience",
+    set = "Spectral",
+    atlas = "misc",
+    pos = {x = 1, y = 0},
+    config = {mod_conv = 'm_sgt_omnicient', max_highlighted = 1},
+    cost = 4,
+    hidden = true,
+    soul_set = "Tarot",
+    loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_omnicient
+		return {vars = {card and card.ability.max_highlighted or self.config.max_highlighted, localize{type = 'name_text', set = "Enhanced", key = "m_sgt_omnicient", nodes = {}}}}
+	end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items
+    end
+}
+
 local consumable_table = {
     streak,
+    omnicience,
     lamp,
 }
 
@@ -148,4 +168,43 @@ for _, v in ipairs(consumable_table) do
         v.discovered = true
     end
     SMODS.Consumable(v)
+end
+
+local omnicient = {
+    key = "omnicient",
+    name = "Omnicient Card",
+    effect = "Omnicient",
+    atlas = "misc",
+    pos = {x = 4, y = 4},
+    config = {
+        bonus = 80,
+        mult = 24,
+        x_mult = 2,
+        h_x_mult = 1.5,
+        p_dollars = 20,
+        h_dollars = 3,
+        extra = 15,
+    },
+    any_suit = true,
+    shatters = true,
+    always_score = true,
+    weight = 0,
+    calculate = function(self, card, context)
+        if context.destroy_card and context.cardarea == G.play and context.destroy_card == card
+        and SMODS.pseudorandom_probability(card, 'omnicient_glass', 1, card.ability.extra, "omnicient") then
+            card.glass_trigger = true
+            return { remove = true }
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra, "omnicient")}}
+    end,
+}
+
+local enhancement_table = {
+    omnicient,
+}
+
+for _, v in ipairs(enhancement_table) do
+    SMODS.Enhancement(v)
 end
