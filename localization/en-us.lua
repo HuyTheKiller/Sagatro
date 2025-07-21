@@ -845,6 +845,14 @@ return {
                     },
                 },
             },
+            j_sgt_hermod = {
+                name = "Hermódr",
+                text = {
+                    "When {C:attention}Blind{} is skipped,",
+                    "create {C:attention}#1#{} tags, increase",
+                    "by {C:attention}#2#{} every trigger",
+                }
+            },
             j_sgt_azathoth = {
                 name = "Azathoth",
                 text = {

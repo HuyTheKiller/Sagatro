@@ -873,6 +873,30 @@ function sgt_get_random_consumable(seed, excluded_flags, banned_card, pool, no_u
 	end
 end
 
+local at = add_tag
+function add_tag(tag)
+	at(tag)
+	if not Cryptid then
+        if #G.HUD_tags > 13 then
+            for i = 2, #G.HUD_tags do
+                G.HUD_tags[i].config.offset.y = 0.9 - 0.9 * 13 / #G.HUD_tags
+            end
+        end
+    end
+end
+
+local tr = Tag.remove
+function Tag:remove()
+	tr(self)
+	if not Cryptid then
+        if #G.HUD_tags >= 13 then
+            for i = 2, #G.HUD_tags do
+                G.HUD_tags[i].config.offset.y = 0.9 - 0.9 * 13 / #G.HUD_tags
+            end
+        end
+    end
+end
+
 -- Implement exponential Mult without Talisman dependency (some other mods also do this)
 if not (SMODS.Mods["Talisman"] or {}).can_load
 and not (SMODS.Mods["Buffoonery"] or {}).can_load

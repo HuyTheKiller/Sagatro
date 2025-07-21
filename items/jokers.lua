@@ -6103,7 +6103,7 @@ local shub = {
     atlas = "esoteric",
     saga_group = "lovecraft",
     dependencies = {"Talisman"},
-    order = 1003,
+    order = 1004,
     pools = { [SAGA_GROUP_POOL.lcraft] = true },
     pos = { x = 0, y = 2 },
     soul_pos = { x = 2, y = 2, extra = { x = 1, y = 2 } },
@@ -6521,13 +6521,73 @@ local odin = {
  	end,
 }
 
+local hermod = {
+    key = "hermod",
+    name = "Hermódr",
+    atlas = "esoteric",
+    saga_group = "norse_mythology",
+    dependencies = {"Talisman"},
+    order = 1003,
+    pools = { [SAGA_GROUP_POOL.norse] = true, [SAGA_GROUP_POOL.ngods] = true },
+    pos = { x = 3, y = 3 },
+    soul_pos = { x = 5, y = 3, extra = { x = 4, y = 3 } },
+    config = {extra = {amount = 3, amount_mod = 2}},
+    rarity = "sgt_esoteric",
+    cost = 50,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.skip_blind then
+            local available_tags = get_current_pool('Tag')
+            local selected_tags = {}
+            for i = 1, card.ability.extra.amount do
+                local tag = pseudorandom_element(available_tags, pseudoseed('hermod'))
+                while tag == 'UNAVAILABLE' do
+                    tag = pseudorandom_element(available_tags, pseudoseed('hermod_reroll'))
+                end
+                selected_tags[i] = tag
+            end
+            G.E_MANAGER:add_event(Event({
+                func = (function()
+                    for _, tag in pairs(selected_tags) do
+                        add_tag(Tag(tag, false, 'Small'))
+                    end
+                    play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                    play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
+                    if not context.blueprint then
+                        card.ability.extra.amount = card.ability.extra.amount + card.ability.extra.amount_mod
+                    end
+                    return true
+                end)
+            }))
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.amount, card.ability.extra.amount_mod}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.ability.extra", ref_value = "amount", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.FILTER },
+        }
+    end
+}
+
 local azathoth = {
     key = "azathoth",
     name = "Azathoth",
     atlas = "esoteric",
     saga_group = "norse_mythology",
     dependencies = {"Talisman"},
-    order = 1004,
+    order = 1005,
     pools = { [SAGA_GROUP_POOL.lcraft] = true },
     pos = { x = 0, y = 4 },
     soul_pos = { x = 2, y = 4, extra = { x = 1, y = 4 } },
@@ -6550,7 +6610,9 @@ local azathoth = {
                             edition = "e_negative",
                         }))
                     end
-                    card.ability.extra.amount = card.ability.extra.amount + card.ability.extra.amount_mod
+                    if not context.blueprint then
+                        card.ability.extra.amount = card.ability.extra.amount + card.ability.extra.amount_mod
+                    end
                 return true
             end)}))
             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_zzz'), colour = G.C.SECONDARY_SET.Tarot})
@@ -6691,6 +6753,7 @@ local joker_table = {
     yggdrasil,
     thor,
     odin,
+    hermod,
     azathoth,
     test,
 }
