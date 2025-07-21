@@ -17,6 +17,7 @@ Sagatro.mod_compat = {
 Sagatro.electric_eel_info_queue = {
 	"m_steel",
 	"m_gold",
+	"m_sgt_omnicient",
 }
 
 Sagatro.optional_features = {
@@ -46,8 +47,8 @@ end
 SMODS.Atlas{
 	key = "modicon",
 	path = "icon.png",
-	px = 32,
-	py = 32
+	px = 34,
+	py = 34
 }
 
 Sagatro.description_loc_vars = function()
