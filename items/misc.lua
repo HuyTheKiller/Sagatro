@@ -156,10 +156,51 @@ local omnicience = {
     end
 }
 
+local sinister = {
+    key = "sinister",
+    name = "The Sinister",
+    set = "Spectral",-- temporary set, will move to Eldritch once it's out of WIP phase
+    atlas = "eldritch",
+    dependencies = {"Talisman"},
+    pos = {x = 7, y = 1},
+    config = {},
+    cost = 4,
+    hidden = true,
+    soul_rate = 0.009,
+    can_use = function(self, card)
+        return true
+    end,
+    use = function(self, card, area, copier)
+		local used_consumable = copier or card
+        local deletable_jokers = {}
+        for k, v in pairs(G.jokers.cards) do
+            if not SMODS.is_eternal(v, card) then deletable_jokers[#deletable_jokers+1] = v end
+        end
+        G.E_MANAGER:add_event(Event({trigger = 'before', delay = 0.75, func = function()
+            if #deletable_jokers > 0 then
+                SMODS.destroy_cards(deletable_jokers, nil, true)
+            end
+            return true end }))
+		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('timpani')
+            card:juice_up(0.3, 0.5)
+            assert(SMODS.add_card({
+                set = "Lovecraft",
+                skip_materialize = true,
+            }))
+            return true end }))
+        delay(0.6)
+	end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items
+    end
+}
+
 local consumable_table = {
     streak,
     omnicience,
     lamp,
+    sinister,
 }
 
 for _, v in ipairs(consumable_table) do

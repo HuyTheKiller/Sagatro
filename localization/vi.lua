@@ -155,6 +155,14 @@ return {
                     "{C:attention}#2#",
                 }
             },
+            c_sgt_sinister = {
+                name = "Hắc Thần",
+                text = {
+                    "Tạo ra một {C:attention}Joker{}",
+					"{C:sgt_sagadition,E:1}Lovecraft{} ngẫu nhiên,",
+					"phá huỷ mọi Joker khác",
+                }
+            },
             c_sgt_lamp = {
                 name = "Chiếc Đèn Thần",
                 text = {

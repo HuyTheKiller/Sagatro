@@ -156,6 +156,14 @@ return {
                     "{C:attention}#2#",
                 }
             },
+            c_sgt_sinister = {
+                name = "The Sinister",
+                text = {
+                    "Create a random",
+                    "{C:sgt_sagadition,E:1}Lovecraft {C:attention}Joker{}, destroy",
+                    "all other jokers",
+                }
+            },
             c_sgt_lamp = {
                 name = "The Magic Lamp",
                 text = {
