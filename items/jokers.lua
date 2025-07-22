@@ -6585,7 +6585,7 @@ local azathoth = {
     key = "azathoth",
     name = "Azathoth",
     atlas = "esoteric",
-    saga_group = "norse_mythology",
+    saga_group = "lovecraft",
     dependencies = {"Talisman"},
     order = 1005,
     pools = { [SAGA_GROUP_POOL.lcraft] = true },
