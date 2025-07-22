@@ -1141,6 +1141,26 @@ Sagatro.config_tab = function()
     }}
 end
 
+if JokerDisplay then
+    local jd_def = JokerDisplay.Definitions
+
+    jd_def.j_ticket.calc_function = function(card)
+        local dollars = 0
+        local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+        if text ~= 'Unknown' then
+            for _, scoring_card in pairs(scoring_hand) do
+                if Sagatro.omnicient(scoring_card, "m_gold") then
+                    dollars = dollars +
+                        card.ability.extra *
+                        JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                end
+            end
+        end
+        card.joker_display_values.dollars = dollars
+        card.joker_display_values.localized_text = localize("k_gold")
+    end
+end
+
 -- Debug territory
 function sgt_help()
     if Sagatro.debug then
