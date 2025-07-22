@@ -6644,6 +6644,36 @@ local azathoth = {
     end,
 }
 
+local darkness = {
+    key = "darkness",
+    name = "Darkness",
+    atlas = "esoteric",
+    saga_group = "lovecraft",
+    dependencies = {"Talisman"},
+    order = 1006,
+    pools = { [SAGA_GROUP_POOL.lcraft] = true },
+    pos = { x = 3, y = 4 },
+    soul_pos = { x = 5, y = 4, extra = { x = 4, y = 4 } },
+    config = {},
+    rarity = "sgt_esoteric",
+    cost = 50,
+    blueprint_compat = false,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
+            local chosen_card = pseudorandom_element(context.full_hand, pseudoseed("darkness_negative_playing_card"))
+            if not chosen_card.edition then
+                chosen_card:set_edition("e_negative")
+            end
+        end
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
 local test = {
     key = "test",
     name = "Test Joker",
@@ -6755,6 +6785,7 @@ local joker_table = {
     odin,
     hermod,
     azathoth,
+    darkness,
     test,
 }
 

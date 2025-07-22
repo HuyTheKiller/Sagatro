@@ -868,6 +868,15 @@ return {
                     "tăng thêm {C:attention}#2#{} mỗi lần kích",
                 },
             },
+            j_sgt_darkness = {
+                name = "Darkness",
+                text = {
+                    "Thêm {C:dark_edition}Âm bản{} vào một",
+                    "lá {C:attention}đã chơi{} ngẫu nhiên",
+                    "Xác suất cứng {C:green}50%{} để {C:attention}joker",
+                    "trong shop trở thành {C:dark_edition}Âm Bản",
+                },
+            },
         },
         HanselsDice = {
             sgt_roll0 = {

@@ -869,6 +869,15 @@ return {
                     "increase by {C:attention}#2#{} every trigger",
                 },
             },
+            j_sgt_darkness = {
+                name = "Darkness",
+                text = {
+                    "Add {C:dark_edition}Negative{} to a",
+                    "random {C:attention}played{} card",
+                    "{C:green}50%{} fixed chance for {C:attention}jokers",
+                    "in the shop to be {C:dark_edition}Negative",
+                },
+            },
         },
         HanselsDice = {
             sgt_roll0 = {

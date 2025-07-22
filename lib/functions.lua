@@ -586,9 +586,14 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
 
             if not SMODS.bypass_create_card_edition and not card.edition then
                 local edition = poll_edition('edi'..(key_append or '')..G.GAME.round_resets.ante)
-            card:set_edition(edition)
-            check_for_unlock({type = 'have_edition'})
+                card:set_edition(edition)
+                check_for_unlock({type = 'have_edition'})
             end
+        end
+    end
+    if next(SMODS.find_card("j_sgt_darkness")) and _type == "Joker" then
+        if pseudorandom("darkness_negative_joker") > 0.5 then
+            card:set_edition("e_negative")
         end
     end
     return card
