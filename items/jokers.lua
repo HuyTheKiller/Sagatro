@@ -2597,7 +2597,7 @@ local red_queen = {
         if context.setting_blind and G.GAME.story_mode and next(SMODS.find_card("j_sgt_cheshire_cat", true))
         and not context.blueprint and not card.getting_sliced and not context.retrigger_joker and not context.forcetrigger then
             for _, v in ipairs(G.jokers.cards) do
-                if v ~= card and not v.ability.eternal then
+                if v ~= card and SMODS.is_eternal(v, card) then
                     v.getting_sliced = true
                     G.GAME.joker_buffer = G.GAME.joker_buffer - 1
                 end
@@ -3178,7 +3178,7 @@ local shepherd_boy = {
                 card.ability.extra.mult = 0
                 local destructable_jokers = {}
                 for i = 1, #G.jokers.cards do
-                    if G.jokers.cards[i] ~= card and not G.jokers.cards[i].ability.eternal and not G.jokers.cards[i].getting_sliced then destructable_jokers[#destructable_jokers+1] = G.jokers.cards[i] end
+                    if G.jokers.cards[i] ~= card and not SMODS.is_eternal(G.jokers.cards[i], card) and not G.jokers.cards[i].getting_sliced then destructable_jokers[#destructable_jokers+1] = G.jokers.cards[i] end
                 end
                 local joker_to_destroy = #destructable_jokers > 0 and pseudorandom_element(destructable_jokers, pseudoseed('wolf_attack')) or nil
 
@@ -3197,7 +3197,7 @@ local shepherd_boy = {
             G.E_MANAGER:add_event(Event({func = function()
                 local destructable_jokers = {}
                 for i = 1, #G.jokers.cards do
-                    if G.jokers.cards[i] ~= card and not G.jokers.cards[i].ability.eternal and not G.jokers.cards[i].getting_sliced then destructable_jokers[#destructable_jokers+1] = G.jokers.cards[i] end
+                    if G.jokers.cards[i] ~= card and not SMODS.is_eternal(G.jokers.cards[i], card) and not G.jokers.cards[i].getting_sliced then destructable_jokers[#destructable_jokers+1] = G.jokers.cards[i] end
                 end
                 local joker_to_destroy = #destructable_jokers > 0 and pseudorandom_element(destructable_jokers, pseudoseed('wolf_attack')) or nil
 
@@ -4674,7 +4674,7 @@ local barracuda = {
                 end
             end
             if pos and G.jokers.cards[pos+1] and not card.getting_sliced
-            and not G.jokers.cards[pos+1].ability.eternal and not G.jokers.cards[pos+1].getting_sliced
+            and not SMODS.is_eternal(G.jokers.cards[pos+1], card) and not G.jokers.cards[pos+1].getting_sliced
             and G.jokers.cards[pos+1].ability.immutable
             and G.jokers.cards[pos+1].ability.immutable.weight_level
             and G.jokers.cards[pos+1].ability.immutable.weight_level < card.ability.immutable.weight_level then
