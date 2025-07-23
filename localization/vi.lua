@@ -158,9 +158,17 @@ return {
             c_sgt_sinister = {
                 name = "Hắc Thần",
                 text = {
-                    "Tạo ra một {C:attention}Joker{}",
-					"{C:sgt_sagadition,E:1}Lovecraft{} ngẫu nhiên,",
-					"phá huỷ mọi Joker khác",
+                    "Tạo ra một {C:attention}Joker {C:sgt_sagadition,E:1}Lovecraft",
+					"{C:sgt_esoteric,E:1}Bí Truyền{} ngẫu nhiên, áp {C:attention}Ngắn Hạn",
+					"lên mọi Joker khác",
+                }
+            },
+            c_sgt_anima = {
+                name = "Quang Thần",
+                text = {
+                    "Tạo ra một {C:attention}Joker {C:sgt_sagadition,E:1}Thần Thoại",
+                    "{C:sgt_esoteric,E:1}Bí Truyền{} ngẫu nhiên, áp {C:attention}Vĩnh Hằng",
+                    "lên mọi joker khác",
                 }
             },
             c_sgt_lamp = {

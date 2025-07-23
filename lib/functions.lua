@@ -405,7 +405,20 @@ function Card:set_sprites(_center, _front)
 			self.T.w,
 			self.T.h,
 			G.ASSET_ATLAS[_center.atlas or _center.set],
-			{ x = 8, y = 1 }
+			{ x = 7, y = 4 }
+		)
+		self.children.floating_sprite.role.draw_major = self
+		self.children.floating_sprite.states.hover.can = false
+		self.children.floating_sprite.states.click.can = false
+	end
+    if _center and _center.name == "Anima" then
+		self.children.floating_sprite = Sprite(
+			self.T.x,
+			self.T.y,
+			self.T.w,
+			self.T.h,
+			G.ASSET_ATLAS[_center.atlas or _center.set],
+			{ x = 3, y = 2 }
 		)
 		self.children.floating_sprite.role.draw_major = self
 		self.children.floating_sprite.states.hover.can = false
@@ -1053,7 +1066,7 @@ SMODS.DrawStep({
                 scale_mod,
                 rotate_mod
             )
-        elseif self.ability.name == "The Sinister" and (self.config.center.discovered or self.bypass_discovery_center) then
+        elseif (self.ability.name == "The Sinister" or self.ability.name == "Anima") and (self.config.center.discovered or self.bypass_discovery_center) then
             local scale_mod = 0.05
                 + 0.05 * math.sin(1.8 * G.TIMERS.REAL)
                 + 0.07

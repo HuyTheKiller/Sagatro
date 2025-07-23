@@ -147,8 +147,8 @@ SMODS.Atlas{
 }
 
 SMODS.Atlas{
-    key = "eldritch",
-    path = "Eldritch.png",
+    key = "ultra",
+    path = "Ultra.png",
     px = 71,
     py = 95,
 }

@@ -159,9 +159,17 @@ return {
             c_sgt_sinister = {
                 name = "The Sinister",
                 text = {
-                    "Create a random",
-                    "{C:sgt_sagadition,E:1}Lovecraft {C:attention}Joker{}, destroy",
-                    "all other jokers",
+                    "Create a random {C:sgt_esoteric,E:1}Esoteric",
+                    "{C:sgt_sagadition,E:1}Lovecraft {C:attention}Joker{}, set {C:attention}Perishable",
+                    "to all other jokers",
+                }
+            },
+            c_sgt_anima = {
+                name = "Anima",
+                text = {
+                    "Create a random {C:sgt_esoteric,E:1}Esoteric",
+                    "{C:sgt_sagadition,E:1}Mythology {C:attention}Joker{}, set {C:attention}Eternal",
+                    "to all other jokers",
                 }
             },
             c_sgt_lamp = {
