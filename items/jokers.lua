@@ -3952,7 +3952,7 @@ local submarine = {
         end
     end,
     add_to_deck = function(self, card, from_debuff)
-        if not from_debuff then
+        if G.GAME.story_mode and not from_debuff then
             card:set_eternal(true)
             G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
                 ease_background_colour_blind(G.STATE)
