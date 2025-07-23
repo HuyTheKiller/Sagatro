@@ -17,7 +17,6 @@ Sagatro.mod_compat = {
 Sagatro.electric_eel_info_queue = {
 	"m_steel",
 	"m_gold",
-	"m_sgt_omnicient",
 }
 
 Sagatro.optional_features = {
