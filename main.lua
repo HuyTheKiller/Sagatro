@@ -4,6 +4,7 @@ Sagatro.load_table = {
 	decks_n_sleeves = true,
 	blinds = true,
 	streaks = true,
+	ultra = true,
 	misc = true,
 	wishes = true,
 	boosters = true,

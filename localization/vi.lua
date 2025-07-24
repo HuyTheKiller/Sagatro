@@ -940,15 +940,37 @@ return {
             },
         },
         Enhanced = {
-            m_sgt_omnicient={
-                name="Lá Toàn Tri",
-                text={
+            m_sgt_omnicient = {
+                name = "Lá Toàn Tri",
+                text = {
                     "{C:attention}8{} cường hoá trong {C:attention}1{}",
                     "{C:attention}May mắn {C:green}đảm bảo trúng{}",
                     "Xác suất {C:green}#1# trên #2#{} để",
                     "phá huỷ lá bài",
                 },
             },
+            m_sgt_favor = {
+                name = "Lá Đặc Ân",
+                text = {
+                    "Mọi lá đã chơi",
+                    "vĩnh viễn thêm {C:chips}+#1#{} Chip",
+                },
+            },
+            m_sgt_exponent = {
+                name = "Lá Mũ",
+                text = {
+                    "{X:dark_edition,C:white}^#1#{} Nhân",
+                },
+            },
+            m_sgt_ancient_lucky = {
+                name = "Lá Cổ Vận",
+                text = {
+                    "Xác suất {C:green}#1# trên #2#{} để",
+                    "vĩnh viễn thêm {C:mult}+#3#{} Nhân",
+                    "Xác suất {C:green}#4# trên #5#{} để",
+                    "vĩnh viễn thêm {C:money}$#6#",
+                },
+            }
         },
         ["Saga Tooltip"] = {
             fusion_hint = {

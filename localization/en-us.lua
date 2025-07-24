@@ -941,13 +941,35 @@ return {
             },
         },
         Enhanced = {
-            m_sgt_omnicient={
-                name="Omnicient Card",
-                text={
+            m_sgt_omnicient = {
+                name = "Omnicient Card",
+                text = {
                     "{C:attention}8{} enhancements in {C:attention}1{}",
                     "{C:green}Guaranteed {C:attention}lucky{} trigger",
                     "{C:green}#1# in #2#{} chance to",
                     "destroy card",
+                },
+            },
+            m_sgt_favor = {
+                name = "Favor Card",
+                text = {
+                    "All played cards",
+                    "permanently gain {C:chips}+#1#{} Chips",
+                },
+            },
+            m_sgt_exponent = {
+                name = "Exponent Card",
+                text = {
+                    "{X:dark_edition,C:white}^#1#{} Mult",
+                },
+            },
+            m_sgt_ancient_lucky = {
+                name = "Ancient Lucky Card",
+                text = {
+                    "{C:green}#1# in #2#{} chance to",
+                    "permanently gain {C:mult}+#3#{} Mult",
+                    "{C:green}#4# in #5#{} chance to",
+                    "permanently gain {C:money}$#6#",
                 },
             },
         },
