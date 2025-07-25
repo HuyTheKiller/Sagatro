@@ -6531,7 +6531,7 @@ local hermod = {
     pools = { [SAGA_GROUP_POOL.norse] = true, [SAGA_GROUP_POOL.ngods] = true },
     pos = { x = 3, y = 3 },
     soul_pos = { x = 5, y = 3, extra = { x = 4, y = 3 } },
-    config = {extra = {amount = 3, amount_mod = 2}},
+    config = {extra = {amount = 3, amount_mod = 2}, immutable = {max_amount = 25}},
     rarity = "sgt_esoteric",
     cost = 50,
     blueprint_compat = true,
@@ -6558,6 +6558,9 @@ local hermod = {
                     play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
                     if not context.blueprint then
                         card.ability.extra.amount = card.ability.extra.amount + card.ability.extra.amount_mod
+                        if card.ability.extra.amount > card.ability.immutable.max_amount then
+                            card.ability.extra.amount = card.ability.immutable.max_amount
+                        end
                     end
                     return true
                 end)

@@ -866,7 +866,8 @@ return {
                     "Khi {C:attention}Blind{} bị bỏ qua,",
                     "tạo ra {C:attention}#1#{} nhãn, tăng",
                     "thêm {C:attention}#2#{} mỗi lần kích",
-                }
+                    "{C:inactive}(Tối đa: 25)",
+                },
             },
             j_sgt_azathoth = {
                 name = "Azathoth",

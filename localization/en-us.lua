@@ -867,7 +867,8 @@ return {
                     "When {C:attention}Blind{} is skipped,",
                     "create {C:attention}#1#{} tags, increase",
                     "by {C:attention}#2#{} every trigger",
-                }
+                    "{C:inactive}(Max: 25)",
+                },
             },
             j_sgt_azathoth = {
                 name = "Azathoth",
