@@ -964,6 +964,32 @@ return {
                     "{X:dark_edition,C:white}^#1#{} Mult",
                 },
             },
+            m_sgt_strange = {
+                name = "Strange Card",
+                text = {
+                    "Can be used as any suit",
+                    "{C:attention}Immune{} to debuffs",
+                    "{C:green}#1# in #2#{} chance to",
+                    "{C:attention}spread{} to an adjacent card",
+                },
+            },
+            m_sgt_nyx_glass = {
+                name = "Nyx Glass Card",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult",
+                    "{C:green}#3# in #4#{} chance to destroy card",
+                    "{C:inactive}(Increase by {X:mult,C:white}X#2#{C:inactive}, decrease",
+                    "{C:inactive}denominator by {C:attention}1{C:inactive} every trigger)",
+                },
+            },
+            m_sgt_titanium = {
+                name = "Titanium Card",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult if held in hand",
+                    "{C:inactive}(Increase by {X:mult,C:white}X#2#{C:inactive} every",
+                    "{C:inactive}card held in hand above {C:attention}#3#{C:inactive})",
+                },
+            },
             m_sgt_ancient_lucky = {
                 name = "Ancient Lucky Card",
                 text = {

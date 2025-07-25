@@ -91,6 +91,98 @@ local exponent = {
     end,
 }
 
+local strange = {
+    key = "strange",
+    name = "Strange Card",
+    effect = "Strange",
+    atlas = "ultra",
+    pos = {x = 6, y = 2},
+    config = {extra = {odds = 6}},
+    any_suit = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        SMODS.debuff_card(card, "prevent_debuff", "m_sgt_strange")
+    end,
+    calculate = function(self, card, context)
+        if context.main_scoring and context.cardarea == G.play then
+            if SMODS.pseudorandom_probability(card, 'strange_infection', 1, card.ability.extra.odds) then
+                local targets = {}
+                for i, v in ipairs(context.full_hand) do
+                    if v == card then
+                        if context.full_hand[i-1] then
+                            targets[#targets+1] = context.full_hand[i-1]
+                        end
+                        if context.full_hand[i+1] then
+                            targets[#targets+1] = context.full_hand[i+1]
+                        end
+                    end
+                end
+                if #targets > 0 then
+                    local target = pseudorandom_element(targets, pseudoseed("strange_target"))
+                    target:set_ability(G.P_CENTERS.m_sgt_strange, nil, true)
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            target:juice_up()
+                            return true
+                        end
+                    }))
+                end
+            end
+        end
+    end,
+    -- in_pool = function(self, args)
+    --     return false
+    -- end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "strange_infection")}}
+    end,
+}
+
+local nyx_glass = {
+    key = "nyx_glass",
+    name = "Nyx Glass Card",
+    effect = "Nyx Glass",
+    atlas = "ultra",
+    pos = {x = 8, y = 2},
+    config = {x_mult = 1.5, extra = {x_mult_mod = 0.1, odds = 50}},
+    calculate = function(self, card, context)
+        if context.main_scoring and context.cardarea == G.play then
+            card.ability.x_mult = card.ability.x_mult + card.ability.extra.x_mult_mod
+            card.ability.extra.odds = card.ability.extra.odds - 1
+        end
+        if context.destroy_card and context.cardarea == G.play and context.destroy_card == card
+        and SMODS.pseudorandom_probability(card, 'nyx_glass', 1, card.ability.extra.odds) then
+            card.glass_trigger = true
+            return { remove = true }
+        end
+    end,
+    -- in_pool = function(self, args)
+    --     return false
+    -- end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.x_mult, card.ability.extra.x_mult_mod, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "nyx_glass")}}
+    end,
+}
+
+local titanium = {
+    key = "titanium",
+    name = "Titanium Card",
+    effect = "Titanium",
+    atlas = "ultra",
+    pos = {x = 9, y = 2},
+    config = {h_x_mult = 1.5, extra = {h_x_mult_mod = 0.1, held_in_hand_ge = 7}, immutable = {base_h_x_mult = 1.5}},
+    update = function(self, card, dt)
+        card.ability.h_x_mult = card.ability.immutable.base_h_x_mult
+        + (G and G.hand and G.hand.cards and #G.hand.cards > card.ability.extra.held_in_hand_ge
+        and #G.hand.cards - card.ability.extra.held_in_hand_ge or 0)*card.ability.extra.h_x_mult_mod
+    end,
+    -- in_pool = function(self, args)
+    --     return false
+    -- end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.h_x_mult, card.ability.extra.h_x_mult_mod, card.ability.extra.held_in_hand_ge}}
+    end,
+}
+
 local ancient_lucky = {
     key = "ancient_lucky",
     name = "Ancient Lucky Card",
@@ -132,6 +224,9 @@ local ancient_lucky = {
 local enhancement_table = {
     favor,
     exponent,
+    strange,
+    nyx_glass,
+    titanium,
     ancient_lucky,
 }
 

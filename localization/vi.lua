@@ -963,6 +963,32 @@ return {
                     "{X:dark_edition,C:white}^#1#{} Nhân",
                 },
             },
+            m_sgt_strange = {
+                name = "Lá Chất Lạ",
+                text = {
+                    "Có thể dùng như bất kì chất nào",
+                    "{C:attention}Miễn nhiễm{} với vô hiệu hoá",
+                    "Xác suất {C:green}#1# trên #2#{} để",
+                    "{C:attention}lan{} sang một lá bên cạnh",
+                },
+            },
+            m_sgt_nyx_glass = {
+                name = "Lá Huyễn Kính",
+                text = {
+                    "{X:mult,C:white}X#1#{} Nhân",
+                    "Xác suất {C:green}#3# trên #4#{} để phá huỷ lá bài",
+                    "{C:inactive}(Tăng thêm {X:mult,C:white}X#2#{C:inactive}, giảm",
+                    "{C:inactive}mẫu số đi {C:attention}1{C:inactive} mỗi lần kích)",
+                },
+            },
+            m_sgt_titanium = {
+                name = "Lá Titan",
+                text = {
+                    "{X:mult,C:white}X#1#{} Nhân nếu giữ trên tay",
+                    "{C:inactive}(Tăng thêm {X:mult,C:white}X#2#{C:inactive} mỗi",
+                    "{C:inactive}lá trên tay lớn hơn mức {C:attention}#3#{C:inactive})",
+                },
+            },
             m_sgt_ancient_lucky = {
                 name = "Lá Cổ Vận",
                 text = {
