@@ -864,7 +864,13 @@ function get_new_showdown()
 end
 
 function Sagatro.omnicient(card, key)
-    return SMODS.has_enhancement(card, key) or SMODS.has_enhancement(card, "m_sgt_omnicient")
+    if not key then return false end
+    if not key[1] then key = {key} end
+    local ret = false
+    for _, enh in ipairs(key) do
+        ret = ret or SMODS.has_enhancement(card, enh)
+    end
+    return ret or SMODS.has_enhancement(card, "m_sgt_omnicient")
 end
 
 -- from Cryptid's Tarot called Blessing

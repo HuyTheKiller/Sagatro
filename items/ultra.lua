@@ -183,6 +183,94 @@ local titanium = {
     end,
 }
 
+local abyss_stone = {
+    key = "abyss_stone",
+    name = "Abyss Stone Card",
+    effect = "Abyss Stone",
+    atlas = "ultra",
+    pos = {x = 4, y = 5},
+    config = {abyss_stone_tally = 0, bonus = 50, extra = {bonus_mod = 25}, immutable = {base_bonus = 50}},
+    replace_base_card = true,
+    override_base_rank = true,
+    no_rank = true,
+    no_suit = true,
+    update = function(self, card, dt)
+        card.ability.abyss_stone_tally = 0
+        for _, v in pairs(G.playing_cards or {}) do
+            if v ~= card and SMODS.has_no_rank(v) then
+                card.ability.abyss_stone_tally = card.ability.abyss_stone_tally + 1
+            end
+        end
+        card.ability.bonus = card.ability.immutable.base_bonus + card.ability.abyss_stone_tally*card.ability.extra.bonus_mod
+    end,
+    -- in_pool = function(self, args)
+    --     return false
+    -- end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.bonus, card.ability.extra.bonus_mod}}
+    end,
+    generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+        local always_show = self.config and self.config.always_show or {}
+        if specific_vars and specific_vars.nominal_chips and not self.replace_base_card then
+            localize { type = 'other', key = 'card_chips', nodes = desc_nodes, vars = { specific_vars.nominal_chips } }
+        end
+        SMODS.Enhancement.super.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+        if specific_vars and specific_vars.bonus_chips then
+            local remaining_bonus_chips = specific_vars.bonus_chips - (card.ability.bonus or self.config.bonus or 0)
+            if remaining_bonus_chips ~= 0 then
+                localize { type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = { SMODS.signed(remaining_bonus_chips) } }
+            end
+        end
+        if specific_vars and specific_vars.bonus_x_chips then
+            localize{type = 'other', key = 'card_x_chips', nodes = desc_nodes, vars = {specific_vars.bonus_x_chips}}
+        end
+        if specific_vars and specific_vars.bonus_mult then
+            localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {SMODS.signed(specific_vars.bonus_mult)}}
+        end
+        if specific_vars and specific_vars.bonus_x_mult then
+            localize{type = 'other', key = 'card_x_mult', nodes = desc_nodes, vars = {specific_vars.bonus_x_mult}}
+        end
+        if specific_vars and specific_vars.bonus_h_chips then
+            localize{type = 'other', key = 'card_extra_h_chips', nodes = desc_nodes, vars = {SMODS.signed(specific_vars.bonus_h_chips)}}
+        end
+        if specific_vars and specific_vars.bonus_x_chips then
+            localize{type = 'other', key = 'card_h_x_chips', nodes = desc_nodes, vars = {specific_vars.bonus_h_x_chips}}
+        end
+        if specific_vars and specific_vars.bonus_h_mult then
+            localize{type = 'other', key = 'card_extra_h_mult', nodes = desc_nodes, vars = {SMODS.signed(specific_vars.bonus_h_mult)}}
+        end
+        if specific_vars and specific_vars.bonus_h_x_mult then
+            localize{type = 'other', key = 'card_h_x_mult', nodes = desc_nodes, vars = {specific_vars.bonus_h_x_mult}}
+        end
+        if specific_vars and specific_vars.bonus_p_dollars then
+            localize{type = 'other', key = 'card_extra_p_dollars', nodes = desc_nodes, vars = {SMODS.signed_dollars(specific_vars.bonus_p_dollars)}}
+        end
+        if specific_vars and specific_vars.bonus_h_dollars then
+            localize{type = 'other', key = 'card_extra_h_dollars', nodes = desc_nodes, vars = {SMODS.signed_dollars(specific_vars.bonus_h_dollars)}}
+        end
+    end,
+}
+
+local platinum = {
+    key = "platinum",
+    name = "Platinum Card",
+    effect = "Platinum",
+    atlas = "ultra",
+    pos = {x = 5, y = 5},
+    config = {d_dollars = 3},
+    calculate = function(self, card, context)
+        if context.discard and context.other_card == card then
+            ease_dollars(card.ability.d_dollars)
+        end
+    end,
+    -- in_pool = function(self, args)
+    --     return false
+    -- end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.d_dollars}}
+    end,
+}
+
 local ancient_lucky = {
     key = "ancient_lucky",
     name = "Ancient Lucky Card",
@@ -227,6 +315,8 @@ local enhancement_table = {
     strange,
     nyx_glass,
     titanium,
+    abyss_stone,
+    platinum,
     ancient_lucky,
 }
 

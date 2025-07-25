@@ -989,6 +989,22 @@ return {
                     "{C:inactive}lá trên tay lớn hơn mức {C:attention}#3#{C:inactive})",
                 },
             },
+            m_sgt_abyss_stone = {
+                name = "Lá Vực Thạch",
+                text = {
+                    "{C:chips}+#1#{} Chip",
+                    "Không có bậc hay chất",
+                    "Thêm {C:chips}+#2#{} Chip cho mỗi lá",
+                    "{C:attention}không bậc{} khác trong cả bộ bài",
+                },
+            },
+            m_sgt_platinum = {
+                name = "Lá Bạch Kim",
+                text = {
+                    "Nhận {C:money}$#1#",
+                    "khi {C:attention}bị bỏ",
+                },
+            },
             m_sgt_ancient_lucky = {
                 name = "Lá Cổ Vận",
                 text = {

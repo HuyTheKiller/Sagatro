@@ -990,6 +990,22 @@ return {
                     "{C:inactive}card held in hand above {C:attention}#3#{C:inactive})",
                 },
             },
+            m_sgt_abyss_stone = {
+                name = "Abyss Stone Card",
+                text = {
+                    "{C:chips}+#1#{} Chips",
+                    "No rank or suit",
+                    "Gain {C:chips}+#2#{} Chips for every other",
+                    "{C:attention}rankless{} card in full deck",
+                },
+            },
+            m_sgt_platinum = {
+                name = "Platinum Card",
+                text = {
+                    "Earn {C:money}$#1#",
+                    "when {C:attention}discarded",
+                },
+            },
             m_sgt_ancient_lucky = {
                 name = "Ancient Lucky Card",
                 text = {

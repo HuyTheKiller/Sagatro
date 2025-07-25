@@ -484,3 +484,36 @@ pattern = '''SMODS\.has_enhancement'''
 position = "at"
 payload = '''Sagatro.omnicient'''
 times = 4
+
+# Upgraded enhancements behave like their original counterparts
+[[patches]]
+[patches.regex]
+target = "card.lua"
+pattern = "'m_glass'"
+position = "at"
+payload = "{'m_glass', 'm_sgt_nyx_glass'}"
+times = 1
+
+[[patches]]
+[patches.regex]
+target = "card.lua"
+pattern = "'m_steel'"
+position = "at"
+payload = "{'m_steel', 'm_sgt_titanium'}"
+times = 1
+
+[[patches]]
+[patches.regex]
+target = "card.lua"
+pattern = "'m_stone'"
+position = "at"
+payload = "{'m_stone', 'm_sgt_abyss_stone'}"
+times = 1
+
+[[patches]]
+[patches.regex]
+target = "card.lua"
+pattern = "'m_gold'"
+position = "at"
+payload = "{'m_gold', 'm_sgt_platinum'}"
+times = 1
