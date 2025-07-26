@@ -977,7 +977,8 @@ return {
                 name = "Nyx Glass Card",
                 text = {
                     "{X:mult,C:white}X#1#{} Mult",
-                    "{C:green}#3# in #4#{} chance to destroy card",
+                    "{C:green}#3# in #4#{} chance",
+                    "to destroy card",
                     "{C:inactive}(Increase by {X:mult,C:white}X#2#{C:inactive}, decrease",
                     "{C:inactive}denominator by {C:attention}1{C:inactive} every trigger)",
                 },

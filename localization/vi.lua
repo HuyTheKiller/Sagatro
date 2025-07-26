@@ -976,7 +976,8 @@ return {
                 name = "Lá Huyễn Kính",
                 text = {
                     "{X:mult,C:white}X#1#{} Nhân",
-                    "Xác suất {C:green}#3# trên #4#{} để phá huỷ lá bài",
+                    "Xác suất {C:green}#3# trên #4#{}",
+                    "để phá huỷ lá bài",
                     "{C:inactive}(Tăng thêm {X:mult,C:white}X#2#{C:inactive}, giảm",
                     "{C:inactive}mẫu số đi {C:attention}1{C:inactive} mỗi lần kích)",
                 },

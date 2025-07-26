@@ -3,7 +3,7 @@ G.C.SGT_TRIVIAL = HEX("808080")
 G.C.SGT_OBSCURE = HEX("8627D4")
 G.C.SGT_ESOTERIC = HEX("131868")
 G.C.SGT_WISH = HEX("9bbcfd")
-G.C.SGT_DIVINATIO = HEX("75f9ff")
+G.C.SGT_DIVINATIO = HEX("3bc9cf")
 G.C.SGT_ELDRITCH = HEX("3f0c57")
 G.C.SUBMARINE_DEPTH = {
     HEX("3a86e1"),
@@ -801,7 +801,12 @@ end
 -- Hook this function in your mod code for cross-mod compat
 function Sagatro.conductive_enhancement(card)
     if not card then return end
-    return SMODS.has_enhancement(card, 'm_steel') or SMODS.has_enhancement(card, 'm_gold') or SMODS.has_enhancement(card, 'm_sgt_omnicient')
+    local ret = SMODS.has_enhancement(card, 'm_steel')
+    or SMODS.has_enhancement(card, 'm_gold')
+    or SMODS.has_enhancement(card, 'm_sgt_titanium')
+    or SMODS.has_enhancement(card, 'm_sgt_platinum')
+    or SMODS.has_enhancement(card, 'm_sgt_omniscient')
+    return ret
 end
 
 -- Append enhancement keys to Sagatro.electric_eel_info_queue to include your target enhancements
@@ -1175,7 +1180,7 @@ if JokerDisplay then
         local text, _, scoring_hand = JokerDisplay.evaluate_hand()
         if text ~= 'Unknown' then
             for _, scoring_card in pairs(scoring_hand) do
-                if Sagatro.omnicient(scoring_card, "m_gold") then
+                if Sagatro.omniscient(scoring_card, {"m_gold", "m_sgt_platinum"}) then
                     dollars = dollars +
                         card.ability.extra *
                         JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
