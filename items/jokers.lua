@@ -2974,6 +2974,9 @@ local mock_turtle = {
             if not context.blueprint then
                 G.E_MANAGER:add_event(Event({func = function()
                     card.ability.extra.self_destruct_odds = card.ability.extra.self_destruct_odds - 1
+                    if card.ability.extra.self_destruct_odds < (Cryptid and 0.001 or 1) then
+                        card.ability.extra.self_destruct_odds = Cryptid and 0.001 or 1
+                    end
                 return true end }))
             end
             return {

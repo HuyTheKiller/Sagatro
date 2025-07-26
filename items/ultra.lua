@@ -144,10 +144,16 @@ local nyx_glass = {
     atlas = "ultra",
     pos = {x = 8, y = 2},
     config = {x_mult = 1.5, extra = {x_mult_mod = 0.1, odds = 50}},
+    set_ability = function(self, card, initial, delay_sprites)
+        card.no_shadow = true
+    end,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
             card.ability.x_mult = card.ability.x_mult + card.ability.extra.x_mult_mod
             card.ability.extra.odds = card.ability.extra.odds - 1
+            if card.ability.extra.odds < (Cryptid and 0.001 or 1) then
+                card.ability.extra.odds = Cryptid and 0.001 or 1
+            end
         end
         if context.destroy_card and context.cardarea == G.play and context.destroy_card == card
         and SMODS.pseudorandom_probability(card, 'nyx_glass', 1, card.ability.extra.odds) then
