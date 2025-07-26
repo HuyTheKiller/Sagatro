@@ -207,7 +207,7 @@ return {
                     "{s:0.8,C:inactive}mạnh hơn thì hiếm hơn",
                 },
             },
-            c_sgt_omnicience = {
+            c_sgt_omniscience = {
                 name = "Toàn Tri",
                 text = {
                     "Cường hoá {C:attention}#1#",

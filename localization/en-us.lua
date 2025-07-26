@@ -208,8 +208,8 @@ return {
                     "{s:0.8,C:inactive}streaks are rarer",
                 },
             },
-            c_sgt_omnicience = {
-                name = "The Omnicience",
+            c_sgt_omniscience = {
+                name = "The Omniscience",
                 text = {
                     "Enhances {C:attention}#1#{} selected",
                     "card into an",
