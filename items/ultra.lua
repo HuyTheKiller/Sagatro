@@ -291,10 +291,12 @@ local orbis_fatum = {
     pos = { x = 0, y = 1 },
     cost = 4,
     update = function(self, card, dt)
-        card.eligible_strength_jokers = EMPTY(card.eligible_strength_jokers)
-        for _, v in pairs(G.jokers.cards) do
-            if v.ability.set == 'Joker' and not v.edition then
-                table.insert(card.eligible_strength_jokers, v)
+        if G.STAGE == G.STAGES.RUN then
+            card.eligible_strength_jokers = EMPTY(card.eligible_strength_jokers)
+            for _, v in pairs(G.jokers.cards) do
+                if v.ability.set == 'Joker' and not v.edition then
+                    table.insert(card.eligible_strength_jokers, v)
+                end
             end
         end
     end,
