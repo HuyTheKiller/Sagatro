@@ -1398,10 +1398,8 @@ local frog_footman = {
                 delay = 0.0,
                 func = (function()
                     for _ = 1, times do
-                        local forced_key = sgt_get_random_consumable('frog_footman', nil, nil)
-                        local _card = create_card('Consumeables',G.consumeables, nil, nil, nil, nil, forced_key.config.center_key, 'frog_footman')
-                        _card:add_to_deck()
-                        G.consumeables:emplace(_card)
+                        local chosen_set = pseudorandom_element({"Tarot", "Planet", "Spectral"}, pseudoseed("frog_footman"))
+                        SMODS.add_card{set = chosen_set, key_append = "fro"}
                     end
                     G.GAME.consumeable_buffer = 0
                     return true

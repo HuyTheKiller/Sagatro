@@ -486,9 +486,9 @@ return {
                 name = "Ếch Hầu",
                 text = {
                     "{C:attention}+#1#{} ô tiêu thụ",
-                    "Khi mở #2# {C:attention}Gói Bài{} tiếp theo,",
-                    "{C:attention}lấp đầy{} ô tiêu thụ bằng",
-                    "lá tiêu thụ {C:attention}ngẫu nhiên{}",
+                    "Khi mở #2# {C:attention}Gói Bài{} tiếp theo, {C:attention}lấp đầy{}",
+                    "ô tiêu thụ bằng lá {C:tarot}Tarot{}, {C:planet}Hành Tinh",
+                    "và {C:spectral}Siêu Linh {C:attention}ngẫu nhiên",
                     "{C:red,s:0.8,E:2}Tự huỷ{s:0.8} khi hết lượt",
                 },
             },

@@ -487,9 +487,9 @@ return {
                 name = "Frog-Footman",
                 text = {
                     "{C:attention}+#1#{} consumable slot(s)",
-                    "Opening the next #2# {C:attention}Booster Pack(s){}",
-                    "{C:attention}fill up{} consumable slots",
-                    "with {C:attention}random{} consumables",
+                    "Opening the next #2# {C:attention}Booster Pack(s)",
+                    "{C:attention}fill up{} consumable slots with {C:attention}random",
+                    "{C:tarot}Tarot{}, {C:planet}Planet{} and {C:spectral}Spectral{} cards",
                     "{C:red,s:0.8,E:2}self destructs{s:0.8} on expiry",
                 },
             },
