@@ -407,8 +407,12 @@ local platinum = {
     pos = {x = 5, y = 5},
     config = {d_dollars = 3},
     calculate = function(self, card, context)
-        if context.discard and context.other_card == card then
+        if context.discard and not context.other_card.debuff and context.other_card == card then
             ease_dollars(card.ability.d_dollars)
+            return {
+                message = localize('$')..card.ability.d_dollars,
+                colour = G.C.MONEY,
+            }
         end
     end,
     in_pool = function(self, args)
