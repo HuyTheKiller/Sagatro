@@ -191,8 +191,9 @@ return {
             v_sgt_oculus_omniscientis = {
                 name = "Oculus Omniscientis",
                 text = {
-                    "{C:attention}Divinatio Packs{} may",
-                    "appear in the shop",
+                    "{C:sgt_divinatio}Divinatio{} cards and",
+                    "{C:attention}Divinatio Packs{} can be",
+                    "purchased from the shop",
                 },
             },
         },

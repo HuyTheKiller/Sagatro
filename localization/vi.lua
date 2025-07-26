@@ -190,8 +190,9 @@ return {
             v_sgt_oculus_omniscientis = {
                 name = "Toàn Tri Nhãn",
                 text = {
+                    "Lá {C:sgt_divinatio}Chiêm Mộng{} và",
                     "{C:attention}Gói Chiêm Mộng{} có thể",
-                    "xuất hiện trong shop",
+                    "dược mua trong shop",
                 },
             },
         },

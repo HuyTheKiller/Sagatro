@@ -488,7 +488,16 @@ local oculus_omniscientis = {
     name = "Oculus Omniscientis",
     atlas = "ultra",
     pos = {x = 9, y = 5},
+    config = {extra = {rate = 2}},
     requires = {"v_sgt_oculus_divina"},
+    redeem = function(self, card)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                G.GAME.divinatio_rate = card.ability.extra.rate
+                return true
+            end
+        }))
+    end,
 }
 
 local voucher_table = {
