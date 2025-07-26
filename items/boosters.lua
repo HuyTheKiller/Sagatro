@@ -32,7 +32,7 @@ local wish_primary = {
             speed = 1.1,
             padding = -1,
             attach = G.ROOM_ATTACH,
-            colours = {G.ARGS.LOC_COLOURS.loteria, lighten(G.C.SGT_WISH, 0.4), lighten(G.C.SGT_WISH, 0.2), darken(G.C.SGT_WISH, 0.2)},
+            colours = {G.C.SGT_WISH, lighten(G.C.SGT_WISH, 0.4), lighten(G.C.SGT_WISH, 0.2), darken(G.C.SGT_WISH, 0.2)},
             fill = true
         })
         G.booster_pack_sparkles.fade_alpha = 1
@@ -75,7 +75,7 @@ local wish_secondary = {
             speed = 1.1,
             padding = -1,
             attach = G.ROOM_ATTACH,
-            colours = {G.ARGS.LOC_COLOURS.loteria, lighten(G.C.SGT_WISH, 0.4), lighten(G.C.SGT_WISH, 0.2), darken(G.C.SGT_WISH, 0.2)},
+            colours = {G.C.SGT_WISH, lighten(G.C.SGT_WISH, 0.4), lighten(G.C.SGT_WISH, 0.2), darken(G.C.SGT_WISH, 0.2)},
             fill = true
         })
         G.booster_pack_sparkles.fade_alpha = 1
