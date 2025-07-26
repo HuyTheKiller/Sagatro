@@ -24,6 +24,23 @@ SMODS.Booster:take_ownership_by_kind('Buffoon', {
 true
 )
 
+SMODS.Booster:take_ownership_by_kind('Arcana', {
+    create_card = function(self, card, i)
+        local _card = {set = "Tarot", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ar1"}
+        if G.GAME.used_vouchers.v_omen_globe and pseudorandom('omen_globe') > 0.8 then
+            _card.set = "Spectral"
+            _card.key_append = "ar2"
+        end
+        if G.GAME.used_vouchers.v_sgt_oculus_divina and pseudorandom('oculus_divina') > 0.8 then
+            _card.set = "Divinatio"
+            _card.key_append = "ar3"
+        end
+        return _card
+    end,
+},
+true
+)
+
 SMODS.Joker:take_ownership('splash',
 	{
 		add_to_deck = function(self, card, from_debuff)

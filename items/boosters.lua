@@ -94,7 +94,171 @@ local wish_secondary = {
     end,
 }
 
+local divinatio_normal_1 = {
+    key = "divinatio_normal_1",
+    atlas = "booster",
+    pos = { x = 3, y = 0 },
+    config = { choose = 1, extra = 3 },
+    group_key = "sgt_divinatio_pack",
+    cost = 4,
+    weight = 1,
+    kind = "Divinatio",
+    draw_hand = true,
+    ease_background_colour = function(self)
+        ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_DIVINATIO)
+        ease_background_colour{new_colour = G.C.SGT_DIVINATIO, special_colour = G.C.BLACK, contrast = 2}
+    end,
+    particles = function(self)
+        G.booster_pack_sparkles = Particles(1, 1, 0,0, {
+            timer = 0.015,
+            scale = 0.2,
+            initialize = true,
+            lifespan = 1,
+            speed = 1.1,
+            padding = -1,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.SGT_DIVINATIO, lighten(G.C.SGT_DIVINATIO, 0.4), lighten(G.C.SGT_DIVINATIO, 0.2), darken(G.C.SGT_DIVINATIO, 0.2)},
+            fill = true
+        })
+        G.booster_pack_sparkles.fade_alpha = 1
+        G.booster_pack_sparkles:fade(1, 0)
+    end,
+    create_card = function(self, card, i)
+        return {set = "Divinatio", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "di1"}
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_oculus_omniscientis
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {key = "p_sgt_divinatio_normal", vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
+    end,
+}
+
+local divinatio_normal_2 = {
+    key = "divinatio_normal_2",
+    atlas = "booster",
+    pos = { x = 3, y = 0 },
+    config = { choose = 1, extra = 3 },
+    group_key = "sgt_divinatio_pack",
+    cost = 4,
+    weight = 1,
+    kind = "Divinatio",
+    draw_hand = true,
+    ease_background_colour = function(self)
+        ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_DIVINATIO)
+        ease_background_colour{new_colour = G.C.SGT_DIVINATIO, special_colour = G.C.BLACK, contrast = 2}
+    end,
+    particles = function(self)
+        G.booster_pack_sparkles = Particles(1, 1, 0,0, {
+            timer = 0.015,
+            scale = 0.2,
+            initialize = true,
+            lifespan = 1,
+            speed = 1.1,
+            padding = -1,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.SGT_DIVINATIO, lighten(G.C.SGT_DIVINATIO, 0.4), lighten(G.C.SGT_DIVINATIO, 0.2), darken(G.C.SGT_DIVINATIO, 0.2)},
+            fill = true
+        })
+        G.booster_pack_sparkles.fade_alpha = 1
+        G.booster_pack_sparkles:fade(1, 0)
+    end,
+    create_card = function(self, card, i)
+        return {set = "Divinatio", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "di1"}
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_oculus_omniscientis
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {key = "p_sgt_divinatio_normal", vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
+    end,
+}
+
+local divinatio_jumbo = {
+    key = "divinatio_jumbo",
+    atlas = "booster",
+    pos = { x = 4, y = 0 },
+    config = { choose = 1, extra = 5 },
+    group_key = "sgt_divinatio_pack",
+    cost = 6,
+    weight = 1,
+    kind = "Divinatio",
+    draw_hand = true,
+    ease_background_colour = function(self)
+        ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_DIVINATIO)
+        ease_background_colour{new_colour = G.C.SGT_DIVINATIO, special_colour = G.C.BLACK, contrast = 2}
+    end,
+    particles = function(self)
+        G.booster_pack_sparkles = Particles(1, 1, 0,0, {
+            timer = 0.015,
+            scale = 0.2,
+            initialize = true,
+            lifespan = 1,
+            speed = 1.1,
+            padding = -1,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.SGT_DIVINATIO, lighten(G.C.SGT_DIVINATIO, 0.4), lighten(G.C.SGT_DIVINATIO, 0.2), darken(G.C.SGT_DIVINATIO, 0.2)},
+            fill = true
+        })
+        G.booster_pack_sparkles.fade_alpha = 1
+        G.booster_pack_sparkles:fade(1, 0)
+    end,
+    create_card = function(self, card, i)
+        return {set = "Divinatio", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "di1"}
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_oculus_omniscientis
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
+    end,
+}
+
+local divinatio_mega = {
+    key = "divinatio_mega",
+    atlas = "booster",
+    pos = { x = 5, y = 0 },
+    config = { choose = 2, extra = 5 },
+    group_key = "sgt_divinatio_pack",
+    cost = 8,
+    weight = 0.25,
+    kind = "Divinatio",
+    draw_hand = true,
+    ease_background_colour = function(self)
+        ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_DIVINATIO)
+        ease_background_colour{new_colour = G.C.SGT_DIVINATIO, special_colour = G.C.BLACK, contrast = 2}
+    end,
+    particles = function(self)
+        G.booster_pack_sparkles = Particles(1, 1, 0,0, {
+            timer = 0.015,
+            scale = 0.2,
+            initialize = true,
+            lifespan = 1,
+            speed = 1.1,
+            padding = -1,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.SGT_DIVINATIO, lighten(G.C.SGT_DIVINATIO, 0.4), lighten(G.C.SGT_DIVINATIO, 0.2), darken(G.C.SGT_DIVINATIO, 0.2)},
+            fill = true
+        })
+        G.booster_pack_sparkles.fade_alpha = 1
+        G.booster_pack_sparkles:fade(1, 0)
+    end,
+    create_card = function(self, card, i)
+        return {set = "Divinatio", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "di1"}
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_oculus_omniscientis
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
+    end,
+}
+
 local booster_table = {
+    divinatio_normal_1,
+    divinatio_normal_2,
+    divinatio_jumbo,
+    divinatio_mega,
     wish_primary,
     wish_secondary,
 }
@@ -102,6 +266,7 @@ local booster_table = {
 for _, v in ipairs(booster_table) do
     if Sagatro.debug then
         v.no_collection = nil
+        v.discovered = true
     end
     SMODS.Booster(v)
 end

@@ -136,6 +136,65 @@ return {
                     "{C:inactive,s:0.8}Enjoy Talisman's {C:attention,s:0.8}insanity{C:inactive,s:0.8}!",
                 },
             },
+            undiscovered_divinatio = {
+				name = "Not Discovered",
+				text = {
+					"Purchase or use",
+					"this card in an",
+					"unseeded run to",
+					"learn what it does",
+				},
+			},
+            undiscovered_eldritch = {
+				name = "Not Discovered",
+				text = {
+					"Purchase or use",
+					"this card in an",
+					"unseeded run to",
+					"learn what it does",
+				},
+			},
+            p_sgt_divinatio_normal = {
+                name = "Divinatio Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:sgt_divinatio} Divinatio{} cards to",
+                    "be used immediately",
+                },
+            },
+            p_sgt_divinatio_jumbo = {
+                name = "Jumbo Divinatio Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:sgt_divinatio} Divinatio{} cards to",
+                    "be used immediately",
+                },
+            },
+            p_sgt_divinatio_mega = {
+                name = "Mega Divinatio Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:sgt_divinatio} Divinatio{} cards to",
+                    "be used immediately",
+                },
+            },
+        },
+        Voucher = {
+            v_sgt_oculus_divina = {
+                name = "Oculus Divina",
+                text = {
+                    "{C:sgt_divinatio}Divinatio{} cards may",
+                    "appear in any of",
+                    "the {C:attention}Arcana Packs",
+                },
+            },
+            v_sgt_oculus_omniscientis = {
+                name = "Oculus Omniscientis",
+                text = {
+                    "{C:attention}Divinatio Packs{} may",
+                    "appear in the shop",
+                },
+            },
         },
         Spectral = {
             c_sgt_streak = {
@@ -229,6 +288,72 @@ return {
                     "Release the {C:sgt_esoteric}#1#{}",
                     "{C:inactive}Don't worry, he stays around{}",
                     "{C:inactive}and gives {X:dark_edition,C:white}^#2#{C:inactive} Mult",
+                },
+            },
+        },
+        Divinatio = {
+            c_sgt_dominus_ars = {
+                name = "Dominus Ars",
+                text = {
+                    "Enhances {C:attention}#1#{} selected",
+                    "card into an",
+                    "{C:attention}#2#",
+                },
+            },
+            c_sgt_regina_caeli = {
+                name = "Regina Caeli",
+                text = {
+                    "Enhances {C:attention}#1#{} selected",
+                    "card into an",
+                    "{C:attention}#2#",
+                },
+            },
+            c_sgt_sacerdos = {
+                name = "Sacerdos",
+                text = {
+                    "Enhances {C:attention}#1#{} selected",
+                    "card into an",
+                    "{C:attention}#2#",
+                },
+            },
+            c_sgt_sacra_nexus = {
+                name = "Sacra Nexus",
+                text = {
+                    "Enhances {C:attention}#1#{} selected",
+                    "card into an",
+                    "{C:attention}#2#",
+                },
+            },
+            c_sgt_triumpus = {
+                name = "Triumpus",
+                text = {
+                    "Enhances {C:attention}#1#{} selected",
+                    "card into an",
+                    "{C:attention}#2#",
+                },
+            },
+            c_sgt_vitus_aeterna = {
+                name = "Vitus Aeterna",
+                text = {
+                    "Enhances {C:attention}#1#{} selected",
+                    "card into an",
+                    "{C:attention}#2#",
+                },
+            },
+            c_sgt_umba_aeterna = {
+                name = "Umba Aeterna",
+                text = {
+                    "Enhances {C:attention}#1#{} selected",
+                    "card into an",
+                    "{C:attention}#2#",
+                },
+            },
+            c_sgt_runis_sacris = {
+                name = "Runis Sacris",
+                text = {
+                    "Enhances {C:attention}#1#{} selected",
+                    "card into an",
+                    "{C:attention}#2#",
                 },
             },
         },
@@ -1195,6 +1320,12 @@ return {
             k_wish = "Wish",
             b_wish_cards = "Wish Cards",
             sgt_wish_pack = "Wish Pack",
+            k_divinatio = "Divinatio",
+            b_divinatio_cards = "Divinatio Cards",
+            sgt_divinatio_pack = "Divinatio Pack",
+            k_eldritch = "Eldritch",
+            b_eldritch_cards = "Eldritch Cards",
+            sgt_eldritch_pack = "Eldritch Pack",
             saga_tooltip = "Hint to progress",
             saga_fusion_tooltip = "Joker fusion",
             saga_ocean_tooltip = "Location",

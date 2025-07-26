@@ -517,3 +517,12 @@ pattern = "'m_gold'"
 position = "at"
 payload = "{'m_gold', 'm_sgt_platinum'}"
 times = 1
+
+# Draw shaders for Eldritch
+[[patches]]
+[patches.regex]
+target = '''=[SMODS _ "src/card_draw.lua"]'''
+pattern = '''self\.ability\.set == 'Booster' '''
+position = "after"
+payload = "or self.ability.set == 'Eldritch' "
+times = 1

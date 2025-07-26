@@ -5,7 +5,7 @@ local divinatio = {
 	collection_rows = { 5, 6 },
 	shop_rate = 0.0,
 	loc_txt = {},
-	default = "c_sgt_strength",
+	default = "c_sgt_dominus_ars",
 	can_stack = true,
 	can_divide = true,
 }
@@ -23,15 +23,157 @@ local eldritch = {
 }
 
 local consumabletype_table = {
-    -- divinatio,
-    -- eldritch,
+    divinatio,
+    eldritch,
 }
 
 for _, v in ipairs(consumabletype_table) do
     SMODS.ConsumableType(v)
 end
 
-local consumable_table = {}
+local un_divinatio = {
+    key = "Divinatio",
+    atlas = "ultra",
+    pos = {x = 7, y = 5},
+}
+
+local un_uneldritch = {
+    key = "Eldritch",
+    atlas = "ultra",
+    pos = {x = 6, y = 5},
+}
+
+local undiscovered_sprite_table = {
+    un_divinatio,
+    un_uneldritch,
+}
+
+for _, v in ipairs(undiscovered_sprite_table) do
+    SMODS.UndiscoveredSprite(v)
+end
+
+local dominus_ars = {
+    key = 'dominus_ars',
+    name = "Dominus Ars",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 1, y = 0 },
+    cost = 4,
+    config = {mod_conv = 'm_sgt_ancient_lucky', max_highlighted = 1},
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+        return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
+    end,
+}
+
+local regina_caeli = {
+    key = 'regina_caeli',
+    name = "Regina Caeli",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 3, y = 0 },
+    cost = 4,
+    config = {mod_conv = 'm_sgt_exponent', max_highlighted = 1},
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+        return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
+    end,
+}
+
+local sacerdos = {
+    key = 'sacerdos',
+    name = "Sacerdos",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 5, y = 0 },
+    cost = 4,
+    config = {mod_conv = 'm_sgt_favor', max_highlighted = 1},
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+        return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
+    end,
+}
+
+local sacra_nexus = {
+    key = 'sacra_nexus',
+    name = "Sacra Nexus",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 6, y = 0 },
+    cost = 4,
+    config = {mod_conv = 'm_sgt_strange', max_highlighted = 1},
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+        return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
+    end,
+}
+
+local triumpus = {
+    key = 'triumpus',
+    name = "Triumpus",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 7, y = 0 },
+    cost = 4,
+    config = {mod_conv = 'm_sgt_titanium', max_highlighted = 1},
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+        return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
+    end,
+}
+
+local vitus_aeterna = {
+    key = 'vitus_aeterna',
+    name = "Vitus Aeterna",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 8, y = 0 },
+    cost = 4,
+    config = {mod_conv = 'm_sgt_nyx_glass', max_highlighted = 1},
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+        return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
+    end,
+}
+
+local umba_aeterna = {
+    key = 'umba_aeterna',
+    name = "Umba Aeterna",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 5, y = 1 },
+    cost = 4,
+    config = {mod_conv = 'm_sgt_platinum', max_highlighted = 1},
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+        return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
+    end,
+}
+
+local runis_sacris = {
+    key = 'runis_sacris',
+    name = "Runis Sacris",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 6, y = 1 },
+    cost = 4,
+    config = {mod_conv = 'm_sgt_abyss_stone', max_highlighted = 1},
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+        return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
+    end,
+}
+
+local consumable_table = {
+    dominus_ars,
+    regina_caeli,
+    sacerdos,
+    sacra_nexus,
+    triumpus,
+    vitus_aeterna,
+    umba_aeterna,
+    runis_sacris,
+}
 
 for _, v in ipairs(consumable_table) do
     if Sagatro.debug then
@@ -60,9 +202,9 @@ local favor = {
             }
         end
     end,
-    -- in_pool = function(self, args)
-    --     return false
-    -- end,
+    in_pool = function(self, args)
+        return false
+    end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.perma_bonus}}
     end,
@@ -83,9 +225,9 @@ local exponent = {
             }
         end
     end,
-    -- in_pool = function(self, args)
-    --     return false
-    -- end,
+    in_pool = function(self, args)
+        return false
+    end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.e_mult}}
     end,
@@ -129,9 +271,9 @@ local strange = {
             end
         end
     end,
-    -- in_pool = function(self, args)
-    --     return false
-    -- end,
+    in_pool = function(self, args)
+        return false
+    end,
     loc_vars = function(self, info_queue, card)
         return {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "strange_infection")}}
     end,
@@ -161,9 +303,9 @@ local nyx_glass = {
             return { remove = true }
         end
     end,
-    -- in_pool = function(self, args)
-    --     return false
-    -- end,
+    in_pool = function(self, args)
+        return false
+    end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.x_mult, card.ability.extra.x_mult_mod, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "nyx_glass")}}
     end,
@@ -181,9 +323,9 @@ local titanium = {
         + (G and G.hand and G.hand.cards and #G.hand.cards > card.ability.extra.held_in_hand_ge
         and #G.hand.cards - card.ability.extra.held_in_hand_ge or 0)*card.ability.extra.h_x_mult_mod
     end,
-    -- in_pool = function(self, args)
-    --     return false
-    -- end,
+    in_pool = function(self, args)
+        return false
+    end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.h_x_mult, card.ability.extra.h_x_mult_mod, card.ability.extra.held_in_hand_ge}}
     end,
@@ -209,9 +351,9 @@ local abyss_stone = {
         end
         card.ability.bonus = card.ability.immutable.base_bonus + card.ability.abyss_stone_tally*card.ability.extra.bonus_mod
     end,
-    -- in_pool = function(self, args)
-    --     return false
-    -- end,
+    in_pool = function(self, args)
+        return false
+    end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.bonus, card.ability.extra.bonus_mod}}
     end,
@@ -269,9 +411,9 @@ local platinum = {
             ease_dollars(card.ability.d_dollars)
         end
     end,
-    -- in_pool = function(self, args)
-    --     return false
-    -- end,
+    in_pool = function(self, args)
+        return false
+    end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.d_dollars}}
     end,
@@ -305,9 +447,9 @@ local ancient_lucky = {
             end
         end
     end,
-    -- in_pool = function(self, args)
-    --     return false
-    -- end,
+    in_pool = function(self, args)
+        return false
+    end,
     loc_vars = function(self, info_queue, card)
         local nm, dm = SMODS.get_probability_vars(card, 1, card.ability.extra.mult_odds, "ancient_lucky_mult")
         local nd, dd = SMODS.get_probability_vars(card, 1, card.ability.extra.dollar_odds, "ancient_lucky_money")
@@ -330,12 +472,30 @@ for _, v in ipairs(enhancement_table) do
     SMODS.Enhancement(v)
 end
 
-local voucher_table = {}
+local oculus_divina = {
+    key = "oculus_divina",
+    name = "Oculus Divina",
+    atlas = "ultra",
+    pos = {x = 8, y = 5},
+}
+
+local oculus_omniscientis = {
+    key = "oculus_omniscientis",
+    name = "Oculus Omniscientis",
+    atlas = "ultra",
+    pos = {x = 9, y = 5},
+    requires = {"v_sgt_oculus_divina"},
+}
+
+local voucher_table = {
+    oculus_divina,
+    oculus_omniscientis,
+}
 
 for _, v in ipairs(voucher_table) do
     if Sagatro.debug then
         v.unlocked = true
         v.discovered = true
     end
-    SMODS.Enhancement(v)
+    SMODS.Voucher(v)
 end

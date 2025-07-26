@@ -135,6 +135,65 @@ return {
                     "{C:inactive,s:0.8}Tận hưởng sự {C:attention,s:0.8}điên rồ{C:inactive,s:0.8} của Talisman nhé!",
                 },
             },
+            undiscovered_divinatio = {
+				name = "Chưa Khám Phá",
+                text = {
+                    "Mua hoặc dùng",
+                    "lá này trong một",
+                    "trận ngẫu nhiên",
+                    "để biết tác dụng của nó",
+                },
+			},
+            undiscovered_eldritch = {
+				name = "Chưa Khám Phá",
+                text = {
+                    "Mua hoặc dùng",
+                    "lá này trong một",
+                    "trận ngẫu nhiên",
+                    "để biết tác dụng của nó",
+                },
+			},
+            p_sgt_divinatio_normal = {
+                name = "Gói Chiêm Mộng",
+                text = {
+                    "Chọn {C:attention}#1#{} trong tối đa",
+                    "{C:attention}#2#{} lá {C:sgt_divinatio}Chiêm Mộng",
+                    "để dùng ngay"
+                },
+            },
+            p_sgt_divinatio_jumbo = {
+                name = "Gói Chiêm Mộng Lớn",
+                text = {
+                    "Chọn {C:attention}#1#{} trong tối đa",
+                    "{C:attention}#2#{} lá {C:sgt_divinatio}Chiêm Mộng",
+                    "để dùng ngay"
+                },
+            },
+            p_sgt_divinatio_mega = {
+                name = "Gói Chiêm Mộng Đại",
+                text = {
+                    "Chọn {C:attention}#1#{} trong tối đa",
+                    "{C:attention}#2#{} lá {C:sgt_divinatio}Chiêm Mộng",
+                    "để dùng ngay"
+                },
+            },
+        },
+        Voucher = {
+            v_sgt_oculus_divina = {
+                name = "Thần Nhãn",
+                text = {
+                    "Lá {C:sgt_divinatio}Chiêm Mộng{} có thể",
+                    "xuất hiện trong",
+                    "các {C:attention}Gói Thần Bí",
+                },
+            },
+            v_sgt_oculus_omniscientis = {
+                name = "Toàn Tri Nhãn",
+                text = {
+                    "{C:attention}Gói Chiêm Mộng{} có thể",
+                    "xuất hiện trong shop",
+                },
+            },
         },
         Spectral = {
             c_sgt_streak = {
@@ -228,6 +287,72 @@ return {
                     "Giải phóng {C:sgt_esoteric}#1#{}",
                     "{C:inactive}Đừng lo, anh ta vẫn ở lại{}",
                     "{C:inactive}và cho {X:dark_edition,C:white}^#2#{C:inactive} Nhân",
+                },
+            },
+        },
+        Divinatio = {
+            c_sgt_dominus_ars = {
+                name = "Nghệ Vương",
+                text = {
+                    "Cường hoá {C:attention}#1#",
+                    "lá đã chọn thành",
+                    "{C:attention}#2#",
+                },
+            },
+            c_sgt_regina_caeli = {
+                name = "Thiên Hậu",
+                text = {
+                    "Cường hoá {C:attention}#1#",
+                    "lá đã chọn thành",
+                    "{C:attention}#2#",
+                },
+            },
+            c_sgt_sacerdos = {
+                name = "Đại Giáo Chủ",
+                text = {
+                    "Cường hoá {C:attention}#1#",
+                    "lá đã chọn thành",
+                    "{C:attention}#2#",
+                },
+            },
+            c_sgt_sacra_nexus = {
+                name = "Thánh Tình",
+                text = {
+                    "Cường hoá {C:attention}#1#",
+                    "lá đã chọn thành",
+                    "{C:attention}#2#",
+                },
+            },
+            c_sgt_triumpus = {
+                name = "Khải Hoàn",
+                text = {
+                    "Cường hoá {C:attention}#1#",
+                    "lá đã chọn thành",
+                    "{C:attention}#2#",
+                },
+            },
+            c_sgt_vitus_aeterna = {
+                name = "Thánh Luật",
+                text = {
+                    "Cường hoá {C:attention}#1#",
+                    "lá đã chọn thành",
+                    "{C:attention}#2#",
+                },
+            },
+            c_sgt_umba_aeterna = {
+                name = "Vĩnh Ảnh",
+                text = {
+                    "Cường hoá {C:attention}#1#",
+                    "lá đã chọn thành",
+                    "{C:attention}#2#",
+                },
+            },
+            c_sgt_runis_sacris = {
+                name = "Thiên Tảng",
+                text = {
+                    "Cường hoá {C:attention}#1#",
+                    "lá đã chọn thành",
+                    "{C:attention}#2#",
                 },
             },
         },
@@ -1194,6 +1319,12 @@ return {
             k_wish = "Điều Ước",
             b_wish_cards = "Lá Điều Ước",
             sgt_wish_pack = "Gói Điều Ước",
+            k_divinatio = "Chiêm Mộng",
+            b_divinatio_cards = "Lá Chiêm Mộng",
+            sgt_divinatio_pack = "Gói Chiêm Mộng",
+            k_eldritch = "Hắc Linh",
+            b_eldritch_cards = "Lá Hắc Linh",
+            sgt_eldritch_pack = "Gói Hắc Linh",
             saga_tooltip = "Gợi ý tiến triển",
             saga_fusion_tooltip = "Kết hợp joker",
             saga_ocean_tooltip = "Địa Điểm",
