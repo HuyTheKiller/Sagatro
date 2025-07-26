@@ -137,19 +137,19 @@ local lamp = {
     end
 }
 
-local omnicience = {
-    key = "omnicience",
-    name = "The Omnicience",
+local omniscience = {
+    key = "omniscience",
+    name = "The Omniscience",
     set = "Spectral",
     atlas = "misc",
     pos = {x = 1, y = 0},
-    config = {mod_conv = 'm_sgt_omnicient', max_highlighted = 1},
+    config = {mod_conv = 'm_sgt_omniscient', max_highlighted = 1},
     cost = 4,
     hidden = true,
     soul_set = "Tarot",
     loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_omnicient
-		return {vars = {card and card.ability.max_highlighted or self.config.max_highlighted, localize{type = 'name_text', set = "Enhanced", key = "m_sgt_omnicient", nodes = {}}}}
+		info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_omniscient
+		return {vars = {card and card.ability.max_highlighted or self.config.max_highlighted, localize{type = 'name_text', set = "Enhanced", key = "m_sgt_omniscient", nodes = {}}}}
 	end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
@@ -226,7 +226,7 @@ local anima = {
 
 local consumable_table = {
     streak,
-    omnicience,
+    omniscience,
     lamp,
     sinister,
     anima,
@@ -240,10 +240,10 @@ for _, v in ipairs(consumable_table) do
     SMODS.Consumable(v)
 end
 
-local omnicient = {
-    key = "omnicient",
-    name = "Omnicient Card",
-    effect = "Omnicient",
+local omniscient = {
+    key = "omniscient",
+    name = "Omniscient Card",
+    effect = "Omniscient",
     atlas = "misc",
     pos = {x = 4, y = 4},
     config = {
@@ -260,7 +260,7 @@ local omnicient = {
     always_score = true,
     calculate = function(self, card, context)
         if context.destroy_card and context.cardarea == G.play and context.destroy_card == card
-        and SMODS.pseudorandom_probability(card, 'omnicient_glass', 1, card.ability.extra, "omnicient") then
+        and SMODS.pseudorandom_probability(card, 'omniscient_glass', 1, card.ability.extra, "omniscient") then
             card.glass_trigger = true
             return { remove = true }
         end
@@ -269,12 +269,12 @@ local omnicient = {
         return false
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra, "omnicient")}}
+        return {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra, "omniscient")}}
     end,
 }
 
 local enhancement_table = {
-    omnicient,
+    omniscient,
 }
 
 for _, v in ipairs(enhancement_table) do

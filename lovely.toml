@@ -482,7 +482,7 @@ match_indent = true
 target = "card.lua"
 pattern = '''SMODS\.has_enhancement'''
 position = "at"
-payload = '''Sagatro.omnicient'''
+payload = '''Sagatro.omniscient'''
 times = 4
 
 # Upgraded enhancements behave like their original counterparts

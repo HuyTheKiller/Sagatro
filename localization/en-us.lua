@@ -853,7 +853,7 @@ return {
                 text = {
                     {
                         "All played cards become",
-                        "{C:attention}Omnicient{} cards",
+                        "{C:attention}Omniscient{} cards",
                     },
                     {
                         "Cards transformed by {C:attention}Ódinn",
@@ -942,8 +942,8 @@ return {
             },
         },
         Enhanced = {
-            m_sgt_omnicient = {
-                name = "Omnicient Card",
+            m_sgt_omniscient = {
+                name = "Omniscient Card",
                 text = {
                     "{C:attention}8{} enhancements in {C:attention}1{}",
                     "{C:green}Guaranteed {C:attention}lucky{} trigger",
@@ -1246,7 +1246,7 @@ return {
             k_zzz = "ZZZ",
             k_charge = "Charge",
             k_release = "Release",
-            k_omnicient_ex = "Omnicient!",
+            k_omniscient_ex = "Omniscient!",
             ph_per_face_down = " per face-down",
             ph_trial_begins = "Trial Begins!",
             ph_plus_ante = "+1 Ante",

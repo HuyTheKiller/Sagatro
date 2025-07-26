@@ -6473,7 +6473,7 @@ local odin = {
 		end
         if context.before and not context.blueprint and not context.retrigger_joker then
             for _, v in ipairs(context.full_hand) do
-                v:set_ability(G.P_CENTERS.m_sgt_omnicient, nil, true)
+                v:set_ability(G.P_CENTERS.m_sgt_omniscient, nil, true)
                 SMODS.debuff_card(v, "prevent_debuff", "j_sgt_odin")
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -6483,7 +6483,7 @@ local odin = {
                 }))
             end
             return {
-                message = localize('k_omnicient_ex'),
+                message = localize('k_omniscient_ex'),
                 colour = G.C.FILTER,
                 card = card,
             }
@@ -6491,7 +6491,7 @@ local odin = {
         if context.forcetrigger then
             if context.scoring_hand then
 				for _, v in ipairs(context.full_hand) do
-                    v:set_ability(G.P_CENTERS.m_sgt_omnicient, nil, true)
+                    v:set_ability(G.P_CENTERS.m_sgt_omniscient, nil, true)
                     G.E_MANAGER:add_event(Event({
                         trigger = "after",
                         delay = 0.4,
@@ -6503,7 +6503,7 @@ local odin = {
 				end
 			elseif G and G.hand and #G.hand.highlighted > 0 then
 				for _, v in ipairs(G.hand.highlighted) do
-                    v:set_ability(G.P_CENTERS.m_sgt_omnicient, nil, true)
+                    v:set_ability(G.P_CENTERS.m_sgt_omniscient, nil, true)
                     G.E_MANAGER:add_event(Event({
                         trigger = "after",
                         delay = 0.4,
@@ -6517,7 +6517,7 @@ local odin = {
         end
     end,
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_omnicient
+        info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_omniscient
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )

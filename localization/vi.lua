@@ -941,7 +941,7 @@ return {
             },
         },
         Enhanced = {
-            m_sgt_omnicient = {
+            m_sgt_omniscient = {
                 name = "Lá Toàn Tri",
                 text = {
                     "{C:attention}8{} cường hoá trong {C:attention}1{}",
@@ -1245,7 +1245,7 @@ return {
             k_zzz = "ZZZ",
             k_charge = "Nạp",
             k_release = "Xả",
-            k_omnicient_ex = "Toàn Tri!",
+            k_omniscient_ex = "Toàn Tri!",
             ph_per_face_down = " mỗi lá sấp",
             ph_trial_begins = "Khai Toà!",
             ph_plus_ante = "+1 Ante",
