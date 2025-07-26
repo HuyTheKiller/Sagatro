@@ -193,14 +193,14 @@ local sinister = {
 local anima = {
     key = "anima",
     name = "Anima",
-    set = "Spectral",-- temporary set, will move to Divinatio once it's out of WIP phase
+    set = "Spectral",
     atlas = "ultra",
     dependencies = {"Talisman"},
     pos = {x = 2, y = 2},
     config = {},
     cost = 4,
     hidden = true,
-    soul_rate = 0.009,
+    soul_set = "Divinatio",
     can_use = function(self, card)
         return true
     end,
