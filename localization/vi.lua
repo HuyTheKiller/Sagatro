@@ -292,6 +292,15 @@ return {
             },
         },
         Divinatio = {
+            c_sgt_exodium = {
+                name = "Khởi Nguyên",
+                text = {
+                    "Tạo ra lá {C:tarot}Tarot{}, lá {C:planet}Hành Tinh",
+                    "hoặc lá {C:sgt_divinatio}Chiêm Mộng{} được dùng",
+                    "gần nhất trong trận này",
+                    "{s:0.8}không bao gồm {s:0.8,C:sgt_divinatio}Khởi Nguyên"
+                },
+            },
             c_sgt_dominus_ars = {
                 name = "Nghệ Vương",
                 text = {
@@ -300,12 +309,27 @@ return {
                     "{C:attention}#2#",
                 },
             },
+            c_sgt_sacra_sapientia = {
+                name = "Thiên Tuệ",
+                text = {
+                    "Tạo ra {C:attention}#1#{} lá {C:planet}Hành Tinh",
+                    "{C:dark_edition}Âm Bản{} ngẫu nhiên",
+                },
+            },
             c_sgt_regina_caeli = {
                 name = "Thiên Hậu",
                 text = {
                     "Cường hoá {C:attention}#1#",
                     "lá đã chọn thành",
                     "{C:attention}#2#",
+                },
+            },
+            c_sgt_rex_divinus = {
+                name = "Thần Đế",
+                text = {
+                    "Tạo ra tối đa {C:attention}#1#",
+                    "lá {C:sgt_divinatio}Chiêm Mộng{} ngẫu nhiên",
+                    "{C:inactive}(Phải có ô trống)",
                 },
             },
             c_sgt_sacerdos = {
@@ -338,6 +362,20 @@ return {
                     "Cường hoá {C:attention}#1#",
                     "lá đã chọn thành",
                     "{C:attention}#2#",
+                },
+            },
+            c_sgt_lux_veritatix = {
+                name = "Thánh Quang",
+                text = {
+                    "Nhận {C:money}$#1#{}",
+                },
+            },
+            c_sgt_orbis_fatum = {
+                name = "Thiên Luân",
+                text = {
+                    "Xác suất {C:green}#1# trên #2#{} để",
+                    "thêm {C:dark_edition}Âm Bản{} cho",
+                    "một {C:attention}Joker{} ngẫu nhiên",
                 },
             },
             c_sgt_umba_aeterna = {

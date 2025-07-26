@@ -112,6 +112,8 @@ function Game:init_game_object()
     ret.red_queen_defeated = false
     ret.saved_by_gods_miracle = false
     ret.wish_card_spawns_genie = false -- Deck of Equilibrium compat
+    ret.last_tarot_planet_divinatio = nil
+    ret.orbis_fatum_odds = 4
 	return ret
 end
 

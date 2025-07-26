@@ -52,6 +52,62 @@ for _, v in ipairs(undiscovered_sprite_table) do
     SMODS.UndiscoveredSprite(v)
 end
 
+local exodium = {
+    key = 'exodium',
+    name = "Exodium",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 0, y = 0 },
+    cost = 4,
+    can_use = function(self, card)
+        return (G.consumeables.config.card_limit > #G.consumeables.cards and G.GAME.last_tarot_planet_divinatio or card.area == G.consumeables)
+        and G.GAME.last_tarot_planet_divinatio ~= 'c_fool' and G.GAME.last_tarot_planet_divinatio ~= 'c_sgt_exodium'
+    end,
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                if G.consumeables.config.card_limit > #G.consumeables.cards then
+                    play_sound('timpani')
+                    SMODS.add_card{ key = G.GAME.last_tarot_planet_divinatio }
+                    card:juice_up(0.3, 0.5)
+                end
+                return true
+            end
+        }))
+        delay(0.6)
+    end,
+    loc_vars = function(self, info_queue, card)
+        local fool_c = G.GAME.last_tarot_planet_divinatio and G.P_CENTERS[G.GAME.last_tarot_planet_divinatio] or nil
+        local last_tarot_planet_divinatio = fool_c and localize { type = 'name_text', key = fool_c.key, set = fool_c.set }
+        or localize('k_none')
+        local colour = (not fool_c or fool_c.name == 'The Fool' or fool_c.name == 'Exodium') and G.C.RED or G.C.GREEN
+
+        if not (not fool_c or fool_c.name == 'The Fool' or fool_c.name == 'Exodium') then
+            info_queue[#info_queue + 1] = fool_c
+        end
+
+        local main_end = {
+            {
+                n = G.UIT.C,
+                config = { align = "bm", padding = 0.02 },
+                nodes = {
+                    {
+                        n = G.UIT.C,
+                        config = { align = "m", colour = colour, r = 0.05, padding = 0.05 },
+                        nodes = {
+                            { n = G.UIT.T, config = { text = ' ' .. last_tarot_planet_divinatio .. ' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.3, shadow = true } },
+                        }
+                    }
+                }
+            }
+        }
+
+        return { vars = { last_tarot_planet_divinatio }, main_end = main_end }
+    end,
+}
+
 local dominus_ars = {
     key = 'dominus_ars',
     name = "Dominus Ars",
@@ -66,6 +122,37 @@ local dominus_ars = {
     end,
 }
 
+local sacra_sapientia = {
+    key = 'sacra_sapientia',
+    name = "Sacra Sapientia",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 2, y = 0 },
+    cost = 4,
+    config = { planets = 2 },
+    can_use = function(self, card)
+        return true
+    end,
+    use = function(self, card, area, copier)
+        for _ = 1, card.ability.consumeable.planets do
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.4,
+                func = function()
+                    play_sound('timpani')
+                    SMODS.add_card{ set = "Planet", edition = "e_negative", key_append = "sap" }
+                    card:juice_up(0.3, 0.5)
+                    return true
+                end
+            }))
+        end
+        delay(0.6)
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card and card.ability.planets or self.config.planets}}
+    end,
+}
+
 local regina_caeli = {
     key = 'regina_caeli',
     name = "Regina Caeli",
@@ -77,6 +164,37 @@ local regina_caeli = {
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
         return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
+    end,
+}
+
+local rex_divinus = {
+    key = 'rex_divinus',
+    name = "Rex Divinus",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 4, y = 0 },
+    cost = 4,
+    config = { divinatio = 2 },
+    can_use = function(self, card)
+        return G.consumeables.config.card_limit > #G.consumeables.cards and G.GAME.last_tarot_planet_divinatio or card.area == G.consumeables
+    end,
+    use = function(self, card, area, copier)
+        for _ = 1, math.min(card.ability.consumeable.divinatio, G.consumeables.config.card_limit - #G.consumeables.cards) do
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.4,
+                func = function()
+                    play_sound('timpani')
+                    SMODS.add_card{ set = "Divinatio", key_append = "rex" }
+                    card:juice_up(0.3, 0.5)
+                    return true
+                end
+            }))
+        end
+        delay(0.6)
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card and card.ability.divinatio or self.config.divinatio}}
     end,
 }
 
@@ -136,6 +254,93 @@ local vitus_aeterna = {
     end,
 }
 
+local lux_veritatix = {
+    key = 'lux_veritatix',
+    name = "Lux Veritatix",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 9, y = 0 },
+    cost = 4,
+    config = { dollars = 25 },
+    can_use = function(self, card)
+        return true
+    end,
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('timpani')
+                card:juice_up(0.3, 0.5)
+                ease_dollars(card.ability.consumeable.dollars, true)
+                return true
+            end
+        }))
+        delay(0.6)
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card and card.ability.dollars or self.config.dollars}}
+    end,
+}
+
+local orbis_fatum = {
+    key = 'orbis_fatum',
+    name = "Orbis Fatum",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 0, y = 1 },
+    cost = 4,
+    update = function(self, card, dt)
+        card.eligible_strength_jokers = EMPTY(card.eligible_strength_jokers)
+        for _, v in pairs(G.jokers.cards) do
+            if v.ability.set == 'Joker' and not v.edition then
+                table.insert(card.eligible_strength_jokers, v)
+            end
+        end
+    end,
+    can_use = function(self, card)
+        if next(card.eligible_strength_jokers) then return true end
+        return false
+    end,
+    use = function(self, card, area, copier)
+        if SMODS.pseudorandom_probability(card, 'orbis_fatum', 1, G.GAME.orbis_fatum_odds) then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.4,
+                func = function()
+                    local eligible_card = pseudorandom_element(card.eligible_strength_jokers, pseudoseed('orbis_fatum'))
+                    eligible_card:set_edition("e_negative", true)
+                    card:juice_up(0.3, 0.5)
+                    G.GAME.orbis_fatum_odds = G.GAME.orbis_fatum_odds + 4
+                    return true
+                end
+            }))
+        else
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                attention_text({
+                    text = localize('k_nope_ex'),
+                    scale = 1.3, 
+                    hold = 1.4,
+                    major = card,
+                    backdrop_colour = G.C.SGT_DIVINATIO,
+                    align = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and 'tm' or 'cm',
+                    offset = {x = 0, y = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and -0.2 or 0},
+                    silent = true
+                    })
+                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
+                        play_sound('tarot2', 0.76, 0.4);return true end}))
+                    play_sound('tarot2', 1, 0.4)
+                    card:juice_up(0.3, 0.5)
+            return true end }))
+        end
+        delay(0.6)
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.e_negative
+        return {vars = {SMODS.get_probability_vars(card, 1, G.GAME.orbis_fatum_odds, "orbis_fatum")}}
+    end,
+}
+
 local umba_aeterna = {
     key = 'umba_aeterna',
     name = "Umba Aeterna",
@@ -165,12 +370,17 @@ local runis_sacris = {
 }
 
 local consumable_table = {
+    exodium,
     dominus_ars,
+    sacra_sapientia,
     regina_caeli,
+    rex_divinus,
     sacerdos,
     sacra_nexus,
     triumpus,
     vitus_aeterna,
+    lux_veritatix,
+    orbis_fatum,
     umba_aeterna,
     runis_sacris,
 }

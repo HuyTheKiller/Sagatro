@@ -293,6 +293,15 @@ return {
             },
         },
         Divinatio = {
+            c_sgt_exodium = {
+                name = "Exodium",
+                text = {
+                    "Creates the last {C:tarot}Tarot{},",
+                    "{C:planet}Planet{} or {C:sgt_divinatio}Divinatio{} card",
+                    "used during this run",
+                    "{s:0.8,C:sgt_divinatio}Exodium{s:0.8} excluded",
+                },
+            },
             c_sgt_dominus_ars = {
                 name = "Dominus Ars",
                 text = {
@@ -301,12 +310,27 @@ return {
                     "{C:attention}#2#",
                 },
             },
+            c_sgt_sacra_sapientia = {
+                name = "Sacra Sapientia",
+                text = {
+                    "Create {C:attention}#1#{} random",
+                    "{C:dark_edition}Negative {C:planet}Planet{} cards",
+                },
+            },
             c_sgt_regina_caeli = {
                 name = "Regina Caeli",
                 text = {
                     "Enhances {C:attention}#1#{} selected",
                     "card into an",
                     "{C:attention}#2#",
+                },
+            },
+            c_sgt_rex_divinus = {
+                name = "Rex Divinus",
+                text = {
+                    "Creates up to {C:attention}#1#",
+                    "random {C:sgt_divinatio}Divinatio{} cards",
+                    "{C:inactive}(Must have room)",
                 },
             },
             c_sgt_sacerdos = {
@@ -339,6 +363,20 @@ return {
                     "Enhances {C:attention}#1#{} selected",
                     "card into an",
                     "{C:attention}#2#",
+                },
+            },
+            c_sgt_lux_veritatix = {
+                name = "Lux Veritatix",
+                text = {
+                    "Earn {C:money}$#1#{}",
+                },
+            },
+            c_sgt_orbis_fatum = {
+                name = "Orbis Fatum",
+                text = {
+                    "{C:green}#1# in #2#{} chance to",
+                    "add {C:dark_edition}Negative{} to a",
+                    "random {C:attention}Joker",
                 },
             },
             c_sgt_umba_aeterna = {
