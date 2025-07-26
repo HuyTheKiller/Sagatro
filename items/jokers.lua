@@ -4605,7 +4605,7 @@ local mandarin_fish = {
     perishable_compat = false,
     add_to_deck = function(self, card, from_debuff)
         delay(0.06*G.SETTINGS.GAMESPEED)
-        ease_dollars(card.ability.extra.money)
+        ease_dollars(card.ability.extra.money, true)
         delay(0.06*G.SETTINGS.GAMESPEED)
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED,
             func = function()
