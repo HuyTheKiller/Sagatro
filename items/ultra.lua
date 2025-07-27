@@ -176,7 +176,7 @@ local rex_divinus = {
     cost = 4,
     config = { divinatio = 2 },
     can_use = function(self, card)
-        return G.consumeables.config.card_limit > #G.consumeables.cards and G.GAME.last_tarot_planet_divinatio or card.area == G.consumeables
+        return G.consumeables.config.card_limit > #G.consumeables.cards or card.area == G.consumeables
     end,
     use = function(self, card, area, copier)
         for _ = 1, math.min(card.ability.consumeable.divinatio, G.consumeables.config.card_limit - #G.consumeables.cards) do
