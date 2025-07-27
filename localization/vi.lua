@@ -117,6 +117,37 @@ return {
                     "rồi {S:1.1,C:red,E:2}tự huỷ{}",
                 },
             },
+            sgt_blood_seal = {
+                name = "Con Dấu Máu",
+                text = {
+                    "{C:attention}Tái kích{} lá bài này",
+                    "thêm {C:attention}#1#{} lần",
+                },
+            },
+            sgt_cyan_seal = {
+                name = "Con Dấu Lục Lam",
+                text = {
+                    "Tạo ra một lá {C:sgt_divinatio}Chiêm Mộng",
+                    "khi {C:attention}bị bỏ",
+                    "{C:inactive}(Phải có ô trống)",
+                },
+            },
+            sgt_space_seal = {
+                name = "Con Dấu Không Gian",
+                text = {
+                    "Tạo ra lá {C:planet}Hành Tinh{C:dark_edition} Âm Bản{}",
+                    "cho {C:attention}tay poker{} cuối cùng của ván",
+                    "nếu được {C:attention}giữ{} trong tay",
+                },
+            },
+            sgt_platinum_seal = {
+                name = "Con Dấu Bạch Kim",
+                text = {
+                    "Nhận {C:money}$#1#{} khi lá này",
+                    "được chơi và",
+                    "ghi điểm"
+                },
+            },
             sgt_require_talisman_for_emult = {
                 name = "n",
                 text = {
@@ -158,7 +189,7 @@ return {
                 text = {
                     "Chọn {C:attention}#1#{} trong tối đa",
                     "{C:attention}#2#{} lá {C:sgt_divinatio}Chiêm Mộng",
-                    "để dùng ngay"
+                    "để dùng ngay",
                 },
             },
             p_sgt_divinatio_jumbo = {
@@ -166,7 +197,7 @@ return {
                 text = {
                     "Chọn {C:attention}#1#{} trong tối đa",
                     "{C:attention}#2#{} lá {C:sgt_divinatio}Chiêm Mộng",
-                    "để dùng ngay"
+                    "để dùng ngay",
                 },
             },
             p_sgt_divinatio_mega = {
@@ -174,7 +205,31 @@ return {
                 text = {
                     "Chọn {C:attention}#1#{} trong tối đa",
                     "{C:attention}#2#{} lá {C:sgt_divinatio}Chiêm Mộng",
-                    "để dùng ngay"
+                    "để dùng ngay",
+                },
+            },
+            p_sgt_eldritch_normal = {
+                name = "Gói Hắc Linh",
+                text = {
+                    "Chọn {C:attention}#1#{} trong tối đa",
+                    "{C:attention}#2#{} lá {C:sgt_eldritch}Hắc Linh",
+                    "để dùng ngay",
+                },
+            },
+            p_sgt_eldritch_jumbo = {
+                name = "Gói Hắc Linh Lớn",
+                text = {
+                    "Chọn {C:attention}#1#{} trong tối đa",
+                    "{C:attention}#2#{} lá {C:sgt_eldritch}Hắc Linh",
+                    "để dùng ngay",
+                },
+            },
+            p_sgt_eldritch_mega = {
+                name = "Gói Hắc Linh Đại",
+                text = {
+                    "Chọn {C:attention}#1#{} trong tối đa",
+                    "{C:attention}#2#{} lá {C:sgt_eldritch}Hắc Linh",
+                    "để dùng ngay",
                 },
             },
         },
@@ -192,6 +247,22 @@ return {
                 text = {
                     "Lá {C:sgt_divinatio}Chiêm Mộng{} và",
                     "{C:attention}Gói Chiêm Mộng{} có thể",
+                    "dược mua trong shop",
+                },
+            },
+            v_sgt_shadow_oath = {
+                name = "Hắc Thệ",
+                text = {
+                    "Lá {C:sgt_eldritch}Hắc Linh{} có thể",
+                    "xuất hiện trong",
+                    "các {C:attention}Gói Siêu Linh",
+                },
+            },
+            v_sgt_abyss_pact = {
+                name = "U Minh",
+                text = {
+                    "Lá {C:sgt_eldritch}Hắc Linh{} và",
+                    "{C:attention}Gói Hắc Linh{} có thể",
                     "dược mua trong shop",
                 },
             },
@@ -213,22 +284,6 @@ return {
                     "Cường hoá {C:attention}#1#",
                     "lá đã chọn thành",
                     "{C:attention}#2#",
-                }
-            },
-            c_sgt_sinister = {
-                name = "Hắc Thần",
-                text = {
-                    "Tạo ra một {C:attention}Joker {C:sgt_sagadition,E:1}Lovecraft",
-					"{C:sgt_esoteric,E:1}Bí Truyền{} ngẫu nhiên, áp {C:attention}Ngắn Hạn",
-					"lên mọi Joker khác",
-                }
-            },
-            c_sgt_anima = {
-                name = "Quang Thần",
-                text = {
-                    "Tạo ra một {C:attention}Joker {C:sgt_sagadition,E:1}Thần Thoại",
-                    "{C:sgt_esoteric,E:1}Bí Truyền{} ngẫu nhiên, áp {C:attention}Vĩnh Hằng",
-                    "lên mọi joker khác",
                 }
             },
             c_sgt_lamp = {
@@ -471,6 +526,158 @@ return {
                     "{C:attention}#1#{} đã chọn thành",
                     "chất {V:1}#2#",
                 },
+            },
+            c_sgt_anima = {
+                name = "Quang Thần",
+                text = {
+                    "Tạo ra một {C:attention}Joker {C:sgt_sagadition,E:1}Thần Thoại",
+                    "{C:sgt_esoteric,E:1}Bí Truyền{} ngẫu nhiên, áp {C:attention}Vĩnh Hằng",
+                    "lên mọi joker khác",
+                }
+            },
+        },
+        Eldritch = {
+            c_sgt_demon = {
+                name = "Ác Ma",
+                text = {
+                    "Phá huỷ {C:attention}1{} lá ngẫu nhiên",
+                    "trong tay, thêm {C:attention}#1#{} lá",
+                    "{C:attention}mặt {C:dark_edition}Ấn Bản",
+                    "ngẫu nhiên vào tay",
+                },
+            },
+            c_sgt_merciless = {
+                name = "Đoạt Mệnh",
+                text = {
+                    "Phá huỷ {C:attention}1{} lá ngẫu nhiên",
+                    "trong tay, thêm {C:attention}#1#{} lá",
+                    "{C:attention}Át {C:dark_edition}Ấn Bản",
+                    "ngẫu nhiên vào tay",
+                },
+            },
+            c_sgt_chanting = {
+                name = "Nguyền Thuật",
+                text = {
+                    "Phá huỷ {C:attention}1{} lá ngẫu nhiên",
+                    "trong tay, thêm {C:attention}#1#{} lá",
+                    "{C:attention}số {C:dark_edition}Ấn Bản",
+                    "ngẫu nhiên vào tay",
+                },
+            },
+            c_sgt_amulet = {
+                name = "Bùa Mệnh",
+                text = {
+                    "Thêm một {C:attention}Con Dấu Bạch Kim",
+                    "lên {C:attention}#1#{} lá đã chọn trong tay",
+                },
+            },
+            c_sgt_emanate = {
+                name = "Hắc Quang",
+                text = {
+                    "Xác suất cứng {C:green}50%{} để thêm {C:dark_edition}Âm Bản",
+                    "cho {C:attention}#1#{} lá đã chọn trên tay",
+                    "Nếu trật, phá huỷ lá bài đó",
+                },
+            },
+            c_sgt_spectre = {
+                name = "Bóng Ma",
+                text = {
+                    "Tạo ra một {C:attention}Joker",
+                    "{C:red}Hiếm{} ngẫu nhiên,",
+                    "Mất {C:money}một nửa{} số tiền"
+                },
+            },
+            c_sgt_magiseal = {
+                name = "Ấn Phép",
+                text = {
+                    "Biến đổi toàn bộ lá bài",
+                    "trong tay thành cùng",
+                    "{C:attention}chất{} với lá đã chọn",
+                },
+            },
+            c_sgt_lexicon = {
+                name = "Kí Tự",
+                text = {
+                    "Biến đổi toàn bộ lá bài",
+                    "trong tay thành cùng",
+                    "{C:attention}bậc{} với lá đã chọn",
+                    "{C:red}-1{} lá giữ trong tay",
+                },
+            },
+            c_sgt_substance = {
+                name = "Dung Dịch",
+                text = {
+                    "Thễm {C:dark_edition}Âm bản{} cho",
+                    "{C:attention}#1# Joker{} đã chọn,",
+                    "{C:red}-#2#{} lá giũ trong tay",
+                },
+            },
+            c_sgt_slaughter = {
+                name = "Tàn Sát",
+                text = {
+                    "Phá huỷ {C:attention}mọi{} lá bài",
+                    "trong tay, nhận {C:money}$#1#{} cho",
+                    "mỗi lá bị phá huỷ",
+                },
+            },
+            c_sgt_crux_ansata = {
+                name = "Crux Ansata",
+                text = {
+                    "Tạo ra bản sao của {C:attention}#1#",
+                    "{C:attention}Joker{} đã chọn, phá huỷ",
+                    "toàn bộ Joker khác",
+                },
+            },
+            c_sgt_repetite = {
+                name = "Tái Thiết",
+                text = {
+                    "Thêm một {C:attention}Con Dấu Máu",
+                    "lên {C:attention}#1#{} lá đã chọn trong tay",
+                },
+            },
+            c_sgt_megahex = {
+                name = "Hắc Cường",
+                text = {
+                    "Thêm {C:dark_edition}Đa sắc{} cho",
+                    "{C:attention}#1# Joker{} đã chọn, phá huỷ",
+                    "toàn bộ Joker khác",
+                },
+            },
+            c_sgt_haze = {
+                name = "Lờ Mờ",
+                text = {
+                    "Thêm một {C:attention}Con Dấu Không Gian",
+                    "lên {C:attention}#1#{} lá đã chọn trong tay",
+                },
+            },
+            c_sgt_cartomancy = {
+                name = "Phép Bói",
+                text = {
+                    "Thêm một {C:attention}Con Dấu Lục Lam",
+                    "lên {C:attention}#1#{} lá đã chọn trong tay",
+                },
+            },
+            c_sgt_exotic = {
+                name = "Ngoại Lai",
+                text = {
+                    {
+                        "Tạo ra {C:attention}#1#{} bản sao của",
+                        "{C:attention}#2#{} lá đã chọn",
+                        "trong tay",
+                    },
+                    {
+                        "Lá đã chọn và vừa tạo ra",
+                        "{C:attention}miễn nhiễm{} với vô hiệu hoá",
+                    },
+                },
+            },
+            c_sgt_sinister = {
+                name = "Hắc Thần",
+                text = {
+                    "Tạo ra một {C:attention}Joker {C:sgt_sagadition,E:1}Lovecraft",
+					"{C:sgt_esoteric,E:1}Bí Truyền{} ngẫu nhiên, áp {C:attention}Ngắn Hạn",
+					"lên mọi Joker khác",
+                }
             },
         },
         Joker = {
@@ -1411,6 +1618,10 @@ return {
             sgt_black_streak_seal = "Vệt Đen",
             sgt_cosmic_streak_seal = "Vệt Vũ Trụ",
             sgt_gods_miracle_seal = "Phép Lạ Của Chúa",
+            sgt_blood_seal = "Con Dấu Máu",
+            sgt_cyan_seal = "Con Dấu Luc Lam",
+            sgt_space_seal = "Con Dấu Không Gian",
+            sgt_platinum_seal = "Con Dấu Bạch Kim",
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Hansel Đỏ Đen",

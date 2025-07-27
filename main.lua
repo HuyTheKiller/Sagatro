@@ -15,10 +15,6 @@ Sagatro.mod_compat = {
 	talisman = (SMODS.Mods["Talisman"] or {}).can_load or false,
 }
 
-if Overflow and Overflow.blacklist then
-	Overflow.blacklist["c_sgt_iustitia_sacra"] = true
-end
-
 Sagatro.electric_eel_info_queue = {
 	"m_steel",
 	"m_gold",

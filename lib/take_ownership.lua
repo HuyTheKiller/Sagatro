@@ -41,6 +41,19 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
 true
 )
 
+SMODS.Booster:take_ownership_by_kind('Spectral', {
+    create_card = function(self, card, i)
+        local _card = {set = "Spectral", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "spe"}
+            if G.GAME.used_vouchers.v_sgt_shadow_oath and pseudorandom('shadow_oath') > 0.8 then
+            _card.set = "Eldritch"
+            _card.key_append = "spe2"
+        end
+        return _card
+    end,
+},
+true
+)
+
 SMODS.Joker:take_ownership('splash',
 	{
 		add_to_deck = function(self, card, from_debuff)

@@ -118,6 +118,37 @@ return {
                     "{S:1.1,C:red,E:2}self destructs{}",
                 },
             },
+            sgt_blood_seal = {
+                name = "Blood Seal",
+                text = {
+                    "{C:attention}Retrigger{} this card",
+                    "{C:attention}#1#{} times",
+                },
+            },
+            sgt_cyan_seal = {
+                name = "Cyan Seal",
+                text = {
+                    "Creates a {C:sgt_divinatio}Divinatio{} card",
+                    "when {C:attention}discarded",
+                    "{C:inactive}(Must have room)",
+                },
+            },
+            sgt_space_seal = {
+                name = "Space Seal",
+                text = {
+                    "Creates the {C:dark_edition}Negative {C:planet}Planet{} card",
+                    "for final played {C:attention}poker hand{}",
+                    "of round if {C:attention}held{} in hand",
+                },
+            },
+            sgt_platinum_seal = {
+                name = "Platinum Seal",
+                text = {
+                    "Earn {C:money}$#1#{} when this",
+                    "card is played",
+                    "and scores",
+                },
+            },
             sgt_require_talisman_for_emult = {
                 name = "n",
                 text = {
@@ -178,6 +209,30 @@ return {
                     "be used immediately",
                 },
             },
+            p_sgt_eldritch_normal = {
+                name = "Eldritch Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:sgt_eldritch} Eldritch{} cards to",
+                    "be used immediately",
+                },
+            },
+            p_sgt_eldritch_jumbo = {
+                name = "Jumbo Eldritch Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:sgt_eldritch} Eldritch{} cards to",
+                    "be used immediately",
+                },
+            },
+            p_sgt_eldritch_mega = {
+                name = "Mega Eldritch Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:sgt_eldritch} Eldritch{} cards to",
+                    "be used immediately",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -193,6 +248,22 @@ return {
                 text = {
                     "{C:sgt_divinatio}Divinatio{} cards and",
                     "{C:attention}Divinatio Packs{} can be",
+                    "purchased from the shop",
+                },
+            },
+            v_sgt_shadow_oath = {
+                name = "Shadow Oath",
+                text = {
+                    "{C:sgt_eldritch}Eldritch{} cards may",
+                    "appear in any of",
+                    "the {C:attention}Spectral Packs",
+                },
+            },
+            v_sgt_abyss_pact = {
+                name = "Abyss Pact",
+                text = {
+                    "{C:sgt_eldritch}Eldritch{} cards and",
+                    "{C:attention}Eldritch Packs{} can be",
                     "purchased from the shop",
                 },
             },
@@ -214,22 +285,6 @@ return {
                     "Enhances {C:attention}#1#{} selected",
                     "card into an",
                     "{C:attention}#2#",
-                }
-            },
-            c_sgt_sinister = {
-                name = "The Sinister",
-                text = {
-                    "Create a random {C:sgt_esoteric,E:1}Esoteric",
-                    "{C:sgt_sagadition,E:1}Lovecraft {C:attention}Joker{}, set {C:attention}Perishable",
-                    "to all other jokers",
-                }
-            },
-            c_sgt_anima = {
-                name = "Anima",
-                text = {
-                    "Create a random {C:sgt_esoteric,E:1}Esoteric",
-                    "{C:sgt_sagadition,E:1}Mythology {C:attention}Joker{}, set {C:attention}Eternal",
-                    "to all other jokers",
                 }
             },
             c_sgt_lamp = {
@@ -472,6 +527,162 @@ return {
                     "{C:attention}#1#{} selected cards",
                     "to {V:1}#2#{}",
                 },
+            },
+            c_sgt_anima = {
+                name = "Anima",
+                text = {
+                    "Create a random {C:sgt_esoteric,E:1}Esoteric",
+                    "{C:sgt_sagadition,E:1}Mythology {C:attention}Joker{}, set {C:attention}Eternal",
+                    "to all other jokers",
+                }
+            },
+        },
+        Eldritch = {
+            c_sgt_demon = {
+                name = "Demon",
+                text = {
+                    "Destroy {C:attention}1{} random",
+                    "card in your hand, add",
+                    "{C:attention}#1#{} random {C:dark_edition}Editioned {C:attention}face",
+                    "{C:attention}cards{} to your hand",
+                },
+            },
+            c_sgt_merciless = {
+                name = "Merciless",
+                text = {
+                    "Destroy {C:attention}1{} random",
+                    "card in your hand, add",
+                    "{C:attention}#1#{} random {C:dark_edition}Editioned",
+                    "{C:attention}Aces{} to your hand",
+                },
+            },
+            c_sgt_chanting = {
+                name = "Chanting",
+                text = {
+                    "Destroy {C:attention}1{} random",
+                    "card in your hand, add",
+                    "{C:attention}#1#{} random {C:dark_edition}Editioned {C:attention}numbered",
+                    "{C:attention}cards{} to your hand",
+                },
+            },
+            c_sgt_amulet = {
+                name = "Amulet",
+                text = {
+                    "Add a {C:attention}Platinum Seal",
+                    "to {C:attention}#1#{} selected",
+                    "card in your hand",
+                },
+            },
+            c_sgt_emanate = {
+                name = "Emanate",
+                text = {
+                    "{C:green}50%{} fixed chance to add {C:dark_edition}Negative",
+                    "to {C:attention}#1#{} selected card in hand",
+                    "Otherwise, destroy said card",
+                },
+            },
+            c_sgt_spectre = {
+                name = "Spectre",
+                text = {
+                    "Creates a random",
+                    "{C:red}Rare{C:attention} Joker{},",
+                    "Lose {C:money}half{} of your money",
+                },
+            },
+            c_sgt_magiseal = {
+                name = "Magiseal",
+                text = {
+                    "Converts all cards in hand",
+                    "to the same suit as",
+                    "selected card's {C:attention}suit",
+                },
+            },
+            c_sgt_lexicon = {
+                name = "Lexicon",
+                text = {
+                    "Converts all cards in hand",
+                    "to the same rank as",
+                    "selected card's {C:attention}rank",
+                    "{C:red}-1{} hand size",
+                },
+            },
+            c_sgt_substance = {
+                name = "Substance",
+                text = {
+                    "Add {C:dark_edition}Negative{} to",
+                    "{C:attention}#1#{} selected {C:attention}Joker,",
+                    "{C:red}-#2#{} hand size",
+                },
+            },
+            c_sgt_slaughter = {
+                name = "Slaughter",
+                text = {
+                    "Destroys {C:attention}all{} cards",
+                    "in hand, gain {C:money}$#1#{} for",
+                    "each destroyed card",
+                },
+            },
+            c_sgt_crux_ansata = {
+                name = "Crux Ansata",
+                text = {
+                    "Create a copy of {C:attention}#1#",
+                    "selected {C:attention}Joker{}, destroy",
+                    "all other Jokers",
+                },
+            },
+            c_sgt_repetite = {
+                name = "Repetite",
+                text = {
+                    "Add a {C:attention}Blood Seal",
+                    "to {C:attention}#1#{} selected",
+                    "card in your hand",
+                },
+            },
+            c_sgt_megahex = {
+                name = "Megahex",
+                text = {
+                    "Add {C:dark_edition}Polychrome{} to",
+                    "{C:attention}#1#{} selected {C:attention}Joker{}, destroy",
+                    "all other Jokers",
+                },
+            },
+            c_sgt_haze = {
+                name = "Haze",
+                text = {
+                    "Add a {C:attention}Space Seal",
+                    "to {C:attention}#1#{} selected",
+                    "card in your hand",
+                },
+            },
+            c_sgt_cartomancy = {
+                name = "Cartomancy",
+                text = {
+                    "Add a {C:attention}Cyan Seal",
+                    "to {C:attention}#1#{} selected",
+                    "card in your hand",
+                },
+            },
+            c_sgt_exotic = {
+                name = "Exotic",
+                text = {
+                    {
+                        "Create {C:attention}#1#{} copy of",
+                        "{C:attention}#2#{} selected card",
+                        "in your hand",
+                    },
+                    {
+                        "Selected and created cards",
+                        "are {C:attention}immune{} to debuffs",
+                    },
+                },
+            },
+            c_sgt_sinister = {
+                name = "The Sinister",
+                text = {
+                    "Create a random {C:sgt_esoteric,E:1}Esoteric",
+                    "{C:sgt_sagadition,E:1}Lovecraft {C:attention}Joker{}, set {C:attention}Perishable",
+                    "to all other jokers",
+                }
             },
         },
         Joker = {
@@ -1412,6 +1623,10 @@ return {
             sgt_black_streak_seal = "Black Streak",
             sgt_cosmic_streak_seal = "Cosmic Streak",
             sgt_gods_miracle_seal = "God's Miracle",
+            sgt_blood_seal = "Blood Seal",
+            sgt_cyan_seal = "Cyan Seal",
+            sgt_space_seal = "Space Seal",
+            sgt_platinum_seal = "Platinum Seal",
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Gambling Hansel",

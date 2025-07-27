@@ -880,6 +880,36 @@ function Sagatro.omniscient(card, key)
     return ret or SMODS.has_enhancement(card, "m_sgt_omniscient")
 end
 
+function Sagatro.random_destroy(used_tarot)
+    local destroyed_cards = {}
+    destroyed_cards[#destroyed_cards + 1] = pseudorandom_element(G.hand.cards, pseudoseed('random_destroy'))
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.4,
+        func = function()
+            play_sound('tarot1')
+            used_tarot:juice_up(0.3, 0.5)
+            return true
+        end
+    }))
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.1,
+        func = function()
+            for i = #destroyed_cards, 1, -1 do
+                local card = destroyed_cards[i]
+                if SMODS.shatters(card) then
+                    card:shatter()
+                else
+                    card:start_dissolve(nil, i ~= #destroyed_cards)
+                end
+            end
+            return true
+        end
+    }))
+    return destroyed_cards
+end
+
 -- from Cryptid's Tarot called Blessing
 -- and I thought it could exclude cards from getting called in get_random_consumable and from Deck of Equilibrium
 function sgt_center_no(center, m, key, no_no)
@@ -1174,6 +1204,10 @@ Sagatro.config_tab = function()
     }}
 end
 
+if Overflow and Overflow.blacklist then
+	Overflow.blacklist["c_sgt_iustitia_sacra"] = true
+end
+
 if JokerDisplay then
     local jd_def = JokerDisplay.Definitions
 
@@ -1191,6 +1225,16 @@ if JokerDisplay then
         end
         card.joker_display_values.dollars = dollars
         card.joker_display_values.localized_text = localize("k_gold")
+    end
+
+    local jdcct = JokerDisplay.calculate_card_triggers
+    JokerDisplay.calculate_card_triggers = function(card, scoring_hand, held_in_hand)
+        if card.debuff then
+            return 0
+        end
+        local triggers = jdcct(card, scoring_hand, held_in_hand)
+        triggers = triggers + (card:get_seal() == 'sgt_Blood' and 2 or 0)
+        return triggers
     end
 end
 

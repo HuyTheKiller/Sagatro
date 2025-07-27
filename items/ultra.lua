@@ -5,7 +5,7 @@ local divinatio = {
 	collection_rows = { 5, 6 },
 	shop_rate = 0.0,
 	loc_txt = {},
-	default = "c_sgt_dominus_ars",
+	default = "c_sgt_iustitia_sacra",
 	can_stack = true,
 	can_divide = true,
 }
@@ -558,7 +558,7 @@ local concordia = {
             card.ability.money = 0
         end
     end,
-    can_use = function(card)
+    can_use = function(self, card)
         return true
     end,
     use = function(self, card, area, copier)
@@ -653,8 +653,8 @@ local utima_vox = {
     atlas = "ultra",
     pos = { x = 0, y = 2 },
     cost = 4,
-    can_use = function(card)
-        return G.jokers.config.card_limit > #G.jokers.cards
+    can_use = function(self, card)
+        return G.STATE == G.STATES.SHOP or G.STATE == G.STATES.BLIND_SELECT
     end,
     use = function(self, card, area, copier)
         G.E_MANAGER:add_event(Event({
@@ -679,7 +679,6 @@ local utima_vox = {
                 return true
             end
         }))
-        delay(0.6)
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.p_buffoon_mega_1
@@ -696,6 +695,814 @@ local aeternum = {
     config = {suit_conv = 'Spades', max_highlighted = 5},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.max_highlighted, localize(card.ability.suit_conv, 'suits_plural'), colours = {G.C.SUITS[card.ability.suit_conv]}}}
+    end,
+}
+
+local anima = {
+    key = "anima",
+    name = "Anima",
+    set = "Divinatio",
+    atlas = "ultra",
+    dependencies = {"Talisman"},
+    pos = {x = 2, y = 2},
+    config = {},
+    cost = 4,
+    hidden = true,
+    can_use = function(self, card)
+        return true
+    end,
+    use = function(self, card, area, copier)
+		local used_consumable = copier or card
+		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            for _, v in ipairs(G.jokers.cards) do
+                v:add_sticker("eternal", true)
+            end
+            play_sound('timpani')
+            card:juice_up(0.3, 0.5)
+            assert(SMODS.add_card({
+                set = "Norse Mythology",
+                skip_materialize = true,
+            }))
+            return true end }))
+        delay(0.6)
+	end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items
+    end,
+}
+
+local demon = {
+    key = 'demon',
+    name = "Demon",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 0, y = 3 },
+    cost = 6,
+    config = {extra = 3},
+    can_use = function(self, card)
+        return #G.hand.cards > 1
+    end,
+    use = function(self, card, area, copier)
+        local destroyed_cards = Sagatro.random_destroy(card)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.7,
+            func = function()
+                local cards = {}
+                for i = 1, card.ability.extra do
+                    local faces = {}
+                    for _, v in ipairs(SMODS.Rank.obj_buffer) do
+                        local r = SMODS.Ranks[v]
+                        if r.face then table.insert(faces, r) end
+                    end
+                    local _suit, _rank =
+                        pseudorandom_element(SMODS.Suits, pseudoseed('demon_create')).card_key,
+                        pseudorandom_element(faces, pseudoseed('demon_create')).card_key
+                    cards[i] = create_playing_card({front = G.P_CARDS[_suit..'_'.._rank]},
+                    G.hand, nil, i ~= 1, { G.C.SGT_ELDRITCH })
+                    cards[i]:set_edition(poll_edition('demon_edition', nil, true, true))
+                end
+                playing_card_joker_effects(cards)
+                return true
+            end
+        }))
+        delay(0.3)
+        SMODS.calculate_context({ remove_playing_cards = true, removed = destroyed_cards })
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
+}
+
+local merciless = {
+    key = 'merciless',
+    name = "Merciless",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 1, y = 3 },
+    cost = 6,
+    config = {extra = 2},
+    can_use = function(self, card)
+        return #G.hand.cards > 1
+    end,
+    use = function(self, card, area, copier)
+        local destroyed_cards = Sagatro.random_destroy(card)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.7,
+            func = function()
+                local cards = {}
+                for i = 1, card.ability.extra do
+                    local _suit, _rank =
+                        pseudorandom_element(SMODS.Suits, pseudoseed('demon_create')).card_key, 'A'
+                    cards[i] = create_playing_card({front = G.P_CARDS[_suit..'_'.._rank]},
+                    G.hand, nil, i ~= 1, { G.C.SGT_ELDRITCH })
+                    cards[i]:set_edition(poll_edition('demon_edition', nil, true, true))
+                end
+                playing_card_joker_effects(cards)
+                return true
+            end
+        }))
+        delay(0.3)
+        SMODS.calculate_context({ remove_playing_cards = true, removed = destroyed_cards })
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
+}
+
+local chanting = {
+    key = 'chanting',
+    name = "Chanting",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 2, y = 3 },
+    cost = 6,
+    config = {extra = 4},
+    can_use = function(self, card)
+        return #G.hand.cards > 1
+    end,
+    use = function(self, card, area, copier)
+        local destroyed_cards = Sagatro.random_destroy(card)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.7,
+            func = function()
+                local cards = {}
+                for i = 1, card.ability.extra do
+                    local numbers = {}
+                    for _, v in ipairs(SMODS.Rank.obj_buffer) do
+                        local r = SMODS.Ranks[v]
+                        if v ~= 'Ace' and not r.face then table.insert(numbers, r) end
+                    end
+                    local _suit, _rank =
+                        pseudorandom_element(SMODS.Suits, pseudoseed('demon_create')).card_key,
+                        pseudorandom_element(numbers, pseudoseed('demon_create')).card_key
+                    cards[i] = create_playing_card({front = G.P_CARDS[_suit..'_'.._rank]},
+                    G.hand, nil, i ~= 1, { G.C.SGT_ELDRITCH })
+                    cards[i]:set_edition(poll_edition('demon_edition', nil, true, true))
+                end
+                playing_card_joker_effects(cards)
+                return true
+            end
+        }))
+        delay(0.3)
+        SMODS.calculate_context({ remove_playing_cards = true, removed = destroyed_cards })
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
+}
+
+local amulet = {
+    key = 'amulet',
+    name = "Amulet",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 3, y = 3 },
+    cost = 6,
+    config = {extra = {seal = 'sgt_Platinum'}, max_highlighted = 1},
+    use = function(self, card, area, copier)
+        for i = 1, #G.hand.highlighted do
+			local highlighted = G.hand.highlighted[i]
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					play_sound("tarot1")
+					card:juice_up(0.3, 0.5)
+					return true
+				end,
+			}))
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.1,
+				func = function()
+					if highlighted then
+						highlighted:set_seal(card.ability.extra.seal, nil, true)
+					end
+					return true
+				end,
+			}))
+			delay(0.5)
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.2,
+				func = function()
+					G.hand:unhighlight_all()
+					return true
+				end,
+			}))
+		end
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_SEALS[card.ability.extra.seal]
+        return {vars = {card.ability.max_highlighted}}
+    end,
+}
+
+local emanate = {
+    key = 'emanate',
+    name = "Emanate",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 4, y = 3 },
+    cost = 6,
+    config = {max_highlighted = 1},
+    can_use = function(self, card)
+        for i = 1, #G.hand.highlighted do
+            local highlighted = G.hand.highlighted[i]
+            if highlighted.edition then return false end
+        end
+        return #G.hand.highlighted > 0 and #G.hand.highlighted <= card.ability.max_highlighted
+    end,
+    use = function(self, card, area, copier)
+        for i = 1, #G.hand.highlighted do
+			local highlighted = G.hand.highlighted[i]
+            if pseudorandom('emanate') > 0.5 then
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                    highlighted:set_edition('e_negative', true)
+                    card:juice_up(0.3, 0.5)
+                return true end }))
+            else
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                    SMODS.destroy_cards(highlighted, nil, true)
+                    card:juice_up(0.3, 0.5)
+                return true end }))
+            end
+		end
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = { key = 'e_negative_playing_card', set = 'Edition', config = {extra = 1}}
+        return {vars = {card.ability.max_highlighted}}
+    end,
+}
+
+local spectre = {
+    key = 'spectre',
+    name = "Spectre",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 5, y = 3 },
+    cost = 6,
+    can_use = function(self, card)
+        return G.jokers.config.card_limit > #G.jokers.cards
+    end,
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('timpani')
+                SMODS.add_card{set = 'Joker', rarity = 'Rare'}
+                card:juice_up(0.3, 0.5)
+                if G.GAME.dollars > to_big(0) then
+                    ease_dollars(-math.floor(to_number(G.GAME.dollars)/2), true)
+                end
+                return true
+            end
+        }))
+        delay(0.6)
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.max_highlighted}}
+    end,
+}
+
+local magiseal = {
+    key = 'magiseal',
+    name = "Magiseal",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 6, y = 3 },
+    cost = 6,
+    config = {max_highlighted = 1},
+    can_use = function(self, card)
+        for i = 1, #G.hand.highlighted do
+            local highlighted = G.hand.highlighted[i]
+            if SMODS.has_no_suit(highlighted) then return false end
+        end
+        return #G.hand.highlighted > 0 and #G.hand.highlighted <= card.ability.max_highlighted
+    end,
+    use = function(self, card, area, copier)
+        local suit = G.hand.highlighted[1].base.suit
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('tarot1')
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+        for i = 1, #G.hand.cards do
+            local percent = 1.15 - (i - 0.999) / (#G.hand.cards - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.cards[i]:flip()
+                    play_sound('card1', percent)
+                    G.hand.cards[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+        for i = 1, #G.hand.cards do
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    local _card = G.hand.cards[i]
+                    assert(SMODS.change_base(_card, suit))
+                    return true
+                end
+            }))
+        end
+        for i = 1, #G.hand.cards do
+            local percent = 0.85 + (i - 0.999) / (#G.hand.cards - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.cards[i]:flip()
+                    play_sound('tarot2', percent, 0.6)
+                    G.hand.cards[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+        delay(0.5)
+    end,
+}
+
+local lexicon = {
+    key = 'lexicon',
+    name = "Lexicon",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 7, y = 3 },
+    cost = 6,
+    config = {max_highlighted = 1},
+    can_use = function(self, card)
+        for i = 1, #G.hand.highlighted do
+            local highlighted = G.hand.highlighted[i]
+            if SMODS.has_no_rank(highlighted) then return false end
+        end
+        return #G.hand.highlighted > 0 and #G.hand.highlighted <= card.ability.max_highlighted
+    end,
+    use = function(self, card, area, copier)
+        local rank = G.hand.highlighted[1].config.card.value
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('tarot1')
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+        for i = 1, #G.hand.cards do
+            local percent = 1.15 - (i - 0.999) / (#G.hand.cards - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.cards[i]:flip()
+                    play_sound('card1', percent)
+                    G.hand.cards[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+        for i = 1, #G.hand.cards do
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    local _card = G.hand.cards[i]
+                    assert(SMODS.change_base(_card, nil, rank))
+                    return true
+                end
+            }))
+        end
+        G.hand:change_size(-1)
+        for i = 1, #G.hand.cards do
+            local percent = 0.85 + (i - 0.999) / (#G.hand.cards - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.cards[i]:flip()
+                    play_sound('tarot2', percent, 0.6)
+                    G.hand.cards[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+        delay(0.5)
+    end,
+}
+
+local substance = {
+    key = 'substance',
+    name = "Substance",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 8, y = 3 },
+    cost = 6,
+    config = {max_highlighted = 1},
+    can_use = function(self, card)
+        for i = 1, #G.jokers.highlighted do
+            local highlighted = G.jokers.highlighted[i]
+            if highlighted.edition then return false end
+        end
+        return #G.jokers.highlighted > 0 and #G.jokers.highlighted <= card.ability.max_highlighted
+    end,
+    use = function(self, card, area, copier)
+        for i = 1, #G.jokers.highlighted do
+            local highlighted = G.jokers.highlighted[i]
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.4,
+                func = function()
+                    highlighted:set_edition('e_negative', true)
+
+                    G.GAME.ecto_minus = G.GAME.ecto_minus or 1
+                    G.hand:change_size(-G.GAME.ecto_minus)
+                    G.GAME.ecto_minus = G.GAME.ecto_minus + 1
+
+                    card:juice_up(0.3, 0.5)
+                    return true
+                end
+            }))
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.e_negative
+        return {vars = {card.ability.max_highlighted, G.GAME.ecto_minus or 1}}
+    end,
+}
+
+local slaughter = {
+    key = 'slaughter',
+    name = "Slaughter",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 9, y = 3 },
+    cost = 6,
+    config = {dollars = 4},
+    can_use = function(self, card)
+        return #G.hand.cards > 0
+    end,
+    use = function(self, card, area, copier)
+        local count = #G.hand.cards
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('tarot1')
+                card:juice_up(0.3, 0.5)
+                SMODS.destroy_cards(G.hand.cards, nil, true)
+                return true
+            end
+        }))
+
+        delay(0.5)
+        ease_dollars(card.ability.dollars*count)
+        delay(0.3)
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.dollars}}
+    end,
+}
+
+local crux_ansata = {
+    key = 'crux_ansata',
+    name = "Crux Ansata",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 0, y = 4 },
+    cost = 6,
+    config = {max_highlighted = 1},
+    can_use = function(self, card)
+        return #G.jokers.highlighted > 0 and #G.jokers.highlighted <= card.ability.max_highlighted
+        and #G.jokers.cards + #G.jokers.highlighted <= G.jokers.config.card_limit
+    end,
+    use = function(self, card, area, copier)
+        local deletable_jokers = {}
+        for _, joker in pairs(G.jokers.cards) do
+            if not SMODS.is_eternal(joker, card) and not table.contains(G.jokers.highlighted, joker) then
+                deletable_jokers[#deletable_jokers+1] = joker
+            end
+        end
+        local _first_dissolve = nil
+        G.E_MANAGER:add_event(Event({
+            trigger = 'before',
+            delay = 0.75,
+            func = function()
+                for _, joker in pairs(deletable_jokers) do
+                    joker:start_dissolve(nil, _first_dissolve)
+                    _first_dissolve = true
+                end
+                return true
+            end
+        }))
+        G.E_MANAGER:add_event(Event({
+            trigger = 'before',
+            delay = 0.4,
+            func = function()
+                for i = 1, #G.jokers.highlighted do
+                    local highlighted = G.jokers.highlighted[i]
+                    local copied_joker = copy_card(highlighted, nil, nil, nil,
+                        highlighted.edition and highlighted.edition.negative)
+                    copied_joker:start_materialize()
+                    copied_joker:add_to_deck()
+                    if copied_joker.edition and copied_joker.edition.negative then
+                        copied_joker:set_edition(nil, true)
+                    end
+                    G.jokers:emplace(copied_joker)
+                end
+                return true
+            end
+        }))
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {vars = {card.ability.max_highlighted}}
+        if G.jokers and G.jokers.cards then
+            for _, v in ipairs(G.jokers.cards) do
+                if v.edition and v.edition.negative then
+                    info_queue[#info_queue+1] = G.P_CENTERS.e_negative
+                    ret.main_end = {}
+                    localize{type = 'other', key = 'remove_negative', nodes = ret.main_end, vars = {}}
+                    ret.main_end = ret.main_end[1]
+                    break
+                end
+            end
+        end
+        return ret
+    end,
+}
+
+local repetite = {
+    key = 'repetite',
+    name = "Repetite",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 1, y = 4 },
+    cost = 6,
+    config = {extra = {seal = 'sgt_Blood'}, max_highlighted = 1},
+    use = function(self, card, area, copier)
+        for i = 1, #G.hand.highlighted do
+			local highlighted = G.hand.highlighted[i]
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					play_sound("tarot1")
+					card:juice_up(0.3, 0.5)
+					return true
+				end,
+			}))
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.1,
+				func = function()
+					if highlighted then
+						highlighted:set_seal(card.ability.extra.seal, nil, true)
+					end
+					return true
+				end,
+			}))
+			delay(0.5)
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.2,
+				func = function()
+					G.hand:unhighlight_all()
+					return true
+				end,
+			}))
+		end
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_SEALS[card.ability.extra.seal]
+        return {vars = {card.ability.max_highlighted}}
+    end,
+}
+
+local megahex = {
+    key = 'megahex',
+    name = "Megahex",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 2, y = 4 },
+    cost = 6,
+    config = {max_highlighted = 1},
+    can_use = function(self, card)
+        for i = 1, #G.jokers.highlighted do
+            local highlighted = G.jokers.highlighted[i]
+            if highlighted.edition then return false end
+        end
+        return #G.jokers.highlighted > 0 and #G.jokers.highlighted <= card.ability.max_highlighted
+    end,
+    use = function(self, card, area, copier)
+        local deletable_jokers = {}
+        for _, joker in pairs(G.jokers.cards) do
+            if not SMODS.is_eternal(joker, card) and not table.contains(G.jokers.highlighted, joker) then
+                deletable_jokers[#deletable_jokers+1] = joker
+            end
+        end
+        local _first_dissolve = nil
+        G.E_MANAGER:add_event(Event({
+            trigger = 'before',
+            delay = 0.75,
+            func = function()
+                for _, joker in pairs(deletable_jokers) do
+                    joker:start_dissolve(nil, _first_dissolve)
+                    _first_dissolve = true
+                end
+                return true
+            end
+        }))
+        G.E_MANAGER:add_event(Event({
+            trigger = 'before',
+            delay = 0.4,
+            func = function()
+                for i = 1, #G.jokers.highlighted do
+                    G.jokers.highlighted[i]:set_edition('e_polychrome', true)
+                end
+                return true
+            end
+        }))
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome
+        local ret = {vars = {card.ability.max_highlighted}}
+        if G.jokers and G.jokers.cards then
+            for _, v in ipairs(G.jokers.cards) do
+                if v.edition and v.edition.negative then
+                    info_queue[#info_queue+1] = G.P_CENTERS.e_negative
+                    ret.main_end = {}
+                    localize{type = 'other', key = 'remove_negative', nodes = ret.main_end, vars = {}}
+                    ret.main_end = ret.main_end[1]
+                    break
+                end
+            end
+        end
+        return ret
+    end,
+}
+
+local haze = {
+    key = 'haze',
+    name = "Haze",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 3, y = 4 },
+    cost = 6,
+    config = {extra = {seal = 'sgt_Space'}, max_highlighted = 1},
+    use = function(self, card, area, copier)
+        for i = 1, #G.hand.highlighted do
+			local highlighted = G.hand.highlighted[i]
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					play_sound("tarot1")
+					card:juice_up(0.3, 0.5)
+					return true
+				end,
+			}))
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.1,
+				func = function()
+					if highlighted then
+						highlighted:set_seal(card.ability.extra.seal, nil, true)
+					end
+					return true
+				end,
+			}))
+			delay(0.5)
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.2,
+				func = function()
+					G.hand:unhighlight_all()
+					return true
+				end,
+			}))
+		end
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_SEALS[card.ability.extra.seal]
+        return {vars = {card.ability.max_highlighted}}
+    end,
+}
+
+local cartomancy = {
+    key = 'cartomancy',
+    name = "Cartomancy",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 4, y = 4 },
+    cost = 6,
+    config = {extra = {seal = 'sgt_Cyan'}, max_highlighted = 1},
+    use = function(self, card, area, copier)
+        for i = 1, #G.hand.highlighted do
+			local highlighted = G.hand.highlighted[i]
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					play_sound("tarot1")
+					card:juice_up(0.3, 0.5)
+					return true
+				end,
+			}))
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.1,
+				func = function()
+					if highlighted then
+						highlighted:set_seal(card.ability.extra.seal, nil, true)
+					end
+					return true
+				end,
+			}))
+			delay(0.5)
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.2,
+				func = function()
+					G.hand:unhighlight_all()
+					return true
+				end,
+			}))
+		end
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_SEALS[card.ability.extra.seal]
+        return {vars = {card.ability.max_highlighted}}
+    end,
+}
+
+local exotic = {
+    key = 'exotic',
+    name = "Exotic",
+    set = 'Eldritch',
+    atlas = "ultra",
+    pos = { x = 5, y = 4 },
+    cost = 6,
+    config = {max_highlighted = 1, extra = {cards = 1}},
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                local _first_dissolve = nil
+                local new_cards = {}
+                for i = 1, #G.hand.highlighted do
+                    SMODS.debuff_card(G.hand.highlighted[i], "prevent_debuff", "c_sgt_exotic")
+                    for _ = 1, card.ability.extra.cards do
+                        G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+                        local _card = copy_card(G.hand.highlighted[i], nil, nil, G.playing_card)
+                        _card:add_to_deck()
+                        G.deck.config.card_limit = G.deck.config.card_limit + 1
+                        table.insert(G.playing_cards, _card)
+                        G.hand:emplace(_card)
+                        _card:start_materialize(nil, _first_dissolve)
+                        _first_dissolve = true
+                        new_cards[#new_cards+1] = _card
+                    end
+                end
+                SMODS.calculate_context({ playing_card_added = true, cards = new_cards })
+                return true
+            end
+        }))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.cards, card.ability.max_highlighted}}
+    end,
+}
+
+local sinister = {
+    key = "sinister",
+    name = "The Sinister",
+    set = "Eldritch",
+    atlas = "ultra",
+    dependencies = {"Talisman"},
+    pos = {x = 6, y = 4},
+    config = {},
+    cost = 4,
+    hidden = true,
+    can_use = function(self, card)
+        return true
+    end,
+    use = function(self, card, area, copier)
+		local used_consumable = copier or card
+		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            for _, v in ipairs(G.jokers.cards) do
+                v:add_sticker("perishable", true)
+            end
+            play_sound('timpani')
+            card:juice_up(0.3, 0.5)
+            assert(SMODS.add_card({
+                set = "Lovecraft",
+                skip_materialize = true,
+            }))
+            return true end }))
+        delay(0.6)
+	end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
 }
 
@@ -722,6 +1529,24 @@ local consumable_table = {
     sol_invictus,
     utima_vox,
     aeternum,
+    anima,
+    demon,
+    merciless,
+    chanting,
+    amulet,
+    emanate,
+    spectre,
+    magiseal,
+    lexicon,
+    substance,
+    slaughter,
+    crux_ansata,
+    repetite,
+    megahex,
+    haze,
+    cartomancy,
+    exotic,
+    sinister,
 }
 
 for _, v in ipairs(consumable_table) do
@@ -752,7 +1577,7 @@ local favor = {
         end
     end,
     in_pool = function(self, args)
-        return false
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_oculus_omniscientis
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.perma_bonus}}
@@ -775,7 +1600,7 @@ local exponent = {
         end
     end,
     in_pool = function(self, args)
-        return false
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_oculus_omniscientis
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.e_mult}}
@@ -821,7 +1646,7 @@ local strange = {
         end
     end,
     in_pool = function(self, args)
-        return false
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_oculus_omniscientis
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "strange_infection")}}
@@ -853,7 +1678,7 @@ local nyx_glass = {
         end
     end,
     in_pool = function(self, args)
-        return false
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_oculus_omniscientis
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.x_mult, card.ability.extra.x_mult_mod, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "nyx_glass")}}
@@ -901,7 +1726,7 @@ local abyss_stone = {
         card.ability.bonus = card.ability.immutable.base_bonus + card.ability.abyss_stone_tally*card.ability.extra.bonus_mod
     end,
     in_pool = function(self, args)
-        return false
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_oculus_omniscientis
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.bonus, card.ability.extra.bonus_mod}}
@@ -965,7 +1790,7 @@ local platinum = {
         end
     end,
     in_pool = function(self, args)
-        return false
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_oculus_omniscientis
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.d_dollars}}
@@ -1001,7 +1826,7 @@ local ancient_lucky = {
         end
     end,
     in_pool = function(self, args)
-        return false
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_oculus_omniscientis
     end,
     loc_vars = function(self, info_queue, card)
         local nm, dm = SMODS.get_probability_vars(card, 1, card.ability.extra.mult_odds, "ancient_lucky_mult")
@@ -1025,11 +1850,139 @@ for _, v in ipairs(enhancement_table) do
     SMODS.Enhancement(v)
 end
 
+local blood = {
+    key = "Blood",
+    name = "Blood Seal",
+    atlas = "ultra",
+    pos = {x = 1, y = 5},
+    badge_colour = HEX('D32720'),
+    config = {extra = {retriggers = 2}},
+    calculate = function(self, card, context)
+        if context.repetition then
+            return {
+                message = localize('k_again_ex'),
+                repetitions = card.ability.seal.extra.retriggers,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_abyss_pact
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card and card.ability.seal.extra.retriggers or self.config.extra.retriggers}}
+    end,
+}
+
+local cyan = {
+    key = "Cyan",
+    name = "Cyan Seal",
+    atlas = "ultra",
+    pos = {x = 0, y = 5},
+    badge_colour = HEX('62D7DC'),
+    calculate = function(self, card, context)
+        if context.discard and context.other_card == card and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+            G.E_MANAGER:add_event(Event({
+                trigger = 'before',
+                delay = 0.0,
+                func = function()
+                    SMODS.add_card{set = 'Divinatio', key_append = "cya"}
+                    G.GAME.consumeable_buffer = 0
+                    return true
+                end
+            }))
+            return {
+                message = localize('k_plus_divinatio'),
+                colour = G.C.SGT_DIVINATIO,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_abyss_pact
+    end,
+}
+
+local space = {
+    key = "Space",
+    name = "Space Seal",
+    atlas = "ultra",
+    pos = {x = 2, y = 5},
+    badge_colour = HEX('092332'),
+    calculate = function(self, card, context)
+        if context.end_of_round and context.cardarea == G.hand and context.other_card == card then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'before',
+                delay = 0.0,
+                func = function()
+                    if G.GAME.last_hand_played then
+                        local _planet = nil
+                        for _, v in pairs(G.P_CENTER_POOLS.Planet) do
+                            if v.config.hand_type == G.GAME.last_hand_played then
+                                _planet = v.key
+                            end
+                        end
+                        if _planet then
+                            SMODS.add_card{key = _planet, key_append = "spasl"}
+                        end
+                    end
+                    return true
+                end
+            }))
+            return {
+                message = localize('k_plus_planet'),
+                colour = G.C.SECONDARY_SET.Planet,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_abyss_pact
+    end,
+}
+
+local platinum = {
+    key = "Platinum",
+    name = "Platinum Seal",
+    atlas = "ultra",
+    pos = {x = 3, y = 5},
+    badge_colour = HEX('B4B4B4'),
+    config = {dollars = 6},
+    get_p_dollars = function(self, card)
+        return card.ability.seal.dollars
+    end,
+    draw = function(self, card, layer)
+        if card.seal and card.seal == self.key then
+            G.shared_seals[card.seal].role.draw_major = card
+            G.shared_seals[card.seal]:draw_shader('dissolve', nil, nil, nil, card.children.center)
+            G.shared_seals[card.seal]:draw_shader('voucher', nil, card.ARGS.send_to_shader, nil, card.children.center)
+        end
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_abyss_pact
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card and card.ability.seal.dollars or self.config.dollars}}
+    end,
+}
+
+local seal_table = {
+    blood,
+    cyan,
+    space,
+    platinum,
+}
+
+for _, v in ipairs(seal_table) do
+    SMODS.Seal(v)
+end
+
 local oculus_divina = {
     key = "oculus_divina",
     name = "Oculus Divina",
     atlas = "ultra",
     pos = {x = 8, y = 5},
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items
+    end,
 }
 
 local oculus_omniscientis = {
@@ -1047,11 +2000,46 @@ local oculus_omniscientis = {
             end
         }))
     end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items
+    end,
+}
+
+local shadow_oath = {
+    key = "shadow_oath",
+    name = "Shadow Oath",
+    atlas = "ultra",
+    pos = {x = 8, y = 4},
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items
+    end,
+}
+
+local abyss_pact = {
+    key = "abyss_pact",
+    name = "Abyss Pact",
+    atlas = "ultra",
+    pos = {x = 9, y = 4},
+    config = {extra = {rate = 1}},
+    requires = {"v_sgt_shadow_oath"},
+    redeem = function(self, card)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                G.GAME.eldritch_rate = card.ability.extra.rate
+                return true
+            end
+        }))
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items
+    end,
 }
 
 local voucher_table = {
     oculus_divina,
     oculus_omniscientis,
+    shadow_oath,
+    abyss_pact,
 }
 
 for _, v in ipairs(voucher_table) do
