@@ -60,7 +60,8 @@ local exodium = {
     pos = { x = 0, y = 0 },
     cost = 4,
     can_use = function(self, card)
-        return (G.consumeables.config.card_limit > #G.consumeables.cards and G.GAME.last_tarot_planet_divinatio or card.area == G.consumeables)
+        return (G.consumeables.config.card_limit > #G.consumeables.cards and G.GAME.last_tarot_planet_divinatio
+        or (card.area == G.consumeables and G.consumeables.config.card_limit == #G.consumeables.cards))
         and G.GAME.last_tarot_planet_divinatio ~= 'c_fool' and G.GAME.last_tarot_planet_divinatio ~= 'c_sgt_exodium'
     end,
     use = function(self, card, area, copier)
@@ -149,7 +150,7 @@ local sacra_sapientia = {
         delay(0.6)
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card and card.ability.planets or self.config.planets}}
+        return {vars = {card.ability.planets}}
     end,
 }
 
@@ -176,7 +177,8 @@ local rex_divinus = {
     cost = 4,
     config = { divinatio = 2 },
     can_use = function(self, card)
-        return G.consumeables.config.card_limit > #G.consumeables.cards or card.area == G.consumeables
+        return G.consumeables.config.card_limit > #G.consumeables.cards
+        or (card.area == G.consumeables and G.consumeables.config.card_limit == #G.consumeables.cards)
     end,
     use = function(self, card, area, copier)
         for _ = 1, math.min(card.ability.consumeable.divinatio, G.consumeables.config.card_limit - #G.consumeables.cards) do
@@ -194,7 +196,7 @@ local rex_divinus = {
         delay(0.6)
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card and card.ability.divinatio or self.config.divinatio}}
+        return {vars = {card.ability.divinatio}}
     end,
 }
 
@@ -279,7 +281,7 @@ local lux_veritatix = {
         delay(0.6)
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card and card.ability.dollars or self.config.dollars}}
+        return {vars = {card.ability.dollars}}
     end,
 }
 
@@ -313,7 +315,7 @@ local orbis_fatum = {
                     local eligible_card = pseudorandom_element(card.eligible_strength_jokers, pseudoseed('orbis_fatum'))
                     eligible_card:set_edition("e_negative", true)
                     card:juice_up(0.3, 0.5)
-                    G.GAME.orbis_fatum_odds = G.GAME.orbis_fatum_odds + 4
+                    G.GAME.orbis_fatum_odds = G.GAME.orbis_fatum_odds*2
                     return true
                 end
             }))
