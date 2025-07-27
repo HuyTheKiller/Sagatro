@@ -379,6 +379,45 @@ return {
                     "random {C:attention}Joker",
                 },
             },
+            c_sgt_iustitia_sacra = {
+                name = "Iustitia Sacra",
+                text = {
+                    {
+                        "Increases rank of up to",
+                        "{C:attention}#1#{} selected cards by {C:attention}1",
+                        "Decreases instead if",
+                        "holding {C:attention}#3#",
+                    },
+                    {
+                        "Up to {C:attention}5{} uses",
+                        "{C:inactive}({C:attention}#2#{C:inactive} remaining)",
+                    },
+                },
+            },
+            c_sgt_sacrificium = {
+                name = "Sacrificium",
+                text = {
+                    "Destroys up to",
+                    "{C:attention}#1#{} selected cards",
+                },
+            },
+            c_sgt_trasitus = {
+                name = "Trasitus",
+                text = {
+                    "Select {C:attention}#1#{} to {C:attention}#2#{} cards,",
+                    "convert the {C:attention}left{} cards",
+                    "into the {C:attention}rightmost{} card",
+                    "{C:inactive}(Drag to rearrange)",
+                },
+            },
+            c_sgt_concordia = {
+                name = "Concordia",
+                text = {
+                    "Gives the total buy value of",
+                    "all current Jokers {C:inactive}(Max: {C:money}$#2#{C:inactive})",
+                    "{C:inactive}(Currently {C:money}$#1#{C:inactive})",
+                },
+            },
             c_sgt_umba_aeterna = {
                 name = "Umba Aeterna",
                 text = {
@@ -393,6 +432,45 @@ return {
                     "Enhances {C:attention}#1#{} selected",
                     "card into an",
                     "{C:attention}#2#",
+                },
+            },
+            c_sgt_stella_divina = {
+                name = "Stella Divina",
+                text = {
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {V:1}#2#{}",
+                },
+            },
+            c_sgt_luna_mystica = {
+                name = "Luna Mystica",
+                text = {
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {V:1}#2#{}",
+                },
+            },
+            c_sgt_sol_invictus = {
+                name = "Sol Invictus",
+                text = {
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {V:1}#2#{}",
+                },
+            },
+            c_sgt_utima_vox = {
+                name = "Utima Vox",
+                text = {
+                    "Gives a free",
+                    "{C:attention}Mega Buffoon Pack",
+                },
+            },
+            c_sgt_aeternum = {
+                name = "Aeternum",
+                text = {
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {V:1}#2#{}",
                 },
             },
         },
@@ -1031,7 +1109,7 @@ return {
                     "When {C:attention}Blind{} is skipped,",
                     "create {C:attention}#1#{} tags, increase",
                     "by {C:attention}#2#{} every trigger",
-                    "{C:inactive}(Max: 25)",
+                    "{C:inactive}(Max of 25)",
                 },
             },
             j_sgt_azathoth = {

@@ -378,6 +378,45 @@ return {
                     "một {C:attention}Joker{} ngẫu nhiên",
                 },
             },
+            c_sgt_iustitia_sacra = {
+                name = "Thần Lực",
+                text = {
+                    {
+                        "Tăng bậc cho tối đa",
+                        "{C:attention}#1#{} lá đã chọn lên {C:attention}1",
+                        "Sẽ giảm bậc nếu đang",
+                        "cầm {C:attention}#3#",
+                    },
+                    {
+                        "Tối đa {C:attention}5{} lần dùng",
+                        "{C:inactive}(còn lại {C:attention}#2#{C:inactive})",
+                    },
+                },
+            },
+            c_sgt_sacrificium = {
+                name = "Xả Ly",
+                text = {
+                    "Phá huỷ tối đa",
+                    "{C:attention}#1#{} lá bài đã chọn",
+                },
+            },
+            c_sgt_trasitus = {
+                name = "Chuyển Sinh",
+                text = {
+                    "Chọn {C:attention}#1#{} đến {C:attention}#2#{} lá,",
+                    "biến những lá {C:attention}bên trái",
+                    "thành lá ở {C:attention}tít bên phải",
+                    "{C:inactive}(Kéo thả để sắp xếp)",
+                },
+            },
+            c_sgt_concordia = {
+                name = "Hoà Thiên",
+                text = {
+                    "Nhận tổng giá mua của toàn bộ",
+                    "Joker đang sở hữu {C:inactive}(Tối đa {C:money}$#2#{C:inactive})",
+                    "{C:inactive}(Hiện tại là {C:money}$#1#{C:inactive})",
+                },
+            },
             c_sgt_umba_aeterna = {
                 name = "Vĩnh Ảnh",
                 text = {
@@ -392,6 +431,45 @@ return {
                     "Cường hoá {C:attention}#1#",
                     "lá đã chọn thành",
                     "{C:attention}#2#",
+                },
+            },
+            c_sgt_stella_divina = {
+                name = "Thánh Tú",
+                text = {
+                    "Biến đổi tối đa",
+                    "{C:attention}#1#{} đã chọn thành",
+                    "chất {V:1}#2#",
+                },
+            },
+            c_sgt_luna_mystica = {
+                name = "Huyễn Nguyệt",
+                text = {
+                    "Biến đổi tối đa",
+                    "{C:attention}#1#{} đã chọn thành",
+                    "chất {V:1}#2#",
+                },
+            },
+            c_sgt_sol_invictus = {
+                name = "Nhật Hoàng",
+                text = {
+                    "Biến đổi tối đa",
+                    "{C:attention}#1#{} đã chọn thành",
+                    "chất {V:1}#2#",
+                },
+            },
+            c_sgt_utima_vox = {
+                name = "Thiên Phán",
+                text = {
+                    "Nhận một {C:attention}Gói Hề",
+                    "{C:attention}Đại{} miễn phí",
+                },
+            },
+            c_sgt_aeternum = {
+                name = "Thiên Hạ",
+                text = {
+                    "Biến đổi tối đa",
+                    "{C:attention}#1#{} đã chọn thành",
+                    "chất {V:1}#2#",
                 },
             },
         },
@@ -1030,7 +1108,7 @@ return {
                     "Khi {C:attention}Blind{} bị bỏ qua,",
                     "tạo ra {C:attention}#1#{} nhãn, tăng",
                     "thêm {C:attention}#2#{} mỗi lần kích",
-                    "{C:inactive}(Tối đa: 25)",
+                    "{C:inactive}(Tối đa 25)",
                 },
             },
             j_sgt_azathoth = {

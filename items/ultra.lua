@@ -345,6 +345,240 @@ local orbis_fatum = {
     end,
 }
 
+local iustitia_sacra = {
+    key = 'iustitia_sacra',
+    name = "Iustitia Sacra",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 1, y = 1 },
+    cost = 4,
+    config = {uses = 5, max_highlighted = 2},
+    keep_on_use = function(self, card)
+        return card.ability.uses > 1
+    end,
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('tarot1')
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+        for i = 1, #G.hand.highlighted do
+            local percent = 1.15 - (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.highlighted[i]:flip()
+                    play_sound('card1', percent)
+                    G.hand.highlighted[i]:juice_up(0.3, 0.3); return true
+                end
+            }))
+        end
+        delay(0.2)
+        for i = 1, #G.hand.highlighted do
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.1,
+                func = function()
+                    local mod = 1
+                    for _, v in ipairs(G.consumeables.cards) do
+                        if v.config.center_key == "c_strength" then
+                            mod = -1
+                            break
+                        end
+                    end
+                    assert(SMODS.modify_rank(G.hand.highlighted[i], mod))
+                    return true
+                end
+            }))
+        end
+        for i = 1, #G.hand.highlighted do
+            local percent = 0.85 + (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.highlighted[i]:flip()
+                    play_sound('tarot2', percent, 0.6)
+                    G.hand.highlighted[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.2,
+            func = function()
+                G.hand:unhighlight_all()
+                card.ability.uses = card.ability.uses - 1
+                return true
+            end
+        }))
+        delay(0.5)
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.c_strength
+        return {vars = {card.ability.max_highlighted,
+        card and card.ability.uses or self.config.uses,
+        localize{type = 'name_text', set = 'Tarot', key = "c_strength"}}}
+    end,
+}
+
+local sacrificium = {
+    key = "sacrificium",
+    name = "Sacrificium",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = {x = 2, y = 1},
+    cost = 4,
+    config = {max_highlighted = 5},
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('tarot1')
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.2,
+            func = function()
+                SMODS.destroy_cards(G.hand.highlighted, nil, true)
+                return true
+            end
+        }))
+        delay(0.3)
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.max_highlighted}}
+    end,
+}
+
+local trasitus = {
+    key = "trasitus",
+    name = "Trasitus",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = {x = 3, y = 1},
+    cost = 4,
+    config = {max_highlighted = 3, min_highlighted = 2},
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('tarot1')
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+        for i = 1, #G.hand.highlighted do
+            local percent = 1.15 - (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.highlighted[i]:flip()
+                    play_sound('card1', percent)
+                    G.hand.highlighted[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+        delay(0.2)
+        local rightmost = G.hand.highlighted[1]
+        for i = 1, #G.hand.highlighted do
+            if G.hand.highlighted[i].T.x > rightmost.T.x then
+                rightmost = G.hand.highlighted[i]
+            end
+        end
+        for i = 1, #G.hand.highlighted do
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.1,
+                func = function()
+                    if G.hand.highlighted[i] ~= rightmost then
+                        copy_card(rightmost, G.hand.highlighted[i])
+                    end
+                    return true
+                end
+            }))
+        end
+        for i = 1, #G.hand.highlighted do
+            local percent = 0.85 + (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.highlighted[i]:flip()
+                    play_sound('tarot2', percent, 0.6)
+                    G.hand.highlighted[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.2,
+            func = function()
+                G.hand:unhighlight_all()
+                return true
+            end
+        }))
+        delay(0.5)
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.min_highlighted, card.ability.max_highlighted}}
+    end,
+}
+
+local concordia = {
+    key = "concordia",
+    name = "Concordia",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = {x = 4, y = 1},
+    cost = 4,
+    config = {max_money = 40},
+    update = function(self, card, dt)
+        if G.STAGE == G.STAGES.RUN then
+            card.ability.money = 0
+            for i = 1, #G.jokers.cards do
+                card.ability.money = card.ability.money + G.jokers.cards[i].cost
+            end
+            card.ability.money = math.min(card.ability.money, card.ability.max_money)
+        else
+            card.ability.money = 0
+        end
+    end,
+    can_use = function(card)
+        return true
+    end,
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('timpani')
+                card:juice_up(0.3, 0.5)
+                ease_dollars(card.ability.money, true)
+                return true
+            end
+        }))
+        delay(0.6)
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.money, card.ability.max_money}}
+    end,
+}
+
 local umba_aeterna = {
     key = 'umba_aeterna',
     name = "Umba Aeterna",
@@ -373,6 +607,98 @@ local runis_sacris = {
     end,
 }
 
+local stella_divina = {
+    key = 'stella_divina',
+    name = "Stell Divina",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 7, y = 1 },
+    cost = 4,
+    config = {suit_conv = 'Diamonds', max_highlighted = 5},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.max_highlighted, localize(card.ability.suit_conv, 'suits_plural'), colours = {G.C.SUITS[card.ability.suit_conv]}}}
+    end,
+}
+
+local luna_mystica = {
+    key = 'luna_mystica',
+    name = "Luna Mystica",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 8, y = 1 },
+    cost = 4,
+    config = {suit_conv = 'Clubs', max_highlighted = 5},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.max_highlighted, localize(card.ability.suit_conv, 'suits_plural'), colours = {G.C.SUITS[card.ability.suit_conv]}}}
+    end,
+}
+
+local sol_invictus = {
+    key = 'sol_invictus',
+    name = "Sol Invictus",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 9, y = 1 },
+    cost = 4,
+    config = {suit_conv = 'Hearts', max_highlighted = 5},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.max_highlighted, localize(card.ability.suit_conv, 'suits_plural'), colours = {G.C.SUITS[card.ability.suit_conv]}}}
+    end,
+}
+
+local utima_vox = {
+    key = 'utima_vox',
+    name = "Utima Vox",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 0, y = 2 },
+    cost = 4,
+    can_use = function(card)
+        return G.jokers.config.card_limit > #G.jokers.cards
+    end,
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('timpani')
+                card:juice_up(0.3, 0.5)
+                G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                    G.CONTROLLER.locks.utima_vox = true
+                    G.E_MANAGER:add_event(Event({func = function()
+                        local key = "p_buffoon_mega_1"
+                        local _card = Card(G.play.T.x + G.play.T.w/2 - G.CARD_W*1.27/2,
+                        G.play.T.y + G.play.T.h/2-G.CARD_H*1.27/2, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
+                        _card.cost = 0
+                        _card.from_tag = true
+                        G.FUNCS.use_card({config = {ref_table = _card}})
+                        _card:start_materialize()
+                        G.CONTROLLER.locks.utima_vox = nil
+                    return true end }))
+                return true end }))
+                return true
+            end
+        }))
+        delay(0.6)
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.p_buffoon_mega_1
+    end,
+}
+
+local aeternum = {
+    key = 'aeternum',
+    name = "Aeternum",
+    set = 'Divinatio',
+    atlas = "ultra",
+    pos = { x = 1, y = 2 },
+    cost = 4,
+    config = {suit_conv = 'Spades', max_highlighted = 5},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.max_highlighted, localize(card.ability.suit_conv, 'suits_plural'), colours = {G.C.SUITS[card.ability.suit_conv]}}}
+    end,
+}
+
 local consumable_table = {
     exodium,
     dominus_ars,
@@ -385,8 +711,17 @@ local consumable_table = {
     vitus_aeterna,
     lux_veritatix,
     orbis_fatum,
+    iustitia_sacra,
+    sacrificium,
+    trasitus,
+    concordia,
     umba_aeterna,
     runis_sacris,
+    stella_divina,
+    luna_mystica,
+    sol_invictus,
+    utima_vox,
+    aeternum,
 }
 
 for _, v in ipairs(consumable_table) do
