@@ -233,6 +233,13 @@ return {
                     "be used immediately",
                 },
             },
+            sgt_protected = {
+				name = "Protected",
+				text = {
+					"{C:attention}Immune{} to",
+					"debuffs",
+				},
+			},
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -1627,6 +1634,7 @@ return {
             sgt_cyan_seal = "Cyan Seal",
             sgt_space_seal = "Space Seal",
             sgt_platinum_seal = "Platinum Seal",
+            sgt_protected = "Protected",
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Gambling Hansel",

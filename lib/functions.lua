@@ -910,6 +910,12 @@ function Sagatro.random_destroy(used_tarot)
     return destroyed_cards
 end
 
+function Sagatro.set_debuff(card)
+    if SMODS.has_enhancement(card, "m_sgt_strange") then
+        return "prevent_debuff"
+    end
+end
+
 -- from Cryptid's Tarot called Blessing
 -- and I thought it could exclude cards from getting called in get_random_consumable and from Deck of Equilibrium
 function sgt_center_no(center, m, key, no_no)

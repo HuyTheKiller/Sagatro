@@ -210,3 +210,27 @@ local enhancement_table = {
 for _, v in ipairs(enhancement_table) do
     SMODS.Enhancement(v)
 end
+
+local protected = {
+    key = "sgt_protected",
+    name = "Protected",
+    atlas = "misc",
+    pos = {x = 3, y = 4},
+    badge_colour = HEX("70757D"),
+    prefix_config = { key = false },
+    sets = { Default = true, Enhanced = true, Joker = true },
+    no_sticker_sheet = true, -- Cryptid compat
+    should_apply = false,
+    apply = function(self, card, val)
+        SMODS.debuff_card(card, val and "prevent_debuff" or nil, "sgt_protected")
+        card.ability[self.key] = val
+    end,
+}
+
+local sticker_table = {
+    protected,
+}
+
+for _, v in ipairs(sticker_table) do
+    SMODS.Sticker(v)
+end

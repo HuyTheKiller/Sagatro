@@ -1450,7 +1450,7 @@ local exotic = {
                 local _first_dissolve = nil
                 local new_cards = {}
                 for i = 1, #G.hand.highlighted do
-                    SMODS.debuff_card(G.hand.highlighted[i], "prevent_debuff", "c_sgt_exotic")
+                    G.hand.highlighted[i]:add_sticker("sgt_protected", true)
                     for _ = 1, card.ability.extra.cards do
                         G.playing_card = (G.playing_card and G.playing_card + 1) or 1
                         local _card = copy_card(G.hand.highlighted[i], nil, nil, G.playing_card)
@@ -1615,9 +1615,6 @@ local strange = {
     pos = {x = 6, y = 2},
     config = {extra = {odds = 6}},
     any_suit = true,
-    set_ability = function(self, card, initial, delay_sprites)
-        SMODS.debuff_card(card, "prevent_debuff", "m_sgt_strange")
-    end,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
             if SMODS.pseudorandom_probability(card, 'strange_infection', 1, card.ability.extra.odds) then

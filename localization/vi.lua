@@ -232,6 +232,13 @@ return {
                     "để dùng ngay",
                 },
             },
+            sgt_protected = {
+				name = "Bảo Vệ",
+				text = {
+					"{C:attention}Miễn nhiễm{} với",
+					"vô hiệu hoá",
+				},
+			},
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -1622,6 +1629,7 @@ return {
             sgt_cyan_seal = "Con Dấu Luc Lam",
             sgt_space_seal = "Con Dấu Không Gian",
             sgt_platinum_seal = "Con Dấu Bạch Kim",
+            sgt_protected = "Bảo Vệ",
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Hansel Đỏ Đen",
