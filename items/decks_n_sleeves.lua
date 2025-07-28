@@ -1,5 +1,6 @@
 local saga_deck = {
     key = "saga",
+    name = "Saga Deck",
     atlas = "decks",
     pos = { x = 0, y = 0 },
     config = {joker_slot = 3, extra = {win_ante_gain = 8}},
@@ -11,8 +12,24 @@ local saga_deck = {
     end,
 }
 
+local grimoire_deck = {
+    key = "grimoire",
+    name = "Grimoire Deck",
+    atlas = "decks",
+    pos = { x = 1, y = 0 },
+    config = {vouchers = {'v_sgt_oculus_divina', 'v_sgt_shadow_oath'}, ante_scaling = 1.25},
+    loc_vars = function(self, info_queue, back)
+        return {
+            vars = {localize{type = 'name_text', key = self.config.vouchers[1], set = 'Voucher'},
+            localize{type = 'name_text', key = self.config.vouchers[2], set = 'Voucher'},
+            self.config.ante_scaling}
+        }
+    end,
+}
+
 local deck_table = {
     saga_deck,
+    grimoire_deck,
 }
 
 for _, v in ipairs(deck_table) do
@@ -54,8 +71,32 @@ if CardSleeves then
 		end,
 	}
 
+    local grimoire_sleeve = {
+        key = "grimoire",
+		name = "Grimoire Sleeve",
+		atlas = 'sleeves',
+		pos = { x = 1, y = 0 },
+		unlocked = false,
+		unlock_condition = { deck = "b_sgt_grimoire", stake = "stake_purple" },
+        loc_vars = function(self)
+            local key = self.key
+			if self.get_current_deck_key() == "b_sgt_grimoire" then
+				key = key .. "_alt"
+                self.config = {vouchers = {'v_sgt_oculus_omniscientis', 'v_sgt_abyss_pact'}, ante_scaling = 1.5}
+			else
+				key = self.key
+                self.config = {vouchers = {'v_sgt_oculus_divina', 'v_sgt_shadow_oath'}, ante_scaling = 1.25}
+			end
+            local vars = {localize{type = 'name_text', key = self.config.vouchers[1], set = 'Voucher'},
+            localize{type = 'name_text', key = self.config.vouchers[2], set = 'Voucher'},
+            self.config.ante_scaling}
+			return { key = key, vars = vars }
+		end,
+    }
+
     local sleeve_table = {
         saga_sleeve,
+        grimoire_sleeve,
     }
 
     for _, v in ipairs(sleeve_table) do

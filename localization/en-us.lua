@@ -10,6 +10,15 @@ return {
                     "{s:0.8,C:inactive}Carve your own path beyond.",
                 },
             },
+            b_sgt_grimoire = {
+                name = "Grimoire Deck",
+                text = {
+                    "Start run with",
+                    "{C:sgt_divinatio,T:v_sgt_oculus_divina}#1#{}",
+                    "and {C:sgt_eldritch,T:v_sgt_shadow_oath}#2#{}",
+                    "{C:red}X#3#{} base Blind size",
+                },
+            },
         },
         Sleeve = {
             sleeve_sgt_saga = {
@@ -28,6 +37,24 @@ return {
                     "{C:attention}+#1#{} booster pack slots",
                     "{s:0.8,C:inactive}For the future you bond.",
                     "{s:0.8,C:inactive}Never forget who you are.",
+                },
+            },
+            sleeve_sgt_grimoire = {
+                name = "Grimoire Sleeve",
+                text = {
+                    "Start run with",
+                    "{C:sgt_divinatio,T:v_sgt_oculus_divina}#1#{}",
+                    "and {C:sgt_eldritch,T:v_sgt_shadow_oath}#2#{}",
+                    "{C:red}X#3#{} base Blind size",
+                },
+            },
+            sleeve_sgt_grimoire_alt = {
+                name = "Grimoire Sleeve",
+                text = {
+                    "Start run with",
+                    "{C:sgt_divinatio,T:v_sgt_oculus_omniscientis}#1#{}",
+                    "and {C:sgt_eldritch,T:v_sgt_abyss_pact}#2#{}",
+                    "{C:red}X#3#{} base Blind size",
                 },
             },
         },

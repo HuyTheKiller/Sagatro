@@ -10,6 +10,15 @@ return {
                     "{s:0.8,C:inactive}Hãy tạo lối đi vượt xa giới hạn.",
                 },
             },
+            b_sgt_grimoire = {
+                name = "Bộ Bài Ma Thư",
+                text = {
+                    "Bắt đầu trận với",
+                    "{C:sgt_divinatio,T:v_sgt_oculus_divina}#1#{}",
+                    "và {C:sgt_eldritch,T:v_sgt_shadow_oath}#2#{}",
+                    "{C:red}X#3#{} điểm Blind sàn",
+                },
+            },
         },
         Sleeve = {
             sleeve_sgt_saga = {
@@ -28,6 +37,24 @@ return {
                     "{C:attention}+#1#{} ô gói bài",
                     "{s:0.8,C:inactive}Tự mình nắm giữ tương lai.",
                     "{s:0.8,C:inactive}Đừng quên bản thân là ai.",
+                },
+            },
+            sleeve_sgt_grimoire = {
+                name = "Bọc Ma Thư",
+                text = {
+                    "Bắt đầu trận với",
+                    "{C:sgt_divinatio,T:v_sgt_oculus_divina}#1#{}",
+                    "và {C:sgt_eldritch,T:v_sgt_shadow_oath}#2#{}",
+                    "{C:red}X#3#{} điểm Blind sàn",
+                },
+            },
+            sleeve_sgt_grimoire_alt = {
+                name = "Bọc Ma Thư",
+                text = {
+                    "Bắt đầu trận với",
+                    "{C:sgt_divinatio,T:v_sgt_oculus_omniscientis}#1#{}",
+                    "và {C:sgt_eldritch,T:v_sgt_abyss_pact}#2#{}",
+                    "{C:red}X#3#{} điểm Blind sàn",
                 },
             },
         },
