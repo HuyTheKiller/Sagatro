@@ -1661,7 +1661,7 @@ return {
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Hansel Đỏ Đen",
-            c_sgt_ragnarok = "Tận Thế Ragnarök",
+            c_sgt_ragnarok = "Khải Huyền Ragnarök",
         },
         -- v_dictionary = {
         --     a_sgt_powmult = { "^#1# Nhân" },
