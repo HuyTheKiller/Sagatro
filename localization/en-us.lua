@@ -388,6 +388,7 @@ return {
                     "Creates the last {C:tarot}Tarot{},",
                     "{C:planet}Planet{} or {C:sgt_divinatio}Divinatio{} card",
                     "used during this run",
+                    "{s:0.8,C:tarot}The Fool{s:0.8} and",
                     "{s:0.8,C:sgt_divinatio}Exodium{s:0.8} excluded",
                 },
             },

@@ -654,7 +654,7 @@ local utima_vox = {
     pos = { x = 0, y = 2 },
     cost = 4,
     can_use = function(self, card)
-        return G.STATE == G.STATES.SHOP or G.STATE == G.STATES.BLIND_SELECT
+        return not G.GAME.pending_mega_buffoon
     end,
     use = function(self, card, area, copier)
         G.E_MANAGER:add_event(Event({
@@ -663,19 +663,7 @@ local utima_vox = {
             func = function()
                 play_sound('timpani')
                 card:juice_up(0.3, 0.5)
-                G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
-                    G.CONTROLLER.locks.utima_vox = true
-                    G.E_MANAGER:add_event(Event({func = function()
-                        local key = "p_buffoon_mega_1"
-                        local _card = Card(G.play.T.x + G.play.T.w/2 - G.CARD_W*1.27/2,
-                        G.play.T.y + G.play.T.h/2-G.CARD_H*1.27/2, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
-                        _card.cost = 0
-                        _card.from_tag = true
-                        G.FUNCS.use_card({config = {ref_table = _card}})
-                        _card:start_materialize()
-                        G.CONTROLLER.locks.utima_vox = nil
-                    return true end }))
-                return true end }))
+                G.GAME.pending_mega_buffoon = true
                 return true
             end
         }))
@@ -1330,19 +1318,7 @@ local megahex = {
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome
-        local ret = {vars = {card.ability.max_highlighted}}
-        if G.jokers and G.jokers.cards then
-            for _, v in ipairs(G.jokers.cards) do
-                if v.edition and v.edition.negative then
-                    info_queue[#info_queue+1] = G.P_CENTERS.e_negative
-                    ret.main_end = {}
-                    localize{type = 'other', key = 'remove_negative', nodes = ret.main_end, vars = {}}
-                    ret.main_end = ret.main_end[1]
-                    break
-                end
-            end
-        end
-        return ret
+        return {vars = {card.ability.max_highlighted}}
     end,
 }
 
@@ -1919,7 +1895,7 @@ local space = {
                             end
                         end
                         if _planet then
-                            SMODS.add_card{key = _planet, key_append = "spasl"}
+                            SMODS.add_card{key = _planet, edition = "e_negative", key_append = "spasl"}
                         end
                     end
                     return true

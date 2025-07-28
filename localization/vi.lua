@@ -387,7 +387,8 @@ return {
                     "Tạo ra lá {C:tarot}Tarot{}, lá {C:planet}Hành Tinh",
                     "hoặc lá {C:sgt_divinatio}Chiêm Mộng{} được dùng",
                     "gần nhất trong trận này",
-                    "{s:0.8}không bao gồm {s:0.8,C:sgt_divinatio}Khởi Nguyên"
+                    "{s:0.8}không bao gồm {s:0.8,C:tarot}Kẻ Ngốc",
+                    "{s:0.8}và {s:0.8,C:sgt_divinatio}Khởi Nguyên",
                 },
             },
             c_sgt_dominus_ars = {

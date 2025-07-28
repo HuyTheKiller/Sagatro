@@ -114,6 +114,7 @@ function Game:init_game_object()
     ret.wish_card_spawns_genie = false -- Deck of Equilibrium compat
     ret.last_tarot_planet_divinatio = nil
     ret.orbis_fatum_odds = 4
+    ret.pending_mega_buffoon = false
 	return ret
 end
 
@@ -238,6 +239,27 @@ submarine_dt = 0
 local upd = Game.update
 function Game:update(dt)
 	upd(self, dt)
+
+    if G.STAGE == G.STAGES.RUN then
+        if G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP then
+            if G.GAME.pending_mega_buffoon then
+                G.GAME.pending_mega_buffoon = false
+                G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                    G.CONTROLLER.locks.utima_vox = true
+                    G.E_MANAGER:add_event(Event({func = function()
+                        local key = "p_buffoon_mega_1"
+                        local _card = Card(G.play.T.x + G.play.T.w/2 - G.CARD_W*1.27/2,
+                        G.play.T.y + G.play.T.h/2-G.CARD_H*1.27/2, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
+                        _card.cost = 0
+                        _card.from_tag = true
+                        G.FUNCS.use_card({config = {ref_table = _card}})
+                        _card:start_materialize()
+                        G.CONTROLLER.locks.utima_vox = nil
+                    return true end }))
+                return true end }))
+            end
+        end
+    end
 
     if G.your_collection and type(G.your_collection) == "table" then
         for _, collection_row in ipairs(G.your_collection) do
