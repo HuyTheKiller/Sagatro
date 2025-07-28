@@ -1375,6 +1375,13 @@ return {
                     "in the shop to be {C:dark_edition}Negative",
                 },
             },
+            j_sgt_nameless = {
+                name = "Magnum Innominandum",
+                text = {
+                    "{C:dark_edition}+#1#{} Joker slot",
+                    "at end of round",
+                },
+            },
         },
         HanselsDice = {
             sgt_roll0 = {

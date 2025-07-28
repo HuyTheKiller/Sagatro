@@ -235,6 +235,7 @@ alice_dt = 0
 cosmic_dt = 0
 miracle_dt = 0
 miracle_animate = false
+nameless_dt = 0
 submarine_dt = 0
 local upd = Game.update
 function Game:update(dt)
@@ -291,6 +292,27 @@ function Game:update(dt)
                         end
                     end
                 end
+            end
+        end
+    end
+
+    nameless_dt = nameless_dt + dt
+    if G.P_CENTERS and G.P_CENTERS.j_sgt_nameless and nameless_dt > 0.125 then
+        nameless_dt = nameless_dt - 0.125
+        local nameless = G.P_CENTERS.j_sgt_nameless
+        if nameless.pos.x == 11 then
+            nameless.pos.x = 0
+            nameless.soul_pos.x = 0
+            nameless.soul_pos.extra.x = 0
+        else
+            nameless.pos.x = nameless.pos.x + 1
+            nameless.soul_pos.x = nameless.soul_pos.x + 1
+            nameless.soul_pos.extra.x = nameless.soul_pos.extra.x + 1
+        end
+        for _, card in pairs(G.I.CARD) do
+            if card and card.config.center == nameless then
+                card.children.floating_sprite:set_sprite_pos(nameless.soul_pos)
+                card.children.floating_sprite2:set_sprite_pos(nameless.soul_pos.extra)
             end
         end
     end
@@ -753,6 +775,26 @@ G.FUNCS.can_skip_booster = function(e)
             end
         end
     end
+end
+
+-- Ah yes, Nameless' secret ability is to slowly flood your shop voucher with Antimatter
+local avts = SMODS.add_voucher_to_shop
+function SMODS.add_voucher_to_shop(key)
+    local found = false
+    for _, v in ipairs(G.jokers.cards or {}) do
+        if v.config.center_key == "j_sgt_nameless" then
+            found = true
+            break
+        end
+    end
+    if found and pseudorandom("nameless_antimatter") < (G.GAME.antimatter_overload or 0.2) then
+        key = "v_antimatter"
+        G.GAME.antimatter_overload = (G.GAME.antimatter_overload or 0.2) + 0.1
+        if G.GAME.antimatter_overload > 1 then
+            G.GAME.antimatter_overload = 1
+        end
+    end
+    return avts(key)
 end
 
 -- Reset debuff positions of all Mouses outside their own code (because they can't do that if debuffed)

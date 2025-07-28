@@ -6104,7 +6104,7 @@ local shub = {
     atlas = "esoteric",
     saga_group = "lovecraft",
     dependencies = {"Talisman"},
-    order = 1004,
+    order = 2000,
     pools = { [SAGA_GROUP_POOL.lcraft] = true },
     pos = { x = 0, y = 2 },
     soul_pos = { x = 2, y = 2, extra = { x = 1, y = 2 } },
@@ -6591,7 +6591,7 @@ local azathoth = {
     atlas = "esoteric",
     saga_group = "lovecraft",
     dependencies = {"Talisman"},
-    order = 1005,
+    order = 2001,
     pools = { [SAGA_GROUP_POOL.lcraft] = true },
     pos = { x = 0, y = 4 },
     soul_pos = { x = 2, y = 4, extra = { x = 1, y = 4 } },
@@ -6654,7 +6654,7 @@ local darkness = {
     atlas = "esoteric",
     saga_group = "lovecraft",
     dependencies = {"Talisman"},
-    order = 1006,
+    order = 2002,
     pools = { [SAGA_GROUP_POOL.lcraft] = true },
     pos = { x = 3, y = 4 },
     soul_pos = { x = 5, y = 4, extra = { x = 4, y = 4 } },
@@ -6672,6 +6672,58 @@ local darkness = {
                 chosen_card:set_edition("e_negative")
             end
         end
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
+local nameless = {
+    key = "nameless",
+    name = "Magnum Innominandum",
+    atlas = "nameless",
+    saga_group = "lovecraft",
+    dependencies = {"Talisman"},
+    order = 2003,
+    pools = { [SAGA_GROUP_POOL.lcraft] = true },
+    pos = { x = 0, y = 0 },
+    soul_pos = { x = 0, y = 2, extra = { x = 0, y = 1 } },
+    config = {amount = 1, immutable = {max_amount = 100}},
+    rarity = "sgt_esoteric",
+    cost = 50,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    update = function(self, card, dt)
+        if card.ability.amount > card.ability.immutable.max_amount then
+            card.ability.amount = card.ability.immutable.max_amount
+        end
+    end,
+    calculate = function(self, card, context)
+        if (context.end_of_round and context.main_eval and not context.blueprint) or context.forcetrigger then
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    if G.jokers then
+                        G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.amount
+                    end
+                    return true
+                end,
+            }))
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            G.GAME.antimatter_overload = 0.2
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            G.GAME.antimatter_overload = nil
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.amount}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -6790,6 +6842,7 @@ local joker_table = {
     hermod,
     azathoth,
     darkness,
+    nameless,
     test,
 }
 

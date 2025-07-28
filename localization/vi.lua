@@ -1370,6 +1370,13 @@ return {
                     "trong shop trở thành {C:dark_edition}Âm Bản",
                 },
             },
+            j_sgt_nameless = {
+                name = "Magnum Innominandum",
+                text = {
+                    "{C:dark_edition}+#1#{} ô Joker",
+                    "ở cuối ván",
+                },
+            },
         },
         HanselsDice = {
             sgt_roll0 = {
