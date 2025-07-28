@@ -540,19 +540,19 @@ if card.config.center.set == 'Tarot' then
 elseif card.config.center.set == 'Planet' then
   G.GAME.consumeable_usage_total.tarot_planet_divinatio = G.GAME.consumeable_usage_total.tarot_planet_divinatio + 1
 end
-if card.config.center.set == 'Tarot' or card.config.center.set == 'Planet' or card.config.center.set == 'Divinatio' then
+if card.config.center.set == 'Tarot' or card.config.center.set == 'Planet' or (card.config.center.set == 'Divinatio' and card.config.center_key ~= 'c_sgt_anima') then
   G.E_MANAGER:add_event(Event({
     trigger = 'immediate',
     func = function()
     G.E_MANAGER:add_event(Event({
       trigger = 'immediate',
       func = function()
-      G.GAME.last_tarot_planet_divinatio = card.config.center_key
-        return true
-        end
-    }))
+        G.GAME.last_tarot_planet_divinatio = card.config.center_key
       return true
       end
+    }))
+    return true
+    end
   }))
 end
 
