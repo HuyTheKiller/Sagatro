@@ -1378,8 +1378,7 @@ return {
             j_sgt_nameless = {
                 name = "Magnum Innominandum",
                 text = {
-                    "{C:dark_edition}+#1#{} Joker slot",
-                    "at end of round",
+                    "{C:dark_edition}+#1#{} Joker slot at end of round",
                 },
             },
         },

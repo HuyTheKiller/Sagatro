@@ -1373,8 +1373,7 @@ return {
             j_sgt_nameless = {
                 name = "Magnum Innominandum",
                 text = {
-                    "{C:dark_edition}+#1#{} ô Joker",
-                    "ở cuối ván",
+                    "{C:dark_edition}+#1#{} ô Joker ở cuối ván",
                 },
             },
         },
