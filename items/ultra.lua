@@ -696,7 +696,7 @@ local anima = {
     config = {},
     cost = 4,
     hidden = true,
-    soul_set = "Divinatio",
+    soul_set = "Eldritch",
     can_use = function(self, card)
         return true
     end,
@@ -1460,7 +1460,7 @@ local sinister = {
     config = {},
     cost = 4,
     hidden = true,
-    soul_set = "Eldritch",
+    soul_set = "Divinatio",
     can_use = function(self, card)
         return true
     end,

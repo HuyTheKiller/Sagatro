@@ -25,7 +25,7 @@ if G.GAME.story_mode then
                     and #G.GAME.saga_spawn_table[story][event] > 0 then
                         add = nil
                         for _, key in pairs(G.GAME.saga_spawn_table[story][event]) do
-                            if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not next(find_joker("Showman")))
+                            if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not SMODS.showman(v.key))
                             and v.unlocked ~= false and v.key == key then
                                 add = true
                             end

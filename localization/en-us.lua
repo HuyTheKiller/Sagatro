@@ -14,8 +14,9 @@ return {
                 name = "Grimoire Deck",
                 text = {
                     "Start run with",
-                    "{C:sgt_divinatio,T:v_sgt_oculus_divina}#1#{}",
-                    "and {C:sgt_eldritch,T:v_sgt_shadow_oath}#2#{}",
+                    "{C:sgt_divinatio,T:v_sgt_oculus_divina}#1#{},",
+                    "{C:sgt_eldritch,T:v_sgt_shadow_oath}#2#{}",
+                    "and {C:sgt_divinatio,T:c_sgt_rex_divinus}#4#{}",
                     "{C:red}X#3#{} base Blind size",
                 },
             },
@@ -44,7 +45,8 @@ return {
                 text = {
                     "Start run with",
                     "{C:sgt_divinatio,T:v_sgt_oculus_divina}#1#{}",
-                    "and {C:sgt_eldritch,T:v_sgt_shadow_oath}#2#{}",
+                    "{C:sgt_eldritch,T:v_sgt_shadow_oath}#2#{}",
+                    "and {C:sgt_divinatio,T:c_sgt_rex_divinus}#4#{}",
                     "{C:red}X#3#{} base Blind size",
                 },
             },
@@ -64,6 +66,22 @@ return {
                 text = {
                     "All cards debuffed until Eat Me!",
                     "used; Very large blind",
+                },
+            },
+        },
+        Tag = {
+            tag_sgt_holy = {
+                name = "Holy Tag",
+                text = {
+                    "Gives a free",
+                    "{C:sgt_divinatio}Mega Divinatio Pack",
+                },
+            },
+            tag_sgt_ghostly = {
+                name = "Ghostly Tag",
+                text = {
+                    "Gives a free",
+                    "{C:sgt_eldritch}Eldritch Pack",
                 },
             },
         },
@@ -427,7 +445,7 @@ return {
                 name = "Sacerdos",
                 text = {
                     "Enhances {C:attention}#1#{} selected",
-                    "card into an",
+                    "card into a",
                     "{C:attention}#2#",
                 },
             },
@@ -435,7 +453,7 @@ return {
                 name = "Sacra Nexus",
                 text = {
                     "Enhances {C:attention}#1#{} selected",
-                    "card into an",
+                    "card into a",
                     "{C:attention}#2#",
                 },
             },
@@ -443,7 +461,7 @@ return {
                 name = "Triumpus",
                 text = {
                     "Enhances {C:attention}#1#{} selected",
-                    "card into an",
+                    "card into a",
                     "{C:attention}#2#",
                 },
             },
@@ -451,7 +469,7 @@ return {
                 name = "Vitus Aeterna",
                 text = {
                     "Enhances {C:attention}#1#{} selected",
-                    "card into an",
+                    "card into a",
                     "{C:attention}#2#",
                 },
             },
@@ -512,7 +530,7 @@ return {
                 name = "Umba Aeterna",
                 text = {
                     "Enhances {C:attention}#1#{} selected",
-                    "card into an",
+                    "card into a",
                     "{C:attention}#2#",
                 },
             },
@@ -645,7 +663,7 @@ return {
                 name = "Substance",
                 text = {
                     "Add {C:dark_edition}Negative{} to",
-                    "{C:attention}#1#{} selected {C:attention}Joker,",
+                    "{C:attention}#1#{} selected {C:attention}Joker{},",
                     "{C:red}-#2#{} hand size",
                 },
             },

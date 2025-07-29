@@ -5,6 +5,7 @@ Sagatro.load_table = {
 	blinds = true,
 	streaks = true,
 	ultra = true,
+	tags = true,
 	misc = true,
 	wishes = true,
 	boosters = true,
@@ -13,6 +14,7 @@ Sagatro.load_table = {
 
 Sagatro.mod_compat = {
 	talisman = (SMODS.Mods["Talisman"] or {}).can_load or false,
+	ortalab = (SMODS.Mods["ortalab"] or {}).can_load or false,
 }
 
 Sagatro.electric_eel_info_queue = {

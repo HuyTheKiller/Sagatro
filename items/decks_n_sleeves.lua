@@ -17,12 +17,13 @@ local grimoire_deck = {
     name = "Grimoire Deck",
     atlas = "decks",
     pos = { x = 1, y = 0 },
-    config = {vouchers = {'v_sgt_oculus_divina', 'v_sgt_shadow_oath'}, ante_scaling = 1.25},
+    config = {vouchers = {'v_sgt_oculus_divina', 'v_sgt_shadow_oath'}, consumables = {'c_sgt_rex_divinus'}, ante_scaling = 1.5},
     loc_vars = function(self, info_queue, back)
         return {
             vars = {localize{type = 'name_text', key = self.config.vouchers[1], set = 'Voucher'},
             localize{type = 'name_text', key = self.config.vouchers[2], set = 'Voucher'},
-            self.config.ante_scaling}
+            self.config.ante_scaling,
+            localize{type = 'name_text', key = self.config.consumables[1], set = 'Divinatio'}}
         }
     end,
 }
@@ -82,14 +83,17 @@ if CardSleeves then
             local key = self.key
 			if self.get_current_deck_key() == "b_sgt_grimoire" then
 				key = key .. "_alt"
-                self.config = {vouchers = {'v_sgt_oculus_omniscientis', 'v_sgt_abyss_pact'}, ante_scaling = 1.5}
+                self.config = {vouchers = {'v_sgt_oculus_omniscientis', 'v_sgt_abyss_pact'}, ante_scaling = 2}
 			else
 				key = self.key
-                self.config = {vouchers = {'v_sgt_oculus_divina', 'v_sgt_shadow_oath'}, ante_scaling = 1.25}
+                self.config = {vouchers = {'v_sgt_oculus_divina', 'v_sgt_shadow_oath'}, consumables = {'c_sgt_rex_divinus'}, ante_scaling = 1.5}
 			end
             local vars = {localize{type = 'name_text', key = self.config.vouchers[1], set = 'Voucher'},
             localize{type = 'name_text', key = self.config.vouchers[2], set = 'Voucher'},
             self.config.ante_scaling}
+            if self.get_current_deck_key() ~= "b_sgt_grimoire" then
+                vars[4] = localize{type = 'name_text', key = self.config.consumables[1], set = 'Divinatio'}
+            end
 			return { key = key, vars = vars }
 		end,
     }

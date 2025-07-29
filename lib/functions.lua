@@ -1022,11 +1022,10 @@ end
 local at = add_tag
 function add_tag(tag)
 	at(tag)
-	if not Cryptid then
-        if #G.HUD_tags > 13 then
-            for i = 2, #G.HUD_tags do
-                G.HUD_tags[i].config.offset.y = 0.9 - 0.9 * 13 / #G.HUD_tags
-            end
+    -- only works well with Ortalab demo, will change to fit closed beta
+    if #G.HUD_tags > (Sagatro.mod_compat.ortalab and 9 or 13) then
+        for i = 2, #G.HUD_tags do
+            G.HUD_tags[i].config.offset.y = 0.9 - 0.9 * (Sagatro.mod_compat.ortalab and 9 or 13) / #G.HUD_tags
         end
     end
 end
@@ -1034,11 +1033,10 @@ end
 local tr = Tag.remove
 function Tag:remove()
 	tr(self)
-	if not Cryptid then
-        if #G.HUD_tags >= 13 then
-            for i = 2, #G.HUD_tags do
-                G.HUD_tags[i].config.offset.y = 0.9 - 0.9 * 13 / #G.HUD_tags
-            end
+    -- only works well with Ortalab demo, will change to fit closed beta
+    if #G.HUD_tags > (Sagatro.mod_compat.ortalab and 9 or 13) then
+        for i = 2, #G.HUD_tags do
+            G.HUD_tags[i].config.offset.y = 0.9 - 0.9 * (Sagatro.mod_compat.ortalab and 9 or 13) / #G.HUD_tags
         end
     end
 end

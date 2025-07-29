@@ -14,8 +14,9 @@ return {
                 name = "Bộ Bài Ma Thư",
                 text = {
                     "Bắt đầu trận với",
-                    "{C:sgt_divinatio,T:v_sgt_oculus_divina}#1#{}",
-                    "và {C:sgt_eldritch,T:v_sgt_shadow_oath}#2#{}",
+                    "{C:sgt_divinatio,T:v_sgt_oculus_divina}#1#{},",
+                    "{C:sgt_eldritch,T:v_sgt_shadow_oath}#2#{}",
+                    "và {C:sgt_divinatio,T:c_sgt_rex_divinus}#4#{}",
                     "{C:red}X#3#{} điểm Blind sàn",
                 },
             },
@@ -43,8 +44,9 @@ return {
                 name = "Bọc Ma Thư",
                 text = {
                     "Bắt đầu trận với",
-                    "{C:sgt_divinatio,T:v_sgt_oculus_divina}#1#{}",
-                    "và {C:sgt_eldritch,T:v_sgt_shadow_oath}#2#{}",
+                    "{C:sgt_divinatio,T:v_sgt_oculus_divina}#1#{},",
+                    "{C:sgt_eldritch,T:v_sgt_shadow_oath}#2#{}",
+                    "và {C:sgt_divinatio,T:c_sgt_rex_divinus}#4#{}",
                     "{C:red}X#3#{} điểm Blind sàn",
                 },
             },
@@ -64,6 +66,22 @@ return {
                 text = {
                     "Mọi lá bị vô hiệu hoá cho đến khi",
                     "dùng Hãy Ăn Tôi!; Blind siêu lớn",
+                },
+            },
+        },
+        Tag = {
+            tag_sgt_holy = {
+                name = "Nhãn Linh Thiêng",
+                text = {
+                    "Nhận một",
+                    "{C:sgt_divinatio}Gói Chiêm Mộng Đại{} miễn phí",
+                },
+            },
+            tag_sgt_ghostly = {
+                name = "Nhãn Tà Ma",
+                text = {
+                    "Nhận một",
+                    "{C:sgt_eldritch}Gói Hắc Linh{} miễn phí",
                 },
             },
         },
