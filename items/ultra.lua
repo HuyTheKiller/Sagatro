@@ -1635,6 +1635,7 @@ local nyx_glass = {
     atlas = "ultra",
     pos = {x = 8, y = 2},
     config = {x_mult = 1.5, extra = {x_mult_mod = 0.1, odds = 50}},
+    shatters = true,
     set_ability = function(self, card, initial, delay_sprites)
         card.no_shadow = true
     end,
