@@ -1691,6 +1691,7 @@ local abyss_stone = {
     override_base_rank = true,
     no_rank = true,
     no_suit = true,
+    always_scores = true,
     update = function(self, card, dt)
         card.ability.abyss_stone_tally = 0
         for _, v in pairs(G.playing_cards or {}) do
