@@ -546,7 +546,7 @@ local concordia = {
     atlas = "ultra",
     pos = {x = 4, y = 1},
     cost = 4,
-    config = {max_money = 40},
+    config = {money = 0, max_money = 40},
     update = function(self, card, dt)
         if G.STAGE == G.STAGES.RUN then
             card.ability.money = 0
