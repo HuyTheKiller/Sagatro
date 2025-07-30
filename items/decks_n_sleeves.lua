@@ -79,6 +79,13 @@ if CardSleeves then
 		pos = { x = 1, y = 0 },
 		unlocked = false,
 		unlock_condition = { deck = "b_sgt_grimoire", stake = "stake_purple" },
+        apply = function(self, sleeve)
+            CardSleeves.Sleeve.apply(sleeve)
+            if self.get_current_deck_key() ~= "b_sgt_grimoire"
+            and (G.GAME.starting_params.ante_scaling or 1) < self.config.conditional_ante_scaling then
+                G.GAME.starting_params.ante_scaling = (G.GAME.starting_params.ante_scaling or 1) * self.config.conditional_ante_scaling
+            end
+		end,
         loc_vars = function(self)
             local key = self.key
 			if self.get_current_deck_key() == "b_sgt_grimoire" then
@@ -86,11 +93,11 @@ if CardSleeves then
                 self.config = {vouchers = {'v_sgt_oculus_omniscientis', 'v_sgt_abyss_pact'}, ante_scaling = 2}
 			else
 				key = self.key
-                self.config = {vouchers = {'v_sgt_oculus_divina', 'v_sgt_shadow_oath'}, consumables = {'c_sgt_rex_divinus'}, ante_scaling = 1.5}
+                self.config = {vouchers = {'v_sgt_oculus_divina', 'v_sgt_shadow_oath'}, consumables = {'c_sgt_rex_divinus'}, conditional_ante_scaling = 1.5}
 			end
             local vars = {localize{type = 'name_text', key = self.config.vouchers[1], set = 'Voucher'},
             localize{type = 'name_text', key = self.config.vouchers[2], set = 'Voucher'},
-            self.config.ante_scaling}
+            self.config.conditional_ante_scaling}
             if self.get_current_deck_key() ~= "b_sgt_grimoire" then
                 vars[4] = localize{type = 'name_text', key = self.config.consumables[1], set = 'Divinatio'}
             end
