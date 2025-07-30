@@ -84,13 +84,15 @@ if CardSleeves then
             if self.get_current_deck_key() ~= "b_sgt_grimoire"
             and (G.GAME.starting_params.ante_scaling or 1) < self.config.conditional_ante_scaling then
                 G.GAME.starting_params.ante_scaling = (G.GAME.starting_params.ante_scaling or 1) * self.config.conditional_ante_scaling
+            elseif self.get_current_deck_key() == "b_sgt_grimoire" then
+                G.GAME.starting_params.ante_scaling = self.config.conditional_ante_scaling
             end
 		end,
         loc_vars = function(self)
             local key = self.key
 			if self.get_current_deck_key() == "b_sgt_grimoire" then
 				key = key .. "_alt"
-                self.config = {vouchers = {'v_sgt_oculus_omniscientis', 'v_sgt_abyss_pact'}, ante_scaling = 2}
+                self.config = {vouchers = {'v_sgt_oculus_omniscientis', 'v_sgt_abyss_pact'}, conditional_ante_scaling = 2}
 			else
 				key = self.key
                 self.config = {vouchers = {'v_sgt_oculus_divina', 'v_sgt_shadow_oath'}, consumables = {'c_sgt_rex_divinus'}, conditional_ante_scaling = 1.5}
