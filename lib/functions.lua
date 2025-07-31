@@ -143,17 +143,19 @@ Game.main_menu = function(change_context)
     newcard.states.visible = false
     newcard.sticker_run = "NONE" -- remove stake sticker
 
-    G.SPLASH_BACK:define_draw_steps({
-        {
-            shader = "splash",
-            send = {
-                { name = "time", ref_table = G.TIMERS, ref_value = "REAL_SHADER" },
-                { name = "vort_speed", val = 0.4 },
-                { name = "colour_1", ref_table = Sagatro, ref_value = "badge_colour" },
-                { name = "colour_2", ref_table = G.C.RARITY, ref_value = 4 },
+    if not (Ortalab or Sagatro.mod_compat.ortalab) then
+        G.SPLASH_BACK:define_draw_steps({
+            {
+                shader = "splash",
+                send = {
+                    { name = "time", ref_table = G.TIMERS, ref_value = "REAL_SHADER" },
+                    { name = "vort_speed", val = 0.4 },
+                    { name = "colour_1", ref_table = Sagatro, ref_value = "badge_colour" },
+                    { name = "colour_2", ref_table = G.C.RARITY, ref_value = 4 },
+                },
             },
-        },
-    })
+        })
+    end
 
     G.E_MANAGER:add_event(Event({
         trigger = "after",
@@ -1022,7 +1024,7 @@ end
 local at = add_tag
 function add_tag(tag)
 	at(tag)
-    -- only works well with Ortalab demo, will change to fit closed beta
+    -- only works well with Ortalab demo
     if #G.HUD_tags > (Sagatro.mod_compat.ortalab and 9 or 13) then
         for i = 2, #G.HUD_tags do
             G.HUD_tags[i].config.offset.y = 0.9 - 0.9 * (Sagatro.mod_compat.ortalab and 9 or 13) / #G.HUD_tags
@@ -1033,7 +1035,7 @@ end
 local tr = Tag.remove
 function Tag:remove()
 	tr(self)
-    -- only works well with Ortalab demo, will change to fit closed beta
+    -- only works well with Ortalab demo
     if #G.HUD_tags > (Sagatro.mod_compat.ortalab and 9 or 13) then
         for i = 2, #G.HUD_tags do
             G.HUD_tags[i].config.offset.y = 0.9 - 0.9 * (Sagatro.mod_compat.ortalab and 9 or 13) / #G.HUD_tags
@@ -1075,6 +1077,32 @@ and not (SMODS.Mods["Prism"] or {}).can_load then
 		table.insert(SMODS.calculation_keys, v)
 		end
 	end
+end
+
+if Ortalab or Sagatro.mod_compat.ortalab then
+    local mr = menu_refresh
+    if mr then
+        function menu_refresh()
+            mr()
+
+            local splash_args = {mid_flash = change_context == 'splash' and 1.6 or 0.}
+            ease_value(splash_args, 'mid_flash', -(change_context == 'splash' and 1.6 or 0), nil, nil, nil, 4)
+
+            G.SPLASH_BACK:define_draw_steps({
+            {
+                shader = Ortalab.config.menu_toggle and 'ortalab_background' or 'splash',
+                send = {
+                    { name = "time", ref_table = G.TIMERS, ref_value = "REAL_SHADER" },
+                    { name = "vort_speed", val = 0.4 },
+                    { name = 'colour_1', ref_table = Ortalab.config.menu_toggle and G.ARGS.LOC_COLOURS or Sagatro, ref_value = Ortalab.config.menu_toggle and 'Ort_menu_colourA' or 'badge_colour' },
+                    { name = 'colour_2', ref_table = Ortalab.config.menu_toggle and G.ARGS.LOC_COLOURS or G.C.RARITY, ref_value = Ortalab.config.menu_toggle and 'Ort_menu_colourB' or 4 },
+                    { name = 'mid_flash', ref_table = splash_args, ref_value = 'mid_flash' },
+                    { name = 'vort_offset', val = 0 },
+                },
+            },
+        })
+        end
+    end
 end
 
 SMODS.DrawStep({
