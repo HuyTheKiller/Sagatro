@@ -71,7 +71,7 @@ return {
         },
         Tag = {
             tag_sgt_holy = {
-                name = "Nhãn Linh Thiêng",
+                name = "Nhãn Thiêng",
                 text = {
                     "Nhận một",
                     "{C:sgt_divinatio}Gói Chiêm Mộng Đại{} miễn phí",
@@ -170,7 +170,7 @@ return {
                 },
             },
             sgt_cyan_seal = {
-                name = "Con Dấu Lục Lam",
+                name = "Con Dấu Thiêng",
                 text = {
                     "Tạo ra một lá {C:sgt_divinatio}Chiêm Mộng",
                     "khi {C:attention}bị bỏ",
@@ -1692,7 +1692,7 @@ return {
             sgt_cosmic_streak_seal = "Vệt Vũ Trụ",
             sgt_gods_miracle_seal = "Phép Lạ Của Chúa",
             sgt_blood_seal = "Con Dấu Máu",
-            sgt_cyan_seal = "Con Dấu Luc Lam",
+            sgt_cyan_seal = "Con Dấu Thiêng",
             sgt_space_seal = "Con Dấu Không Gian",
             sgt_platinum_seal = "Con Dấu Bạch Kim",
             sgt_protected = "Bảo Vệ",

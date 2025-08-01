@@ -171,7 +171,7 @@ return {
                 },
             },
             sgt_cyan_seal = {
-                name = "Cyan Seal",
+                name = "Holy Seal",
                 text = {
                     "Creates a {C:sgt_divinatio}Divinatio{} card",
                     "when {C:attention}discarded",
@@ -1697,7 +1697,7 @@ return {
             sgt_cosmic_streak_seal = "Cosmic Streak",
             sgt_gods_miracle_seal = "God's Miracle",
             sgt_blood_seal = "Blood Seal",
-            sgt_cyan_seal = "Cyan Seal",
+            sgt_cyan_seal = "Holy Seal",
             sgt_space_seal = "Space Seal",
             sgt_platinum_seal = "Platinum Seal",
             sgt_protected = "Protected",

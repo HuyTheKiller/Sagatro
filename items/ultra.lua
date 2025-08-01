@@ -1852,7 +1852,7 @@ local blood = {
 
 local cyan = {
     key = "Cyan",
-    name = "Cyan Seal",
+    name = "Holy Seal",
     atlas = "ultra",
     pos = {x = 0, y = 5},
     badge_colour = HEX('62D7DC'),
@@ -1872,6 +1872,13 @@ local cyan = {
                 message = localize('k_plus_divinatio'),
                 colour = G.C.SGT_DIVINATIO,
             }
+        end
+    end,
+    draw = function(self, card, layer)
+        if card.seal and card.seal == self.key then
+            G.shared_seals[card.seal].role.draw_major = card
+            G.shared_seals[card.seal]:draw_shader('dissolve', nil, nil, nil, card.children.center)
+            G.shared_seals[card.seal]:draw_shader('voucher', nil, card.ARGS.send_to_shader, nil, card.children.center)
         end
     end,
     in_pool = function(self, args)
