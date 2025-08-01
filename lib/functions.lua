@@ -1105,8 +1105,7 @@ if Ortalab or Sagatro.mod_compat.ortalab then
                 end
             end
 
-            local splash_args = {mid_flash = change_context == 'splash' and 1.6 or 0.}
-            ease_value(splash_args, 'mid_flash', -(change_context == 'splash' and 1.6 or 0), nil, nil, nil, 4)
+            local splash_args = {mid_flash = 0.}
 
             G.SPLASH_BACK:define_draw_steps({
             {
