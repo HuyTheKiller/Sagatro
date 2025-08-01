@@ -120,8 +120,8 @@ end
 
 -- Pretty much stolen from Cryptid lmao
 local gmm = Game.main_menu
-Game.main_menu = function(change_context)
-    local ret = gmm(change_context)
+function Game:main_menu(change_context)
+    gmm(self, change_context)
 
     local selected_card = Ortalab and Ortalab.config.menu_toggle and "j_sgt_mabel" or "j_sgt_alice"
     local newcard = Card(
@@ -174,8 +174,6 @@ Game.main_menu = function(change_context)
             return true
         end,
     }))
-
-    return ret
 end
 
 -- Mouse and Pufferfish's conditional debuff mechanic
