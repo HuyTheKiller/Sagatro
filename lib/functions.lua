@@ -123,7 +123,7 @@ local gmm = Game.main_menu
 Game.main_menu = function(change_context)
     local ret = gmm(change_context)
 
-    local selected_card = "j_sgt_alice"
+    local selected_card = Ortalab and Ortalab.config.menu_toggle and "j_sgt_mabel" or "j_sgt_alice"
     local newcard = Card(
         G.title_top.T.x,
         G.title_top.T.y,
@@ -142,6 +142,7 @@ Game.main_menu = function(change_context)
     newcard.no_ui = true
     newcard.states.visible = false
     newcard.sticker_run = "NONE" -- remove stake sticker
+    newcard.sagatro_target = true
 
     if not (Ortalab or Sagatro.mod_compat.ortalab) then
         G.SPLASH_BACK:define_draw_steps({
@@ -1084,6 +1085,12 @@ if Ortalab or Sagatro.mod_compat.ortalab then
     if mr then
         function menu_refresh()
             mr()
+
+            for _, v in ipairs(G.title_top.cards) do
+                if v.sagatro_target then
+                    v:set_ability(G.P_CENTERS[Ortalab.config.menu_toggle and "j_sgt_mabel" or "j_sgt_alice"], nil)
+                end
+            end
 
             local splash_args = {mid_flash = change_context == 'splash' and 1.6 or 0.}
             ease_value(splash_args, 'mid_flash', -(change_context == 'splash' and 1.6 or 0), nil, nil, nil, 4)
