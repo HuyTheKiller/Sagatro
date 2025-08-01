@@ -983,6 +983,16 @@ function Sagatro.set_debuff(card)
     end
 end
 
+function mabel_stall()
+    if not G.jokers then return false end
+    for i, v in ipairs(G.jokers.cards) do
+        if v.config.center_key == "j_sgt_mabel" and i ~= 1 and i ~= #G.jokers.cards then
+            return true
+        end
+    end
+    return false
+end
+
 -- from Cryptid's Tarot called Blessing
 -- and I thought it could exclude cards from getting called in get_random_consumable and from Deck of Equilibrium
 function sgt_center_no(center, m, key, no_no)

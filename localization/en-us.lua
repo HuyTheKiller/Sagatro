@@ -1399,6 +1399,20 @@ return {
                     "{C:dark_edition}+#1#{} Joker slot at end of round",
                 },
             },
+            j_sgt_mabel = {
+                name = "Mabel",
+                text = {
+                    {
+                        "At the end of the {C:attention}shop{}:",
+                        "{C:attention}-#1#{} Ante if this is the {C:attention}leftmost{} joker",
+                        "{C:attention}+#1#{} Ante if this is the {C:attention}rightmost{} joker",
+                    },
+                    {
+                        "Disable {C:attention}Up the Ante{} if this is neither",
+                        "the {C:attention}leftmost{} or {C:attention}rightmost",
+                    },
+                },
+            },
         },
         HanselsDice = {
             sgt_roll0 = {
@@ -1787,6 +1801,7 @@ return {
             ph_depth_level = "Depth level",
             ph_lovecraft = "Lovecraft",
             ph_norse = "Norse Mythology",
+            ph_black_soul = "Black Soul",
             SGT_disable_other_jokers = "Story Mode",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression (Requires run restart)"},
             SGT_disable_sagatro_items = "Disable Sagatro Items",

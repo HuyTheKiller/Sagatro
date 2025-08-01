@@ -6730,6 +6730,71 @@ local nameless = {
  	end,
 }
 
+local mabel = {
+    key = "mabel",
+    name = "Mabel",
+    atlas = "mabel",
+    no_collection = not Sagatro.mod_compat.talisman,
+    saga_group = "black_soul",
+    order = 2004,
+    pools = { [SAGA_GROUP_POOL.lcraft] = true },
+    pos = { x = 0, y = 0 },
+    soul_pos = { x = 1, y = 0 },
+    config = {amount = 1, immutable = {max_amount = 8}},
+    rarity = "sgt_esoteric",
+    cost = 50,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    update = function(self, card, dt)
+        if card.ability.amount > card.ability.immutable.max_amount then
+            card.ability.amount = card.ability.immutable.max_amount
+        end
+    end,
+    calculate = function(self, card, context)
+        if (context.ending_shop and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+            if (G.jokers.cards[1] == card and G.jokers.cards[#G.jokers.cards].config.center_key ~= "j_sgt_mabel") or context.forcetrigger then
+                ease_ante(-card.ability.amount)
+                G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+                G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante - card.ability.amount
+            elseif G.jokers.cards[#G.jokers.cards] == card and G.jokers.cards[1].config.center_key ~= "j_sgt_mabel" then
+                ease_ante(card.ability.amount)
+                G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+                G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.amount
+            end
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.amount}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_black_soul'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { ref_table = "card.joker_display_values", ref_value = "sign" },
+                { ref_table = "card.joker_display_values", ref_value = "amount" }
+            },
+            text_config = { colour = G.C.FILTER },
+            calc_function = function(card)
+                card.joker_display_values.sign = G.jokers.cards[1] == card and "-"
+                or G.jokers.cards[#G.jokers.cards] == card and "+" or ""
+                card.joker_display_values.amount =
+                (G.jokers.cards[1] == card or G.jokers.cards[#G.jokers.cards] == card) and card.ability.amount or 0
+            end,
+            style_function = function(card, text, reminder_text, extra)
+                if text and text.children[2] then
+                    text.children[2].config.colour =
+                    (G.jokers.cards[1] == card or G.jokers.cards[#G.jokers.cards] == card) and G.C.FILTER or G.C.UI.TEXT_INACTIVE
+                end
+                return false
+            end,
+        }
+    end,
+}
+
 local test = {
     key = "test",
     name = "Test Joker",
@@ -6843,6 +6908,7 @@ local joker_table = {
     azathoth,
     darkness,
     nameless,
+    mabel,
     test,
 }
 

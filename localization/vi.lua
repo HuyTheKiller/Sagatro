@@ -1394,6 +1394,20 @@ return {
                     "{C:dark_edition}+#1#{} ô Joker ở cuối ván",
                 },
             },
+            j_sgt_mabel = {
+                name = "Mabel",
+                text = {
+                    {
+                        "Ở cuối {C:attention}shop{}:",
+                        "{C:attention}-#1#{} Ante nếu lá này ở {C:attention}tít bên trái",
+                        "{C:attention}+#1#{} Ante nếu lá này ở {C:attention}tít bên phải",
+                    },
+                    {
+                        "Vô hiệu {C:attention}Thăng Ante{} nếu lá này không ở",
+                        "{C:attention}tít bên trái{} hay {C:attention}tít bên phải",
+                    },
+                },
+            },
         },
         HanselsDice = {
             sgt_roll0 = {
@@ -1782,6 +1796,7 @@ return {
             ph_depth_level = "Tầng độ sâu",
             ph_lovecraft = "Lovecraft",
             ph_norse = "Thần Thoại Bắc Âu",
+            ph_black_soul = "Black Soul",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính (Yêu cầu tạo trận mới)"},
             SGT_disable_sagatro_items = "Tắt Vật Phẩm Sagatro",
