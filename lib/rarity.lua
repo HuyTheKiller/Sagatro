@@ -25,7 +25,6 @@ local obscure = {
 local esoteric = {
     key = "esoteric",
 	badge_colour = G.C.SGT_ESOTERIC,
-	dependencies = {"Talisman"},
 	default_weight = 0,
 	pools = { ["Joker"] = false },
 	get_weight = function(self, weight, object_type)
