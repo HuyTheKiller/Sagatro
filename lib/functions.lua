@@ -144,7 +144,7 @@ Game.main_menu = function(change_context)
     newcard.sticker_run = "NONE" -- remove stake sticker
     newcard.sagatro_target = true
 
-    if not (Ortalab or Sagatro.mod_compat.ortalab) then
+    if not Ortalab or (Ortalab and not Ortalab.config.menu_toggle) then
         G.SPLASH_BACK:define_draw_steps({
             {
                 shader = "splash",
@@ -1099,6 +1099,9 @@ if Ortalab or Sagatro.mod_compat.ortalab then
             for _, v in ipairs(G.title_top.cards) do
                 if v.sagatro_target then
                     v:set_ability(G.P_CENTERS[Ortalab.config.menu_toggle and "j_sgt_mabel" or "j_sgt_alice"], nil)
+                    if v.edition and v.edition.negative then
+                        v:set_edition(nil, true, true)
+                    end
                 end
             end
 
