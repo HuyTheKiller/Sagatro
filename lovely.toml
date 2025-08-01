@@ -197,7 +197,7 @@ end
 target = 'functions/UI_definitions.lua'
 pattern = '''elseif [type == 'Boss' and ]*not run_info then'''
 position = 'at'
-payload = '''elseif type == 'Boss' and not run_info and not next(SMODS.find_card("j_sgt_mad_hatter")) then'''
+payload = '''elseif type == 'Boss' and not run_info and not (next(SMODS.find_card("j_sgt_mad_hatter")) or mabel_stall()) then'''
 
 # Force win if Red Queen is defeated
 [[patches]]
