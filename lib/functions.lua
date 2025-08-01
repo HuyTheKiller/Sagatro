@@ -160,7 +160,7 @@ function Game:main_menu(change_context)
 
     G.E_MANAGER:add_event(Event({
         trigger = "after",
-        delay = 0,
+        delay = change_context == 'game' and 1.5 or 0,
         blockable = false,
         blocking = false,
         func = function()
