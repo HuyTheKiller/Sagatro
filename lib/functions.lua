@@ -1033,10 +1033,18 @@ end
 local at = add_tag
 function add_tag(tag)
 	at(tag)
-    -- only works well with Ortalab demo
-    if #G.HUD_tags > (Sagatro.mod_compat.ortalab and 9 or 13) then
+    local max_tag_count = 13
+    if Sagatro.mod_compat.ortalab or Ortalab then
+        local zodiac_count = #G.HUD_zodiac or 0
+        if zodiac_count > 0 and zodiac_count <= 4 then
+            max_tag_count = 13 - math.min(zodiac_count+1, 4)
+        else
+            max_tag_count = 13 - math.min(zodiac_count+1, 6)
+        end
+    end
+    if #G.HUD_tags > max_tag_count then
         for i = 2, #G.HUD_tags do
-            G.HUD_tags[i].config.offset.y = 0.9 - 0.9 * (Sagatro.mod_compat.ortalab and 9 or 13) / #G.HUD_tags
+            G.HUD_tags[i].config.offset.y = 0.9 - 0.9 * max_tag_count / #G.HUD_tags
         end
     end
 end
@@ -1044,10 +1052,18 @@ end
 local tr = Tag.remove
 function Tag:remove()
 	tr(self)
-    -- only works well with Ortalab demo
-    if #G.HUD_tags > (Sagatro.mod_compat.ortalab and 9 or 13) then
+    local max_tag_count = 13
+    if Sagatro.mod_compat.ortalab or Ortalab then
+        local zodiac_count = #G.HUD_zodiac or 0
+        if zodiac_count > 0 and zodiac_count <= 4 then
+            max_tag_count = 13 - math.min(zodiac_count+1, 4)
+        else
+            max_tag_count = 13 - math.min(zodiac_count+1, 6)
+        end
+    end
+    if #G.HUD_tags > max_tag_count then
         for i = 2, #G.HUD_tags do
-            G.HUD_tags[i].config.offset.y = 0.9 - 0.9 * (Sagatro.mod_compat.ortalab and 9 or 13) / #G.HUD_tags
+            G.HUD_tags[i].config.offset.y = 0.9 - 0.9 * max_tag_count / #G.HUD_tags
         end
     end
 end
@@ -1100,6 +1116,8 @@ if Ortalab or Sagatro.mod_compat.ortalab then
                     if v.edition and v.edition.negative then
                         v:set_edition(nil, true, true)
                     end
+                elseif v.config.card_key then
+                    v:set_edition(Ortalab.config.menu_toggle and "e_negative" or nil, true, true)
                 end
             end
 
@@ -1118,6 +1136,44 @@ if Ortalab or Sagatro.mod_compat.ortalab then
                 },
             },
         })
+        end
+    end
+
+    local az = add_zodiac
+    function add_zodiac(_tag, silent, from_load, from_patch)
+        az(_tag, silent, from_load, from_patch)
+        local max_tag_count = 13
+        if Sagatro.mod_compat.ortalab or Ortalab then
+            local zodiac_count = #G.HUD_zodiac or 0
+            if zodiac_count > 0 and zodiac_count <= 4 then
+                max_tag_count = 13 - math.min(zodiac_count+1, 4)
+            else
+                max_tag_count = 13 - math.min(zodiac_count+1, 6)
+            end
+        end
+        if #G.HUD_tags > max_tag_count then
+            for i = 2, #G.HUD_tags do
+                G.HUD_tags[i].config.offset.y = 0.9 - 0.9 * max_tag_count / #G.HUD_tags
+            end
+        end
+    end
+
+    local rmz = Zodiac.remove_zodiac
+    function Zodiac:remove_zodiac(message, _colour, func)
+        rmz(self, message, _colour, func)
+        local max_tag_count = 13
+        if Sagatro.mod_compat.ortalab or Ortalab then
+            local zodiac_count = #G.HUD_zodiac or 0
+            if zodiac_count > 0 and zodiac_count <= 4 then
+                max_tag_count = 13 - math.min(zodiac_count+1, 4)
+            else
+                max_tag_count = 13 - math.min(zodiac_count+1, 6)
+            end
+        end
+        if G.HUD_tags and #G.HUD_tags > max_tag_count then
+            for i = 2, #G.HUD_tags do
+                G.HUD_tags[i].config.offset.y = 0.9 - 0.9 * max_tag_count / #G.HUD_tags
+            end
         end
     end
 end
