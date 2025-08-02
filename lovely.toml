@@ -518,15 +518,6 @@ position = "at"
 payload = "{'m_gold', 'm_sgt_platinum'}"
 times = 1
 
-# Draw shaders for Eldritch and Anima
-[[patches]]
-[patches.regex]
-target = '''=[SMODS _ "src/card_draw.lua"]'''
-pattern = '''self\.ability\.set == 'Booster' '''
-position = "after"
-payload = "or self.ability.set == 'Eldritch' or self.ability.name == 'Anima' "
-times = 1
-
 # Damn you Incantation for completely overriding set_consumeable_usage, I'm moving to Overflow
 [[patches]]
 [patches.pattern]

@@ -844,15 +844,13 @@ function table.extract_total_value(t)
     return tot
 end
 
-function table.contains(t, x)
-    local found = false
+table.contains = table.contains or function(t, x)
     for _, v in pairs(t) do
-        if v == x then
-            found = true
-			break
-        end
-    end
-    return found
+		if v == x then
+			return true
+		end
+	end
+	return false
 end
 
 function Sagatro.get_submarine_depth_colour()
@@ -1178,7 +1176,18 @@ if Ortalab or Sagatro.mod_compat.ortalab then
     end
 end
 
-SMODS.DrawStep({
+SMODS.DrawStep {
+    key = 'eldritch_shine',
+    order = 10,
+    func = function(self)
+        if self.ability.set == "Eldritch" or self.config.center.group_key == "sgt_eldritch_pack" or self.ability.name == "Anima" then
+            self.children.center:draw_shader("booster", nil, self.ARGS.send_to_shader)
+        end
+    end,
+    conditions = { vortex = false, facing = "front" },
+}
+
+SMODS.DrawStep {
     key = "extra_sprite",
     order = 21,
     func = function(self, layer)
@@ -1214,10 +1223,10 @@ SMODS.DrawStep({
         end
     end,
     conditions = { vortex = false, facing = "front" },
-})
+}
 SMODS.draw_ignore_keys.extra_sprite = true
 
-SMODS.DrawStep({
+SMODS.DrawStep {
     key = "floating_sprite2",
     order = 58,
     func = function(self)
@@ -1347,7 +1356,7 @@ SMODS.DrawStep({
         end
     end,
     conditions = { vortex = false, facing = "front" },
-})
+}
 SMODS.draw_ignore_keys.floating_sprite2 = true
 
 G.FUNCS.delete_ace_in_menu = function(e)
