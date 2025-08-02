@@ -710,7 +710,7 @@ return {
             c_sgt_cartomancy = {
                 name = "Cartomancy",
                 text = {
-                    "Add a {C:attention}Cyan Seal",
+                    "Add a {C:attention}Holy Seal",
                     "to {C:attention}#1#{} selected",
                     "card in your hand",
                 },

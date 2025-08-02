@@ -706,7 +706,7 @@ return {
             c_sgt_cartomancy = {
                 name = "Phép Bói",
                 text = {
-                    "Thêm một {C:attention}Con Dấu Lục Lam",
+                    "Thêm một {C:attention}Con Dấu Thiêng",
                     "lên {C:attention}#1#{} lá đã chọn trong tay",
                 },
             },
