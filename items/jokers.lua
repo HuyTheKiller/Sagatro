@@ -6539,6 +6539,11 @@ local hermod = {
     demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = true,
+    update = function(self, card, dt)
+        if card.ability.extra.amount > card.ability.immutable.max_amount then
+            card.ability.extra.amount = card.ability.immutable.max_amount
+        end
+    end,
     calculate = function(self, card, context)
         if context.skip_blind then
             local available_tags = get_current_pool('Tag')
@@ -6559,10 +6564,8 @@ local hermod = {
                     play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
                     if not context.blueprint then
                         card.ability.extra.amount = card.ability.extra.amount + card.ability.extra.amount_mod
-                        if card.ability.extra.amount > card.ability.immutable.max_amount then
-                            card.ability.extra.amount = card.ability.immutable.max_amount
-                        end
                     end
+                    save_run()
                     return true
                 end)
             }))
