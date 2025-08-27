@@ -112,17 +112,13 @@ target = "functions/common_events.lua"
 pattern = "local extrafunc = nil"
 position = "after"
 payload = '''
-if not (SMODS.Mods["Talisman"] or {}).can_load
-and not (SMODS.Mods["Buffoonery"] or {}).can_load
-and not (SMODS.Mods["Prism"] or {}).can_load then
-	if eval_type == 'e_mult' then 
-		sound = 'sgt_emult'
-		amt = amt
-		text = '^' .. amt .. " " .. localize("k_mult")
-		colour = G.C.DARK_EDITION
-		config.type = 'fade'
-		config.scale = 0.7
-	end
+if eval_type == 'sgt_e_mult' then 
+    sound = 'sgt_emult'
+    amt = amt
+    text = '^' .. amt .. " " .. localize("k_mult")
+    colour = G.C.DARK_EDITION
+    config.type = 'fade'
+    config.scale = 0.7
 end
 '''
 match_indent = true
@@ -135,7 +131,6 @@ pattern = '''if self.name == 'The Wheel' and SMODS.pseudorandom_probability(self
 position = 'before'
 match_indent = true
 payload = '''
-
 if G.jokers then
     for _, v in ipairs(G.jokers.cards) do
         if v.config.center_key == 'j_sgt_the_cook' and not v.debuff then
@@ -146,7 +141,6 @@ if G.jokers then
         end
     end
 end
-
 '''
 
 [[patches]]
@@ -169,28 +163,18 @@ end
 
 # Mad Hatter patches to disable Up the Ante
 [[patches]]
-[patches.pattern]
-match_indent = true
+[patches.regex]
 target = 'functions/state_events.lua'
-pattern = '''delay(0.4); ease_ante(1); delay(0.4); check_for_unlock({type = 'ante_up', ante = G.GAME.round_resets.ante + 1})'''
-position = 'at'
-payload = '''
-if not (next(SMODS.find_card("j_sgt_mad_hatter")) or mabel_stall()) then
-    delay(0.4); ease_ante(1); delay(0.4); check_for_unlock({type = 'ante_up', ante = G.GAME.round_resets.ante + 1})
-end
-'''
+pattern = '''delay\(0\.4\); ease_ante\('''
+position = 'before'
+payload = '''if not (next(SMODS.find_card("j_sgt_mad_hatter")) or mabel_stall()) then '''
 
-[[patches]] # For Cryptid
-[patches.pattern]
-match_indent = true
+[[patches]]
+[patches.regex]
 target = 'functions/state_events.lua'
-pattern = '''delay(0.4); ease_ante(G.GAME.blind and G.GAME.blind:cry_calc_ante_gain() or 1); Cryptid.apply_ante_tax(); delay(0.4); check_for_unlock({type = 'ante_up', ante = G.GAME.round_resets.ante + 1})'''
-position = 'at'
-payload = '''
-if not (next(SMODS.find_card("j_sgt_mad_hatter")) or mabel_stall()) then
-    delay(0.4); ease_ante(G.GAME.blind and G.GAME.blind:cry_calc_ante_gain() or 1); Cryptid.apply_ante_tax(); delay(0.4); check_for_unlock({type = 'ante_up', ante = G.GAME.round_resets.ante + 1})
-end
-'''
+pattern = '''G\.GAME\.round_resets\.ante \+ 1}\)'''
+position = 'after'
+payload = ''' end'''
 
 [[patches]]
 [patches.regex]
@@ -257,15 +241,17 @@ payload = '''
 {n=G.UIT.O, config={object = DynaText({string = {G.GAME.story_mode and G.GAME.blind.config.blind.key == "bl_sgt_red_queen" and localize('ph_story_ended') or localize('ph_you_win')}, colours = {G.C.EDITION},shadow = true, float = true, spacing = 10, rotate = true, scale = 1.5, pop_in = 0.4, maxw = 6.5})}},
 '''
 
-
 # Replace Jimbo with Alice (still allowing Joseph if Cryptid is also installed)
+# Use SMODS.JimboQuip instead if it's present
 [[patches]]
 [patches.pattern]
 target = "card_character.lua"
 pattern = 'self.children.card.states.visible = false'
 position = "before"
 payload = '''
-self.children.card:set_ability(G.P_CENTERS[G.GAME.story_mode and "j_sgt_alice" or Cryptid and "j_jolly" or "j_joker"])
+if SMODS and not SMODS.JimboQuip then
+    self.children.card:set_ability(G.P_CENTERS[G.GAME.story_mode and "j_sgt_alice" or Cryptid and "j_jolly" or "j_joker"])
+end
 self.children.card:set_debuff(false)
 '''
 match_indent = true
@@ -282,12 +268,11 @@ or {G.C.RED, G.C.BLUE, G.C.ORANGE},
 '''
 match_indent = true
 
-# Overrides Cryptid
 [[patches]]
 [patches.pattern]
 target = "card_character.lua"
 pattern = 'colours = {G.C.CRY_EXOTIC, G.C.BLUE, G.C.CRY_JOLLY},'
-position = "at"
+position = "at" # Overrides Cryptid
 payload = '''
 colours = G.GAME.story_mode
 and {Sagatro.badge_colour, G.C.BLUE, G.C.RARITY[4]}
@@ -407,9 +392,11 @@ pattern = '''G.GAME.round_resets.blind_choices.Boss = get_new_boss()'''
 position = "at"
 payload = '''
 if next(SMODS.find_card("j_sgt_ragnarok")) then
-    G.GAME.round_resets.blind_choices.Small = get_new_boss()
-    G.GAME.round_resets.blind_choices.Big = get_new_boss()
-    G.GAME.round_resets.blind_choices.Boss = get_new_showdown()
+    local small_hide = G.GAME.round_resets.blind_states.Small == 'Hide'
+    local big_hide = G.GAME.round_resets.blind_states.Big == 'Hide'
+    G.GAME.round_resets.blind_choices.Small = not small_hide and get_new_boss()
+    G.GAME.round_resets.blind_choices.Big = not big_hide and get_new_boss()
+    G.GAME.round_resets.blind_choices.Boss = Sagatro.get_new_showdown()
 else
     G.GAME.round_resets.blind_choices.Boss = get_new_boss()
 end
@@ -483,7 +470,6 @@ target = "card.lua"
 pattern = '''SMODS\.has_enhancement'''
 position = "at"
 payload = '''Sagatro.omniscient'''
-times = 4
 
 # Upgraded enhancements behave like their original counterparts
 [[patches]]
@@ -492,7 +478,6 @@ target = "card.lua"
 pattern = "'m_glass'"
 position = "at"
 payload = "{'m_glass', 'm_sgt_nyx_glass'}"
-times = 1
 
 [[patches]]
 [patches.regex]
@@ -500,7 +485,6 @@ target = "card.lua"
 pattern = "'m_steel'"
 position = "at"
 payload = "{'m_steel', 'm_sgt_titanium'}"
-times = 1
 
 [[patches]]
 [patches.regex]
@@ -508,7 +492,6 @@ target = "card.lua"
 pattern = "'m_stone'"
 position = "at"
 payload = "{'m_stone', 'm_sgt_abyss_stone'}"
-times = 1
 
 [[patches]]
 [patches.regex]
@@ -516,7 +499,6 @@ target = "card.lua"
 pattern = "'m_gold'"
 position = "at"
 payload = "{'m_gold', 'm_sgt_platinum'}"
-times = 1
 
 # Damn you Incantation for completely overriding set_consumeable_usage, I'm moving to Overflow
 [[patches]]
@@ -547,5 +529,42 @@ if card.config.center.set == 'Tarot' or card.config.center.set == 'Planet' or (c
   }))
 end
 
+'''
+match_indent = true
+
+# Ortalab collab... Ig?
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "util/menu.lua"]'
+pattern = '''
+G.SPLASH_LOGO = Sprite(0, 0, 
+    13*SC_scale, 
+    13*SC_scale*(G.ASSET_ATLAS[Ortalab.config.menu_toggle and 'ortalab_logo' or "balatro"].py/G.ASSET_ATLAS[Ortalab.config.menu_toggle and 'ortalab_logo' or "balatro"].px),
+    G.ASSET_ATLAS[Ortalab.config.menu_toggle and 'ortalab_logo' or "balatro"], {x=0,y=0})
+'''
+position = "at"
+payload = '''
+G.SPLASH_LOGO = Sprite(0, 0, 
+    13*SC_scale, 
+    13*SC_scale*(G.ASSET_ATLAS[Ortalab.config.menu_toggle and 'ortalab_'..(Sagatro.config.Ortagas and 'alt_' or '')..'logo' or "balatro"].py/G.ASSET_ATLAS[Ortalab.config.menu_toggle and 'ortalab_'..(Sagatro.config.Ortagas and 'alt_' or '')..'logo' or "balatro"].px),
+    G.ASSET_ATLAS[Ortalab.config.menu_toggle and 'ortalab_'..(Sagatro.config.Ortagas and 'alt_' or '')..'logo' or "balatro"], {x=0,y=0})
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = '''
+G.SPLASH_LOGO = Sprite(0, 0, 
+    13*SC_scale, 
+    13*SC_scale*(G.ASSET_ATLAS[Ortalab.config.menu_toggle and 'ortalab_logo' or "balatro"].py/G.ASSET_ATLAS[Ortalab.config.menu_toggle and 'ortalab_logo' or "balatro"].px),
+    G.ASSET_ATLAS[Ortalab.config.menu_toggle and 'ortalab_logo' or "balatro"], {x=0,y=0})
+'''
+position = "at"
+payload = '''
+G.SPLASH_LOGO = Sprite(0, 0, 
+    13*SC_scale, 
+    13*SC_scale*(G.ASSET_ATLAS[Ortalab.config.menu_toggle and 'ortalab_'..(Sagatro.config.Ortagas and 'alt_' or '')..'logo' or "balatro"].py/G.ASSET_ATLAS[Ortalab.config.menu_toggle and 'ortalab_'..(Sagatro.config.Ortagas and 'alt_' or '')..'logo' or "balatro"].px),
+    G.ASSET_ATLAS[Ortalab.config.menu_toggle and 'ortalab_'..(Sagatro.config.Ortagas and 'alt_' or '')..'logo' or "balatro"], {x=0,y=0})
 '''
 match_indent = true

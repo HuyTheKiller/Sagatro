@@ -7,6 +7,14 @@ SMODS.Atlas{
 }
 
 SMODS.Atlas{
+    key = 'ortalab_alt_logo',
+    path = 'Ortagas.png',
+    px = 333,
+    py = 216,
+    prefix_config = { key = false }
+}
+
+SMODS.Atlas{
     key = "alice_in_wonderland",
     path = "Alice_in_wonderland.png",
     px = 71,
@@ -72,6 +80,41 @@ SMODS.Atlas{
 SMODS.Atlas{
     key = "iron_john",
     path = "Iron_john.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
+    key = "pre_ragnarok",
+    path = "Pre_ragnarok.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
+    key = "adams_original_sin",
+    path = "Adams_original_sin.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
+    key = "saint_germain",
+    path = "Saint_germain.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
+    key = "necronomicon",
+    path = "Necronomicon.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
+    key = "frog_prince",
+    path = "Frog_prince.png",
     px = 71,
     py = 95,
 }

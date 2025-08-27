@@ -302,12 +302,15 @@ function Game:start_run(args)
 	gsr(self, args)
 	if not args.savetext then
 		G.GAME.story_mode = Sagatro.config.DisableOtherJokers
+		if G.GAME.modifiers.ortalab_only then
+			G.GAME.story_mode = false
+		end
 		if args.challenge then
 			G.GAME.story_mode = false
 			if args.challenge.key == "c_sgt_ragnarok" then
 				G.GAME.round_resets.blind_choices.Small = G.GAME.round_resets.blind_choices.Boss
 				G.GAME.round_resets.blind_choices.Big = get_new_boss()
-				G.GAME.round_resets.blind_choices.Boss = get_new_showdown()
+				G.GAME.round_resets.blind_choices.Boss = Sagatro.get_new_showdown()
 				G.GAME.modifiers.scaling = 10
 				G.GAME.modifiers.sgt_ragnarok_challenge_text = nil
 				-- for i = 1, 5 do
@@ -318,6 +321,7 @@ function Game:start_run(args)
 		if not G.GAME.story_mode and Sagatro.config.DisableSagatroItems then
 			G.GAME.modifiers.sgt_disable_sagatro_items = true
 		end
+		G.GAME.perishable_already_active = G.GAME.modifiers.enable_perishables_in_shop -- used by Adam
 		if Sagatro.debug then
 			G.GAME.dollars = to_big(250)
 			SMODS.change_free_rerolls(1e10)

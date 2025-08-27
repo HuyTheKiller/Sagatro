@@ -152,7 +152,7 @@ local crimson_streak = {
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
             return {
-                e_mult = card.ability.seal.emult,
+                sgt_e_mult = card.ability.seal.emult,
                 card = card
 			}
         end

@@ -211,6 +211,12 @@ return {
                     "{C:inactive,s:0.8}Tận hưởng sự {C:attention,s:0.8}điên rồ{C:inactive,s:0.8} của Talisman nhé!",
                 },
             },
+            sgt_only_joker_area = {
+                name = "n",
+                text = {
+                    "{C:inactive,s:0.8}Logic chỉ áp dụng lên {C:attention,s:0.8}khu Joker",
+                },
+            },
             undiscovered_divinatio = {
 				name = "Chưa Khám Phá",
                 text = {
@@ -379,7 +385,7 @@ return {
                 name = "Dễ Dàng",
                 text = {
                     "{C:red}#1#{} giờ đây cho",
-                    "{C:chips}+#2#{} chip và {X:red,C:white}X#3#{} Nhân",
+                    "{C:chips}+#2#{} chip và {X:mult,C:white}X#3#{} Nhân",
                 },
             },
             c_sgt_aestheticism = {
@@ -1114,7 +1120,7 @@ return {
             j_sgt_white_jellyfish = {
                 name = "Sứa Trắng",
                 text = {
-                    "{X:red,C:white}X#1#{} Nhân mỗi {C:attention}#2#{} tay bài đã chơi",
+                    "{X:mult,C:white}X#1#{} Nhân mỗi {C:attention}#2#{} tay bài đã chơi",
                     "Xác suất {C:green}#3# trên #4#{} để {C:red,E:2}tự huỷ{} khi kích hoạt",
                     "{C:inactive}#5#",
                 },
@@ -1122,7 +1128,7 @@ return {
             j_sgt_red_jellyfish = {
                 name = "Sứa Đỏ",
                 text = {
-                    "{X:red,C:white}X#1#{} Nhân mỗi {C:attention}#2#{} tay bài đã chơi",
+                    "{X:mult,C:white}X#1#{} Nhân mỗi {C:attention}#2#{} tay bài đã chơi",
                     "Xác suất {C:green}#3# trên #4#{} để {C:red,E:2}tự huỷ{} khi kích hoạt",
                     "{C:inactive}#5#",
                 },
@@ -1209,7 +1215,7 @@ return {
                     {
                         "Lá {C:attention}3{}, {C:attention}7{} hoặc {C:attention}9{}",
                         "đầu tiên ghi thêm",
-                        "{X:red,C:white}X#1#{} Nhân khi ghi điểm",
+                        "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
                     },
                     {
                         "{C:attention}Bán{} lá này để có thể",
@@ -1222,7 +1228,7 @@ return {
                 text = {
                     "Lá {C:attention}3{}, {C:attention}7{} và {C:attention}9{}",
                     "đã chơi ghi thêm",
-                    "{X:red,C:white}X#1#{} Nhân khi ghi điểm",
+                    "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
                 },
             },
             j_sgt_electric_eel = {
@@ -1289,6 +1295,98 @@ return {
                     "{C:inactive}(Đợt gieo hiện tại: {V:1}#1#{C:inactive})",
                 },
             },
+            j_sgt_skoll_n_hati = {
+                name = "Sköll Và Hati",
+                text = {
+                    {
+                        "{C:attention}Đổi{} sang phía bên kia",
+                        "mỗi tay bài đã chơi",
+                        "{C:inactive,s:0.8}Khi thời khắc đến, lá này sẽ",
+                        "{C:inactive,s:0.8}gieo rắc tai ương (yêu cầu {C:attention,s:0.8}Talisman{C:inactive,s:0.8})",
+                    },
+                    {
+                        "{C:attention}Sköll{}: Thêm {X:mult,C:white}X#1#{} Nhân mỗi lá",
+                        "có chất {C:hearts}Cơ{} hoặc {C:diamonds}Rô{} đã chơi,",
+                        "rồi phá huỷ chúng",
+                    },
+                    {
+                        "{C:attention}Hati{}: Thêm {X:chips,C:white}X#2#{} Chip mỗi lá có",
+                        "chất {C:spades}Bích{} hoặc {C:clubs}Tép{} giữ trên tay,",
+                        "rồi phá huỷ chúng",
+                    },
+                },
+            },
+            j_sgt_skoll = {
+                name = "Sköll",
+                text = {
+                    "Thêm {X:mult,C:white}X#2#{} Nhân mỗi lá",
+                    "có chất {C:hearts}Cơ{} hoặc {C:diamonds}Rô{} đã chơi,",
+                    "rồi phá huỷ chúng",
+                    "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_hati = {
+                name = "Hati",
+                text = {
+                    "Thêm {X:chips,C:white}X#2#{} Chip mỗi lá có",
+                    "chất {C:spades}Bích{} hoặc {C:clubs}Tép{} giữ trên tay,",
+                    "rồi phá huỷ chúng",
+                    "{C:inactive}(Hiện tại là {X:chips,C:white}X#1#{C:inactive} Chip)",
+                },
+            },
+            j_sgt_three_winters = {
+                name = "Mùa Đông Vĩ Đại",
+                text = {
+                    {"{X:attention,C:white}X#1#{} điểm Blind"},
+                    {"Sau {C:attention}#3#{} ván, {C:red,E:2}tự huỷ{}",
+                    "và tạo ra {C:sgt_esoteric}#4#{}",
+                    "{C:inactive}(Hiện tại là {C:attention}#2#{C:inactive}/#3#)",},
+                },
+            },
+            j_sgt_adam = {
+                name = "Nguyên Tội Của Adam Và Eva",
+                text = {
+                    {"Shop có thể có Joker {C:attention}Ngắn Hạn{}",
+                    "{C:inactive,s:0.8}(Vô hiệu hoá sau 5 Ván)",},
+                    {"{C:attention}Tái kích{} mọi Joker {C:attention}Ngắn Hạn{}"},
+                },
+            },
+            j_sgt_adam_alt = {
+                name = "Nguyên Tội Của Adam Và Eva",
+                text = {
+                    "{C:attention}Tái kích{} mọi Joker {C:ortalab_mythos}bị nguyền{}",
+                },
+            },
+            j_sgt_saint_germain = {
+                name = "Bá Tước Bất Tử",
+                text = {
+                    "Nếu tay bài đã chơi là",
+                    "một lá {C:attention}Già{}, biến đổi mọi lá",
+                    "trên tay thành một {C:attention}cường hoá",
+                    "{C:attention}dẫn điện{} ngẫu nhiên",
+                },
+            },
+            j_sgt_necronomicon = {
+                name = "Necronomicon",
+                text = {
+                    {"Nếu {C:attention}tay đầu tiên{} của ván chứa {C:attention}5{} lá",
+                    "ghi điểm hoặc nhiều hơn, {C:attention}phá huỷ{} chúng",
+                    "và tạo ra một Joker ngẫu nhiên",
+                    "{C:inactive}(Phải có ô trống){}",},
+                    {"Độ hiếm của joker tạo ra phụ thuộc vào",
+                    "số {C:attention}sửa đổi{} của lá bị phá huỷ"},
+                }
+            },
+            j_sgt_frog_prince = {
+                name = "Hoàng Tử Ếch",
+                text = {
+                    "Áp dụng {C:attention}#1#{}",
+                    "Tạo ra một lá {C:tarot}Tarot{} nếu",
+                    "tay poker chứa lá {C:attention}Già{}",
+                    "và {C:attention}Sảnh{}",
+                    "{C:inactive}(Phải có ô trống)",
+                },
+            },
             j_sgt_dolphin = {
                 name = "Cá Heo",
                 text = {
@@ -1308,12 +1406,141 @@ return {
                     "{C:inactive}(Phải có ô trống)",
                 },
             },
+            j_sgt_sunfish = {
+                name = "Cá Mặt Trời",
+                text = {
+                    "{C:hearts}Cơ{} và {C:diamonds}Rô{} được",
+                    "xem như cùng một chất",
+                },
+            },
+            j_sgt_moonfish = {
+                name = "Cá Mặt Trăng",
+                text = {
+                    "{C:spades}Bích{} và {C:clubs}Tép{} được",
+                    "xem như cùng một chất",
+                },
+            },
+            j_sgt_swordfish = {
+                name = "Cá Cờ",
+                text = {
+                    {
+                        "Thêm {C:chips}+#2#{} Chip nếu tay bài",
+                        "đã chơi chứa {C:attention}Sảnh{}",
+                        "{C:inactive}(Hiện tại là {C:chips}+#1#{C:inactive} Chip)",
+                    },
+                    {
+                        "Tăng công sai lên {C:chips}+#3#{}",
+                        "ở cuối ván",
+                    },
+                },
+            },
+            j_sgt_penguin = {
+                name = "Chim Cánh Cụt",
+                text = {
+                    "{C:attention}Tái kích{} mọi lá {C:attention}đã chơi{} hai lần",
+                    "ở {C:attention}tay đầu tiên{} của ván mà {C:attention}không{}",
+                    "dùng lượt bỏ bài nào",
+                },
+            },
+            j_sgt_seal = {
+                name = "Hải Cẩu",
+                text = {
+                    "{C:attention}Phá huỷ{} lá ghi điểm {C:attention}đầu tiên{}",
+                    "và {C:attention}cuối cùng{} nếu tay bài",
+                    "đã chơi chứa {C:attention}#1#{}",
+                },
+            },
+            j_sgt_ray = {
+                name = "Cá Đuối",
+                text = {
+                    "Thêm {C:red}#2#{} trừ đi bậc của lá ghi điểm",
+                    "có bậc {C:attention}cao nhất{} vào hệ số {C:red}Nhân{}",
+                    "mỗi tay đã chơi {C:attention}liên tiếp{} mà",
+                    "không có lá {C:attention}mặt{} ghi điểm",
+                    "{C:inactive}(Hiện tại là {C:mult}+#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_orca = {
+                name = "Cá Voi Sát Thủ",
+                text = {
+                    "Thêm {X:mult,C:white}X#2#{} Nhân nếu",
+                    "tay bài đã chơi chứa {C:attention}#4#",
+                    "Nếu không, mất {X:mult,C:white}X#3#{} Nhân",
+                    "{s:0.8}Bậc thay đổi mỗi tay đã chơi",
+                    "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_sperm_whale = {
+                name = "Cá Nhà Táng",
+                text = {
+                    "Khi {C:attention}Blind{} được chọn, {C:attention}ăn{} mọi cá",
+                    "có {C:attention}cân nặng{} thấp hơn ở bên trái",
+                    "và thêm {X:mult,C:white}X#2#{} Nhân mỗi {C:attention}cấp cân nặng{}",
+                    "Mất {X:mult,C:white}X#3#{} Nhân mỗi tay đã chơi",
+                    "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_sea_urchin = {
+                name = "Nhím Biển",
+                text = {
+                    "Khi {C:attention}Boss Blind{} được chọn,",
+                    "xác suất {C:green}#1# trên #2#{} để {C:attention}vô hiệu",
+                    "{C:attention}hoá{} khả năng của nó",
+                },
+            },
+            j_sgt_starfish = {
+                name = "Sao Biển",
+                text = {
+                    "{C:chips}+#2#{} Chip cho mỗi lá",
+                    "{C:attention}5{} trong cả bộ bài",
+                    "{C:inactive}(Hiện tại là {C:chips}+#1#{C:inactive} Chip)",
+                },
+            },
+            j_sgt_shark = {
+                name = "Cá Mập",
+                text = {
+                    "Khi {C:attention}Blind{} được chọn, {C:attention}ăn{} 2 cá",
+                    "có {C:attention}cân nặng{} thấp hơn ở bên trái",
+                    "và thêm {C:chips}+#2#{} Chip mỗi {C:attention}cấp cân nặng{}",
+                    "Mất {C:chips}#3#{} Chip ở cuối ván",
+                    "{C:inactive}(Hiện tại là {C:chips}+#1#{C:inactive} Chip)",
+                },
+            },
+            j_sgt_lantern_fish = {
+                name = "Cá Đền Lồng",
+                text = {
+                    "Joker {C:red}Hiếm{} và {C:sgt_obscure}Mờ Mịt{} xuất hiện",
+                    "thường xuyên hơn {C:attention}#1#{} lần",
+                },
+            },
+            j_sgt_nautilus = {
+                name = "Ốc Anh Vũ",
+                text = {
+                    "{C:attention}Tái kích{} mọi lá đã chơi",
+                    "bằng số lượng lá {C:attention}Át{}, {C:attention}2{}, {C:attention}3{},",
+                    "{C:attention}5{}, {C:attention}8{}, hoặc {C:attention}Già{} ghi điểm",
+                },
+            },
+            j_sgt_stomiidae = {
+                name = "Cá Rồng Biển",
+                text = {
+                    {"Thêm {X:mult,C:white}X#2#{} Nhân mỗi lá {C:spades}Bích{}",
+                    "ghi điểm trong tay đã chơi",
+                    "Mất {X:mult,C:white}X#3#{} Nhân ở cuối ván",
+                    "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",},
+                    {"Lá {C:spades}Bích{} đã chơi {C:attention}giảm{}",
+                    "một bậc khi ghi điểm",
+                    "Lá {C:attention}2 {C:spades}Bích{} bị {C:attention}phá huỷ{}",
+                    "sau khi ghi điểm",},
+                },
+            },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
                 text = {
                     "{C:attention}Tái kích{} mọi lá {C:attention}đã chơi{}",
                     "và khả năng {C:attention}giữ trên tay{}",
-                    "một lần cho mỗi joker",
+                    "một lần cho mỗi joker thuộc",
+                    "về {C:sgt_sagadition}2 Vạn Dặm Dưới Biển{}",
                 },
             },
             j_sgt_shub = {
@@ -1377,6 +1604,7 @@ return {
                     "Ở cuối {C:attention}shop{}, tạo ra",
                     "{C:attention}#1# {C:tarot}#3#{C:dark_edition} Âm Bản{},",
                     "tăng thêm {C:attention}#2#{} mỗi lần kích",
+                    "{C:inactive}(Tối đa 25)",
                 },
             },
             j_sgt_darkness = {
@@ -1776,6 +2004,13 @@ return {
             k_blob_ex = "Blob!",
             k_roll_ex = "Gieo!",
             k_prevented_ex = "Ngăn Ngừa!",
+            k_upcoming_ex = "Sắp Đến!",
+            k_transmutate_ex = "Biến Đổi!",
+            k_happy_ex = "Vui Vẻ!",
+            k_upset_ex = "Bực Bội!",
+            k_hungry_ex = "Đói!",
+            k_digest_ex = "Tiêu Hoá!",
+            k_sacrifice_ex = "Hiến Tế!",
             k_zzz = "ZZZ",
             k_charge = "Nạp",
             k_release = "Xả",
@@ -1791,18 +2026,94 @@ return {
             ph_story_ended = "KẾT TRUYỆN!",
             ph_alice_in_wond = "Alice ở Xứ Sở Diệu Kì",
             ph_misc_story = "Truyện Khác",
-            ph_20k = "2 Vạn Dặm Dưới Biến",
+            ph_20k = "2 Vạn Dặm Dưới Biển",
             ph_gods_miracle = "Được cứu bởi Phép Lạ Của Chúa",
             ph_depth_level = "Tầng độ sâu",
             ph_lovecraft = "Lovecraft",
             ph_norse = "Thần Thoại Bắc Âu",
             ph_black_soul = "Black Soul",
+            sgt_swap = "Tráo!",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính (Yêu cầu tạo trận mới)"},
             SGT_disable_sagatro_items = "Tắt Vật Phẩm Sagatro",
             SGT_disable_sagatro_items_desc = {"(Yêu cầu tạo trận mới, chỉ hoạt động","khi tắt Chế Độ Cốt Truyện)"},
             SGT_sagatro_music = "Nhạc Sagatro",
             SGT_sagatro_music_desc = {"Bật nhạc Sagatro ngoài Chế Độ Cốt Truyện"},
+            SGT_ortagas = "Chuyển sang Ortagas",
+            SGT_ortagas_desc = {"Vô dụng?"},
+        },
+        quips = {
+            sgt_good_end1 = {
+                "Câu chuyện của chúng ta",
+                "đến đây là hết.",
+            },
+            sgt_good_end2 = {
+                "Thế là mọi việc cũng",
+                "kết thúc tốt đẹp.",
+            },
+            sgt_good_end3 = {
+                "Hết chuyện.",
+            },
+            sgt_good_end4 = {
+                "Ai mà biết được, có khi",
+                "câu chuyện vẫn đang",
+                "tiếp diễn đâu đó...",
+            },
+            sgt_good_end5 = {
+                "Và đôi khi, hạnh phúc chỉ",
+                "đơn giản là biết trân trọng",
+                "những gì mình đang có.",
+            },
+            sgt_good_end6 = {
+                "Câu chuyện đến đây là hết...",
+                "trừ khi bạn muốn nghe phần hai.",
+            },
+            sgt_good_end7 = {
+                "Hết phim rồi, mời",
+                "mọi người ra về.",
+            },
+            sgt_good_end8 = {
+                "Nhưng liệu đó có phải",
+                "là kết thúc thật sự?",
+            },
+            sgt_bad_end1 = {
+                "Và thế là, bóng tối",
+                "nuốt chửng tất cả.",
+            },
+            sgt_bad_end2 = {
+                "Không còn ai để kể lại",
+                "câu chuyện này nữa.",
+            },
+            sgt_bad_end3 = {
+                "Mọi hy vọng đều",
+                "tan thành mây khói.",
+            },
+            sgt_bad_end4 = {
+                "Chỉ còn lại im lặng và",
+                "những ký ức đau thương.",
+            },
+            sgt_bad_end5 = {
+                "Không ai biết chuyện gì",
+                "xảy ra sau đó... và có lẽ",
+                "chẳng ai muốn biết.",
+            },
+            sgt_bad_end6 = {
+                "Cánh cửa khép lại... nhưng",
+                "tiếng thì thầm vẫn vang bên tai.",
+            },
+            sgt_bad_end7 = {
+                "Và câu chuyện này... chưa",
+                "bao giờ thật sự kết thúc.",
+            },
+            sgt_bad_end8 = {
+                "Mọi thứ kết thúc",
+                "chỉ trong một hơi thở.",
+            },
+            sgt_bad_end9 = {
+                "Chỉ một tiếng nổ,",
+                "mọi thứ đã thành",
+                "tro bụi.",
+            },
         },
     },
 }

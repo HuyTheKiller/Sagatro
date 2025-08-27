@@ -141,11 +141,8 @@ local ragnarok = {
 
 local challenge_table = {
     gambling_hansel,
+	ragnarok,
 }
-
-if Sagatro.mod_compat.talisman then
-	challenge_table[#challenge_table+1] = ragnarok
-end
 
 for _, v in ipairs(challenge_table) do
     SMODS.Challenge(v)

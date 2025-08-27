@@ -114,7 +114,7 @@ function Game:init_game_object()
     ret.wish_card_spawns_genie = false -- Deck of Equilibrium compat
     ret.last_tarot_planet_divinatio = nil
     ret.orbis_fatum_odds = 4
-    ret.pending_mega_buffoon = false
+    ret.perishable_already_active = false
 	return ret
 end
 
@@ -209,14 +209,14 @@ function CardArea:update(dt)
                 end
                 if (unpoisoned[1] and unpoisoned[2])
                 or G.STATE == G.STATES.SHOP
-                or G.STATE == G.STATES.PLAY_TAROT
+                or G.STATE == G.STATES.SMODS_REDEEM_VOUCHER
                 or G.STATE == G.STATES.SMODS_BOOSTER_OPENED then
                     SMODS.debuff_card(v, false, "j_sgt_pufferfish")
                 end
             end
             if v.config.center_key == "j_sgt_pufferfish"
             and G.STATE ~= G.STATES.SHOP
-            and G.STATE ~= G.STATES.PLAY_TAROT
+            and G.STATE ~= G.STATES.SMODS_REDEEM_VOUCHER
             and G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED then
                 if G.jokers.cards[i-1] and G.jokers.cards[i-1].config.center_key ~= "j_sgt_pufferfish" then
                     SMODS.debuff_card(G.jokers.cards[i-1], true, "j_sgt_pufferfish")
@@ -224,6 +224,15 @@ function CardArea:update(dt)
                 if G.jokers.cards[i+1] and G.jokers.cards[i+1].config.center_key ~= "j_sgt_pufferfish" then
                     SMODS.debuff_card(G.jokers.cards[i+1], true, "j_sgt_pufferfish")
                 end
+            end
+        end
+    end
+    -- Nope, Mouse in consumable slot won't work
+    -- Not worth spending Anubis on it
+    if self == G.consumeables and G.consumeables.cards[1] then
+        for _, v in ipairs(G.consumeables.cards) do
+            if v.config.center_key == "j_sgt_mouse" then
+                SMODS.debuff_card(v, true, "j_sgt_mouse")
             end
         end
     end
@@ -244,8 +253,9 @@ function Game:update(dt)
 
     if G.STAGE == G.STAGES.RUN then
         if G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP then
+            -- Handle opening Mega Buffoon Pack spawned by Utima Vox (restricted to during shop and blind select)
             if G.GAME.pending_mega_buffoon then
-                G.GAME.pending_mega_buffoon = false
+                G.GAME.pending_mega_buffoon = nil
                 G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
                     G.CONTROLLER.locks.utima_vox = true
                     G.E_MANAGER:add_event(Event({func = function()
@@ -260,6 +270,10 @@ function Game:update(dt)
                     return true end }))
                 return true end }))
             end
+        end
+        -- Adam's ability to enable perishable in shop (take Orange Stake effect into account)
+        if not (Ortalab or G.GAME.perishable_already_active) then
+            G.GAME.modifiers.enable_perishables_in_shop = next(SMODS.find_card("j_sgt_adam")) and true or nil
         end
     end
 
@@ -713,7 +727,7 @@ end
 
 -- Custom tooltip (modified from Ortalab)
 function saga_tooltip(_c, info_queue, card, desc_nodes, specific_vars, full_UI_table)
-    localize{type = 'descriptions', set = _c.set or 'Saga Tooltip', key = _c.key, nodes = desc_nodes, vars = specific_vars or _c.vars}
+    localize{type = 'descriptions', set = _c.set, key = _c.key, nodes = desc_nodes, vars = specific_vars or _c.vars}
     desc_nodes['colour'] = _c.colour or Sagatro.badge_colour
     desc_nodes.saga_tooltip = true
     desc_nodes.title = _c.title or localize(_c.key) ~= "ERROR" and localize(_c.key) or localize('saga_tooltip')
@@ -798,7 +812,30 @@ function SMODS.add_voucher_to_shop(key)
     return avts(key)
 end
 
--- Reset debuff positions of all Mouses outside their own code (because they can't do that if debuffed)
+local smeared = SMODS.smeared_check
+function SMODS.smeared_check(card, suit)
+    if next(SMODS.find_card("j_sgt_sunfish")) then
+        if ((card.base.suit == 'Hearts' or card.base.suit == 'Diamonds') and (suit == 'Hearts' or suit == 'Diamonds')) then
+            return true
+        end
+    end
+    if next(SMODS.find_card("j_sgt_moonfish")) then
+        if (card.base.suit == 'Spades' or card.base.suit == 'Clubs') and (suit == 'Spades' or suit == 'Clubs') then
+            return true
+        end
+    end
+    return smeared(card, suit)
+end
+
+local shortcut = SMODS.shortcut
+function SMODS.shortcut()
+    if next(SMODS.find_card('j_sgt_frog_prince')) then
+        return true
+    end
+    return shortcut()
+end
+
+-- Reset debuff positions of all Mouses outside their own code (because they can't do that if debuffed)\
 -- Also replenish first-slot buffoon pack if said events are yet to progress
 function Sagatro.reset_game_globals(run_start)
     for _, v in ipairs(G.jokers.cards) do
@@ -844,6 +881,7 @@ function table.extract_total_value(t)
     return tot
 end
 
+---@param t table
 table.contains = table.contains or function(t, x)
     for _, v in pairs(t) do
 		if v == x then
@@ -863,18 +901,12 @@ function Sagatro.get_submarine_depth_colour()
     return max_depth
 end
 
--- Hook this function in your mod code for cross-mod compat
 function Sagatro.conductive_enhancement(card)
     if not card then return end
-    local ret = SMODS.has_enhancement(card, 'm_steel')
-    or SMODS.has_enhancement(card, 'm_gold')
-    or SMODS.has_enhancement(card, 'm_sgt_titanium')
-    or SMODS.has_enhancement(card, 'm_sgt_platinum')
-    or SMODS.has_enhancement(card, 'm_sgt_omniscient')
-    return ret
+    return Sagatro.omniscient(card, Sagatro.electric_eel_info_queue)
 end
 
--- Append enhancement keys to Sagatro.electric_eel_info_queue to include your target enhancements
+-- Append enhancement keys to `Sagatro.electric_eel_info_queue` to include your target enhancements
 function Sagatro.electric_eel_info_queue_append(info_queue, center_table)
     if center_table and type(center_table) == 'table' then
         for _, center in ipairs(center_table) do
@@ -885,11 +917,36 @@ function Sagatro.electric_eel_info_queue_append(info_queue, center_table)
     end
 end
 
-function get_new_showdown()
-    G.GAME.perscribed_showdown = G.GAME.perscribed_showdown or {
-    }
-    if G.GAME.perscribed_showdown and G.GAME.perscribed_showdown[G.GAME.round_resets.ante] then 
-        local ret_boss = G.GAME.perscribed_showdown[G.GAME.round_resets.ante] 
+-- Append key-pair to repsective table of `Sagatro.necronomicon` to include your own object weight\
+-- All seals have the same weight for balancing purpose
+function Sagatro.necronomicon_get_weight(card)
+    local weight = 0
+    if not card then return weight end
+    for k, _ in pairs(SMODS.get_enhancements(card)) do
+        weight = weight + (Sagatro.necronomicon.enhancement_weight[k] or 1)
+    end
+    weight = weight + (card.edition and (Sagatro.necronomicon.edition_weight[card.edition.key]
+        or Sagatro.necronomicon.edition_weight.generic) or 0)
+    weight = weight + (card.seal and Sagatro.necronomicon.seal_weight.generic or 0)
+    return weight
+end
+
+---@param weight number
+function Sagatro.necronomicon_get_rarity(weight)
+    for _, v in ipairs(Sagatro.necronomicon.rarity_order) do
+        if weight >= Sagatro.necronomicon.rarity_weight[v] then
+            return v
+        end
+    end
+    return "Common"
+end
+
+-- Darn, Ortalab has this whole function just to set up floating blind sprites for a voucher\
+-- Moving mine into Sagatro table Ig
+function Sagatro.get_new_showdown()
+    G.GAME.perscribed_showdown = G.GAME.perscribed_showdown or {}
+    if G.GAME.perscribed_showdown and G.GAME.perscribed_showdown[G.GAME.round_resets.ante] then
+        local ret_boss = G.GAME.perscribed_showdown[G.GAME.round_resets.ante]
         G.GAME.perscribed_showdown[G.GAME.round_resets.ante] = nil
         G.GAME.bosses_used[ret_boss] = G.GAME.bosses_used[ret_boss] + 1
         return ret_boss
@@ -900,7 +957,7 @@ function get_new_showdown()
     for k, v in pairs(G.P_BLINDS) do
         if v.boss and v.boss.showdown then
             if v.in_pool and type(v.in_pool) == 'function' then
-                local res = v:in_pool()
+                local res = SMODS.add_to_pool(v)
                 eligible_bosses[k] = res and true or nil
             else
                 eligible_bosses[k] = true
@@ -909,6 +966,13 @@ function get_new_showdown()
     end
     for k, v in pairs(G.GAME.banned_keys) do
         if eligible_bosses[k] then eligible_bosses[k] = nil end
+    end
+    if G.GAME.modifiers.ortalab_only then
+        for k, v in pairs(eligible_bosses) do
+            if eligible_bosses[k] and not G.P_BLINDS[k].mod or G.P_BLINDS[k].mod.id ~= 'ortalab' then
+                eligible_bosses[k] = nil
+            end
+        end
     end
 
     local min_use = 100
@@ -933,6 +997,7 @@ function get_new_showdown()
     return boss
 end
 
+-- Omniscient acts as every other enhancement
 function Sagatro.omniscient(card, key)
     if not key then return false end
     if not key[1] then key = {key} end
@@ -989,6 +1054,75 @@ function mabel_stall()
     return false
 end
 
+-- Borrowing these from Ortalab (nope, the +JokerSlot animation is not necessary)
+function Sagatro.update_blind_amounts()
+    if G.GAME.blind then
+        G.GAME.blind.chips = get_blind_amount(G.GAME.round_resets.ante)*G.GAME.blind.mult*G.GAME.starting_params.ante_scaling
+        G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
+    end
+    if G.STATE == G.STATES.BLIND_SELECT and G.blind_select then
+        G.blind_select:remove()
+        G.blind_prompt_box:remove()
+        G.blind_select = UIBox{
+            definition = create_UIBox_blind_select(),
+            config = {align="bmi", offset = {x=0,y=G.ROOM.T.y + 29},major = G.hand, bond = 'Weak'}
+        }
+        G.blind_select.alignment.offset.y = 0.8-(G.hand.T.y - G.jokers.T.y) + G.blind_select.T.h
+    end
+end
+
+local gba = get_blind_amount
+function get_blind_amount(ante)
+    local amount = gba(ante)
+    for _, card in ipairs(SMODS.find_card('j_sgt_three_winters')) do
+        amount = amount * card.ability.extra.xblind_amount
+    end
+    return amount
+end
+
+---@param args table|nil arguments for sound
+---@param extra_func function|nil extra function to execute
+---Self-destruct action like Gros Michel with customizable arguments
+function Sagatro.self_destruct(card, args, extra_func)
+    args = args or {}
+    card.getting_sliced = true
+    if not (card.ability.set == 'Default' or card.ability.set == 'Enhanced') then
+        local flags = SMODS.calculate_context({joker_type_destroyed = true, card = card})
+        if flags.no_destroy then card.getting_sliced = nil; return end
+    end
+    G.E_MANAGER:add_event(Event({
+        func = function()
+            if not args.no_sound then
+                play_sound(args.sound or "tarot1", args.pitch, args.volume)
+            end
+            if extra_func then extra_func() end
+            card.T.r = -0.2
+            card:juice_up(0.3, 0.4)
+            card.states.drag.is = true
+            card.children.center.pinch.x = true
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                func = function()
+                        G.jokers:remove_card(card)
+                        card:remove()
+                        card = nil
+                    return true; end}))
+            return true
+        end
+    }))
+end
+
+function Sagatro.quip_filter(quip, quip_type)
+    if G.GAME.story_mode and (not quip.mod or (quip.mod and quip.mod.id ~= "Sagatro")) then
+        return false
+    end
+    return true
+end
+
+-- global mod `calculate` is cool, but not yet needed for now
+function Sagatro.calculate(self, context)
+    if G.GAME.story_mode then end
+end
+
 -- from Cryptid's Tarot called Blessing
 -- and I thought it could exclude cards from getting called in get_random_consumable and from Deck of Equilibrium
 function sgt_center_no(center, m, key, no_no)
@@ -1034,7 +1168,7 @@ local at = add_tag
 function add_tag(tag)
 	at(tag)
     local max_tag_count = 13
-    if Sagatro.mod_compat.ortalab or Ortalab then
+    if Ortalab then
         local zodiac_count = G.HUD_zodiac and #G.HUD_zodiac or 0
         if zodiac_count > 0 then
             max_tag_count = 13 - (tag_zodiac_align[zodiac_count] or tag_zodiac_align[8])
@@ -1051,7 +1185,7 @@ local tr = Tag.remove
 function Tag:remove()
 	tr(self)
     local max_tag_count = 13
-    if Sagatro.mod_compat.ortalab or Ortalab then
+    if Ortalab then
         local zodiac_count = G.HUD_zodiac and #G.HUD_zodiac or 0
         if zodiac_count > 0 then
             max_tag_count = 13 - (tag_zodiac_align[zodiac_count] or tag_zodiac_align[8])
@@ -1064,46 +1198,45 @@ function Tag:remove()
     end
 end
 
--- Implement exponential Mult without Talisman dependency (some other mods also do this)
-if not (SMODS.Mods["Talisman"] or {}).can_load
-and not (SMODS.Mods["Buffoonery"] or {}).can_load
-and not (SMODS.Mods["Prism"] or {}).can_load then
-	if SMODS and SMODS.calculate_individual_effect then
-		local originalCalcIndiv = SMODS.calculate_individual_effect
-		function SMODS.calculate_individual_effect(effect, scored_card, key, amount, from_edition)
-		local ret = originalCalcIndiv(effect, scored_card, key, amount, from_edition)
-		if ret then
-			return ret
-		end
+-- Implement exponential Mult without Talisman dependency
+local cie = SMODS.calculate_individual_effect
+function SMODS.calculate_individual_effect(effect, scored_card, key, amount, from_edition)
+    local ret = cie(effect, scored_card, key, amount, from_edition)
+    if ret then return ret end
 
-		if (key == 'e_mult' or key == 'emult' or key == 'Emult_mod') and amount ~= 1 then
-			if effect.card then juice_card(effect.card) end
-			mult = mod_mult(mult ^ amount)
-			update_hand_text({delay = 0}, {chips = hand_chips, mult = mult})
-			if not effect.remove_default_message then
-				if from_edition then
-					card_eval_status_text(scored_card, 'jokers', nil, percent, nil, {message = "^"..amount.." "..localize("k_mult"), colour =  G.C.EDITION, edition = true})
-				elseif key ~= 'Emult_mod' then
-					if effect.emult_message then
-						card_eval_status_text(scored_card or effect.card or effect.focus, 'extra', nil, percent, nil, effect.emult_message)
-					else
-						card_eval_status_text(scored_card or effect.card or effect.focus, 'e_mult', amount, percent)
-					end
-				end
-			end
-			return true
-		end
-		end
-		for _, v in ipairs({'e_mult','emult','Emult_mod'}) do
-		table.insert(SMODS.calculation_keys, v)
-		end
-	end
+    if (key == 'sgt_e_mult' or key == 'sgt_emult' or key == 'sgt_Emult_mod') and amount ~= 1 then
+        if effect.card then juice_card(effect.card) end
+        if SMODS.Scoring_Parameters then
+            local _mult = SMODS.Scoring_Parameters.mult
+            _mult:modify(_mult.current ^ amount - _mult.current)
+        else
+            mult = mod_mult(mult ^ amount)
+            update_hand_text({delay = 0}, {chips = hand_chips, mult = mult})
+        end
+        if not effect.remove_default_message then
+            if from_edition then
+                card_eval_status_text(scored_card, 'jokers', nil, percent, nil, {message = "^"..amount.." "..localize("k_mult"), colour =  G.C.EDITION, edition = true})
+            elseif key ~= 'sgt_Emult_mod' then
+                if effect.emult_message then
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'extra', nil, percent, nil, effect.emult_message)
+                else
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'sgt_e_mult', amount, percent)
+                end
+            end
+        end
+        return true
+    end
 end
 
-if Ortalab or Sagatro.mod_compat.ortalab then
+for _, v in ipairs{'sgt_e_mult','sgt_emult','sgt_Emult_mod'} do
+    table.insert(SMODS.scoring_parameter_keys or SMODS.calculation_keys, v)
+end
+
+if Ortalab then
     local mr = menu_refresh
     if mr then
         function menu_refresh()
+            if not G.title_top then return end
             mr()
 
             for _, v in ipairs(G.title_top.cards) do
@@ -1139,7 +1272,7 @@ if Ortalab or Sagatro.mod_compat.ortalab then
     function add_zodiac(_tag, silent, from_load, from_patch)
         az(_tag, silent, from_load, from_patch)
         local max_tag_count = 13
-        if Sagatro.mod_compat.ortalab or Ortalab then
+        if Ortalab then
             local zodiac_count = #G.HUD_zodiac or 0
             if zodiac_count > 0 then
                 max_tag_count = 13 - (tag_zodiac_align[zodiac_count] or tag_zodiac_align[8])
@@ -1156,7 +1289,7 @@ if Ortalab or Sagatro.mod_compat.ortalab then
     function Zodiac:remove_zodiac(message, _colour, func)
         rmz(self, message, _colour, func)
         local max_tag_count = 13
-        if Sagatro.mod_compat.ortalab or Ortalab then
+        if Ortalab then
             local zodiac_count = #G.HUD_zodiac or 0
             if zodiac_count > 0 then
                 max_tag_count = 13 - (tag_zodiac_align[zodiac_count] or tag_zodiac_align[8])
@@ -1368,10 +1501,11 @@ end
 
 Sagatro.config_tab = function()
     return {n = G.UIT.ROOT, config = {r = 0.1, align = "cm", padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 4}, nodes = {
-        {n=G.UIT.R, config = {align = 'cm'}, nodes={
+        {n=G.UIT.C, config = {align = 'cm'}, nodes={
 			create_toggle({label = localize('SGT_disable_other_jokers'), ref_table = Sagatro.config, ref_value = 'DisableOtherJokers', info = localize('SGT_disable_other_jokers_desc'), active_colour = Sagatro.badge_colour, right = true}),
 			create_toggle({label = localize('SGT_disable_sagatro_items'), ref_table = Sagatro.config, ref_value = 'DisableSagatroItems', info = localize('SGT_disable_sagatro_items_desc'), active_colour = Sagatro.badge_colour, right = true}),
 			create_toggle({label = localize('SGT_sagatro_music'), ref_table = Sagatro.config, ref_value = 'SagatroMusic', info = localize('SGT_sagatro_music_desc'), active_colour = Sagatro.badge_colour, right = true}),
+			create_toggle({label = localize('SGT_ortagas'), ref_table = Sagatro.config, ref_value = 'Ortagas', info = localize('SGT_ortagas_desc'), active_colour = Sagatro.badge_colour, right = true, callback = function() if menu_refresh and G.title_top then menu_refresh() end end}),
 		}},
     }}
 end
@@ -1407,6 +1541,15 @@ if JokerDisplay then
         local triggers = jdcct(card, scoring_hand, held_in_hand)
         triggers = triggers + (card:get_seal() == 'sgt_Blood' and 2 or 0)
         return triggers
+    end
+
+    local jdgda = JokerDisplay.get_display_areas
+    function JokerDisplay.get_display_areas()
+        local ret = jdgda()
+        if not table.contains(ret, G.consumeables) then
+            ret[#ret+1] = G.consumeables
+        end
+        return ret
     end
 end
 

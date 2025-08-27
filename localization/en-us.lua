@@ -212,6 +212,12 @@ return {
                     "{C:inactive,s:0.8}Enjoy Talisman's {C:attention,s:0.8}insanity{C:inactive,s:0.8}!",
                 },
             },
+            sgt_only_joker_area = {
+                name = "n",
+                text = {
+                    "{C:inactive,s:0.8}Logic only applies to {C:attention,s:0.8}Joker area",
+                },
+            },
             undiscovered_divinatio = {
 				name = "Not Discovered",
 				text = {
@@ -380,7 +386,7 @@ return {
                 name = "Ease",
                 text = {
                     "{C:red}#1#{} now gives",
-                    "{C:chips}+#2#{} chips and {X:red,C:white}X#3#{} Mult",
+                    "{C:chips}+#2#{} chips and {X:mult,C:white}X#3#{} Mult",
                 },
             },
             c_sgt_aestheticism = {
@@ -1119,7 +1125,7 @@ return {
             j_sgt_white_jellyfish = {
                 name = "White Jellyfish",
                 text = {
-                    "{X:red,C:white}X#1#{} Mult every {C:attention}#2#{} hands played",
+                    "{X:mult,C:white}X#1#{} Mult every {C:attention}#2#{} hands played",
                     "{C:green}#3# in #4#{} chance to {C:red,E:2}self destruct{} when triggered",
                     "{C:inactive}#5#",
                 },
@@ -1127,7 +1133,7 @@ return {
             j_sgt_red_jellyfish = {
                 name = "Red Jellyfish",
                 text = {
-                    "{X:red,C:white}X#1#{} Mult every {C:attention}#2#{} hands played",
+                    "{X:mult,C:white}X#1#{} Mult every {C:attention}#2#{} hands played",
                     "{C:green}#3# in #4#{} chance to {C:red,E:2}self destruct{} when triggered",
                     "{C:inactive}#5#",
                 },
@@ -1286,6 +1292,106 @@ return {
                     },
                 },
             },
+            j_sgt_hansels_cheat_dice = {
+                name = "Hansel's Cheat Dice",
+                text = {
+                    "At the end of the {C:attention}shop{},",
+                    "roll a {C:green}D6{} to determine the outcome",
+                    "{C:inactive}(Current roll: {V:1}#1#{C:inactive})",
+                },
+            },
+            j_sgt_skoll_n_hati = {
+                name = "Sköll And Hati",
+                text = {
+                    {
+                        "{C:attention}Switch{} to the other side",
+                        "every hand played",
+                        "{C:inactive,s:0.8}When the time comes, this card will",
+                        "{C:inactive,s:0.8}unleash a catastrophe (require {C:attention,s:0.8}Talisman{C:inactive,s:0.8})",
+                    },
+                    {
+                        "{C:attention}Sköll{}: Gain {X:mult,C:white}X#1#{} Mult every card",
+                        "with {C:hearts}Hearts{} or {C:diamonds}Diamonds{} suit played,",
+                        "then destroy said cards",
+                    },
+                    {
+                        "{C:attention}Hati{}: Gain {X:chips,C:white}X#2#{} Chips every card with",
+                        "{C:spades}Spades{} or {C:clubs}Clubs{} suit held in hand,",
+                        "then destroy said cards",
+                    },
+                },
+            },
+            j_sgt_skoll = {
+                name = "Sköll",
+                text = {
+                    "Gain {X:mult,C:white}X#2#{} Mult every card",
+                    "with {C:hearts}Hearts{} or {C:diamonds}Diamonds{} suit played,",
+                    "then destroy said cards",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_hati = {
+                name = "Hati",
+                text = {
+                    "Gain {X:chips,C:white}X#2#{} Chips every card with",
+                    "{C:spades}Spades{} or {C:clubs}Clubs{} suit held in hand,",
+                    "then destroy said cards",
+                    "{C:inactive}(Currently {X:chips,C:white}X#1#{C:inactive} Chips)",
+                },
+            },
+            j_sgt_three_winters = {
+                name = "Fimbulwinter",
+                text = {
+                    {"{X:attention,C:white}X#1#{} Blind amount"},
+                    {"After {C:attention}#3#{} rounds, {C:red,E:2}self destructs{}",
+                    "and create {C:sgt_esoteric}#4#{}",
+                    "{C:inactive}(Currently {C:attention}#2#{C:inactive}/#3#)",},
+                },
+            },
+            j_sgt_adam = {
+                name = "Adam And Eva's Original Sin",
+                text = {
+                    {"Shop can have {C:attention}Perishable{} Jokers",
+                    "{C:inactive,s:0.8}(Debuffed after 5 Rounds)",},
+                    {"{C:attention}Retrigger{} all {C:attention}Perishable{} Jokers"},
+                },
+            },
+            j_sgt_adam_alt = {
+                name = "Adam And Eva's Original Sin",
+                text = {
+                    "{C:attention}Retrigger{} all {C:ortalab_mythos}cursed{} Jokers",
+                },
+            },
+            j_sgt_saint_germain = {
+                name = "Saint Germain",
+                text = {
+                    "If {C:attention}played hand{} is a single",
+                    "{C:attention}King{}, convert all cards",
+                    "in hand into a random",
+                    "{C:attention}conductive enhancement",
+                },
+            },
+            j_sgt_necronomicon = {
+                name = "Necronomicon",
+                text = {
+                    {"If {C:attention}first hand{} of round contains {C:attention}5{}",
+                    "or more scoring cards, {C:attention}destroy{} them",
+                    "and create a random Joker",
+                    "{C:inactive}(Must have room){}",},
+                    {"Created joker's rarity is based on",
+                    "{C:attention}modification{} count of destroyed cards"},
+                }
+            },
+            j_sgt_frog_prince = {
+                name = "Frog Prince",
+                text = {
+                    "Apply {C:attention}#1#{}",
+                    "Create a {C:tarot}Tarot{} card if",
+                    "poker hand contains a",
+                    "{C:attention}King{} and a {C:attention}Straight{}",
+                    "{C:inactive}(Must have room)",
+                },
+            },
             j_sgt_dolphin = {
                 name = "Dolphin",
                 text = {
@@ -1305,12 +1411,132 @@ return {
                     "{C:inactive}(Must have room)",
                 },
             },
-            j_sgt_hansels_cheat_dice = {
-                name = "Hansel's Cheat Dice",
+            j_sgt_sunfish = {
+                name = "Sunfish",
                 text = {
-                    "At the end of the {C:attention}shop{},",
-                    "roll a {C:green}D6{} to determine the outcome",
-                    "{C:inactive}(Current roll: {V:1}#1#{C:inactive})",
+                    "{C:hearts}Hearts{} and {C:diamonds}Diamonds",
+                    "count as the same suit",
+                },
+            },
+            j_sgt_moonfish = {
+                name = "Moonfish",
+                text = {
+                    "{C:spades}Spades{} and {C:clubs}Clubs",
+                    "count as the same suit",
+                },
+            },
+            j_sgt_swordfish = {
+                name = "Swordfish",
+                text = {
+                    {
+                        "Gains {C:chips}+#2#{} Chips if played",
+                        "hand contains a {C:attention}Straight{}",
+                        "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
+                    },
+                    {
+                        "Increase chip gain by {C:chips}+#3#{}",
+                        "at end of round",
+                    },
+                },
+            },
+            j_sgt_penguin = {
+                name = "Penguin",
+                text = {
+                    "{C:attention}Retrigger{} all cards {C:attention}played{} twice",
+                    "on {C:attention}first hand{} of round {C:attention}without{}",
+                    "any discards used",
+                },
+            },
+            j_sgt_seal = {
+                name = "Seal",
+                text = {
+                    "{C:attention}Destroy{} the {C:attention}first{} and {C:attention}last{} card",
+                    "used in scoring if played hand",
+                    "contains a {C:attention}#1#{}",
+                },
+            },
+            j_sgt_ray = {
+                name = "Ray",
+                text = {
+                    "Add {C:red}#2#{} minus the rank of the",
+                    "{C:attention}highest{} ranked scoring card to {C:red}Mult{}",
+                    "per {C:attention}consecutive{} hand played",
+                    "without a scoring {C:attention}face{} card",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_orca = {
+                name = "Orca",
+                text = {
+                    "Gain {X:mult,C:white}X#2#{} Mult if played",
+                    "hand contains a(n) {C:attention}#4#",
+                    "Lose {X:mult,C:white}X#3#{} Mult otherwise",
+                    "{s:0.8}Rank changes every hand played",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_sperm_whale = {
+                name = "Sperm Whale",
+                text = {
+                    "When {C:attention}Blind{} is selected, {C:attention}eat{} all fish",
+                    "to the left with lower {C:attention}weight level{}",
+                    "and gain {X:mult,C:white}X#2#{} Mult per {C:attention}weight level{}",
+                    "Lose {X:mult,C:white}X#3#{} Mult every hand played",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_sea_urchin = {
+                name = "Sea Urchin",
+                text = {
+                    "When {C:attention}Boss Blind{} is selected,",
+                    "{C:green}#1# in #2#{} chance to {C:attention}disable{}",
+                    "its effect",
+                },
+            },
+            j_sgt_starfish = {
+                name = "Starfish",
+                text = {
+                    "{C:chips}+#2#{} Chips for every",
+                    "{C:attention}5{} in your full deck",
+                    "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
+                },
+            },
+            j_sgt_shark = {
+                name = "Shark",
+                text = {
+                    "When {C:attention}Blind{} is selected, {C:attention}eat{} 2 fish",
+                    "to the left with lower {C:attention}weight level{}",
+                    "and gain {C:chips}+#2#{} Chips per {C:attention}weight level{}",
+                    "Lose {C:chips}#3#{} Chips at end of round",
+                    "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
+                },
+            },
+            j_sgt_lantern_fish = {
+                name = "Lantern fish",
+                text = {
+                    "{C:red}Rare{} and {C:sgt_obscure}Obscure{} Jokers",
+                    "appear {C:attention}#1#X{} more often",
+                },
+            },
+            j_sgt_nautilus = {
+                name = "Nautilus",
+                text = {
+                    "{C:attention}Retrigger{} all played cards",
+                    "equal to number of scoring",
+                    "{C:attention}Aces{}, {C:attention}2s{}, {C:attention}3s{}, {C:attention}5s{}, {C:attention}8s{}, or {C:attention}Kings",
+                },
+            },
+            j_sgt_stomiidae = {
+                name = "Stomiidae",
+                text = {
+                    {"Gain {X:mult,C:white}X#2#{} Mult per scoring",
+                    "{C:spades}Spades{} card in played hand",
+                    "Lose {X:mult,C:white}X#3#{} Mult at end of round",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",},
+                    {"Played {C:spades}Spades{} card {C:attention}lose{}",
+                    "a rank when scored",
+                    "Played {C:attention}2{} of {C:spades}Spades{} are",
+                    "{C:attention}destroyed{} after scoring",},
                 },
             },
             j_sgt_nemo = {
@@ -1318,7 +1544,8 @@ return {
                 text = {
                     "{C:attention}Retrigger{} all cards {C:attention}played{}",
                     "and {C:attention}held in hand{} abilities",
-                    "once for every joker card",
+                    "once for every joker belonging",
+                    "to {C:sgt_sagadition}20k Miles Under The Sea{}",
                 },
             },
             j_sgt_shub = {
@@ -1382,6 +1609,7 @@ return {
                     "At the end of the {C:attention}shop{},",
                     "create {C:attention}#1#{C:dark_edition} Negative {C:tarot}#3#{},",
                     "increase by {C:attention}#2#{} every trigger",
+                    "{C:inactive}(Max of 25)",
                 },
             },
             j_sgt_darkness = {
@@ -1781,6 +2009,13 @@ return {
             k_blob_ex = "Blob!",
             k_roll_ex = "Roll!",
             k_prevented_ex = "Prevented!",
+            k_upcoming_ex = "Upcoming!",
+            k_transmutate_ex = "Transmutate!",
+            k_happy_ex = "Happy!",
+            k_upset_ex = "Upset!",
+            k_hungry_ex = "Hungry!",
+            k_digest_ex = "Digest!",
+            k_sacrifice_ex = "Sacrifice!",
             k_zzz = "ZZZ",
             k_charge = "Charge",
             k_release = "Release",
@@ -1802,12 +2037,88 @@ return {
             ph_lovecraft = "Lovecraft",
             ph_norse = "Norse Mythology",
             ph_black_soul = "Black Soul",
+            sgt_swap = "Swap!",
             SGT_disable_other_jokers = "Story Mode",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression (Requires run restart)"},
             SGT_disable_sagatro_items = "Disable Sagatro Items",
             SGT_disable_sagatro_items_desc = {"(Requires run restart, Story Mode","must be off to work)"},
             SGT_sagatro_music = "Sagatro Music",
             SGT_sagatro_music_desc = {"Enable Sagatro music outside Story Mode"},
+            SGT_ortagas = "Switch to Ortagas",
+            SGT_ortagas_desc = {"Does nothing?"},
+        },
+        quips = {
+            sgt_good_end1 = {
+                "Our story ends here.",
+            },
+            sgt_good_end2 = {
+                "And so, everything",
+                "came to a happy end.",
+            },
+            sgt_good_end3 = {
+                "The end.",
+            },
+            sgt_good_end4 = {
+                "Who knows, maybe",
+                "the story is still",
+                "continuing somewhere...",
+            },
+            sgt_good_end5 = {
+                "And sometimes, happiness",
+                "is simply knowing how to",
+                "cherish what we have.",
+            },
+            sgt_good_end6 = {
+                "The story ends here...",
+                "unless you want to",
+                "hear part two.",
+            },
+            sgt_good_end7 = {
+                "The movie's over, folks.",
+                "Time to go home.",
+            },
+            sgt_good_end8 = {
+                "But is that",
+                "really the end?",
+            },
+            sgt_bad_end1 = {
+                "And so, darkness",
+                "swallowed everything.",
+            },
+            sgt_bad_end2 = {
+                "There was no one left",
+                "to tell the tale.",
+            },
+            sgt_bad_end3 = {
+                "All hope had",
+                "turned to dust.",
+            },
+            sgt_bad_end4 = {
+                "Only silence and painful",
+                "memories remained.",
+            },
+            sgt_bad_end5 = {
+                "No one knows what happened",
+                "afterward... and perhaps",
+                "no one wants to know.",
+            },
+            sgt_bad_end6 = {
+                "The door closed... yet",
+                "the whispers still lingered.",
+            },
+            sgt_bad_end7 = {
+                "And this story...",
+                "was never truly over.",
+            },
+            sgt_bad_end8 = {
+                "Everything ended",
+                "in a single breath.",
+            },
+            sgt_bad_end9 = {
+                "With just one explosion,",
+                "everything was reduced",
+                "to ashes.",
+            },
         },
     },
 }

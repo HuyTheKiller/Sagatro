@@ -5,6 +5,7 @@ Sagatro.load_table = {
 	blinds = true,
 	streaks = true,
 	ultra = true,
+	quips = true,
 	tags = true,
 	misc = true,
 	wishes = true,
@@ -14,7 +15,6 @@ Sagatro.load_table = {
 
 Sagatro.mod_compat = {
 	talisman = (SMODS.Mods["Talisman"] or {}).can_load or false,
-	ortalab = (SMODS.Mods["ortalab"] or {}).can_load or false,
 }
 
 Sagatro.electric_eel_info_queue = {
@@ -22,6 +22,18 @@ Sagatro.electric_eel_info_queue = {
 	"m_gold",
 	"m_sgt_titanium",
 	"m_sgt_platinum",
+}
+
+Sagatro.necronomicon = {
+	rarity_weight = {Common = 0, Uncommon = 3, Rare = 10, sgt_obscure = 25},
+	rarity_order = {"sgt_obscure", "Rare", "Uncommon", "Common"},
+	enhancement_weight = {
+		m_bonus = 1, m_mult = 1, m_wild = 1, m_glass = 1, m_steel = 1, m_stone = 1, m_gold = 1, m_lucky = 1,
+		m_sgt_favor = 2, m_sgt_exponent = 2, m_sgt_strange = 2, m_sgt_nyx_glass = 2, m_sgt_titanium = 2,
+		m_sgt_abyss_stone = 2, m_sgt_platinum = 2, m_sgt_ancient_lucky = 2, m_sgt_omniscient = 5
+	},
+	edition_weight = {e_foil = 2, e_holo = 3, e_polychrome = 5, e_negative = 10, generic = 4},
+	seal_weight = {generic = 3},
 }
 
 Sagatro.optional_features = {
