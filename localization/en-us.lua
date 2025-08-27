@@ -1539,6 +1539,14 @@ return {
                     "{C:attention}destroyed{} after scoring",},
                 },
             },
+            j_sgt_hermit_crab = {
+                name = "Hermit Crab",
+                text = {
+                    "{C:red}+#1#{} Mult if played",
+                    "hand contains",
+                    "a {C:attention}#2#",
+                },
+            },
             j_sgt_nemo = {
                 name = "Cpt. Nemo",
                 text = {

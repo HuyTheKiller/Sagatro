@@ -7121,12 +7121,69 @@ local stomiidae = {
     end,
 }
 
+local hermit_crab = {
+    key = "hermit_crab",
+    name = "Hermit Crab",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 70,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 2, y = 6 },
+    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {mult = 16}, type = "Full House"},
+    rarity = 1,
+    cost = 4,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if (context.joker_main and next(context.poker_hands[card.ability.type])) or context.forcetrigger then
+            return {
+                mult_mod = card.ability.extra.mult,
+				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.mult, localize(card.ability.type, 'poker_hands')}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text", colour = G.C.ORANGE },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                local mult = 0
+                local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                if poker_hands[card.ability.type] and next(poker_hands[card.ability.type]) then
+                    mult = card.ability.extra.mult
+                end
+                card.joker_display_values.mult = mult
+                card.joker_display_values.localized_text = localize(card.ability.type, 'poker_hands')
+            end
+        }
+    end
+}
+
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 70,
+    order = 71,
     pos = { x = 0, y = 0 },
     pools = { [SAGA_GROUP_POOL.legend] = true },
     soul_pos = { x = 1, y = 0 },
@@ -8808,6 +8865,7 @@ local joker_table = {
     lantern_fish,
     nautilus,
     stomiidae,
+    hermit_crab,
     nemo,
     hansels_cheat_dice,
     skoll_n_hati,

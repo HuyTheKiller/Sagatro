@@ -1534,6 +1534,14 @@ return {
                     "sau khi ghi điểm",},
                 },
             },
+            j_sgt_hermit_crab = {
+                name = "Ốc Mượn Hồn",
+                text = {
+                    "{C:red}+#1#{} Nhân nếu",
+                    "tay bài đã chơi",
+                    "chứa {C:attention}#2#",
+                },
+            },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
                 text = {
