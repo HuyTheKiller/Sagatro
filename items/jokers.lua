@@ -6966,7 +6966,7 @@ local nautilus = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if held_in_hand then return 0 end
                 return table.contains(joker_card.ability.extra.rank_ids, playing_card:get_id())
-                and card.joker_display_values.retriggers * JokerDisplay.calculate_joker_triggers(joker_card) or 0
+                and joker_card.joker_display_values.retriggers * JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
         }
     end,
