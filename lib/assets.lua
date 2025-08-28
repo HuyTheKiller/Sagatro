@@ -29,27 +29,6 @@ SMODS.Atlas{
 }
 
 SMODS.Atlas{
-    key = "the_boy_who_cried_wolf",
-    path = "The_boy_who_cried_wolf.png",
-    px = 71,
-    py = 95,
-}
-
-SMODS.Atlas{
-    key = "puss_in_boots",
-    path = "Puss_in_boots.png",
-    px = 71,
-    py = 95,
-}
-
-SMODS.Atlas{
-    key = "aladdin_and_the_magic_lamp",
-    path = "Aladdin_and_the_magic_lamp.png",
-    px = 71,
-    py = 95,
-}
-
-SMODS.Atlas{
     key = "20k_miles_under_the_sea",
     path = "20k_miles_under_the_sea.png",
     px = 71,
@@ -71,50 +50,8 @@ SMODS.Atlas{
 }
 
 SMODS.Atlas{
-    key = "gambling_hansel",
-    path = "Gambling_hansel.png",
-    px = 71,
-    py = 95,
-}
-
-SMODS.Atlas{
-    key = "iron_john",
-    path = "Iron_john.png",
-    px = 71,
-    py = 95,
-}
-
-SMODS.Atlas{
-    key = "pre_ragnarok",
-    path = "Pre_ragnarok.png",
-    px = 71,
-    py = 95,
-}
-
-SMODS.Atlas{
-    key = "adams_original_sin",
-    path = "Adams_original_sin.png",
-    px = 71,
-    py = 95,
-}
-
-SMODS.Atlas{
-    key = "saint_germain",
-    path = "Saint_germain.png",
-    px = 71,
-    py = 95,
-}
-
-SMODS.Atlas{
-    key = "necronomicon",
-    path = "Necronomicon.png",
-    px = 71,
-    py = 95,
-}
-
-SMODS.Atlas{
-    key = "frog_prince",
-    path = "Frog_prince.png",
+    key = "misc_jokers",
+    path = "Misc_jokers.png",
     px = 71,
     py = 95,
 }
