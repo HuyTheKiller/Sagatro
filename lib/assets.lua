@@ -23,7 +23,7 @@ SMODS.Atlas{
 
 SMODS.Atlas{
     key = "alice",
-    path = "Alice.png",
+    path = "Alice2.0.png",
     px = 71,
     py = 95,
 }

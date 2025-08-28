@@ -365,10 +365,10 @@ function Game:update(dt)
     end
 
     alice_dt = alice_dt + dt
-    if G.P_CENTERS and G.P_CENTERS.j_sgt_alice and alice_dt > 0.05 then
-        alice_dt = alice_dt - 0.05
+    if G.P_CENTERS and G.P_CENTERS.j_sgt_alice and alice_dt > 0.125 then
+        alice_dt = alice_dt - 0.125
         local alice = G.P_CENTERS.j_sgt_alice
-        if alice.soul_pos.x == 82 then
+        if alice.soul_pos.x == 35 then
             alice.soul_pos.x = 1
         else
             alice.soul_pos.x = alice.soul_pos.x + 1
