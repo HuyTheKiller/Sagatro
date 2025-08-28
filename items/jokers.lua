@@ -4513,6 +4513,7 @@ local mandarin_fish = {
         delay(0.06*G.SETTINGS.GAMESPEED)
         local extinct_text = function()
             card_eval_status_text(card, 'extra', nil, 1, nil, {message = localize('k_extinct_ex'), sound = "tarot1", volume = 1, instant = true})
+            G.GAME.pool_flags.mandarin_fish_extinct = true
         end
         Sagatro.self_destruct(card, {no_sound = true}, extinct_text)
     end,
