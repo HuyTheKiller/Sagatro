@@ -7844,7 +7844,8 @@ local necronomicon = {
             card.ability.extra.intrinsic_weight = total_weight
             card.ability.extra.triggered = true
         end
-        if context.destroy_card and context.cardarea == G.play and card.ability.extra.triggered then
+        if context.destroy_card and context.cardarea == G.play and card.ability.extra.triggered
+        and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
             return {remove = true}
         end
         if (context.joker_main and not context.blueprint and not context.retrigger_joker and card.ability.extra.triggered
