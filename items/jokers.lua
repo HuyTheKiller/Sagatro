@@ -7837,7 +7837,8 @@ local necronomicon = {
             end
         end
         if context.before and not context.blueprint and not context.retrigger_joker
-        and G.GAME.current_round.hands_played == 0 and #context.scoring_hand >= 5 then
+        and G.GAME.current_round.hands_played == 0 and #context.scoring_hand >= 5
+        and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
             local total_weight = 0
             for _, v in ipairs(context.scoring_hand) do
                 total_weight = total_weight + Sagatro.necronomicon_get_weight(v)
@@ -7845,12 +7846,11 @@ local necronomicon = {
             card.ability.extra.intrinsic_weight = total_weight
             card.ability.extra.triggered = true
         end
-        if context.destroy_card and context.cardarea == G.play and card.ability.extra.triggered
-        and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+        if context.destroy_card and context.cardarea == G.play and card.ability.extra.triggered then
             return {remove = true}
         end
-        if (context.joker_main and not context.blueprint and not context.retrigger_joker and card.ability.extra.triggered
-        and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit) or context.forcetrigger then
+        if (context.joker_main and not context.blueprint and not context.retrigger_joker and card.ability.extra.triggered)
+        or context.forcetrigger then
             if not context.forcetrigger then G.GAME.joker_buffer = G.GAME.joker_buffer + 1 end
             G.E_MANAGER:add_event(Event({trigger = 'before', delay = 0.0, func = function()
                 local rarity = Sagatro.necronomicon_get_rarity(card.ability.extra.intrinsic_weight)
