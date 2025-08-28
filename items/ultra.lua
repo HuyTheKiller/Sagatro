@@ -1900,7 +1900,7 @@ local space = {
     pos = {x = 2, y = 5},
     badge_colour = HEX('092332'),
     calculate = function(self, card, context)
-        if context.end_of_round and context.cardarea == G.hand and context.other_card == card then
+        if context.end_of_round and context.cardarea == G.hand and context.main_eval and context.other_card == card then
             G.E_MANAGER:add_event(Event({
                 trigger = 'before',
                 delay = 0.0,
