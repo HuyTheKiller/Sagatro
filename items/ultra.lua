@@ -1667,7 +1667,7 @@ local titanium = {
     effect = "Titanium",
     atlas = "ultra",
     pos = {x = 9, y = 2},
-    config = {h_x_mult = 1.5, extra = {h_x_mult_mod = 0.1, held_in_hand_ge = 7}, immutable = {base_h_x_mult = 1.5}},
+    config = {h_x_mult = 1.5, extra = {h_x_mult_mod = 0.25, held_in_hand_ge = 7}, immutable = {base_h_x_mult = 1.5}},
     update = function(self, card, dt)
         card.ability.h_x_mult = card.ability.immutable.base_h_x_mult
         + (G and G.hand and G.hand.cards and #G.hand.cards > card.ability.extra.held_in_hand_ge
