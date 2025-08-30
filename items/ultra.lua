@@ -1641,7 +1641,17 @@ local nyx_glass = {
     end,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
-            card.ability.x_mult = card.ability.x_mult + card.ability.extra.x_mult_mod
+            if SMODS.scale_card then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability,
+                    ref_value = "x_mult",
+                    scalar_table = card.ability.extra,
+                    scalar_value = "x_mult_mod",
+                    no_message = true
+                })
+            else
+                card.ability.x_mult = card.ability.x_mult + card.ability.extra.x_mult_mod
+            end
             card.ability.extra.odds = card.ability.extra.odds - 1
             if card.ability.extra.odds < (Cryptid and 0.001 or 1) then
                 card.ability.extra.odds = Cryptid and 0.001 or 1
@@ -1792,12 +1802,32 @@ local ancient_lucky = {
         if context.main_scoring and context.cardarea == G.play then
             local mult_up = nil
             if SMODS.pseudorandom_probability(card, 'ancient_lucky_mult', 1, card.ability.extra.mult_odds) then
-                card.ability.perma_mult = card.ability.perma_mult + card.ability.extra.perma_mult
+                if SMODS.scale_card then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability,
+                        ref_value = "perma_mult",
+                        scalar_table = card.ability.extra,
+                        scalar_value = "perma_mult",
+                        no_message = true
+                    })
+                else
+                    card.ability.perma_mult = card.ability.perma_mult + card.ability.extra.perma_mult
+                end
                 card.lucky_trigger = true
                 mult_up = true
             end
             if SMODS.pseudorandom_probability(card, 'ancient_lucky_money', 1, card.ability.extra.dollar_odds) then
-                card.ability.perma_p_dollars = card.ability.perma_p_dollars + card.ability.extra.perma_p_dollars
+                if SMODS.scale_card then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability,
+                        ref_value = "perma_p_dollars",
+                        scalar_table = card.ability.extra,
+                        scalar_value = "perma_p_dollars",
+                        no_message = true
+                    })
+                else
+                    card.ability.perma_p_dollars = card.ability.perma_p_dollars + card.ability.extra.perma_p_dollars
+                end
                 card.lucky_trigger = true
             end
             if card.lucky_trigger then
