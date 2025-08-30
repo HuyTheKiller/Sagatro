@@ -5069,7 +5069,7 @@ local turtle_egg = {
                 if SMODS.scale_card then
                     SMODS.scale_card(card, {
                         ref_table = card.ability,
-                        ref_value = "sell_value",
+                        ref_value = "extra_value",
                         scalar_table = card.ability.extra,
                         scalar_value = "sell_value_mod",
                         scaling_message = {
