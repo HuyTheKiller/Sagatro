@@ -1,6 +1,7 @@
 {
 	"id": "Sagatro",
 	"name": "Sagatro",
+	"website_url": "https://github.com/HuyTheKiller/Sagatro",
 	"author": ["HuyTheKiller"],
 	"description": "Adds fairy tale elements to Balatro. Load this mod for more information.",
 	"prefix": "sgt",
