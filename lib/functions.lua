@@ -252,6 +252,15 @@ function Game:update(dt)
 	upd(self, dt)
 
     if G.STAGE == G.STAGES.RUN then
+        Sagatro.debug_info["During a run"] = true
+        Sagatro.debug_info["Story mode"] = G.GAME.story_mode
+        Sagatro.debug_info["In main menu"] = nil
+        for k, v in pairs(G.STATES) do
+            if G.STATE == v then
+                Sagatro.debug_info["Game state"] = k
+                break
+            end
+        end
         if G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP then
             -- Handle opening Mega Buffoon Pack spawned by Utima Vox (restricted to during shop and blind select)
             if G.GAME.pending_mega_buffoon then
@@ -275,6 +284,10 @@ function Game:update(dt)
         if not (Ortalab or G.GAME.perishable_already_active) then
             G.GAME.modifiers.enable_perishables_in_shop = next(SMODS.find_card("j_sgt_adam")) and true or nil
         end
+    elseif G.STAGE == G.STAGES.MAIN_MENU then
+        Sagatro.debug_info["During a run"] = nil
+        Sagatro.debug_info["Game state"] = nil
+        Sagatro.debug_info["In main menu"] = true
     end
 
     if G.your_collection and type(G.your_collection) == "table" then

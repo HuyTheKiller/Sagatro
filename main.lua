@@ -43,6 +43,7 @@ Sagatro.optional_features = {
 -- Danger zone
 Sagatro.debug = false
 Sagatro.init_JDdebug = false
+Sagatro.debug_info = {}
 
 -- Load library files
 local mod_path = "" .. Sagatro.path
