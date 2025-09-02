@@ -2016,7 +2016,9 @@ local oculus_omniscientis = {
     redeem = function(self, card)
         G.E_MANAGER:add_event(Event({
             func = function()
-                G.GAME.divinatio_rate = card.ability.extra.rate
+                if not G.GAME.modifiers.sgt_disable_sagatro_items then
+                    G.GAME.divinatio_rate = card.ability.extra.rate
+                end
                 return true
             end
         }))
@@ -2046,7 +2048,9 @@ local abyss_pact = {
     redeem = function(self, card)
         G.E_MANAGER:add_event(Event({
             func = function()
-                G.GAME.eldritch_rate = card.ability.extra.rate
+                if not G.GAME.modifiers.sgt_disable_sagatro_items then
+                    G.GAME.eldritch_rate = card.ability.extra.rate
+                end
                 return true
             end
         }))

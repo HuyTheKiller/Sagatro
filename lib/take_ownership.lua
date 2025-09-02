@@ -31,7 +31,7 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
             _card.set = "Spectral"
             _card.key_append = "ar2"
         end
-        if G.GAME.used_vouchers.v_sgt_oculus_divina and pseudorandom('oculus_divina') > 0.8 then
+        if not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_oculus_divina and pseudorandom('oculus_divina') > 0.8 then
             _card.set = "Divinatio"
             _card.soulable = false
             _card.key_append = "ar3"
@@ -45,7 +45,7 @@ true
 SMODS.Booster:take_ownership_by_kind('Spectral', {
     create_card = function(self, card, i)
         local _card = {set = "Spectral", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "spe"}
-        if G.GAME.used_vouchers.v_sgt_shadow_oath and pseudorandom('shadow_oath') > 0.8 then
+        if not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_shadow_oath and pseudorandom('shadow_oath') > 0.8 then
             _card.set = "Eldritch"
             _card.soulable = false
             _card.key_append = "spe2"
