@@ -62,7 +62,7 @@ return {
         },
         Blind = {
             bl_sgt_red_queen = {
-                name = "Red Queen",
+                name = "Queen Of Hearts",
                 text = {
                     "Mọi lá bị vô hiệu hoá cho đến khi",
                     "dùng Hãy Ăn Tôi!; Blind siêu lớn",
@@ -958,7 +958,7 @@ return {
                 },
             },
             j_sgt_red_queen = {
-                name = "Nữ Hoàng Đỏ",
+                name = "Nữ Hoàng Cơ",
                 text = {
                     "Xác suất {C:green}#1# trên #2#{} để",
                     "phả huỷ lá ghi điểm",

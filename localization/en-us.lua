@@ -62,7 +62,7 @@ return {
         },
         Blind = {
             bl_sgt_red_queen = {
-                name = "Red Queen",
+                name = "Queen Of Hearts",
                 text = {
                     "All cards debuffed until Eat Me!",
                     "used; Very large blind",
@@ -963,7 +963,7 @@ return {
                 },
             },
             j_sgt_red_queen = {
-                name = "Red Queen",
+                name = "Queen Of Hearts",
                 text = {
                     "{C:green}#1# in #2#{} chance to",
                     "destroy each scoring card",
