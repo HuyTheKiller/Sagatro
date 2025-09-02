@@ -1927,7 +1927,7 @@ return {
             sgt_red_streak_seal = "Red Streak",
             sgt_gold_streak_seal = "Gold Streak",
             sgt_purple_streak_seal = "Purple Streak",
-            sgt_celurean_streak_seal = "Celurean Streak",
+            sgt_celurean_streak_seal = "Cerulean Streak",
             sgt_crimson_streak_seal = "Crimson Streak",
             sgt_black_streak_seal = "Black Streak",
             sgt_cosmic_streak_seal = "Cosmic Streak",

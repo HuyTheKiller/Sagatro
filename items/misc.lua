@@ -1,29 +1,5 @@
 local talisman = Sagatro.mod_compat.talisman
 
-local streak_pairs = {
-    sgt_blue_streak_seal = "chips",
-    sgt_red_streak_seal = "mult",
-    sgt_gold_streak_seal = "dollars",
-    sgt_purple_streak_seal = "xmult",
-    sgt_celurean_streak_seal = "xchip",
-    sgt_cosmic_streak_seal = "planet_count",
-    sgt_crimson_streak_seal = "emult",
-    sgt_black_streak_seal = talisman and "eemult" or nil,
-    sgt_gods_miracle_seal = talisman and "eeemult" or nil,
-}
-
-local streak_ipairs = {
-    "sgt_blue_streak",
-    "sgt_red_streak",
-    "sgt_gold_streak",
-    "sgt_purple_streak",
-    "sgt_celurean_streak",
-    "sgt_cosmic_streak",
-    "sgt_crimson_streak",
-    "sgt_black_streak",
-    "sgt_gods_miracle",
-}
-
 local streak = {
     key = "streak",
     name = "The Streak",
@@ -48,8 +24,34 @@ local streak = {
     hidden = true,
     soul_set = "Tarot",
     soul_rate = 0.05,
+    streak_options = function(self)
+        local options = {
+            "sgt_blue_streak",
+            "sgt_red_streak",
+            "sgt_gold_streak",
+            "sgt_purple_streak",
+            "sgt_celurean_streak",
+            "sgt_cosmic_streak",
+            "sgt_crimson_streak",
+            "sgt_black_streak",
+            "sgt_gods_miracle",
+        }
+        local loc_vars = {
+            sgt_blue_streak_seal = "chips",
+            sgt_red_streak_seal = "mult",
+            sgt_gold_streak_seal = "dollars",
+            sgt_purple_streak_seal = "xmult",
+            sgt_celurean_streak_seal = "xchip",
+            sgt_cosmic_streak_seal = "planet_count",
+            sgt_crimson_streak_seal = "emult",
+            sgt_black_streak_seal = talisman and "eemult" or nil,
+            sgt_gods_miracle_seal = talisman and "eeemult" or nil,
+        }
+        return options, loc_vars
+    end,
     use = function(self, card, area, copier)
 		local used_consumable = copier or card
+        local options = self:streak_options()
 		for i = 1, #G.hand.highlighted do
 			local highlighted = G.hand.highlighted[i]
 			G.E_MANAGER:add_event(Event({
@@ -74,7 +76,7 @@ local streak = {
 				delay = 0.1,
 				func = function()
 					if highlighted then
-						highlighted:set_seal(streak_ipairs[seal], nil, true)
+						highlighted:set_seal(options[seal], nil, true)
 					end
 					return true
 				end,
@@ -91,7 +93,8 @@ local streak = {
 		end
 	end,
     loc_vars = function(self, info_queue, card)
-		for k, v in pairs(streak_pairs) do
+		local _, loc_vars = self:streak_options()
+        for k, v in pairs(loc_vars) do
             info_queue[#info_queue+1] = {set = "Other", key = k, specific_vars = {self.config.seals[v]}}
         end
 		return {vars = {card and card.ability.max_highlighted or self.config.max_highlighted}}

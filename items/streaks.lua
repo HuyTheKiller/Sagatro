@@ -91,7 +91,7 @@ local purple_streak = {
 
 local celurean_streak = {
     key = "celurean_streak",
-    name = "Celurean Streak",
+    name = "Cerulean Streak",
     atlas = "colour_streaks",
     pos = {x = 4, y = 0},
     config = {xchip = 1.5},
