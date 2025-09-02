@@ -1392,6 +1392,15 @@ return {
                     "{C:inactive}(Must have room)",
                 },
             },
+            j_sgt_little_prince = {
+                name = "Little Prince",
+                text = {
+                    "When round begins, add a",
+                    "random {C:attention}playing card",
+                    "with a random listed",
+                    "{C:attention}streak{} to your hand",
+                },
+            },
             j_sgt_dolphin = {
                 name = "Dolphin",
                 text = {

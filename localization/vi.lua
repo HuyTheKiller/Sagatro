@@ -1387,6 +1387,15 @@ return {
                     "{C:inactive}(Phải có ô trống)",
                 },
             },
+            j_sgt_little_prince = {
+                name = "Hoàng Tử Bé",
+                text = {
+                    "Khi ván bắt đầu, thêm",
+                    "một {C:attention}lá bài{} ngẫu nhiên với",
+                    "một {C:attention}vệt màu{} ngẫu nhiên",
+                    "đã liệt kê vào tay",
+                },
+            },
             j_sgt_dolphin = {
                 name = "Cá Heo",
                 text = {

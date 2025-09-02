@@ -3362,7 +3362,7 @@ local aladdin = {
     name = "Aladdin",
     atlas = "misc_jokers",
     saga_group = "aladdin_and_the_magic_lamp",
-    order = 1000,
+    order = 1001,
     pos = { x = 2, y = 0 },
     config = {buffed = false, extra = {tax = 0.25, xmult = 1, xmult_mod = 0.5, chips = 0}},
     rarity = 3,
@@ -3480,7 +3480,7 @@ local magic_lamp = {
     atlas = "misc_jokers",
     saga_group = "aladdin_and_the_magic_lamp",
     no_collection = not Sagatro.mod_compat.talisman,
-    order = 1001,
+    order = 1002,
     pos = { x = 3, y = 0 },
     config = {magic_lamp_rounds = 0, extra = {xmult = 3, rounds_goal = 3}},
     rarity = "sgt_obscure",
@@ -3588,7 +3588,7 @@ local lamp_genie = {
     atlas = "esoteric",
     saga_group = "aladdin_and_the_magic_lamp",
     no_collection = not Sagatro.mod_compat.talisman,
-    order = 1002,
+    order = 1003,
     pos = { x = 0, y = 0 },
     soul_pos = { x = 2, y = 0, extra = { x = 1, y = 0 } },
     config = { extra = {retriggers = 2, e_mult = 3}, collected_wish = 0,
@@ -7977,6 +7977,74 @@ local frog_prince = {
     end,
 }
 
+local little_prince = {
+    key = "little_prince",
+    name = "Little Prince",
+    atlas = "misc_jokers",
+    saga_group = "little_prince",
+    order = 1000,
+    pos = { x = 4, y = 2 },
+    config = {
+        streaks = {
+            chips = 50,
+            mult = 10,
+            dollars = 2,
+            xmult = 1.5,
+            xchip = 1.5,
+        },
+    },
+    rarity = 2,
+    cost = 7,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    streak_options = function(self)
+        local options = {
+            {key = "sgt_blue_streak", weight = 5},
+            {key = "sgt_red_streak", weight = 5},
+            {key = "sgt_gold_streak", weight = 5},
+            {key = "sgt_purple_streak", weight = 2},
+            {key = "sgt_celurean_streak", weight = 2},
+        }
+        local loc_vars = {
+            sgt_blue_streak_seal = "chips",
+            sgt_red_streak_seal = "mult",
+            sgt_gold_streak_seal = "dollars",
+            sgt_purple_streak_seal = "xmult",
+            sgt_celurean_streak_seal = "xchip",
+        }
+        return options, loc_vars
+    end,
+    calculate = function(self, card, context)
+        if context.first_hand_drawn then
+            G.E_MANAGER:add_event(Event({
+            func = function()
+                local _card = create_playing_card({
+                    front = pseudorandom_element(G.P_CARDS, pseudoseed('litpr_fr')),
+                    center = G.P_CENTERS.c_base}, G.hand, nil, nil, {G.C.SECONDARY_SET.Enhanced})
+                local options = self:streak_options()
+                _card:set_seal(SMODS.poll_seal({type_key = 'litprstr', guaranteed = true, options = options}), nil, true)
+                G.GAME.blind:debuff_card(_card)
+                G.hand:sort()
+                if context.blueprint_card then context.blueprint_card:juice_up() else card:juice_up() end
+                playing_card_joker_effects({_card})
+                save_run()
+                return true
+            end}))
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        local _, loc_vars = self:streak_options()
+        for k, v in pairs(loc_vars) do
+            info_queue[#info_queue+1] = {set = "Other", key = k, specific_vars = {self.config.streaks[v]}}
+        end
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
 local shub = {
     key = "shub",
     name = "Shub-Niggurath",
@@ -8876,6 +8944,7 @@ local joker_table = {
     saint_germain,
     necronomicon,
     frog_prince,
+    little_prince,
     shub,
     ragnarok,
     yggdrasil,
