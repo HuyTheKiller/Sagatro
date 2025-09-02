@@ -807,7 +807,7 @@ end
 
 -- Ah yes, Nameless' secret ability is to slowly flood your shop voucher with Antimatter
 local avts = SMODS.add_voucher_to_shop
-function SMODS.add_voucher_to_shop(key)
+function SMODS.add_voucher_to_shop(key, dont_save)
     local found = false
     for _, v in ipairs(G.jokers.cards or {}) do
         if v.config.center_key == "j_sgt_nameless" then
@@ -822,7 +822,20 @@ function SMODS.add_voucher_to_shop(key)
             G.GAME.antimatter_overload = 1
         end
     end
-    return avts(key)
+    local voucher = avts(key, dont_save)
+    if G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.round_resets.ante == 1 then
+        local vouchers = {}
+        for k, _ in pairs(G.P_CENTERS) do
+            if string.len(k) >= 4 and string.sub(k, 1, 4) == "v_sgt" then
+                vouchers[#vouchers+1] = k
+            end
+        end
+        if table.contains(vouchers, voucher.config.center_key) then
+            print("Sagatro voucher detected! Falling back to Blank")
+            voucher:set_ability("v_blank")
+        end
+    end
+    return voucher
 end
 
 local smeared = SMODS.smeared_check
