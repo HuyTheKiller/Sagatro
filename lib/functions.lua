@@ -956,12 +956,17 @@ function Sagatro.necronomicon_get_weight(card)
     return weight
 end
 
----@param weight number
-function Sagatro.necronomicon_get_rarity(weight)
-    for _, v in ipairs(Sagatro.necronomicon.rarity_order) do
-        if weight >= Sagatro.necronomicon.rarity_weight[v] then
-            return v
+---@param weight number|nil weight number to generate rarity from
+---@param override string|nil forced rarity
+function Sagatro.necronomicon_get_rarity(weight, override)
+    if not override then
+        for _, v in ipairs(Sagatro.necronomicon.rarity_order) do
+            if weight >= Sagatro.necronomicon.rarity_weight[v] then
+                return v
+            end
         end
+    elseif table.contains(Sagatro.necronomicon.rarity_order, override) then
+        return override
     end
     return "Common"
 end
@@ -1105,15 +1110,17 @@ function get_blind_amount(ante)
     return amount
 end
 
----@param args table|nil arguments for sound
+---@param card any must be a card object
+---@param args table|nil configurable arguments, supports `no_destruction_context`, `no_sound`, `sound`, `pitch` and `volume`
 ---@param extra_func function|nil extra function to execute
----Self-destruct action like Gros Michel with customizable arguments
 function Sagatro.self_destruct(card, args, extra_func)
     args = args or {}
-    card.getting_sliced = true
-    if not (card.ability.set == 'Default' or card.ability.set == 'Enhanced') then
-        local flags = SMODS.calculate_context({joker_type_destroyed = true, card = card})
-        if flags.no_destroy then card.getting_sliced = nil; return end
+    if not args.no_destruction_context then
+        card.getting_sliced = true
+        if not (card.ability.set == 'Default' or card.ability.set == 'Enhanced') then
+            local flags = SMODS.calculate_context({joker_type_destroyed = true, card = card})
+            if flags.no_destroy then card.getting_sliced = nil; return end
+        end
     end
     G.E_MANAGER:add_event(Event({
         func = function()
@@ -1144,7 +1151,7 @@ function Sagatro.quip_filter(quip, quip_type)
 end
 
 -- global mod `calculate` is cool, but not yet needed for now
-function Sagatro.calculate(self, context)
+function Sagatro:calculate(context)
     if G.GAME.story_mode then end
 end
 

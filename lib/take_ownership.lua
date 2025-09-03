@@ -62,28 +62,11 @@ SMODS.Joker:take_ownership('splash',
             if G.GAME.story_mode then
                 if (#SMODS.find_card("j_splash", true) > 0 or (next(SMODS.find_card("j_sgt_dodo_bird", true))
                 and not G.GAME.saga_event_check.alice_in_wonderland.white_rabbit_house)) and not from_debuff then
-                    G.E_MANAGER:add_event(Event({
-                        func = function()
-                            card_eval_status_text(card, 'extra', nil, 1, nil, {message = localize('k_overflow_ex'), sound = "tarot1", volume = 1 , instant = true})
-                            ease_dollars(card.cost)
-                            card.T.r = -0.2
-                            card:juice_up(0.3, 0.4)
-                            card.states.drag.is = true
-                            card.children.center.pinch.x = true
-                            G.E_MANAGER:add_event(Event({
-                                trigger = 'after',
-                                delay = 0.3,
-                                blockable = false,
-                                func = function()
-                                    G.jokers:remove_card(card)
-                                    card:remove()
-                                    card = nil
-                                    return true;
-                                end
-                            }))
-                            return true
-                        end
-                    }))
+                    local func = function()
+                        card_eval_status_text(card, 'extra', nil, 1, nil, {message = localize('k_overflow_ex'), sound = "tarot1", volume = 1, instant = true})
+                        ease_dollars(card.cost)
+                    end
+                    Sagatro.self_destruct(card, {no_destruction_context = true, no_sound = true}, func)
                 end
             end
         end,
