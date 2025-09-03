@@ -8062,7 +8062,7 @@ local pumpkin_carriage = {
     update = function(self, card, dt)
         if G.STAGE == G.STAGES.RUN then
             card.eligible_strength_jokers = EMPTY(card.eligible_strength_jokers)
-            for _, v in pairs(G.jokers.cards) do
+            for _, v in pairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
                 if v.ability.set == 'Joker' and not v.edition then
                     table.insert(card.eligible_strength_jokers, v)
                 end
@@ -8075,7 +8075,7 @@ local pumpkin_carriage = {
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         local eligible_card = pseudorandom_element(card.eligible_strength_jokers, pseudoseed('pumpkin_carriage'))
-                        eligible_card:set_edition(poll_edition("pumcar", nil, nil, true), true, true)
+                        eligible_card:set_edition(poll_edition("pumcar", nil, nil, true), true)
                         eligible_card.ability.pumpkin_edition = true
                         card:juice_up(0.3, 0.5)
                         return true
@@ -8096,9 +8096,9 @@ local pumpkin_carriage = {
         end
         if context.after and not context.blueprint and not context.retrigger_joker then
             if card.ability.extra - 1 <= 0 then
-                for _, v in pairs(G.jokers.cards) do
+                for _, v in pairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
                     if v.ability.set == 'Joker' and v.ability.pumpkin_edition then
-                        v:set_edition(nil, true)
+                        v:set_edition(nil, true, true)
                     end
                 end
                 Sagatro.self_destruct(card)
@@ -8117,21 +8117,15 @@ local pumpkin_carriage = {
             end
         end
         if context.selling_self and not context.blueprint and not context.retrigger_joker then
-            for _, v in pairs(G.jokers.cards) do
+            for _, v in pairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
                 if v.ability.set == 'Joker' and v.ability.pumpkin_edition then
-                    v:set_edition(nil, true)
+                    v:set_edition(nil, true, true)
                 end
             end
         end
     end,
     loc_vars = function(self, info_queue, card)
-        local ret = {vars = {card.ability.extra}}
-        if Ortalab then
-            ret.main_end = {}
-            localize{type = "other", key = "sgt_only_joker_area", nodes = ret.main_end, vars = {}}
-            ret.main_end = ret.main_end[1]
-        end
-        return ret
+        return {vars = {card.ability.extra}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
