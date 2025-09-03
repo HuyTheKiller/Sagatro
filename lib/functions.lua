@@ -826,7 +826,7 @@ function SMODS.add_voucher_to_shop(key, dont_save)
     if G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.round_resets.ante == 1 then
         local vouchers = {}
         for k, _ in pairs(G.P_CENTERS) do
-            if string.len(k) >= 4 and string.sub(k, 1, 5) == "v_sgt" then
+            if string.len(k) >= 5 and string.sub(k, 1, 5) == "v_sgt" then
                 vouchers[#vouchers+1] = k
             end
         end
