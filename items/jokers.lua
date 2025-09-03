@@ -9054,9 +9054,21 @@ local mabel = {
     eternal_compat = true,
     perishable_compat = true,
     update = function(self, card, dt)
-        card.ability.immutable.max_amount = G.GAME.win_ante or 8
-        if card.ability.amount > card.ability.immutable.max_amount then
-            card.ability.amount = card.ability.immutable.max_amount
+        if G.STAGE == G.STAGES.RUN then
+            card.ability.immutable.max_amount = G.GAME.win_ante or 8
+            if card.ability.amount > card.ability.immutable.max_amount then
+                card.ability.amount = card.ability.immutable.max_amount
+            end
+            for i, v in ipairs(G.jokers.cards) do
+                if v == card and (card.ability.immutable.position or 0) ~= i then
+                    card.ability.immutable.position = i
+                    if (card.ability.immutable.switch or false) ~= mabel_stall() then
+                        Sagatro.update_blind_amounts(true)
+                        card.ability.immutable.switch = mabel_stall()
+                    end
+                    break
+                end
+            end
         end
     end,
     calculate = function(self, card, context)

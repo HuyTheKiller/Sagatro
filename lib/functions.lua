@@ -1085,7 +1085,7 @@ function mabel_stall()
 end
 
 -- Borrowing these from Ortalab (nope, the +JokerSlot animation is not necessary)
-function Sagatro.update_blind_amounts()
+function Sagatro.update_blind_amounts(instant)
     if G.GAME.blind then
         G.GAME.blind.chips = get_blind_amount(G.GAME.round_resets.ante)*G.GAME.blind.mult*G.GAME.starting_params.ante_scaling
         G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
@@ -1095,9 +1095,11 @@ function Sagatro.update_blind_amounts()
         G.blind_prompt_box:remove()
         G.blind_select = UIBox{
             definition = create_UIBox_blind_select(),
-            config = {align="bmi", offset = {x=0,y=G.ROOM.T.y + 29},major = G.hand, bond = 'Weak'}
+            config = {align = "bmi",
+            offset = {x = 0, y = instant and (0.8 - (G.hand.T.y - G.jokers.T.y) + 31.16) or (G.ROOM.T.y + 29)},
+            major = G.hand, bond = 'Weak'}
         }
-        G.blind_select.alignment.offset.y = 0.8-(G.hand.T.y - G.jokers.T.y) + G.blind_select.T.h
+        if not instant then G.blind_select.alignment.offset.y = 0.8-(G.hand.T.y - G.jokers.T.y) + G.blind_select.T.h end
     end
 end
 
