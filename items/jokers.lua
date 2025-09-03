@@ -3362,7 +3362,7 @@ local aladdin = {
     name = "Aladdin",
     atlas = "misc_jokers",
     saga_group = "aladdin_and_the_magic_lamp",
-    order = 1001,
+    order = 1004,
     pos = { x = 2, y = 0 },
     config = {buffed = false, extra = {tax = 0.25, xmult = 1, xmult_mod = 0.5, chips = 0}},
     rarity = 3,
@@ -3480,7 +3480,7 @@ local magic_lamp = {
     atlas = "misc_jokers",
     saga_group = "aladdin_and_the_magic_lamp",
     no_collection = not Sagatro.mod_compat.talisman,
-    order = 1002,
+    order = 1005,
     pos = { x = 3, y = 0 },
     config = {magic_lamp_rounds = 0, extra = {xmult = 3, rounds_goal = 3}},
     rarity = "sgt_obscure",
@@ -3588,7 +3588,7 @@ local lamp_genie = {
     atlas = "esoteric",
     saga_group = "aladdin_and_the_magic_lamp",
     no_collection = not Sagatro.mod_compat.talisman,
-    order = 1003,
+    order = 1006,
     pos = { x = 0, y = 0 },
     soul_pos = { x = 2, y = 0, extra = { x = 1, y = 0 } },
     config = { extra = {retriggers = 2, e_mult = 3}, collected_wish = 0,
@@ -8017,7 +8017,7 @@ local little_prince = {
         return options, loc_vars
     end,
     calculate = function(self, card, context)
-        if context.first_hand_drawn then
+        if context.first_hand_drawn or context.forcetrigger then
             G.E_MANAGER:add_event(Event({
             func = function()
                 local _card = create_playing_card({
@@ -8043,6 +8043,296 @@ local little_prince = {
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
  	end,
+}
+
+local pumpkin_carriage = {
+    key = "pumpkin_carriage",
+    name = "Pumpkin Carriage",
+    atlas = "misc_jokers",
+    saga_group = "cinderella",
+    order = 1001,
+    pos = { x = 1, y = 2 },
+    config = {extra = 12},
+    rarity = 1,
+    cost = 6,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    update = function(self, card, dt)
+        if G.STAGE == G.STAGES.RUN then
+            card.eligible_strength_jokers = EMPTY(card.eligible_strength_jokers)
+            for _, v in pairs(G.jokers.cards) do
+                if v.ability.set == 'Joker' and not v.edition then
+                    table.insert(card.eligible_strength_jokers, v)
+                end
+            end
+        end
+    end,
+    calculate = function(self, card, context)
+        if (context.before and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+            if next(card.eligible_strength_jokers) then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        local eligible_card = pseudorandom_element(card.eligible_strength_jokers, pseudoseed('pumpkin_carriage'))
+                        eligible_card:set_edition(poll_edition("pumcar", nil, nil, true), true, true)
+                        eligible_card.ability.pumpkin_edition = true
+                        card:juice_up(0.3, 0.5)
+                        return true
+                    end
+                }))
+                return {
+                    message = localize("k_glowup_ex"),
+                    colour = G.C.FILTER,
+                    card = card
+                }
+            else
+                return {
+                    message = localize("k_no_other_jokers"),
+                    colour = G.C.FILTER,
+                    card = card
+                }
+            end
+        end
+        if context.after and not context.blueprint and not context.retrigger_joker then
+            if card.ability.extra - 1 <= 0 then
+                for _, v in pairs(G.jokers.cards) do
+                    if v.ability.set == 'Joker' and v.ability.pumpkin_edition then
+                        v:set_edition(nil, true)
+                    end
+                end
+                Sagatro.self_destruct(card)
+                return {
+                    message = localize('k_poof_ex'),
+                    colour = G.C.FILTER,
+                    no_retrigger = true
+                }
+            else
+                card.ability.extra = card.ability.extra - 1
+                return {
+                    message = card.ability.extra..'',
+                    colour = G.C.FILTER,
+                    no_retrigger = true
+                }
+            end
+        end
+        if context.selling_self and not context.blueprint and not context.retrigger_joker then
+            for _, v in pairs(G.jokers.cards) do
+                if v.ability.set == 'Joker' and v.ability.pumpkin_edition then
+                    v:set_edition(nil, true)
+                end
+            end
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {vars = {card.ability.extra}}
+        if Ortalab then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_only_joker_area", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
+        end
+        return ret
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.ability", ref_value = "extra" },
+                { text = "/" },
+                { ref_table = "card.joker_display_values", ref_value = "start_count" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
+            end,
+        }
+    end,
+}
+
+local abducted_cow = {
+    key = "abducted_cow",
+    name = "Abducted Cow",
+    atlas = "misc_jokers",
+    saga_group = "common_story",
+    order = 1002,
+    pos = { x = 3, y = 2 },
+    config = {extra = {}},
+    rarity = 1,
+    cost = 4,
+    blueprint_compat = false,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.first_hand_drawn then
+            if not context.blueprint then
+                local eval = function() return G.GAME.current_round.hands_played == 0 end
+                juice_card_until(card, eval, true)
+            end
+        end
+        if context.before and not context.blueprint and not context.retrigger_joker
+        and G.GAME.current_round.hands_played == 0 and #context.full_hand == 1 then
+            local _card = context.full_hand[1]
+            card.ability.extra.held_card = {}
+            card.ability.extra.held_card.suit = _card.base.suit
+            card.ability.extra.held_card.rank = _card.config.card.value
+            card.ability.extra.triggered = true
+        end
+        if context.destroy_card and context.cardarea == G.play and card.ability.extra.triggered then
+            return {
+                message = localize("k_abducted_ex"),
+                colour = G.C.FILTER,
+                remove = true
+            }
+        end
+        if context.after and not context.blueprint and not context.retrigger_joker then
+            G.E_MANAGER:add_event(Event({func = function()
+                card.ability.extra.triggered = nil
+            return true end }))
+        end
+        if context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker
+        and card.ability.extra.held_card then
+            G.E_MANAGER:add_event(Event({
+            trigger = "immediate",
+            func = function()
+                local _card = create_playing_card({
+                    front = pseudorandom_element(G.P_CARDS, pseudoseed('marb_fr')),
+                    center = G.P_CENTERS.c_base}, G.play, nil, nil, {G.C.SECONDARY_SET.Enhanced})
+                _card:set_ability(SMODS.poll_enhancement{key = "abducted_enhanced", guaranteed = true, no_replace = true})
+                assert(SMODS.change_base(_card, card.ability.extra.held_card.suit, card.ability.extra.held_card.rank))
+                SMODS.calculate_effect({message = localize('k_release_ex'), colour = G.C.SECONDARY_SET.Enhanced}, card)
+                draw_card(G.play,G.deck, 90,'up', nil)
+                playing_card_joker_effects({_card})
+                card.ability.extra.held_card = nil
+                save_run()
+                return true
+            end}))
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        local text = card.ability.extra.held_card
+        and localize{type = 'variable', key = 'sgt_rank_of_suit',
+        vars = {localize(card.ability.extra.held_card.rank, "ranks"),
+        localize(card.ability.extra.held_card.suit, "suits_plural")}}
+        or localize("k_none")
+        return {vars = {text}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "held_card", colour = G.C.FILTER },
+                { text = ")" },
+            },
+            text_config = { colour = G.C.UI.TEXT_INACTIVE },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "active" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                local count = 0
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        count = count + 1
+                    end
+                end
+                card.joker_display_values.active =
+                (G.GAME.current_round.hands_played == 0 and count == 1)
+                and localize("jdis_active") or localize("jdis_inactive")
+                card.joker_display_values.held_card = card.ability.extra.held_card
+                and localize{type = 'variable', key = 'sgt_rank_of_suit',
+                vars = {localize(card.ability.extra.held_card.rank, "ranks"),
+                localize(card.ability.extra.held_card.suit, "suits_plural")}}
+                or localize("k_none")
+            end,
+        }
+    end,
+}
+
+local flying_house = {
+    key = "flying_house",
+    name = "Howl's Flying House",
+    atlas = "misc_jokers",
+    saga_group = "howls_flying_house",
+    order = 1003,
+    pos = { x = 2, y = 2 },
+    config = {type = "Full House"},
+    rarity = 2,
+    cost = 8,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.first_hand_drawn then
+            if not context.blueprint then
+                local eval = function() return G.GAME.current_round.hands_played == 0 end
+                juice_card_until(card, eval, true)
+            end
+        end
+        if (context.before and not context.blueprint and not context.retrigger_joker and G.GAME.current_round.hands_played == 0
+        and context.poker_hands and next(context.poker_hands[card.ability.type])) or context.forcetrigger then
+            local ranks = {}
+            for _, v in ipairs(context.scoring_hand) do
+                if not SMODS.has_no_rank(v) then
+                    ranks[v.config.card.value] = (ranks[v.config.card.value] or 0) + 1
+                end
+            end
+            local max_count, rank = 0, nil
+            for k, v in pairs(ranks) do
+                if max_count < v then max_count = v; rank = k end
+            end
+            for _, v in ipairs(context.scoring_hand) do
+                if ranks[v.config.card.value] and ranks[v.config.card.value] ~= max_count then
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            v:juice_up()
+                            assert(SMODS.change_base(v, nil, rank))
+                            return true
+                        end
+                    }))
+                end
+            end
+            return {
+                message = localize("k_repair_ex"),
+            }
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {localize(card.ability.type, 'poker_hands'),
+        localize("Pair", 'poker_hands'),
+        localize("Three of a Kind", 'poker_hands')}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "active" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                local active = false
+                local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                if poker_hands[card.ability.type] and next(poker_hands[card.ability.type]) then
+                    active = true
+                end
+                card.joker_display_values.active =
+                (G.GAME.current_round.hands_played == 0 and active)
+                and localize("jdis_active") or localize("jdis_inactive")
+            end,
+        }
+    end,
 }
 
 local shub = {
@@ -8945,6 +9235,9 @@ local joker_table = {
     necronomicon,
     frog_prince,
     little_prince,
+    pumpkin_carriage,
+    abducted_cow,
+    flying_house,
     shub,
     ragnarok,
     yggdrasil,

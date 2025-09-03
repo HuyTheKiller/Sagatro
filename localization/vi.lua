@@ -1396,6 +1396,36 @@ return {
                     "đã liệt kê vào tay",
                 },
             },
+            j_sgt_pumpkin_carriage = {
+                name = "Xe Bí Ngô",
+                text = {
+                    {"Thêm một {C:dark_edition}ấn bản{} ngẫu nhiên cho",
+                    "một Joker tiêu chuẩn mỗi tay đã chơi",
+                    "{C:red,E:2}tự huỷ{} sau {C:attention}#1#{} tay bài"},
+                    {"Loại bỏ mọi {C:dark_edition}ấn bản{} do Joker này",
+                    "tạo ra khi {C:attention}bị phá huỷ{}"},
+                },
+            },
+            j_sgt_abducted_cow = {
+                name = "Bò Bị Bắt Cóc",
+                text = {
+                    {"Nếu {C:attention}tay đầu tiên{} của ván chỉ có",
+                    "{C:attention}1{} lá, {C:attention}phá huỷ{} nó và lưu",
+                    "bậc và chất của nó",
+                    "{C:inactive}(Lá đã lưu: {C:attention}#1#{C:inactive})"},
+                    {"Ở cuối ván, tạo ra một lá {C:attention}cường hoá{}",
+                    "ngẫu nhiên với bậc và chất đã lưu"},
+                },
+            },
+            j_sgt_flying_house = {
+                name = "Nhà Bay Của Howl",
+                text = {
+                    "Nếu {C:attention}tay đầu tiên{} của ván",
+                    "chứa {C:attention}#1#{}, biến đổi",
+                    "bậc của phần {C:attention}#2#{} thành",
+                    "bậc của phần {C:attention}#3#{}",
+                },
+            },
             j_sgt_dolphin = {
                 name = "Cá Heo",
                 text = {
@@ -1911,6 +1941,8 @@ return {
                 text = {
                     "{s:1.3}Thêm yếu tố {s:1.3,C:dark_edition}cổ tích {s:1.3}vào Balatro.",
                     " ",
+                    "Nhạc được dùng không có bản quyền. Có thể live stream thoả thích!",
+                    " ",
                     "Danh đề:",
                     "{C:attention}Hình Ảnh Gốc{}: HuyCorn, Amy, TNhie, Kazumi",
                     "{C:attention}Chỉnh Sửa Ảnh{}: HuyTheKiller",
@@ -1946,9 +1978,9 @@ return {
             c_sgt_gambling_hansel = "Hansel Đỏ Đen",
             c_sgt_ragnarok = "Khải Huyền Ragnarök",
         },
-        -- v_dictionary = {
-        --     a_sgt_powmult = { "^#1# Nhân" },
-        -- },
+        v_dictionary = {
+            sgt_rank_of_suit = "#1# #2#",
+        },
         v_text = {
             ch_c_sgt_disable_sagatro_items = { "Vật phẩm của {C:sgt_sagadition}Sagatro{} không còn xuất hiện trong {C:attention}shop" },
             ch_c_sgt_no_tags = { "Khả năng bỏ qua bị {C:attention}vô hiệu hóa{}" },
@@ -2028,6 +2060,10 @@ return {
             k_hungry_ex = "Đói!",
             k_digest_ex = "Tiêu Hoá!",
             k_sacrifice_ex = "Hiến Tế!",
+            k_glowup_ex = "Biến Hoá!",
+            k_release_ex = "Giải Phóng!",
+            k_abducted_ex = "Đã Bắt Cóc!",
+            k_repair_ex = "Sửa Chữa!",
             k_zzz = "ZZZ",
             k_charge = "Nạp",
             k_release = "Xả",

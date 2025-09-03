@@ -1401,6 +1401,36 @@ return {
                     "{C:attention}streak{} to your hand",
                 },
             },
+            j_sgt_pumpkin_carriage = {
+                name = "Pumpkin Carriage",
+                text = {
+                    {"Add a random {C:dark_edition}edition{} to",
+                    "a base Joker every hand played",
+                    "{C:red,E:2}self destructs{} after {C:attention}#1#{} hand(s)"},
+                    {"Remove all {C:dark_edition}editions{} set by",
+                    "this joker when {C:attention}destroyed{}"},
+                },
+            },
+            j_sgt_abducted_cow = {
+                name = "Abducted Cow",
+                text = {
+                    {"If {C:attention}first hand{} of round has only",
+                    "{C:attention}1{} card, {C:attention}destroy{} it and store",
+                    "its rank and suit",
+                    "{C:inactive}(Stored card: {C:attention}#1#{C:inactive})"},
+                    {"At end of round, create a random {C:attention}enhanced{}",
+                    "card with stored rank and suit"},
+                },
+            },
+            j_sgt_flying_house = {
+                name = "Howl's Flying House",
+                text = {
+                    "If {C:attention}first hand{} of round",
+                    "contains a {C:attention}#1#{}, convert the",
+                    "rank of the {C:attention}#2#{} part into the",
+                    "rank of the {C:attention}#3#{} part",
+                },
+            },
             j_sgt_dolphin = {
                 name = "Dolphin",
                 text = {
@@ -1916,6 +1946,8 @@ return {
                 text = {
                     "{s:1.3}Adds {s:1.3,C:dark_edition}fairy tale {s:1.3}elements to Balatro.",
                     " ",
+                    "Music used here are not copyrighted. Feel free to stream!",
+                    " ",
                     "Credits:",
                     "{C:attention}Original Art{}: HuyCorn, Amy, TNhie, Kazumi",
                     "{C:attention}Art Polishing{}: HuyTheKiller",
@@ -1951,9 +1983,9 @@ return {
             c_sgt_gambling_hansel = "Gambling Hansel",
             c_sgt_ragnarok = "The Ragnarök",
         },
-        -- v_dictionary = {
-        --     a_sgt_powmult = { "^#1# Mult" },
-        -- },
+        v_dictionary = {
+            sgt_rank_of_suit = "#1# of #2#",
+        },
         v_text = {
             ch_c_sgt_disable_sagatro_items = { "{C:sgt_sagadition}Sagatro{} items no longer appear in the {C:attention}shop" },
             ch_c_sgt_no_tags = { "Skipping is {C:attention}disabled{}" },
@@ -2033,6 +2065,10 @@ return {
             k_hungry_ex = "Hungry!",
             k_digest_ex = "Digest!",
             k_sacrifice_ex = "Sacrifice!",
+            k_glowup_ex = "Glow Up!",
+            k_release_ex = "Release!",
+            k_abducted_ex = "Abducted!",
+            k_repair_ex = "Repair!",
             k_zzz = "ZZZ",
             k_charge = "Charge",
             k_release = "Release",
