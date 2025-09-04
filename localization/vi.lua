@@ -738,6 +738,14 @@ return {
 					"lên mọi Joker khác",
                 }
             },
+            c_sgt_void_hole = {
+                name = "Hố Hư Vô",
+                text = {
+                    "Nâng mọi",
+                    "{C:legendary,E:1}tay poker",
+                    "thêm {C:attention}#1#{} level",
+                },
+            },
         },
         Joker = {
             j_sgt_white_rabbit = {

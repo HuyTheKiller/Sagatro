@@ -743,6 +743,14 @@ return {
                     "to all other jokers",
                 }
             },
+            c_sgt_void_hole = {
+                name = "Void Hole",
+                text = {
+                    "Upgrade every",
+                    "{C:legendary,E:1}poker hand",
+                    "by {C:attention}#1#{} levels",
+                }
+            },
         },
         Joker = {
             j_sgt_white_rabbit = {

@@ -1484,6 +1484,54 @@ local sinister = {
     end,
 }
 
+local void_hole = {
+    key = "void_hole",
+    name = "Void Hole",
+    set = "Eldritch",
+    atlas = "ultra",
+    dependencies = {"Talisman"},
+    pos = {x = 0, y = 6},
+    config = {amount = 3},
+    cost = 4,
+    hidden = true,
+    soul_set = "Planet",
+    can_use = function(self, card)
+        return true
+    end,
+    use = function(self, card, area, copier)
+		local used_consumable = copier or card
+		update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+            play_sound('tarot1')
+            card:juice_up(0.8, 0.5)
+            G.TAROT_INTERRUPT_PULSE = true
+            return true end }))
+        update_hand_text({delay = 0}, {mult = '+', StatusText = true})
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+            play_sound('tarot1')
+            card:juice_up(0.8, 0.5)
+            return true end }))
+        update_hand_text({delay = 0}, {chips = '+', StatusText = true})
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+            play_sound('tarot1')
+            card:juice_up(0.8, 0.5)
+            G.TAROT_INTERRUPT_PULSE = nil
+            return true end }))
+        update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level='+'..card.ability.amount})
+        delay(1.3)
+        for k, v in pairs(G.GAME.hands) do
+            level_up_hand(card, k, true, card.ability.amount)
+        end
+        update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+	end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_shadow_oath
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.amount}}
+    end,
+}
+
 local consumable_table = {
     exodium,
     dominus_ars,
@@ -1525,6 +1573,7 @@ local consumable_table = {
     cartomancy,
     exotic,
     sinister,
+    void_hole,
 }
 
 for _, v in ipairs(consumable_table) do
