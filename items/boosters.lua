@@ -97,7 +97,7 @@ local wish_secondary = {
 local divinatio_normal_1 = {
     key = "divinatio_normal_1",
     atlas = "booster",
-    pos = { x = 3, y = 0 },
+    pos = { x = 2, y = 0 },
     config = { choose = 1, extra = 3 },
     group_key = "sgt_divinatio_pack",
     cost = 4,
@@ -254,16 +254,205 @@ local divinatio_mega = {
     end,
 }
 
+local celestara_normal_1 = {
+    key = "celestara_normal_1",
+    atlas = "booster",
+    pos = { x = 2, y = 2 },
+    config = { choose = 1, extra = 2 },
+    group_key = "sgt_celestara_pack",
+    cost = 4,
+    weight = 1,
+    kind = "Celestara",
+    select_card = "consumeables",
+    ease_background_colour = function(self)
+        ease_colour(G.C.DYN_UI.MAIN, mix_colours(G.C.SGT_CELESTARA, G.C.BLACK, 0.9))
+        ease_background_colour{new_colour = G.C.BLACK, contrast = 3}
+    end,
+    particles = function(self)
+        G.booster_pack_stars = Particles(1, 1, 0,0, {
+            timer = 0.07,
+            scale = 0.1,
+            initialize = true,
+            lifespan = 15,
+            speed = 0.1,
+            padding = -4,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.WHITE, HEX('a7d6e0'), HEX('fddca0')},
+            fill = true
+        })
+        G.booster_pack_meteors = Particles(1, 1, 0,0, {
+            timer = 2,
+            scale = 0.05,
+            lifespan = 1.5,
+            speed = 4,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.WHITE},
+            fill = true
+        })
+    end,
+    create_card = function(self, card, i)
+        return {set = "Celestara", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ce1"}
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_civilization
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {key = "p_sgt_celestara_normal", vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
+    end,
+}
+
+local celestara_normal_2 = {
+    key = "celestara_normal_2",
+    atlas = "booster",
+    pos = { x = 3, y = 2 },
+    config = { choose = 1, extra = 2 },
+    group_key = "sgt_celestara_pack",
+    cost = 4,
+    weight = 1,
+    kind = "Celestara",
+    select_card = "consumeables",
+    ease_background_colour = function(self)
+        ease_colour(G.C.DYN_UI.MAIN, mix_colours(G.C.SGT_CELESTARA, G.C.BLACK, 0.9))
+        ease_background_colour{new_colour = G.C.BLACK, contrast = 3}
+    end,
+    particles = function(self)
+        G.booster_pack_stars = Particles(1, 1, 0,0, {
+            timer = 0.07,
+            scale = 0.1,
+            initialize = true,
+            lifespan = 15,
+            speed = 0.1,
+            padding = -4,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.WHITE, HEX('a7d6e0'), HEX('fddca0')},
+            fill = true
+        })
+        G.booster_pack_meteors = Particles(1, 1, 0,0, {
+            timer = 2,
+            scale = 0.05,
+            lifespan = 1.5,
+            speed = 4,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.WHITE},
+            fill = true
+        })
+    end,
+    create_card = function(self, card, i)
+        return {set = "Celestara", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ce1"}
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_civilization
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {key = "p_sgt_celestara_normal", vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
+    end,
+}
+
+local celestara_jumbo = {
+    key = "celestara_jumbo",
+    atlas = "booster",
+    pos = { x = 4, y = 2 },
+    config = { choose = 1, extra = 4 },
+    group_key = "sgt_celestara_pack",
+    cost = 6,
+    weight = 1,
+    kind = "Celestara",
+    select_card = "consumeables",
+    ease_background_colour = function(self)
+        ease_colour(G.C.DYN_UI.MAIN, mix_colours(G.C.SGT_CELESTARA, G.C.BLACK, 0.9))
+        ease_background_colour{new_colour = G.C.BLACK, contrast = 3}
+    end,
+    particles = function(self)
+        G.booster_pack_stars = Particles(1, 1, 0,0, {
+            timer = 0.07,
+            scale = 0.1,
+            initialize = true,
+            lifespan = 15,
+            speed = 0.1,
+            padding = -4,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.WHITE, HEX('a7d6e0'), HEX('fddca0')},
+            fill = true
+        })
+        G.booster_pack_meteors = Particles(1, 1, 0,0, {
+            timer = 2,
+            scale = 0.05,
+            lifespan = 1.5,
+            speed = 4,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.WHITE},
+            fill = true
+        })
+    end,
+    create_card = function(self, card, i)
+        return {set = "Celestara", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ce1"}
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_civilization
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
+    end,
+}
+
+local celestara_mega = {
+    key = "celestara_mega",
+    atlas = "booster",
+    pos = { x = 5, y = 2 },
+    config = { choose = 2, extra = 4 },
+    group_key = "sgt_celestara_pack",
+    cost = 8,
+    weight = 0.25,
+    kind = "Celestara",
+    select_card = "consumeables",
+    ease_background_colour = function(self)
+        ease_colour(G.C.DYN_UI.MAIN, mix_colours(G.C.SGT_CELESTARA, G.C.BLACK, 0.9))
+        ease_background_colour{new_colour = G.C.BLACK, contrast = 3}
+    end,
+    particles = function(self)
+        G.booster_pack_stars = Particles(1, 1, 0,0, {
+            timer = 0.07,
+            scale = 0.1,
+            initialize = true,
+            lifespan = 15,
+            speed = 0.1,
+            padding = -4,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.WHITE, HEX('a7d6e0'), HEX('fddca0')},
+            fill = true
+        })
+        G.booster_pack_meteors = Particles(1, 1, 0,0, {
+            timer = 2,
+            scale = 0.05,
+            lifespan = 1.5,
+            speed = 4,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.WHITE},
+            fill = true
+        })
+    end,
+    create_card = function(self, card, i)
+        return {set = "Celestara", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ce1"}
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_civilization
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
+    end,
+}
+
 local eldritch_normal_1 = {
     key = "eldritch_normal_1",
     atlas = "booster",
-    pos = { x = 3, y = 1 },
+    pos = { x = 2, y = 1 },
     config = { choose = 1, extra = 2 },
     group_key = "sgt_eldritch_pack",
     cost = 6,
     weight = 0.3,
     kind = "Eldritch",
     draw_hand = true,
+    select_table = {c_sgt_void_hole = "consumeables"},
     ease_background_colour = function(self)
         ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_ELDRITCH)
         ease_background_colour{new_colour = G.C.SGT_ELDRITCH, special_colour = G.C.BLACK, contrast = 2}
@@ -304,6 +493,7 @@ local eldritch_normal_2 = {
     weight = 0.3,
     kind = "Eldritch",
     draw_hand = true,
+    select_table = {c_sgt_void_hole = "consumeables"},
     ease_background_colour = function(self)
         ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_ELDRITCH)
         ease_background_colour{new_colour = G.C.SGT_ELDRITCH, special_colour = G.C.BLACK, contrast = 2}
@@ -343,6 +533,7 @@ local eldritch_jumbo = {
     weight = 0.3,
     kind = "Eldritch",
     draw_hand = true,
+    select_table = {c_sgt_void_hole = "consumeables"},
     ease_background_colour = function(self)
         ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_ELDRITCH)
         ease_background_colour{new_colour = G.C.SGT_ELDRITCH, special_colour = G.C.BLACK, contrast = 2}
@@ -383,6 +574,7 @@ local eldritch_mega = {
     weight = 0.07,
     kind = "Eldritch",
     draw_hand = true,
+    select_table = {c_sgt_void_hole = "consumeables"},
     ease_background_colour = function(self)
         ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_ELDRITCH)
         ease_background_colour{new_colour = G.C.SGT_ELDRITCH, special_colour = G.C.BLACK, contrast = 2}
@@ -418,6 +610,10 @@ local booster_table = {
     divinatio_normal_2,
     divinatio_jumbo,
     divinatio_mega,
+    celestara_normal_1,
+    celestara_normal_2,
+    celestara_jumbo,
+    celestara_mega,
     eldritch_normal_1,
     eldritch_normal_2,
     eldritch_jumbo,

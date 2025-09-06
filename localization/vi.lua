@@ -180,9 +180,10 @@ return {
             sgt_space_seal = {
                 name = "Con Dấu Không Gian",
                 text = {
-                    "Tạo ra lá {C:planet}Hành Tinh{C:dark_edition} Âm Bản{}",
-                    "cho {C:attention}tay poker{} cuối cùng của ván",
+                    "Tạo ra một lá {C:sgt_celestara}Huyền Thể{} cho",
+                    "{C:attention}tay poker{} cuối cùng của ván",
                     "nếu được {C:attention}giữ{} trong tay",
+                    "{C:inactive}(Phải có ô trống)",
                 },
             },
             sgt_platinum_seal = {
@@ -191,6 +192,15 @@ return {
                     "Nhận {C:money}$#1#{} khi lá này",
                     "được chơi và",
                     "ghi điểm"
+                },
+            },
+            sgt_resonance = {
+                name = "Cộng Hưởng",
+                text = {
+                    "Nếu chip và nhân chuẩn",
+                    "của {C:attention}tay poker đã chơi{}",
+                    "vượt quá tay cộng hưởng,",
+                    "{C:attention}nâng level{} tay cộng hưởng",
                 },
             },
             sgt_require_talisman_for_emult = {
@@ -218,6 +228,15 @@ return {
                 },
             },
             undiscovered_divinatio = {
+				name = "Chưa Khám Phá",
+                text = {
+                    "Mua hoặc dùng",
+                    "lá này trong một",
+                    "trận ngẫu nhiên",
+                    "để biết tác dụng của nó",
+                },
+			},
+            undiscovered_celestara = {
 				name = "Chưa Khám Phá",
                 text = {
                     "Mua hoặc dùng",
@@ -257,6 +276,30 @@ return {
                     "Chọn {C:attention}#1#{} trong tối đa",
                     "{C:attention}#2#{} lá {C:sgt_divinatio}Chiêm Mộng",
                     "để dùng ngay",
+                },
+            },
+            p_sgt_celestara_normal = {
+                name = "Gói Huyền Thể",
+                text = {
+                    "Chọn {C:attention}#1#{} trong tối đa",
+                    "{C:attention}#2#{} lá {C:sgt_celestara}Huyền Thể{} để",
+                    "thêm vào ô tiêu thụ",
+                },
+            },
+            p_sgt_celestara_jumbo = {
+                name = "Gói Huyền Thể Lớn",
+                text = {
+                    "Chọn {C:attention}#1#{} trong tối đa",
+                    "{C:attention}#2#{} lá {C:sgt_celestara}Huyền Thể{} để",
+                    "thêm vào ô tiêu thụ",
+                },
+            },
+            p_sgt_celestara_mega = {
+                name = "Gói Huyền Thể Đại",
+                text = {
+                    "Chọn {C:attention}#1#{} trong tối đa",
+                    "{C:attention}#2#{} lá {C:sgt_celestara}Huyền Thể{} để",
+                    "thêm vào ô tiêu thụ",
                 },
             },
             p_sgt_eldritch_normal = {
@@ -306,6 +349,22 @@ return {
                     "Lá {C:sgt_divinatio}Chiêm Mộng{} và",
                     "{C:attention}Gói Chiêm Mộng{} có thể",
                     "dược mua trong shop",
+                },
+            },
+            v_sgt_alien_life = {
+                name = "Sự Sống Ngoại Vi",
+                text = {
+                    "Lá {C:sgt_celestara}Huyền Thể{}",
+                    "thay thể lá thứ hai",
+                    "trong {C:attention}Gói Thiên Thể",
+                },
+            },
+            v_sgt_civilization = {
+                name = "Nền Văn Minh",
+                text = {
+                    "Lá {C:sgt_celestara}Huyền Thể{} và",
+                    "{C:attention}Gói Huyền Thể{} có thể",
+                    "được mua trong shop",
                 },
             },
             v_sgt_shadow_oath = {
@@ -408,9 +467,9 @@ return {
             c_sgt_exodium = {
                 name = "Khởi Nguyên",
                 text = {
-                    "Tạo ra lá {C:tarot}Tarot{}, lá {C:planet}Hành Tinh",
-                    "hoặc lá {C:sgt_divinatio}Chiêm Mộng{} được dùng",
-                    "gần nhất trong trận này",
+                    "Tạo ra lá {C:tarot}Tarot{}, lá {C:planet}Hành Tinh{}, lá",
+                    "{C:sgt_divinatio}Chiêm Mộng{} hoặc lá {C:sgt_celestara}Huyền Thể",
+                    "được dùng gần nhất trong trận này",
                     "{s:0.8}không bao gồm {s:0.8,C:tarot}Kẻ Ngốc",
                     "{s:0.8}và {s:0.8,C:sgt_divinatio}Khởi Nguyên",
                 },
@@ -426,8 +485,9 @@ return {
             c_sgt_sacra_sapientia = {
                 name = "Thiên Tuệ",
                 text = {
-                    "Tạo ra {C:attention}#1#{} lá {C:planet}Hành Tinh",
-                    "{C:dark_edition}Âm Bản{} ngẫu nhiên",
+                    "Tạo ra tối đa {C:attention}#1#",
+                    "lá {C:sgt_celestara}Huyền Thể{} ngẫu nhiên",
+                    "{C:inactive}(Phải có ô trống)",
                 },
             },
             c_sgt_regina_caeli = {
@@ -595,6 +655,177 @@ return {
                 }
             },
         },
+        Celestara = {
+            c_sgt_argyra = {
+                name = "Argyra",
+                text = {
+                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{C:attention}#2#{} hai lần",
+                    "{C:attention}Cộng hưởng{} với",
+                    "{C:attention}#3#{}",
+                    "và {C:attention}#4#{}"},
+                    {"{C:sgt_celestara,u:sgt_celestara}Khi chơi #2#:",
+                    "{C:red}-1{} level cho {C:attention}#2#{} và",
+                    "{C:attention}biến đổi{} 2 lá ngẫu nhiên",
+                    "trên tay thành {C:attention}Lá Thép",
+                    "rồi {C:attention}tiêu thụ{} lá này"},
+                },
+            },
+            c_sgt_sulvatera = {
+                name = "Sulvatera",
+                text = {
+                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{C:attention}#2#{} hai lần"},
+                    {"{C:sgt_celestara,u:sgt_celestara}Khi chơi #2#:",
+                    "{C:red}-1{} level cho {C:attention}#2#{},",
+                    "{C:attention}+1{} level cho {C:attention}#3#{} và {C:attention}biến đổi{}",
+                    "lá ghi điểm đầu tiên và thứ hai",
+                    "thành {C:attention}Lá May Mắn{} và {C:attention}Tuỳ Chất{}",
+                    "rồi {C:attention}tiêu thụ{} lá này"},
+                },
+            },
+            c_sgt_terranora = {
+                name = "Terranora",
+                text = {
+                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{C:attention}#2#{} hai lần"},
+                    {"{C:sgt_celestara,u:sgt_celestara}Khi chơi #2#:",
+                    "{C:red}-1{} level cho {C:attention}#2#{},",
+                    "{C:attention}+1{} level cho {C:attention}#3#{}, {C:attention}#4#{}",
+                    "và {C:attention}tăng{} bậc của mọi lá",
+                    "giữ trong tay thêm {C:attention}1{}",
+                    "rồi {C:attention}tiêu thụ{} lá này"},
+                },
+            },
+            c_sgt_valora = {
+                name = "Valora",
+                text = {
+                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{C:attention}#2#{} hai lần",
+                    "{C:attention}Cộng hưởng{} với",
+                    "{C:attention}#3#{}"},
+                    {"{C:sgt_celestara,u:sgt_celestara}Khi chơi #2#:",
+                    "{C:red}-1{} level cho {C:attention}#2#{},",
+                    "{C:attention}+1{} level cho {C:attention}#4#{} và {C:attention}phá huỷ{}",
+                    "2 lá ngẫu nhiên trong bộ bài",
+                    "rồi {C:attention}tiêu thụ{} lá này"},
+                },
+            },
+            c_sgt_zephyria = {
+                name = "Zephyria",
+                text = {
+                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{C:attention}#2#{} hai lần",
+                    "{C:attention}Cộng hưởng{} với",
+                    "{C:attention}#3#{}"},
+                    {"{C:sgt_celestara,u:sgt_celestara}Khi chơi #2#:",
+                    "{C:red}-1{} level cho {C:attention}#2#{},",
+                    "{C:attention}+1{} level cho {C:attention}#4#{}",
+                    "và {C:attention}thêm{} bản sao của lá ghi",
+                    "điểm đầu tiên vào bộ bài",
+                    "rồi {C:attention}tiêu thụ{} lá này"},
+                },
+            },
+            c_sgt_chronara = {
+                name = "Chronara",
+                text = {
+                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{C:attention}#2#{} hai lần",
+                    "{C:attention}Cộng hưởng{} với",
+                    "{C:attention}#3#{} và",
+                    "{C:attention}#4#{}"},
+                    {"{C:sgt_celestara,u:sgt_celestara}Khi chơi #2#:",
+                    "{C:red}-1{} level cho {C:attention}#2#{}, {C:attention}ngẫu nhiên",
+                    "{C:attention}hoá{} bậc của lá ghi điểm và tạo",
+                    "ra một lá {C:spectral}Siêu Linh{} ngẫu nhiên",
+                    "rồi {C:attention}tiêu thụ{} lá này"},
+                },
+            },
+            c_sgt_aetheron = {
+                name = "Aetheron",
+                text = {
+                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{C:attention}#2#{} hai lần",
+                    "{C:attention}Cộng hưởng{} với",
+                    "{C:attention}#3#{}"},
+                    {"{C:sgt_celestara,u:sgt_celestara}Khi chơi #2#:",
+                    "{C:red}-1{} level cho {C:attention}#2#{},",
+                    "{C:attention}+1{} level cho {C:attention}#4#{}",
+                    "và {C:attention}biến đổi{} lá trên tay ở",
+                    "tít bên trái thành {C:attention}Lá Pha Lê",
+                    "rồi {C:attention}tiêu thụ{} lá này"},
+                },
+            },
+            c_sgt_oceanis = {
+                name = "Oceanis",
+                text = {
+                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{C:attention}#2#{} hai lần",
+                    "{C:attention}Cộng hưởng{} với",
+                    "{C:attention}#3#{} và",
+                    "{C:attention}#4#{}"},
+                    {"{C:sgt_celestara,u:sgt_celestara}Khi chơi #2#:",
+                    "{C:red}-1{} level cho {C:attention}#2#{},",
+                    "{C:attention}+1{} level cho {C:attention}#5#{} và",
+                    "{C:attention}biến đổi{} lá trên tay ở tít bên",
+                    "trái thành lá ghi điểm đầu tiên",
+                    "rồi {C:attention}tiêu thụ{} lá này"},
+                },
+            },
+            c_sgt_lonestra = {
+                name = "Lonestra",
+                text = {
+                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{C:attention}#2#{} hai lần"},
+                    {"{C:sgt_celestara,u:sgt_celestara}Khi chơi #2#:",
+                    "{C:red}-1{} level cho {C:attention}#2#{} và",
+                    "{C:attention}tái kích{} khả năng của",
+                    "mọi lá {C:attention}giữ trên tay",
+                    "rồi {C:attention}tiêu thụ{} lá này"},
+                },
+            },
+            c_sgt_mystara = {
+                name = "Mystara",
+                text = {
+                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{C:attention}#2#{} hai lần",
+                    "{C:attention}Cộng hưởng{} với",
+                    "{C:attention}#4#{} và",
+                    "{C:attention}#5#{}"},
+                    {"{C:sgt_celestara,u:sgt_celestara}Khi chơi #2#:",
+                    "{C:red}-1{} level cho {C:attention}#2#{} và",
+                    "{C:attention}khiến{} mọi lá ghi điểm",
+                    "{C:attention}vĩnh viễn{} thêm {X:mult,C:white}X#3#{} Nhân",
+                    "rồi {C:attention}tiêu thụ{} lá này"},
+                },
+            },
+            c_sgt_ceratek = {
+                name = "Ceratek",
+                text = {
+                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{C:attention}#2#{} hai lần"},
+                    {"{C:sgt_celestara,u:sgt_celestara}Khi chơi #2#:",
+                    "{C:red}-1{} level cho {C:attention}#2#{},",
+                    "{C:attention}+1{} level cho {C:attention}#3#{},",
+                    "{C:attention}#4#{} và thêm một {C:dark_edition}ấn bản{} ngẫu",
+                    "nhiên vào lá ghi điểm đầu tiên",
+                    "rồi {C:attention}tiêu thụ{} lá này"},
+                },
+            },
+            c_sgt_discordia = {
+                name = "Discordia",
+                text = {
+                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{C:attention}#2#{} hai lần"},
+                    {"{C:sgt_celestara,u:sgt_celestara}Khi chơi #2#:",
+                    "{C:red}-1{} level cho {C:attention}#2#{},",
+                    "{C:attention}+1{} level cho {C:attention}#3#{} và",
+                    "{C:attention}biến đổi{} lá ghi điểm đầu",
+                    "tiên thành {C:attention}Lá Đá Trọng Lực",
+                    "rồi {C:attention}tiêu thụ{} lá này"},
+                },
+            },
+        },
         Eldritch = {
             c_sgt_demon = {
                 name = "Ác Ma",
@@ -741,9 +972,13 @@ return {
             c_sgt_void_hole = {
                 name = "Hố Hư Vô",
                 text = {
-                    "Nâng mọi",
-                    "{C:legendary,E:1}tay poker",
-                    "thêm {C:attention}#1#{} level",
+                    {"Nâng mọi {C:legendary,E:1}tay poker{} thêm {C:attention}#1#{} level"},
+                    {"{C:sgt_celestara,u:sgt_celestara}Khi chơi bất kì tay nào:",
+                    "kích hoạt hiệu ứng lá {C:sgt_celestara}Huyền Thể{}",
+                    "{C:attention}tương ứng{} với tay bài đó và",
+                    "{C:red}-1{} level thưởng khỏi lá này",
+                    "khi dùng trong tương lai",
+                    "{C:inactive}(tiêu thụ ở mức 0)"},
                 },
             },
         },
@@ -1819,7 +2054,23 @@ return {
                     "Xác suất {C:green}#4# trên #5#{} để",
                     "vĩnh viễn thêm {C:money}$#6#",
                 },
-            }
+            },
+            m_sgt_crystal = {
+                name = "Lá Pha Lê",
+                text = {
+                    "{X:chips,C:white}X#1#{} Chip",
+                    "Thêm {X:chips,C:white}X#2#{} Chip cho mỗi {C:attention}Lá",
+                    "{C:attention}Pha Lê{} khác trong tay đã chơi",
+                },
+            },
+            m_sgt_gravistone = {
+                name = "Lá Đá Trọng Lực",
+                text = {
+                    "{C:chips}+#1#{} Chip",
+                    "Không có bậc hay chất",
+                    "{C:attention}+1{} số lá có thể chọn",
+                },
+            },
         },
         ["Saga Tooltip"] = {
             fusion_hint = {
@@ -2009,6 +2260,9 @@ return {
             k_divinatio = "Chiêm Mộng",
             b_divinatio_cards = "Lá Chiêm Mộng",
             sgt_divinatio_pack = "Gói Chiêm Mộng",
+            k_celestara = "Huyền Thể",
+            b_celestara_cards = "Lá Huyền Thể",
+            sgt_celestara_pack = "Gói Huyền Thể",
             k_eldritch = "Hắc Linh",
             b_eldritch_cards = "Lá Hắc Linh",
             sgt_eldritch_pack = "Gói Hắc Linh",
@@ -2076,6 +2330,10 @@ return {
             k_charge = "Nạp",
             k_release = "Xả",
             k_omniscient_ex = "Toàn Tri!",
+            k_downgrade_ex = "Hạ Cấp!",
+            k_consumed_ex = "Tiêu Thụ!",
+            k_plus_divinatio = "+1 Chiêm Mộng",
+            k_plus_celestara = "+1 Huyền Thể",
             ph_per_face_down = " mỗi lá sấp",
             ph_trial_begins = "Khai Toà!",
             ph_plus_ante = "+1 Ante",

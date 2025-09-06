@@ -294,6 +294,11 @@ function Card:update(dt)
                 self.ability.fusion.jiggle = false
             end
         end
+		if self.ability.gravistone_triggered and not SMODS.has_enhancement(self, "m_sgt_gravistone") then
+			self.ability.gravistone_triggered = nil
+			SMODS.change_play_limit(-1)
+            SMODS.change_discard_limit(-1)
+		end
     end
 end
 

@@ -42,6 +42,37 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
 true
 )
 
+SMODS.Booster:take_ownership_by_kind('Celestial', {
+    create_card = function(self, card, i)
+        local _card = {set = "Planet", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "pl1"}
+        if G.GAME.used_vouchers.v_telescope and i == 1 then
+            local _planet, _hand, _tally = nil, nil, 0
+            for k, v in ipairs(G.handlist) do
+                if SMODS.is_poker_hand_visible(v) and G.GAME.hands[v].played > _tally then
+                    _hand = v
+                    _tally = G.GAME.hands[v].played
+                end
+            end
+            if _hand then
+                for k, v in pairs(G.P_CENTER_POOLS.Planet) do
+                    if v.config.hand_type == _hand then
+                        _planet = v.key
+                    end
+                end
+            end
+            _card.key = _planet
+        end
+        if G.GAME.used_vouchers.v_sgt_alien_life and i == 2 then
+            _card.set = "Celestara"
+            _card.key_append = "pl2"
+        end
+        return _card
+    end,
+    select_card = {Celestara = "consumeables"},
+},
+true
+)
+
 SMODS.Booster:take_ownership_by_kind('Spectral', {
     create_card = function(self, card, i)
         local _card = {set = "Spectral", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "spe"}

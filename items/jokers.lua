@@ -2488,7 +2488,7 @@ local dormouse = {
 
 local red_queen = {
     key = "red_queen",
-    name = "Red Queen",
+    name = "Queen Of Hearts",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 25,

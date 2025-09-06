@@ -165,7 +165,7 @@ end
 [[patches]]
 [patches.regex]
 target = 'functions/state_events.lua'
-pattern = '''delay\(0\.4\); ease_ante\('''
+pattern = '''delay\(0\.4\);.* ease_ante\('''
 position = 'before'
 payload = '''if not (next(SMODS.find_card("j_sgt_mad_hatter")) or mabel_stall()) then '''
 
@@ -513,14 +513,16 @@ if card.config.center.set == 'Tarot' then
 elseif card.config.center.set == 'Planet' then
   G.GAME.consumeable_usage_total.tarot_planet_divinatio = G.GAME.consumeable_usage_total.tarot_planet_divinatio + 1
 end
-if card.config.center.set == 'Tarot' or card.config.center.set == 'Planet' or (card.config.center.set == 'Divinatio' and card.config.center_key ~= 'c_sgt_anima') then
+if card.config.center.set == 'Tarot' or card.config.center.set == 'Planet'
+or (card.config.center.set == 'Divinatio' and card.config.center_key ~= 'c_sgt_anima')
+or (card.config.center.set == 'Celestara' and card.config.center_key ~= 'c_sgt_soltera') then
   G.E_MANAGER:add_event(Event({
     trigger = 'immediate',
     func = function()
     G.E_MANAGER:add_event(Event({
       trigger = 'immediate',
       func = function()
-        G.GAME.last_tarot_planet_divinatio = card.config.center_key
+        G.GAME.last_tarot_planet_divinatio_celestara = card.config.center_key
       return true
       end
     }))
@@ -566,5 +568,21 @@ G.SPLASH_LOGO = Sprite(0, 0,
     13*SC_scale, 
     13*SC_scale*(G.ASSET_ATLAS[Ortalab.config.menu_toggle and 'ortalab_'..(Sagatro.config.Ortagas and 'alt_' or '')..'logo' or "balatro"].py/G.ASSET_ATLAS[Ortalab.config.menu_toggle and 'ortalab_'..(Sagatro.config.Ortagas and 'alt_' or '')..'logo' or "balatro"].px),
     G.ASSET_ATLAS[Ortalab.config.menu_toggle and 'ortalab_'..(Sagatro.config.Ortagas and 'alt_' or '')..'logo' or "balatro"], {x=0,y=0})
+'''
+match_indent = true
+
+# Patch to softlock Celestara cards for secret hands
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''
+elseif v.set == 'Planet' then
+'''
+position = "before"
+payload = '''
+elseif v.set == 'Celestara' then
+    if (not v.config.softlock or G.GAME.hands[v.config.hand_type].played > 0) then
+        add = true
+    end
 '''
 match_indent = true

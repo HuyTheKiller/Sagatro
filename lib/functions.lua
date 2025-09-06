@@ -4,6 +4,7 @@ G.C.SGT_OBSCURE = HEX("8627D4")
 G.C.SGT_ESOTERIC = HEX("131868")
 G.C.SGT_WISH = HEX("9bbcfd")
 G.C.SGT_DIVINATIO = HEX("3bc9cf")
+G.C.SGT_CELESTARA = HEX("717beb")
 G.C.SGT_ELDRITCH = HEX("3f0c57")
 G.C.SUBMARINE_DEPTH = {
     HEX("3a86e1"),
@@ -264,6 +265,11 @@ function Game:update(dt)
         if G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP then
             -- Handle opening Mega Buffoon Pack spawned by Utima Vox (restricted to during shop and blind select)
             if G.GAME.pending_mega_buffoon then
+                for i = 1, #G.GAME.tags do
+                    if G.GAME.tags[i].config.type == "new_blind_choice" then
+                        goto pending_mega_buffoon
+                    end
+                end
                 G.GAME.pending_mega_buffoon = nil
                 G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
                     G.CONTROLLER.locks.utima_vox = true
@@ -279,6 +285,7 @@ function Game:update(dt)
                     return true end }))
                 return true end }))
             end
+            ::pending_mega_buffoon::
         end
         -- Adam's ability to enable perishable in shop (take Orange Stake effect into account)
         if not (Ortalab or G.GAME.perishable_already_active) then
@@ -513,6 +520,19 @@ function Card:set_sprites(_center, _front)
 		self.children.floating_sprite2.states.hover.can = false
 		self.children.floating_sprite2.states.click.can = false
 	end
+end
+
+-- Handle selection limit on gravistone removal
+local card_remove = Card.remove
+function Card:remove()
+    if G.STAGE == G.STAGES.RUN then
+        if (self.area == G.play or self.area == G.hand)
+        and SMODS.has_enhancement(self, "m_sgt_gravistone") then
+            SMODS.change_play_limit(-1)
+            SMODS.change_discard_limit(-1)
+        end
+    end
+    card_remove(self)
 end
 
 -- Allow using custom joker pools if prompted
@@ -805,6 +825,16 @@ G.FUNCS.can_skip_booster = function(e)
     end
 end
 
+local card_selectable_from_pack = Card.selectable_from_pack
+function Card.selectable_from_pack(card, pack)
+    if pack.select_table then
+        for key, area in pairs(pack.select_table) do
+            if key == card.config.center_key then return area end
+        end
+    end
+    return card_selectable_from_pack(card, pack)
+end
+
 -- Ah yes, Nameless' secret ability is to slowly flood your shop voucher with Antimatter
 local avts = SMODS.add_voucher_to_shop
 function SMODS.add_voucher_to_shop(key, dont_save)
@@ -906,14 +936,24 @@ function table.extract_total_value(t)
     return tot
 end
 
----@param t table
-table.contains = table.contains or function(t, x)
-    for _, v in pairs(t) do
-		if v == x then
+---@param table table
+table.contains = table.contains or function(table, element)
+    for _, v in pairs(table) do
+		if v == element then
 			return true
 		end
 	end
 	return false
+end
+
+---@param table table
+---@return integer
+table.size = table.size or function(table)
+    local size = 0
+    for _,_ in pairs(table) do
+        size = size + 1
+    end
+    return size
 end
 
 function Sagatro.get_submarine_depth_colour()
@@ -1066,6 +1106,18 @@ function Sagatro.random_destroy(used_tarot)
         end
     }))
     return destroyed_cards
+end
+
+---@param seed string
+---@param count integer
+function Sagatro.random_select(seed, area, count)
+    local temp_hand = {}
+    local selected_cards = {}
+    for k, v in ipairs(area.cards) do temp_hand[#temp_hand+1] = v end
+    table.sort(temp_hand, function (a, b) return not a.playing_card or not b.playing_card or a.playing_card < b.playing_card end)
+    pseudoshuffle(temp_hand, pseudoseed(seed))
+    for i = 1, count do selected_cards[#selected_cards+1] = temp_hand[i] end
+    return selected_cards
 end
 
 function Sagatro.set_debuff(card)

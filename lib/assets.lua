@@ -189,6 +189,11 @@ SMODS.Sound{
 }
 
 SMODS.Sound{
+    key = "resonance",
+    path = "bell_resonance.ogg",
+}
+
+SMODS.Sound{
     key = "emult",
     path = "talisman_emult.wav",
 }
