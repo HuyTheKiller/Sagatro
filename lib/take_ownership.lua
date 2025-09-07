@@ -64,6 +64,7 @@ SMODS.Booster:take_ownership_by_kind('Celestial', {
         end
         if G.GAME.used_vouchers.v_sgt_alien_life and i == 2 then
             _card.set = "Celestara"
+            _card.soulable = false
             _card.key_append = "pl2"
         end
         return _card
