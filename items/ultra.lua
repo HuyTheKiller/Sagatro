@@ -1816,10 +1816,6 @@ local discordia = {
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         context.scoring_hand[1]:juice_up()
-                        -- Gravistone card transformed during this card's effect seems to not reduce handsize on discard
-                        -- so I'm doing it here manually
-                        SMODS.change_play_limit(-1)
-                        SMODS.change_discard_limit(-1)
                         return true
                     end
                 }))
@@ -2796,8 +2792,6 @@ local void_hole = {
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 context.scoring_hand[1]:juice_up()
-                                SMODS.change_play_limit(-1)
-                                SMODS.change_discard_limit(-1)
                                 return true
                             end
                         }))
