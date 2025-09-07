@@ -565,6 +565,14 @@ function Card:get_end_of_round_effect(context)
     return ret
 end
 
+-- Copied Gravistone properly triggers its selection limit increase
+local copy_cardref = copy_card
+function copy_card(other, new_card, card_scale, playing_card, strip_edition)
+    local card = copy_cardref(other, new_card, card_scale, playing_card, strip_edition)
+    card.ability.gravistone_triggered = nil
+    return card
+end
+
 -- Allow using custom joker pools if prompted
 local gcp = get_current_pool
 function get_current_pool(_type, _rarity, _legendary, _append)
