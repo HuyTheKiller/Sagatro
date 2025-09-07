@@ -3393,34 +3393,28 @@ local space = {
     pos = {x = 2, y = 5},
     badge_colour = HEX('092332'),
     calculate = function(self, card, context)
-        if context.end_of_round and context.cardarea == G.hand and context.main_eval and context.other_card == card then
-            if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit
-            and not card.ability.extra_enhancement then
-                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'before',
-                    delay = 0.0,
-                    func = function()
-                        G.GAME.consumeable_buffer = 0
-                        if G.GAME.last_hand_played then
-                            local _celestara = nil
-                            for _, v in pairs(G.P_CENTER_POOLS.Celestara) do
-                                if v.config.hand_type == G.GAME.last_hand_played then
-                                    _celestara = v.key
-                                end
-                            end
-                            if _celestara then
-                                SMODS.add_card{key = _celestara, key_append = "spasl"}
+        if context.end_of_round and context.cardarea == G.hand and context.other_card == card
+        and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+            G.E_MANAGER:add_event(Event({
+                trigger = 'immediate',
+                func = function()
+                    if G.GAME.last_hand_played then
+                        local _celestara = nil
+                        for _, v in pairs(G.P_CENTER_POOLS.Celestara) do
+                            if v.config.hand_type == G.GAME.last_hand_played then
+                                _celestara = v.key
                             end
                         end
-                        return true
+                        if _celestara then
+                            SMODS.add_card{key = _celestara, key_append = "spasl"}
+                        end
                     end
-                }))
-                return {
-                    message = localize('k_plus_celestara'),
-                    colour = G.C.SGT_CELESTARA,
-                }
-            end
+                    G.GAME.consumeable_buffer = 0
+                    return true
+                end
+            }))
+            SMODS.calculate_effect({message = localize('k_plus_celestara'), colour = G.C.SGT_CELESTARA}, card)
         end
     end,
     in_pool = function(self, args)
