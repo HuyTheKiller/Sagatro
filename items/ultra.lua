@@ -3291,7 +3291,7 @@ local gravistone = {
     always_scores = true,
     update = function(self, card, dt)
         if G.STAGE == G.STAGES.RUN then
-            if (card.facing == "front" or card.area == G.hand) and not card.ability.gravistone_triggered then
+            if card.area == G.hand and not card.ability.gravistone_triggered then
                 card.ability.gravistone_triggered = true
                 SMODS.change_play_limit(1)
                 SMODS.change_discard_limit(1)
