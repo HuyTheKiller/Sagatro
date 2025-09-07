@@ -3920,7 +3920,7 @@ local submarine = {
             card.loaded = nil
             ease_background_colour_blind(G.STATE)
         end
-        if card.ability then
+        if card.ability and self.discovered then
             card.ability.anim_dt = card.ability.anim_dt + dt
             card.ability.anim_transition_path = card.ability.immutable.old_depth_level - card.ability.immutable.depth_level
             if card.ability.anim_dt > 0.125*G.SETTINGS.GAMESPEED*(Handy and Handy.speed_multiplier.value or 1) then
@@ -7576,7 +7576,7 @@ local skoll_n_hati = {
             end
             if eval() then juice_card_until(card, eval, true) end
         end
-        if card.ability then
+        if card.ability and self.discovered then
             if card.ability.current_mode == "skoll" then
                 card.ability.anim_pos.x = 0
             elseif card.ability.current_mode == "hati" then
