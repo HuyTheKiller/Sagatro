@@ -3295,7 +3295,7 @@ local gravistone = {
                 card.ability.gravistone_triggered = true
                 SMODS.change_play_limit(1)
                 SMODS.change_discard_limit(1)
-            elseif card.facing == "back" and card.ability.gravistone_triggered then
+            elseif card.area ~= G.hand and card.ability.gravistone_triggered then
                 card.ability.gravistone_triggered = nil
                 SMODS.change_play_limit(-1)
                 SMODS.change_discard_limit(-1)
