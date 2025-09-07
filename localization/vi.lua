@@ -821,7 +821,7 @@ return {
                     "{C:red}-1{} level cho {C:attention}#2#{},",
                     "{C:attention}+1{} level cho {C:attention}#3#{} và",
                     "{C:attention}biến đổi{} lá ghi điểm đầu",
-                    "tiên thành {C:attention}Lá Đá Trọng Lực",
+                    "tiên thành {C:attention}Lá Trọng Thạch",
                     "rồi {C:attention}tiêu thụ{} lá này"},
                 },
             },
@@ -2064,7 +2064,7 @@ return {
                 },
             },
             m_sgt_gravistone = {
-                name = "Lá Đá Trọng Lực",
+                name = "Lá Trọng Thạch",
                 text = {
                     "{C:chips}+#1#{} Chip",
                     "Không có bậc hay chất",

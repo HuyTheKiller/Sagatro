@@ -294,6 +294,7 @@ function Card:update(dt)
                 self.ability.fusion.jiggle = false
             end
         end
+		-- I really need to put hook stuff in proper places :sob:
 		if self.ability.gravistone_triggered and not SMODS.has_enhancement(self, "m_sgt_gravistone") then
 			self.ability.gravistone_triggered = nil
 			SMODS.change_play_limit(-1)
