@@ -64,8 +64,42 @@ local ghostly = {
     end,
 }
 
+local alien = {
+    key = "alien",
+    name = "Alien Tag",
+    atlas = "tags",
+    pos = {x = 2, y = 0},
+    min_ante = 2,
+    apply = function(self, tag, context)
+        if context.type == 'new_blind_choice' then
+            local lock = tag.ID
+            G.CONTROLLER.locks[lock] = true
+            tag:yep('+', G.C.SGT_ELDRITCH, function()
+                local key = "p_sgt_celestara_mega"
+                local _card = Card(G.play.T.x + G.play.T.w/2 - G.CARD_W*1.27/2,
+                G.play.T.y + G.play.T.h/2-G.CARD_H*1.27/2, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
+                _card.cost = 0
+                _card.from_tag = true
+                G.FUNCS.use_card{config = {ref_table = _card}}
+                _card:start_materialize()
+                G.CONTROLLER.locks[lock] = nil
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_civilization
+    end,
+    loc_vars = function(self, info_queue, tag)
+        info_queue[#info_queue+1] = G.P_CENTERS.p_sgt_celestara_mega
+    end,
+}
+
 local tag_table = {
     holy,
+    alien,
     ghostly,
 }
 

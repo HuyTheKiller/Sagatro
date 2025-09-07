@@ -77,6 +77,13 @@ return {
                     "{C:sgt_divinatio}Mega Divinatio Pack",
                 },
             },
+            tag_sgt_alien = {
+                name = "Alien Tag",
+                text = {
+                    "Gives a free",
+                    "{C:sgt_celestara}Mega Celestara Pack",
+                },
+            },
             tag_sgt_ghostly = {
                 name = "Ghostly Tag",
                 text = {

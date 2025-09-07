@@ -73,15 +73,22 @@ return {
             tag_sgt_holy = {
                 name = "Nhãn Thiêng",
                 text = {
-                    "Nhận một",
-                    "{C:sgt_divinatio}Gói Chiêm Mộng Đại{} miễn phí",
+                    "Nhận một {C:sgt_divinatio}Gói Chiêm",
+                    "{C:sgt_divinatio}Mộng Đại{} miễn phí",
+                },
+            },
+            tag_sgt_alien = {
+                name = "Nhãn Ngoại Vi",
+                text = {
+                    "Nhận một {C:sgt_celestara}Gói Huyền",
+                    "{C:sgt_celestara}Thể Đại{} miễn phí",
                 },
             },
             tag_sgt_ghostly = {
                 name = "Nhãn Tà Ma",
                 text = {
-                    "Nhận một",
-                    "{C:sgt_eldritch}Gói Hắc Linh{} miễn phí",
+                    "Nhận một {C:sgt_eldritch}Gói",
+                    "{C:sgt_eldritch}Hắc Linh{} miễn phí",
                 },
             },
         },
