@@ -535,6 +535,36 @@ function Card:remove()
     card_remove(self)
 end
 
+-- Space Seal effect respects retriggers (e.g. from Mime)
+local card_end_of_round = Card.get_end_of_round_effect
+function Card:get_end_of_round_effect(context)
+    local ret = card_end_of_round(self, context)
+    if self.seal == 'sgt_Space' and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit and not self.ability.extra_enhancement then
+        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+        G.E_MANAGER:add_event(Event({
+            trigger = 'immediate',
+            func = function()
+                if G.GAME.last_hand_played then
+                    local _celestara = nil
+                    for _, v in pairs(G.P_CENTER_POOLS.Celestara) do
+                        if v.config.hand_type == G.GAME.last_hand_played then
+                            _celestara = v.key
+                        end
+                    end
+                    if _celestara then
+                        SMODS.add_card{key = _celestara, key_append = "spasl"}
+                    end
+                end
+                G.GAME.consumeable_buffer = 0
+                return true
+            end
+        }))
+        SMODS.calculate_effect({message = localize('k_plus_celestara'), colour = G.C.SGT_CELESTARA}, self)
+        ret.effect = true
+    end
+    return ret
+end
+
 -- Allow using custom joker pools if prompted
 local gcp = get_current_pool
 function get_current_pool(_type, _rarity, _legendary, _append)
