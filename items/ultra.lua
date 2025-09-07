@@ -752,7 +752,8 @@ local argyra = {
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
-            if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+            if to_big(G.GAME.hands[context.scoring_name].level + G.GAME.level_buffer) > to_big(1) then
+                G.GAME.level_buffer = G.GAME.level_buffer - 1
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -768,6 +769,9 @@ local argyra = {
                         end
                     }))
                 end
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.level_buffer = 0
+                return true end}))
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
 			end
@@ -849,7 +853,8 @@ local sulvatera = {
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
-            if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+            if to_big(G.GAME.hands[context.scoring_name].level + G.GAME.level_buffer) > to_big(1) then
+                G.GAME.level_buffer = G.GAME.level_buffer - 1
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -865,6 +870,9 @@ local sulvatera = {
                         end
                     }))
                 end
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.level_buffer = 0
+                return true end}))
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
 			end
@@ -947,7 +955,8 @@ local terranora = {
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
-            if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+            if to_big(G.GAME.hands[context.scoring_name].level + G.GAME.level_buffer) > to_big(1) then
+                G.GAME.level_buffer = G.GAME.level_buffer - 1
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -962,6 +971,9 @@ local terranora = {
                         end
                     }))
                 end
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.level_buffer = 0
+                return true end}))
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
 			end
@@ -1042,7 +1054,8 @@ local valora = {
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
-            if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+            if to_big(G.GAME.hands[context.scoring_name].level + G.GAME.level_buffer) > to_big(1) then
+                G.GAME.level_buffer = G.GAME.level_buffer - 1
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1055,6 +1068,9 @@ local valora = {
                         SMODS.destroy_cards(selected_cards, nil, true)
                         G.deck.config.card_limit = G.deck.config.card_limit - count
                     end
+                return true end}))
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.level_buffer = 0
                 return true end}))
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
@@ -1136,7 +1152,8 @@ local zephyria = {
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
-            if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+            if to_big(G.GAME.hands[context.scoring_name].level + G.GAME.level_buffer) > to_big(1) then
+                G.GAME.level_buffer = G.GAME.level_buffer - 1
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1159,6 +1176,9 @@ local zephyria = {
                         return true
                     end
                 }))
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.level_buffer = 0
+                return true end}))
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
 			end
@@ -1239,7 +1259,8 @@ local chronara = {
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
-            if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+            if to_big(G.GAME.hands[context.scoring_name].level + G.GAME.level_buffer) > to_big(1) then
+                G.GAME.level_buffer = G.GAME.level_buffer - 1
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1264,6 +1285,9 @@ local chronara = {
                     }))
                     return true end)}))
                 SMODS.calculate_effect({message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral}, card)
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.level_buffer = 0
+                return true end}))
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
 			end
@@ -1344,7 +1368,8 @@ local aetheron = {
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
-            if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+            if to_big(G.GAME.hands[context.scoring_name].level + G.GAME.level_buffer) > to_big(1) then
+                G.GAME.level_buffer = G.GAME.level_buffer - 1
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1359,6 +1384,9 @@ local aetheron = {
                         end
                     }))
                 end
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.level_buffer = 0
+                return true end}))
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
 			end
@@ -1440,7 +1468,8 @@ local oceanis = {
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
-            if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+            if to_big(G.GAME.hands[context.scoring_name].level + G.GAME.level_buffer) > to_big(1) then
+                G.GAME.level_buffer = G.GAME.level_buffer - 1
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1455,6 +1484,9 @@ local oceanis = {
                         end
                     }))
                 end
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.level_buffer = 0
+                return true end}))
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
 			end
@@ -1535,12 +1567,16 @@ local lonestra = {
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
-            if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+            if to_big(G.GAME.hands[context.scoring_name].level + G.GAME.level_buffer) > to_big(1) then
+                G.GAME.level_buffer = G.GAME.level_buffer - 1
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
                     SMODS.smart_level_up_hand(card, hand_type)
                 end
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.level_buffer = 0
+                return true end}))
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
 			end
@@ -1643,7 +1679,8 @@ local mystara = {
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
-            if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+            if to_big(G.GAME.hands[context.scoring_name].level + G.GAME.level_buffer) > to_big(1) then
+                G.GAME.level_buffer = G.GAME.level_buffer - 1
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1653,6 +1690,9 @@ local mystara = {
                     v.ability.perma_x_mult = v.ability.perma_x_mult + card.ability.perma_x_mult_mod
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, v)
                 end
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.level_buffer = 0
+                return true end}))
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
 			end
@@ -1734,13 +1774,17 @@ local ceratek = {
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
-            if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+            if to_big(G.GAME.hands[context.scoring_name].level + G.GAME.level_buffer) > to_big(1) then
+                G.GAME.level_buffer = G.GAME.level_buffer - 1
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
                     SMODS.smart_level_up_hand(card, hand_type)
                 end
                 context.scoring_hand[1]:set_edition(poll_edition('ceratek_edition', nil, nil, true), nil, nil, true)
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.level_buffer = 0
+                return true end}))
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
 			end
@@ -1821,7 +1865,8 @@ local discordia = {
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
-            if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+            if to_big(G.GAME.hands[context.scoring_name].level + G.GAME.level_buffer) > to_big(1) then
+                G.GAME.level_buffer = G.GAME.level_buffer - 1
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1834,6 +1879,9 @@ local discordia = {
                         return true
                     end
                 }))
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.level_buffer = 0
+                return true end}))
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
 			end
@@ -2686,7 +2734,8 @@ local void_hole = {
         for _, celestara_card in pairs(G.P_CENTER_POOLS.Celestara) do
             if context.before and not context.blueprint and not context.retrigger_joker
             and context.scoring_name == celestara_card.config.hand_type then
-                if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+                if to_big(G.GAME.hands[context.scoring_name].level + G.GAME.level_buffer) > to_big(1) then
+                    G.GAME.level_buffer = G.GAME.level_buffer - 1
                     local t = copy_table(celestara_card.config)
                     for k, v in pairs(t) do
                         card.ability[k] = v
@@ -2811,6 +2860,9 @@ local void_hole = {
                             end
                         }))
                     end
+                    G.E_MANAGER:add_event(Event({func = function()
+                        G.GAME.level_buffer = 0
+                    return true end}))
                     card.ability.amount = card.ability.amount - 1
                     if card.ability.amount <= 0 then
                         card.triggered = true

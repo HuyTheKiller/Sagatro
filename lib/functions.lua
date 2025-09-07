@@ -116,6 +116,7 @@ function Game:init_game_object()
     ret.last_tarot_planet_divinatio = nil
     ret.orbis_fatum_odds = 4
     ret.perishable_already_active = false
+    ret.level_buffer = 0
 	return ret
 end
 
