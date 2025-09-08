@@ -2834,6 +2834,7 @@ local void_hole = {
                         }))
                     end
                     card.ability.amount = card.ability.amount - 1
+                    card.reduced = true
                     if card.ability.amount <= 0 then
                         card.triggered = true
                     end
@@ -2855,7 +2856,8 @@ local void_hole = {
                         message = localize('k_consumed_ex'),
                         colour = G.C.FILTER,
                     }
-                else
+                elseif card.reduced then
+                    card.reduced = nil
                     return {
                         message = card.ability.amount..'',
                         colour = G.C.FILTER,
