@@ -2913,6 +2913,21 @@ local void_hole = {
         end
         return {vars = {card.ability.amount}}
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            calc_function = function(card)
+                card.joker_display_values.is_high_card = false
+                local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                if poker_hands[card.ability.hand_type] and next(poker_hands[card.ability.hand_type]) then
+                    card.joker_display_values.is_high_card = true
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                return held_in_hand and joker_card.joker_display_values.is_high_card
+                and 1 or 0 -- consumables cannot be retriggered by another joker
+            end
+        }
+    end,
 }
 
 local consumable_table = {
