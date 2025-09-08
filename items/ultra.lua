@@ -2684,7 +2684,7 @@ local void_hole = {
     end,
     update = function(self, card, dt)
         if G.STAGE == G.STAGES.RUN then
-            card.selected_buffer = 0
+            card.selected_buffer = card.selected_buffer or 0
             if G.STATE == G.STATES.SELECTING_HAND then
                 if #G.hand.highlighted ~= card.selected_buffer then
                     card.selected_buffer = #G.hand.highlighted
