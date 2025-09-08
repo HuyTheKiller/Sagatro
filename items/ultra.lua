@@ -2682,6 +2682,28 @@ local void_hole = {
     can_use = function(self, card)
         return true
     end,
+    update = function(self, card, dt)
+        if G.STAGE == G.STAGES.RUN then
+            card.selected_buffer = 0
+            if G.STATE == G.STATES.SELECTING_HAND then
+                if #G.hand.highlighted ~= card.selected_buffer then
+                    card.selected_buffer = #G.hand.highlighted
+                    local text = G.FUNCS.get_poker_hand_info(G.hand.highlighted)
+                    for _, celestara_card in pairs(G.P_CENTER_POOLS.Celestara) do
+                        if text == celestara_card.config.hand_type then
+                            card.hand_type_trigger = celestara_card.key
+                            break
+                        end
+                    end
+                end
+                if #G.hand.highlighted == 0 then
+                    card.hand_type_trigger = nil
+                end
+            else
+                card.hand_type_trigger = nil
+            end
+        end
+    end,
     calculate = function(self, card, context)
         for _, celestara_card in pairs(G.P_CENTER_POOLS.Celestara) do
             if context.before and not context.blueprint and not context.retrigger_joker
@@ -2886,6 +2908,9 @@ local void_hole = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
+        if card.hand_type_trigger then
+            info_queue[#info_queue+1] = G.P_CENTERS[card.hand_type_trigger]
+        end
         return {vars = {card.ability.amount}}
     end,
 }
