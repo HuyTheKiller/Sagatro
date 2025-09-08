@@ -1825,6 +1825,33 @@ return {
                     "chứa {C:attention}#2#",
                 },
             },
+            j_sgt_king_crab = {
+                name = "Cua Hoàng Đế",
+                text = {
+                    "Nếu tay bài đã chơi là {C:attention}#1#{},",
+                    "{C:attention}biến đổi{} lá ghi điểm đầu tiên",
+                    "thành {C:attention}Già{}",
+                },
+            },
+            j_sgt_big_red_jelly = {
+                name = "Sứa Đỏ Lớn",
+                text = {
+                    "Thêm {X:mult,C:white}X#2#{} Nhân mỗi lá",
+                    "có chất {C:hearts}Cơ{} ghi điểm",
+                    "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_narwhal = {
+                name = "Kì Lân Biển",
+                text = {
+                    "Khi {C:attention}Blind{} được chọn, {C:attention}đâm{}",
+                    "mọi joker ở bên trái {C:inactive}(Từ phải",
+                    "{C:inactive}qua trái, bị Vĩnh Hằng chặn){}",
+                    "và thêm {C:attention}1/5{} tổng giá bán",
+                    "của chúng vào {X:mult,C:white}XNhân{}",
+                    "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
+                },
+            },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
                 text = {

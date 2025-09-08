@@ -1830,6 +1830,33 @@ return {
                     "a {C:attention}#2#",
                 },
             },
+            j_sgt_king_crab = {
+                name = "King Crab",
+                text = {
+                    "if played hand is a {C:attention}#1#{},",
+                    "{C:attention}convert{} the first scoring card",
+                    "to a {C:attention}King{}",
+                },
+            },
+            j_sgt_big_red_jelly = {
+                name = "Big Red Jelly",
+                text = {
+                    "Gain {X:mult,C:white}X#2#{} Mult every scoring",
+                    "card with {C:hearts}Hearts{} suit",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_narwhal = {
+                name = "Narwhal",
+                text = {
+                    "When {C:attention}Blind{} is selected, {C:attention}impale{}",
+                    "all jokers to the left {C:inactive}(From right",
+                    "{C:inactive}to left, blocked by Eternal){} and",
+                    "add {C:attention}one-fifth{} of their total",
+                    "sell costs to {X:mult,C:white}XMult{}",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+                },
+            },
             j_sgt_nemo = {
                 name = "Cpt. Nemo",
                 text = {

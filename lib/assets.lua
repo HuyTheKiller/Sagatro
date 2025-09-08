@@ -189,6 +189,11 @@ SMODS.Sound{
 }
 
 SMODS.Sound{
+    key = "narwhal_impale",
+    path = "narwhal_impale.ogg",
+}
+
+SMODS.Sound{
     key = "resonance",
     path = "bell_resonance.ogg",
 }
