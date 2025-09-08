@@ -20,6 +20,15 @@ return {
                     "{C:red}X#3#{} base Blind size",
                 },
             },
+            b_sgt_celestaverse = {
+                name = "Celestaverse Deck",
+                text = {
+                    "Start run with",
+                    "{C:sgt_celestara,T:v_sgt_alien_life}#1#{} and",
+                    "{C:sgt_celestara,T:v_sgt_civilization}#2#{}",
+                    "{C:attention}+#3#{} consumable slot",
+                },
+            },
         },
         Sleeve = {
             sleeve_sgt_saga = {
@@ -56,6 +65,24 @@ return {
                     "Start run with",
                     "{C:sgt_divinatio,T:v_sgt_oculus_omniscientis}#1#{}",
                     "and {C:sgt_eldritch,T:v_sgt_abyss_pact}#2#{}",
+                    "{C:red}X#3#{} base Blind size",
+                },
+            },
+            sleeve_sgt_celestaverse = {
+                name = "Celestaverse Sleeve",
+                text = {
+                    "Start run with",
+                    "{C:sgt_celestara,T:v_sgt_alien_life}#1#{} and",
+                    "{C:sgt_celestara,T:v_sgt_civilization}#2#{}",
+                    "{C:attention}+#3#{} consumable slot",
+                },
+            },
+            sleeve_sgt_celestaverse_alt = {
+                name = "Celestaverse Sleeve",
+                text = {
+                    "Start run with {C:sgt_divinatio,T:c_sgt_sacra_sapientia}#1#{}",
+                    "{C:sgt_celestara}Celestara{} cards",
+                    "appear {C:attention}#2#X{} more often",
                     "{C:red}X#3#{} base Blind size",
                 },
             },

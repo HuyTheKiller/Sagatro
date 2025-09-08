@@ -28,9 +28,25 @@ local grimoire_deck = {
     end,
 }
 
+local celestaverse_deck = {
+    key = "celestaverse",
+    name = "Celestaverse Deck",
+    atlas = "decks",
+    pos = { x = 2, y = 0 },
+    config = {vouchers = {'v_sgt_alien_life', 'v_sgt_civilization'}, consumable_slot = 1},
+    loc_vars = function(self, info_queue, back)
+        return {
+            vars = {localize{type = 'name_text', key = self.config.vouchers[1], set = 'Voucher'},
+            localize{type = 'name_text', key = self.config.vouchers[2], set = 'Voucher'},
+            self.config.consumable_slot}
+        }
+    end,
+}
+
 local deck_table = {
     saga_deck,
     grimoire_deck,
+    celestaverse_deck,
 }
 
 for _, v in ipairs(deck_table) do
@@ -107,9 +123,44 @@ if CardSleeves then
 		end,
     }
 
+    local celestaverse_sleeve = {
+        key = "celestaverse",
+		name = "Celestaverse Sleeve",
+		atlas = 'sleeves',
+		pos = { x = 2, y = 0 },
+		unlocked = false,
+		unlock_condition = { deck = "b_sgt_grimoire", stake = "stake_blue" },
+        apply = function(self, sleeve)
+            CardSleeves.Sleeve.apply(sleeve)
+            if self.get_current_deck_key() == "b_sgt_celestaverse" then
+                G.GAME.starting_params.ante_scaling = self.config.conditional_ante_scaling
+                -- This is called too early, way before Civilization is applied
+                -- so I'm pulling it straight from voucher's prototype table
+                G.GAME.celestara_rate = G.P_CENTERS.v_sgt_civilization.config.extra.rate * self.config.times_rate
+            end
+		end,
+        loc_vars = function(self)
+            local key, vars = self.key, nil
+			if self.get_current_deck_key() == "b_sgt_celestaverse" then
+				key = key .. "_alt"
+                self.config = {times_rate = 3, conditional_ante_scaling = 1.5, consumables = {"c_sgt_sacra_sapientia"}}
+                vars = {localize{type = 'name_text', key = self.config.consumables[1], set = 'Divinatio'},
+                self.config.times_rate, self.config.conditional_ante_scaling}
+			else
+				key = self.key
+                self.config = {vouchers = {'v_sgt_alien_life', 'v_sgt_civilization'}, consumable_slot = 1}
+                vars = {localize{type = 'name_text', key = self.config.vouchers[1], set = 'Voucher'},
+                localize{type = 'name_text', key = self.config.vouchers[2], set = 'Voucher'},
+                self.config.consumable_slot}
+			end
+			return { key = key, vars = vars }
+		end,
+    }
+
     local sleeve_table = {
         saga_sleeve,
         grimoire_sleeve,
+        celestaverse_sleeve,
     }
 
     for _, v in ipairs(sleeve_table) do

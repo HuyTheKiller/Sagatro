@@ -20,6 +20,15 @@ return {
                     "{C:red}X#3#{} điểm Blind sàn",
                 },
             },
+            b_sgt_celestaverse = {
+                name = "Bộ Bài Huyền Vũ",
+                text = {
+                    "Bắt đầu trận với",
+                    "{C:sgt_celestara,T:v_sgt_alien_life}#1#{}",
+                    "và {C:sgt_celestara,T:v_sgt_civilization}#2#{}",
+                    "{C:attention}+#3#{} ô tiêu thụ",
+                },
+            },
         },
         Sleeve = {
             sleeve_sgt_saga = {
@@ -56,6 +65,24 @@ return {
                     "Bắt đầu trận với",
                     "{C:sgt_divinatio,T:v_sgt_oculus_omniscientis}#1#{}",
                     "và {C:sgt_eldritch,T:v_sgt_abyss_pact}#2#{}",
+                    "{C:red}X#3#{} điểm Blind sàn",
+                },
+            },
+            sleeve_sgt_celestaverse = {
+                name = "Bọc Huyền Vũ",
+                text = {
+                    "Bắt đầu trận với",
+                    "{C:sgt_celestara,T:v_sgt_alien_life}#1#{}",
+                    "và {C:sgt_celestara,T:v_sgt_civilization}#2#{}",
+                    "{C:attention}+#3#{} ô tiêu thụ",
+                },
+            },
+            sleeve_sgt_celestaverse_alt = {
+                name = "Bọc Huyền Vũ",
+                text = {
+                    "Bắt đầu trận với {C:sgt_divinatio,T:c_sgt_sacra_sapientia}#1#{}",
+                    "Lá {C:sgt_celestara}Huyền Thể{} xuất hiện",
+                    "thường xuyên hơn {C:attention}#2#{} lần",
                     "{C:red}X#3#{} điểm Blind sàn",
                 },
             },
