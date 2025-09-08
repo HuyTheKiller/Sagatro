@@ -1626,7 +1626,7 @@ local lonestra = {
             end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 return held_in_hand and joker_card.joker_display_values.is_high_card
-                and JokerDisplay.calculate_joker_triggers(joker_card) or 0
+                and 1 or 0 -- consumables cannot be retriggered by another joker
             end
         }
     end,
