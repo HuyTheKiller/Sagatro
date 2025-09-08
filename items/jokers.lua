@@ -3699,37 +3699,55 @@ local lamp_genie = {
         end
         if not (card.ability.from_wish_card or G.SETTINGS.paused) then
             if G.STATE == G.STATES.BLIND_SELECT and card.ability.init then
-                card.ability.init = nil
-                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-                    G.CONTROLLER.locks.genie_init = true
-                    G.E_MANAGER:add_event(Event({func = function()
-                        local key = "p_sgt_wish_primary"
-                        local _card = Card(G.play.T.x + G.play.T.w/2 - G.CARD_W*1.27/2,
-                        G.play.T.y + G.play.T.h/2-G.CARD_H*1.27/2, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
-                        _card.cost = 0
-                        _card.from_tag = true
-                        G.FUNCS.use_card({config = {ref_table = _card}})
-                        _card:start_materialize()
-                        G.CONTROLLER.locks.genie_init = nil
+                local paused_for_tags = false
+                for i = 1, #G.GAME.tags do
+                    if G.GAME.tags[i].config.type == "new_blind_choice" then
+                        paused_for_tags = true
+                        break
+                    end
+                end
+                if not paused_for_tags then
+                    card.ability.init = nil
+                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                        G.CONTROLLER.locks.genie_init = true
+                        G.E_MANAGER:add_event(Event({func = function()
+                            local key = "p_sgt_wish_primary"
+                            local _card = Card(G.play.T.x + G.play.T.w/2 - G.CARD_W*1.27/2,
+                            G.play.T.y + G.play.T.h/2-G.CARD_H*1.27/2, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
+                            _card.cost = 0
+                            _card.from_tag = true
+                            G.FUNCS.use_card({config = {ref_table = _card}})
+                            _card:start_materialize()
+                            G.CONTROLLER.locks.genie_init = nil
+                        return true end }))
                     return true end }))
-                return true end }))
+                end
             end
             if G.STATE == G.STATES.SHOP and card.ability.skipped_first_pack then
-                card.ability.skipped_first_pack = nil
-                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.8, func = function()
-                    G.CONTROLLER.locks.genie_second_pack = true
-                    G.E_MANAGER:add_event(Event({func = function()
-                        local key = "p_sgt_wish_secondary"
-                        local _card = Card(G.play.T.x + G.play.T.w/2 - G.CARD_W*1.27/2,
-                        G.play.T.y + G.play.T.h/2-G.CARD_H*1.27/2, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
-                        _card.cost = 0
-                        _card.from_tag = true
-                        booster_obj = _card.config.center
-                        G.FUNCS.use_card({config = {ref_table = _card}})
-                        _card:start_materialize()
-                        G.CONTROLLER.locks.genie_second_pack = nil
+                local paused_for_tags = false
+                for i = 1, #G.GAME.tags do
+                    if G.GAME.tags[i].config.type == "new_blind_choice" then
+                        paused_for_tags = true
+                        break
+                    end
+                end
+                if not paused_for_tags then
+                    card.ability.skipped_first_pack = nil
+                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.8, func = function()
+                        G.CONTROLLER.locks.genie_second_pack = true
+                        G.E_MANAGER:add_event(Event({func = function()
+                            local key = "p_sgt_wish_secondary"
+                            local _card = Card(G.play.T.x + G.play.T.w/2 - G.CARD_W*1.27/2,
+                            G.play.T.y + G.play.T.h/2-G.CARD_H*1.27/2, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
+                            _card.cost = 0
+                            _card.from_tag = true
+                            booster_obj = _card.config.center
+                            G.FUNCS.use_card({config = {ref_table = _card}})
+                            _card:start_materialize()
+                            G.CONTROLLER.locks.genie_second_pack = nil
+                        return true end }))
                     return true end }))
-                return true end }))
+                end
             end
         end
     end,

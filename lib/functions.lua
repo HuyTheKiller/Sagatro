@@ -265,27 +265,30 @@ function Game:update(dt)
         if G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP then
             -- Handle opening Mega Buffoon Pack spawned by Utima Vox (restricted to during shop and blind select)
             if G.GAME.pending_mega_buffoon then
+                local paused_for_tags = false
                 for i = 1, #G.GAME.tags do
                     if G.GAME.tags[i].config.type == "new_blind_choice" then
-                        goto pending_mega_buffoon
+                        paused_for_tags = true
+                        break
                     end
                 end
-                G.GAME.pending_mega_buffoon = nil
-                G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
-                    G.CONTROLLER.locks.utima_vox = true
-                    G.E_MANAGER:add_event(Event({func = function()
-                        local key = "p_buffoon_mega_1"
-                        local _card = Card(G.play.T.x + G.play.T.w/2 - G.CARD_W*1.27/2,
-                        G.play.T.y + G.play.T.h/2-G.CARD_H*1.27/2, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
-                        _card.cost = 0
-                        _card.from_tag = true
-                        G.FUNCS.use_card({config = {ref_table = _card}})
-                        _card:start_materialize()
-                        G.CONTROLLER.locks.utima_vox = nil
+                if not paused_for_tags then
+                    G.GAME.pending_mega_buffoon = nil
+                    G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                        G.CONTROLLER.locks.utima_vox = true
+                        G.E_MANAGER:add_event(Event({func = function()
+                            local key = "p_buffoon_mega_1"
+                            local _card = Card(G.play.T.x + G.play.T.w/2 - G.CARD_W*1.27/2,
+                            G.play.T.y + G.play.T.h/2-G.CARD_H*1.27/2, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
+                            _card.cost = 0
+                            _card.from_tag = true
+                            G.FUNCS.use_card({config = {ref_table = _card}})
+                            _card:start_materialize()
+                            G.CONTROLLER.locks.utima_vox = nil
+                        return true end }))
                     return true end }))
-                return true end }))
+                end
             end
-            ::pending_mega_buffoon::
         end
         -- Adam's ability to enable perishable in shop (take Orange Stake effect into account)
         if not (Ortalab or G.GAME.perishable_already_active) then
