@@ -4240,7 +4240,7 @@ local white_jellyfish = {
         if (context.after and not context.blueprint and not context.retrigger_joker
         and card.ability.loyalty_remaining == card.ability.extra.every) or context.forcetrigger then
             if SMODS.pseudorandom_probability(card, "white_jellyfish_pop", 1, card.ability.extra.odds, "white_jellyfish") or context.forcetrigger then
-                Sagatro.self_destruct(card)
+                Sagatro.self_destruct(card, {no_destruction_context = true})
                 G.GAME.pool_flags.white_jellyfish_pop = true
                 return {
                     message = localize('k_pop_ex'),
@@ -4346,7 +4346,7 @@ local red_jellyfish = {
         if (context.after and not context.blueprint and not context.retrigger_joker
         and card.ability.loyalty_remaining == card.ability.extra.every) or context.forcetrigger then
             if SMODS.pseudorandom_probability(card, "red_jellyfish_pop", 1, card.ability.extra.odds, "red_jellyfish") or context.forcetrigger then
-                Sagatro.self_destruct(card)
+                Sagatro.self_destruct(card, {no_destruction_context = true})
                 G.GAME.pool_flags.red_jellyfish_pop = true
                 return {
                     message = localize('k_pop_ex'),
@@ -4449,7 +4449,7 @@ local queen_jellyfish = {
         if (context.after and not context.blueprint and not context.retrigger_joker
         and card.ability.loyalty_remaining == card.ability.extra.every) or context.forcetrigger then
             if SMODS.pseudorandom_probability(card, "queen_jellyfish_pop", 1, card.ability.extra.odds, "queen_jellyfish") or context.forcetrigger then
-                Sagatro.self_destruct(card)
+                Sagatro.self_destruct(card, {no_destruction_context = true})
                 return {
                     message = localize('k_pop_ex'),
                     colour = G.C.RED,
