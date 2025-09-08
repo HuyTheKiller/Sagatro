@@ -2845,29 +2845,42 @@ local void_hole = {
     end,
     use = function(self, card, area, copier)
 		local used_consumable = copier or card
-		update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
-        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
-            play_sound('tarot1')
-            card:juice_up(0.8, 0.5)
-            G.TAROT_INTERRUPT_PULSE = true
+        if (G.SETTINGS.FASTFORWARD or 0) > 0 then
+            update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+                play_sound('tarot1')
+                card:juice_up(0.8, 0.5)
+                G.TAROT_INTERRUPT_PULSE = true
+                return true end }))
+            update_hand_text({delay = 0}, {mult = '+', StatusText = true})
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+                play_sound('tarot1')
+                card:juice_up(0.8, 0.5)
+                return true end }))
+            update_hand_text({delay = 0}, {chips = '+', StatusText = true})
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+                play_sound('tarot1')
+                card:juice_up(0.8, 0.5)
+                G.TAROT_INTERRUPT_PULSE = nil
+                return true end }))
+            update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level='+'..card.ability.amount})
+            delay(1.3)
+            for k, v in pairs(G.GAME.hands) do
+                level_up_hand(card, k, true, card.ability.amount)
+            end
+            update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+        else
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+                play_sound('tarot1')
+                card:juice_up(0.8, 0.5)
             return true end }))
-        update_hand_text({delay = 0}, {mult = '+', StatusText = true})
-        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
-            play_sound('tarot1')
-            card:juice_up(0.8, 0.5)
-            return true end }))
-        update_hand_text({delay = 0}, {chips = '+', StatusText = true})
-        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
-            play_sound('tarot1')
-            card:juice_up(0.8, 0.5)
-            G.TAROT_INTERRUPT_PULSE = nil
-            return true end }))
-        update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level='+'..card.ability.amount})
-        delay(1.3)
-        for k, v in pairs(G.GAME.hands) do
-            level_up_hand(card, k, true, card.ability.amount)
+            update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0.3}, {chips = '+', mult = '+', level='+'..card.ability.amount, StatusText = true})
+            delay(1.3)
+            for k, v in pairs(G.GAME.hands) do
+                level_up_hand(card, k, true, card.ability.amount)
+            end
+            update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
         end
-        update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
 	end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
