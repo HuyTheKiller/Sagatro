@@ -529,8 +529,8 @@ end
 local card_remove = Card.remove
 function Card:remove()
     if G.STAGE == G.STAGES.RUN then
-        if (self.area == G.play or self.area == G.hand)
-        and SMODS.has_enhancement(self, "m_sgt_gravistone") then
+        if SMODS.has_enhancement(self, "m_sgt_gravistone")
+        and self.ability.gravistone_triggered then
             SMODS.change_play_limit(-1)
             SMODS.change_discard_limit(-1)
         end
@@ -1155,9 +1155,11 @@ function Sagatro.random_select(seed, area, count)
     local temp_hand = {}
     local selected_cards = {}
     for k, v in ipairs(area.cards) do temp_hand[#temp_hand+1] = v end
-    table.sort(temp_hand, function (a, b) return not a.playing_card or not b.playing_card or a.playing_card < b.playing_card end)
-    pseudoshuffle(temp_hand, pseudoseed(seed))
-    for i = 1, count do selected_cards[#selected_cards+1] = temp_hand[i] end
+    if #temp_hand > 0 then
+        table.sort(temp_hand, function (a, b) return not a.playing_card or not b.playing_card or a.playing_card < b.playing_card end)
+        pseudoshuffle(temp_hand, pseudoseed(seed))
+        for i = 1, count do selected_cards[#selected_cards+1] = temp_hand[i] end
+    end
     return selected_cards
 end
 
