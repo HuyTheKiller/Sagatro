@@ -585,3 +585,11 @@ elseif v.set == 'Celestara' then
     end
 '''
 match_indent = true
+
+# Allow booster_obj.select_table to work the same as booster_obj.select_card
+[[patches]]
+[patches.regex]
+target = "functions/UI_definitions.lua"
+pattern = '''booster_obj\.select_card'''
+position = "at"
+payload = "(booster_obj.select_card or booster_obj.select_table)"
