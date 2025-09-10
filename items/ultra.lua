@@ -855,7 +855,7 @@ local argyra = {
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
-        if Overflow then
+        if Overflow and not card.fake_card then
             ret.main_end = {}
             localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
             ret.main_end = ret.main_end[1]
@@ -986,7 +986,7 @@ local sulvatera = {
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
-        if Overflow then
+        if Overflow and not card.fake_card then
             ret.main_end = {}
             localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
             ret.main_end = ret.main_end[1]
@@ -1114,7 +1114,7 @@ local terranora = {
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
-        if Overflow then
+        if Overflow and not card.fake_card then
             ret.main_end = {}
             localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
             ret.main_end = ret.main_end[1]
@@ -1241,7 +1241,7 @@ local valora = {
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
-        if Overflow then
+        if Overflow and not card.fake_card then
             ret.main_end = {}
             localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
             ret.main_end = ret.main_end[1]
@@ -1377,7 +1377,7 @@ local zephyria = {
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
-        if Overflow then
+        if Overflow and not card.fake_card then
             ret.main_end = {}
             localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
             ret.main_end = ret.main_end[1]
@@ -1515,7 +1515,7 @@ local chronara = {
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
-        if Overflow then
+        if Overflow and not card.fake_card then
             ret.main_end = {}
             localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
             ret.main_end = ret.main_end[1]
@@ -1644,7 +1644,7 @@ local aetheron = {
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
-        if Overflow then
+        if Overflow and not card.fake_card then
             ret.main_end = {}
             localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
             ret.main_end = ret.main_end[1]
@@ -1772,7 +1772,7 @@ local oceanis = {
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
-        if Overflow then
+        if Overflow and not card.fake_card then
             ret.main_end = {}
             localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
             ret.main_end = ret.main_end[1]
@@ -1898,7 +1898,7 @@ local lonestra = {
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
-        if Overflow then
+        if Overflow and not card.fake_card then
             ret.main_end = {}
             localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
             ret.main_end = ret.main_end[1]
@@ -2037,7 +2037,7 @@ local mystara = {
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
-        if Overflow then
+        if Overflow and not card.fake_card then
             ret.main_end = {}
             localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
             ret.main_end = ret.main_end[1]
@@ -2157,7 +2157,7 @@ local ceratek = {
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
-        if Overflow then
+        if Overflow and not card.fake_card then
             ret.main_end = {}
             localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
             ret.main_end = ret.main_end[1]
@@ -2284,7 +2284,7 @@ local discordia = {
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
-        if Overflow then
+        if Overflow and not card.fake_card then
             ret.main_end = {}
             localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
             ret.main_end = ret.main_end[1]
@@ -3341,7 +3341,7 @@ local void_hole = {
             info_queue[#info_queue+1] = G.P_CENTERS[card.hand_type_trigger]
         end
         local ret = {vars = {card.ability.amount}}
-        if Overflow then
+        if Overflow and not card.fake_card then
             ret.main_end = {}
             localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
             ret.main_end = ret.main_end[1]
