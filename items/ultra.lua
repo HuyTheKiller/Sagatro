@@ -747,7 +747,7 @@ local argyra = {
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 1, y = 6},
-    config = {level_up_amount = 2, hand_type = "Pair", resonance = {"Three of a Kind", "Full House"}},
+    config = {hand_type = "Pair", resonance = {"Three of a Kind", "Full House"}},
     cost = 4,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
@@ -773,7 +773,7 @@ local argyra = {
 			end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
-            Sagatro.self_destruct(card)
+            Sagatro.self_destruct(card, {no_destruction_context = true})
             return {
                 message = localize('k_consumed_ex'),
                 colour = G.C.FILTER,
@@ -803,7 +803,7 @@ local argyra = {
                 end
             end
         end
-        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, card.ability.level_up_amount)
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2)
         for _, hand_type in ipairs(resonant) do
             G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
                 play_sound("sgt_resonance", 1, 1)
@@ -844,7 +844,7 @@ local sulvatera = {
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 2, y = 6},
-    config = {level_up_amount = 2, hand_type = "Three of a Kind", dissonance = {"Pair"}},
+    config = {hand_type = "Three of a Kind", dissonance = {"Pair"}},
     cost = 4,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
@@ -870,7 +870,7 @@ local sulvatera = {
 			end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
-            Sagatro.self_destruct(card)
+            Sagatro.self_destruct(card, {no_destruction_context = true})
             return {
                 message = localize('k_consumed_ex'),
                 colour = G.C.FILTER,
@@ -900,7 +900,7 @@ local sulvatera = {
                 end
             end
         end
-        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, card.ability.level_up_amount)
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2)
         for _, hand_type in ipairs(resonant) do
             G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
                 play_sound("sgt_resonance", 1, 1)
@@ -942,7 +942,7 @@ local terranora = {
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 3, y = 6},
-    config = {level_up_amount = 2, hand_type = "Full House", dissonance = {"Pair", "Four of a Kind"}},
+    config = {hand_type = "Full House", dissonance = {"Pair", "Four of a Kind"}},
     cost = 4,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
@@ -967,7 +967,7 @@ local terranora = {
 			end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
-            Sagatro.self_destruct(card)
+            Sagatro.self_destruct(card, {no_destruction_context = true})
             return {
                 message = localize('k_consumed_ex'),
                 colour = G.C.FILTER,
@@ -997,7 +997,7 @@ local terranora = {
                 end
             end
         end
-        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, card.ability.level_up_amount)
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2)
         for _, hand_type in ipairs(resonant) do
             G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
                 play_sound("sgt_resonance", 1, 1)
@@ -1037,7 +1037,7 @@ local valora = {
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 4, y = 6},
-    config = {level_up_amount = 2, hand_type = "Four of a Kind", resonance = {"Full House"}, dissonance = {"Flush"}},
+    config = {hand_type = "Four of a Kind", resonance = {"Full House"}, dissonance = {"Flush"}},
     cost = 4,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
@@ -1061,7 +1061,7 @@ local valora = {
 			end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
-            Sagatro.self_destruct(card)
+            Sagatro.self_destruct(card, {no_destruction_context = true})
             return {
                 message = localize('k_consumed_ex'),
                 colour = G.C.FILTER,
@@ -1091,7 +1091,7 @@ local valora = {
                 end
             end
         end
-        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, card.ability.level_up_amount)
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2)
         for _, hand_type in ipairs(resonant) do
             G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
                 play_sound("sgt_resonance", 1, 1)
@@ -1131,7 +1131,7 @@ local zephyria = {
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 5, y = 6},
-    config = {level_up_amount = 2, hand_type = "Flush", resonance = {"Straight"}, dissonance = {"Four of a Kind"}},
+    config = {hand_type = "Flush", resonance = {"Straight"}, dissonance = {"Four of a Kind"}},
     cost = 4,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
@@ -1164,7 +1164,7 @@ local zephyria = {
 			end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
-            Sagatro.self_destruct(card)
+            Sagatro.self_destruct(card, {no_destruction_context = true})
             return {
                 message = localize('k_consumed_ex'),
                 colour = G.C.FILTER,
@@ -1194,7 +1194,7 @@ local zephyria = {
                 end
             end
         end
-        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, card.ability.level_up_amount)
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2)
         for _, hand_type in ipairs(resonant) do
             G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
                 play_sound("sgt_resonance", 1, 1)
@@ -1234,7 +1234,7 @@ local chronara = {
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 6, y = 6},
-    config = {level_up_amount = 2, hand_type = "Straight", resonance = {"Flush", "Four of a Kind"}},
+    config = {hand_type = "Straight", resonance = {"Flush", "Four of a Kind"}},
     cost = 4,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
@@ -1269,7 +1269,7 @@ local chronara = {
 			end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
-            Sagatro.self_destruct(card)
+            Sagatro.self_destruct(card, {no_destruction_context = true})
             return {
                 message = localize('k_consumed_ex'),
                 colour = G.C.FILTER,
@@ -1299,7 +1299,7 @@ local chronara = {
                 end
             end
         end
-        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, card.ability.level_up_amount)
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2)
         for _, hand_type in ipairs(resonant) do
             G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
                 play_sound("sgt_resonance", 1, 1)
@@ -1339,7 +1339,7 @@ local aetheron = {
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 7, y = 6},
-    config = {level_up_amount = 2, hand_type = "Two Pair", resonance = {"Straight Flush"}, dissonance = {"Five of a Kind"}},
+    config = {hand_type = "Two Pair", resonance = {"Straight Flush"}, dissonance = {"Five of a Kind"}},
     cost = 4,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
@@ -1364,7 +1364,7 @@ local aetheron = {
 			end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
-            Sagatro.self_destruct(card)
+            Sagatro.self_destruct(card, {no_destruction_context = true})
             return {
                 message = localize('k_consumed_ex'),
                 colour = G.C.FILTER,
@@ -1394,7 +1394,7 @@ local aetheron = {
                 end
             end
         end
-        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, card.ability.level_up_amount)
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2)
         for _, hand_type in ipairs(resonant) do
             G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
                 play_sound("sgt_resonance", 1, 1)
@@ -1435,7 +1435,7 @@ local oceanis = {
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 8, y = 6},
-    config = {level_up_amount = 2, hand_type = "Straight Flush", resonance = {"Straight", "Flush"}, dissonance = {"Two Pair"}},
+    config = {hand_type = "Straight Flush", resonance = {"Straight", "Flush"}, dissonance = {"Two Pair"}},
     cost = 4,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
@@ -1460,7 +1460,7 @@ local oceanis = {
 			end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
-            Sagatro.self_destruct(card)
+            Sagatro.self_destruct(card, {no_destruction_context = true})
             return {
                 message = localize('k_consumed_ex'),
                 colour = G.C.FILTER,
@@ -1490,7 +1490,7 @@ local oceanis = {
                 end
             end
         end
-        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, card.ability.level_up_amount)
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2)
         for _, hand_type in ipairs(resonant) do
             G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
                 play_sound("sgt_resonance", 1, 1)
@@ -1530,7 +1530,7 @@ local lonestra = {
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 9, y = 6},
-    config = {level_up_amount = 2, hand_type = "High Card"},
+    config = {hand_type = "High Card"},
     cost = 4,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
@@ -1553,7 +1553,7 @@ local lonestra = {
             }
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
-            Sagatro.self_destruct(card)
+            Sagatro.self_destruct(card, {no_destruction_context = true})
             return {
                 message = localize('k_consumed_ex'),
                 colour = G.C.FILTER,
@@ -1583,7 +1583,7 @@ local lonestra = {
                 end
             end
         end
-        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, card.ability.level_up_amount)
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2)
         for _, hand_type in ipairs(resonant) do
             G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
                 play_sound("sgt_resonance", 1, 1)
@@ -1638,7 +1638,7 @@ local mystara = {
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 9, y = 7},
-    config = {level_up_amount = 2, hand_type = "Five of a Kind", resonance = {"Two Pair", "Flush Five"}, perma_x_mult_mod = 0.1, softlock = true},
+    config = {hand_type = "Five of a Kind", resonance = {"Two Pair", "Flush Five"}, perma_x_mult_mod = 0.1, softlock = true},
     cost = 4,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
@@ -1658,7 +1658,7 @@ local mystara = {
 			end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
-            Sagatro.self_destruct(card)
+            Sagatro.self_destruct(card, {no_destruction_context = true})
             return {
                 message = localize('k_consumed_ex'),
                 colour = G.C.FILTER,
@@ -1688,7 +1688,7 @@ local mystara = {
                 end
             end
         end
-        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, card.ability.level_up_amount)
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2)
         for _, hand_type in ipairs(resonant) do
             G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
                 play_sound("sgt_resonance", 1, 1)
@@ -1729,7 +1729,7 @@ local ceratek = {
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 8, y = 7},
-    config = {level_up_amount = 2, hand_type = "Flush House", dissonance = {"Four of a Kind", "Flush"}, softlock = true},
+    config = {hand_type = "Flush House", dissonance = {"Four of a Kind", "Flush"}, softlock = true},
     cost = 4,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
@@ -1746,7 +1746,7 @@ local ceratek = {
 			end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
-            Sagatro.self_destruct(card)
+            Sagatro.self_destruct(card, {no_destruction_context = true})
             return {
                 message = localize('k_consumed_ex'),
                 colour = G.C.FILTER,
@@ -1776,7 +1776,7 @@ local ceratek = {
                 end
             end
         end
-        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, card.ability.level_up_amount)
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2)
         for _, hand_type in ipairs(resonant) do
             G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
                 play_sound("sgt_resonance", 1, 1)
@@ -1816,7 +1816,7 @@ local discordia = {
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 6, y = 7},
-    config = {level_up_amount = 2, hand_type = "Flush Five", dissonance = {"Five of a Kind"}, softlock = true},
+    config = {hand_type = "Flush Five", dissonance = {"Five of a Kind"}, softlock = true},
     cost = 4,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
@@ -1839,7 +1839,7 @@ local discordia = {
 			end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
-            Sagatro.self_destruct(card)
+            Sagatro.self_destruct(card, {no_destruction_context = true})
             return {
                 message = localize('k_consumed_ex'),
                 colour = G.C.FILTER,
@@ -1869,7 +1869,7 @@ local discordia = {
                 end
             end
         end
-        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, card.ability.level_up_amount)
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2)
         for _, hand_type in ipairs(resonant) do
             G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
                 play_sound("sgt_resonance", 1, 1)
@@ -2851,7 +2851,7 @@ local void_hole = {
             end
             if context.after and not context.blueprint and not context.retrigger_joker then
                 if card.triggered then
-                    Sagatro.self_destruct(card)
+                    Sagatro.self_destruct(card, {no_destruction_context = true})
                     return {
                         message = localize('k_consumed_ex'),
                         colour = G.C.FILTER,
