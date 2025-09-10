@@ -6,8 +6,6 @@ local divinatio = {
 	shop_rate = 0.0,
 	loc_txt = {},
 	default = "c_sgt_iustitia_sacra",
-	can_stack = true,
-	can_divide = true,
 }
 
 local celestara = {
@@ -18,8 +16,6 @@ local celestara = {
 	shop_rate = 0.0,
 	loc_txt = {},
     default = "c_sgt_argyra",
-    can_stack = false,
-    can_divide = false,
 }
 
 local eldritch = {
@@ -30,8 +26,6 @@ local eldritch = {
 	shop_rate = 0.0,
 	loc_txt = {},
 	default = "c_sgt_chanting",
-	can_stack = true,
-	can_divide = true,
 }
 
 local consumabletype_table = {

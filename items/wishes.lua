@@ -428,8 +428,6 @@ local wish = {
 	shop_rate = 0.0,
 	loc_txt = {},
 	default = "c_sgt_prosperity",
-	can_stack = true,
-	can_divide = true,
 }
 
 local consumabletype_table = {
