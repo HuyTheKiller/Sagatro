@@ -836,7 +836,7 @@ local argyra = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
-        if card.ability.resonance then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
+        if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         info_queue[#info_queue+1] = G.P_CENTERS.m_steel
         local ret = {
             vars = {
@@ -966,7 +966,7 @@ local sulvatera = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
-        if card.ability.resonance then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
+        if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         info_queue[#info_queue+1] = G.P_CENTERS.m_lucky
         info_queue[#info_queue+1] = G.P_CENTERS.m_wild
         local ret = {
@@ -1096,7 +1096,7 @@ local terranora = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
-        if card.ability.resonance then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
+        if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
                 G.GAME.hands[card.ability.hand_type].level,
@@ -1223,7 +1223,7 @@ local valora = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
-        if card.ability.resonance then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
+        if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
                 G.GAME.hands[card.ability.hand_type].level,
@@ -1359,7 +1359,7 @@ local zephyria = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
-        if card.ability.resonance then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
+        if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
                 G.GAME.hands[card.ability.hand_type].level,
@@ -1497,7 +1497,7 @@ local chronara = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
-        if card.ability.resonance then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
+        if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
                 G.GAME.hands[card.ability.hand_type].level,
@@ -1625,7 +1625,7 @@ local aetheron = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
-        if card.ability.resonance then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
+        if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_crystal
         local ret = {
             vars = {
@@ -1754,7 +1754,7 @@ local oceanis = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
-        if card.ability.resonance then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
+        if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
                 G.GAME.hands[card.ability.hand_type].level,
@@ -1880,7 +1880,7 @@ local lonestra = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
-        if card.ability.resonance then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
+        if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
                 G.GAME.hands[card.ability.hand_type].level,
@@ -2018,7 +2018,7 @@ local mystara = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
-        if card.ability.resonance then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
+        if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
                 G.GAME.hands[card.ability.hand_type].level,
@@ -2139,7 +2139,7 @@ local ceratek = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
-        if card.ability.resonance then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
+        if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
                 G.GAME.hands[card.ability.hand_type].level,
@@ -2265,7 +2265,7 @@ local discordia = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
-        if card.ability.resonance then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
+        if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_gravistone
         local ret = {
             vars = {
