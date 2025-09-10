@@ -708,164 +708,211 @@ return {
             c_sgt_argyra = {
                 name = "Argyra",
                 text = {
-                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
                     "{C:attention}#2#{} twice",
                     "{C:attention}Resonate{} with",
                     "{C:attention}#3#{}",
-                    "and {C:attention}#4#{}"},
-                    {"{C:sgt_celestara,u:sgt_celestara}When #2# played:",
-                    "{C:red}-1{} level to {C:attention}#2#{} and",
-                    "{C:attention}convert{} 2 random cards",
-                    "in hand to {C:attention}Steel Cards",
-                    "then {C:attention}consume{} this card"},
+                    "and {C:attention}#4#{}",
                 },
             },
             c_sgt_sulvatera = {
                 name = "Sulvatera",
                 text = {
-                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
-                    "{C:attention}#2#{} twice"},
-                    {"{C:sgt_celestara,u:sgt_celestara}When #2# played:",
-                    "{C:red}-1{} level to {C:attention}#2#{},",
-                    "{C:attention}+1{} level to {C:attention}#3#{} and {C:attention}convert{}",
-                    "the first and second scoring card",
-                    "to {C:attention}Lucky{} and {C:attention}Wild Card{}",
-                    "then {C:attention}consume{} this card"},
+                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+                    "{C:attention}#2#{} twice",
                 },
             },
             c_sgt_terranora = {
                 name = "Terranora",
                 text = {
-                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
-                    "{C:attention}#2#{} twice"},
-                    {"{C:sgt_celestara,u:sgt_celestara}When #2# played:",
-                    "{C:red}-1{} level to {C:attention}#2#{},",
-                    "{C:attention}+1{} level to {C:attention}#3#{}, {C:attention}#4#{}",
-                    "and {C:attention}increase{} the rank of",
-                    "all cards in hand by {C:attention}1{}",
-                    "then {C:attention}consume{} this card"},
+                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+                    "{C:attention}#2#{} twice",
                 },
             },
             c_sgt_valora = {
                 name = "Valora",
                 text = {
-                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
                     "{C:attention}#2#{} twice",
-                    "{C:attention}Resonate{} with {C:attention}#3#{}"},
-                    {"{C:sgt_celestara,u:sgt_celestara}When #2# played:",
-                    "{C:red}-1{} level to {C:attention}#2#{},",
-                    "{C:attention}+1{} level to {C:attention}#4#{} and {C:attention}destroy",
-                    "2 random cards in deck",
-                    "then {C:attention}consume{} this card"},
+                    "{C:attention}Resonate{} with {C:attention}#3#{}",
                 },
             },
             c_sgt_zephyria = {
                 name = "Zephyria",
                 text = {
-                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
                     "{C:attention}#2#{} twice",
-                    "{C:attention}Resonate{} with {C:attention}#3#{}"},
-                    {"{C:sgt_celestara,u:sgt_celestara}When #2# played:",
-                    "{C:red}-1{} level to {C:attention}#2#{},",
-                    "{C:attention}+1{} level to {C:attention}#4#{}",
-                    "and {C:attention}add{} a copy of the",
-                    "first scoring card to deck",
-                    "then {C:attention}consume{} this card"},
+                    "{C:attention}Resonate{} with {C:attention}#3#{}",
                 },
             },
             c_sgt_chronara = {
                 name = "Chronara",
                 text = {
-                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
                     "{C:attention}#2#{} twice",
                     "{C:attention}Resonate{} with",
-                    "{C:attention}#3#{} and {C:attention}#4#{}"},
-                    {"{C:sgt_celestara,u:sgt_celestara}When #2# played:",
-                    "{C:red}-1{} level to {C:attention}#2#{}, {C:attention}randomize",
-                    "the rank of scoring cards and",
-                    "create a random {C:spectral}Spectral{} card",
-                    "then {C:attention}consume{} this card"},
+                    "{C:attention}#3#{} and {C:attention}#4#{}",
                 },
             },
             c_sgt_aetheron = {
                 name = "Aetheron",
                 text = {
-                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
                     "{C:attention}#2#{} twice",
-                    "{C:attention}Resonate{} with {C:attention}#3#{}"},
-                    {"{C:sgt_celestara,u:sgt_celestara}When #2# played:",
-                    "{C:red}-1{} level to {C:attention}#2#{},",
-                    "{C:attention}+1{} level to {C:attention}#4#{}",
-                    "and {C:attention}convert{} the leftmost",
-                    "card in hand to {C:attention}Crystal Card",
-                    "then {C:attention}consume{} this card"},
+                    "{C:attention}Resonate{} with {C:attention}#3#{}",
                 },
             },
             c_sgt_oceanis = {
                 name = "Oceanis",
                 text = {
-                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
                     "{C:attention}#2#{} twice",
                     "{C:attention}Resonate{} with",
-                    "{C:attention}#3#{} and {C:attention}#4#{}"},
-                    {"{C:sgt_celestara,u:sgt_celestara}When #2# played:",
-                    "{C:red}-1{} level to {C:attention}#2#{},",
-                    "{C:attention}+1{} level to {C:attention}#5#{} and",
-                    "{C:attention}convert{} the leftmost card in",
-                    "hand into the first scoring card",
-                    "then {C:attention}consume{} this card"},
+                    "{C:attention}#3#{} and {C:attention}#4#{}",
                 },
             },
             c_sgt_lonestra = {
                 name = "Lonestra",
                 text = {
-                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
-                    "{C:attention}#2#{} twice"},
-                    {"{C:sgt_celestara,u:sgt_celestara}When #2# played:",
-                    "{C:red}-1{} level to {C:attention}#2#{} and",
-                    "{C:attention}retrigger{} all card",
-                    "{C:attention}held in hand{} abilities",
-                    "then {C:attention}consume{} this card"},
+                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+                    "{C:attention}#2#{} twice",
                 },
             },
             c_sgt_mystara = {
                 name = "Mystara",
                 text = {
-                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
                     "{C:attention}#2#{} twice",
                     "{C:attention}Resonate{} with",
-                    "{C:attention}#4#{} and {C:attention}#5#{}"},
-                    {"{C:sgt_celestara,u:sgt_celestara}When #2# played:",
-                    "{C:red}-1{} level to {C:attention}#2#{}",
-                    "and {C:attention}make{} all scoring cards",
-                    "{C:attention}permanently{} gain {X:mult,C:white}X#3#{} Mult",
-                    "then {C:attention}consume{} this card"},
+                    "{C:attention}#4#{} and {C:attention}#5#{}",
                 },
             },
             c_sgt_ceratek = {
                 name = "Ceratek",
                 text = {
-                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
-                    "{C:attention}#2#{} twice"},
-                    {"{C:sgt_celestara,u:sgt_celestara}When #2# played:",
-                    "{C:red}-1{} level to {C:attention}#2#{},",
-                    "{C:attention}+1{} level to {C:attention}#3#{},",
-                    "{C:attention}#4#{} and add a random {C:dark_edition}edition",
-                    "to the first scoring card",
-                    "then {C:attention}consume{} this card"},
+                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+                    "{C:attention}#2#{} twice",
                 },
             },
             c_sgt_discordia = {
                 name = "Discordia",
                 text = {
-                    {"{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
-                    "{C:attention}#2#{} twice"},
-                    {"{C:sgt_celestara,u:sgt_celestara}When #2# played:",
+                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+                    "{C:attention}#2#{} twice",
+                },
+            },
+            celestara_heading = {
+                text = {
+                    "{C:sgt_celestara,u:sgt_celestara}When #2# played:",
+                },
+            },
+            celestara_consume = {
+                text = {
+                    "then {C:attention}consume{} this card",
+                },
+            },
+            void_hole_consume = {
+                text = {
+                    "{C:inactive}(consumed at 0)",
+                },
+            },
+            c_sgt_argyra_effect = {
+                text = {
+                    "{C:red}-1{} level to {C:attention}#2#{} and",
+                    "{C:attention}convert{} 2 random cards",
+                    "in hand to {C:attention}Steel Cards",
+                },
+            },
+            c_sgt_sulvatera_effect = {
+                text = {
+                    "{C:red}-1{} level to {C:attention}#2#{},",
+                    "{C:attention}+1{} level to {C:attention}#3#{} and {C:attention}convert{}",
+                    "the first and second scoring card",
+                    "to {C:attention}Lucky{} and {C:attention}Wild Card{}",
+                },
+            },
+            c_sgt_terranora_effect = {
+                text = {
+                    "{C:red}-1{} level to {C:attention}#2#{},",
+                    "{C:attention}+1{} level to {C:attention}#3#{}, {C:attention}#4#{}",
+                    "and {C:attention}increase{} the rank of",
+                    "all cards in hand by {C:attention}1{}",
+                },
+            },
+            c_sgt_valora_effect = {
+                text = {
+                    "{C:red}-1{} level to {C:attention}#2#{},",
+                    "{C:attention}+1{} level to {C:attention}#4#{} and {C:attention}destroy",
+                    "2 random cards in deck",
+                },
+            },
+            c_sgt_zephyria_effect = {
+                text = {
+                    "{C:red}-1{} level to {C:attention}#2#{},",
+                    "{C:attention}+1{} level to {C:attention}#4#{}",
+                    "and {C:attention}add{} a copy of the",
+                    "first scoring card to deck",
+                },
+            },
+            c_sgt_chronara_effect = {
+                text = {
+                    "{C:red}-1{} level to {C:attention}#2#{}, {C:attention}randomize",
+                    "the rank of scoring cards and",
+                    "create a random {C:spectral}Spectral{} card",
+                },
+            },
+            c_sgt_aetheron_effect = {
+                text = {
+                    "{C:red}-1{} level to {C:attention}#2#{},",
+                    "{C:attention}+1{} level to {C:attention}#4#{}",
+                    "and {C:attention}convert{} the leftmost",
+                    "card in hand to {C:attention}Crystal Card",
+                },
+            },
+            c_sgt_oceanis_effect = {
+                text = {
+                    "{C:red}-1{} level to {C:attention}#2#{},",
+                    "{C:attention}+1{} level to {C:attention}#5#{} and",
+                    "{C:attention}convert{} the leftmost card in",
+                    "hand into the first scoring card",
+                },
+            },
+            c_sgt_lonestra_effect = {
+                text = {
+                    "{C:red}-1{} level to {C:attention}#2#{} and",
+                    "{C:attention}retrigger{} all card",
+                    "{C:attention}held in hand{} abilities",
+                },
+            },
+            c_sgt_mystara_effect = {
+                text = {
+                    "{C:red}-1{} level to {C:attention}#2#{}",
+                    "and {C:attention}make{} all scoring cards",
+                    "{C:attention}permanently{} gain {X:mult,C:white}X#3#{} Mult",
+                },
+            },
+            c_sgt_ceratek_effect = {
+                text = {
+                    "{C:red}-1{} level to {C:attention}#2#{},",
+                    "{C:attention}+1{} level to {C:attention}#3#{},",
+                    "{C:attention}#4#{} and add a random {C:dark_edition}edition",
+                    "to the first scoring card",
+                },
+            },
+            c_sgt_discordia_effect = {
+                text = {
                     "{C:red}-1{} level to {C:attention}#2#{},",
                     "{C:attention}+1{} level to {C:attention}#3#{}",
                     "and {C:attention}convert{} the first scoring",
                     "card to {C:attention}Gravistone Card",
-                    "then {C:attention}consume{} this card"},
+                },
+            },
+            c_sgt_void_hole_effect = {
+                text = {
+                    "trigger {C:sgt_celestara}Celestara{} effect",
+                    "{C:attention}respective{} to that hand and",
+                    "{C:red}-1{} bonus level this card",
+                    "will give in future usage",
                 },
             },
         },
@@ -1019,13 +1066,7 @@ return {
             c_sgt_void_hole = {
                 name = "Void Hole",
                 text = {
-                    {"Upgrade every {C:legendary,E:1}poker hand{} by {C:attention}#1#{} level(s)"},
-                    {"{C:sgt_celestara,u:sgt_celestara}When any hand played:",
-                    "trigger {C:sgt_celestara}Celestara{} card effect",
-                    "{C:attention}respective{} to that hand and",
-                    "{C:red}-1{} bonus level this card",
-                    "will give in future usage",
-                    "{C:inactive}(consumed at 0)"},
+                    "Upgrade every {C:legendary,E:1}poker hand{} by {C:attention}#1#{} level(s)",
                 }
             },
         },
@@ -2324,6 +2365,9 @@ return {
             ch_c_sgt_demo_challenge_text4 = { "This challenge serves as a sneak peek" },
             ch_c_sgt_demo_challenge_text5 = { "for Talisman enjoyers out there." },
         },
+        poker_hands = {
+			sgt_Any = "any hand",
+		},
         dictionary = {
             k_sgt_trivial = "Trivial",
             k_sgt_obscure = "Obscure",

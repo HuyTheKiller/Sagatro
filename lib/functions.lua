@@ -1252,43 +1252,35 @@ function Sagatro:calculate(context)
     if G.GAME.story_mode then end
 end
 
--- from Cryptid's Tarot called Blessing
--- and I thought it could exclude cards from getting called in get_random_consumable and from Deck of Equilibrium
-function sgt_center_no(center, m, key, no_no)
-	if no_no then
-		return center[m] or (G.GAME and G.GAME[m] and G.GAME[m][key]) or false
-	end
-	return sgt_center_no(center, "no_" .. m, key, true)
+-- Ortalab Mythos UI - modified to be interative with Void Hole
+local gcu = generate_card_ui
+function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, card)
+    local ui = gcu(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, card)
+    if ((_c.set == "Celestara" or _c.key == "c_sgt_void_hole") and (not card.area.config.collection or _c.discovered)) then
+        local key = (card.hand_type_trigger or _c.key).."_effect"
+        local celestara_nodes = {background_colour = lighten(G.C.SGT_CELESTARA, 0.75)}
+        local vars = specific_vars or G.P_CENTERS[card.hand_type_trigger or _c.key]:loc_vars({}).vars
+        local consume = _c.key == "c_sgt_void_hole" and "void_hole_consume" or "celestara_consume"
+        localize{type = "descriptions", set = "Celestara", key = "celestara_heading", nodes = celestara_nodes, vars = vars}
+        localize{type = "descriptions", set = "Celestara", key = key, nodes = celestara_nodes, vars = vars}
+        if _c.key ~= "c_sgt_void_hole" or card.hand_type_trigger == "c_sgt_void_hole" then
+            localize{type = "descriptions", set = "Celestara", key = consume, nodes = celestara_nodes, vars = {}}
+        end
+        ui.celestara = celestara_nodes
+    end
+    return ui
 end
 
-function sgt_get_random_consumable(seed, excluded_flags, banned_card, pool, no_undiscovered)
-	excluded_flags = excluded_flags or { "hidden", "no_doe", "no_grc" }
-	local selection = "n/a"
-	local passes = 0
-	local tries = 500
-	while true do
-		tries = tries - 1
-		passes = 0
-		local key = pseudorandom_element(pool or G.P_CENTER_POOLS.Consumeables, pseudoseed(seed or "grc")).key
-		selection = G.P_CENTERS[key]
-		if selection.discovered or not no_undiscovered then
-			for _, v in ipairs(excluded_flags) do
-				if not sgt_center_no(selection, v, key, true) then
-					if not banned_card or (banned_card and banned_card ~= key) then
-						passes = passes + 1
-					end
-				end
-			end
-		end
-		if passes >= #excluded_flags or tries <= 0 then
-			if tries <= 0 and no_undiscovered then
-				return G.P_CENTERS["c_strength"]
-			else
-				if Sagatro.debug then print(selection.key) end
-                return selection
-			end
-		end
-	end
+local chp = G.UIDEF.card_h_popup
+function G.UIDEF.card_h_popup(card)
+    local ret_val = chp(card)
+    local AUT = card.ability_UIBox_table
+    if AUT.celestara then
+        table.insert(ret_val.nodes[1].nodes[1].nodes[1].nodes,
+        #ret_val.nodes[1].nodes[1].nodes[1].nodes+(card.config.center.discovered and 0 or 1),
+        desc_from_rows(AUT.celestara))
+    end
+    return ret_val
 end
 
 local tag_zodiac_align = {2, 2, 3, 4, 4, 5, 5, 6}

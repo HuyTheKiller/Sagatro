@@ -836,6 +836,7 @@ local argyra = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
+        card = card or SMODS.Center.create_fake_card(self)
         if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         info_queue[#info_queue+1] = G.P_CENTERS.m_steel
         local ret = {
@@ -966,6 +967,7 @@ local sulvatera = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
+        card = card or SMODS.Center.create_fake_card(self)
         if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         info_queue[#info_queue+1] = G.P_CENTERS.m_lucky
         info_queue[#info_queue+1] = G.P_CENTERS.m_wild
@@ -1096,6 +1098,7 @@ local terranora = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
+        card = card or SMODS.Center.create_fake_card(self)
         if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
@@ -1223,6 +1226,7 @@ local valora = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
+        card = card or SMODS.Center.create_fake_card(self)
         if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
@@ -1359,6 +1363,7 @@ local zephyria = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
+        card = card or SMODS.Center.create_fake_card(self)
         if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
@@ -1497,6 +1502,7 @@ local chronara = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
+        card = card or SMODS.Center.create_fake_card(self)
         if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
@@ -1625,6 +1631,7 @@ local aetheron = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
+        card = card or SMODS.Center.create_fake_card(self)
         if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_crystal
         local ret = {
@@ -1754,6 +1761,7 @@ local oceanis = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
+        card = card or SMODS.Center.create_fake_card(self)
         if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
@@ -1880,6 +1888,7 @@ local lonestra = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
+        card = card or SMODS.Center.create_fake_card(self)
         if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
@@ -2018,6 +2027,7 @@ local mystara = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
+        card = card or SMODS.Center.create_fake_card(self)
         if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
@@ -2139,6 +2149,7 @@ local ceratek = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
+        card = card or SMODS.Center.create_fake_card(self)
         if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         local ret = {
             vars = {
@@ -2265,6 +2276,7 @@ local discordia = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
+        card = card or SMODS.Center.create_fake_card(self)
         if card.ability.resonance and not card.fake_card then info_queue[#info_queue+1] = {set = "Other", key = "sgt_resonance"} end
         info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_gravistone
         local ret = {
@@ -3085,11 +3097,13 @@ local void_hole = {
                     end
                 end
                 if #G.hand.highlighted == 0 then
-                    card.hand_type_trigger = nil
+                    card.hand_type_trigger = "c_sgt_void_hole"
                 end
             else
-                card.hand_type_trigger = nil
+                card.hand_type_trigger = "c_sgt_void_hole"
             end
+        else
+            card.hand_type_trigger = "c_sgt_void_hole"
         end
     end,
     calculate = function(self, card, context)
@@ -3337,12 +3351,20 @@ local void_hole = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
     loc_vars = function(self, info_queue, card)
-        if card.hand_type_trigger then
-            info_queue[#info_queue+1] = G.P_CENTERS[card.hand_type_trigger]
-        else
+        card = card or SMODS.Center.create_fake_card(self)
+        if card.hand_type_trigger == "c_sgt_void_hole" then
             info_queue[#info_queue+1] = {set = "Other", key = "sgt_void_hole_guide"}
+        elseif card.hand_type_trigger == "c_sgt_argyra" then
+            info_queue[#info_queue+1] = G.P_CENTERS.m_steel
+        elseif card.hand_type_trigger == "c_sgt_sulvatera" then
+            info_queue[#info_queue+1] = G.P_CENTERS.m_lucky
+            info_queue[#info_queue+1] = G.P_CENTERS.m_wild
+        elseif card.hand_type_trigger == "c_sgt_aetheron" then
+            info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_crystal
+        elseif card.hand_type_trigger == "c_sgt_discordia" then
+            info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_gravistone
         end
-        local ret = {vars = {card.ability.amount}}
+        local ret = {vars = {card.ability.amount, localize("sgt_Any", "poker_hands")}}
         if Overflow and not card.fake_card then
             ret.main_end = {}
             localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
