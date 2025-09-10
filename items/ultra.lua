@@ -2869,7 +2869,7 @@ local void_hole = {
     end,
     use = function(self, card, area, copier)
 		local used_consumable = copier or card
-        if (G.SETTINGS.FASTFORWARD or 0) > 0 then
+        if (G.SETTINGS.FASTFORWARD or 0) == 0 then
             update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
                 play_sound('tarot1')
@@ -2894,6 +2894,7 @@ local void_hole = {
             end
             update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
         else
+            update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
                 play_sound('tarot1')
                 card:juice_up(0.8, 0.5)
