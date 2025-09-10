@@ -3339,6 +3339,8 @@ local void_hole = {
     loc_vars = function(self, info_queue, card)
         if card.hand_type_trigger then
             info_queue[#info_queue+1] = G.P_CENTERS[card.hand_type_trigger]
+        else
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_void_hole_guide"}
         end
         local ret = {vars = {card.ability.amount}}
         if Overflow and not card.fake_card then

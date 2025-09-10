@@ -237,6 +237,14 @@ return {
                     "{C:attention}nâng level{} tay cộng hưởng",
                 },
             },
+            sgt_void_hole_guide = {
+                name = "Xem Trước Hiệu Ứng",
+                text = {
+                    "Chọn lá bài trên tay, rồi",
+                    "lia chuột lên lá này để",
+                    "xem hiệu ứng {C:sgt_celestara}Huyền Thể",
+                },
+            },
             sgt_require_talisman_for_emult = {
                 name = "n",
                 text = {

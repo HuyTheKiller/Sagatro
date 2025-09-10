@@ -238,6 +238,14 @@ return {
                     "{C:attention}level up{} resonated hand",
                 },
             },
+            sgt_void_hole_guide = {
+                name = "Effect Prefiew",
+                text = {
+                    "Select any cards in hand,",
+                    "then hover this card to",
+                    "view {C:sgt_celestara}Celestara{} effect",
+                },
+            },
             sgt_require_talisman_for_emult = {
                 name = "n",
                 text = {
