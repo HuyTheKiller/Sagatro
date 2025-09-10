@@ -239,7 +239,7 @@ return {
                 },
             },
             sgt_void_hole_guide = {
-                name = "Effect Prefiew",
+                name = "Effect Preview",
                 text = {
                     "Select any cards in hand,",
                     "then hover this card to",
