@@ -804,6 +804,34 @@ local argyra = {
             SMODS.smart_level_up_hand(card, hand_type)
         end
     end,
+    bulk_use = function(self, card, area, copier, amount)
+        local resonant = {}
+        for _, hand_type in ipairs(card.ability.resonance or {}) do
+            if SMODS.Scoring_Parameters then
+                local passed_parameters = 0
+                for name, _ in pairs(SMODS.Scoring_Parameters) do
+                    if to_big(G.GAME.hands[card.ability.hand_type][name]) > to_big(G.GAME.hands[hand_type][name]) then
+                        passed_parameters = passed_parameters + 1
+                    end
+                end
+                if passed_parameters >= table.size(SMODS.Scoring_Parameters) then
+                    resonant[#resonant+1] = hand_type
+                end
+            else
+                if to_big(G.GAME.hands[card.ability.hand_type].chips) > to_big(G.GAME.hands[hand_type].chips)
+                and to_big(G.GAME.hands[card.ability.hand_type].mult) > to_big(G.GAME.hands[hand_type].mult) then
+                    resonant[#resonant+1] = hand_type
+                end
+            end
+        end
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2 * (amount or 1))
+        for _, hand_type in ipairs(resonant) do
+            G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                play_sound("sgt_resonance", 1, 1)
+            return true end}))
+            SMODS.smart_level_up_hand(card, hand_type, nil, (amount or 1))
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
@@ -826,6 +854,11 @@ local argyra = {
         end
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
+        end
+        if Overflow then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
         end
         return ret
     end,
@@ -901,6 +934,34 @@ local sulvatera = {
             SMODS.smart_level_up_hand(card, hand_type)
         end
     end,
+    bulk_use = function(self, card, area, copier, amount)
+        local resonant = {}
+        for _, hand_type in ipairs(card.ability.resonance or {}) do
+            if SMODS.Scoring_Parameters then
+                local passed_parameters = 0
+                for name, _ in pairs(SMODS.Scoring_Parameters) do
+                    if to_big(G.GAME.hands[card.ability.hand_type][name]) > to_big(G.GAME.hands[hand_type][name]) then
+                        passed_parameters = passed_parameters + 1
+                    end
+                end
+                if passed_parameters >= table.size(SMODS.Scoring_Parameters) then
+                    resonant[#resonant+1] = hand_type
+                end
+            else
+                if to_big(G.GAME.hands[card.ability.hand_type].chips) > to_big(G.GAME.hands[hand_type].chips)
+                and to_big(G.GAME.hands[card.ability.hand_type].mult) > to_big(G.GAME.hands[hand_type].mult) then
+                    resonant[#resonant+1] = hand_type
+                end
+            end
+        end
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2 * (amount or 1))
+        for _, hand_type in ipairs(resonant) do
+            G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                play_sound("sgt_resonance", 1, 1)
+            return true end}))
+            SMODS.smart_level_up_hand(card, hand_type, nil, (amount or 1))
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
@@ -924,6 +985,11 @@ local sulvatera = {
         end
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
+        end
+        if Overflow then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
         end
         return ret
     end,
@@ -998,6 +1064,34 @@ local terranora = {
             SMODS.smart_level_up_hand(card, hand_type)
         end
     end,
+    bulk_use = function(self, card, area, copier, amount)
+        local resonant = {}
+        for _, hand_type in ipairs(card.ability.resonance or {}) do
+            if SMODS.Scoring_Parameters then
+                local passed_parameters = 0
+                for name, _ in pairs(SMODS.Scoring_Parameters) do
+                    if to_big(G.GAME.hands[card.ability.hand_type][name]) > to_big(G.GAME.hands[hand_type][name]) then
+                        passed_parameters = passed_parameters + 1
+                    end
+                end
+                if passed_parameters >= table.size(SMODS.Scoring_Parameters) then
+                    resonant[#resonant+1] = hand_type
+                end
+            else
+                if to_big(G.GAME.hands[card.ability.hand_type].chips) > to_big(G.GAME.hands[hand_type].chips)
+                and to_big(G.GAME.hands[card.ability.hand_type].mult) > to_big(G.GAME.hands[hand_type].mult) then
+                    resonant[#resonant+1] = hand_type
+                end
+            end
+        end
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2 * (amount or 1))
+        for _, hand_type in ipairs(resonant) do
+            G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                play_sound("sgt_resonance", 1, 1)
+            return true end}))
+            SMODS.smart_level_up_hand(card, hand_type, nil, (amount or 1))
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
@@ -1019,6 +1113,11 @@ local terranora = {
         end
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
+        end
+        if Overflow then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
         end
         return ret
     end,
@@ -1092,6 +1191,34 @@ local valora = {
             SMODS.smart_level_up_hand(card, hand_type)
         end
     end,
+    bulk_use = function(self, card, area, copier, amount)
+        local resonant = {}
+        for _, hand_type in ipairs(card.ability.resonance or {}) do
+            if SMODS.Scoring_Parameters then
+                local passed_parameters = 0
+                for name, _ in pairs(SMODS.Scoring_Parameters) do
+                    if to_big(G.GAME.hands[card.ability.hand_type][name]) > to_big(G.GAME.hands[hand_type][name]) then
+                        passed_parameters = passed_parameters + 1
+                    end
+                end
+                if passed_parameters >= table.size(SMODS.Scoring_Parameters) then
+                    resonant[#resonant+1] = hand_type
+                end
+            else
+                if to_big(G.GAME.hands[card.ability.hand_type].chips) > to_big(G.GAME.hands[hand_type].chips)
+                and to_big(G.GAME.hands[card.ability.hand_type].mult) > to_big(G.GAME.hands[hand_type].mult) then
+                    resonant[#resonant+1] = hand_type
+                end
+            end
+        end
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2 * (amount or 1))
+        for _, hand_type in ipairs(resonant) do
+            G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                play_sound("sgt_resonance", 1, 1)
+            return true end}))
+            SMODS.smart_level_up_hand(card, hand_type, nil, (amount or 1))
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
@@ -1113,6 +1240,11 @@ local valora = {
         end
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
+        end
+        if Overflow then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
         end
         return ret
     end,
@@ -1195,6 +1327,34 @@ local zephyria = {
             SMODS.smart_level_up_hand(card, hand_type)
         end
     end,
+    bulk_use = function(self, card, area, copier, amount)
+        local resonant = {}
+        for _, hand_type in ipairs(card.ability.resonance or {}) do
+            if SMODS.Scoring_Parameters then
+                local passed_parameters = 0
+                for name, _ in pairs(SMODS.Scoring_Parameters) do
+                    if to_big(G.GAME.hands[card.ability.hand_type][name]) > to_big(G.GAME.hands[hand_type][name]) then
+                        passed_parameters = passed_parameters + 1
+                    end
+                end
+                if passed_parameters >= table.size(SMODS.Scoring_Parameters) then
+                    resonant[#resonant+1] = hand_type
+                end
+            else
+                if to_big(G.GAME.hands[card.ability.hand_type].chips) > to_big(G.GAME.hands[hand_type].chips)
+                and to_big(G.GAME.hands[card.ability.hand_type].mult) > to_big(G.GAME.hands[hand_type].mult) then
+                    resonant[#resonant+1] = hand_type
+                end
+            end
+        end
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2 * (amount or 1))
+        for _, hand_type in ipairs(resonant) do
+            G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                play_sound("sgt_resonance", 1, 1)
+            return true end}))
+            SMODS.smart_level_up_hand(card, hand_type, nil, (amount or 1))
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
@@ -1216,6 +1376,11 @@ local zephyria = {
         end
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
+        end
+        if Overflow then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
         end
         return ret
     end,
@@ -1300,6 +1465,34 @@ local chronara = {
             SMODS.smart_level_up_hand(card, hand_type)
         end
     end,
+    bulk_use = function(self, card, area, copier, amount)
+        local resonant = {}
+        for _, hand_type in ipairs(card.ability.resonance or {}) do
+            if SMODS.Scoring_Parameters then
+                local passed_parameters = 0
+                for name, _ in pairs(SMODS.Scoring_Parameters) do
+                    if to_big(G.GAME.hands[card.ability.hand_type][name]) > to_big(G.GAME.hands[hand_type][name]) then
+                        passed_parameters = passed_parameters + 1
+                    end
+                end
+                if passed_parameters >= table.size(SMODS.Scoring_Parameters) then
+                    resonant[#resonant+1] = hand_type
+                end
+            else
+                if to_big(G.GAME.hands[card.ability.hand_type].chips) > to_big(G.GAME.hands[hand_type].chips)
+                and to_big(G.GAME.hands[card.ability.hand_type].mult) > to_big(G.GAME.hands[hand_type].mult) then
+                    resonant[#resonant+1] = hand_type
+                end
+            end
+        end
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2 * (amount or 1))
+        for _, hand_type in ipairs(resonant) do
+            G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                play_sound("sgt_resonance", 1, 1)
+            return true end}))
+            SMODS.smart_level_up_hand(card, hand_type, nil, (amount or 1))
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
@@ -1321,6 +1514,11 @@ local chronara = {
         end
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
+        end
+        if Overflow then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
         end
         return ret
     end,
@@ -1395,6 +1593,34 @@ local aetheron = {
             SMODS.smart_level_up_hand(card, hand_type)
         end
     end,
+    bulk_use = function(self, card, area, copier, amount)
+        local resonant = {}
+        for _, hand_type in ipairs(card.ability.resonance or {}) do
+            if SMODS.Scoring_Parameters then
+                local passed_parameters = 0
+                for name, _ in pairs(SMODS.Scoring_Parameters) do
+                    if to_big(G.GAME.hands[card.ability.hand_type][name]) > to_big(G.GAME.hands[hand_type][name]) then
+                        passed_parameters = passed_parameters + 1
+                    end
+                end
+                if passed_parameters >= table.size(SMODS.Scoring_Parameters) then
+                    resonant[#resonant+1] = hand_type
+                end
+            else
+                if to_big(G.GAME.hands[card.ability.hand_type].chips) > to_big(G.GAME.hands[hand_type].chips)
+                and to_big(G.GAME.hands[card.ability.hand_type].mult) > to_big(G.GAME.hands[hand_type].mult) then
+                    resonant[#resonant+1] = hand_type
+                end
+            end
+        end
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2 * (amount or 1))
+        for _, hand_type in ipairs(resonant) do
+            G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                play_sound("sgt_resonance", 1, 1)
+            return true end}))
+            SMODS.smart_level_up_hand(card, hand_type, nil, (amount or 1))
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
@@ -1417,6 +1643,11 @@ local aetheron = {
         end
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
+        end
+        if Overflow then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
         end
         return ret
     end,
@@ -1491,6 +1722,34 @@ local oceanis = {
             SMODS.smart_level_up_hand(card, hand_type)
         end
     end,
+    bulk_use = function(self, card, area, copier, amount)
+        local resonant = {}
+        for _, hand_type in ipairs(card.ability.resonance or {}) do
+            if SMODS.Scoring_Parameters then
+                local passed_parameters = 0
+                for name, _ in pairs(SMODS.Scoring_Parameters) do
+                    if to_big(G.GAME.hands[card.ability.hand_type][name]) > to_big(G.GAME.hands[hand_type][name]) then
+                        passed_parameters = passed_parameters + 1
+                    end
+                end
+                if passed_parameters >= table.size(SMODS.Scoring_Parameters) then
+                    resonant[#resonant+1] = hand_type
+                end
+            else
+                if to_big(G.GAME.hands[card.ability.hand_type].chips) > to_big(G.GAME.hands[hand_type].chips)
+                and to_big(G.GAME.hands[card.ability.hand_type].mult) > to_big(G.GAME.hands[hand_type].mult) then
+                    resonant[#resonant+1] = hand_type
+                end
+            end
+        end
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2 * (amount or 1))
+        for _, hand_type in ipairs(resonant) do
+            G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                play_sound("sgt_resonance", 1, 1)
+            return true end}))
+            SMODS.smart_level_up_hand(card, hand_type, nil, (amount or 1))
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
@@ -1512,6 +1771,11 @@ local oceanis = {
         end
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
+        end
+        if Overflow then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
         end
         return ret
     end,
@@ -1584,6 +1848,34 @@ local lonestra = {
             SMODS.smart_level_up_hand(card, hand_type)
         end
     end,
+    bulk_use = function(self, card, area, copier, amount)
+        local resonant = {}
+        for _, hand_type in ipairs(card.ability.resonance or {}) do
+            if SMODS.Scoring_Parameters then
+                local passed_parameters = 0
+                for name, _ in pairs(SMODS.Scoring_Parameters) do
+                    if to_big(G.GAME.hands[card.ability.hand_type][name]) > to_big(G.GAME.hands[hand_type][name]) then
+                        passed_parameters = passed_parameters + 1
+                    end
+                end
+                if passed_parameters >= table.size(SMODS.Scoring_Parameters) then
+                    resonant[#resonant+1] = hand_type
+                end
+            else
+                if to_big(G.GAME.hands[card.ability.hand_type].chips) > to_big(G.GAME.hands[hand_type].chips)
+                and to_big(G.GAME.hands[card.ability.hand_type].mult) > to_big(G.GAME.hands[hand_type].mult) then
+                    resonant[#resonant+1] = hand_type
+                end
+            end
+        end
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2 * (amount or 1))
+        for _, hand_type in ipairs(resonant) do
+            G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                play_sound("sgt_resonance", 1, 1)
+            return true end}))
+            SMODS.smart_level_up_hand(card, hand_type, nil, (amount or 1))
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
@@ -1605,6 +1897,11 @@ local lonestra = {
         end
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
+        end
+        if Overflow then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
         end
         return ret
     end,
@@ -1689,6 +1986,34 @@ local mystara = {
             SMODS.smart_level_up_hand(card, hand_type)
         end
     end,
+    bulk_use = function(self, card, area, copier, amount)
+        local resonant = {}
+        for _, hand_type in ipairs(card.ability.resonance or {}) do
+            if SMODS.Scoring_Parameters then
+                local passed_parameters = 0
+                for name, _ in pairs(SMODS.Scoring_Parameters) do
+                    if to_big(G.GAME.hands[card.ability.hand_type][name]) > to_big(G.GAME.hands[hand_type][name]) then
+                        passed_parameters = passed_parameters + 1
+                    end
+                end
+                if passed_parameters >= table.size(SMODS.Scoring_Parameters) then
+                    resonant[#resonant+1] = hand_type
+                end
+            else
+                if to_big(G.GAME.hands[card.ability.hand_type].chips) > to_big(G.GAME.hands[hand_type].chips)
+                and to_big(G.GAME.hands[card.ability.hand_type].mult) > to_big(G.GAME.hands[hand_type].mult) then
+                    resonant[#resonant+1] = hand_type
+                end
+            end
+        end
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2 * (amount or 1))
+        for _, hand_type in ipairs(resonant) do
+            G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                play_sound("sgt_resonance", 1, 1)
+            return true end}))
+            SMODS.smart_level_up_hand(card, hand_type, nil, (amount or 1))
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
@@ -1711,6 +2036,11 @@ local mystara = {
         end
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
+        end
+        if Overflow then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
         end
         return ret
     end,
@@ -1777,6 +2107,34 @@ local ceratek = {
             SMODS.smart_level_up_hand(card, hand_type)
         end
     end,
+    bulk_use = function(self, card, area, copier, amount)
+        local resonant = {}
+        for _, hand_type in ipairs(card.ability.resonance or {}) do
+            if SMODS.Scoring_Parameters then
+                local passed_parameters = 0
+                for name, _ in pairs(SMODS.Scoring_Parameters) do
+                    if to_big(G.GAME.hands[card.ability.hand_type][name]) > to_big(G.GAME.hands[hand_type][name]) then
+                        passed_parameters = passed_parameters + 1
+                    end
+                end
+                if passed_parameters >= table.size(SMODS.Scoring_Parameters) then
+                    resonant[#resonant+1] = hand_type
+                end
+            else
+                if to_big(G.GAME.hands[card.ability.hand_type].chips) > to_big(G.GAME.hands[hand_type].chips)
+                and to_big(G.GAME.hands[card.ability.hand_type].mult) > to_big(G.GAME.hands[hand_type].mult) then
+                    resonant[#resonant+1] = hand_type
+                end
+            end
+        end
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2 * (amount or 1))
+        for _, hand_type in ipairs(resonant) do
+            G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                play_sound("sgt_resonance", 1, 1)
+            return true end}))
+            SMODS.smart_level_up_hand(card, hand_type, nil, (amount or 1))
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
@@ -1798,6 +2156,11 @@ local ceratek = {
         end
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
+        end
+        if Overflow then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
         end
         return ret
     end,
@@ -1870,6 +2233,34 @@ local discordia = {
             SMODS.smart_level_up_hand(card, hand_type)
         end
     end,
+    bulk_use = function(self, card, area, copier, amount)
+        local resonant = {}
+        for _, hand_type in ipairs(card.ability.resonance or {}) do
+            if SMODS.Scoring_Parameters then
+                local passed_parameters = 0
+                for name, _ in pairs(SMODS.Scoring_Parameters) do
+                    if to_big(G.GAME.hands[card.ability.hand_type][name]) > to_big(G.GAME.hands[hand_type][name]) then
+                        passed_parameters = passed_parameters + 1
+                    end
+                end
+                if passed_parameters >= table.size(SMODS.Scoring_Parameters) then
+                    resonant[#resonant+1] = hand_type
+                end
+            else
+                if to_big(G.GAME.hands[card.ability.hand_type].chips) > to_big(G.GAME.hands[hand_type].chips)
+                and to_big(G.GAME.hands[card.ability.hand_type].mult) > to_big(G.GAME.hands[hand_type].mult) then
+                    resonant[#resonant+1] = hand_type
+                end
+            end
+        end
+        SMODS.smart_level_up_hand(card, card.ability.hand_type, nil, 2 * (amount or 1))
+        for _, hand_type in ipairs(resonant) do
+            G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                play_sound("sgt_resonance", 1, 1)
+            return true end}))
+            SMODS.smart_level_up_hand(card, hand_type, nil, (amount or 1))
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
@@ -1892,6 +2283,11 @@ local discordia = {
         end
         for _, hand_type in ipairs(card.ability.dissonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
+        end
+        if Overflow then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
         end
         return ret
     end,
@@ -2898,6 +3294,45 @@ local void_hole = {
             update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
         end
 	end,
+    bulk_use = function(self, card, area, copier, amount)
+        if (G.SETTINGS.FASTFORWARD or 0) == 0 then
+            update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+                play_sound('tarot1')
+                card:juice_up(0.8, 0.5)
+                G.TAROT_INTERRUPT_PULSE = true
+                return true end }))
+            update_hand_text({delay = 0}, {mult = '+', StatusText = true})
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+                play_sound('tarot1')
+                card:juice_up(0.8, 0.5)
+                return true end }))
+            update_hand_text({delay = 0}, {chips = '+', StatusText = true})
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+                play_sound('tarot1')
+                card:juice_up(0.8, 0.5)
+                G.TAROT_INTERRUPT_PULSE = nil
+                return true end }))
+            update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level='+'..card.ability.amount * (amount or 1)})
+            delay(1.3)
+            for k, v in pairs(G.GAME.hands) do
+                level_up_hand(card, k, true, card.ability.amount * (amount or 1))
+            end
+            update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+        else
+            update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+                play_sound('tarot1')
+                card:juice_up(0.8, 0.5)
+            return true end }))
+            update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0.3}, {chips = '+', mult = '+', level='+'..card.ability.amount * (amount or 1), StatusText = true})
+            delay(1.3)
+            for k, v in pairs(G.GAME.hands) do
+                level_up_hand(card, k, true, card.ability.amount * (amount or 1))
+            end
+            update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end,
@@ -2905,7 +3340,13 @@ local void_hole = {
         if card.hand_type_trigger then
             info_queue[#info_queue+1] = G.P_CENTERS[card.hand_type_trigger]
         end
-        return {vars = {card.ability.amount}}
+        local ret = {vars = {card.ability.amount}}
+        if Overflow then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_overflow_text", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
+        end
+        return ret
     end,
     joker_display_def = function(JokerDisplay)
         return {

@@ -262,6 +262,12 @@ return {
                     "{C:inactive,s:0.8}Logic only applies to {C:attention,s:0.8}Joker area",
                 },
             },
+            sgt_overflow_text = {
+                name = "n",
+                text = {
+                    "{C:inactive,s:0.8}Split before using ability below",
+                },
+            },
             undiscovered_divinatio = {
 				name = "Not Discovered",
 				text = {

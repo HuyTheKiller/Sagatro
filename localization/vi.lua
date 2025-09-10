@@ -261,6 +261,12 @@ return {
                     "{C:inactive,s:0.8}Logic chỉ áp dụng lên {C:attention,s:0.8}khu Joker",
                 },
             },
+            sgt_overflow_text = {
+                name = "n",
+                text = {
+                    "{C:inactive,s:0.8}Chia trước khi dùng khả năng dưới",
+                },
+            },
             undiscovered_divinatio = {
 				name = "Chưa Khám Phá",
                 text = {
