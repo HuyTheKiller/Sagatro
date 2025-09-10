@@ -716,7 +716,6 @@ local anima = {
         return true
     end,
     use = function(self, card, area, copier)
-		local used_consumable = copier or card
 		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             for _, v in ipairs(G.jokers.cards) do
                 v:add_sticker("eternal", true)
@@ -2643,7 +2642,6 @@ local sinister = {
         return true
     end,
     use = function(self, card, area, copier)
-		local used_consumable = copier or card
 		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             for _, v in ipairs(G.jokers.cards) do
                 v:add_sticker("perishable", true)
@@ -2862,7 +2860,6 @@ local void_hole = {
         end
     end,
     use = function(self, card, area, copier)
-		local used_consumable = copier or card
         if (G.SETTINGS.FASTFORWARD or 0) == 0 then
             update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()

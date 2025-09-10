@@ -14,7 +14,6 @@ local fertility = {
         return true
     end,
     use = function(self, card, area, copier)
-		local used_consumable = copier or card
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
             attention_text({
@@ -75,7 +74,6 @@ local prosperity = {
         return true
     end,
     use = function(self, card, area, copier)
-		local used_consumable = copier or card
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
             ease_dollars(card.ability.money)
@@ -128,7 +126,6 @@ local love = {
         return true
     end,
     use = function(self, card, area, copier)
-        local used_consumable = copier or card
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
             attention_text({
@@ -184,7 +181,6 @@ local peace = {
         return true
     end,
     use = function(self, card, area, copier)
-        local used_consumable = copier or card
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
             attention_text({
@@ -239,7 +235,6 @@ local ease = {
         return true
     end,
     use = function(self, card, area, copier)
-        local used_consumable = copier or card
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
             attention_text({
@@ -309,7 +304,6 @@ local asetheticism = {
         return true
     end,
     use = function(self, card, area, copier)
-        local used_consumable = copier or card
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
             attention_text({
@@ -379,7 +373,6 @@ local freedom = {
         return true
     end,
     use = function(self, card, area, copier)
-        local used_consumable = copier or card
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
             attention_text({

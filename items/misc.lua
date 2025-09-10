@@ -50,7 +50,6 @@ local streak = {
         return options, loc_vars
     end,
     use = function(self, card, area, copier)
-		local used_consumable = copier or card
         local options = self:streak_options()
 		for i = 1, #G.hand.highlighted do
 			local highlighted = G.hand.highlighted[i]
@@ -119,7 +118,6 @@ local lamp = {
         return true
     end,
     use = function(self, card, area, copier)
-		local used_consumable = copier or card
 		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
             card:juice_up(0.3, 0.5)
