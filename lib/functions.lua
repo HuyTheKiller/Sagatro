@@ -1266,7 +1266,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         if _c.key ~= "c_sgt_void_hole" or card.hand_type_trigger == "c_sgt_void_hole" then
             localize{type = "descriptions", set = "Celestara", key = consume, nodes = celestara_nodes, vars = {}}
         end
-        ui.celestara = celestara_nodes
+        ui[Ortalab and "mythos" or "celestara"] = celestara_nodes
     end
     return ui
 end
