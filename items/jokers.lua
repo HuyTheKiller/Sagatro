@@ -7406,7 +7406,7 @@ local narwhal = {
                 end
             return true end }))
             if not SMODS.scale_card then
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.xmult + card.ability.extra.xmult_mod*total_sell_cost}}, colour = G.C.BLUE, no_juice = true})
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.xmult + card.ability.extra.xmult_mod*total_sell_cost}}, colour = G.C.RED, no_juice = true})
             end
         end
         if (context.joker_main and to_big(card.ability.extra.xmult) > to_big(1)) or context.forcetrigger then
@@ -7551,7 +7551,7 @@ local goblin_shark = {
     rarity = 3,
     cost = 9,
     blueprint_compat = false,
-    demicoloncompat = false,
+    demicoloncompat = true,
     eternal_compat = false,
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
@@ -7615,6 +7615,19 @@ local goblin_shark = {
             if not SMODS.scale_card then
                 card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("$")..(card.ability.extra.dollars + card.ability.extra.dollar_mod*total_addition), colour = G.C.GOLD, no_juice = true})
             end
+        end
+        if context.forcetrigger then
+            if SMODS.scale_card then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "dollars",
+                    scalar_value = "dollar_mod",
+                    no_message = true
+                })
+            else
+                card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.dollar_mod
+            end
+            ease_dollars(card.ability.extra.dollars)
         end
         if context.after and not context.blueprint and not context.retrigger_joker then
             if SMODS.scale_card then
@@ -7682,7 +7695,7 @@ local colossal_squid = {
     rarity = 3,
     cost = 10,
     blueprint_compat = true,
-    demicoloncompat = true,
+    demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
