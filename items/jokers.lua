@@ -5950,10 +5950,10 @@ local coelacanthiformes = {
     eternal_compat = false,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if (context.discard or context.forcetrigger) and not context.blueprint then
-            if ((G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 and context.other_card:get_id() == 4) or context.forcetrigger)
-            and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+        if (context.discard and not context.blueprint) or context.forcetrigger then
+            if ((G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 and context.other_card:get_id() == 4)
+            and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit) or context.forcetrigger then
+                if not context.forcetrigger then G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1 end
                 return {
                     extra = {focus = card, message = localize('k_prevented_ex'), instant = true, func = function()
                         G.E_MANAGER:add_event(Event({
@@ -6855,7 +6855,7 @@ local shark = {
                     }
                 })
             else
-                card.ability.extra.chips = card.ability.extra.chips - card.ability.extra.eor_sub
+                card.ability.extra.chips = math.max(card.ability.extra.chips - card.ability.extra.eor_sub, 0)
                 return {
                     message = localize{type = 'variable', key = 'a_chips_minus', vars = {card.ability.extra.eor_sub}},
                     colour = G.C.BLUE,
