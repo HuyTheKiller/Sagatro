@@ -1939,6 +1939,33 @@ return {
                     "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
                 },
             },
+            j_sgt_seahorse = {
+                name = "Seahorse",
+                text = {
+                    "{C:green}#1# in #2#{} chance for each",
+                    "played {C:attention}8{} to create",
+                    "{C:tarot}#3#{} when scored",
+                    "{C:inactive}(Must have room)",
+                },
+            },
+            j_sgt_goblin_shark = {
+                name = "Goblin Shark",
+                text = {
+                    "When {C:attention}Blind{} is selected, {C:attention}eat{} 2 fish to",
+                    "the left with lower {C:attention}weight level{} and gain",
+                    "{C:money}$#2#{} of payout per {C:attention}weight level{}",
+                    "Earn {C:money}$#1#{} at end of round",
+                    "Loses {C:red}$#3#{} every hand played",
+                },
+            },
+            j_sgt_colossal_squid = {
+                name = "Colossal Squid",
+                text = {
+                    "{C:attention}Retrigger{} all played",
+                    "and held in hand",
+                    "{C:attention}10{}, {C:attention}#1#{} or {C:attention}#2#",
+                },
+            },
             j_sgt_nemo = {
                 name = "Cpt. Nemo",
                 text = {

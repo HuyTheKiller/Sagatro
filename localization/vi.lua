@@ -1934,6 +1934,33 @@ return {
                     "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
                 },
             },
+            j_sgt_seahorse = {
+                name = "Cá Ngựa",
+                text = {
+                    "Xác suất {C:green}#1# trên #2#{} cho mỗi",
+                    "lá {C:attention}8{} đã chơi để tạo ra",
+                    "lá {C:tarot}#3#{} khi ghi điểm",
+                    "{C:inactive}(Phải có ô trống)",
+                },
+            },
+            j_sgt_goblin_shark = {
+                name = "Cá Mập Yêu Tinh",
+                text = {
+                    "Khi {C:attention}Blind{} được chọn, {C:attention}ăn{} 2 cá có",
+                    "{C:attention}cân nặng{} thấp hơn ở bên trái và thêm",
+                    "{C:money}$#2#{} tiền thưởng mỗi {C:attention}cấp cân nặng{}",
+                    "Nhận {C:money}$#1#{} ở cuối ván",
+                    "Thưởng giảm đi {C:money}$#3#{} mỗi tay đã chơi",
+                },
+            },
+            j_sgt_colossal_squid = {
+                name = "Mực Khổng Lồ Nam Cực",
+                text = {
+                    "{C:attention}Tái kích{} mọi lá",
+					"{C:attention}10{}, {C:attention}#1#{} hoặc {C:attention}#2#",
+					"đã chơi hoặc giữ trên tay",
+                },
+            },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
                 text = {

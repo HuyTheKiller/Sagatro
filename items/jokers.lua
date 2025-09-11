@@ -7451,12 +7451,302 @@ local narwhal = {
     end,
 }
 
+local seahorse = {
+    key = "seahorse",
+    name = "Seahorse",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 74,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 6, y = 6 },
+    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {odds = 3}},
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if (context.individual and context.cardarea == G.play) or context.forcetrigger then
+            if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit or context.forcetrigger then
+                if ((context.other_card:get_id() == 8) and (SMODS.pseudorandom_probability(card, 'seahorse', 1, card.ability.extra.odds)))
+                or context.forcetrigger then
+                    if not context.forcetrigger then G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1 end
+                    return {
+                        extra = {focus = card, message = localize{type = 'name_text', set = "Tarot", key = "c_strength", nodes = {}},
+                        func = function()
+                            G.E_MANAGER:add_event(Event({
+                                trigger = 'before',
+                                delay = 0.0,
+                                func = (function()
+                                        assert(SMODS.add_card({
+                                            set = "Tarot",
+                                            key = "c_strength",
+                                        }))
+                                        G.GAME.consumeable_buffer = 0
+                                    return true
+                                end)}))
+                        end},
+                        colour = G.C.SECONDARY_SET.Tarot,
+                        card = card
+                    }
+                end
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.c_strength
+        local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "seahorse")
+        return {vars = {n, d, localize{type = 'name_text', set = "Tarot", key = "c_strength", nodes = {}}}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "count", retrigger_type = "mult" },
+            },
+            text_config = { colour = G.C.SECONDARY_SET.Tarot },
+            extra = {
+                {
+                    { text = "(" },
+                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { text = ")" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            calc_function = function(card)
+                local count = 0
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        if scoring_card:get_id() and scoring_card:get_id() == 8 then
+                            count = count +
+                                JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                        end
+                    end
+                end
+                card.joker_display_values.count = count
+                local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "seahorse")
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { numerator, denominator } }
+            end
+        }
+    end,
+}
+
+local goblin_shark = {
+    key = "goblin_shark",
+    name = "Goblin Shark",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 75,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 0, y = 7 },
+    config = {immutable = {depth_level = 4, weight_level = 3}, extra = {dollars = 0, dollar_mod = 5, sub_per_hand = 1}},
+    rarity = 3,
+    cost = 9,
+    blueprint_compat = false,
+    demicoloncompat = false,
+    eternal_compat = false,
+    perishable_compat = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        if not G.GAME.story_mode then
+            card.ability.extra.dollars = 15
+        end
+    end,
+    calculate = function(self, card, context)
+        if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
+            if card.area == G.consumeables or G.jokers.cards[1] == card then return end
+            local pos = nil
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i] == card then
+                    pos = i
+                    break
+                end
+            end
+            local eaten_fish = {}
+            local total_addition = 0
+            for i = pos-2, pos-1 do
+                local joker = G.jokers.cards[i]
+                if joker and not card.getting_sliced
+                and not SMODS.is_eternal(joker, card) and not joker.getting_sliced
+                and joker.ability.immutable and joker.ability.immutable.weight_level
+                and joker.ability.immutable.weight_level < card.ability.immutable.weight_level then
+                    eaten_fish[#eaten_fish+1] = joker
+                    total_addition = total_addition + joker.ability.immutable.weight_level
+                end
+            end
+            G.GAME.joker_buffer = G.GAME.joker_buffer - #eaten_fish
+            for _, fish in ipairs(eaten_fish) do
+                fish.getting_sliced = true
+            end
+            G.E_MANAGER:add_event(Event({func = function()
+                G.GAME.joker_buffer = 0
+                if #eaten_fish > 0 then
+                    if SMODS.scale_card then
+                        SMODS.scale_card(card, {
+                            ref_table = card.ability.extra,
+                            ref_value = "dollars",
+                            scalar_value = "dollar_mod",
+                            operation = function(ref_table, ref_value, initial, scaling)
+                                ref_table[ref_value] = initial + scaling*total_addition
+                            end,
+                            scaling_message = {
+                                message = localize("$")..(card.ability.extra.dollars + card.ability.extra.dollar_mod*total_addition),
+                                colour = G.C.GOLD,
+                                no_juice = true
+                            }
+                        })
+                    else
+                        card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.dollar_mod*total_addition
+                    end
+                    card:juice_up(0.8, 0.8)
+                    for _, fish in ipairs(eaten_fish) do
+                        fish:start_dissolve({G.C.RED}, true, 1.6)
+                    end
+                    play_sound('sgt_swallow', 0.96+math.random()*0.08)
+                end
+            return true end }))
+            if not SMODS.scale_card then
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("$")..(card.ability.extra.dollars + card.ability.extra.dollar_mod*total_addition), colour = G.C.GOLD, no_juice = true})
+            end
+        end
+        if context.after and not context.blueprint and not context.retrigger_joker then
+            if SMODS.scale_card then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "dollars",
+                    scalar_value = "sub_per_hand",
+                    operation = function(ref_table, ref_value, initial, scaling)
+                        ref_table[ref_value] = math.max(initial - scaling, 0)
+                    end,
+                    scaling_message = {
+                        message = "-"..localize("$")..card.ability.extra.sub_per_hand,
+                        colour = G.C.GOLD,
+                    }
+                })
+            else
+                card.ability.extra.dollars = math.max(card.ability.extra.dollars - card.ability.extra.sub_per_hand, 0)
+                return {
+                    message = "-"..localize("$")..card.ability.extra.sub_per_hand,
+                    colour = G.C.GOLD,
+                }
+            end
+        end
+    end,
+    calc_dollar_bonus = function(self, card)
+        if card.ability.extra.dollars > 0 then
+            return card.ability.extra.dollars
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.dollars, card.ability.extra.dollar_mod, card.ability.extra.sub_per_hand}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+$" },
+                { ref_table = "card.ability.extra", ref_value = "dollars" },
+            },
+            text_config = { colour = G.C.GOLD },
+            reminder_text = {
+                { ref_table = "card.joker_display_values", ref_value = "localized_text" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.localized_text = "(" .. localize("k_round") .. ")"
+            end
+        }
+    end,
+}
+
+local colossal_squid = {
+    key = "colossal_squid",
+    name = "Colossal Squid",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 76,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 1, y = 7 },
+    config = {immutable = {depth_level = 4, weight_level = 3}, extra = {target_ids = {10, 11, 12, 13, 14}}},
+    rarity = 3,
+    cost = 10,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.repetition and table.contains(card.ability.extra.target_ids, context.other_card:get_id()) then
+            if context.cardarea == G.play then
+                return {
+                    message = localize("k_again_ex"),
+                    repetitions = 1,
+                    card = card,
+                }
+            end
+            if context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
+                return {
+                    message = localize("k_again_ex"),
+                    repetitions = 1,
+                    card = card,
+                }
+            end
+        end
+        if context.end_of_round and context.repetition and table.contains(card.ability.extra.target_ids, context.other_card:get_id())
+        and context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
+            return {
+                message = localize("k_again_ex"),
+                repetitions = 1,
+                card = card,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {localize("k_face_cards"), localize("Ace", "ranks")}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            reminder_text = {
+                { text = "(10, " },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text_face_cards" },
+                { text = ", " },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text_ace" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.localized_text_face_cards = localize("k_face_cards")
+                card.joker_display_values.localized_text_ace = localize("Ace", "ranks")
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                return table.contains(joker_card.ability.extra.target_ids, playing_card:get_id())
+                and JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+        }
+    end,
+}
+
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 74,
+    order = 77,
     pos = { x = 0, y = 0 },
     pools = { [SAGA_GROUP_POOL.legend] = true },
     soul_pos = { x = 1, y = 0 },
@@ -9508,6 +9798,9 @@ local joker_table = {
     king_crab,
     big_red_jelly,
     narwhal,
+    seahorse,
+    goblin_shark,
+    colossal_squid,
     nemo,
     hansels_cheat_dice,
     skoll_n_hati,
