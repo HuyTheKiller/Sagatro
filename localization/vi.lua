@@ -1961,6 +1961,33 @@ return {
 					"đã chơi hoặc giữ trên tay",
                 },
             },
+            j_sgt_chimaera = {
+                name = "Chimaera",
+                text = {
+                    "Khi {C:attention}Blind{} được chọn, {C:attention}giết{} 2 joker liền phải",
+                    "và {C:attention}+#2#{} vào số lá {C:spectral}Siêu Linh{} sẽ tạo ra",
+                    "ở cuối ván cho mỗi joker đã giết,",
+                    "giảm đi {C:attention}#3#{} ở cuối ván",
+                    "{C:inactive}(Hiện tại là {C:spectral}+#1#{C:inactive}, phải có ô trống)",
+                },
+            },
+            j_sgt_dumbo_octopus = {
+                name = "Bạch Tuộc Dumbo",
+                text = {
+                    "{C:attention}Tái kích{} lá",
+                    "{C:attention}#2#{} {C:diamonds}#3#{} đã chơi",
+                    "thêm {C:attention}#1#{} lần"
+                },
+            },
+            j_sgt_atolla_wyvillei = {
+                name = "Atolla Wyvillei",
+                text = {
+                    {"Joker {C:red}Hiếm{} và {C:sgt_obscure}Mờ Mịt{} xuất hiện",
+                    "thường xuyên hơn {C:attention}#1#{} lần"},
+                    {"{X:mult,C:white}X#2#{} Nhân",
+                    "Giảm đi {X:mult,C:white}X#3#{} mỗi lá đã chơi"},
+                },
+            },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
                 text = {
@@ -2466,6 +2493,7 @@ return {
             k_release_ex = "Giải Phóng!",
             k_abducted_ex = "Đã Bắt Cóc!",
             k_repair_ex = "Sửa Chữa!",
+            k_killed_ex = "Đã Giết!",
             k_zzz = "ZZZ",
             k_charge = "Nạp",
             k_release = "Xả",

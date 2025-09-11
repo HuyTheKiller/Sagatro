@@ -1966,6 +1966,33 @@ return {
                     "{C:attention}10{}, {C:attention}#1#{} or {C:attention}#2#",
                 },
             },
+            j_sgt_chimaera = {
+                name = "Chimaera",
+                text = {
+                    "When {C:attention}Blind{} is selected, {C:attention}kill{} 2 jokers to the right",
+                    "and {C:attention}+#2#{} to {C:spectral}Spectral{} card count created",
+                    "at end of round for each killed joker,",
+                    "reduce by {C:attention}#3#{} at end of round",
+                    "{C:inactive}(Currently {C:spectral}+#1#{C:inactive}, must have room)",
+                },
+            },
+            j_sgt_dumbo_octopus = {
+                name = "Dumbo Octopus",
+                text = {
+                    "{C:attention}Retrigger{} played",
+                    "{C:attention}#2#{} of {C:diamonds}#3#",
+                    "{C:attention}#1#{} times"
+                },
+            },
+            j_sgt_atolla_wyvillei = {
+                name = "Atolla Wyvillei",
+                text = {
+                    {"{C:red}Rare{} and {C:sgt_obscure}Obscure{} Jokers",
+                    "appear {C:attention}#1#X{} more often"},
+                    {"{X:mult,C:white}X#2#{} Mult",
+                    "Reduce by {X:mult,C:white}X#3#{} every card played"},
+                },
+            },
             j_sgt_nemo = {
                 name = "Cpt. Nemo",
                 text = {
@@ -2381,6 +2408,7 @@ return {
         },
         v_dictionary = {
             sgt_rank_of_suit = "#1# of #2#",
+            sgt_plus_spectrals = "+#1# Spectral",
         },
         v_text = {
             ch_c_sgt_disable_sagatro_items = { "{C:sgt_sagadition}Sagatro{} items no longer appear in the {C:attention}shop" },
@@ -2471,6 +2499,7 @@ return {
             k_release_ex = "Release!",
             k_abducted_ex = "Abducted!",
             k_repair_ex = "Repair!",
+            k_killed_ex = "Killed!",
             k_zzz = "ZZZ",
             k_charge = "Charge",
             k_release = "Release",

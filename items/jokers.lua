@@ -7754,12 +7754,295 @@ local colossal_squid = {
     end,
 }
 
+local chimaera = {
+    key = "chimaera",
+    name = "Chimaera",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 77,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 2, y = 7 },
+    config = {immutable = {depth_level = 4, weight_level = 3}, extra = {spectral_count = 0, spectral_mod = 1, spectral_sub = 1}},
+    rarity = 3,
+    cost = 8,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
+            if card.area == G.consumeables or G.jokers.cards[#G.jokers.cards] == card then return end
+            local pos = nil
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i] == card then
+                    pos = i
+                    break
+                end
+            end
+            local killed_jokers = {}
+            for i = pos+1, pos+2 do
+                local joker = G.jokers.cards[i]
+                if joker and not card.getting_sliced and not joker.getting_sliced then
+                    if not SMODS.is_eternal(joker, card) then
+                        killed_jokers[#killed_jokers+1] = joker
+                    else break end
+                end
+            end
+            G.GAME.joker_buffer = G.GAME.joker_buffer - #killed_jokers
+            for _, killed_joker in ipairs(killed_jokers) do
+                killed_joker.getting_sliced = true
+            end
+            G.E_MANAGER:add_event(Event({func = function()
+                G.GAME.joker_buffer = 0
+                if #killed_jokers > 0 then
+                    if SMODS.scale_card then
+                        SMODS.scale_card(card, {
+                            ref_table = card.ability.extra,
+                            ref_value = "spectral_count",
+                            scalar_value = "spectral_mod",
+                            operation = function(ref_table, ref_value, initial, scaling)
+                                ref_table[ref_value] = initial + scaling*#killed_jokers
+                            end,
+                            scaling_message = {
+                                message = localize("k_killed_ex"),
+                                G.C.SECONDARY_SET.Spectral,
+                                no_juice = true
+                            }
+                        })
+                    else
+                        card.ability.extra.spectral_count = card.ability.extra.spectral_count + card.ability.extra.spectral_mod*#killed_jokers
+                    end
+                    card:juice_up(0.8, 0.8)
+                    for _, killed_joker in ipairs(killed_jokers) do
+                        killed_joker:start_dissolve({G.C.RED}, true, 1.6)
+                    end
+                    play_sound('sgt_narwhal_impale', 0.96+math.random()*0.08)
+                end
+            return true end }))
+            if not SMODS.scale_card then
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_killed_ex"), colour = G.C.SECONDARY_SET.Spectral, no_juice = true})
+            end
+        end
+        if (context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker
+        and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit) or context.forcetrigger then
+            local count = 0
+            for _ = 1, card.ability.extra.spectral_count do
+                if #G.consumeables.cards + G.GAME.consumeable_buffer >= G.consumeables.config.card_limit then break end
+                count = count + 1
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+            end
+            if context.forcetrigger then
+                if SMODS.scale_card then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "spectral_count",
+                        scalar_value = "spectral_mod",
+                        no_message = true
+                    })
+                else
+                    card.ability.extra.spectral_count = card.ability.extra.spectral_count + card.ability.extra.spectral_mod
+                end
+                count = card.ability.extra.spectral_count
+            end
+            G.E_MANAGER:add_event(Event({
+                trigger = 'before',
+                delay = 0.0,
+                func = function()
+                    for _ = 1, count do
+                        assert(SMODS.add_card({
+                            set = "Spectral",
+                            key_append = "chimaera",
+                        }))
+                    end
+                    G.GAME.consumeable_buffer = 0
+                    return true
+                end
+            }))
+            SMODS.calculate_effect({message = localize{type='variable', key='sgt_plus_spectrals', vars={count}}, colour = G.C.SECONDARY_SET.Spectral}, card)
+            if not context.forcetrigger then
+                if SMODS.scale_card then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "spectral_count",
+                        scalar_value = "spectral_sub",
+                        operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = math.max(initial - scaling, 0)
+                        end,
+                        no_message = true
+                    })
+                else
+                    card.ability.extra.spectral_count = math.max(card.ability.extra.spectral_count - card.ability.extra.spectral_sub, 0)
+                end
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.spectral_count, card.ability.extra.spectral_mod, card.ability.extra.spectral_sub}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.ability.extra", ref_value = "spectral_count" },
+            },
+            text_config = { colour = G.C.SECONDARY_SET.Spectral },
+            reminder_text = {
+                { ref_table = "card.joker_display_values", ref_value = "localized_text" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.localized_text = "(" .. localize("k_round") .. ")"
+            end
+        }
+    end,
+}
+
+local dumbo_octopus = {
+    key = "dumbo_octopus",
+    name = "Dombo Octopus",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 78,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 3, y = 7 },
+    config = {immutable = {depth_level = 5, weight_level = 1}, extra = {retriggers = 8}},
+    rarity = 3,
+    cost = 8,
+    blueprint_compat = true,
+    demicoloncompat = false,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:get_id() == 8 and context.other_card:is_suit("Diamonds") then
+                return {
+                    message = localize("k_again_ex"),
+                    repetitions = 1,
+                    card = card,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.retriggers, localize("8", "ranks"), localize("Diamonds", 'suits_plural')}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "x" },
+                { ref_table = "card.ability.extra", ref_value = "retriggers", retrigger_type = "mult" },
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "dumbo_octopus_card", colour = G.C.FILTER },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.dumbo_octopus_card = localize { type = 'variable', key = "jdis_rank_of_suit", vars = { localize("8", "ranks"), localize("Diamonds", 'suits_plural') } }
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if held_in_hand then return 0 end
+                return (playing_card:is_suit("Diamonds") and playing_card:get_id() == 8)
+                and joker_card.ability.extra.retriggers*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+        }
+    end,
+}
+
+local atolla_wyvillei = {
+    key = "atolla_wyvillei",
+    name = "Atolla wyvillei",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 79,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 4, y = 7 },
+    config = {immutable = {depth_level = 5, weight_level = 1}, extra = {rarity_mod = 5, xmult = 20, xmult_sub = 1}},
+    rarity = 3,
+    cost = 10,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main or context.forcetrigger then
+            return {
+                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                Xmult_mod = card.ability.extra.xmult
+            }
+        end
+        if context.after and not context.blueprint and not context.retrigger_joker then
+            if SMODS.scale_card then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "xmult",
+                    scalar_value = "xmult_sub",
+                    operation = function(ref_table, ref_value, initial, scaling)
+                        ref_table[ref_value] = math.max(initial - scaling*#context.full_hand, 1)
+                    end,
+                    no_message = true
+                })
+            else
+                card.ability.extra.xmult = math.max(card.ability.extra.xmult - card.ability.extra.xmult_sub*#context.full_hand, 1)
+            end
+            if card.ability.extra.xmult <= 1 then
+                Sagatro.self_destruct(card)
+                return {
+                    message = localize('k_poof_ex'),
+                    colour = G.C.FILTER,
+                    no_retrigger = true
+                }
+            end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        G.GAME.rare_mod = G.GAME.rare_mod * card.ability.extra.rarity_mod
+        G.GAME.sgt_obscure_mod = G.GAME.sgt_obscure_mod * card.ability.extra.rarity_mod
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        G.GAME.rare_mod = G.GAME.rare_mod / card.ability.extra.rarity_mod
+        G.GAME.sgt_obscure_mod = G.GAME.sgt_obscure_mod / card.ability.extra.rarity_mod
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.rarity_mod, card.ability.extra.xmult, card.ability.extra.xmult_sub}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.ability.extra", ref_value = "xmult", retrigger_type = "exp" }
+                    }
+                }
+            },
+        }
+    end,
+}
+
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 77,
+    order = 80,
     pos = { x = 0, y = 0 },
     pools = { [SAGA_GROUP_POOL.legend] = true },
     soul_pos = { x = 1, y = 0 },
@@ -9814,6 +10097,9 @@ local joker_table = {
     seahorse,
     goblin_shark,
     colossal_squid,
+    chimaera,
+    dumbo_octopus,
+    atolla_wyvillei,
     nemo,
     hansels_cheat_dice,
     skoll_n_hati,
