@@ -1163,6 +1163,41 @@ function Sagatro.random_select(seed, area, count)
     return selected_cards
 end
 
+---@param table table
+---@param suit string
+function Sagatro.suit_scan(table, suit)
+    local empty_original_suit = false
+    for k, v in pairs(table) do
+        if k == suit and type(v) == "number" and v == 0 then
+            v = v + 1
+            empty_original_suit = true
+            break
+        end
+    end
+    if not empty_original_suit then
+        for k, v in pairs(table) do
+            if k ~= suit and type(v) == "number" and v == 0 then
+                v = v + 1
+                break
+            end
+        end
+    end
+end
+
+---@param table table
+---@param amount integer
+---@return boolean
+---@return integer
+function Sagatro.check_suit_record(table, amount)
+    local count = 0
+    for _, v in pairs(table) do
+        if type(v) == "number" and v > 0 then
+            count = count + 1
+        end
+    end
+    return count >= amount, count
+end
+
 function Sagatro.set_debuff(card)
     if SMODS.has_enhancement(card, "m_sgt_strange") then
         return "prevent_debuff"

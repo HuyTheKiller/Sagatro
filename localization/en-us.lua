@@ -1993,6 +1993,34 @@ return {
                     "Reduce by {X:mult,C:white}X#3#{} every card played"},
                 },
             },
+            j_sgt_faceless_cusk = {
+                name = "Faceless Cusk",
+                text = {
+                    "Gain {X:mult,C:white}X#2#{} Mult per",
+                    "{C:attention}consecutive{} hand played",
+                    "without a {C:attention}face{} card",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_brittle_star = {
+                name = "Brittle Star",
+                text = {
+                    "If playing hand contains {C:attention}5{} or more",
+                    "scoring cards, each played card",
+                    "gives {X:mult,C:white}X#3#{} Mult when scored",
+                    "{C:green}#1# in #2#{} chance to destroy",
+                    "each played card if triggered",
+                },
+            },
+            j_sgt_comb_jellyfish = {
+                name = "Comb Jellyfish",
+                text = {
+                    "Create a random {C:spectral}Spectral{} card",
+                    "every {C:attention}#1#{C:inactive} [#2#]{} suits recorded",
+                    "from scoring hands",
+                    "{C:inactive}(Must have room)",
+                },
+            },
             j_sgt_nemo = {
                 name = "Cpt. Nemo",
                 text = {

@@ -8039,12 +8039,255 @@ local atolla_wyvillei = {
     end,
 }
 
+local faceless_cusk = {
+    key = "faceless_cusk",
+    name = "Faceless Cusk",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 80,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 5, y = 7 },
+    config = {immutable = {depth_level = 5, weight_level = 1}, extra = {xmult = 1, xmult_mod = 0.5}},
+    rarity = 3,
+    cost = 9,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint then
+            for _, v in ipairs(context.full_hand) do
+                if v:is_face() then
+                    local last_mult = card.ability.extra.xmult
+                    card.ability.extra.xmult = 1
+                    if last_mult > 1 then
+                        return {
+                            message = localize("k_reset"),
+                            card = card,
+                        }
+                    else return end
+                end
+            end
+            if SMODS.scale_card then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "xmult",
+                    scalar_value = "xmult_mod",
+                })
+            else
+                card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
+                return {
+                    message = localize('k_upgrade_ex'),
+                    colour = G.C.RED,
+                    card = card,
+                }
+            end
+        end
+        if (context.joker_main and to_big(card.ability.extra.xmult) > to_big(1)) or context.forcetrigger then
+            if context.forcetrigger then
+                if SMODS.scale_card then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "xmult",
+                        scalar_value = "xmult_mod",
+                        no_message = true
+                    })
+                else
+                    card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
+                end
+            end
+            return {
+                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                Xmult_mod = card.ability.extra.xmult
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.ability.extra", ref_value = "xmult", retrigger_type = "exp" }
+                    }
+                }
+            },
+        }
+    end,
+}
+
+local brittle_star = {
+    key = "brittle_star",
+    name = "Brittle Star",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 81,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 6, y = 7 },
+    config = {immutable = {depth_level = 5, weight_level = 1}, extra = {xmult = 2, odds = 4}},
+    rarity = 3,
+    cost = 9,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint and not context.retrigger_joker then
+            card.triggered = nil
+            if #context.full_hand >= 5 then
+                card.triggered = true
+            end
+        end
+        if context.individual and context.cardarea == G.play and card.triggered then
+            return {
+                x_mult = card.ability.extra.xmult,
+                colour = G.C.RED,
+                card = card
+            }
+        end
+        if context.destroy_card and card.triggered
+        and SMODS.pseudorandom_probability(card, 'brittle_cards', 1, card.ability.extra.odds, "brittle_star") then
+            return {remove = true}
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "brittle_star")
+        return {vars = {n, d, card.ability.extra.xmult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    }
+                }
+            },
+            calc_function = function(card)
+                local count = 0
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                if text ~= 'Unknown' and #scoring_hand >= 5 then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        count = count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                    end
+                end
+                card.joker_display_values.xmult = card.ability.extra.xmult ^ count
+            end,
+        }
+    end,
+}
+
+local comb_jellyfish = {
+    key = "comb_jellyfish",
+    name = "Comb Jellyfish",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 82,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 0, y = 8 },
+    config = {immutable = {depth_level = 5, weight_level = 1}, extra = {}, suit_ge = 4},
+    rarity = 3,
+    cost = 8,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        for _, v in pairs(SMODS.Suits) do
+            card.ability.extra[v.key] = 0
+        end
+    end,
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint and not context.retrigger_joker then
+            card.triggered = nil
+            -- First loop: record the suits
+            for _, v in ipairs(context.scoring_hand) do
+                if not SMODS.has_any_suit(v) then
+                    card.ability.extra[v.base.suit] = card.ability.extra[v.base.suit] + 1
+                end
+            end
+            -- Second loop: fill in missing suits with wild cards
+            for _, v in ipairs(context.scoring_hand) do
+                if SMODS.has_any_suit(v) then
+                    Sagatro.suit_scan(card.ability.extra, v.base.suit)
+                end
+            end
+            if Sagatro.check_suit_record(card.ability.extra, card.ability.suit_ge) then
+                card.triggered = true
+            end
+        end
+        if context.joker_main and not context.blueprint and not context.retrigger_joker then
+            if card.triggered and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        assert(SMODS.add_card({
+                            set = "Spectral",
+                            key_append = "chimaera",
+                        }))
+                        G.GAME.consumeable_buffer = 0
+                        for _, v in pairs(SMODS.Suits) do
+                            card.ability.extra[v.key] = 0
+                        end
+                        return true
+                    end
+                }))
+                return {
+                    message = localize{type='variable', key='sgt_plus_spectrals', vars={1}},
+                    colour = G.C.SECONDARY_SET.Spectral,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        local _, count = Sagatro.check_suit_record(card.ability.extra, card.ability.suit_ge)
+        return {vars = {card.ability.suit_ge, count}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "count" },
+                { text = "/" },
+                { ref_table = "card.ability", ref_value = "suit_ge" },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                local _, count = Sagatro.check_suit_record(card.ability.extra, card.ability.suit_ge)
+                card.joker_display_values.count = count
+            end,
+        }
+    end,
+}
+
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 80,
+    order = 83,
     pos = { x = 0, y = 0 },
     pools = { [SAGA_GROUP_POOL.legend] = true },
     soul_pos = { x = 1, y = 0 },
@@ -10102,6 +10345,9 @@ local joker_table = {
     chimaera,
     dumbo_octopus,
     atolla_wyvillei,
+    faceless_cusk,
+    brittle_star,
+    comb_jellyfish,
     nemo,
     hansels_cheat_dice,
     skoll_n_hati,

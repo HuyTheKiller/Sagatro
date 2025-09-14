@@ -1988,6 +1988,34 @@ return {
                     "Giảm đi {X:mult,C:white}X#3#{} mỗi lá đã chơi"},
                 },
             },
+            j_sgt_faceless_cusk = {
+                name = "Cá Vô Diện",
+                text = {
+                    "Thêm {X:mult,C:white}X#2#{} Nhân mỗi tay",
+                    "đã chơi {C:attention}liên tiếp{} mà",
+                    "không có lá {C:attention}mặt{}",
+                    "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_brittle_star = {
+                name = "Sao Biển Giòn",
+                text = {
+                    "Nếu tay bài đã chơi chưa {C:attention}5{} lá ghi điểm",
+                    "hoặc nhiều hơn, mỗi lá đã chơi ghi",
+                    "thêm {X:mult,C:white}X#3#{} Nhân khi ghi điểm",
+                    "Xác suất {C:green}#1# trên #2#{} để phá huỷ",
+                    "mỗi lá đã chơi nếu được kích hoạt",
+                },
+            },
+            j_sgt_comb_jellyfish = {
+                name = "Sứa Lược",
+                text = {
+                    "Tạo ra một lá {C:spectral}Siêu Linh{} ngẫu nhiên",
+                    "mỗi {C:attention}#1#{C:inactive} [#2#]{} chất đã lưu trữ",
+                    "từ các tay bài ghi điểm",
+                    "{C:inactive}(Phải có ô trống)",
+                },
+            },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
                 text = {
@@ -2403,6 +2431,7 @@ return {
         },
         v_dictionary = {
             sgt_rank_of_suit = "#1# #2#",
+            sgt_plus_spectrals = "+#1# Siêu Linh",
         },
         v_text = {
             ch_c_sgt_disable_sagatro_items = { "Vật phẩm của {C:sgt_sagadition}Sagatro{} không còn xuất hiện trong {C:attention}shop" },
