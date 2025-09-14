@@ -2035,6 +2035,7 @@ local mad_hatter = {
         if not from_debuff and G.GAME.story_mode and not G.GAME.saga_event_check.alice_in_wonderland.mad_hatter then
             G.GAME.saga_event.alice_in_wonderland.mad_hatter = true
         end
+        Sagatro.update_blind_amounts()
         for k, v in pairs(G.GAME) do
             if string.len(k) > 4 and string.find(k, "_mod")
             and type(v) == "number" and k ~= "sgt_trivial_mod" then
@@ -2056,6 +2057,7 @@ local mad_hatter = {
             G.GAME.saga_event.alice_in_wonderland.mad_hatter = false
             G.GAME.saga_event_check.alice_in_wonderland.mad_hatter = true
         end
+        Sagatro.update_blind_amounts()
         for k, v in pairs(G.GAME) do
             if string.len(k) > 4 and string.find(k, "_mod")
             and type(v) == "number" and k ~= "sgt_trivial_mod" then
