@@ -8133,7 +8133,7 @@ local brittle_star = {
     order = 81,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 6, y = 7 },
-    config = {immutable = {depth_level = 5, weight_level = 1}, extra = {xmult = 2, odds = 4}},
+    config = {immutable = {depth_level = 5, weight_level = 1}, extra = {xmult = 1.75, odds = 4}},
     rarity = 3,
     cost = 9,
     blueprint_compat = true,
