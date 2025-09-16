@@ -8282,12 +8282,183 @@ local comb_jellyfish = {
     end,
 }
 
+local lobster = {
+    key = "lobster",
+    name = "Lobster",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 83,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 1, y = 8 },
+    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {retriggers = 2}},
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = true,
+    demicoloncompat = false,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.repetition then
+            if context.cardarea == G.play then
+                local first_diamond = nil
+                for _, v in ipairs(context.scoring_hand) do
+                    if v:is_suit("Diamonds") then first_diamond = v break end
+                end
+                if context.other_card == first_diamond then
+                    return {
+                        message = localize("k_again_ex"),
+                        repetitions = card.ability.extra.retriggers,
+                        card = card,
+                    }
+                end
+            end
+            if context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
+                local first_diamond = nil
+                for _, v in ipairs(G.hand.cards) do
+                    if v:is_suit("Diamonds") then first_diamond = v break end
+                end
+                if context.other_card == first_diamond then
+                    return {
+                        message = localize("k_again_ex"),
+                        repetitions = card.ability.extra.retriggers,
+                        card = card,
+                    }
+                end
+            end
+        end
+        if context.end_of_round and context.repetition
+        and context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
+            local first_diamond = nil
+            for _, v in ipairs(G.hand.cards) do
+                if v:is_suit("Diamonds") then first_diamond = v break end
+            end
+            if context.other_card == first_diamond then
+                return {
+                    message = localize("k_again_ex"),
+                    repetitions = card.ability.extra.retriggers,
+                    card = card,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.retriggers}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_diamond = nil
+                for _, v in ipairs(held_in_hand and G.hand.cards or scoring_hand) do
+                    if v:is_suit("Diamonds") then first_diamond = v break end
+                end
+                return playing_card == first_diamond and joker_card.ability.extra.retriggers*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+        }
+    end,
+}
+
+local fangtooth = {
+    key = "fangtooth",
+    name = "Fangtooth",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 84,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 2, y = 8 },
+    config = {immutable = {depth_level = 5, weight_level = 1}, extra = {xmult = 1.5}},
+    rarity = 3,
+    cost = 9,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.first_hand_drawn then
+            if not context.blueprint then
+                local eval = function() return G.GAME.current_round.discards_used == 0 and not G.RESET_JIGGLES end
+                juice_card_until(card, eval, true)
+            end
+        end
+        if context.discard and not context.blueprint and not context.retrigger_joker and G.GAME.current_round.discards_used <= 0
+        and #context.full_hand == 1 and not SMODS.has_no_rank(context.full_hand[1]) then
+            card.ability.extra.stored_rank = context.full_hand[1].config.card.value
+            return {remove = true}
+        end
+        if context.individual and context.cardarea == G.play and card.ability.extra.stored_rank then
+            if not SMODS.has_no_rank(context.other_card)
+            and context.other_card.config.card.value == card.ability.extra.stored_rank then
+                return {
+                    x_mult = card.ability.extra.xmult,
+                    colour = G.C.RED,
+                    card = card
+                }
+            end
+        end
+        if context.forcetrigger then
+            return {
+                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                Xmult_mod = card.ability.extra.xmult
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        local text = card.ability.extra.stored_rank
+        and localize(card.ability.extra.stored_rank, "ranks")
+        or localize("k_none")
+        return {vars = {card.ability.extra.xmult, text}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    }
+                }
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "stored_rank", colour = G.C.FILTER },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                local count = 0
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                if text ~= 'Unknown' and card.ability.extra.stored_rank then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        if not SMODS.has_no_rank(scoring_card)
+                        and scoring_card.config.card.value == card.ability.extra.stored_rank then
+                            count = count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                        end
+                    end
+                end
+                card.joker_display_values.xmult = card.ability.extra.xmult ^ count
+                card.joker_display_values.stored_rank = card.ability.extra.stored_rank
+                and localize(card.ability.extra.stored_rank, "ranks") or localize("k_none")
+            end,
+        }
+    end,
+}
+
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 83,
+    order = 87,
     pos = { x = 0, y = 0 },
     pools = { [SAGA_GROUP_POOL.legend] = true },
     soul_pos = { x = 1, y = 0 },
@@ -10348,6 +10519,8 @@ local joker_table = {
     faceless_cusk,
     brittle_star,
     comb_jellyfish,
+    lobster,
+    fangtooth,
     nemo,
     hansels_cheat_dice,
     skoll_n_hati,

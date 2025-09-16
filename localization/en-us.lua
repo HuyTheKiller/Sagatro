@@ -2021,6 +2021,24 @@ return {
                     "{C:inactive}(Must have room)",
                 },
             },
+            j_sgt_lobster = {
+                name = "Lobster",
+                text = {
+                    "{C:attention}Retrigger{} the first card",
+                    "with {C:diamonds}Diamonds{} suit scored",
+                    "and held in hand {C:attention}#1#{} times",
+                },
+            },
+            j_sgt_fangtooth = {
+                name = "Fangtooth",
+                text = {
+                    "If {C:attention}first discard{} of round has only",
+                    "{C:attention}1{} card, destroy it and store its rank",
+                    "Each played card with said rank",
+                    "gives {X:mult,C:white}X#1#{} Mult when scored",
+                    "{C:inactive}(Stored rank: {C:attention}#2#{C:inactive})",
+                },
+            },
             j_sgt_nemo = {
                 name = "Cpt. Nemo",
                 text = {

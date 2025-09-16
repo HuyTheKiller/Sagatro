@@ -2016,6 +2016,24 @@ return {
                     "{C:inactive}(Phải có ô trống)",
                 },
             },
+            j_sgt_lobster = {
+                name = "Lobster",
+                text = {
+                    "{C:attention}Tái kích{} lá đầu tiên",
+                    "có chất {C:diamonds}Rô{} ghi điểm và",
+                    "giữ trên tay thêm {C:attention}#1#{} lần",
+                },
+            },
+            j_sgt_fangtooth = {
+                name = "Fangtooth",
+                text = {
+                    "Nếu {C:attention}lượt bỏ bài đầu tiên{} của ván chỉ",
+                    "có {C:attention}1{} lá, phá huỷ nó và lưu bậc của nó",
+                    "Mỗi lá đã chơi có bậc đó ghi",
+                    "thêm {X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                    "{C:inactive}(Bậc đã lưu: {C:attention}#2#{C:inactive})",
+                },
+            },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
                 text = {
