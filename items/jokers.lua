@@ -8239,7 +8239,7 @@ local comb_jellyfish = {
                     func = function()
                         assert(SMODS.add_card({
                             set = "Spectral",
-                            key_append = "chimaera",
+                            key_append = "comb_jellyfish",
                         }))
                         G.GAME.consumeable_buffer = 0
                         for _, v in pairs(SMODS.Suits) do
