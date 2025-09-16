@@ -8453,6 +8453,160 @@ local fangtooth = {
     end,
 }
 
+local grenadier = {
+    key = "grenadier",
+    name = "Grenadier",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 85,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 3, y = 8 },
+    config = {immutable = {depth_level = 5, weight_level = 1}},
+    rarity = 3,
+    cost = 8,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if (context.before and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+            local ranks = {}
+            local temp_ID, lowest_card = 15, nil
+            for _, v in ipairs(context.scoring_hand) do
+                ranks[v.config.card.value] = (ranks[v.config.card.value] or 0) + 1
+                if temp_ID > v.base.id and not SMODS.has_no_rank(v) then
+                    temp_ID = v.base.id
+                    lowest_card = v
+                end
+            end
+            if table.size(ranks) > 1 or context.forcetrigger then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        if lowest_card then
+                            lowest_card:set_seal(SMODS.poll_seal{type_key = 'grenasl', guaranteed = true}, nil, true)
+                        end
+                        return true
+                    end,
+                }))
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "active" },
+                { text = ")" },
+            },
+            text_config = { colour = G.C.UI.TEXT_INACTIVE },
+            calc_function = function(card)
+                local _, _, scoring_hand = JokerDisplay.evaluate_hand()
+                local ranks = {}
+                for _, scoring_card in ipairs(scoring_hand) do
+                    ranks[scoring_card.config.card.value] = (ranks[scoring_card.config.card.value] or 0) + 1
+                end
+                card.joker_display_values.active = table.size(ranks) > 1
+                and localize("jdis_active") or localize("jdis_inactive")
+            end,
+        }
+    end,
+}
+
+local mahimahi = {
+    key = "mahimahi",
+    name = "Mahi-mahi",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 86,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 4, y = 8 },
+    config = {immutable = {depth_level = 2, weight_level = 2}, extra = {h_mult = 8}},
+    rarity = 2,
+    cost = 7,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint and not context.retrigger_joker then
+            card.triggered = nil
+            local played_ranks, held_in_hand_ranks = {}, {}
+            for _, v in ipairs(context.full_hand) do
+                played_ranks[v.config.card.value] = (played_ranks[v.config.card.value] or 0) + 1
+            end
+            for _, v in ipairs(G.hand.cards) do
+                held_in_hand_ranks[v.config.card.value] = (held_in_hand_ranks[v.config.card.value] or 0) + 1
+            end
+            for k, _ in pairs(played_ranks) do
+                if held_in_hand_ranks[k] then card.triggered = true break end
+            end
+        end
+        if context.individual and context.cardarea == G.hand and not context.end_of_round and card.triggered then
+            if context.other_card.debuff then
+                return {
+                    message = localize('k_debuffed'),
+                    colour = G.C.RED,
+                    card = card,
+                }
+            else
+                return {
+                    h_mult = card.ability.extra.h_mult,
+                    card = card,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.h_mult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "h_mult" },
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                local count = 0
+                local triggered = false
+                local playing_hand = next(G.play.cards)
+                local played_ranks, held_in_hand_ranks = {}, {}
+                for _, playing_card in ipairs(G.hand.cards) do
+                    if playing_hand or not playing_card.highlighted then
+                        held_in_hand_ranks[playing_card.config.card.value] = (held_in_hand_ranks[playing_card.config.card.value] or 0) + 1
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
+                            count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
+                        end
+                    else
+                        played_ranks[playing_card.config.card.value] = (played_ranks[playing_card.config.card.value] or 0) + 1
+                    end
+                end
+                if playing_hand then
+                    for _, playing_card in ipairs(G.play.cards) do
+                        played_ranks[playing_card.config.card.value] = (played_ranks[playing_card.config.card.value] or 0) + 1
+                    end
+                end
+                for k, _ in pairs(played_ranks) do
+                    if held_in_hand_ranks[k] then triggered = true break end
+                end
+                card.joker_display_values.h_mult = triggered and card.ability.extra.h_mult*count or 0
+            end,
+        }
+    end,
+}
+
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
@@ -10521,6 +10675,8 @@ local joker_table = {
     comb_jellyfish,
     lobster,
     fangtooth,
+    grenadier,
+    mahimahi,
     nemo,
     hansels_cheat_dice,
     skoll_n_hati,

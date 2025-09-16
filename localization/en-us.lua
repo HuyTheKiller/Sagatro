@@ -2039,6 +2039,22 @@ return {
                     "{C:inactive}(Stored rank: {C:attention}#2#{C:inactive})",
                 },
             },
+            j_sgt_grenadier = {
+                name = "Grenadier",
+                text = {
+                    "If {C:attention}scored cards{} contain multiple",
+					"unique ranks, add a random {C:attention}seal{} to",
+                    "the {C:attention}lowest{} ranked card scored",
+                },
+            },
+            j_sgt_mahimahi = {
+                name = "Mahi-mahi",
+                text = {
+                    "If played hand has a {C:attention}matching rank",
+                    "held in hand, each card held in hand",
+                    "gives {C:mult}+#1#{} Mult",
+                },
+            },
             j_sgt_nemo = {
                 name = "Cpt. Nemo",
                 text = {

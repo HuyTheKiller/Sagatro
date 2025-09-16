@@ -2034,6 +2034,22 @@ return {
                     "{C:inactive}(Bậc đã lưu: {C:attention}#2#{C:inactive})",
                 },
             },
+            j_sgt_grenadier = {
+                name = "Cá Đuôi Chuột",
+                text = {
+                    "Nếu {C:attention}tay bài ghi điểm{} chứa nhiều bậc",
+					"riêng biệt, thêm một {C:attention}con dấu{} ngẫu nhiên",
+                    "lên lá ghi điểm có {C:attention}bậc thấp nhất",
+                },
+            },
+            j_sgt_mahimahi = {
+                name = "Cà Bè Dũa",
+                text = {
+                    "Nếu tay bài đã chơi chứa một lá {C:attention}đồng bậc",
+                    "với một lá giữ trên tay, mỗi lá giữ trên tay",
+                    "cho {C:mult}+#1#{} Nhân",
+                },
+            },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
                 text = {
