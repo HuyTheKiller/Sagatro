@@ -6175,7 +6175,7 @@ local penguin = {
     calculate = function(self, card, context)
         if context.first_hand_drawn then
             if not context.blueprint then
-                local eval = function() return G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 end
+                local eval = function() return G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 and not G.RESET_JIGGLES end
                 juice_card_until(card, eval, true)
             end
         end
@@ -8475,7 +8475,7 @@ local skoll_n_hati = {
                         break
                     end
                 end
-                return triggered and not card.ability.pre_ragnarok and Sagatro.mod_compat.talisman
+                return triggered and not card.ability.pre_ragnarok and Sagatro.mod_compat.talisman and not G.RESET_JIGGLES
             end
             if eval() then
                 juice_card_until(card, eval, true)
@@ -8673,7 +8673,7 @@ local skoll_n_hati = {
                         break
                     end
                 end
-                return triggered and not card.ability.pre_ragnarok and Sagatro.mod_compat.talisman
+                return triggered and not card.ability.pre_ragnarok and Sagatro.mod_compat.talisman and not G.RESET_JIGGLES
             end
             if eval() then juice_card_until(card, eval, true) end
         end
@@ -8935,7 +8935,7 @@ local necronomicon = {
     calculate = function(self, card, context)
         if context.first_hand_drawn then
             if not context.blueprint then
-                local eval = function() return G.GAME.current_round.hands_played == 0 end
+                local eval = function() return G.GAME.current_round.hands_played == 0 and not G.RESET_JIGGLES end
                 juice_card_until(card, eval, true)
             end
         end
@@ -9266,7 +9266,7 @@ local abducted_cow = {
     calculate = function(self, card, context)
         if context.first_hand_drawn then
             if not context.blueprint then
-                local eval = function() return G.GAME.current_round.hands_played == 0 end
+                local eval = function() return G.GAME.current_round.hands_played == 0 and not G.RESET_JIGGLES end
                 juice_card_until(card, eval, true)
             end
         end
@@ -9371,7 +9371,7 @@ local flying_house = {
     calculate = function(self, card, context)
         if context.first_hand_drawn then
             if not context.blueprint then
-                local eval = function() return G.GAME.current_round.hands_played == 0 end
+                local eval = function() return G.GAME.current_round.hands_played == 0 and not G.RESET_JIGGLES end
                 juice_card_until(card, eval, true)
             end
         end
