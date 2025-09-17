@@ -9151,7 +9151,7 @@ local adam = {
     saga_group = "adams_original_sin",
     order = 996,
     pos = { x = 3, y = 1 },
-    config = {extra = {retriggers = 1}},
+    config = {},
     rarity = 3,
     cost = 7,
     blueprint_compat = true,
@@ -9164,7 +9164,7 @@ local adam = {
             or (not Ortalab and context.other_card.ability.perishable) then
                 return {
                     message = localize("k_again_ex"),
-                    repetitions = card.ability.extra.retriggers,
+                    repetitions = 1,
                     card = card,
                 }
             end
@@ -9180,8 +9180,7 @@ local adam = {
         return {
             retrigger_joker_function = function(card, retrigger_joker)
                 return card.config.center_key ~= "j_sgt_adam" and ((Ortalab and card.curse)
-                or (not Ortalab and card.ability.perishable))
-                and retrigger_joker.ability.extra.retriggers or 0
+                or (not Ortalab and card.ability.perishable)) and 1 or 0
             end,
         }
     end,
