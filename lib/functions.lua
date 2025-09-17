@@ -1261,14 +1261,14 @@ end
 local gcu = generate_card_ui
 function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, card)
     local ui = gcu(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, card)
-    if ((_c.set == "Celestara" or _c.key == "c_sgt_void_hole") and (not card.area.config.collection or _c.discovered)) then
-        local key = (card.hand_type_trigger or _c.key).."_effect"
+    if ((_c.set == "Celestara" or _c.key == "c_sgt_void_hole") and (card and not card.area.config.collection or _c.discovered)) then
+        local key = (card and card.hand_type_trigger or _c.key).."_effect"
         local celestara_nodes = {background_colour = lighten(G.C.SGT_CELESTARA, 0.75)}
-        local vars = specific_vars or G.P_CENTERS[card.hand_type_trigger or _c.key]:loc_vars({}).vars
+        local vars = G.P_CENTERS[card and card.hand_type_trigger or _c.key]:loc_vars({}).vars
         local consume = _c.key == "c_sgt_void_hole" and "void_hole_consume" or "celestara_consume"
         localize{type = "descriptions", set = "Celestara", key = "celestara_heading", nodes = celestara_nodes, vars = vars}
         localize{type = "descriptions", set = "Celestara", key = key, nodes = celestara_nodes, vars = vars}
-        if _c.key ~= "c_sgt_void_hole" or card.hand_type_trigger == "c_sgt_void_hole" then
+        if _c.key ~= "c_sgt_void_hole" or (card and card.hand_type_trigger == "c_sgt_void_hole") then
             localize{type = "descriptions", set = "Celestara", key = consume, nodes = celestara_nodes, vars = {}}
         end
         ui[Ortalab and "mythos" or "celestara"] = celestara_nodes
