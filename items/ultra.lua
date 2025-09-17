@@ -3919,7 +3919,33 @@ local space = {
     atlas = "ultra",
     pos = {x = 2, y = 5},
     badge_colour = HEX('092332'),
-    -- calculation moved to Card:get_end_of_round_effect hook
+    calculate = function(self, card, context)
+        if context.playing_card_end_of_round and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+            G.E_MANAGER:add_event(Event({
+                trigger = 'immediate',
+                func = function()
+                    if G.GAME.last_hand_played then
+                        local _celestara = nil
+                        for _, v in pairs(G.P_CENTER_POOLS.Celestara) do
+                            if v.config.hand_type == G.GAME.last_hand_played then
+                                _celestara = v.key
+                            end
+                        end
+                        if _celestara then
+                            SMODS.add_card{key = _celestara, key_append = "spasl"}
+                        end
+                    end
+                    G.GAME.consumeable_buffer = 0
+                    return true
+                end
+            }))
+            return {
+                message = localize('k_plus_celestara'),
+                colour = G.C.SGT_CELESTARA
+            }
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_abyss_pact
     end,
