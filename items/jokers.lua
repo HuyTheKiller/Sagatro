@@ -2509,7 +2509,7 @@ local red_queen = {
         if context.setting_blind and G.GAME.story_mode and next(SMODS.find_card("j_sgt_cheshire_cat", true))
         and not context.blueprint and not card.getting_sliced and not context.retrigger_joker and not context.forcetrigger then
             for _, v in ipairs(G.jokers.cards) do
-                if v ~= card and SMODS.is_eternal(v, card) then
+                if v ~= card and not SMODS.is_eternal(v, card) then
                     v.getting_sliced = true
                     G.GAME.joker_buffer = G.GAME.joker_buffer - 1
                 end
