@@ -707,7 +707,7 @@ return {
             c_sgt_argyra = {
                 name = "Argyra",
                 text = {
-                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{S:0.8}({S:0.8,V:1}lv.#1#{S:0.8}){} Nâng level",
                     "{C:attention}#2#{} hai lần",
                     "{C:attention}Cộng hưởng{} với",
                     "{C:attention}#3#{} và {C:attention}#4#{}",
@@ -716,21 +716,21 @@ return {
             c_sgt_sulvatera = {
                 name = "Sulvatera",
                 text = {
-                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{S:0.8}({S:0.8,V:1}lv.#1#{S:0.8}){} Nâng level",
                     "{C:attention}#2#{} hai lần",
                 },
             },
             c_sgt_terranora = {
                 name = "Terranora",
                 text = {
-                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{S:0.8}({S:0.8,V:1}lv.#1#{S:0.8}){} Nâng level",
                     "{C:attention}#2#{} hai lần",
                 },
             },
             c_sgt_valora = {
                 name = "Valora",
                 text = {
-                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{S:0.8}({S:0.8,V:1}lv.#1#{S:0.8}){} Nâng level",
                     "{C:attention}#2#{} hai lần",
                     "{C:attention}Cộng hưởng{} với {C:attention}#3#{}",
                 },
@@ -738,7 +738,7 @@ return {
             c_sgt_zephyria = {
                 name = "Zephyria",
                 text = {
-                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{S:0.8}({S:0.8,V:1}lv.#1#{S:0.8}){} Nâng level",
                     "{C:attention}#2#{} hai lần",
                     "{C:attention}Cộng hưởng{} với {C:attention}#3#{}",
                 },
@@ -746,7 +746,7 @@ return {
             c_sgt_chronara = {
                 name = "Chronara",
                 text = {
-                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{S:0.8}({S:0.8,V:1}lv.#1#{S:0.8}){} Nâng level",
                     "{C:attention}#2#{} hai lần",
                     "{C:attention}Cộng hưởng{} với",
                     "{C:attention}#3#{} và {C:attention}#4#{}",
@@ -755,7 +755,7 @@ return {
             c_sgt_aetheron = {
                 name = "Aetheron",
                 text = {
-                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{S:0.8}({S:0.8,V:1}lv.#1#{S:0.8}){} Nâng level",
                     "{C:attention}#2#{} hai lần",
                     "{C:attention}Cộng hưởng{} với",
                     "{C:attention}#3#{}",
@@ -764,7 +764,7 @@ return {
             c_sgt_oceanis = {
                 name = "Oceanis",
                 text = {
-                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{S:0.8}({S:0.8,V:1}lv.#1#{S:0.8}){} Nâng level",
                     "{C:attention}#2#{} hai lần",
                     "{C:attention}Cộng hưởng{} với",
                     "{C:attention}#3#{} và {C:attention}#4#{}",
@@ -773,14 +773,14 @@ return {
             c_sgt_lonestra = {
                 name = "Lonestra",
                 text = {
-                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{S:0.8}({S:0.8,V:1}lv.#1#{S:0.8}){} Nâng level",
                     "{C:attention}#2#{} hai lần",
                 },
             },
             c_sgt_mystara = {
                 name = "Mystara",
                 text = {
-                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{S:0.8}({S:0.8,V:1}lv.#1#{S:0.8}){} Nâng level",
                     "{C:attention}#2#{} hai lần",
                     "{C:attention}Cộng hưởng{} với",
                     "{C:attention}#4#{} và {C:attention}#5#{}",
@@ -789,14 +789,14 @@ return {
             c_sgt_ceratek = {
                 name = "Ceratek",
                 text = {
-                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{S:0.8}({S:0.8,V:1}lv.#1#{S:0.8}){} Nâng level",
                     "{C:attention}#2#{} hai lần",
                 },
             },
             c_sgt_discordia = {
                 name = "Discordia",
                 text = {
-                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Nâng level",
+                    "{S:0.8}({S:0.8,V:1}lv.#1#{S:0.8}){} Nâng level",
                     "{C:attention}#2#{} hai lần",
                 },
             },
