@@ -525,33 +525,6 @@ function Card:set_sprites(_center, _front)
 	end
 end
 
--- Handle selection limit on gravistone removal
-local card_remove = Card.remove
-function Card:remove()
-    if G.STAGE == G.STAGES.RUN then
-        if SMODS.has_enhancement(self, "m_sgt_gravistone")
-        and self.ability.gravistone_triggered then
-            SMODS.change_play_limit(-1)
-            SMODS.change_discard_limit(-1)
-        end
-    end
-    card_remove(self)
-end
-
--- Via setting a different enhancement
-local set_abilityref = Card.set_ability
-function Card:set_ability(center, initial, delay_sprites)
-    if G.STAGE == G.STAGES.RUN and not initial then
-        if ((type(center) == "string" and center ~= "m_sgt_gravistone")
-        or (type(center) == "table" and center ~= G.P_CENTERS.m_sgt_gravistone))
-        and self.ability.gravistone_triggered then
-            SMODS.change_play_limit(-1)
-            SMODS.change_discard_limit(-1)
-        end
-    end
-    set_abilityref(self, center, initial, delay_sprites)
-end
-
 -- Copied Gravistone properly triggers its selection limit increase
 local copy_cardref = copy_card
 function copy_card(other, new_card, card_scale, playing_card, strip_edition)
