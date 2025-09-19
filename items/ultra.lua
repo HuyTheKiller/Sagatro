@@ -3817,7 +3817,7 @@ local gravistone = {
     no_suit = true,
     always_scores = true,
     update = function(self, card, dt)
-        if G.STAGE == G.STAGES.RUN then
+        if G.STAGE == G.STAGES.RUN and not card.debuff then
             if card.area == G.hand and not card.ability.gravistone_triggered then
                 card.ability.gravistone_triggered = true
                 SMODS.change_play_limit(1)
@@ -3827,6 +3827,13 @@ local gravistone = {
                 SMODS.change_play_limit(-1)
                 SMODS.change_discard_limit(-1)
             end
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if card.ability.gravistone_triggered then
+            card.ability.gravistone_triggered = nil
+            SMODS.change_play_limit(-1)
+            SMODS.change_discard_limit(-1)
         end
     end,
     in_pool = function(self, args)
