@@ -452,7 +452,6 @@ local eldritch_normal_1 = {
     weight = 0.3,
     kind = "Eldritch",
     draw_hand = true,
-    select_table = {c_sgt_void_hole = "consumeables"},
     ease_background_colour = function(self)
         ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_ELDRITCH)
         ease_background_colour{new_colour = G.C.SGT_ELDRITCH, special_colour = G.C.BLACK, contrast = 2}
@@ -493,7 +492,6 @@ local eldritch_normal_2 = {
     weight = 0.3,
     kind = "Eldritch",
     draw_hand = true,
-    select_table = {c_sgt_void_hole = "consumeables"},
     ease_background_colour = function(self)
         ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_ELDRITCH)
         ease_background_colour{new_colour = G.C.SGT_ELDRITCH, special_colour = G.C.BLACK, contrast = 2}
@@ -533,7 +531,6 @@ local eldritch_jumbo = {
     weight = 0.3,
     kind = "Eldritch",
     draw_hand = true,
-    select_table = {c_sgt_void_hole = "consumeables"},
     ease_background_colour = function(self)
         ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_ELDRITCH)
         ease_background_colour{new_colour = G.C.SGT_ELDRITCH, special_colour = G.C.BLACK, contrast = 2}
@@ -574,7 +571,6 @@ local eldritch_mega = {
     weight = 0.07,
     kind = "Eldritch",
     draw_hand = true,
-    select_table = {c_sgt_void_hole = "consumeables"},
     ease_background_colour = function(self)
         ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_ELDRITCH)
         ease_background_colour{new_colour = G.C.SGT_ELDRITCH, special_colour = G.C.BLACK, contrast = 2}

@@ -3079,6 +3079,7 @@ local void_hole = {
     cost = 4,
     hidden = true,
     soul_set = "Celestara",
+    select_card = "consumeables",
     can_use = function(self, card)
         return true
     end,

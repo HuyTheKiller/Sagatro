@@ -586,10 +586,11 @@ elseif v.set == 'Celestara' then
 '''
 match_indent = true
 
-# Allow booster_obj.select_table to work the same as booster_obj.select_card
+# Allow card.config.center.select_card to work the same as booster_obj.select_card
+# This regex patch will be removed in next SMODS release if Sagatro bumps dependency to that release
 [[patches]]
 [patches.regex]
 target = "functions/UI_definitions.lua"
 pattern = '''booster_obj\.select_card'''
 position = "at"
-payload = "(booster_obj.select_card or booster_obj.select_table)"
+payload = "(booster_obj.select_card or card.config.center.select_card)"

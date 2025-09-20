@@ -823,16 +823,6 @@ G.FUNCS.can_skip_booster = function(e)
     end
 end
 
-local card_selectable_from_pack = Card.selectable_from_pack
-function Card.selectable_from_pack(card, pack)
-    if pack.select_table then
-        for key, area in pairs(pack.select_table) do
-            if key == card.config.center_key then return area end
-        end
-    end
-    return card_selectable_from_pack(card, pack)
-end
-
 -- Ah yes, Nameless' secret ability is to slowly flood your shop voucher with Antimatter
 local avts = SMODS.add_voucher_to_shop
 function SMODS.add_voucher_to_shop(key, dont_save)
