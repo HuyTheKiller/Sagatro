@@ -205,16 +205,7 @@ local gods_miracle = {
         if context.end_of_round and not context.individual and not context.repetition
         and context.game_over and not G.GAME.saved_by_gods_miracle then
             G.GAME.saved_by_gods_miracle = true
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                delay = 0.2,
-                func = function()
-                    if SMODS.shatters(card) then
-                        card:shatter()
-                    else
-                        card:start_dissolve(nil, true)
-                    end
-                return true end }))
+            SMODS.destroy_cards(card)
             return {
                 message = localize('k_saved_ex'),
                 saved = "ph_gods_miracle",
