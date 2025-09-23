@@ -15,22 +15,25 @@ if G.GAME.story_mode then
     if v.set == 'Joker' then
         -- Sagatro jokers only
         if not v.saga_group then add = nil end
-        
-        -- Events that would alter joker pool (should be paired with modifications of G.GAME.rarity_mod)
-        for story, events in pairs(G.GAME.saga_event) do    
-            for event, happening in pairs(events) do
-                if happening then
-                    if G.GAME.saga_spawn_table[story][event]
-                    and type(G.GAME.saga_spawn_table[story][event]) == "table"
-                    and #G.GAME.saga_spawn_table[story][event] > 0 then
-                        add = nil
-                        for _, key in pairs(G.GAME.saga_spawn_table[story][event]) do
-                            if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not SMODS.showman(v.key))
-                            and v.unlocked ~= false and v.key == key then
-                                add = true
-                            end
-                        end
-                    end
+         
+        -- Events that would alter joker pool
+        local story, interwoven, event = G.GAME.current_storyline, G.GAME.interwoven_storyline, G.GAME.saga_event_queue[1]
+        if (story ~= "none" or interwoven) and event
+        and (G.GAME.saga_spawn_table[story] or G.GAME.saga_spawn_table[interwoven or story])
+        and (G.GAME.saga_spawn_table[story][event] or G.GAME.saga_spawn_table[interwoven or story][event])
+        and (type(G.GAME.saga_spawn_table[story][event]) == "table"
+        or type(G.GAME.saga_spawn_table[interwoven or story][event]) == "table") then
+            add = nil
+            for _, key in ipairs(G.GAME.saga_spawn_table[story][event] or {}) do
+                if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not SMODS.showman(v.key))
+                and v.unlocked ~= false and v.key == key then
+                    add = true
+                end
+            end
+            for _, key in ipairs(G.GAME.saga_spawn_table[interwoven or story][event] or {}) do
+                if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not SMODS.showman(v.key))
+                and v.unlocked ~= false and v.key == key then
+                    add = true
                 end
             end
         end
@@ -54,14 +57,14 @@ position = "at"
 payload = '''
 elseif _type == 'Joker' then
     if G.GAME.story_mode then
-        if G.GAME.saga_event.alice_in_wonderland.cry_into_flood then
+        if Sagatro.event_check("cry_into_flood") then
             _pool[#_pool + 1] = "j_splash"
-        elseif G.GAME.saga_event.alice_in_wonderland.goodbye_frog then
+        elseif Sagatro.event_check("goodbye_frog") then
             _pool[#_pool + 1] = "j_sgt_cheshire_cat"
-        elseif G.GAME.saga_event.alice_in_wonderland.mad_hatter then
+        elseif Sagatro.event_check("mad_hatter") or next(SMODS.find_card("j_sgt_mad_hatter", true)) then
             _pool[#_pool + 1] = "j_sgt_tea"
         else
-            _pool[#_pool + 1] = "j_sgt_white_rabbit"
+            _pool[#_pool + 1] = "j_sgt_abducted_cow"
         end
     elseif next(SMODS.find_card("j_sgt_mad_hatter")) then
         _pool[#_pool + 1] = "j_sgt_tea"
@@ -89,14 +92,14 @@ position = "at"
 payload = '''
 else
     if G.GAME.story_mode then
-        if G.GAME.saga_event.alice_in_wonderland.cry_into_flood then
+        if Sagatro.event_check("cry_into_flood") then
             _pool[#_pool + 1] = "j_splash"
-        elseif G.GAME.saga_event.alice_in_wonderland.goodbye_frog then
+        elseif Sagatro.event_check("goodbye_frog") then
             _pool[#_pool + 1] = "j_sgt_cheshire_cat"
-        elseif G.GAME.saga_event.alice_in_wonderland.mad_hatter then
+        elseif Sagatro.event_check("mad_hatter") or next(SMODS.find_card("j_sgt_mad_hatter", true)) then
             _pool[#_pool + 1] = "j_sgt_tea"
         else
-            _pool[#_pool + 1] = "j_sgt_white_rabbit"
+            _pool[#_pool + 1] = "j_sgt_abducted_cow"
         end
     elseif next(SMODS.find_card("j_sgt_mad_hatter", true)) then
         _pool[#_pool + 1] = "j_sgt_tea"
@@ -192,7 +195,7 @@ position = 'at'
 match_indent = true
 payload = '''
 if (not G.GAME.story_mode and G.GAME.round_resets.ante >= G.GAME.win_ante and G.GAME.blind_on_deck == 'Boss')
-or (G.GAME.story_mode and G.GAME.blind.config.blind.key == "bl_sgt_red_queen") then
+or (G.GAME.story_mode and table.contains(Sagatro.story_mode_showdown, G.GAME.blind.config.blind.key)) then
 '''
 
 # Make losing after Red Queen but before win Ante a valid endless run
@@ -204,7 +207,7 @@ position = 'at'
 match_indent = true
 payload = '''
 if (not G.GAME.story_mode and G.GAME.round_resets.ante <= G.GAME.win_ante)
-or (G.GAME.story_mode and not G.GAME.red_queen_defeated) then
+or (G.GAME.story_mode and not G.GAME.story_ended) then
 '''
 
 [[patches]]
@@ -216,7 +219,7 @@ match_indent = true
 payload = '''
 -- Only add Jimbo (or Alice if in story mode) to say a quip if the game over happens when the run is lost
 if (not G.GAME.story_mode and G.GAME.round_resets.ante <= G.GAME.win_ante)
-or (G.GAME.story_mode and not G.GAME.red_queen_defeated) then
+or (G.GAME.story_mode and not G.GAME.story_ended) then
 '''
 
 [[patches]]
@@ -227,7 +230,7 @@ position = 'at'
 match_indent = true
 payload = '''
 local eased_red = copy_table(((not G.GAME.story_mode and G.GAME.round_resets.ante <= G.GAME.win_ante)
-or (G.GAME.story_mode and not G.GAME.red_queen_defeated)) and G.C.RED or G.C.BLUE)
+or (G.GAME.story_mode and not G.GAME.story_ended)) and G.C.RED or G.C.BLUE)
 '''
 
 # Replace YOU WIN! with STORY ENDED! if Red Queen is defeated
@@ -238,7 +241,7 @@ pattern = '''{n=G.UIT.O, config={object = DynaText({string = {localize('ph_you_w
 position = 'at'
 match_indent = true
 payload = '''
-{n=G.UIT.O, config={object = DynaText({string = {G.GAME.story_mode and G.GAME.blind.config.blind.key == "bl_sgt_red_queen" and localize('ph_story_ended') or localize('ph_you_win')}, colours = {G.C.EDITION},shadow = true, float = true, spacing = 10, rotate = true, scale = 1.5, pop_in = 0.4, maxw = 6.5})}},
+{n=G.UIT.O, config={object = DynaText({string = {G.GAME.story_mode and table.contains(Sagatro.story_mode_showdown, G.GAME.blind.config.blind.key) and localize('ph_story_ended') or localize('ph_you_win')}, colours = {G.C.EDITION},shadow = true, float = true, spacing = 10, rotate = true, scale = 1.5, pop_in = 0.4, maxw = 6.5})}},
 '''
 
 # Replace Jimbo with Alice (still allowing Joseph if Cryptid is also installed)

@@ -49,43 +49,24 @@ to_number = to_number or function(x)
 	return x
 end
 
+Sagatro.story_mode_showdown = {
+	"bl_sgt_red_queen",
+}
+
+Sagatro.main_storyline_list = {
+    "alice_in_wonderland",
+    "20k_miles_under_the_sea"
+}
+
 local igo = Game.init_game_object
 function Game:init_game_object()
 	local ret = igo(self)
-	-- Events that update in real time
-    ret.saga_event = {
-        alice_in_wonderland = {
-            cry_into_flood = false,
-            white_rabbit_house = false,
-            little_bill = false,
-            huge_dog = false,
-            caterpillar = false,
-            pig_and_pepper = false,
-            goodbye_frog = false,
-            the_party = false,
-            mad_hatter = false,
-            red_queen = false,
-            gryphon = false,
-            final_showdown = false,
-        },
-    }
-    -- Event checks to make sure each event only happens once per run
-    ret.saga_event_check = {
-        alice_in_wonderland = {
-            cry_into_flood = false,
-            white_rabbit_house = false,
-            little_bill = false,
-            huge_dog = false,
-            caterpillar = false,
-            pig_and_pepper = false,
-            goodbye_frog = false,
-            the_party = false,
-            mad_hatter = false,
-            red_queen = false,
-            gryphon = false,
-            final_showdown = false,
-        },
-    }
+    -- Current storyline
+    ret.current_storyline = "none"
+    -- Event queue
+    ret.saga_event_queue = {}
+    -- Finished events
+    ret.saga_finished_events = {}
     -- A table to control joker pools during certain events
     ret.saga_spawn_table = {
         alice_in_wonderland = {
@@ -106,16 +87,7 @@ function Game:init_game_object()
     }
     ret.alice_multiplier = 1
     ret.relief_factor = 1
-    ret.saga_event_forced_buffoon = false
-    ret.story_mode = Sagatro.config.DisableOtherJokers
-    ret.fusion_table = Sagatro.config.DisableOtherJokers and SagaFusion.fusions or {}
-    ret.red_queen_blind = false
-    ret.red_queen_defeated = false
-    ret.saved_by_gods_miracle = false
-    ret.wish_card_spawns_genie = false -- Deck of Equilibrium compat
-    ret.last_tarot_planet_divinatio = nil
     ret.orbis_fatum_odds = 4
-    ret.perishable_already_active = false
 	return ret
 end
 
@@ -580,7 +552,7 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
             _type = "Norse Gods"
         end
     end
-    if G.GAME.saga_event and G.GAME.saga_event.alice_in_wonderland.final_showdown and G.GAME.story_mode and _type == "Joker" then
+    if Sagatro.event_check("final_showdown") and _type == "Joker" then
         _type = "Final Showdown"
         if pseudorandom("alice_in_final_showdown") > 0.997 then
             if not G.GAME.won and not next(SMODS.find_card("j_sgt_alice", true)) then
@@ -706,28 +678,16 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
     return card
 end
 
--- If you own Red Queen in story mode, triggering Final Showdown event "turns" her into Showdown Blind
+-- If you own Queen Of Hearts in story mode, triggering Final Showdown event "turns" her into Showdown Blind
 local gnb = get_new_boss
 function get_new_boss()
-    if G.GAME.story_mode and G.GAME.saga_event.alice_in_wonderland.final_showdown and not next(SMODS.find_card("j_sgt_mad_hatter")) and not G.GAME.won then
+    if Sagatro.event_check("final_showdown") and not next(SMODS.find_card("j_sgt_mad_hatter")) and not G.GAME.won then
         for _, v in ipairs(G.jokers.cards) do
             if v.config.center_key == "j_sgt_red_queen" then
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
-                        v.T.r = -0.2
-                        v:juice_up(0.3, 0.4)
-                        v.states.drag.is = true
-                        v.children.center.pinch.x = true
-                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
-                            func = function()
-                                    G.jokers:remove_card(v)
-                                    v:remove()
-                                    v = nil
-                                return true; end}))
-                        return true
-                    end
-                }))
+                local guilty_text = function()
+                    card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
+                end
+                Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
             end
         end
         return 'bl_sgt_red_queen'
@@ -737,22 +697,37 @@ function get_new_boss()
     return ret
 end
 
--- Disabling Red Queen via using Eat Me! won't cut the score down to 2X base
+-- Block boss reroll if it's Queen Of Hearts in story mode (you would waste $10 anyway, see hook above)
+local rbb = G.FUNCS.reroll_boss_button
+G.FUNCS.reroll_boss_button = function(e)
+    rbb(e)
+    if G.GAME.story_mode and table.contains(Sagatro.story_mode_showdown, G.GAME.round_resets.blind_choices.Boss) then
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+        e.children[1].children[1].config.shadow = false
+        if e.children[2] then e.children[2].children[1].config.shadow = false end
+        e.children[1].children[1].config.text = localize("b_dont_even_try")
+        e.UIBox:recalculate()
+    end
+end
+
+-- Disabling Queen Of Hearts via using Eat Me! won't cut the score down to 2X base
 local disable_ref = Blind.disable
 function Blind:disable(...)
     disable_ref(self)
-    if self.config.blind.key == "bl_sgt_red_queen" and select(1, ...) then
+    if self.config.blind.key == "bl_sgt_red_queen"
+    and (select(1, ...)) and select(1, ...) == "do_not_cut_score" then
         self.chips = self.chips*3
 		self.chip_text = number_format(self.chips)
     end
 end
 
--- Track if Red Queen is defeated to enable endless-like experience before reaching win Ante
+-- Track if Queen Of Hearts is defeated to enable endless-like experience before reaching win Ante
 local dft = Blind.defeat
 function Blind:defeat(s)
 	dft(self, s)
-    if self.config.blind.key and self.config.blind.key == "bl_sgt_red_queen" then
-        G.GAME.red_queen_defeated = true
+    if self.config.blind.key and table.contains(Sagatro.story_mode_showdown, self.config.blind.key) then
+        G.GAME.story_ended = true
     end
 end
 
@@ -778,48 +753,6 @@ function info_tip_from_rows(desc_nodes, name)
         }}
     else
         return itfr(desc_nodes, name)
-    end
-end
-
--- Force the first pack in shop to be buffoon in certain events
-local gp = get_pack
-function get_pack(_key, _type)
-    if G.GAME.story_mode and not G.GAME.saga_event_forced_buffoon
-    and ((G.GAME.saga_event.alice_in_wonderland.white_rabbit_house
-    and not G.GAME.saga_event_check.alice_in_wonderland.white_rabbit_house)
-    or (G.GAME.saga_event.alice_in_wonderland.goodbye_frog
-    and not G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog)
-    or (G.GAME.saga_event.alice_in_wonderland.the_party
-    and not G.GAME.saga_event_check.alice_in_wonderland.the_party)
-    or (G.GAME.saga_event.alice_in_wonderland.red_queen
-    and not G.GAME.saga_event_check.alice_in_wonderland.red_queen)
-    or (G.GAME.saga_event.alice_in_wonderland.gryphon
-    and not G.GAME.saga_event_check.alice_in_wonderland.gryphon)) then
-        G.GAME.saga_event_forced_buffoon = true
-        local buffoon_pool = {"p_buffoon_normal_1", "p_buffoon_normal_2", "p_buffoon_jumbo_1", "p_buffoon_mega_1"}
-        local chosen_buffoon = pseudorandom_element(buffoon_pool, pseudoseed("saga_event_forced_buffoon"))
-        return G.P_CENTERS[chosen_buffoon]
-    end
-    return gp(_key, _type)
-end
-
-local csb = G.FUNCS.can_skip_booster
-G.FUNCS.can_skip_booster = function(e)
-    csb(e)
-    if G.pack_cards and (not (G.GAME.STOP_USE and G.GAME.STOP_USE > 0)) and
-    (G.STATE == G.STATES.SMODS_BOOSTER_OPENED and SMODS.OPENED_BOOSTER.label:find("wish_primary")) then
-        if next(SMODS.find_card("j_sgt_lamp_genie", true)) then
-            local max_collected_wish = 0
-            for _, card in ipairs(G.jokers.cards) do
-                if card.config.center_key == "j_sgt_lamp_genie" and card.ability.collected_wish > max_collected_wish then
-                    max_collected_wish = card.ability.collected_wish
-                end
-            end
-            if max_collected_wish < 2 then
-                e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-                e.config.button = nil
-            end
-        end
     end
 end
 
@@ -878,36 +811,6 @@ function SMODS.shortcut()
     return shortcut()
 end
 
--- Reset debuff positions of all Mouses outside their own code (because they can't do that if debuffed)\
--- Also replenish first-slot buffoon pack if said events are yet to progress
-function Sagatro.reset_game_globals(run_start)
-    for _, v in ipairs(G.jokers.cards) do
-        if v.config.center_key == "j_sgt_mouse" then
-            for i = #v.ability.extra.debuff_position, 1, -1 do
-                table.remove(v.ability.extra.debuff_position, i)
-            end
-            SMODS.debuff_card(v, false, "j_sgt_mouse")
-            v.ability.extra.mult = v.ability.extra.buffer_mult
-        end
-    end
-    if G.GAME.story_mode and G.GAME.saga_event_forced_buffoon
-    and ((G.GAME.saga_event.alice_in_wonderland.white_rabbit_house
-    and not G.GAME.saga_event_check.alice_in_wonderland.white_rabbit_house)
-    or (G.GAME.saga_event.alice_in_wonderland.goodbye_frog
-    and not G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog)
-    or (G.GAME.saga_event.alice_in_wonderland.the_party
-    and not G.GAME.saga_event_check.alice_in_wonderland.the_party)
-    or (G.GAME.saga_event.alice_in_wonderland.red_queen
-    and not G.GAME.saga_event_check.alice_in_wonderland.red_queen)
-    or (G.GAME.saga_event.alice_in_wonderland.gryphon
-    and not G.GAME.saga_event_check.alice_in_wonderland.gryphon)) then
-        G.GAME.saga_event_forced_buffoon = false
-    end
-    if G.GAME.saved_by_gods_miracle then
-        G.GAME.saved_by_gods_miracle = false
-    end
-end
-
 function table.extract_total_value(t)
     local tot = 0
     if type(t) == "table" then
@@ -942,6 +845,144 @@ table.size = table.size or function(table)
         size = size + 1
     end
     return size
+end
+
+---@param storyline_name string
+function Sagatro.init_storyline(storyline_name)
+    if not G.GAME.story_mode then return end
+    if G.GAME.current_storyline == "none" and table.contains(Sagatro.main_storyline_list, storyline_name) then
+        G.GAME.current_storyline = storyline_name
+    end
+end
+
+---@param event_name string
+---@param queue_mode "add"|"finish"|"force_add"|"force_finish"|"remove"
+---@param storyline_name string
+---@param interwoven string|nil
+function Sagatro.progress_storyline(event_name, queue_mode, storyline_name, interwoven)
+    if not G.GAME.story_mode then return end
+    if storyline_name == G.GAME.current_storyline or storyline_name == interwoven then
+        if queue_mode == "add" and not table.contains(G.GAME.saga_event_queue, event_name)
+        and not table.contains(G.GAME.saga_finished_events, event_name) then
+            table.insert(G.GAME.saga_event_queue, event_name)
+        elseif queue_mode == "force_add" then
+            table.insert(G.GAME.saga_event_queue, 1, event_name)
+        elseif queue_mode == "finish" and G.GAME.saga_event_queue[1] == event_name then
+            table.remove(G.GAME.saga_event_queue, 1)
+            if not table.contains(G.GAME.saga_finished_events, event_name) then
+                table.insert(G.GAME.saga_finished_events, event_name)
+            end
+        elseif queue_mode == "force_finish" or queue_mode == "remove" then
+            local pos = 0
+            for i, event in ipairs(G.GAME.saga_event_queue) do
+                if event == event_name then
+                    pos = i
+                    break
+                end
+            end
+            if pos > 0 then
+                table.remove(G.GAME.saga_event_queue, pos)
+            end
+            if queue_mode == "force_finish"
+            and not table.contains(G.GAME.saga_finished_events, event_name) then
+                table.insert(G.GAME.saga_finished_events, event_name)
+            end
+        end
+    end
+end
+
+---@param storyline_name string
+function Sagatro.storyline_check(storyline_name)
+    if not G.GAME.story_mode then return false end
+    local table = {G.GAME.current_storyline, G.GAME.interwoven_storyline}
+    for _, storyline in ipairs(table) do
+        if storyline_name == storyline then return true end
+    end
+    return false
+end
+
+---@param event_table string|table string or table of strings
+---@param flag boolean|nil if `true` or `nil` (left empty), check if first element in queue matches string
+---if `false`, check if queue doesn't contain string
+---@param only_finished boolean|table|nil only check for finished events
+function Sagatro.event_check(event_table, flag, only_finished)
+    if not G.GAME.story_mode then return false end
+    if flag == nil then flag = true end
+    if type(event_table) == "string" then
+        event_table = {event_table}
+    end
+    for _, event in ipairs(event_table) do
+        local first_check, second_check = nil, not table.contains(G.GAME.saga_finished_events, event)
+        if flag then
+            first_check = G.GAME.saga_event_queue[1] == event
+        else
+            first_check = not table.contains(G.GAME.saga_event_queue, event)
+        end
+        if only_finished then
+            first_check = true
+            if type(only_finished) == "table" and only_finished.contain then
+                second_check = table.contains(G.GAME.saga_finished_events, event)
+            end
+        end
+        if first_check and second_check then
+            return true
+        end
+    end
+    return false
+end
+
+-- Force the first pack in shop to be buffoon in certain events
+local gp = get_pack
+function get_pack(_key, _type)
+    if G.GAME.story_mode and not G.GAME.saga_event_forced_buffoon
+    and Sagatro.event_check({"white_rabbit_house", "goodbye_frog", "the_party", "red_queen", "gryphon"}, true) then
+        G.GAME.saga_event_forced_buffoon = true
+        local buffoon_pool = {"p_buffoon_normal_1", "p_buffoon_normal_2", "p_buffoon_jumbo_1", "p_buffoon_mega_1"}
+        local chosen_buffoon = pseudorandom_element(buffoon_pool, pseudoseed("saga_event_forced_buffoon"))
+        return G.P_CENTERS[chosen_buffoon]
+    end
+    return gp(_key, _type)
+end
+
+local csb = G.FUNCS.can_skip_booster
+G.FUNCS.can_skip_booster = function(e)
+    csb(e)
+    if G.pack_cards and (not (G.GAME.STOP_USE and G.GAME.STOP_USE > 0)) and
+    (G.STATE == G.STATES.SMODS_BOOSTER_OPENED and SMODS.OPENED_BOOSTER.label:find("wish_primary")) then
+        if next(SMODS.find_card("j_sgt_lamp_genie", true)) then
+            local max_collected_wish = 0
+            for _, card in ipairs(G.jokers.cards) do
+                if card.config.center_key == "j_sgt_lamp_genie" and card.ability.collected_wish > max_collected_wish then
+                    max_collected_wish = card.ability.collected_wish
+                end
+            end
+            if max_collected_wish < 2 then
+                e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+                e.config.button = nil
+            end
+        end
+    end
+end
+
+-- Reset debuff positions of all Mouses outside their own code (because they can't do that if debuffed)\
+-- Also replenish first-slot buffoon pack if said events are yet to progress
+function Sagatro.reset_game_globals(run_start)
+    for _, v in ipairs(G.jokers.cards) do
+        if v.config.center_key == "j_sgt_mouse" then
+            for i = #v.ability.extra.debuff_position, 1, -1 do
+                table.remove(v.ability.extra.debuff_position, i)
+            end
+            SMODS.debuff_card(v, false, "j_sgt_mouse")
+            v.ability.extra.mult = v.ability.extra.buffer_mult
+        end
+    end
+    if G.GAME.story_mode and G.GAME.saga_event_forced_buffoon
+    and Sagatro.event_check({"white_rabbit_house", "goodbye_frog", "the_party", "red_queen", "gryphon"}, true) then
+        G.GAME.saga_event_forced_buffoon = nil
+    end
+    if G.GAME.saved_by_gods_miracle then
+        G.GAME.saved_by_gods_miracle = nil
+    end
 end
 
 function Sagatro.get_submarine_depth_colour()
@@ -1238,7 +1279,7 @@ end
 local gcu = generate_card_ui
 function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, card)
     local ui = gcu(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, card)
-    if ((_c.set == "Celestara" or _c.key == "c_sgt_void_hole") and (card and not card.area.config.collection or _c.discovered)) then
+    if ((_c.set == "Celestara" or _c.key == "c_sgt_void_hole") and (card and card.area and not card.area.config.collection or _c.discovered)) then
         local key = (card and card.hand_type_trigger or _c.key).."_effect"
         local celestara_nodes = {background_colour = lighten(G.C.SGT_CELESTARA, 0.75)}
         local vars = G.P_CENTERS[card and card.hand_type_trigger or _c.key]:loc_vars({}).vars
@@ -1663,7 +1704,7 @@ function sgt_help()
         print("sgt_help() or help(): show this help screen.")
         print("sgt_print_rarity(): print out modifications of each rarity pool.")
         print("sgt_change_joker(index, x, ...): change the numerical values inside 'ability.extra' table (or ability.extra itself if it's a number) of the joker at 'index' slot to 'x' and the following arguments (if applicable).")
-        print("sgt_event_list(): list all stories with their corresponding events.")
+        print("sgt_event(): show event queue and list of finished events.")
         print("sgt_story_mode(): check if a run has story mode enabled.")
         print("sgt_final_hand(): set hand count to 1.")
         print("sgt_no_discard(): set discard count to 0.")
@@ -1715,12 +1756,13 @@ function sgt_change_joker(index, x, ...)
     return "Failed: index out of range."
 end
 
-function sgt_event_list()
+function sgt_event()
     if Sagatro.debug then
-        for story, events in pairs(G.GAME.saga_event) do
-            print(story..":", events)
-        end
-        return "Currently active events yield true."
+        local queue = next(G.GAME.saga_event_queue) and table.concat(G.GAME.saga_event_queue, ", ") or "empty"
+        local finished = next(G.GAME.saga_finished_events) and table.concat(G.GAME.saga_finished_events, ", ") or "empty"
+        print("Event queue:", queue)
+        print("Finished events:", finished)
+        return "First event in queue is usually the active one."
     end
     return "Debug commands are unavailable."
 end

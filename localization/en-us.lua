@@ -2202,15 +2202,6 @@ return {
                 },
             },
         },
-        OceanMap = {
-            sgt_tropical = {
-                name = "Location",
-                text = {
-                    "Tropical",
-                    "Ocean"
-                },
-            },
-        },
         Enhanced = {
             m_sgt_omniscient = {
                 name = "Omniscient Card",
@@ -2309,6 +2300,13 @@ return {
                     "This card has fusion mechanic.",
                     "Find the other half and save enough",
                     "money to fuse them together.",
+                },
+            },
+            storyline_start = {
+                text = {
+                    "Buy this joker to",
+                    "begin the storyline:",
+                    "{C:sgt_sagadition}#1#{}",
                 },
             },
             white_rabbit = {
@@ -2503,6 +2501,7 @@ return {
             sgt_eldritch_pack = "Eldritch Pack",
             saga_tooltip = "Hint to progress",
             saga_fusion_tooltip = "Joker fusion",
+            saga_storyline_start = "Boot up",
             saga_ocean_tooltip = "Location",
             sgt_roll0 = "Oops! A Real Die",
             sgt_roll1 = "Number one",
@@ -2513,6 +2512,7 @@ return {
             sgt_roll6 = "Number six",
             b_join = "JOIN",
             b_delete_ace = "Delete Ace",
+            b_dont_even_try = "Don't even try",
             k_in_a_hurry_ex = "In a hurry!",
             k_too_late_ex = "Too late!",
             k_shrunk_ex = "Shrunk!",

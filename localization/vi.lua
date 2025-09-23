@@ -2197,15 +2197,6 @@ return {
                 },
             },
         },
-        OceanMap = {
-            sgt_tropical = {
-                name = "Địa Điểm",
-                text = {
-                    "Đại Dương",
-                    "Nhiệt Đới"
-                },
-            },
-        },
         Enhanced = {
             m_sgt_omniscient = {
                 name = "Lá Toàn Tri",
@@ -2304,6 +2295,13 @@ return {
                     "Lá bài này có cơ chế kết hợp.",
                     "Hãy tìm lá đồng hành và kiếm",
                     "đủ tiền để sử dụng cơ chế này.",
+                },
+            },
+            storyline_start = {
+                text = {
+                    "Mua joker này để",
+                    "bắt đầu mạch truyện:",
+                    "{C:sgt_sagadition}#1#{}",
                 },
             },
             white_rabbit = {
@@ -2498,6 +2496,7 @@ return {
             sgt_eldritch_pack = "Gói Hắc Linh",
             saga_tooltip = "Gợi ý tiến triển",
             saga_fusion_tooltip = "Kết hợp joker",
+            saga_storyline_start = "Khởi động",
             saga_ocean_tooltip = "Địa Điểm",
             sgt_roll0 = "Úi! Xúc Sắc Real",
             sgt_roll1 = "Số một",
@@ -2508,6 +2507,7 @@ return {
             sgt_roll6 = "Số sáu",
             b_join = "NHẬP",
             b_delete_ace = "Huỷ Át",
+            b_dont_even_try = "Đừng cố nữa",
             k_in_a_hurry_ex = "Tranh thủ lên!",
             k_too_late_ex = "Trễ rồi!",
             k_shrunk_ex = "Thu Nhỏ!",

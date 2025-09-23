@@ -2,20 +2,22 @@ SMODS.Booster:take_ownership_by_kind('Buffoon', {
     create_card = function(self, card, i)
         local _card = {set = "Joker", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "buf"}
         if G.GAME.story_mode then
-            if G.GAME.saga_event.alice_in_wonderland.white_rabbit_house and i == 1 then
+            if Sagatro.event_check("white_rabbit_house") and i == 1 then
                 _card.key = "j_sgt_unlabeled_bottle"
-            elseif G.GAME.saga_event.alice_in_wonderland.goodbye_frog then
+            elseif Sagatro.event_check("goodbye_frog") then
                 _card.set = "Goodbye Frog"
-            elseif G.GAME.saga_event_check.alice_in_wonderland.goodbye_frog and i == 1
-            and not G.GAME.saga_event.alice_in_wonderland.mad_hatter
-            and not G.GAME.saga_event_check.alice_in_wonderland.mad_hatter then
+            elseif Sagatro.event_check("goodbye_frog", nil, {contain = true}) and i == 1
+            and Sagatro.event_check("mad_hatter", false) then
                 _card.key = "j_sgt_mad_hatter"
-            elseif G.GAME.saga_event.alice_in_wonderland.red_queen and i == 1
+            elseif Sagatro.event_check("red_queen") and i == 1
             and not next(SMODS.find_card("j_sgt_red_queen", true)) then
                 _card.key = "j_sgt_red_queen"
-            elseif G.GAME.saga_event.alice_in_wonderland.gryphon and i == 1
-            and not next(SMODS.find_card("j_sgt_gryphon", true)) then
-                _card.key = "j_sgt_gryphon"
+            elseif Sagatro.event_check("gryphon") and i == 1 then
+                if not next(SMODS.find_card("j_sgt_gryphon", true)) then
+                    _card.key = "j_sgt_gryphon"
+                else
+                    _card.key = "j_sgt_mock_turtle"
+                end
             end
         end
         return _card
@@ -88,12 +90,16 @@ SMODS.Booster:take_ownership_by_kind('Spectral', {
 true
 )
 
+local splash_add_to_deck = G.P_CENTERS.j_splash.add_to_deck
 SMODS.Joker:take_ownership('splash',
 	{
 		add_to_deck = function(self, card, from_debuff)
+            if splash_add_to_deck and type(splash_add_to_deck) == "function" then
+                splash_add_to_deck(self, card, from_debuff)
+            end
             if G.GAME.story_mode then
                 if (#SMODS.find_card("j_splash", true) > 0 or (next(SMODS.find_card("j_sgt_dodo_bird", true))
-                and not G.GAME.saga_event_check.alice_in_wonderland.white_rabbit_house)) and not from_debuff then
+                and Sagatro.event_check("white_rabbit_house", nil, true))) and not from_debuff then
                     local func = function()
                         card_eval_status_text(card, 'extra', nil, 1, nil, {message = localize('k_overflow_ex'), sound = "tarot1", volume = 1, instant = true})
                         ease_dollars(card.cost)
