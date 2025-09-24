@@ -534,7 +534,7 @@ function get_current_pool(_type, _rarity, _legendary, _append)
 
             if Sagatro.debug then print("From custom pool: ".._type) end
             if #_pool == 0 then
-                _pool[#_pool + 1] = "j_sgt_white_rabbit"
+                _pool[#_pool + 1] = "j_sgt_abducted_cow"
             end
             break
         end
