@@ -269,6 +269,7 @@ function Game:update(dt)
     elseif G.STAGE == G.STAGES.MAIN_MENU then
         Sagatro.debug_info["During a run"] = nil
         Sagatro.debug_info["Game state"] = nil
+        Sagatro.debug_info["Story mode"] = nil
         Sagatro.debug_info["In main menu"] = true
     end
 
@@ -1760,6 +1761,8 @@ function sgt_event()
     if Sagatro.debug then
         local queue = next(G.GAME.saga_event_queue) and table.concat(G.GAME.saga_event_queue, ", ") or "empty"
         local finished = next(G.GAME.saga_finished_events) and table.concat(G.GAME.saga_finished_events, ", ") or "empty"
+        print("Current storyline:", G.GAME.current_storyline)
+        print("Interwoven storyline:", G.GAME.interwoven_storyline or "none")
         print("Event queue:", queue)
         print("Finished events:", finished)
         return "First event in queue is usually the active one."
