@@ -3130,6 +3130,13 @@ local shepherd_boy = {
 			}
         end
     end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode and args
+        and args.source == "sho" and not G.GAME.won then
+            return pseudorandom(self.key.."_story_mode") < 0.333
+        end
+        return true
+    end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "shepherd_boy")}}
     end,
@@ -3207,6 +3214,13 @@ local puss_in_boots = {
                 Xmult_mod = card.ability.extra.xmult
             }
         end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode and args
+        and args.source == "sho" and not G.GAME.won then
+            return pseudorandom(self.key.."_story_mode") < 0.333
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.money, card.ability.extra.xmult}}
@@ -3312,6 +3326,13 @@ local iron_john = {
             }
         end
     end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode and args
+        and args.source == "sho" and not G.GAME.won then
+            return pseudorandom(self.key.."_story_mode") < 0.333
+        end
+        return true
+    end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod}}
     end,
@@ -3416,6 +3437,13 @@ local aladdin = {
                 }
             end
         end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode and args
+        and args.source == "sho" and not G.GAME.won then
+            return pseudorandom(self.key.."_story_mode") < 0.333
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {}
@@ -8730,6 +8758,13 @@ local hansels_cheat_dice = {
             end
         end
     end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode and args
+        and args.source == "sho" and not G.GAME.won then
+            return pseudorandom(self.key.."_story_mode") < 0.333
+        end
+        return true
+    end,
     loc_vars = function(self, info_queue, card)
         if Sagatro.debug then
             for i = 1, 6 do
@@ -9178,6 +9213,13 @@ local adam = {
             end
 		end
     end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode and args
+        and args.source == "sho" and not G.GAME.won then
+            return pseudorandom(self.key.."_story_mode") < 0.333
+        end
+        return true
+    end,
     loc_vars = function(self, info_queue, card)
         return {key = Ortalab and "j_sgt_adam_alt" or "j_sgt_adam"}
     end,
@@ -9227,6 +9269,13 @@ local saint_germain = {
                 card = card,
             }
         end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode and args
+        and args.source == "sho" and not G.GAME.won then
+            return pseudorandom(self.key.."_story_mode") < 0.333
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.electric_eel_info_queue_append(info_queue, Sagatro.electric_eel_info_queue)
@@ -9373,6 +9422,13 @@ local frog_prince = {
             }
         end
     end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode and args
+        and args.source == "sho" and not G.GAME.won then
+            return pseudorandom(self.key.."_story_mode") < 0.333
+        end
+        return true
+    end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS["j_shortcut"]
         return {vars = {localize{type = 'name_text', set = "Joker", key = "j_shortcut", nodes = {}}}}
@@ -9469,6 +9525,13 @@ local little_prince = {
             end}))
         end
     end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode and args
+        and args.source == "sho" and not G.GAME.won then
+            return pseudorandom(self.key.."_story_mode") < 0.333
+        end
+        return true
+    end,
     loc_vars = function(self, info_queue, card)
         local _, loc_vars = self:streak_options()
         for k, v in pairs(loc_vars) do
@@ -9559,6 +9622,13 @@ local pumpkin_carriage = {
             end
         end
     end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode and args
+        and args.source == "sho" and not G.GAME.won then
+            return pseudorandom(self.key.."_story_mode") < 0.333
+        end
+        return true
+    end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra}}
     end,
@@ -9640,6 +9710,13 @@ local abducted_cow = {
                 return true
             end}))
         end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode and args
+        and args.source == "sho" and not G.GAME.won then
+            return pseudorandom(self.key.."_story_mode") < 0.333
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         local text = card.ability.extra.held_card
@@ -9734,6 +9811,13 @@ local flying_house = {
                 message = localize("k_repair_ex"),
             }
         end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode and args
+        and args.source == "sho" and not G.GAME.won then
+            return pseudorandom(self.key.."_story_mode") < 0.333
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {localize(card.ability.type, 'poker_hands'),
