@@ -10447,7 +10447,7 @@ local nameless = {
             G.E_MANAGER:add_event(Event({
                 func = function()
                     if G.jokers then
-                        G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.amount
+                        G.jokers:change_size(card.ability.amount)
                     end
                     return true
                 end,
