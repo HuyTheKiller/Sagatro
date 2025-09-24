@@ -47,7 +47,7 @@ local function has_joker(val, start_pos)
 end
 
 function Card:can_fuse_card()
-	for _, fusion in ipairs(G.GAME.fusion_table) do
+	for _, fusion in ipairs(G.GAME.fusion_table or {}) do
 		if to_number(G.GAME.dollars) >= fusion.cost then
 			local found_me = false
 			local all_jokers = true
@@ -75,7 +75,7 @@ function Card:can_fuse_card()
 end
 
 function Card:get_card_fusion()
-	for _, fusion in ipairs(G.GAME.fusion_table) do
+	for _, fusion in ipairs(G.GAME.fusion_table or {}) do
 		for _, joker in ipairs(fusion.jokers) do
 			if joker.name == self.config.center_key then
 				return fusion
@@ -105,7 +105,7 @@ function Card:fuse_card()
 	local chosen_fusion = nil
 	local joker_pos = {}
 	local found_me = false
-	for _, fusion in ipairs(G.GAME.fusion_table) do
+	for _, fusion in ipairs(G.GAME.fusion_table or {}) do
 		joker_pos = {}
 		found_me = false
 		for _, joker in ipairs(fusion.jokers) do
