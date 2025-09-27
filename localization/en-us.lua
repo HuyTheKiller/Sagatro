@@ -801,6 +801,14 @@ return {
                     "{C:attention}#2#{} twice",
                 },
             },
+            c_sgt_soltera = {
+                name = "Soltera",
+                text = {
+                    "Create a random {C:sgt_esoteric,E:1}Esoteric",
+                    "{C:sgt_sagadition,E:1}Celestaverse {C:attention}Joker{}, remove",
+                    "all {C:attention}poker hand{} levels",
+                },
+            },
             celestara_heading = {
                 text = {
                     "{C:sgt_celestara,u:sgt_celestara}When #2# played:",
@@ -2119,6 +2127,17 @@ return {
                     "{C:inactive}(Max of 25)",
                 },
             },
+            j_sgt_three_body = {
+                name = "Three-body Dynamics",
+                text = {
+                    {"When {C:attention}Blind{} is selected, remove all",
+                    "{C:attention}poker hand{} levels and randomly",
+                    "distribute total amount removed",
+                    "to {C:attention}3{} most played {C:attention}poker hands{}"},
+                    {"Upgrade every visible {C:legendary,E:1}poker hand{}",
+                    "by {C:attention}#1#{} level every hand played"},
+                },
+            },
             j_sgt_azathoth = {
                 name = "Azathoth",
                 text = {
@@ -2587,6 +2606,7 @@ return {
             ph_lovecraft = "Lovecraft",
             ph_norse = "Norse Mythology",
             ph_black_soul = "Black Soul",
+            ph_celestaverse = "Celestaverse",
             sgt_swap = "Swap!",
             SGT_disable_other_jokers = "Story Mode",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression (Requires run restart)"},

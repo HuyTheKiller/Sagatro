@@ -8,6 +8,7 @@ SAGA_GROUP_POOL = {
     lcraft = "Lovecraft",
     norse = "Norse Mythology",
     ngods = "Norse Gods",
+    celestaverse = "Celestaverse",
 }
 
 for _, v in pairs(SAGA_GROUP_POOL) do

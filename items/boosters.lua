@@ -264,6 +264,7 @@ local celestara_normal_1 = {
     weight = 1,
     kind = "Celestara",
     select_card = "consumeables",
+    select_exclusions = {"v_sgt_soltera"},
     ease_background_colour = function(self)
         ease_colour(G.C.DYN_UI.MAIN, mix_colours(G.C.SGT_CELESTARA, G.C.BLACK, 0.9))
         ease_background_colour{new_colour = G.C.BLACK, contrast = 3}
@@ -311,6 +312,7 @@ local celestara_normal_2 = {
     weight = 1,
     kind = "Celestara",
     select_card = "consumeables",
+    select_exclusions = {"v_sgt_soltera"},
     ease_background_colour = function(self)
         ease_colour(G.C.DYN_UI.MAIN, mix_colours(G.C.SGT_CELESTARA, G.C.BLACK, 0.9))
         ease_background_colour{new_colour = G.C.BLACK, contrast = 3}
@@ -358,6 +360,7 @@ local celestara_jumbo = {
     weight = 1,
     kind = "Celestara",
     select_card = "consumeables",
+    select_exclusions = {"v_sgt_soltera"},
     ease_background_colour = function(self)
         ease_colour(G.C.DYN_UI.MAIN, mix_colours(G.C.SGT_CELESTARA, G.C.BLACK, 0.9))
         ease_background_colour{new_colour = G.C.BLACK, contrast = 3}
@@ -405,6 +408,7 @@ local celestara_mega = {
     weight = 0.25,
     kind = "Celestara",
     select_card = "consumeables",
+    select_exclusions = {"v_sgt_soltera"},
     ease_background_colour = function(self)
         ease_colour(G.C.DYN_UI.MAIN, mix_colours(G.C.SGT_CELESTARA, G.C.BLACK, 0.9))
         ease_background_colour{new_colour = G.C.BLACK, contrast = 3}

@@ -9854,7 +9854,7 @@ local shub = {
     atlas = "esoteric",
     saga_group = "lovecraft",
     no_collection = not Sagatro.mod_compat.talisman,
-    order = 3000,
+    order = 4000,
     pools = { [SAGA_GROUP_POOL.lcraft] = true },
     pos = { x = 0, y = 2 },
     soul_pos = { x = 2, y = 2, extra = { x = 1, y = 2 } },
@@ -10389,13 +10389,119 @@ local hermod = {
     end
 }
 
+local three_body = {
+    key = "three_body",
+    name = "Three-body Dynamics",
+    atlas = "esoteric",
+    saga_group = "celestaverse",
+    no_collection = not Sagatro.mod_compat.talisman,
+    order = 3000,
+    pools = { [SAGA_GROUP_POOL.celestaverse] = true },
+    pos = { x = 6, y = 0 },
+    soul_pos = { x = 8, y = 0, extra = { x = 7, y = 0 } },
+    config = {extra = {amount = 1}},
+    rarity = "sgt_esoteric",
+    cost = 50,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = false,
+    calculate = function(self, card, context)
+        if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
+            local removed_levels = to_big(0)
+            local three_most_played_hands_table = {}
+            local three_most_played_hands_list = {}
+            for _ = 1, 3 do
+                local _hand, _tally = nil, -1
+                for _, v in ipairs(G.handlist) do
+                    if SMODS.is_poker_hand_visible(v) and G.GAME.hands[v].played > _tally
+                    and not table.contains(three_most_played_hands_list, v) then
+                        _hand = v
+                        _tally = G.GAME.hands[v].played
+                    end
+                end
+                if _hand then
+                    three_most_played_hands_table[_hand] = 0
+                    table.insert(three_most_played_hands_list, _hand)
+                end
+            end
+            for _, v in pairs(G.handlist) do
+                if to_big(G.GAME.hands[v].level) > to_big(1) then
+                    local this_removed_levels = G.GAME.hands[v].level - 1
+                    removed_levels = removed_levels + this_removed_levels
+                    level_up_hand(card, v, true, -this_removed_levels)
+                end
+            end
+            local safe_removed_levels = math.min(to_number(removed_levels), 1e25)
+            for i = 1, safe_removed_levels do
+                local chosen_hand = pseudorandom_element(three_most_played_hands_list, pseudoseed("three_body_distribute"..i))
+                three_most_played_hands_table[chosen_hand] = three_most_played_hands_table[chosen_hand] + 1
+            end
+            SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
+            for hand_type, amount in pairs(three_most_played_hands_table) do
+                SMODS.smart_level_up_hand(card, hand_type, nil, amount)
+            end
+        end
+        if context.before then
+            SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
+            if (G.SETTINGS.FASTFORWARD or 0) == 0 then
+                update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+                    play_sound('tarot1')
+                    card:juice_up(0.8, 0.5)
+                    G.TAROT_INTERRUPT_PULSE = true
+                    return true end }))
+                update_hand_text({delay = 0}, {mult = '+', StatusText = true})
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+                    play_sound('tarot1')
+                    card:juice_up(0.8, 0.5)
+                    return true end }))
+                update_hand_text({delay = 0}, {chips = '+', StatusText = true})
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+                    play_sound('tarot1')
+                    card:juice_up(0.8, 0.5)
+                    G.TAROT_INTERRUPT_PULSE = nil
+                    return true end }))
+                update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level='+'..card.ability.extra.amount})
+                delay(1.3)
+                for _, v in ipairs(G.handlist) do
+                    if SMODS.is_poker_hand_visible(v) then
+                        level_up_hand(card, v, true, card.ability.extra.amount)
+                    end
+                end
+                update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(context.scoring_name, 'poker_hands'),chips = G.GAME.hands[context.scoring_name].chips, mult = G.GAME.hands[context.scoring_name].mult, level=G.GAME.hands[context.scoring_name].level})
+            else
+                update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+                    play_sound('tarot1')
+                    card:juice_up(0.8, 0.5)
+                return true end }))
+                update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0.3}, {chips = '+', mult = '+', level='+'..card.ability.extra.amount, StatusText = true})
+                delay(1.3)
+                for _, v in ipairs(G.handlist) do
+                    if SMODS.is_poker_hand_visible(v) then
+                        level_up_hand(card, v, true, card.ability.extra.amount)
+                    end
+                end
+                update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(context.scoring_name, 'poker_hands'),chips = G.GAME.hands[context.scoring_name].chips, mult = G.GAME.hands[context.scoring_name].mult, level=G.GAME.hands[context.scoring_name].level})
+            end
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.amount}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_celestaverse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
 local azathoth = {
     key = "azathoth",
     name = "Azathoth",
     atlas = "esoteric",
     saga_group = "lovecraft",
     no_collection = not Sagatro.mod_compat.talisman,
-    order = 3001,
+    order = 4001,
     pools = { [SAGA_GROUP_POOL.lcraft] = true },
     pos = { x = 0, y = 4 },
     soul_pos = { x = 2, y = 4, extra = { x = 1, y = 4 } },
@@ -10480,7 +10586,7 @@ local darkness = {
     atlas = "esoteric",
     saga_group = "lovecraft",
     no_collection = not Sagatro.mod_compat.talisman,
-    order = 3002,
+    order = 4002,
     pools = { [SAGA_GROUP_POOL.lcraft] = true },
     pos = { x = 3, y = 4 },
     soul_pos = { x = 5, y = 4, extra = { x = 4, y = 4 } },
@@ -10510,7 +10616,7 @@ local nameless = {
     atlas = "nameless",
     saga_group = "lovecraft",
     no_collection = not Sagatro.mod_compat.talisman,
-    order = 3003,
+    order = 4003,
     pools = { [SAGA_GROUP_POOL.lcraft] = true },
     pos = { x = 0, y = 0 },
     soul_pos = { x = 0, y = 2, extra = { x = 0, y = 1 } },
@@ -10562,7 +10668,7 @@ local mabel = {
     atlas = "mabel",
     no_collection = not Sagatro.mod_compat.talisman,
     saga_group = "black_soul",
-    order = 3004,
+    order = 4004,
     pools = { [SAGA_GROUP_POOL.lcraft] = true },
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },
@@ -10812,6 +10918,7 @@ local joker_table = {
     thor,
     odin,
     hermod,
+    three_body,
     azathoth,
     darkness,
     nameless,

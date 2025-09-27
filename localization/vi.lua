@@ -800,6 +800,14 @@ return {
                     "{C:attention}#2#{} hai lần",
                 },
             },
+            c_sgt_soltera = {
+                name = "Nhật Thần",
+                text = {
+                    "Tạo ra một {C:attention}Joker {C:sgt_sagadition,E:1}Celestaverse",
+					"{C:sgt_esoteric,E:1}Bí Truyền{} ngẫu nhiên, loại bỏ mọi",
+                    "level khỏi các {C:attention}tay poker{}",
+                },
+            },
             celestara_heading = {
                 text = {
                     "{C:sgt_celestara,u:sgt_celestara}Khi chơi #2#:",
@@ -2114,6 +2122,17 @@ return {
                     "{C:inactive}(Tối đa 25)",
                 },
             },
+            j_sgt_three_body = {
+                name = "Cơ Học Tam Thể",
+                text = {
+                    {"Khi {C:attention}Blind{} được chọn, loại bỏ mọi",
+                    "mọi level khỏi các {C:attention}tay poker{} và",
+                    "phân phối ngẫu nhiên tổng đã loại bỏ",
+                    "cho {C:attention}3 tay poker{} chơi nhiều nhất"},
+                    {"Nâng mọi {C:legendary,E:1}tay poker{} hiện hữu thêm",
+                    "{C:attention}#1#{} level mỗi tay bài đã chơi"},
+                },
+            },
             j_sgt_azathoth = {
                 name = "Azathoth",
                 text = {
@@ -2582,6 +2601,7 @@ return {
             ph_lovecraft = "Lovecraft",
             ph_norse = "Thần Thoại Bắc Âu",
             ph_black_soul = "Black Soul",
+            ph_celestaverse = "Celestaverse",
             sgt_swap = "Tráo!",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính (Yêu cầu tạo trận mới)"},

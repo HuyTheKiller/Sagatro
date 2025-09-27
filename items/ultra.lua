@@ -2312,6 +2312,47 @@ local discordia = {
     end,
 }
 
+local soltera = {
+    key = "soltera",
+    name = "Soltera",
+    set = "Celestara",
+    atlas = "ultra",
+    dependencies = {"Talisman"},
+    pos = {x = 2, y = 7},
+    config = {},
+    cost = 4,
+    hidden = true,
+    soul_set = "Celestara",
+    soul_rate = 0.005,
+    can_use = function(self, card)
+        for k, v in pairs(G.GAME.hands) do
+            if to_big(v.level) == to_big(1) then
+                return false
+            end
+        end
+        return true
+    end,
+    use = function(self, card, area, copier)
+		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            for k, v in pairs(G.GAME.hands) do
+                if to_big(v.level) > to_big(1) then
+                    level_up_hand(card, k, true, -v.level + 1)
+                end
+            end
+            play_sound('timpani')
+            card:juice_up(0.3, 0.5)
+            assert(SMODS.add_card({
+                set = "Celestaverse",
+                skip_materialize = true,
+            }))
+            return true end }))
+        delay(0.6)
+	end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items
+    end,
+}
+
 local demon = {
     key = 'demon',
     name = "Demon",
@@ -3440,6 +3481,7 @@ local consumable_table = {
     mystara,
     ceratek,
     discordia,
+    soltera,
     demon,
     merciless,
     chanting,

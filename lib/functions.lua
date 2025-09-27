@@ -6,6 +6,7 @@ G.C.SGT_WISH = HEX("9bbcfd")
 G.C.SGT_DIVINATIO = HEX("3bc9cf")
 G.C.SGT_CELESTARA = HEX("717beb")
 G.C.SGT_ELDRITCH = HEX("3f0c57")
+G.C.SGT_BADGE = HEX("6131ac")
 G.C.SUBMARINE_DEPTH = {
     HEX("3a86e1"),
     HEX("265792"),
@@ -478,6 +479,19 @@ function Card:set_sprites(_center, _front)
 			self.T.h,
 			G.ASSET_ATLAS[_center.atlas or _center.set],
 			{ x = 3, y = 2 }
+		)
+		self.children.floating_sprite.role.draw_major = self
+		self.children.floating_sprite.states.hover.can = false
+		self.children.floating_sprite.states.click.can = false
+	end
+    if _center and _center.name == "Soltera" then
+		self.children.floating_sprite = Sprite(
+			self.T.x,
+			self.T.y,
+			self.T.w,
+			self.T.h,
+			G.ASSET_ATLAS[_center.atlas or _center.set],
+			{ x = 3, y = 7 }
 		)
 		self.children.floating_sprite.role.draw_major = self
 		self.children.floating_sprite.states.hover.can = false
@@ -1280,7 +1294,7 @@ end
 local gcu = generate_card_ui
 function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, card)
     local ui = gcu(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, card)
-    if ((_c.set == "Celestara" or _c.key == "c_sgt_void_hole") and (card and card.area and not card.area.config.collection or _c.discovered)) then
+    if (((_c.set == "Celestara" and _c.key ~= "c_sgt_soltera") or _c.key == "c_sgt_void_hole") and (card and card.area and not card.area.config.collection or _c.discovered)) then
         local key = (card and card.hand_type_trigger or _c.key).."_effect"
         local celestara_nodes = {background_colour = lighten(G.C.SGT_CELESTARA, 0.75)}
         local vars = G.P_CENTERS[card and card.hand_type_trigger or _c.key]:loc_vars({}).vars
@@ -1452,7 +1466,7 @@ SMODS.DrawStep {
     key = 'eldritch_shine',
     order = 10,
     func = function(self)
-        if self.ability.set == "Eldritch" or self.config.center.group_key == "sgt_eldritch_pack" or self.ability.name == "Anima" then
+        if self.ability.set == "Eldritch" or self.config.center.group_key == "sgt_eldritch_pack" or self.ability.name == "Anima" or self.ability.name == "Soltera" then
             self.children.center:draw_shader("booster", nil, self.ARGS.send_to_shader)
         end
     end,
@@ -1561,7 +1575,7 @@ SMODS.DrawStep {
                 scale_mod,
                 rotate_mod
             )
-        elseif (self.ability.name == "The Sinister" or self.ability.name == "Anima") and (self.config.center.discovered or self.bypass_discovery_center) then
+        elseif (self.ability.name == "The Sinister" or self.ability.name == "Anima" or self.ability.name == "Soltera") and (self.config.center.discovered or self.bypass_discovery_center) then
             local scale_mod = 0.05
                 + 0.05 * math.sin(1.8 * G.TIMERS.REAL)
                 + 0.07
