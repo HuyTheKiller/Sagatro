@@ -713,12 +713,19 @@ local anima = {
     hidden = true,
     soul_set = "Eldritch",
     can_use = function(self, card)
-        return true
+        for _, v in ipairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
+            if v.ability.set == "Joker" then
+                return true
+            end
+        end
+        return false
     end,
     use = function(self, card, area, copier)
 		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-            for _, v in ipairs(G.jokers.cards) do
-                v:add_sticker("eternal", true)
+            for _, v in ipairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
+                if v.ability.set == "Joker" then
+                    v:add_sticker("eternal", true)
+                end
             end
             play_sound('timpani')
             card:juice_up(0.3, 0.5)
@@ -3047,12 +3054,19 @@ local sinister = {
     hidden = true,
     soul_set = "Divinatio",
     can_use = function(self, card)
-        return true
+        for _, v in ipairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
+            if v.ability.set == "Joker" then
+                return true
+            end
+        end
+        return false
     end,
     use = function(self, card, area, copier)
 		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-            for _, v in ipairs(G.jokers.cards) do
-                v:add_sticker("perishable", true)
+            for _, v in ipairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
+                if v.ability.set == "Joker" then
+                    v:add_sticker("perishable", true)
+                end
             end
             play_sound('timpani')
             card:juice_up(0.3, 0.5)
