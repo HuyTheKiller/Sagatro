@@ -10407,44 +10407,7 @@ local three_body = {
     eternal_compat = true,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
-            local removed_levels = to_big(0)
-            local three_most_played_hands_table = {}
-            local three_most_played_hands_list = {}
-            for _ = 1, 3 do
-                local _hand, _tally = nil, -1
-                for _, v in ipairs(G.handlist) do
-                    if SMODS.is_poker_hand_visible(v) and G.GAME.hands[v].played > _tally
-                    and not table.contains(three_most_played_hands_list, v) then
-                        _hand = v
-                        _tally = G.GAME.hands[v].played
-                    end
-                end
-                if _hand then
-                    three_most_played_hands_table[_hand] = 0
-                    table.insert(three_most_played_hands_list, _hand)
-                end
-            end
-            for _, v in pairs(G.handlist) do
-                if to_big(G.GAME.hands[v].level) > to_big(1) then
-                    local this_removed_levels = G.GAME.hands[v].level - 1
-                    removed_levels = removed_levels + this_removed_levels
-                    level_up_hand(card, v, true, -this_removed_levels)
-                end
-            end
-            local safe_removed_levels = math.min(to_number(removed_levels), 1e25)
-            for i = 1, safe_removed_levels do
-                local chosen_hand = pseudorandom_element(three_most_played_hands_list, pseudoseed("three_body_distribute"..i))
-                three_most_played_hands_table[chosen_hand] = three_most_played_hands_table[chosen_hand] + 1
-            end
-            for hand_type, amount in pairs(three_most_played_hands_table) do
-                if amount > 0 then
-                    SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
-                    SMODS.smart_level_up_hand(card, hand_type, nil, amount)
-                end
-            end
-        end
-        if context.before then
+        if context.before or context.forcetrigger then
             SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
             if (G.SETTINGS.FASTFORWARD or 0) == 0 then
                 update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
@@ -10486,6 +10449,44 @@ local three_body = {
                     end
                 end
                 update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(context.scoring_name, 'poker_hands'),chips = G.GAME.hands[context.scoring_name].chips, mult = G.GAME.hands[context.scoring_name].mult, level=G.GAME.hands[context.scoring_name].level})
+            end
+        end
+        if (context.setting_blind and not card.getting_sliced
+        and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+            local removed_levels = to_big(0)
+            local three_most_played_hands_table = {}
+            local three_most_played_hands_list = {}
+            for _ = 1, 3 do
+                local _hand, _tally = nil, -1
+                for _, v in ipairs(G.handlist) do
+                    if SMODS.is_poker_hand_visible(v) and G.GAME.hands[v].played > _tally
+                    and not table.contains(three_most_played_hands_list, v) then
+                        _hand = v
+                        _tally = G.GAME.hands[v].played
+                    end
+                end
+                if _hand then
+                    three_most_played_hands_table[_hand] = 0
+                    table.insert(three_most_played_hands_list, _hand)
+                end
+            end
+            for _, v in pairs(G.handlist) do
+                if to_big(G.GAME.hands[v].level) > to_big(1) then
+                    local this_removed_levels = G.GAME.hands[v].level - 1
+                    removed_levels = removed_levels + this_removed_levels
+                    level_up_hand(card, v, true, -this_removed_levels)
+                end
+            end
+            local safe_removed_levels = math.min(to_number(removed_levels), 1e25)
+            for i = 1, safe_removed_levels do
+                local chosen_hand = pseudorandom_element(three_most_played_hands_list, pseudoseed("three_body_distribute"..i))
+                three_most_played_hands_table[chosen_hand] = three_most_played_hands_table[chosen_hand] + 1
+            end
+            for hand_type, amount in pairs(three_most_played_hands_table) do
+                if amount > 0 then
+                    SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
+                    SMODS.smart_level_up_hand(card, hand_type, nil, amount)
+                end
             end
         end
     end,
