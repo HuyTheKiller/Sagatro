@@ -10437,9 +10437,9 @@ local three_body = {
                 local chosen_hand = pseudorandom_element(three_most_played_hands_list, pseudoseed("three_body_distribute"..i))
                 three_most_played_hands_table[chosen_hand] = three_most_played_hands_table[chosen_hand] + 1
             end
-            SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
             for hand_type, amount in pairs(three_most_played_hands_table) do
                 if amount > 0 then
+                    SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
                     SMODS.smart_level_up_hand(card, hand_type, nil, amount)
                 end
             end
