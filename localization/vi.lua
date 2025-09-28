@@ -2125,7 +2125,7 @@ return {
             j_sgt_three_body = {
                 name = "Cơ Học Tam Thể",
                 text = {
-                    {"Khi {C:attention}Blind{} được chọn, loại bỏ mọi",
+                    {"Khi {C:attention}Blind{} được chọn, loại bỏ",
                     "mọi level khỏi các {C:attention}tay poker{} và",
                     "phân phối ngẫu nhiên tổng đã loại bỏ",
                     "cho {C:attention}3 tay poker{} chơi nhiều nhất"},
