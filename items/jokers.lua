@@ -71,7 +71,7 @@ local white_rabbit = {
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            if not (Sagatro.storyline_check("none") or Sagatro.storyline_check(self.saga_group)) then
+            if G.GAME.story_mode and not (Sagatro.storyline_check("none") or Sagatro.storyline_check(self.saga_group)) then
                 local func = function()
                     card_eval_status_text(card, 'extra', nil, 1, nil, {message = localize('k_not_allowed_ex'), sound = "tarot1", volume = 1, instant = true})
                     ease_dollars(card.cost)
@@ -3858,7 +3858,7 @@ local lincoln_ship = {
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            if not (Sagatro.storyline_check("none") or Sagatro.storyline_check(self.saga_group)) then
+            if G.GAME.story_mode and not (Sagatro.storyline_check("none") or Sagatro.storyline_check(self.saga_group)) then
                 local func = function()
                     card_eval_status_text(card, 'extra', nil, 1, nil, {message = localize('k_not_allowed_ex'), sound = "tarot1", volume = 1, instant = true})
                     ease_dollars(card.cost)
