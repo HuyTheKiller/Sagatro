@@ -2326,11 +2326,11 @@ local soltera = {
     soul_rate = 0.005,
     can_use = function(self, card)
         for k, v in pairs(G.GAME.hands) do
-            if to_big(v.level) == to_big(1) then
-                return false
+            if to_big(v.level) > to_big(1) then
+                return true
             end
         end
-        return true
+        return false
     end,
     use = function(self, card, area, copier)
 		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
