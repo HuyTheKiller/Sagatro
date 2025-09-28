@@ -10439,7 +10439,9 @@ local three_body = {
             end
             SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
             for hand_type, amount in pairs(three_most_played_hands_table) do
-                SMODS.smart_level_up_hand(card, hand_type, nil, amount)
+                if amount > 0 then
+                    SMODS.smart_level_up_hand(card, hand_type, nil, amount)
+                end
             end
         end
         if context.before then
