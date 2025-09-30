@@ -3687,6 +3687,9 @@ local abyss_stone = {
         end
         card.ability.bonus = card.ability.immutable.base_bonus + card.ability.abyss_stone_tally*card.ability.extra.bonus_mod
     end,
+    remove_from_deck = function(self, card, from_debuff)
+        card.ability.bonus = card.ability.immutable.base_bonus
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_oculus_omniscientis
     end,
