@@ -516,7 +516,9 @@ end
 local copy_cardref = copy_card
 function copy_card(other, new_card, card_scale, playing_card, strip_edition)
     local card = copy_cardref(other, new_card, card_scale, playing_card, strip_edition)
-    card.ability.gravistone_triggered = nil
+    if not SMODS.has_enhancement(card, "m_sgt_gravistone") then
+        card.ability.gravistone_triggered = nil
+    end
     return card
 end
 
