@@ -512,11 +512,14 @@ function Card:set_sprites(_center, _front)
 	end
 end
 
--- Copied Gravistone properly triggers its selection limit increase
+-- Gravistone jank
 local copy_cardref = copy_card
 function copy_card(other, new_card, card_scale, playing_card, strip_edition)
+    if new_card and SMODS.has_enhancement(new_card, "m_sgt_gravistone") then
+        return copy_cardref(other, new_card, card_scale, playing_card, strip_edition)
+    end
     local card = copy_cardref(other, new_card, card_scale, playing_card, strip_edition)
-    if not SMODS.has_enhancement(card, "m_sgt_gravistone") then
+    if SMODS.has_enhancement(card, "m_sgt_gravistone") then
         card.ability.gravistone_triggered = nil
     end
     return card
