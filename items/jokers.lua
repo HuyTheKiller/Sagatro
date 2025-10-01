@@ -4245,23 +4245,23 @@ local white_jellyfish = {
     eternal_compat = false,
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
-        card.ability.loyalty_remaining = card.ability.extra.every
+        card.ability.wj_remaining = card.ability.extra.every
     end,
     calculate = function(self, card, context)
         if context.joker_main or context.forcetrigger then
-            card.ability.loyalty_remaining = (card.ability.extra.every-1-(G.GAME.hands_played - card.ability.hands_played_at_create))%(card.ability.extra.every+1)
+            card.ability.wj_remaining = (card.ability.extra.every-1-(G.GAME.hands_played - card.ability.hands_played_at_create))%(card.ability.extra.every+1)
             if context.blueprint then
-                if card.ability.loyalty_remaining == card.ability.extra.every then
+                if card.ability.wj_remaining == card.ability.extra.every then
                     return {
                         message = localize{type='variable',key='a_xmult',vars={card.ability.extra.xmult}},
                         Xmult_mod = card.ability.extra.xmult
                     }
                 end
             else
-                if card.ability.loyalty_remaining == 0 then
-                    local eval = function(_card) return (_card.ability.loyalty_remaining == 0) end
+                if card.ability.wj_remaining == 0 then
+                    local eval = function(_card) return (_card.ability.wj_remaining == 0) end
                     juice_card_until(card, eval, true)
-                elseif card.ability.loyalty_remaining == card.ability.extra.every then
+                elseif card.ability.wj_remaining == card.ability.extra.every then
                     return {
                         message = localize{type='variable',key='a_xmult',vars={card.ability.extra.xmult}},
                         Xmult_mod = card.ability.extra.xmult
@@ -4270,7 +4270,7 @@ local white_jellyfish = {
             end
         end
         if (context.after and not context.blueprint and not context.retrigger_joker
-        and card.ability.loyalty_remaining == card.ability.extra.every) or context.forcetrigger then
+        and card.ability.wj_remaining == card.ability.extra.every) or context.forcetrigger then
             if SMODS.pseudorandom_probability(card, "white_jellyfish_pop", 1, card.ability.extra.odds, "white_jellyfish") or context.forcetrigger then
                 Sagatro.self_destruct(card, {no_destruction_context = true})
                 G.GAME.pool_flags.white_jellyfish_pop = true
@@ -4294,7 +4294,7 @@ local white_jellyfish = {
     loc_vars = function(self, info_queue, card)
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "white_jellyfish")
         return {vars = {card.ability.extra.xmult, card.ability.extra.every+1, n, d,
-        localize{type = 'variable', key = (card.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.loyalty_remaining or card.ability.extra.every}}}}
+        localize{type = 'variable', key = (card.ability.wj_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.wj_remaining or card.ability.extra.every}}}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4323,9 +4323,9 @@ local white_jellyfish = {
                 { text = ")" },
             },
             calc_function = function(card)
-                local loyalty_remaining = card.ability.loyalty_remaining + (next(G.play.cards) and 1 or 0)
-                card.joker_display_values.loyalty_text = localize { type = 'variable', key = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = { loyalty_remaining } }
-                card.joker_display_values.x_mult = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and card.ability.extra.xmult or 1)
+                local wj_remaining = card.ability.wj_remaining + (next(G.play.cards) and 1 or 0)
+                card.joker_display_values.loyalty_text = localize { type = 'variable', key = (wj_remaining % (card.ability.extra.every + 1) == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = { wj_remaining } }
+                card.joker_display_values.x_mult = (wj_remaining % (card.ability.extra.every + 1) == 0 and card.ability.extra.xmult or 1)
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "white_jellyfish") } }
             end
         }
@@ -4350,23 +4350,23 @@ local red_jellyfish = {
     eternal_compat = false,
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
-        card.ability.loyalty_remaining = card.ability.extra.every
+        card.ability.rj_remaining = card.ability.extra.every
     end,
     calculate = function(self, card, context)
         if context.joker_main or context.forcetrigger then
-            card.ability.loyalty_remaining = (card.ability.extra.every-1-(G.GAME.hands_played - card.ability.hands_played_at_create))%(card.ability.extra.every+1)
+            card.ability.rj_remaining = (card.ability.extra.every-1-(G.GAME.hands_played - card.ability.hands_played_at_create))%(card.ability.extra.every+1)
             if context.blueprint then
-                if card.ability.loyalty_remaining == card.ability.extra.every then
+                if card.ability.rj_remaining == card.ability.extra.every then
                     return {
                         message = localize{type='variable',key='a_xmult',vars={card.ability.extra.xmult}},
                         Xmult_mod = card.ability.extra.xmult
                     }
                 end
             else
-                if card.ability.loyalty_remaining == 0 then
-                    local eval = function(_card) return (_card.ability.loyalty_remaining == 0) end
+                if card.ability.rj_remaining == 0 then
+                    local eval = function(_card) return (_card.ability.rj_remaining == 0) end
                     juice_card_until(card, eval, true)
-                elseif card.ability.loyalty_remaining == card.ability.extra.every then
+                elseif card.ability.rj_remaining == card.ability.extra.every then
                     return {
                         message = localize{type='variable',key='a_xmult',vars={card.ability.extra.xmult}},
                         Xmult_mod = card.ability.extra.xmult
@@ -4375,7 +4375,7 @@ local red_jellyfish = {
             end
         end
         if (context.after and not context.blueprint and not context.retrigger_joker
-        and card.ability.loyalty_remaining == card.ability.extra.every) or context.forcetrigger then
+        and card.ability.rj_remaining == card.ability.extra.every) or context.forcetrigger then
             if SMODS.pseudorandom_probability(card, "red_jellyfish_pop", 1, card.ability.extra.odds, "red_jellyfish") or context.forcetrigger then
                 Sagatro.self_destruct(card, {no_destruction_context = true})
                 G.GAME.pool_flags.red_jellyfish_pop = true
@@ -4399,7 +4399,7 @@ local red_jellyfish = {
     loc_vars = function(self, info_queue, card)
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "red_jellyfish")
         return {vars = {card.ability.extra.xmult, card.ability.extra.every+1, n, d,
-        localize{type = 'variable', key = (card.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.loyalty_remaining or card.ability.extra.every}}}}
+        localize{type = 'variable', key = (card.ability.rj_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.rj_remaining or card.ability.extra.every}}}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4428,9 +4428,9 @@ local red_jellyfish = {
                 { text = ")" },
             },
             calc_function = function(card)
-                local loyalty_remaining = card.ability.loyalty_remaining + (next(G.play.cards) and 1 or 0)
-                card.joker_display_values.loyalty_text = localize { type = 'variable', key = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = { loyalty_remaining } }
-                card.joker_display_values.x_mult = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and card.ability.extra.xmult or 1)
+                local rj_remaining = card.ability.rj_remaining + (next(G.play.cards) and 1 or 0)
+                card.joker_display_values.loyalty_text = localize { type = 'variable', key = (rj_remaining % (card.ability.extra.every + 1) == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = { rj_remaining } }
+                card.joker_display_values.x_mult = (rj_remaining % (card.ability.extra.every + 1) == 0 and card.ability.extra.xmult or 1)
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "red_jellyfish") } }
             end
         }
@@ -4454,22 +4454,22 @@ local queen_jellyfish = {
     eternal_compat = false,
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
-        card.ability.loyalty_remaining = card.ability.extra.every
+        card.ability.qj_remaining = card.ability.extra.every
     end,
     calculate = function(self, card, context)
         if context.joker_main or context.forcetrigger then
-            card.ability.loyalty_remaining = (card.ability.extra.every-1-(G.GAME.hands_played - card.ability.hands_played_at_create))%(card.ability.extra.every+1)
+            card.ability.qj_remaining = (card.ability.extra.every-1-(G.GAME.hands_played - card.ability.hands_played_at_create))%(card.ability.extra.every+1)
             if context.blueprint then
-                if card.ability.loyalty_remaining == card.ability.extra.every then
+                if card.ability.qj_remaining == card.ability.extra.every then
                     return {
                         sgt_e_mult = card.ability.extra.e_mult
                     }
                 end
             else
-                if card.ability.loyalty_remaining == 0 then
-                    local eval = function(_card) return (_card.ability.loyalty_remaining == 0) end
+                if card.ability.qj_remaining == 0 then
+                    local eval = function(_card) return (_card.ability.qj_remaining == 0) end
                     juice_card_until(card, eval, true)
-                elseif card.ability.loyalty_remaining == card.ability.extra.every then
+                elseif card.ability.qj_remaining == card.ability.extra.every then
                     return {
                         sgt_e_mult = card.ability.extra.e_mult
                     }
@@ -4477,7 +4477,7 @@ local queen_jellyfish = {
             end
         end
         if (context.after and not context.blueprint and not context.retrigger_joker
-        and card.ability.loyalty_remaining == card.ability.extra.every) or context.forcetrigger then
+        and card.ability.qj_remaining == card.ability.extra.every) or context.forcetrigger then
             if SMODS.pseudorandom_probability(card, "queen_jellyfish_pop", 1, card.ability.extra.odds, "queen_jellyfish") or context.forcetrigger then
                 Sagatro.self_destruct(card, {no_destruction_context = true})
                 return {
@@ -4500,7 +4500,7 @@ local queen_jellyfish = {
     loc_vars = function(self, info_queue, card)
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "queen_jellyfish")
         return {vars = {card.ability.extra.e_mult, card.ability.extra.every+1, n, d,
-        localize{type = 'variable', key = (card.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.loyalty_remaining or card.ability.extra.every}}}}
+        localize{type = 'variable', key = (card.ability.qj_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.qj_remaining or card.ability.extra.every}}}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4530,9 +4530,9 @@ local queen_jellyfish = {
                 { text = ")" },
             },
             calc_function = function(card)
-                local loyalty_remaining = card.ability.loyalty_remaining + (next(G.play.cards) and 1 or 0)
-                card.joker_display_values.loyalty_text = localize { type = 'variable', key = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = { loyalty_remaining } }
-                card.joker_display_values.e_mult = (loyalty_remaining % (card.ability.extra.every + 1) == 0 and card.ability.extra.e_mult or 1)
+                local qj_remaining = card.ability.qj_remaining + (next(G.play.cards) and 1 or 0)
+                card.joker_display_values.loyalty_text = localize { type = 'variable', key = (qj_remaining % (card.ability.extra.every + 1) == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = { qj_remaining } }
+                card.joker_display_values.e_mult = (qj_remaining % (card.ability.extra.every + 1) == 0 and card.ability.extra.e_mult or 1)
                 local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds)
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "queen_jellyfish") } }
             end
