@@ -1283,6 +1283,15 @@ function Sagatro.self_destruct(card, args, extra_func)
     }))
 end
 
+function Sagatro.set_ability_reset_keys()
+    return {
+        "anim_dt",
+        "anim_pos",
+        "anim_transition_path",
+        "in_transition",
+    }
+end
+
 function Sagatro.quip_filter(quip, quip_type)
     if G.GAME.story_mode and (not quip.mod or (quip.mod and quip.mod.id ~= "Sagatro")) then
         return false
