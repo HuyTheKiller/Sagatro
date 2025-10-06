@@ -14,7 +14,7 @@ Sagatro.load_table = {
 }
 
 Sagatro.mod_compat = {
-	talisman = (SMODS.Mods["Talisman"] or {}).can_load or false,
+	talisman = next(SMODS.find_mod("Talisman")) or false,
 }
 
 Sagatro.electric_eel_info_queue = {
