@@ -107,7 +107,7 @@ function Game:main_menu(change_context)
         G.P_CENTERS[selected_card],
         { bypass_discovery_center = true }
     )
-    if not Cryptid then
+    if G.title_top.T.w < 2.1 then
         G.title_top.T.w = G.title_top.T.w * 1.7675
         G.title_top.T.x = G.title_top.T.x - 0.8
     end
