@@ -11,7 +11,6 @@ local wish_ipairs = {
 local wish_primary = {
     key = "wish_primary",
     atlas = "booster",
-    dependencies = {"Talisman"},
     pos = { x = 0, y = 0 },
     config = { choose = 3, extra = 6 },
     discovered = true,
@@ -54,7 +53,6 @@ local wish_primary = {
 local wish_secondary = {
     key = "wish_secondary",
     atlas = "booster",
-    dependencies = {"Talisman"},
     pos = { x = 0, y = 0 },
     config = { choose = 1, extra = 1 },
     discovered = true,

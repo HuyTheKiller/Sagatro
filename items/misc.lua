@@ -108,7 +108,7 @@ local lamp = {
     name = "The Magic Lamp",
     set = "Spectral",
     atlas = "esoteric",
-    dependencies = {"Talisman"},
+    no_collection = not Sagatro.mod_compat.talisman,
     pos = {x = 0, y = 1},
     config = {},
     cost = 4,
@@ -134,7 +134,8 @@ local lamp = {
 		return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_magic_lamp", nodes = {}}}}
 	end,
     in_pool = function(self, args)
-        return not (next(SMODS.find_card("j_sgt_lamp_genie", true)) or G.GAME.modifiers.sgt_disable_sagatro_items)
+        return not (next(SMODS.find_card("j_sgt_lamp_genie", true)) or next(SMODS.find_card("j_sgt_magic_lamp", true))
+        or G.GAME.modifiers.sgt_disable_sagatro_items) and Sagatro.mod_compat.talisman
     end
 }
 

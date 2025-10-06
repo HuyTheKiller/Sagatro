@@ -258,6 +258,12 @@ return {
                     "{C:inactive,s:0.8}Require Talisman to affect {C:attention,s:0.8}Retriggers{}",
                 },
             },
+            sgt_require_talisman_generic = {
+                name = "n",
+                text = {
+                    "{C:inactive,s:0.8}Require Talisman",
+                },
+            },
             sgt_talisman_detected = {
                 name = "n",
                 text = {

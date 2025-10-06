@@ -706,7 +706,6 @@ local anima = {
     name = "Anima",
     set = "Divinatio",
     atlas = "ultra",
-    dependencies = {"Talisman"},
     pos = {x = 2, y = 2},
     config = {},
     cost = 4,
@@ -737,7 +736,16 @@ local anima = {
         delay(0.6)
 	end,
     in_pool = function(self, args)
-        return not G.GAME.modifiers.sgt_disable_sagatro_items
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and Sagatro.mod_compat.talisman
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {}
+        if not Sagatro.mod_compat.talisman then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_require_talisman_generic", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
+        end
+        return ret
     end,
 }
 
@@ -2317,7 +2325,6 @@ local soltera = {
     name = "Soltera",
     set = "Celestara",
     atlas = "ultra",
-    dependencies = {"Talisman"},
     pos = {x = 2, y = 7},
     config = {},
     cost = 4,
@@ -2349,7 +2356,16 @@ local soltera = {
         delay(0.6)
 	end,
     in_pool = function(self, args)
-        return not G.GAME.modifiers.sgt_disable_sagatro_items
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and Sagatro.mod_compat.talisman
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {}
+        if not Sagatro.mod_compat.talisman then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_require_talisman_generic", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
+        end
+        return ret
     end,
 }
 
@@ -3088,7 +3104,6 @@ local sinister = {
     name = "The Sinister",
     set = "Eldritch",
     atlas = "ultra",
-    dependencies = {"Talisman"},
     pos = {x = 6, y = 4},
     config = {},
     cost = 4,
@@ -3119,7 +3134,16 @@ local sinister = {
         delay(0.6)
 	end,
     in_pool = function(self, args)
-        return not G.GAME.modifiers.sgt_disable_sagatro_items
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and Sagatro.mod_compat.talisman
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {}
+        if not Sagatro.mod_compat.talisman then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_require_talisman_generic", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
+        end
+        return ret
     end,
 }
 
@@ -3128,7 +3152,6 @@ local void_hole = {
     name = "Void Hole",
     set = "Eldritch",
     atlas = "ultra",
-    dependencies = {"Talisman"},
     pos = {x = 0, y = 6},
     config = {amount = 3},
     cost = 4,

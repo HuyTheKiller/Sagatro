@@ -166,7 +166,6 @@ local black_streak = {
     key = "black_streak",
     name = "Black Streak",
     atlas = "colour_streaks",
-    dependencies = {"Talisman"},
     pos = {x = 6, y = 0},
     config = {eemult = 1.05},
     badge_colour = HEX('2D2E29'),
@@ -181,7 +180,13 @@ local black_streak = {
         end
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card and card.ability.seal.eemult or self.config.eemult}}
+        local ret = {vars = {card and card.ability.seal.eemult or self.config.eemult}}
+        if not Sagatro.mod_compat.talisman then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_require_talisman_generic", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
+        end
+        return ret
     end,
 }
 
@@ -189,7 +194,6 @@ local gods_miracle = {
     key = "gods_miracle",
     name = "God's Miracle",
     atlas = "gods_miracle",
-    dependencies = {"Talisman"},
     pos = {x = 0, y = 0},
     config = {eeemult = 1.02},
     badge_colour = G.C.SGT_MIRACLE,
@@ -213,7 +217,13 @@ local gods_miracle = {
         end
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card and card.ability.seal.eeemult or self.config.eeemult}}
+        local ret = {vars = {card and card.ability.seal.eeemult or self.config.eeemult}}
+        if not Sagatro.mod_compat.talisman then
+            ret.main_end = {}
+            localize{type = "other", key = "sgt_require_talisman_generic", nodes = ret.main_end, vars = {}}
+            ret.main_end = ret.main_end[1]
+        end
+        return ret
     end,
 }
 
