@@ -3562,8 +3562,10 @@ local magic_lamp = {
         return false
     end,
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_aladdin"]
-        info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_lamp_genie"]
+        if not card.fake_card then
+            info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_aladdin"]
+            info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_lamp_genie"]
+        end
         return {vars = {card.ability.extra.xmult, card.ability.magic_lamp_rounds, card.ability.extra.rounds_goal,
         localize{type = 'name_text', set = "Joker", key = "j_sgt_aladdin", nodes = {}},
         localize{type = 'name_text', set = "Joker", key = "j_sgt_lamp_genie", nodes = {}}}}
