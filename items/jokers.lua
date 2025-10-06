@@ -3133,7 +3133,7 @@ local shepherd_boy = {
     in_pool = function(self, args)
         if G.GAME.story_mode and args
         and args.source == "sho" and not G.GAME.won then
-            return pseudorandom(self.key.."_story_mode") < 0.333
+            return pseudorandom(self.key.."_story_mode") < 0.2
         end
         return true
     end,
@@ -3218,7 +3218,7 @@ local puss_in_boots = {
     in_pool = function(self, args)
         if G.GAME.story_mode and args
         and args.source == "sho" and not G.GAME.won then
-            return pseudorandom(self.key.."_story_mode") < 0.333
+            return pseudorandom(self.key.."_story_mode") < 0.2
         end
         return true
     end,
@@ -3329,7 +3329,7 @@ local iron_john = {
     in_pool = function(self, args)
         if G.GAME.story_mode and args
         and args.source == "sho" and not G.GAME.won then
-            return pseudorandom(self.key.."_story_mode") < 0.333
+            return pseudorandom(self.key.."_story_mode") < 0.2
         end
         return true
     end,
@@ -3441,7 +3441,7 @@ local aladdin = {
     in_pool = function(self, args)
         if G.GAME.story_mode and args
         and args.source == "sho" and not G.GAME.won then
-            return pseudorandom(self.key.."_story_mode") < 0.333
+            return pseudorandom(self.key.."_story_mode") < 0.2
         end
         return true
     end,
@@ -8761,7 +8761,7 @@ local hansels_cheat_dice = {
     in_pool = function(self, args)
         if G.GAME.story_mode and args
         and args.source == "sho" and not G.GAME.won then
-            return pseudorandom(self.key.."_story_mode") < 0.333
+            return pseudorandom(self.key.."_story_mode") < 0.2
         end
         return true
     end,
@@ -9216,7 +9216,7 @@ local adam = {
     in_pool = function(self, args)
         if G.GAME.story_mode and args
         and args.source == "sho" and not G.GAME.won then
-            return pseudorandom(self.key.."_story_mode") < 0.333
+            return pseudorandom(self.key.."_story_mode") < 0.2
         end
         return true
     end,
@@ -9273,7 +9273,7 @@ local saint_germain = {
     in_pool = function(self, args)
         if G.GAME.story_mode and args
         and args.source == "sho" and not G.GAME.won then
-            return pseudorandom(self.key.."_story_mode") < 0.333
+            return pseudorandom(self.key.."_story_mode") < 0.2
         end
         return true
     end,
@@ -9425,7 +9425,7 @@ local frog_prince = {
     in_pool = function(self, args)
         if G.GAME.story_mode and args
         and args.source == "sho" and not G.GAME.won then
-            return pseudorandom(self.key.."_story_mode") < 0.333
+            return pseudorandom(self.key.."_story_mode") < 0.2
         end
         return true
     end,
@@ -9528,7 +9528,7 @@ local little_prince = {
     in_pool = function(self, args)
         if G.GAME.story_mode and args
         and args.source == "sho" and not G.GAME.won then
-            return pseudorandom(self.key.."_story_mode") < 0.333
+            return pseudorandom(self.key.."_story_mode") < 0.2
         end
         return true
     end,
@@ -9625,7 +9625,7 @@ local pumpkin_carriage = {
     in_pool = function(self, args)
         if G.GAME.story_mode and args
         and args.source == "sho" and not G.GAME.won then
-            return pseudorandom(self.key.."_story_mode") < 0.333
+            return pseudorandom(self.key.."_story_mode") < 0.2
         end
         return true
     end,
@@ -9714,7 +9714,7 @@ local abducted_cow = {
     in_pool = function(self, args)
         if G.GAME.story_mode and args
         and args.source == "sho" and not G.GAME.won then
-            return pseudorandom(self.key.."_story_mode") < 0.333
+            return pseudorandom(self.key.."_story_mode") < 0.2
         end
         return true
     end,
@@ -9815,7 +9815,7 @@ local flying_house = {
     in_pool = function(self, args)
         if G.GAME.story_mode and args
         and args.source == "sho" and not G.GAME.won then
-            return pseudorandom(self.key.."_story_mode") < 0.333
+            return pseudorandom(self.key.."_story_mode") < 0.2
         end
         return true
     end,
