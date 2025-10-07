@@ -10352,15 +10352,21 @@ local hermod = {
             G.E_MANAGER:add_event(Event({
                 func = (function()
                     for _, tag in pairs(selected_tags) do
-                        local new_tag = Tag(tag, false, 'Small')
-                        if tag == 'tag_orbital' then
-                            local _poker_hands = {}
-                            for k, v in pairs(G.GAME.hands) do
-                                if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
+                        if SMODS.smart_add_tag then
+                            SMODS.smart_add_tag{key = tag}
+                        else
+                            local new_tag = Tag(tag, false, 'Small')
+                            if tag == 'tag_orbital' then
+                                local _poker_hands = {}
+                                for k, v in pairs(G.GAME.hands) do
+                                    if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
+                                end
+                                if new_tag.ability.orbital_hand == '['..localize('k_poker_hand')..']' then
+                                    new_tag.ability.orbital_hand = pseudorandom_element(_poker_hands, pseudoseed('orbital'))
+                                end
                             end
-                            new_tag.ability.orbital_hand = pseudorandom_element(_poker_hands, pseudoseed('orbital'))
+                            add_tag(new_tag)
                         end
-                        add_tag(new_tag)
                     end
                     play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
                     play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
