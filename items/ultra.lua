@@ -710,6 +710,7 @@ local anima = {
     config = {},
     cost = 4,
     hidden = true,
+    -- discovered = not Sagatro.mod_compat.talisman,
     soul_set = "Eldritch",
     can_use = function(self, card)
         for _, v in ipairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do

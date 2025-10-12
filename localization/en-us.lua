@@ -178,6 +178,7 @@ return {
                 name = "Black Streak",
                 text = {
                     "{X:dark_edition,C:white}^^#1#{} Mult",
+                    not Sagatro.mod_compat.talisman and "{C:inactive,s:0.8}Require Talisman" or nil,
                 },
             },
             sgt_cosmic_streak_seal = {
@@ -195,6 +196,7 @@ return {
                     "Prevents Death if held",
                     "in hand at end of round",
                     "{S:1.1,C:red,E:2}self destructs{}",
+                    not Sagatro.mod_compat.talisman and "{C:inactive,s:0.8}Require Talisman" or nil,
                 },
             },
             sgt_blood_seal = {

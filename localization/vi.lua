@@ -178,6 +178,7 @@ return {
                 name = "Vệt Đen",
                 text = {
                     "{X:dark_edition,C:white}^^#1#{} Nhân",
+                    not Sagatro.mod_compat.talisman and "{C:inactive,s:0.8}Yêu cầu Talisman" or nil,
                 },
             },
             sgt_cosmic_streak_seal = {
@@ -194,6 +195,7 @@ return {
                     "Ngăn thua trận nếu giữ",
                     "trong tay ở cuối ván",
                     "rồi {S:1.1,C:red,E:2}tự huỷ{}",
+                    not Sagatro.mod_compat.talisman and "{C:inactive,s:0.8}Yêu cầu Talisman" or nil,
                 },
             },
             sgt_blood_seal = {
