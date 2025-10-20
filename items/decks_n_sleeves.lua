@@ -43,17 +43,42 @@ local celestaverse_deck = {
     end,
 }
 
+local test = {
+    key = "test",
+    name = "Test Deck",
+    loc_txt = {
+        name = "Test Deck",
+        text = {
+            "This deck does {C:attention}something{}",
+            "on {C:dark_edition}HuyTheKiller{}'s demand",
+            "",
+            "Current effect:",
+            "Start with {C:dark_edition}Exponent{} operator",
+        }
+    },
+    debug_obj = true,
+    apply = function(self, back)
+        G.E_MANAGER:add_event(Event({func = function()
+            SMODS.set_scoring_calculation("exponent")
+        return true end }))
+    end,
+}
+
 local deck_table = {
     saga_deck,
     grimoire_deck,
     celestaverse_deck,
+    test,
 }
 
 for _, v in ipairs(deck_table) do
     if Sagatro.debug then
         v.unlocked = true
     end
-    SMODS.Back(v)
+    if not v.debug_obj or (v.debug_obj and Sagatro.debug) then
+        v.debug_obj = nil
+        SMODS.Back(v)
+    end
 end
 
 if CardSleeves then
