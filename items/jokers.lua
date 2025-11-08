@@ -33,6 +33,7 @@ local white_rabbit = {
                         card = card
                     }
                 })
+                return nil, true
             else
                 card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
                 return {
@@ -60,6 +61,7 @@ local white_rabbit = {
                     scalar_value = "chip_mod",
                     no_message = true
                 })
+                return nil, true
             else
                 card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
             end
@@ -1242,6 +1244,7 @@ local pigeon = {
                             end,
                             no_message = true
                         })
+                        return nil, true
                     else
                         v.ability.extra_value = v.ability.extra_value + card.ability.egg_boost*G.GAME.alice_multiplier
                     end
@@ -2359,6 +2362,7 @@ local march_hare = {
                         card = card
                     }
                 })
+                return nil, true
             else
                 card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
                 return {
@@ -2386,6 +2390,7 @@ local march_hare = {
                     scalar_value = "mult_mod",
                     no_message = true
                 })
+                return nil, true
             else
                 card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
             end
@@ -3062,6 +3067,7 @@ local shepherd_boy = {
                         card = card
                     }
                 })
+                return nil, true
             else
                 card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
                 return {
@@ -3105,6 +3111,7 @@ local shepherd_boy = {
                     scalar_value = "mult_mod",
                     no_message = true
                 })
+                return nil, true
             else
                 card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
             end
@@ -3296,6 +3303,7 @@ local iron_john = {
                         scalar_value = "xmult_mod",
                         message_key = "a_xmult",
                     })
+                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                     return {
@@ -3314,6 +3322,7 @@ local iron_john = {
                     scalar_value = "xmult_mod",
                     no_message = true
                 })
+                return nil, true
             else
                 card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
             end
@@ -3400,6 +3409,7 @@ local aladdin = {
                             no_retrigger = true
                         }
                     })
+                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                     return {
@@ -4639,6 +4649,7 @@ local barracuda = {
                                 no_juice = true
                             }
                         })
+                        return nil, true
                     else
                         card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
                     end
@@ -4660,6 +4671,7 @@ local barracuda = {
                         scalar_value = "mult_mod",
                         no_message = true
                     })
+                    return nil, true
                 else
                     card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
                 end
@@ -5127,6 +5139,7 @@ local turtle_egg = {
                         }
                     })
                     card:set_cost()
+                    return nil, true
                 else
                     card.ability.extra_value = card.ability.extra_value + card.ability.extra.sell_value_mod
                     card:set_cost()
@@ -5649,6 +5662,7 @@ local blobfish = {
                         colour = G.C.FILTER,
                     }
                 })
+                return nil, true
             else
                 card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod*G.GAME.current_round.discards_left
                 return {
@@ -5668,6 +5682,7 @@ local blobfish = {
                     end,
                     no_message = true
                 })
+                return nil, true
             else
                 card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod*G.GAME.current_round.discards_left
             end
@@ -5811,6 +5826,7 @@ local coral_kingdom = {
                             card = card,
                         }
                     })
+                    return nil, true
                 else
                     card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
                     return {
@@ -5852,6 +5868,7 @@ local coral_kingdom = {
                     scalar_value = "chip_mod",
                     no_message = true
                 })
+                return nil, true
             else
                 card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
             end
@@ -5909,6 +5926,7 @@ local dolphin = {
                             colour = G.C.MULT
                         }
                     })
+                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                     return {
@@ -5927,6 +5945,7 @@ local dolphin = {
                         scalar_value = "xmult_mod",
                         no_message = true
                     })
+                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                 end
@@ -6111,6 +6130,7 @@ local swordfish = {
                         colour = G.C.CHIPS,
                     }
                 })
+                return nil, true
             else
                 card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
                 return {
@@ -6134,6 +6154,7 @@ local swordfish = {
                         scalar_value = "chip_mod",
                         no_message = true
                     })
+                    return nil, true
                 else
                     card.ability.extra.chip_mod = card.ability.extra.chip_mod + card.ability.extra.chip_mod_mod
                     card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
@@ -6155,6 +6176,7 @@ local swordfish = {
                         colour = G.C.CHIPS,
                     }
                 })
+                return nil, true
             else
                 card.ability.extra.chip_mod = card.ability.extra.chip_mod + card.ability.extra.chip_mod_mod
                 return {
@@ -6315,6 +6337,7 @@ local ray = {
                     end,
                     no_message = true
                 })
+                return nil, true
             else
                 card.ability.extra.mult = card.ability.extra.mult + math.max(card.ability.extra.base_mult - temp_Mult, 0)
             end
@@ -6331,6 +6354,7 @@ local ray = {
                         end,
                         no_message = true
                     })
+                    return nil, true
                 else
                     card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.base_mult - 2
                 end
@@ -6409,6 +6433,7 @@ local orca = {
                             card = card
                         }
                     })
+                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.found_add
                     return {
@@ -6434,6 +6459,7 @@ local orca = {
                                 card = card
                             }
                         })
+                        return nil, true
                     else
                         card.ability.extra.xmult = math.max(card.ability.extra.xmult - card.ability.extra.unfound_sub, 1)
                         return {
@@ -6454,6 +6480,7 @@ local orca = {
                         scalar_value = "found_add",
                         no_message = true
                     })
+                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.found_add
                 end
@@ -6576,6 +6603,7 @@ local sperm_whale = {
                                 no_juice = true
                             }
                         })
+                        return nil, true
                     else
                         card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.add_per_wl*total_addition
                     end
@@ -6599,6 +6627,7 @@ local sperm_whale = {
                         scalar_value = "add_per_wl",
                         no_message = true
                     })
+                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.add_per_wl
                 end
@@ -6624,6 +6653,7 @@ local sperm_whale = {
                         card = card,
                     }
                 })
+                return nil, true
             else
                 card.ability.extra.xmult = math.max(card.ability.extra.xmult - card.ability.extra.sub_per_hand, 1)
                 return {
@@ -6837,6 +6867,7 @@ local shark = {
                                 no_juice = true
                             }
                         })
+                        return nil, true
                     else
                         card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.eat_add*total_addition
                     end
@@ -6860,6 +6891,7 @@ local shark = {
                         scalar_value = "eat_add",
                         no_message = true
                     })
+                    return nil, true
                 else
                     card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.eat_add
                 end
@@ -6883,6 +6915,7 @@ local shark = {
                         colour = G.C.BLUE,
                     }
                 })
+                return nil, true
             else
                 card.ability.extra.chips = math.max(card.ability.extra.chips - card.ability.extra.eor_sub, 0)
                 return {
@@ -7065,6 +7098,7 @@ local stomiidae = {
                             card = card,
                         }
                     })
+                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.spade_add*count
                     return {
@@ -7105,6 +7139,7 @@ local stomiidae = {
                         scalar_value = "spade_add",
                         no_message = true
                     })
+                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.spade_add
                 end
@@ -7130,6 +7165,7 @@ local stomiidae = {
                         card = card,
                     }
                 })
+                return nil, true
             else
                 card.ability.extra.xmult = math.max(card.ability.extra.xmult - card.ability.extra.eor_sub, 1)
                 return {
@@ -7315,6 +7351,7 @@ local big_red_jelly = {
                             colour = G.C.RED,
                         }
                     })
+                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                     return {
@@ -7334,6 +7371,7 @@ local big_red_jelly = {
                         scalar_value = "xmult_mod",
                         no_message = true
                     })
+                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                 end
@@ -7424,6 +7462,7 @@ local narwhal = {
                                 no_juice = true
                             }
                         })
+                        return nil, true
                     else
                         card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod*total_sell_cost
                     end
@@ -7447,6 +7486,7 @@ local narwhal = {
                         scalar_value = "xmult_mod",
                         no_message = true
                     })
+                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                 end
@@ -7631,6 +7671,7 @@ local goblin_shark = {
                                 no_juice = true
                             }
                         })
+                        return nil, true
                     else
                         card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.dollar_mod*total_addition
                     end
@@ -7653,6 +7694,7 @@ local goblin_shark = {
                     scalar_value = "dollar_mod",
                     no_message = true
                 })
+                return nil, true
             else
                 card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.dollar_mod
             end
@@ -7672,6 +7714,7 @@ local goblin_shark = {
                         colour = G.C.GOLD,
                     }
                 })
+                return nil, true
             else
                 card.ability.extra.dollars = math.max(card.ability.extra.dollars - card.ability.extra.sub_per_hand, 0)
                 return {
@@ -7838,6 +7881,7 @@ local chimaera = {
                                 no_juice = true
                             }
                         })
+                        return nil, true
                     else
                         card.ability.extra.spectral_count = card.ability.extra.spectral_count + card.ability.extra.spectral_mod*#killed_jokers
                     end
@@ -7868,6 +7912,7 @@ local chimaera = {
                         scalar_value = "spectral_mod",
                         no_message = true
                     })
+                    return nil, true
                 else
                     card.ability.extra.spectral_count = card.ability.extra.spectral_count + card.ability.extra.spectral_mod
                 end
@@ -7899,6 +7944,7 @@ local chimaera = {
                         end,
                         no_message = true
                     })
+                    return nil, true
                 else
                     card.ability.extra.spectral_count = math.max(card.ability.extra.spectral_count - card.ability.extra.spectral_sub, 0)
                 end
@@ -8022,6 +8068,7 @@ local atolla_wyvillei = {
                     end,
                     no_message = true
                 })
+                return nil, true
             else
                 card.ability.extra.xmult = math.max(card.ability.extra.xmult - card.ability.extra.xmult_sub*#context.full_hand, 1)
             end
@@ -8101,6 +8148,7 @@ local faceless_cusk = {
                     ref_value = "xmult",
                     scalar_value = "xmult_mod",
                 })
+                return nil, true
             else
                 card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                 return {
@@ -8119,6 +8167,7 @@ local faceless_cusk = {
                         scalar_value = "xmult_mod",
                         no_message = true
                     })
+                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                 end
@@ -8865,6 +8914,7 @@ local skoll_n_hati = {
                                 scalar_value = "xmult_mod",
                                 no_message = true
                             })
+                            return nil, true
                         else
                             card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                         end
@@ -8889,6 +8939,7 @@ local skoll_n_hati = {
                                     scalar_value = "xmult_mod",
                                     no_message = true
                                 })
+                                return nil, true
                             else
                                 card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                             end
@@ -8928,6 +8979,7 @@ local skoll_n_hati = {
                                 scalar_value = "xchip_mod",
                                 no_message = true
                             })
+                            return nil, true
                         else
                             card.ability.extra.xchip = card.ability.extra.xchip + card.ability.extra.xchip_mod
                         end
@@ -8952,6 +9004,7 @@ local skoll_n_hati = {
                                 scalar_value = "xchip_mod",
                                 no_message = true
                             })
+                            return nil, true
                         else
                             card.ability.extra.xchip = card.ability.extra.xchip + card.ability.extra.xchip_mod
                         end
@@ -9974,6 +10027,7 @@ local ragnarok = {
                             card = card,
                         }
                     })
+                    return nil, true
                 else
                     card.ability.extra.e_mult = card.ability.extra.e_mult + card.ability.extra.e_mult_mod_showdown
                     return {
@@ -9994,6 +10048,7 @@ local ragnarok = {
                             card = card,
                         }
                     })
+                    return nil, true
                 else
                     card.ability.extra.e_mult = card.ability.extra.e_mult + card.ability.extra.e_mult_mod_boss
                     return {
@@ -10017,6 +10072,7 @@ local ragnarok = {
                     scalar_value = "e_mult_mod_showdown",
                     no_message = true
                 })
+                return nil, true
             else
                 card.ability.extra.e_mult = card.ability.extra.e_mult + card.ability.extra.e_mult_mod_showdown
             end
@@ -10375,6 +10431,7 @@ local hermod = {
                                 scalar_value = "amount_mod",
                                 no_message = true
                             })
+                            return nil, true
                         else
                             card.ability.extra.amount = card.ability.extra.amount + card.ability.extra.amount_mod
                         end
@@ -10557,6 +10614,7 @@ local azathoth = {
                                     card = card
                                 }
                             })
+                            return nil, true
                         else
                             card.ability.extra.amount = card.ability.extra.amount + card.ability.extra.amount_mod
                             return {
