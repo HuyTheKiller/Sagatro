@@ -6569,10 +6569,12 @@ local sperm_whale = {
                 juice_card_until(card, eval, true)
             end
         end
-        if context.before and not context.blueprint and not context.retrigger_joker
+        if context.before and not context.retrigger_joker
         and G.GAME.current_round.hands_played == 0 and context.scoring_name == card.ability.extra.poker_hand then
             SMODS.smart_level_up_hand(card, card.ability.extra.poker_hand, nil, card.ability.extra.amount)
-            card.ability.extra.triggered = true
+            if not context.blueprint then
+                card.ability.extra.triggered = true
+            end
         end
         if context.destroy_card and context.cardarea == G.play and card.ability.extra.triggered then
             return {remove = true}
