@@ -9585,6 +9585,7 @@ local pumpkin_carriage = {
                 for _, v in pairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
                     if v.ability.set == 'Joker' and v.ability.pumpkin_edition then
                         v:set_edition(nil, true, true)
+                        v.ability.pumpkin_edition = nil
                     end
                 end
                 Sagatro.self_destruct(card)
@@ -9606,6 +9607,7 @@ local pumpkin_carriage = {
             for _, v in pairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
                 if v.ability.set == 'Joker' and v.ability.pumpkin_edition then
                     v:set_edition(nil, true, true)
+                    v.ability.pumpkin_edition = nil
                 end
             end
         end
