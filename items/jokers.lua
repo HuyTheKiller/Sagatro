@@ -6548,7 +6548,7 @@ local sperm_whale = {
     order = 64,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 5 },
-    config = {immutable = {depth_level = 4, weight_level = 5}, extra = {xmult = 1, add_per_wl = 1, sub_per_hand = 0.2}},
+    config = {immutable = {depth_level = 4, weight_level = 5}, extra = {poker_hand = "High Card", amount = 2}},
     rarity = 3,
     cost = 10,
     blueprint_compat = true,
@@ -6556,133 +6556,64 @@ local sperm_whale = {
     eternal_compat = false,
     perishable_compat = false,
     set_ability = function(self, card, initial, delay_sprites)
-        if not G.GAME.story_mode then
-            card.ability.extra.xmult = 3
+        local _poker_hands = {}
+        for k, v in pairs(G.GAME.hands) do
+            if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
         end
+        card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((self.area and self.area.config.type == 'title') and 'false_sperm_whale' or 'sperm_whale'))
     end,
     calculate = function(self, card, context)
-        if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
-            if card.area == G.consumeables or G.jokers.cards[1] == card then return end
-            local pos = nil
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] == card then
-                    pos = i
-                    break
-                end
-            end
-            local eaten_fish = {}
-            local total_addition = 0
-            for i = 1, pos-1 do
-                local joker = G.jokers.cards[i]
-                if joker and not card.getting_sliced
-                and not SMODS.is_eternal(joker, card) and not joker.getting_sliced
-                and joker.ability.immutable and joker.ability.immutable.weight_level
-                and joker.ability.immutable.weight_level < card.ability.immutable.weight_level then
-                    eaten_fish[#eaten_fish+1] = joker
-                    total_addition = total_addition + joker.ability.immutable.weight_level
-                end
-            end
-            G.GAME.joker_buffer = G.GAME.joker_buffer - #eaten_fish
-            for _, fish in ipairs(eaten_fish) do
-                fish.getting_sliced = true
-            end
-            G.E_MANAGER:add_event(Event({func = function()
-                G.GAME.joker_buffer = 0
-                if #eaten_fish > 0 then
-                    if SMODS.scale_card then
-                        SMODS.scale_card(card, {
-                            ref_table = card.ability.extra,
-                            ref_value = "xmult",
-                            scalar_value = "add_per_wl",
-                            operation = function(ref_table, ref_value, initial, scaling)
-                                ref_table[ref_value] = initial + scaling*total_addition
-                            end,
-                            scaling_message = {
-                                message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.xmult + card.ability.extra.add_per_wl*total_addition}},
-                                colour = G.C.RED,
-                                no_juice = true
-                            }
-                        })
-                        return nil, true
-                    else
-                        card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.add_per_wl*total_addition
-                    end
-                    card:juice_up(0.8, 0.8)
-                    for _, fish in ipairs(eaten_fish) do
-                        fish:start_dissolve({G.C.RED}, true, 1.6)
-                    end
-                    play_sound('sgt_swallow', 0.96+math.random()*0.08)
-                end
-            return true end }))
-            if not SMODS.scale_card then
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.xmult + card.ability.extra.add_per_wl*total_addition}}, colour = G.C.RED, no_juice = true})
+        if context.first_hand_drawn then
+            if not context.blueprint then
+                local eval = function() return G.GAME.current_round.hands_played == 0 and not G.RESET_JIGGLES end
+                juice_card_until(card, eval, true)
             end
         end
-        if (context.joker_main and to_big(card.ability.extra.xmult) > to_big(1)) or context.forcetrigger then
-            if context.forcetrigger then
-                if SMODS.scale_card then
-                    SMODS.scale_card(card, {
-                        ref_table = card.ability.extra,
-                        ref_value = "xmult",
-                        scalar_value = "add_per_wl",
-                        no_message = true
-                    })
-                    return nil, true
-                else
-                    card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.add_per_wl
-                end
-            end
-            return {
-                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
-                Xmult_mod = card.ability.extra.xmult
-            }
+        if context.before and not context.blueprint and not context.retrigger_joker
+        and G.GAME.current_round.hands_played == 0 and context.scoring_name == card.ability.extra.poker_hand then
+            SMODS.smart_level_up_hand(card, card.ability.extra.poker_hand, nil, card.ability.extra.amount)
+            card.ability.extra.triggered = true
+        end
+        if context.destroy_card and context.cardarea == G.play and card.ability.extra.triggered then
+            return {remove = true}
         end
         if context.after and not context.blueprint and not context.retrigger_joker then
-            local hungry = to_big(card.ability.extra.xmult - card.ability.extra.sub_per_hand) < to_big(1)
-            if SMODS.scale_card then
-                SMODS.scale_card(card, {
-                    ref_table = card.ability.extra,
-                    ref_value = "xmult",
-                    scalar_value = "sub_per_hand",
-                    operation = function(ref_table, ref_value, initial, scaling)
-                        ref_table[ref_value] = math.max(initial - scaling, 1)
-                    end,
-                    scaling_message = {
-                        message = hungry and localize("k_hungry_ex") or localize("k_digest_ex"),
-                        colour = G.C.RED,
-                        card = card,
-                    }
-                })
-                return nil, true
-            else
-                card.ability.extra.xmult = math.max(card.ability.extra.xmult - card.ability.extra.sub_per_hand, 1)
-                return {
-                    message = hungry and localize("k_hungry_ex") or localize("k_digest_ex"),
-                    colour = G.C.RED,
-                    card = card,
-                }
+            G.E_MANAGER:add_event(Event({func = function()
+                card.ability.extra.triggered = nil
+            return true end }))
+        end
+        if context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker then
+            local _poker_hands = {}
+            for k, v in pairs(G.GAME.hands) do
+                if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
             end
+            card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed('sperm_whale'))
+            return {
+                message = localize(card.ability.extra.poker_hand, "poker_hands"),
+                colour = G.C.FILTER,
+                card = card,
+            }
         end
     end,
     in_pool = function(self, args)
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.xmult, card.ability.extra.add_per_wl, card.ability.extra.sub_per_hand}}
+        return {vars = {card.ability.extra.poker_hand, card.ability.extra.amount}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
  	end,
     joker_display_def = function(JokerDisplay)
         return {
-            text = {
-                {
-                    border_nodes = {
-                        { text = "X" },
-                        { ref_table = "card.ability.extra", ref_value = "xmult", retrigger_type = "exp" }
-                    }
-                }
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "poker_hand", colour = G.C.ORANGE },
+                { text = ")" },
             },
+            calc_function = function(card)
+                card.joker_display_values.poker_hand = localize(card.ability.extra.poker_hand, 'poker_hands')
+            end,
         }
     end,
 }

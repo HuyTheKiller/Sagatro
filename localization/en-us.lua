@@ -1859,11 +1859,11 @@ return {
             j_sgt_sperm_whale = {
                 name = "Sperm Whale",
                 text = {
-                    "When {C:attention}Blind{} is selected, {C:attention}eat{} all fish",
-                    "to the left with lower {C:attention}weight level{}",
-                    "and gain {X:mult,C:white}X#2#{} Mult per {C:attention}weight level{}",
-                    "Lose {X:mult,C:white}X#3#{} Mult every hand played",
-                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+                    "If {C:attention}first hand{} of round is a",
+                    "{C:attention}#1#{}, {C:attention}destroy{} all",
+                    "scoring cards and {C:attention}level up{}",
+                    "that poker hand {C:attention}#2#{} times",
+                    "{s:0.8}poker hand changes at end of round",
                 },
             },
             j_sgt_sea_urchin = {

@@ -1854,11 +1854,11 @@ return {
             j_sgt_sperm_whale = {
                 name = "Cá Nhà Táng",
                 text = {
-                    "Khi {C:attention}Blind{} được chọn, {C:attention}ăn{} mọi cá",
-                    "có {C:attention}cân nặng{} thấp hơn ở bên trái",
-                    "và thêm {X:mult,C:white}X#2#{} Nhân mỗi {C:attention}cấp cân nặng{}",
-                    "Mất {X:mult,C:white}X#3#{} Nhân mỗi tay đã chơi",
-                    "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
+                    "Nếu {C:attention}tay đầu tiên{} của ván là",
+                    "{C:attention}#1#{}, {C:attention}phá huỷ{} mọi",
+                    "lá ghi điểm và {C:attention}nâng level{}",
+                    "tay poker đó {C:attention}#2#{} lần",
+                    "{s:0.8}tay poker thay đổi ở cuối ván",
                 },
             },
             j_sgt_sea_urchin = {
