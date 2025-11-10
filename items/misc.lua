@@ -189,7 +189,7 @@ local omniscient = {
     },
     any_suit = true,
     shatters = true,
-    always_score = true,
+    always_scores = true,
     calculate = function(self, card, context)
         if context.destroy_card and context.cardarea == G.play and context.destroy_card == card
         and SMODS.pseudorandom_probability(card, 'omniscient_glass', 1, card.ability.extra, "omniscient") then
