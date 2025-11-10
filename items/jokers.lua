@@ -2071,7 +2071,7 @@ local mad_hatter = {
         if G.GAME.story_mode then
             return Sagatro.event_check("the_party") and Sagatro.event_check("mad_hatter", false)
         end
-        return not next(SMODS.find_card("j_sgt_mad_hatter", true))
+        return not G.GAME.won
     end,
     loc_vars = function(self, info_queue, card)
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
