@@ -61,7 +61,6 @@ local white_rabbit = {
                     scalar_value = "chip_mod",
                     no_message = true
                 })
-                return nil, true
             else
                 card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
             end
@@ -1244,7 +1243,6 @@ local pigeon = {
                             end,
                             no_message = true
                         })
-                        return nil, true
                     else
                         v.ability.extra_value = v.ability.extra_value + card.ability.egg_boost*G.GAME.alice_multiplier
                     end
@@ -2390,7 +2388,6 @@ local march_hare = {
                     scalar_value = "mult_mod",
                     no_message = true
                 })
-                return nil, true
             else
                 card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
             end
@@ -3111,7 +3108,6 @@ local shepherd_boy = {
                     scalar_value = "mult_mod",
                     no_message = true
                 })
-                return nil, true
             else
                 card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
             end
@@ -3322,7 +3318,6 @@ local iron_john = {
                     scalar_value = "xmult_mod",
                     no_message = true
                 })
-                return nil, true
             else
                 card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
             end
@@ -4638,26 +4633,26 @@ local barracuda = {
                 G.GAME.joker_buffer = G.GAME.joker_buffer - 1
                 G.E_MANAGER:add_event(Event({func = function()
                     G.GAME.joker_buffer = 0
-                    if SMODS.scale_card then
-                        SMODS.scale_card(card, {
-                            ref_table = card.ability.extra,
-                            ref_value = "mult",
-                            scalar_value = "mult_mod",
-                            scaling_message = {
-                                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult+card.ability.extra.mult_mod}},
-                                colour = G.C.RED,
-                                no_juice = true
-                            }
-                        })
-                        return nil, true
-                    else
+                    if not SMODS.scale_card then
                         card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
                     end
                     card:juice_up(0.8, 0.8)
                     eaten_fish:start_dissolve({G.C.RED}, true, 1.6)
                     play_sound('sgt_swallow', 0.96+math.random()*0.08)
                 return true end }))
-                if not SMODS.scale_card then
+                if SMODS.scale_card then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "mult",
+                        scalar_value = "mult_mod",
+                        scaling_message = {
+                            message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult+card.ability.extra.mult_mod}},
+                            colour = G.C.RED,
+                            no_juice = true
+                        }
+                    })
+                    return nil, true
+                else
                     card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult+card.ability.extra.mult_mod}}, colour = G.C.RED, no_juice = true})
                 end
             end
@@ -4671,7 +4666,6 @@ local barracuda = {
                         scalar_value = "mult_mod",
                         no_message = true
                     })
-                    return nil, true
                 else
                     card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
                 end
@@ -5682,7 +5676,6 @@ local blobfish = {
                     end,
                     no_message = true
                 })
-                return nil, true
             else
                 card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod*G.GAME.current_round.discards_left
             end
@@ -5868,7 +5861,6 @@ local coral_kingdom = {
                     scalar_value = "chip_mod",
                     no_message = true
                 })
-                return nil, true
             else
                 card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
             end
@@ -5945,7 +5937,6 @@ local dolphin = {
                         scalar_value = "xmult_mod",
                         no_message = true
                     })
-                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                 end
@@ -6154,7 +6145,6 @@ local swordfish = {
                         scalar_value = "chip_mod",
                         no_message = true
                     })
-                    return nil, true
                 else
                     card.ability.extra.chip_mod = card.ability.extra.chip_mod + card.ability.extra.chip_mod_mod
                     card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
@@ -6354,7 +6344,6 @@ local ray = {
                         end,
                         no_message = true
                     })
-                    return nil, true
                 else
                     card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.base_mult - 2
                 end
@@ -6480,7 +6469,6 @@ local orca = {
                         scalar_value = "found_add",
                         no_message = true
                     })
-                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.found_add
                 end
@@ -6783,25 +6771,10 @@ local shark = {
             for _, fish in ipairs(eaten_fish) do
                 fish.getting_sliced = true
             end
-            G.E_MANAGER:add_event(Event({func = function()
-                G.GAME.joker_buffer = 0
-                if #eaten_fish > 0 then
-                    if SMODS.scale_card then
-                        SMODS.scale_card(card, {
-                            ref_table = card.ability.extra,
-                            ref_value = "chips",
-                            scalar_value = "eat_add",
-                            operation = function(ref_table, ref_value, initial, scaling)
-                                ref_table[ref_value] = initial + scaling*total_addition
-                            end,
-                            scaling_message = {
-                                message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips + card.ability.extra.eat_add*total_addition}},
-                                colour = G.C.BLUE,
-                                no_juice = true
-                            }
-                        })
-                        return nil, true
-                    else
+            if #eaten_fish > 0 then
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.joker_buffer = 0
+                    if not SMODS.scale_card then
                         card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.eat_add*total_addition
                     end
                     card:juice_up(0.8, 0.8)
@@ -6809,10 +6782,25 @@ local shark = {
                         fish:start_dissolve({G.C.RED}, true, 1.6)
                     end
                     play_sound('sgt_swallow', 0.96+math.random()*0.08)
+                return true end }))
+                if SMODS.scale_card then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "chips",
+                        scalar_value = "eat_add",
+                        operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = initial + scaling*total_addition
+                        end,
+                        scaling_message = {
+                            message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips + card.ability.extra.eat_add*total_addition}},
+                            colour = G.C.BLUE,
+                            no_juice = true
+                        }
+                    })
+                    return nil, true
+                else
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips + card.ability.extra.eat_add*total_addition}}, colour = G.C.BLUE, no_juice = true})
                 end
-            return true end }))
-            if not SMODS.scale_card then
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips + card.ability.extra.eat_add*total_addition}}, colour = G.C.BLUE, no_juice = true})
             end
         end
         if (context.joker_main and to_big(card.ability.extra.chips) > to_big(0)) or context.forcetrigger then
@@ -6824,7 +6812,6 @@ local shark = {
                         scalar_value = "eat_add",
                         no_message = true
                     })
-                    return nil, true
                 else
                     card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.eat_add
                 end
@@ -7072,7 +7059,6 @@ local stomiidae = {
                         scalar_value = "spade_add",
                         no_message = true
                     })
-                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.spade_add
                 end
@@ -7304,7 +7290,6 @@ local big_red_jelly = {
                         scalar_value = "xmult_mod",
                         no_message = true
                     })
-                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                 end
@@ -7378,25 +7363,10 @@ local narwhal = {
             for _, impaled_joker in ipairs(impaled_jokers) do
                 impaled_joker.getting_sliced = true
             end
-            G.E_MANAGER:add_event(Event({func = function()
-                G.GAME.joker_buffer = 0
-                if #impaled_jokers > 0 then
-                    if SMODS.scale_card then
-                        SMODS.scale_card(card, {
-                            ref_table = card.ability.extra,
-                            ref_value = "xmult",
-                            scalar_value = "xmult_mod",
-                            operation = function(ref_table, ref_value, initial, scaling)
-                                ref_table[ref_value] = initial + scaling*total_sell_cost
-                            end,
-                            scaling_message = {
-                                message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.xmult + card.ability.extra.xmult_mod*total_sell_cost}},
-                                colour = G.C.RED,
-                                no_juice = true
-                            }
-                        })
-                        return nil, true
-                    else
+            if #impaled_jokers > 0 then
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.joker_buffer = 0
+                    if not SMODS.scale_card then
                         card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod*total_sell_cost
                     end
                     card:juice_up(0.8, 0.8)
@@ -7404,10 +7374,25 @@ local narwhal = {
                         impaled_joker:start_dissolve({G.C.RED}, true, 1.6)
                     end
                     play_sound('sgt_narwhal_impale', 0.96+math.random()*0.08)
+                return true end }))
+                if SMODS.scale_card then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "xmult",
+                        scalar_value = "xmult_mod",
+                        operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = initial + scaling*total_sell_cost
+                        end,
+                        scaling_message = {
+                            message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.xmult + card.ability.extra.xmult_mod*total_sell_cost}},
+                            colour = G.C.RED,
+                            no_juice = true
+                        }
+                    })
+                    return nil, true
+                else
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.xmult + card.ability.extra.xmult_mod*total_sell_cost}}, colour = G.C.RED, no_juice = true})
                 end
-            return true end }))
-            if not SMODS.scale_card then
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.xmult + card.ability.extra.xmult_mod*total_sell_cost}}, colour = G.C.RED, no_juice = true})
             end
         end
         if (context.joker_main and to_big(card.ability.extra.xmult) > to_big(1)) or context.forcetrigger then
@@ -7419,7 +7404,6 @@ local narwhal = {
                         scalar_value = "xmult_mod",
                         no_message = true
                     })
-                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                 end
@@ -7587,25 +7571,10 @@ local goblin_shark = {
             for _, fish in ipairs(eaten_fish) do
                 fish.getting_sliced = true
             end
-            G.E_MANAGER:add_event(Event({func = function()
-                G.GAME.joker_buffer = 0
-                if #eaten_fish > 0 then
-                    if SMODS.scale_card then
-                        SMODS.scale_card(card, {
-                            ref_table = card.ability.extra,
-                            ref_value = "dollars",
-                            scalar_value = "dollar_mod",
-                            operation = function(ref_table, ref_value, initial, scaling)
-                                ref_table[ref_value] = initial + scaling*total_addition
-                            end,
-                            scaling_message = {
-                                message = localize("$")..(card.ability.extra.dollars + card.ability.extra.dollar_mod*total_addition),
-                                colour = G.C.GOLD,
-                                no_juice = true
-                            }
-                        })
-                        return nil, true
-                    else
+            if #eaten_fish > 0 then
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.joker_buffer = 0
+                    if not SMODS.scale_card then
                         card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.dollar_mod*total_addition
                     end
                     card:juice_up(0.8, 0.8)
@@ -7613,10 +7582,25 @@ local goblin_shark = {
                         fish:start_dissolve({G.C.RED}, true, 1.6)
                     end
                     play_sound('sgt_swallow', 0.96+math.random()*0.08)
+                return true end }))
+                if SMODS.scale_card then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "dollars",
+                        scalar_value = "dollar_mod",
+                        operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = initial + scaling*total_addition
+                        end,
+                        scaling_message = {
+                            message = localize("$")..(card.ability.extra.dollars + card.ability.extra.dollar_mod*total_addition),
+                            colour = G.C.GOLD,
+                            no_juice = true
+                        }
+                    })
+                    return nil, true
+                else
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("$")..(card.ability.extra.dollars + card.ability.extra.dollar_mod*total_addition), colour = G.C.GOLD, no_juice = true})
                 end
-            return true end }))
-            if not SMODS.scale_card then
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("$")..(card.ability.extra.dollars + card.ability.extra.dollar_mod*total_addition), colour = G.C.GOLD, no_juice = true})
             end
         end
         if context.forcetrigger then
@@ -7627,11 +7611,11 @@ local goblin_shark = {
                     scalar_value = "dollar_mod",
                     no_message = true
                 })
-                return nil, true
             else
                 card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.dollar_mod
             end
             ease_dollars(card.ability.extra.dollars)
+            return nil, true
         end
         if context.after and not context.blueprint and not context.retrigger_joker then
             if SMODS.scale_card then
@@ -7797,25 +7781,10 @@ local chimaera = {
             for _, killed_joker in ipairs(killed_jokers) do
                 killed_joker.getting_sliced = true
             end
-            G.E_MANAGER:add_event(Event({func = function()
-                G.GAME.joker_buffer = 0
-                if #killed_jokers > 0 then
-                    if SMODS.scale_card then
-                        SMODS.scale_card(card, {
-                            ref_table = card.ability.extra,
-                            ref_value = "spectral_count",
-                            scalar_value = "spectral_mod",
-                            operation = function(ref_table, ref_value, initial, scaling)
-                                ref_table[ref_value] = initial + scaling*#killed_jokers
-                            end,
-                            scaling_message = {
-                                message = localize("k_killed_ex"),
-                                G.C.SECONDARY_SET.Spectral,
-                                no_juice = true
-                            }
-                        })
-                        return nil, true
-                    else
+            if #killed_jokers > 0 then
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.joker_buffer = 0
+                    if not SMODS.scale_card then
                         card.ability.extra.spectral_count = card.ability.extra.spectral_count + card.ability.extra.spectral_mod*#killed_jokers
                     end
                     card:juice_up(0.8, 0.8)
@@ -7823,10 +7792,25 @@ local chimaera = {
                         killed_joker:start_dissolve({G.C.RED}, true, 1.6)
                     end
                     play_sound('sgt_narwhal_impale', 0.96+math.random()*0.08)
+                return true end }))
+                if SMODS.scale_card then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "spectral_count",
+                        scalar_value = "spectral_mod",
+                        operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = initial + scaling*#killed_jokers
+                        end,
+                        scaling_message = {
+                            message = localize("k_killed_ex"),
+                            G.C.SECONDARY_SET.Spectral,
+                            no_juice = true
+                        }
+                    })
+                    return nil, true
+                else
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_killed_ex"), colour = G.C.SECONDARY_SET.Spectral, no_juice = true})
                 end
-            return true end }))
-            if not SMODS.scale_card then
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_killed_ex"), colour = G.C.SECONDARY_SET.Spectral, no_juice = true})
             end
         end
         if (context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker
@@ -7845,11 +7829,11 @@ local chimaera = {
                         scalar_value = "spectral_mod",
                         no_message = true
                     })
-                    return nil, true
                 else
                     card.ability.extra.spectral_count = card.ability.extra.spectral_count + card.ability.extra.spectral_mod
                 end
                 count = card.ability.extra.spectral_count
+                return nil, true
             end
             G.E_MANAGER:add_event(Event({
                 trigger = 'before',
@@ -7877,10 +7861,10 @@ local chimaera = {
                         end,
                         no_message = true
                     })
-                    return nil, true
                 else
                     card.ability.extra.spectral_count = math.max(card.ability.extra.spectral_count - card.ability.extra.spectral_sub, 0)
                 end
+                return nil, true
             end
         end
     end,
@@ -8001,7 +7985,6 @@ local atolla_wyvillei = {
                     end,
                     no_message = true
                 })
-                return nil, true
             else
                 card.ability.extra.xmult = math.max(card.ability.extra.xmult - card.ability.extra.xmult_sub*#context.full_hand, 1)
             end
@@ -8013,6 +7996,7 @@ local atolla_wyvillei = {
                     no_retrigger = true
                 }
             end
+            return nil, true
         end
     end,
     add_to_deck = function(self, card, from_debuff)
@@ -8100,7 +8084,6 @@ local faceless_cusk = {
                         scalar_value = "xmult_mod",
                         no_message = true
                     })
-                    return nil, true
                 else
                     card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                 end
@@ -8847,7 +8830,6 @@ local skoll_n_hati = {
                                 scalar_value = "xmult_mod",
                                 no_message = true
                             })
-                            return nil, true
                         else
                             card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                         end
@@ -8872,7 +8854,6 @@ local skoll_n_hati = {
                                     scalar_value = "xmult_mod",
                                     no_message = true
                                 })
-                                return nil, true
                             else
                                 card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_mod
                             end
@@ -8912,7 +8893,6 @@ local skoll_n_hati = {
                                 scalar_value = "xchip_mod",
                                 no_message = true
                             })
-                            return nil, true
                         else
                             card.ability.extra.xchip = card.ability.extra.xchip + card.ability.extra.xchip_mod
                         end
@@ -8937,7 +8917,6 @@ local skoll_n_hati = {
                                 scalar_value = "xchip_mod",
                                 no_message = true
                             })
-                            return nil, true
                         else
                             card.ability.extra.xchip = card.ability.extra.xchip + card.ability.extra.xchip_mod
                         end
@@ -10007,7 +9986,6 @@ local ragnarok = {
                     scalar_value = "e_mult_mod_showdown",
                     no_message = true
                 })
-                return nil, true
             else
                 card.ability.extra.e_mult = card.ability.extra.e_mult + card.ability.extra.e_mult_mod_showdown
             end
@@ -10358,23 +10336,23 @@ local hermod = {
                     end
                     play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
                     play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
-                    if not context.blueprint then
-                        if SMODS.scale_card then
-                            SMODS.scale_card(card, {
-                                ref_table = card.ability.extra,
-                                ref_value = "amount",
-                                scalar_value = "amount_mod",
-                                no_message = true
-                            })
-                            return nil, true
-                        else
-                            card.ability.extra.amount = card.ability.extra.amount + card.ability.extra.amount_mod
-                        end
-                    end
                     save_run()
                     return true
                 end)
             }))
+            if not context.blueprint and not context.retrigger_joker then
+                if SMODS.scale_card then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "amount",
+                        scalar_value = "amount_mod",
+                        no_message = true
+                    })
+                else
+                    card.ability.extra.amount = card.ability.extra.amount + card.ability.extra.amount_mod
+                end
+            end
+            return nil, true
         end
     end,
     loc_vars = function(self, info_queue, card)
@@ -10537,30 +10515,30 @@ local azathoth = {
                             edition = "e_negative",
                         }))
                     end
-                    if not context.blueprint then
-                        if SMODS.scale_card then
-                            SMODS.scale_card(card, {
-                                ref_table = card.ability.extra,
-                                ref_value = "amount",
-                                scalar_value = "amount_mod",
-                                scaling_message = {
-                                    message = localize('k_zzz'),
-                                    colour = G.C.SECONDARY_SET.Tarot,
-                                    card = card
-                                }
-                            })
-                            return nil, true
-                        else
-                            card.ability.extra.amount = card.ability.extra.amount + card.ability.extra.amount_mod
-                            return {
-                                message = localize('k_zzz'),
-                                colour = G.C.SECONDARY_SET.Tarot,
-                                card = card
-                            }
-                        end
-                    end
                 return true
             end)}))
+            if not context.blueprint and not context.retrigger_joker then
+                if SMODS.scale_card then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "amount",
+                        scalar_value = "amount_mod",
+                        scaling_message = {
+                            message = localize('k_zzz'),
+                            colour = G.C.SECONDARY_SET.Tarot,
+                            card = card
+                        }
+                    })
+                    return nil, true
+                else
+                    card.ability.extra.amount = card.ability.extra.amount + card.ability.extra.amount_mod
+                    return {
+                        message = localize('k_zzz'),
+                        colour = G.C.SECONDARY_SET.Tarot,
+                        card = card
+                    }
+                end
+            end
         end
     end,
     loc_vars = function(self, info_queue, card)
