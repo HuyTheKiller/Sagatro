@@ -8585,7 +8585,7 @@ local mahimahi = {
                         played_ranks[playing_card.config.card.value] = (played_ranks[playing_card.config.card.value] or 0) + 1
                     end
                 end
-                if playing_hand then
+                if playing_hand and G.STATE ~= G.STATES.PLAY_TAROT then
                     for _, playing_card in ipairs(G.play.cards) do
                         played_ranks[playing_card.config.card.value] = (played_ranks[playing_card.config.card.value] or 0) + 1
                     end
