@@ -52,6 +52,16 @@ end
 
 Sagatro.story_mode_showdown = {
 	"bl_sgt_red_queen",
+    "bl_sgt_nyx_abyss",
+}
+
+Sagatro.story_mode_no_reroll = {
+    "bl_sgt_red_queen",
+    "bl_sgt_turquoise_jellyfish",
+    "bl_sgt_aqua_eyeshard",
+    "bl_sgt_black_oil",
+    "bl_sgt_shadow_seamine",
+    "bl_sgt_nyx_abyss",
 }
 
 Sagatro.main_storyline_list = {
@@ -858,26 +868,50 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
     return card
 end
 
-function debug_boss_spawn()
-    Sagatro.progress_storyline("turquoise_jellyfish", "add", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+function debug_boss_spawn(blind_key)
+    Sagatro.init_storyline("20k_miles_under_the_sea")
+    Sagatro.progress_storyline(blind_key, "force_add", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+end
+
+-- Black Oil disable retriggers
+local insert_rep_ref = SMODS.insert_repetitions
+function SMODS.insert_repetitions(ret, eval, effect_card, _type)
+    local blinds = {"Small", "Big", "Boss"}
+    for i = 1, 3 do
+        local blind = blinds[i]
+        if G.GAME.round_resets.blind_choices[blind] == "bl_sgt_black_oil"
+        and G.GAME.round_resets.blind_states[blind] == "Current" then
+            return
+        end
+    end
+    insert_rep_ref(ret, eval, effect_card, _type)
 end
 
 -- If you own Queen Of Hearts in story mode, triggering Final Showdown event "turns" her into Showdown Blind
 local gnb = get_new_boss
 function get_new_boss()
-    if Sagatro.event_check("final_showdown") and not next(SMODS.find_card("j_sgt_mad_hatter")) and not G.GAME.won then
-        for _, v in ipairs(G.jokers.cards) do
-            if v.config.center_key == "j_sgt_red_queen" then
-                local guilty_text = function()
-                    card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
+    if not G.GAME.won then
+        if Sagatro.event_check("final_showdown") and not next(SMODS.find_card("j_sgt_mad_hatter")) then
+            for _, v in ipairs(G.jokers.cards) do
+                if v.config.center_key == "j_sgt_red_queen" then
+                    local guilty_text = function()
+                        card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
+                    end
+                    Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
                 end
-                Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
             end
+            return 'bl_sgt_red_queen'
+        elseif Sagatro.event_check("turquoise_jellyfish") then
+            return 'bl_sgt_turquoise_jellyfish'
+        elseif Sagatro.event_check("aqua_eyeshard") then
+            return 'bl_sgt_aqua_eyeshard'
+        elseif Sagatro.event_check("black_oil") then
+            return 'bl_sgt_black_oil'
+        elseif Sagatro.event_check("shadow_seamine") then
+            return 'bl_sgt_shadow_seamine'
+        elseif Sagatro.event_check("nyx_abyss") then
+            return 'bl_sgt_nyx_abyss'
         end
-        return 'bl_sgt_red_queen'
-    end
-    if Sagatro.event_check("turquoise_jellyfish") and not G.GAME.won then
-        return 'bl_sgt_turquoise_jellyfish'
     end
     local ret = gnb()
     if ret == 'bl_sgt_red_queen' then G.GAME.red_queen_blind = true end
@@ -888,7 +922,7 @@ end
 local rbb = G.FUNCS.reroll_boss_button
 G.FUNCS.reroll_boss_button = function(e)
     rbb(e)
-    if G.GAME.story_mode and table.contains(Sagatro.story_mode_showdown, G.GAME.round_resets.blind_choices.Boss) then
+    if G.GAME.story_mode and table.contains(Sagatro.story_mode_no_reroll, G.GAME.round_resets.blind_choices.Boss) then
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
         e.children[1].children[1].config.shadow = false

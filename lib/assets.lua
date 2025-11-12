@@ -199,6 +199,11 @@ SMODS.Sound{
 }
 
 SMODS.Sound{
+    key = "explosion",
+    path = "explosion.ogg",
+}
+
+SMODS.Sound{
     key = "bell_score",
     path = "bell_score.wav",
 }

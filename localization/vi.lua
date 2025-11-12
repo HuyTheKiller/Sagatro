@@ -98,8 +98,36 @@ return {
             bl_sgt_turquoise_jellyfish = {
                 name = "Turquoise Jellyfish",
                 text = {
-                    "Đợt bốc đầu tiên bị",
-                    "vô hiệu hoá vĩnh viễn",
+                    "Vĩnh viễn vô hiệu hoá 2 lá",
+                    "ngẫu nhiên mỗi tay bài",
+                },
+            },
+            bl_sgt_aqua_eyeshard = {
+                name = "Aqua Eyeshard",
+                text = {
+                    "Không chơi lại tay poker",
+                    "đã chơi ở ante này",
+                },
+            },
+            bl_sgt_black_oil = {
+                name = "Black Oil",
+                text = {
+                    "Tái kích bị",
+                    "vô hiệu hoá",
+                },
+            },
+            bl_sgt_shadow_seamine = {
+                name = "Shadow Seamine",
+                text = {
+                    "Xác suất #1# trên #2# để phá huỷ một",
+                    "joker ngẫu nhiên sau mỗi tay bài",
+                },
+            },
+            bl_sgt_nyx_abyss = {
+                name = "Nyx Abyss",
+                text = {
+                    "Vĩnh viễn -1 lá giữ trong tay",
+                    "mỗi tay bài và lượt bỏ đã dùng",
                 },
             },
         },
@@ -2763,6 +2791,7 @@ return {
             k_omniscient_ex = "Toàn Tri!",
             k_downgrade_ex = "Hạ Cấp!",
             k_consumed_ex = "Tiêu Thụ!",
+            k_kaboom_ex = "Bùm!",
             k_plus_divinatio = "+1 Chiêm Mộng",
             k_plus_celestara = "+1 Huyền Thể",
             ph_per_face_down = " mỗi lá sấp",

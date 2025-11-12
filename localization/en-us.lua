@@ -98,8 +98,36 @@ return {
             bl_sgt_turquoise_jellyfish = {
                 name = "Turquoise Jellyfish",
                 text = {
-                    "First hand drawn is",
-                    "permanently debuffed",
+                    "Permanently debuff 2",
+                    "random cards every hand",
+                },
+            },
+            bl_sgt_aqua_eyeshard = {
+                name = "Aqua Eyeshard",
+                text = {
+                    "No repeat hand",
+                    "types this ante",
+                },
+            },
+            bl_sgt_black_oil = {
+                name = "Black Oil",
+                text = {
+                    "Retriggers",
+                    "are disabled",
+                },
+            },
+            bl_sgt_shadow_seamine = {
+                name = "Shadow Seamine",
+                text = {
+                    "#1# in #2# chance to destroy a",
+                    "random joker after every hand",
+                },
+            },
+            bl_sgt_nyx_abyss = {
+                name = "Nyx Abyss",
+                text = {
+                    "Permanent -1 hand size",
+                    "every hand and discard used",
                 },
             },
         },
@@ -2768,6 +2796,7 @@ return {
             k_omniscient_ex = "Omniscient!",
             k_downgrade_ex = "Downgrade!",
             k_consumed_ex = "Consumed!",
+            k_kaboom_ex = "Kaboom!",
             k_plus_divinatio = "+1 Divinatio",
             k_plus_celestara = "+1 Celestara",
             ph_per_face_down = " per face-down",
