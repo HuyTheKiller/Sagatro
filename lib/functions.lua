@@ -876,11 +876,8 @@ end
 -- Black Oil disable retriggers
 local insert_rep_ref = SMODS.insert_repetitions
 function SMODS.insert_repetitions(ret, eval, effect_card, _type)
-    local blinds = {"Small", "Big", "Boss"}
-    for i = 1, 3 do
-        local blind = blinds[i]
-        if G.GAME.round_resets.blind_choices[blind] == "bl_sgt_black_oil"
-        and G.GAME.round_resets.blind_states[blind] == "Current" then
+    if G.GAME.blind then
+        if G.GAME.blind.config.blind.key == "bl_sgt_black_oil" and not G.GAME.blind.disabled then
             return
         end
     end
