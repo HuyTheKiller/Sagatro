@@ -223,6 +223,9 @@ local nyx_abyss = {
             Sagatro.progress_storyline("nyx_abyss", "finish", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
 		end
     end,
+    in_pool = function(self)
+        return not (G.GAME.story_mode or G.GAME.modifiers.sgt_disable_sagatro_items)
+    end,
 }
 
 local blind_table = {
