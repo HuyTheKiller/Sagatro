@@ -7914,7 +7914,7 @@ local dumbo_octopus = {
             if context.other_card:get_id() == 8 and context.other_card:is_suit("Diamonds") then
                 return {
                     message = localize("k_again_ex"),
-                    repetitions = 1,
+                    repetitions = card.ability.extra.retriggers,
                     card = card,
                 }
             end
