@@ -331,7 +331,7 @@ function Card:update(dt)
                                     break
                                 end
                             end
-                            for i = pos-1, #G.jokers.cards do
+                            for i = pos+1, #G.jokers.cards do
                                 if not (SMODS.is_eternal(G.jokers.cards[i], card)
                                 and self.ability.immutable.eternal_block) then
                                     targets[#targets+1] = G.jokers.cards[i]
@@ -346,11 +346,19 @@ function Card:update(dt)
                                 Sagatro.process_edible_state(self, target)
                             end
                         elseif type(self.ability.immutable.target_range) == "table" then
-                            local targets = {}
-                            local i_start, i_end = self.ability.immutable.target_range[1], self.ability.immutable.target_range[2]
-                            for i = i_start, i_end do
-                                if i ~= 0 and not SMODS.is_eternal(G.jokers.cards[i], self) then
-                                    targets[#targets+1] = G.jokers.cards[i]
+                            local targets, pos = {}, 1
+                            for i, v in ipairs(G.jokers.cards) do
+                                if v == self then
+                                    pos = i
+                                    break
+                                end
+                            end
+                            if pos then
+                                local i_start, i_end = self.ability.immutable.target_range[1], self.ability.immutable.target_range[2]
+                                for i = i_start, i_end do
+                                    if i ~= 0 and G.jokers.cards[pos+i] then
+                                        targets[#targets+1] = G.jokers.cards[pos+i]
+                                    end
                                 end
                             end
                             for _, target in ipairs(targets) do
@@ -2057,7 +2065,7 @@ function Sagatro.process_edible_fish(card, context)
                     else break end
                 end
             elseif card.ability.immutable.target_range == "rightward" then
-                for i = pos-1, #G.jokers.cards do
+                for i = pos+1, #G.jokers.cards do
                     if not (SMODS.is_eternal(G.jokers.cards[i], card)
                     and card.ability.immutable.eternal_block) then
                         jokers[#jokers+1] = G.jokers.cards[i]
@@ -2066,8 +2074,9 @@ function Sagatro.process_edible_fish(card, context)
             elseif type(card.ability.immutable.target_range) == "table" then
                 local i_start, i_end = card.ability.immutable.target_range[1], card.ability.immutable.target_range[2]
                 for i = i_start, i_end do
-                    if i ~= 0 and not SMODS.is_eternal(G.jokers.cards[i], card) then
-                        jokers[#jokers+1] = G.jokers.cards[i]
+                    if i ~= 0 and G.jokers.cards[pos+i]
+                    and not SMODS.is_eternal(G.jokers.cards[pos+i], card) then
+                        jokers[#jokers+1] = G.jokers.cards[pos+i]
                     end
                 end
             end
