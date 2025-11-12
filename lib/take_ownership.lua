@@ -113,3 +113,20 @@ SMODS.Joker:take_ownership('splash',
 	},
 	true
 )
+
+-- Make non-rerollable bosses not spawn Boss Tag
+local boss_tag_in_pool = G.P_TAGS.tag_boss.in_pool
+SMODS.Tag:take_ownership('boss',
+    {
+        in_pool = function(self, args)
+            if G.GAME.story_mode and table.contains(Sagatro.story_mode_no_reroll, G.GAME.round_resets.blind_choices.Boss) then
+                return false
+            end
+            if boss_tag_in_pool and type(boss_tag_in_pool) == "function" then
+                return boss_tag_in_pool(self, args)
+            end
+            return true
+        end,
+    },
+    true
+)

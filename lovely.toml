@@ -10,12 +10,10 @@ target = "functions/common_events.lua"
 pattern = "if v.yes_pool_flag and not G.GAME.pool_flags[v.yes_pool_flag] then add = nil end"
 position = "after"
 payload = '''
-
 if G.GAME.story_mode then
     if v.set == 'Joker' then
         -- Sagatro jokers only
         if not v.saga_group then add = nil end
-         
         -- Events that would alter joker pool
         local story, interwoven, event = G.GAME.current_storyline, G.GAME.interwoven_storyline, G.GAME.saga_event_queue[1]
         if (story ~= "none" or interwoven) and event
@@ -39,13 +37,25 @@ if G.GAME.story_mode then
         end
     end
 else
-    if v.set == 'Joker' then
-        if G.GAME.modifiers.sgt_disable_sagatro_items and v.saga_group then
-            add = nil
-        end
+    if G.GAME.modifiers.sgt_disable_sagatro_items and v.mod and v.mod.id == "Sagatro" then
+        add = nil
     end
 end
+'''
+match_indent = true
 
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+_pool[#_pool + 1] = 'UNAVAILABLE'
+'''
+position = "at"
+payload = '''
+if G.GAME.modifiers.sgt_disable_sagatro_items and v.mod and v.mod.id == "Sagatro" then
+else
+    _pool[#_pool + 1] = 'UNAVAILABLE'
+end
 '''
 match_indent = true
 

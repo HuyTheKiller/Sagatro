@@ -711,7 +711,7 @@ function get_current_pool(_type, _rarity, _legendary, _append)
                 end
                 pool_opts = pool_opts or {}
 
-                if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not next(find_joker("Showman"))) and
+                if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not SMODS.showman(v.key)) and
                 (v.unlocked ~= false) then add = true end
 
                 if v.no_pool_flag and G.GAME.pool_flags[v.no_pool_flag] then add = nil end
@@ -885,6 +885,7 @@ function SMODS.insert_repetitions(ret, eval, effect_card, _type)
 end
 
 -- If you own Queen Of Hearts in story mode, triggering Final Showdown event "turns" her into Showdown Blind
+-- Also general blind handling in story mode
 local gnb = get_new_boss
 function get_new_boss()
     if not G.GAME.won then
@@ -915,7 +916,7 @@ function get_new_boss()
     return ret
 end
 
--- Block boss reroll if it's Queen Of Hearts in story mode (you would waste $10 anyway, see hook above)
+-- Block boss reroll if it's some certain boss blinds in story mode (you would waste $10 anyway, see hook above)
 local rbb = G.FUNCS.reroll_boss_button
 G.FUNCS.reroll_boss_button = function(e)
     rbb(e)
