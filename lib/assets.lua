@@ -155,8 +155,8 @@ SMODS.Atlas{
 }
 
 SMODS.Atlas{
-    key = "red_queen",
-    path = "Red_queen.png",
+    key = "blinds",
+    path = "Blinds.png",
     atlas_table = 'ANIMATION_ATLAS',
     frames = 21,
     px = 34,
@@ -196,6 +196,11 @@ SMODS.Sound{
 SMODS.Sound{
     key = "resonance",
     path = "bell_resonance.ogg",
+}
+
+SMODS.Sound{
+    key = "bell_score",
+    path = "bell_score.wav",
 }
 
 SMODS.Sound{

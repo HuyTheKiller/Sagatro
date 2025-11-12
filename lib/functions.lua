@@ -62,6 +62,10 @@ Sagatro.main_storyline_list = {
 local igo = Game.init_game_object
 function Game:init_game_object()
 	local ret = igo(self)
+    -- Add played_this_ante field to poker hands
+    for _, v in pairs(ret.hands) do
+        v.played_this_ante = 0
+    end
     -- Current storyline
     ret.current_storyline = "none"
     -- Event queue
@@ -86,6 +90,7 @@ function Game:init_game_object()
             },
         },
     }
+    ret.fish_effect = {}
     ret.alice_multiplier = 1
     ret.relief_factor = 1
     ret.orbis_fatum_odds = 4
@@ -192,10 +197,12 @@ function CardArea:update(dt)
             and G.STATE ~= G.STATES.SHOP
             and G.STATE ~= G.STATES.SMODS_REDEEM_VOUCHER
             and G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED then
-                if G.jokers.cards[i-1] and G.jokers.cards[i-1].config.center_key ~= "j_sgt_pufferfish" then
+                if G.jokers.cards[i-1] and G.jokers.cards[i-1].config.center_key ~= "j_sgt_pufferfish"
+                and G.jokers.cards[i-1].config.center_key ~= "j_sgt_dolphin" then
                     SMODS.debuff_card(G.jokers.cards[i-1], true, "j_sgt_pufferfish")
                 end
-                if G.jokers.cards[i+1] and G.jokers.cards[i+1].config.center_key ~= "j_sgt_pufferfish" then
+                if G.jokers.cards[i+1] and G.jokers.cards[i+1].config.center_key ~= "j_sgt_pufferfish"
+                and G.jokers.cards[i+1].config.center_key ~= "j_sgt_dolphin" then
                     SMODS.debuff_card(G.jokers.cards[i+1], true, "j_sgt_pufferfish")
                 end
             end
@@ -207,6 +214,151 @@ function CardArea:update(dt)
         for _, v in ipairs(G.consumeables.cards) do
             if v.config.center_key == "j_sgt_mouse" then
                 SMODS.debuff_card(v, true, "j_sgt_mouse")
+            end
+        end
+    end
+    if self == G.jokers and #G.jokers.highlighted == 0 and G.GAME.story_mode then
+        local check = false
+        for _, v in ipairs(G.jokers.cards) do
+            if v.states.hover.is or v.states.focus.is or v.states.drag.is then
+                check = true
+                break
+            end
+        end
+        if not check then
+            for _, v in ipairs(G.jokers.cards) do
+                v:remove_sticker("sgt_not_food")
+                v:remove_sticker("sgt_inedible")
+                v:remove_sticker("sgt_edible")
+            end
+        end
+    end
+end
+
+-- Handle edible state of target fish - courtesy of stickers
+-- Also handle fusion buttons
+local card_update_ref = Card.update
+function Card:update(dt)
+    card_update_ref(self, dt)
+    if G.STAGE == G.STAGES.RUN then
+        if self.ability and self.ability.true_perma_debuff then self.debuff = true end
+        if self:get_card_fusion() ~= nil then
+            self.ability.fusion = self.ability.fusion or {}
+            local my_fusion = self:get_card_fusion()
+            self.fusion_cost = my_fusion and my_fusion.cost or 0
+            if self:can_fuse_card() and not self.ability.fusion.jiggle then
+                juice_card_until(self, function(card) return (card:can_fuse_card()) end, true)
+
+                self.ability.fusion.jiggle = true
+            end
+            if not self:can_fuse_card() and self.ability.fusion.jiggle then
+                self.ability.fusion.jiggle = false
+            end
+        end
+		if self.ability.gravistone_triggered and not SMODS.has_enhancement(self, "m_sgt_gravistone") then
+			self.ability.gravistone_triggered = nil
+			SMODS.change_play_limit(-1)
+            SMODS.change_discard_limit(-1)
+		end
+        if self.states.hover.is or self.states.focus.is or self.states.drag.is then
+            if self.area == G.jokers and G.GAME.story_mode then
+                if not self.debuff then
+                    if self.ability.immutable and self.ability.immutable.weight_level then
+                        if self.ability.immutable.target_offset
+                        and type(self.ability.immutable.target_offset) == "number" then
+                            local target
+                            for i, v in ipairs(G.jokers.cards) do
+                                if v == self then
+                                    target = G.jokers.cards[i+self.ability.immutable.target_offset]
+                                    break
+                                end
+                            end
+                            if target then
+                                for _, v in ipairs(G.jokers.cards) do
+                                    v:remove_sticker("sgt_not_food")
+                                    v:remove_sticker("sgt_inedible")
+                                    v:remove_sticker("sgt_edible")
+                                end
+                                Sagatro.process_edible_state(self, target)
+                            end
+                        elseif self.ability.immutable.target == "leftmost" then
+                            local target = G.jokers.cards[1]
+                            if target ~= self then
+                                for _, v in ipairs(G.jokers.cards) do
+                                    v:remove_sticker("sgt_not_food")
+                                    v:remove_sticker("sgt_inedible")
+                                    v:remove_sticker("sgt_edible")
+                                end
+                                Sagatro.process_edible_state(self, target)
+                            end
+                        elseif self.ability.immutable.target == "rightmost" then
+                            local target = G.jokers.cards[#G.jokers.cards]
+                            if target ~= self then
+                                for _, v in ipairs(G.jokers.cards) do
+                                    v:remove_sticker("sgt_not_food")
+                                    v:remove_sticker("sgt_inedible")
+                                    v:remove_sticker("sgt_edible")
+                                end
+                                Sagatro.process_edible_state(self, target)
+                            end
+                        elseif self.ability.immutable.target_range == "leftward" then
+                            local targets, pos = {}, 1
+                            for i, v in ipairs(G.jokers.cards) do
+                                if v == self then
+                                    pos = i
+                                    break
+                                end
+                            end
+                            for i = pos-1, 1, -1 do
+                                if not (SMODS.is_eternal(G.jokers.cards[i], card)
+                                and self.ability.immutable.eternal_block) then
+                                    targets[#targets+1] = G.jokers.cards[i]
+                                else break end
+                            end
+                            for _, v in ipairs(G.jokers.cards) do
+                                v:remove_sticker("sgt_not_food")
+                                v:remove_sticker("sgt_inedible")
+                                v:remove_sticker("sgt_edible")
+                            end
+                            for _, target in ipairs(targets) do
+                                Sagatro.process_edible_state(self, target)
+                            end
+                        elseif self.ability.immutable.target_range == "rightward" then
+                            local targets, pos = {}, 1
+                            for i, v in ipairs(G.jokers.cards) do
+                                if v == self then
+                                    pos = i
+                                    break
+                                end
+                            end
+                            for i = pos-1, #G.jokers.cards do
+                                if not (SMODS.is_eternal(G.jokers.cards[i], card)
+                                and self.ability.immutable.eternal_block) then
+                                    targets[#targets+1] = G.jokers.cards[i]
+                                else break end
+                            end
+                            for _, v in ipairs(G.jokers.cards) do
+                                v:remove_sticker("sgt_not_food")
+                                v:remove_sticker("sgt_inedible")
+                                v:remove_sticker("sgt_edible")
+                            end
+                            for _, target in ipairs(targets) do
+                                Sagatro.process_edible_state(self, target)
+                            end
+                        elseif type(self.ability.immutable.target_range) == "table" then
+                            local targets = {}
+                            local i_start, i_end = self.ability.immutable.target_range[1], self.ability.immutable.target_range[2]
+                            for i = i_start, i_end do
+                                if i ~= 0 and not SMODS.is_eternal(G.jokers.cards[i], self) then
+                                    targets[#targets+1] = G.jokers.cards[i]
+                                end
+                            end
+                            for _, target in ipairs(targets) do
+                                Sagatro.process_edible_state(self, target)
+                            end
+                        end
+                    end
+                end
             end
         end
     end
@@ -698,6 +850,10 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
     return card
 end
 
+function debug_boss_spawn()
+    Sagatro.progress_storyline("turquoise_jellyfish", "add", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+end
+
 -- If you own Queen Of Hearts in story mode, triggering Final Showdown event "turns" her into Showdown Blind
 local gnb = get_new_boss
 function get_new_boss()
@@ -711,6 +867,9 @@ function get_new_boss()
             end
         end
         return 'bl_sgt_red_queen'
+    end
+    if Sagatro.event_check("turquoise_jellyfish") and not G.GAME.won then
+        return 'bl_sgt_turquoise_jellyfish'
     end
     local ret = gnb()
     if ret == 'bl_sgt_red_queen' then G.GAME.red_queen_blind = true end
@@ -955,7 +1114,7 @@ end
 local gp = get_pack
 function get_pack(_key, _type)
     if G.GAME.story_mode and not G.GAME.saga_event_forced_buffoon
-    and Sagatro.event_check({"white_rabbit_house", "goodbye_frog", "the_party", "red_queen", "gryphon"}, true) then
+    and Sagatro.event_check({"white_rabbit_house", "goodbye_frog", "the_party", "red_queen", "gryphon", "finding_the_submarine"}, true) then
         G.GAME.saga_event_forced_buffoon = true
         local buffoon_pool = {"p_buffoon_normal_1", "p_buffoon_normal_2", "p_buffoon_jumbo_1", "p_buffoon_mega_1"}
         local chosen_buffoon = pseudorandom_element(buffoon_pool, pseudoseed("saga_event_forced_buffoon"))
@@ -997,11 +1156,16 @@ function Sagatro.reset_game_globals(run_start)
         end
     end
     if G.GAME.story_mode and G.GAME.saga_event_forced_buffoon
-    and Sagatro.event_check({"white_rabbit_house", "goodbye_frog", "the_party", "red_queen", "gryphon"}, true) then
+    and Sagatro.event_check({"white_rabbit_house", "goodbye_frog", "the_party", "red_queen", "gryphon", "finding_the_submarine"}, true) then
         G.GAME.saga_event_forced_buffoon = nil
     end
     if G.GAME.saved_by_gods_miracle then
         G.GAME.saved_by_gods_miracle = nil
+    end
+    -- Make sure the highlighted limit is always 1 regardless of other mod's interference
+    if G.GAME.story_mode and run_start then
+        G.jokers.config.highlighted_limit = 1
+        G.consumeables.config.highlighted_limit = 1
     end
 end
 
@@ -1168,6 +1332,9 @@ function Sagatro.random_select(seed, area, count)
         pseudoshuffle(temp_hand, pseudoseed(seed))
         for i = 1, count do selected_cards[#selected_cards+1] = temp_hand[i] end
     end
+    if next(selected_cards) then
+        table.sort(selected_cards, function (a, b) return a.T.x + a.T.w/2 < b.T.x + b.T.w/2 end)
+    end
     return selected_cards
 end
 
@@ -1289,6 +1456,7 @@ function Sagatro.set_ability_reset_keys()
         "anim_pos",
         "anim_transition_path",
         "in_transition",
+        "buffed",
     }
 end
 
@@ -1299,9 +1467,787 @@ function Sagatro.quip_filter(quip, quip_type)
     return true
 end
 
--- global mod `calculate` is cool, but not yet needed for now
 function Sagatro:calculate(context)
-    if G.GAME.story_mode then end
+    if G.GAME.story_mode then
+        if context.before and Sagatro.storyline_check("20k_miles_under_the_sea") then
+            G.jokers:unhighlight_all()
+        end
+        if context.end_of_round and context.main_eval then
+            for _, v in pairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
+                if v.ability.set == "Joker" and v.ability.immutable then
+                    if (v.ability.immutable.fish_round_tally or 0) > 0 then
+                        if v.ability.immutable.fish_round_tally == 1 then
+                            v.ability.immutable.fish_round_tally = nil
+                            v.ability.immutable.eaten_weight = nil
+                            v.ability.immutable.eaten_type = nil
+                            if v.ability.dolphin_high then
+                                v.ability.dolphin_high = nil
+                                v.ability.extra.xmult = v.ability.extra.xmult / 2
+                                v.ability.extra.xmult_mod = v.ability.extra.xmult_mod / 2
+                            end
+                            SMODS.calculate_effect({message = localize('k_depleted_ex'), colour = G.C.FILTER, delay = 0.45, no_retrigger = true}, v)
+                        else
+                            v.ability.immutable.fish_round_tally = (v.ability.immutable.fish_round_tally or 0) - 1
+                            SMODS.calculate_effect({message = localize{type='variable',key='a_remaining',vars={v.ability.immutable.fish_round_tally}}, colour = G.C.FILTER, delay = 0.45, no_retrigger = true}, v)
+                        end
+                    end
+                end
+            end
+        end
+        if context.after then
+            for _, v in pairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
+                if v.ability.set == "Joker" and v.ability.immutable then
+                    if (v.ability.immutable.fish_hand_tally or 0) > 0 then
+                        if v.ability.immutable.fish_hand_tally == 1 then
+                            v.ability.immutable.fish_hand_tally = nil
+                            v.ability.immutable.eaten_weight = nil
+                            v.ability.immutable.eaten_type = nil
+                            if v.ability.dolphin_high then
+                                v.ability.dolphin_high = nil
+                                v.ability.extra.xmult = v.ability.extra.xmult / 2
+                                v.ability.extra.xmult_mod = v.ability.extra.xmult_mod / 2
+                            end
+                            SMODS.calculate_effect({message = localize('k_depleted_ex'), colour = G.C.FILTER, delay = 0.45, no_retrigger = true}, v)
+                        else
+                            v.ability.immutable.fish_hand_tally = (v.ability.immutable.fish_hand_tally or 0) - 1
+                            SMODS.calculate_effect({message = localize{type='variable',key='a_remaining',vars={v.ability.immutable.fish_hand_tally}}, colour = G.C.FILTER, delay = 0.45, no_retrigger = true}, v)
+                        end
+                    end
+                end
+            end
+        end
+        if context.ante_change and context.ante_end then
+            G.GAME.fish_effect.no_reshuffle = nil
+            for _, v in pairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
+                if v.ability.set == "Joker" and v.ability.immutable then
+                    v.ability.immutable.no_reshuffle = nil
+                end
+            end
+        end
+    end
+    if context.ante_change and context.ante_end then
+        for _, v in pairs(G.GAME.hands) do
+            v.played_this_ante = 0
+        end
+    end
+end
+
+-- Implement fish joker behavior into Card.calculate_joker
+local calculate_joker_ref = Card.calculate_joker
+function Card:calculate_joker(context)
+    local o, t = calculate_joker_ref(self, context)
+    if self.ability.immutable and (self.ability.immutable.weight_level or 0) > 1 then
+        context.eaten_weight = self.ability.immutable.eaten_weight
+        context.eaten_type = self.ability.immutable.eaten_type
+        context.eaten_stack = self.ability.immutable.eaten_stack
+        local fish_o, fish_t = Sagatro.calculate_fish_joker(self, context)
+        context.eaten_weight = nil
+        context.eaten_type = nil
+        context.eaten_stack = nil
+        if fish_o then
+            o = SMODS.merge_effects{o or {}, fish_o}
+        end
+        if fish_t then
+            t = t or fish_t
+        end
+    end
+    return o, t
+end
+
+function Sagatro.calculate_fish_joker(card, context)
+    if (not context.eaten_weight and not context.eaten_stack) or context.blueprint or context.retrigger_joker then return end
+    if context.eaten_weight == 1 then
+        if context.eaten_type == 1 then
+            if context.first_hand_drawn then
+                local selected_cards = Sagatro.random_select("eaten_select11", G.hand, 3)
+                delay(0.15)
+                for i = 1, #selected_cards do
+                    local percent = 1.15 - (i - 0.999) / (#selected_cards - 0.998) * 0.3
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        delay = 0.15,
+                        func = function()
+                            selected_cards[i]:flip()
+                            play_sound('card1', percent)
+                            selected_cards[i]:juice_up(0.3, 0.3)
+                            return true
+                        end
+                    }))
+                end
+                for i = 1, #selected_cards do
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            local _card = selected_cards[i]
+                            assert(SMODS.change_base(_card, nil, "2"))
+                            return true
+                        end
+                    }))
+                end
+                delay(0.15)
+                for i = 1, #selected_cards do
+                    local percent = 0.85 + (i - 0.999) / (#selected_cards - 0.998) * 0.3
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        delay = 0.15,
+                        func = function()
+                            selected_cards[i]:flip()
+                            play_sound('tarot2', percent, 0.6)
+                            selected_cards[i]:juice_up(0.3, 0.3)
+                            save_run()
+                            return true
+                        end
+                    }))
+                end
+                delay(0.5)
+            end
+        elseif context.eaten_type == 2 then
+            if context.first_hand_drawn then
+                local selected_cards = Sagatro.random_select("eaten_select12", G.hand, 3)
+                delay(0.15)
+                for i = 1, #selected_cards do
+                    local percent = 1.15 - (i - 0.999) / (#selected_cards - 0.998) * 0.3
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        delay = 0.15,
+                        func = function()
+                            selected_cards[i]:flip()
+                            play_sound('card1', percent)
+                            selected_cards[i]:juice_up(0.3, 0.3)
+                            return true
+                        end
+                    }))
+                end
+                for i = 1, #selected_cards do
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            local _card = selected_cards[i]
+                            assert(SMODS.modify_rank(_card, -1))
+                            return true
+                        end
+                    }))
+                end
+                delay(0.15)
+                for i = 1, #selected_cards do
+                    local percent = 0.85 + (i - 0.999) / (#selected_cards - 0.998) * 0.3
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        delay = 0.15,
+                        func = function()
+                            selected_cards[i]:flip()
+                            play_sound('tarot2', percent, 0.6)
+                            selected_cards[i]:juice_up(0.3, 0.3)
+                            save_run()
+                            return true
+                        end
+                    }))
+                end
+                delay(0.5)
+            end
+        elseif context.eaten_type == 3 then
+            if context.before and context.scoring_name == "Pair" then
+                local ranks = {}
+                for _, v in ipairs(context.scoring_hand) do
+                    if not SMODS.has_no_rank(v) then
+                        ranks[v.config.card.value] = (ranks[v.config.card.value] or 0) + 1
+                    end
+                end
+                local max_count, rank = 0, nil
+                for k, v in pairs(ranks) do
+                    if max_count < v then max_count = v; rank = k end
+                end
+                local i = 1
+                local _card = context.scoring_hand[i]
+                while _card and SMODS.has_no_rank(_card)
+                and _card.config.card.value ~= rank do
+                    i = i + 1
+                    _card = context.scoring_hand[i]
+                end
+                local orig_card = _card
+                i = i + 1
+                _card = context.scoring_hand[i]
+                while _card and SMODS.has_no_rank(_card)
+                and _card.config.card.value ~= rank do
+                    i = i + 1
+                    _card = context.scoring_hand[i]
+                end
+                if _card then
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            _card:juice_up()
+                            assert(SMODS.change_base(_card, orig_card.base.suit, nil))
+                            return true
+                        end
+                    }))
+                    return {
+                        message = localize("k_smeared_ex"),
+                        colour = G.C.SUBMARINE_DEPTH[Sagatro.get_submarine_depth_colour()],
+                        no_retrigger = true,
+                    }
+                end
+            end
+        elseif context.eaten_type == 4 then
+            card.ability.immutable.eaten_weight = nil
+            card.ability.immutable.eaten_type = nil
+            card.ability.immutable.eaten_stack = (card.ability.immutable.eaten_stack or 0) + 1
+        elseif context.eaten_type == 5 then
+            if context.before and context.scoring_name == "High Card" then
+                local i = 1
+                local _card = context.scoring_hand[i]
+                while _card and SMODS.always_scores(_card) do
+                    i = i + 1
+                    _card = context.scoring_hand[i]
+                end
+                i = 1
+                _card = context.full_hand[i]
+                while _card and (SMODS.always_scores(_card) or table.contains(context.scoring_hand, _card)) do
+                    i = i + 1
+                    _card = context.full_hand[i]
+                end
+                if _card and _card.ability.set ~= "Enhanced" then
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            _card:juice_up()
+                            _card:set_ability(G.P_CENTERS[SMODS.poll_enhancement({guaranteed = true, key = 'eaten_enhancement15'})])
+                            return true
+                        end
+                    }))
+                    return {
+                        message = localize("k_enhanced_ex"),
+                        colour = G.C.SUBMARINE_DEPTH[Sagatro.get_submarine_depth_colour()],
+                        no_retrigger = true,
+                    }
+                end
+            end
+        end
+    elseif context.eaten_weight == 2 then
+        if context.eaten_type == 1 then
+            card.ability.immutable.eaten_weight = nil
+            card.ability.immutable.eaten_type = nil
+            card.ability.immutable.no_reshuffle = true
+            G.GAME.fish_effect.no_reshuffle = true
+        elseif context.eaten_type == 2 then
+            if context.before and #context.scoring_hand == 1 then
+                card.ability.triggered = true
+            end
+            if card.ability.triggered and context.repetition and context.cardarea == G.hand
+            and (next(context.card_effects[1]) or #context.card_effects > 1) then
+                if context.other_card == G.hand.cards[1] then
+                    return {
+                        message = localize("k_again_ex"),
+                        repetitions = 2,
+                        card = card,
+                    }
+                end
+            end
+            if context.after then
+                G.E_MANAGER:add_event(Event({func = function()
+                    card.ability.triggered = nil
+                return true end }))
+            end
+        elseif context.eaten_type == 3 then
+            if context.before and #context.scoring_hand == 2 then
+                card.ability.triggered = true
+            end
+            if card.ability.triggered and context.individual and context.cardarea == G.play then
+                return {mult = 8}
+            end
+            if context.after then
+                G.E_MANAGER:add_event(Event({func = function()
+                    card.ability.triggered = nil
+                return true end }))
+            end
+        elseif context.eaten_type == 4 then
+            if context.before and #context.scoring_hand == 3 then
+                local money = 6
+                ease_dollars(money)
+                G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + money
+                G.E_MANAGER:add_event(Event({
+                func = (function()
+                    G.GAME.dollar_buffer = 0
+                    return true
+                end)
+                }))
+                return {
+                    message = localize('$')..money,
+                    colour = G.C.MONEY,
+                }
+            end
+        elseif context.eaten_type == 5 then
+            if context.before and #context.scoring_hand == 4 then
+                card.ability.triggered = true
+            end
+            if card.ability.triggered and context.individual and context.cardarea == G.play then
+                return {xmult = 1.5}
+            end
+            if context.after then
+                G.E_MANAGER:add_event(Event({func = function()
+                    card.ability.triggered = nil
+                return true end }))
+            end
+        elseif context.eaten_type == 6 then
+            if context.before and #context.scoring_hand == 5 then
+                card.ability.triggered = true
+            end
+            if card.ability.triggered and context.individual and context.cardarea == G.play then
+                return {xmult = 1.4}
+            end
+            if context.after then
+                G.E_MANAGER:add_event(Event({func = function()
+                    card.ability.triggered = nil
+                return true end }))
+            end
+        end
+    elseif context.eaten_weight == 3 then
+        if context.eaten_type == 1 then
+            if context.hand_drawn then
+                G.hand:unhighlight_all()
+                local forced_cards = Sagatro.random_select("eaten_select31", G.hand, 1)
+                for _, _card in ipairs(forced_cards) do
+                    _card.ability.forced_selection = true
+                    G.hand:add_to_highlighted(_card)
+                end
+            end
+            if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
+                return {xmult = 1.5}
+            end
+        elseif context.eaten_type == 2 then
+            if context.hand_drawn then
+                G.hand:unhighlight_all()
+                local forced_cards = Sagatro.random_select("eaten_select32", G.hand, 2)
+                for _, _card in ipairs(forced_cards) do
+                    _card.ability.forced_selection = true
+                    G.hand:add_to_highlighted(_card)
+                end
+            end
+            if context.retrigger_joker_check and context.other_card == card then
+                return {
+                    message = localize("k_again_ex"),
+                    repetitions = 1,
+                    card = card,
+                }
+            end
+        elseif context.eaten_type == 3 then
+            if context.pre_discard and G.GAME.current_round.discards_used <= 0 and not context.hook then
+                local hand_type = G.FUNCS.get_poker_hand_info(G.hand.highlighted)
+                if to_big(G.GAME.hands[hand_type].level) > to_big(1) then
+                    SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, level_up_hand = hand_type, no_retrigger = true}, card)
+                    local _hand, _tally = nil, 0
+                    for k, v in ipairs(G.handlist) do
+                        if G.GAME.hands[v].visible and G.GAME.hands[v].played > _tally then
+                            _hand = v
+                            _tally = G.GAME.hands[v].played
+                        end
+                    end
+                    if _hand then
+                        SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
+                        SMODS.smart_level_up_hand(card, _hand)
+                    end
+                end
+            end
+        elseif context.eaten_type == 4 then
+            if context.pre_discard and #context.full_hand == 1
+            and G.GAME.current_round.discards_used <= 0 and not context.hook then
+                delay(0.15)
+                for i = 1, #context.full_hand do
+                    local percent = 1.15 - (i - 0.999) / (#context.full_hand - 0.998) * 0.3
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        delay = 0.15,
+                        func = function()
+                            context.full_hand[i]:flip()
+                            play_sound('card1', percent)
+                            context.full_hand[i]:juice_up(0.3, 0.3)
+                            return true
+                        end
+                    }))
+                end
+                for i = 1, #context.full_hand do
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            local _card = context.full_hand[i]
+                            if _card.ability.set ~= 'Enhanced' then
+                                _card:set_ability(G.P_CENTERS[SMODS.poll_enhancement({guaranteed = true, key = 'eaten_enhancement41'})])
+                            end
+                            if not _card.edition then
+                                _card:set_edition(poll_edition("eaten_edition41"))
+                            end
+                            if not _card.seal then
+                                _card:set_seal(SMODS.poll_seal{type_key = 'eaten_seal41'})
+                            end
+                            return true
+                        end
+                    }))
+                end
+                delay(0.15)
+                for i = 1, #context.full_hand do
+                    local percent = 0.85 + (i - 0.999) / (#context.full_hand - 0.998) * 0.3
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        delay = 0.15,
+                        func = function()
+                            context.full_hand[i]:flip()
+                            play_sound('tarot2', percent, 0.6)
+                            context.full_hand[i]:juice_up(0.3, 0.3)
+                            save_run()
+                            return true
+                        end
+                    }))
+                end
+                delay(0.5)
+            end
+        elseif context.eaten_type == 5 then
+            if context.pre_discard and G.GAME.current_round.discards_left <= 1
+            and #context.full_hand == 5 and not context.hook then
+                local selected_card = pseudorandom_element(context.full_hand, pseudoseed("eaten_select35"))
+                delay(0.15)
+                for i = 1, #context.full_hand do
+                    local percent = 1.15 - (i - 0.999) / (#context.full_hand - 0.998) * 0.3
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        delay = 0.15,
+                        func = function()
+                            context.full_hand[i]:flip()
+                            play_sound('card1', percent)
+                            context.full_hand[i]:juice_up(0.3, 0.3)
+                            return true
+                        end
+                    }))
+                end
+                for i = 1, #context.full_hand do
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            if G.hand.highlighted[i] ~= selected_card then
+                                copy_card(selected_card, G.hand.highlighted[i])
+                            end
+                            return true
+                        end
+                    }))
+                end
+                delay(0.15)
+                for i = 1, #context.full_hand do
+                    local percent = 0.85 + (i - 0.999) / (#context.full_hand - 0.998) * 0.3
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        delay = 0.15,
+                        func = function()
+                            context.full_hand[i]:flip()
+                            play_sound('tarot2', percent, 0.6)
+                            context.full_hand[i]:juice_up(0.3, 0.3)
+                            save_run()
+                            return true
+                        end
+                    }))
+                end
+                delay(0.5)
+            end
+        end
+    elseif context.eaten_weight == 4 then
+        if context.eaten_type == 1 then
+            if context.retrigger_joker_check and context.other_card == card then
+                return {
+                    message = localize("k_again_ex"),
+                    repetitions = 2,
+                    card = card,
+                }
+            end
+        elseif context.eaten_type == 2 then
+            if context.before then
+                local selected_card = pseudorandom_element(G.play.cards, pseudoseed("eaten_select52"))
+                delay(0.15)
+                for i = 1, #G.hand.cards do
+                    local percent = 1.15 - (i - 0.999) / (#G.hand.cards - 0.998) * 0.3
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        delay = 0.15,
+                        func = function()
+                            G.hand.cards[i]:flip()
+                            play_sound('card1', percent)
+                            G.hand.cards[i]:juice_up(0.3, 0.3)
+                            return true
+                        end
+                    }))
+                end
+                for i = 1, #G.hand.cards do
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            copy_card(selected_card, G.hand.cards[i])
+                            return true
+                        end
+                    }))
+                end
+                delay(0.15)
+                for i = 1, #G.hand.cards do
+                    local percent = 0.85 + (i - 0.999) / (#G.hand.cards - 0.998) * 0.3
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        delay = 0.15,
+                        func = function()
+                            G.hand.cards[i]:flip()
+                            play_sound('tarot2', percent, 0.6)
+                            G.hand.cards[i]:juice_up(0.3, 0.3)
+                            save_run()
+                            return true
+                        end
+                    }))
+                end
+                delay(0.5)
+            end
+        elseif context.eaten_type == 3 then
+            if context.end_of_round and context.main_eval then
+                local money = math.min(to_number(G.GAME.dollars), 1e300)
+                ease_dollars(money)
+                G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + money
+                G.E_MANAGER:add_event(Event({
+                func = (function()
+                    G.GAME.dollar_buffer = 0
+                    return true
+                end)
+                }))
+                return {
+                    message = "X2",
+                    colour = G.C.MONEY,
+                }
+            end
+        elseif context.eaten_type == 4 then
+            if context.after then
+                return {
+                    sgt_e_score = 1.05,
+                }
+            end
+        elseif context.eaten_type == 5 then
+            if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
+                return {
+                    sgt_e_mult = 1.1,
+                }
+            end
+        end
+    end
+    if context.joker_main and (context.eaten_stack or 0) > 0 then
+        return {
+            chips = 10*context.eaten_stack,
+            mult = 5*context.eaten_stack,
+        }
+    end
+end
+
+function Sagatro.process_edible_fish(card, context)
+    if context.setting_blind and not card.getting_sliced and not context.forcetrigger
+    and not context.blueprint and not context.retrigger_joker then
+        if card.area == G.consumeables then return end
+        local pos = nil
+        for i = 1, #G.jokers.cards do
+            if G.jokers.cards[i] == card then
+                pos = i
+                break
+            end
+        end
+        local jokers = {}
+        if pos then
+            if card.ability.immutable.target_offset then
+                jokers[#jokers+1] = G.jokers.cards[pos+card.ability.immutable.target_offset]
+            elseif card.ability.immutable.target == "leftmost" then
+                jokers[#jokers+1] = G.jokers.cards[1] ~= card and G.jokers.cards[1] or nil
+            elseif card.ability.immutable.target == "rightmost" then
+                jokers[#jokers+1] = G.jokers.cards[1] ~= card and G.jokers.cards[#G.jokers.cards] or nil
+            elseif card.ability.immutable.target_range == "leftward" then
+                for i = pos-1, 1, -1 do
+                    if not (SMODS.is_eternal(G.jokers.cards[i], card)
+                    and card.ability.immutable.eternal_block) then
+                        jokers[#jokers+1] = G.jokers.cards[i]
+                    else break end
+                end
+            elseif card.ability.immutable.target_range == "rightward" then
+                for i = pos-1, #G.jokers.cards do
+                    if not (SMODS.is_eternal(G.jokers.cards[i], card)
+                    and card.ability.immutable.eternal_block) then
+                        jokers[#jokers+1] = G.jokers.cards[i]
+                    else break end
+                end
+            elseif type(card.ability.immutable.target_range) == "table" then
+                local i_start, i_end = card.ability.immutable.target_range[1], card.ability.immutable.target_range[2]
+                for i = i_start, i_end do
+                    if i ~= 0 and not SMODS.is_eternal(G.jokers.cards[i], card) then
+                        jokers[#jokers+1] = G.jokers.cards[i]
+                    end
+                end
+            end
+        end
+        local edible_fish, weight_tally = {}, 1
+        for _, joker in ipairs(jokers) do
+            if not card.getting_sliced
+            and not SMODS.is_eternal(joker, card) and not joker.getting_sliced
+            and joker.ability.immutable and joker.ability.immutable.weight_level
+            and joker.ability.immutable.weight_level < card.ability.immutable.weight_level then
+                if weight_tally < joker.ability.immutable.weight_level then
+                    weight_tally = joker.ability.immutable.weight_level
+                end
+                edible_fish[#edible_fish+1] = joker
+            end
+        end
+        local dolphin_high
+        if #edible_fish > 0 then
+            G.GAME.joker_buffer = G.GAME.joker_buffer - #edible_fish
+            for _, fish in ipairs(edible_fish) do
+                fish.getting_sliced = true
+            end
+            G.E_MANAGER:add_event(Event({func = function()
+                G.GAME.joker_buffer = 0
+                card:juice_up(0.8, 0.8)
+                for _, fish in ipairs(edible_fish) do
+                    if card.config.center_key == "j_sgt_dolphin"
+                    and fish.config.center_key == "j_sgt_pufferfish" then
+                        dolphin_high = true
+                    end
+                    fish:start_dissolve({G.C.RED}, true, 1.6)
+                end
+                play_sound('sgt_swallow', 0.96+math.random()*0.08)
+                Sagatro.process_edible_weight(card, weight_tally)
+            return true end }))
+        end
+        if dolphin_high then
+            dolphin_high = nil
+            card.ability.dolphin_high = true
+            card.ability.extra.xmult = card.ability.extra.xmult * 2
+            card.ability.extra.xmult_mod = card.ability.extra.xmult_mod * 2
+        end
+    end
+end
+
+---@param weight_level 1|2|3|4
+function Sagatro.process_edible_weight(card, weight_level)
+    local roll = pseudorandom("fish_eating_weight")
+    local chosen_weight, chosen_type, options = nil, nil, {}
+    if weight_level == 1 then
+        chosen_weight = (roll < 0.99 and 1) --99%
+                     or 2                   -- 1%
+    elseif weight_level == 2 then
+        chosen_weight = (roll < 0.9  and 2) --90%
+                     or (roll < 0.99 and 1) -- 9%
+                     or 3                   -- 1%
+    elseif weight_level == 3 then
+        chosen_weight = (roll < 0.85 and 3) --85%
+                     or (roll < 0.95 and 2) --10%
+                     or (roll < 0.99 and 1) -- 4%
+                     or 4                   -- 1%
+    elseif weight_level == 4 then
+        chosen_weight = (roll < 0.8  and 4) --80%
+                     or (roll < 0.9  and 3) --10%
+                     or (roll < 0.99 and 2) -- 9%
+                     or 1                   -- 1%
+    end
+    if chosen_weight == 1 then
+        chosen_type = pseudorandom("fish_eating_type", 1, 5)
+        if chosen_type ~= 4 then
+            options = {round = true, duration = 3}
+        end
+    elseif chosen_weight == 2 then
+        chosen_type = pseudorandom("fish_eating_type", 1, 6)
+        if chosen_type ~= 1 then
+            options = {round = true, duration = 3}
+        end
+    elseif chosen_weight == 3 then
+        chosen_type = pseudorandom("fish_eating_type", 1, 5)
+        if chosen_type == 1 or chosen_type == 2 then
+            options = {hand = true, duration = 5}
+        elseif chosen_type == 3 or chosen_type == 4 then
+            options = {round = true, duration = 3}
+        elseif chosen_type == 5 then
+            options = {round = true, duration = 1}
+        end
+    elseif chosen_weight == 4 then
+        chosen_type = pseudorandom("fish_eating_type", 1, 5)
+        if chosen_type == 2 then
+            options = {hand = true, duration = 1}
+        else
+            options = {round = true, duration = 3}
+        end
+    end
+    card.ability.immutable.eaten_weight = chosen_weight
+    card.ability.immutable.eaten_type = chosen_type
+    card.ability.immutable.fish_round_tally = options.round and options.duration
+    card.ability.immutable.fish_hand_tally = options.hand and options.duration
+end
+
+function Sagatro.process_edible_state(card, eaten_object)
+    if card.ability.immutable.eaten_weight then return end
+    local source_weight = card.ability.immutable.weight_level
+    local target_weight = (eaten_object.ability.immutable or {}).weight_level
+    if not target_weight then
+        eaten_object:add_sticker("sgt_not_food", true)
+    elseif source_weight <= target_weight then
+        eaten_object:add_sticker("sgt_inedible", true)
+    elseif source_weight > target_weight then
+        eaten_object:add_sticker("sgt_edible", true)
+    end
+end
+
+function Sagatro.fish_loc_vars(info_queue, card)
+    if G.GAME.story_mode and not card.fake_card then
+        local _weight = card.ability.immutable.eaten_weight
+        local _type = card.ability.immutable.eaten_type
+        local _stack = card.ability.immutable.eaten_stack
+        local no_reshuffle = card.ability.immutable.no_reshuffle
+        local round_tally = card.ability.immutable.fish_round_tally
+        local hand_tally = card.ability.immutable.fish_hand_tally
+        if not _weight then
+            info_queue[#info_queue+1] = {
+                generate_ui = saga_tooltip,
+                set = "fish_effect",
+                key = "pending_swallow",
+                colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
+            }
+        elseif (_weight ~= 1 or _type ~= 4) and (_weight ~= 2 or _type ~= 1) then
+            info_queue[#info_queue+1] = {
+                generate_ui = saga_tooltip,
+                set = "fish_effect",
+                key = "weight".._weight.."_type".._type,
+                title = localize("fish_effect_active"),
+                specific_vars = {round_tally or hand_tally},
+                colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
+            }
+        end
+        if (_stack or 0) > 0 then
+            info_queue[#info_queue+1] = {
+                generate_ui = saga_tooltip,
+                set = "fish_effect",
+                key = "weight1_type4",
+                title = localize("fish_effect_stackable"),
+                specific_vars = {_stack},
+                colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
+            }
+        end
+        if no_reshuffle then
+            info_queue[#info_queue+1] = {
+                generate_ui = saga_tooltip,
+                set = "fish_effect",
+                key = "weight2_type1",
+                title = localize("fish_effect_active"),
+                colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
+            }
+        end
+    end
+end
+
+---@param mod number
+---@param operator "+"|"X"|"^"|nil
+---@param arbitrary boolean|nil
+function Sagatro.modify_score(mod, operator, arbitrary)
+    if not G.GAME.facing_blind then return end
+    operator = operator or "+"
+    if operator == "+" then
+        G.GAME.chips = to_big(G.GAME.chips + mod)
+    elseif operator == "X" then
+        G.GAME.chips = to_big(G.GAME.chips * mod)
+    elseif operator == "^" then
+        G.GAME.chips = to_big(G.GAME.chips ^ mod)
+    end
+    G.FUNCS.chip_UI_set(G.hand_text_area.game_chips)
+    G.hand_text_area.game_chips:juice_up()
+    if arbitrary and to_big(G.GAME.chips) > to_big(G.GAME.blind.chips) then
+        G.STATE = G.STATES.HAND_PLAYED
+        G.STATE_COMPLETE = true
+        end_round()
+    end
 end
 
 -- Ortalab Mythos UI - modified to be interative with Void Hole
@@ -1376,7 +2322,6 @@ local cie = SMODS.calculate_individual_effect
 function SMODS.calculate_individual_effect(effect, scored_card, key, amount, from_edition)
     local ret = cie(effect, scored_card, key, amount, from_edition)
     if ret then return ret end
-
     if (key == 'sgt_e_mult' or key == 'sgt_emult' or key == 'sgt_Emult_mod') and amount ~= 1 then
         if effect.card then juice_card(effect.card) end
         if SMODS.Scoring_Parameters then
@@ -1399,10 +2344,69 @@ function SMODS.calculate_individual_effect(effect, scored_card, key, amount, fro
         end
         return true
     end
+    if (key == 'sgt_a_score' or key == 'sgt_ascore' or key == 'sgt_Ascore_mod') then
+        if effect.card then juice_card(effect.card) end
+        G.E_MANAGER:add_event(Event({func = function()
+            Sagatro.modify_score(amount)
+        return true end}))
+        if not effect.remove_default_message then
+            if from_edition then
+                card_eval_status_text(scored_card, 'jokers', nil, percent, nil, {message = "+"..amount.." "..localize("k_score"), colour =  G.C.EDITION, edition = true})
+            elseif key ~= 'sgt_Ascore_mod' then
+                if effect.ascore_message then
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'extra', nil, percent, nil, effect.ascore_message)
+                else
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'sgt_a_score', amount, percent)
+                end
+            end
+        end
+        return true
+    end
+    if (key == 'sgt_x_score' or key == 'sgt_xscore' or key == 'sgt_Xscore_mod') then
+        if effect.card then juice_card(effect.card) end
+        G.E_MANAGER:add_event(Event({func = function()
+            Sagatro.modify_score(amount, "X")
+        return true end}))
+        if not effect.remove_default_message then
+            if from_edition then
+                card_eval_status_text(scored_card, 'jokers', nil, percent, nil, {message = "X"..amount.." "..localize("k_score"), colour =  G.C.EDITION, edition = true})
+            elseif key ~= 'sgt_Ascore_mod' then
+                if effect.xscore_message then
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'extra', nil, percent, nil, effect.xscore_message)
+                else
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'sgt_x_score', amount, percent)
+                end
+            end
+        end
+        return true
+    end
+    if (key == 'sgt_e_score' or key == 'sgt_escore' or key == 'sgt_Escore_mod') then
+        if effect.card then juice_card(effect.card) end
+        G.E_MANAGER:add_event(Event({func = function()
+            Sagatro.modify_score(amount, "^")
+        return true end}))
+        if not effect.remove_default_message then
+            if from_edition then
+                card_eval_status_text(scored_card, 'jokers', nil, percent, nil, {message = "^"..amount.." "..localize("k_score"), colour =  G.C.EDITION, edition = true})
+            elseif key ~= 'sgt_Escore_mod' then
+                if effect.escore_message then
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'extra', nil, percent, nil, effect.escore_message)
+                else
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'sgt_e_score', amount, percent)
+                end
+            end
+        end
+        return true
+    end
 end
 
 for _, v in ipairs{'sgt_e_mult','sgt_emult','sgt_Emult_mod'} do
     table.insert(SMODS.scoring_parameter_keys or SMODS.calculation_keys, v)
+end
+for _, v in ipairs{'sgt_a_score', 'sgt_ascore', 'sgt_Ascore_mod',
+                    'sgt_x_score', 'sgt_xscore', 'sgt_Xscore_mod',
+                    'sgt_e_score', 'sgt_escore', 'sgt_Escore_mod'} do
+    table.insert(SMODS.other_calculation_keys, v)
 end
 
 if Ortalab then

@@ -61,15 +61,15 @@ local streak = {
 				end,
 			}))
             local streak_seed, seal = pseudorandom("streak_gen"), nil
-            seal = (streak_seed < 0.003  and talisman and 9)
-                or (streak_seed < 0.01   and talisman and 8)
-                or (streak_seed < 0.02                and 7)
-                or (streak_seed < 0.05                and 6)
-                or (streak_seed < 0.15                and 5)
-                or (streak_seed < 0.25                and 4)
-                or (streak_seed < 0.45                and 3)
-                or (streak_seed < 0.7                 and 2)
-                or 1
+            seal = (streak_seed < 0.003  and talisman and 9)--0.3% (none without Talisman)
+                or (streak_seed < 0.01   and talisman and 8)--0.7% (none without Talisman)
+                or (streak_seed < 0.02                and 7)--  1% (2% without Talisman)
+                or (streak_seed < 0.05                and 6)--  3%
+                or (streak_seed < 0.15                and 5)-- 10%
+                or (streak_seed < 0.25                and 4)-- 10%
+                or (streak_seed < 0.45                and 3)-- 20%
+                or (streak_seed < 0.7                 and 2)-- 25%
+                or 1                                        -- 30%
 			G.E_MANAGER:add_event(Event({
 				trigger = "after",
 				delay = 0.1,
@@ -231,8 +231,50 @@ local protected = {
     end,
 }
 
+local edible = {
+    key = "sgt_edible",
+    name = "Edible",
+    atlas = "misc",
+    pos = {x = 3, y = 3},
+    hide_badge = true,
+    prefix_config = { key = false },
+    sets = { Joker = true },
+    no_collection = true,
+    no_sticker_sheet = true,
+    should_apply = false,
+}
+
+local inedible = {
+    key = "sgt_inedible",
+    name = "Inedible",
+    atlas = "misc",
+    pos = {x = 2, y = 3},
+    hide_badge = true,
+    prefix_config = { key = false },
+    sets = { Joker = true },
+    no_collection = true,
+    no_sticker_sheet = true,
+    should_apply = false,
+}
+
+local not_food = {
+    key = "sgt_not_food",
+    name = "Not Food",
+    atlas = "misc",
+    pos = {x = 1, y = 3},
+    hide_badge = true,
+    prefix_config = { key = false },
+    sets = { Joker = true },
+    no_collection = true,
+    no_sticker_sheet = true,
+    should_apply = false,
+}
+
 local sticker_table = {
     protected,
+    edible,
+    inedible,
+    not_food,
 }
 
 for _, v in ipairs(sticker_table) do

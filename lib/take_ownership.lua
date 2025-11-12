@@ -18,6 +18,8 @@ SMODS.Booster:take_ownership_by_kind('Buffoon', {
                 else
                     _card.key = "j_sgt_mock_turtle"
                 end
+            elseif Sagatro.event_check("finding_the_submarine") and i == 1 then
+                _card.key = "j_sgt_submarine"
             end
         end
         return _card

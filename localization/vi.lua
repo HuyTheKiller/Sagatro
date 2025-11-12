@@ -95,6 +95,13 @@ return {
                     "dùng Hãy Ăn Tôi!; Blind siêu lớn",
                 },
             },
+            bl_sgt_turquoise_jellyfish = {
+                name = "Turquoise Jellyfish",
+                text = {
+                    "Đợt bốc đầu tiên bị",
+                    "vô hiệu hoá vĩnh viễn",
+                },
+            },
         },
         Tag = {
             tag_sgt_holy = {
@@ -1457,6 +1464,7 @@ return {
                     "{X:mult,C:white}X#1#{} Nhân",
                     "{C:attention}Vô hiệu{} joker liền kề",
                     "bên ngoài shop",
+                    "{s:0.8}Ngoại trừ {s:0.8,C:attention}cá heo{s:0.8}...",
                 },
             },
             j_sgt_white_jellyfish = {
@@ -1775,7 +1783,6 @@ return {
                     "mỗi khi một lá {C:attention}May Mắn",
                     "kích {C:green}thành công",
                     "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
-                    "{C:inactive}(Hiệu ứng tạm thời)",
                 },
             },
             j_sgt_coelacanthiformes = {
@@ -2445,6 +2452,166 @@ return {
                 },
             },
         },
+        fish_effect = {
+            pending_swallow = {
+                text = {
+                    "Khi {C:attention}Blind{} được chọn, {C:attention}nuốt",
+                    "cá mục tiêu với {C:attention}cân nặng{} thấp hơn",
+                    "để nhận một {C:attention}hiệu ứng tạm thời",
+                    "nếu chưa có hiệu ứng nào",
+                    "{s:0.8,C:attention}Lia chuột{s:0.8} lên joker này để xem mục tiêu",
+                },
+            },
+            weight1_type1 = {
+                text = {
+                    "Biến đổi 3 {C:attention}lá ngẫu nhiên{} trong đợt",
+                    "bốc đầu tiên thành {C:attention}2{}, kéo dài 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight1_type2 = {
+                text = {
+                    "{C:attention}Giảm{} bậc của 3 {C:attention}lá ngẫu nhiên",
+                    "trong đợt bốc đầu tiên, kéo dài 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight1_type3 = {
+                text = {
+                    "Nếu tay đã chơi là {C:attention}Đôi{}, biến đổi",
+                    "chất của {C:attention}lá thứ hai{} thành",
+                    "chất của {C:attention}lá đầu tiên{}, kéo dài 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight1_type4 = {
+                text = {
+                    "{C:chips}+10{} Chip và",
+                    "{C:mult}+5{} Nhân mỗi tầng",
+                    "{C:inactive}(Số tầng: {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight1_type5 = {
+                text = {
+                    "Nếu tay đã chơi là {C:attention}Mậu Thầu{}, áp dụng",
+                    "một {C:attention}cường hoá{} ngẫu nhiên lên {C:attention}lá",
+                    "{C:attention}không ghi điểm đầu tiên{}, kéo dài 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight2_type1 = {
+                text = {
+                    "Lá đã chơi và đã bỏ {C:red}sẽ không",
+                    "trở về bộ bài cho đến {C:attention}cuối ante này",
+                },
+            },
+            weight2_type2 = {
+                text = {
+                    "Nếu tay đã chơi chứa {C:attention}1{} lá ghi điểm, tái kích lá",
+                    "giữ trên tay {C:attention}tít bên trái{} 2 lần, kéo dài 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight2_type3 = {
+                text = {
+                    "Nếu tay đã chơi chứa {C:attention}2{} lá ghi điểm, mỗi",
+                    "lá ghi điểm cho {C:mult}+8{} Nhân, kéo dài 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight2_type4 = {
+                text = {
+                    "Nếu tay đã chơi chứa {C:attention}3{} lá ghi điểm,",
+                    "nhận {C:money}$6{}, kéo dài 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight2_type5 = {
+                text = {
+                    "Nếu tay đã chơi chứa {C:attention}4{} lá ghi điểm, mỗi",
+                    "lá ghi điểm cho {X:mult,C:white}X1.5{} Nhân, kéo dài 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight2_type6 = {
+                text = {
+                    "Nếu tay đã chơi chứa {C:attention}5{} lá ghi điểm, mỗi",
+                    "lá ghi điểm cho {X:mult,C:white}X1.4{} Nhân, kéo dài 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight3_type1 = {
+                text = {
+                    "Ép chọn {C:attention}1{} lá mỗi tay bài, mỗi lá",
+                    "giữ trên tay cho {X:mult,C:white}X1.5{} Nhân, kéo dài 5 tay bài",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight3_type2 = {
+                text = {
+                    "Ép chọn {C:attention}2{} lá mỗi tay bài,",
+                    "{C:attention}tái kích{} joker này, kéo dài 5 tay bài",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight3_type3 = {
+                text = {
+                    "Chuyển 1 level từ {C:attention}tay poker bị bỏ đầu tiên{} của ván",
+                    "sang tay poker {C:attention}chơi nhiều nhất{}, kéo dài 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight3_type4 = {
+                text = {
+                    "Nếu lượt bỏ đầu tiên của ván chỉ có {C:attention}1{} lá,",
+                    "áp dụng một {C:attention}cường hoá{} ngẫu nhiên (đôi khi có",
+                    "{C:dark_edition}ấn bản{} và/hoặc {C:attention}con dấu{}) cho nó, kéo dài 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight3_type5 = {
+                text = {
+                    "{C:attention}Biến đổi{} những lá bị bỏ thành 1 lá bị bỏ ngẫu nhiên",
+                    "trong {C:attention}lượt bỏ cuối{} của ván, kéo dài 1 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight4_type1 = {
+                text = {
+                    "{C:attention}Tái kích{} joker này",
+                    "2 lần, kéo dài 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight4_type2 = {
+                text = {
+                    "{C:attention}Biến đổi{} mọi lá giữ trên tay thành",
+                    "một {C:attention}lá đã chơi{} ngẫu nhiên, kéo dài 1 tay bài",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight4_type3 = {
+                text = {
+                    "Nhân đôi số tiên hiện có",
+                    "ở cuối ván, kéo dài 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight4_type4 = {
+                text = {
+                    "{X:dark_edition,C:white}^1.05{} Điểm,",
+                    "kéo dài 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            weight4_type5 = {
+                text = {
+                    "Mỗi lá giữ trên tay cho",
+                    "{X:daark_edition}^1.1{} Nhân, kéo dài 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+        },
         Mod = {
             Sagatro = {
                 name = "Sagatro",
@@ -2524,7 +2691,9 @@ return {
             saga_tooltip = "Gợi ý tiến triển",
             saga_fusion_tooltip = "Kết hợp joker",
             saga_storyline_start = "Khởi động",
-            saga_ocean_tooltip = "Địa Điểm",
+            pending_swallow = "Nuốt Cá",
+            fish_effect_active = "Hiệu Ứng Hiện Tại",
+            fish_effect_stackable = "Hiệu Ứng Tích Tầng",
             sgt_roll0 = "Úi! Xúc Sắc Real",
             sgt_roll1 = "Số một",
             sgt_roll2 = "Số hai",
@@ -2584,9 +2753,13 @@ return {
             k_abducted_ex = "Đã Bắt Cóc!",
             k_repair_ex = "Sửa Chữa!",
             k_killed_ex = "Đã Giết!",
+            k_depleted_ex = "Cạn Kiệt!",
+            k_smeared_ex = "Nhoè!",
+            k_enhanced_ex = "Cường Hoá!",
             k_zzz = "ZZZ",
             k_charge = "Nạp",
             k_release = "Xả",
+            k_score = "Điểm",
             k_omniscient_ex = "Toàn Tri!",
             k_downgrade_ex = "Hạ Cấp!",
             k_consumed_ex = "Tiêu Thụ!",

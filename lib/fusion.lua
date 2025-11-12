@@ -272,37 +272,6 @@ function G.UIDEF.use_and_sell_buttons(card)
 	return retval
 end
 
-
-local updateref = Card.update
-function Card:update(dt)
-  updateref(self, dt)
-
-    if G.STAGE == G.STAGES.RUN then
-        if self:get_card_fusion() ~= nil then
-            self.ability.fusion = self.ability.fusion or {}
-
-            local my_fusion = self:get_card_fusion()
-            self.fusion_cost = my_fusion and my_fusion.cost or 0
-
-            if self:can_fuse_card() and not self.ability.fusion.jiggle then
-                juice_card_until(self, function(card) return (card:can_fuse_card()) end, true)
-
-                self.ability.fusion.jiggle = true
-            end
-
-            if not self:can_fuse_card() and self.ability.fusion.jiggle then
-                self.ability.fusion.jiggle = false
-            end
-        end
-		-- I really need to put hook stuff in proper places :sob:
-		if self.ability.gravistone_triggered and not SMODS.has_enhancement(self, "m_sgt_gravistone") then
-			self.ability.gravistone_triggered = nil
-			SMODS.change_play_limit(-1)
-            SMODS.change_discard_limit(-1)
-		end
-    end
-end
-
 local gsr = Game.start_run
 function Game:start_run(args)
 	gsr(self, args)

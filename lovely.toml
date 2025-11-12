@@ -108,7 +108,7 @@ else
 '''
 match_indent = true
 
-# Emult
+# Emult and score_mod
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
@@ -117,8 +117,36 @@ position = "after"
 payload = '''
 if eval_type == 'sgt_e_mult' then 
     sound = 'sgt_emult'
+    volume = 0.7
     amt = amt
     text = '^' .. amt .. " " .. localize("k_mult")
+    colour = G.C.DARK_EDITION
+    config.type = 'fade'
+    config.scale = 0.7
+end
+if eval_type == 'sgt_a_score' then 
+    sound = 'sgt_bell_score'
+    volume = 0.7
+    amt = amt
+    text = '+' .. amt .. " " .. localize("k_score")
+    colour = G.C.DARK_EDITION
+    config.type = 'fade'
+    config.scale = 0.7
+end
+if eval_type == 'sgt_x_score' then 
+    sound = 'sgt_bell_score'
+    volume = 0.7
+    amt = amt
+    text = 'X' .. amt .. " " .. localize("k_score")
+    colour = G.C.DARK_EDITION
+    config.type = 'fade'
+    config.scale = 0.7
+end
+if eval_type == 'sgt_e_score' then 
+    sound = 'sgt_bell_score'
+    volume = 0.7
+    amt = amt
+    text = '^' .. amt .. " " .. localize("k_score")
     colour = G.C.DARK_EDITION
     config.type = 'fade'
     config.scale = 0.7
@@ -153,7 +181,6 @@ pattern = '''--check the hand first'''
 position = 'after'
 match_indent = true
 payload = '''
-
 if G.jokers then
     for _, v in ipairs(G.jokers.cards) do
         if v.config.center.key == 'j_sgt_the_cook' and not v.debuff then
@@ -161,7 +188,6 @@ if G.jokers then
         end
     end
 end
-
 '''
 
 # Mad Hatter patches to disable Up the Ante
@@ -588,6 +614,32 @@ elseif v.set == 'Celestara' then
     end
 '''
 match_indent = true
+
+# No reshuffle fish effect (definitely ~~not~~ from Ortalab :P)
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+match_indent = true
+position = 'at'
+pattern = '''
+G.FUNCS.draw_from_discard_to_deck()
+'''
+payload = '''
+if G.GAME.round_resets.blind_states.Boss ~= 'Current' and G.GAME.fish_effect.no_reshuffle then
+else
+    G.FUNCS.draw_from_discard_to_deck()
+end
+'''
+# Increment played_this_ante for poker hands
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''G.GAME.hands[text].played_this_round = G.GAME.hands[text].played_this_round + 1'''
+position = 'after'
+match_indent = true
+payload = '''
+G.GAME.hands[text].played_this_ante = G.GAME.hands[text].played_this_ante + 1
+'''
 
 # Allow card.config.center.select_card to work the same as booster_obj.select_card
 # This regex patch will be removed in next SMODS release if Sagatro bumps dependency to that release
