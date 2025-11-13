@@ -442,6 +442,24 @@ end
 '''
 match_indent = true
 
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.GAME.round_resets.blind_choices.Boss = get_new_boss()'''
+position = "at"
+payload = '''
+if next(SMODS.find_card("j_sgt_ragnarok")) then
+  local small_hide = G.GAME.round_resets.blind_states.Small == 'Hide'
+  local big_hide = G.GAME.round_resets.blind_states.Big == 'Hide'
+  G.GAME.round_resets.blind_choices.Small = not small_hide and get_new_boss()
+  G.GAME.round_resets.blind_choices.Big = not big_hide and get_new_boss()
+  G.GAME.round_resets.blind_choices.Boss = Sagatro.get_new_showdown()
+else
+  G.GAME.round_resets.blind_choices.Boss = get_new_boss()
+end
+'''
+match_indent = true
+
 # Patches to make sure defeating bosses replacing Small/Big Blind won't increment Ante or reset blind states
 [[patches]]
 [patches.pattern]
