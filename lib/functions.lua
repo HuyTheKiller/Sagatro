@@ -2164,21 +2164,21 @@ function Sagatro.process_edible_weight(card, weight_level)
     local roll = pseudorandom("fish_eating_weight")
     local chosen_weight, chosen_type, options = nil, nil, {}
     if weight_level == 1 then
-        chosen_weight = (roll < 0.99 and 1) --99%
-                     or 2                   -- 1%
+        chosen_weight = (roll < 0.9  and 1) --90%
+                     or 2                   --10%
     elseif weight_level == 2 then
         chosen_weight = (roll < 0.9  and 2) --90%
-                     or (roll < 0.99 and 1) -- 9%
-                     or 3                   -- 1%
+                     or (roll < 0.93 and 1) -- 3%
+                     or 3                   -- 7%
     elseif weight_level == 3 then
-        chosen_weight = (roll < 0.85 and 3) --85%
-                     or (roll < 0.95 and 2) --10%
-                     or (roll < 0.99 and 1) -- 4%
-                     or 4                   -- 1%
+        chosen_weight = (roll < 0.9  and 3) --90%
+                     or (roll < 0.94 and 2) -- 4%
+                     or (roll < 0.95 and 1) -- 1%
+                     or 4                   -- 5%
     elseif weight_level == 4 then
-        chosen_weight = (roll < 0.8  and 4) --80%
-                     or (roll < 0.9  and 3) --10%
-                     or (roll < 0.99 and 2) -- 9%
+        chosen_weight = (roll < 0.9  and 4) --90%
+                     or (roll < 0.95 and 3) -- 5%
+                     or (roll < 0.99 and 2) -- 4%
                      or 1                   -- 1%
     end
     if chosen_weight == 1 then
