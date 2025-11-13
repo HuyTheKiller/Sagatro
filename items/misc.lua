@@ -242,6 +242,7 @@ local edible = {
     no_collection = true,
     no_sticker_sheet = true,
     should_apply = false,
+    draw = function(self, card, layer) end,
 }
 
 local inedible = {
@@ -255,6 +256,7 @@ local inedible = {
     no_collection = true,
     no_sticker_sheet = true,
     should_apply = false,
+    draw = function(self, card, layer) end,
 }
 
 local not_food = {
@@ -268,6 +270,7 @@ local not_food = {
     no_collection = true,
     no_sticker_sheet = true,
     should_apply = false,
+    draw = function(self, card, layer) end,
 }
 
 local sticker_table = {
