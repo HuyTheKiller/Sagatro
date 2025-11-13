@@ -1317,6 +1317,11 @@ function Sagatro.get_new_showdown()
     local _, boss = pseudorandom_element(eligible_bosses, pseudoseed('showdown'))
     G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] + 1
 
+    if Cartomancer then
+        G.GAME.cartomancer_bosses_list = G.GAME.cartomancer_bosses_list or {}
+        G.GAME.cartomancer_bosses_list[#G.GAME.cartomancer_bosses_list+1] = boss
+    end
+
     return boss
 end
 
