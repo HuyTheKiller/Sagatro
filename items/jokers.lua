@@ -5431,7 +5431,7 @@ local octopus = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
@@ -5559,7 +5559,7 @@ local squid = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
@@ -5883,7 +5883,7 @@ local green_turtle = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
@@ -6043,7 +6043,7 @@ local electric_eel = {
                     end
                     local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                     count = count + (joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                    and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                    and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                     and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0)
                     return count*JokerDisplay.calculate_joker_triggers(joker_card)
                 else
@@ -6377,7 +6377,7 @@ local blobfish = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
@@ -6696,7 +6696,7 @@ local dolphin = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
@@ -6820,7 +6820,7 @@ local coelacanthiformes = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
@@ -6904,7 +6904,7 @@ local sunfish = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
@@ -6988,7 +6988,7 @@ local moonfish = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
@@ -7141,7 +7141,7 @@ local swordfish = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
@@ -7245,7 +7245,7 @@ local penguin = {
                 end
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 count = held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or count
                 return count
             end,
@@ -7343,7 +7343,7 @@ local seal = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
@@ -7484,7 +7484,7 @@ local ray = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
@@ -7687,7 +7687,7 @@ local orca = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
@@ -7816,7 +7816,7 @@ local sperm_whale = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
@@ -8656,7 +8656,7 @@ local king_crab = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
@@ -8789,7 +8789,7 @@ local big_red_jelly = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
@@ -9324,7 +9324,7 @@ local colossal_squid = {
                 if held_in_hand then
                     local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                     count = count + (joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                    and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                    and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                     and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0)
                 end
                 return count
@@ -10435,7 +10435,7 @@ local mahimahi = {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
-                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
