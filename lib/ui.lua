@@ -148,6 +148,17 @@ G.FUNCS.submarine_up = function(e)
     submarine.ability.immutable.depth_level = math.max(submarine.ability.immutable.depth_level - 1, 1)
     G.GAME.submarine_movement_cooldown = true
     submarine:juice_up()
+    if submarine.ability.immutable.depth_level == 1 then
+        G.E_MANAGER:add_event(Event({func = function()
+            for _, v in ipairs(SMODS.find_card("j_sgt_blobfish")) do
+                local poof_text = function()
+                    card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_poof_ex'), instant = true, sound = 'tarot1'})
+                end
+                Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, poof_text)
+                SMODS.add_card{key = "j_sgt_ugly_blobfish"}
+            end
+        return true end }))
+    end
 end
 
 G.FUNCS.submarine_can_go_up = function(e)
