@@ -222,7 +222,7 @@ local smithing = {
 	end,
     in_pool = function(self, args)
         local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
-        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") then
+        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") and args.source == "spl" then
             return submarine.ability.immutable.armor_level + 1 == self.config.target_level
         end
         return false
@@ -264,7 +264,7 @@ local welding = {
 	end,
     in_pool = function(self, args)
         local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
-        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") then
+        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") and args.source == "spl" then
             return submarine.ability.immutable.armor_level + 1 == self.config.target_level
         end
         return false
@@ -306,7 +306,7 @@ local composite = {
 	end,
     in_pool = function(self, args)
         local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
-        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") then
+        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") and args.source == "spl" then
             return submarine.ability.immutable.armor_level + 1 == self.config.target_level
         end
         return false
@@ -348,7 +348,7 @@ local nanotech = {
 	end,
     in_pool = function(self, args)
         local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
-        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") then
+        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") and args.source == "spl" then
             return submarine.ability.immutable.armor_level + 1 == self.config.target_level
         end
         return false
