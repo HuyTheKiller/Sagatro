@@ -2073,7 +2073,7 @@ local mad_hatter = {
     end,
     loc_vars = function(self, info_queue, card)
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
-        and Sagatro.event_check("the_party"))
+        and not Sagatro.event_check("the_party", false))
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "mad_hatter"}
         end
