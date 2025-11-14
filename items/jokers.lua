@@ -5435,7 +5435,7 @@ local octopus = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -5563,7 +5563,7 @@ local squid = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -5887,7 +5887,7 @@ local green_turtle = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -6064,7 +6064,7 @@ local electric_eel = {
                 end
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -6381,7 +6381,7 @@ local blobfish = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -6700,7 +6700,7 @@ local dolphin = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -6824,7 +6824,7 @@ local coelacanthiformes = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -6908,7 +6908,7 @@ local sunfish = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -6992,7 +6992,7 @@ local moonfish = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -7145,7 +7145,7 @@ local swordfish = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -7250,7 +7250,7 @@ local penguin = {
                 return count
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -7347,7 +7347,7 @@ local seal = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -7488,7 +7488,7 @@ local ray = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -7691,7 +7691,7 @@ local orca = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -7820,7 +7820,7 @@ local sperm_whale = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -8660,7 +8660,7 @@ local king_crab = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -8793,7 +8793,7 @@ local big_red_jelly = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -9330,7 +9330,7 @@ local colossal_squid = {
                 return count
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
@@ -10439,7 +10439,7 @@ local mahimahi = {
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if card == retrigger_joker then
+                if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
                         return 1
                     elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
