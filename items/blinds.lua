@@ -102,10 +102,20 @@ local aqua_eyeshard = {
 		showdown = true,
 	},
     boss_colour = HEX("24B2CE"),
+    set_blind = function(self, reset, silent)
+        if not reset then
+            G.GAME.blind.hands = {}
+            for _, v in ipairs(G.handlist) do
+                G.GAME.blind.hands[v] = G.GAME.hands[v].played_this_ante > 0
+            end
+        end
+    end,
     debuff_hand = function(self, cards, hand, handname, check)
-        if G.GAME.hands[handname].played_this_ante > 0 then
+        if G.GAME.blind.hands[handname] then
+            G.GAME.blind.triggered = true
             return true
         end
+        if not check then G.GAME.blind.hands[handname] = true end
     end,
     defeat = function(self)
         if G.GAME.story_mode then
