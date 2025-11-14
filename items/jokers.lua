@@ -4237,7 +4237,12 @@ local clownfish = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -4326,7 +4331,12 @@ local blue_tang = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -4399,7 +4409,12 @@ local pufferfish = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -4506,7 +4521,12 @@ local white_jellyfish = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -4628,7 +4648,12 @@ local red_jellyfish = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -4746,7 +4771,12 @@ local queen_jellyfish = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -4835,7 +4865,12 @@ local mandarin_fish = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -4955,7 +4990,12 @@ local barracuda = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -5068,7 +5108,12 @@ local prawn = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -5156,7 +5201,12 @@ local john_dory = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -5260,7 +5310,12 @@ local octopus = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -5413,7 +5468,12 @@ local squid = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -5740,7 +5800,12 @@ local green_turtle = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -5904,7 +5969,12 @@ local electric_eel = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -6015,7 +6085,12 @@ local sea_angel = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -6134,7 +6209,12 @@ local stonefish = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -6232,7 +6312,12 @@ local blobfish = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -6543,7 +6628,12 @@ local dolphin = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -6653,7 +6743,12 @@ local coelacanthiformes = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -6748,7 +6843,12 @@ local sunfish = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -6827,7 +6927,12 @@ local moonfish = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -6971,7 +7076,12 @@ local swordfish = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -7069,7 +7179,12 @@ local penguin = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -7162,7 +7277,12 @@ local seal = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -7299,7 +7419,12 @@ local ray = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -7488,7 +7613,12 @@ local orca = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -7620,7 +7750,12 @@ local sperm_whale = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -7721,7 +7856,12 @@ local sea_urchin = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -7795,7 +7935,12 @@ local starfish = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -7955,7 +8100,12 @@ local shark = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -8015,7 +8165,12 @@ local lantern_fish = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -8075,7 +8230,12 @@ local nautilus = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -8260,7 +8420,12 @@ local stomiidae = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -8331,7 +8496,12 @@ local hermit_crab = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -8420,7 +8590,12 @@ local king_crab = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -8546,7 +8721,12 @@ local big_red_jelly = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -8703,7 +8883,12 @@ local narwhal = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -8786,7 +8971,12 @@ local seahorse = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -8969,7 +9159,12 @@ local goblin_shark = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -9056,7 +9251,12 @@ local colossal_squid = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -9254,7 +9454,12 @@ local chimaera = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -9323,7 +9528,12 @@ local dumbo_octopus = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -9427,7 +9637,12 @@ local atolla_wyvillei = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -9531,7 +9746,12 @@ local faceless_cusk = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -9605,7 +9825,12 @@ local brittle_star = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -9718,7 +9943,12 @@ local comb_jellyfish = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -9821,7 +10051,12 @@ local lobster = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -9904,7 +10139,12 @@ local fangtooth = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -10005,7 +10245,12 @@ local grenadier = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
@@ -10100,7 +10345,12 @@ local mahimahi = {
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
             if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+                local i_start, i_end = self.config.immutable.depth_range[1], self.config.immutable.depth_range[2]
+                for i = i_start, i_end do
+                    if i == submarine.ability.immutable.depth_level then
+                        return true
+                    end
+                end
             end
             return false
         end
