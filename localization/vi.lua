@@ -2874,8 +2874,6 @@ return {
                     "{C:attention}Chỉnh Sửa Ảnh{}: HuyTheKiller",
                     "{C:attention}Ý Tưởng{}: HuyCorn",
                     "{C:attention}Cân Bằng{}: HuyTheKiller, HuyCorn",
-                    " ",
-                    "Hiện đang ở bản demo.",
                 },
             },
         },

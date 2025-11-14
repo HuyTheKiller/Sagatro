@@ -2878,8 +2878,6 @@ return {
                     "{C:attention}Art Polishing{}: HuyTheKiller",
                     "{C:attention}Idea{}: HuyCorn",
                     "{C:attention}Balancing{}: HuyTheKiller, HuyCorn",
-                    " ",
-                    "Currently in demo.",
                 },
             },
         },
