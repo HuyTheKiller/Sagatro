@@ -4234,7 +4234,14 @@ local clownfish = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -4316,7 +4323,14 @@ local blue_tang = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -4382,7 +4396,14 @@ local pufferfish = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_dolphin
@@ -4482,7 +4503,14 @@ local white_jellyfish = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "white_jellyfish")
@@ -4597,7 +4625,14 @@ local red_jellyfish = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "red_jellyfish")
@@ -4708,7 +4743,14 @@ local queen_jellyfish = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "queen_jellyfish")
@@ -4790,7 +4832,14 @@ local mandarin_fish = {
         Sagatro.self_destruct(card, {no_sound = true}, extinct_text)
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -4903,7 +4952,14 @@ local barracuda = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -4962,7 +5018,14 @@ local school = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -5009,7 +5072,14 @@ local prawn = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -5090,7 +5160,14 @@ local john_dory = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -5187,7 +5264,14 @@ local octopus = {
         return other_joker_ret
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -5333,7 +5417,14 @@ local squid = {
         return other_joker_ret
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -5653,7 +5744,14 @@ local green_turtle = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -5810,7 +5908,14 @@ local electric_eel = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.electric_eel_info_queue_append(info_queue, Sagatro.electric_eel_info_queue)
@@ -5914,7 +6019,14 @@ local sea_angel = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -6026,7 +6138,14 @@ local stonefish = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.m_stone
@@ -6117,7 +6236,14 @@ local blobfish = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -6206,7 +6332,14 @@ local ugly_blobfish = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.xmult}}
@@ -6338,7 +6471,14 @@ local coral_kingdom = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.joker_count, card.ability.extra.chips, card.ability.extra.chip_mod}}
@@ -6418,7 +6558,14 @@ local dolphin = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -6521,7 +6668,14 @@ local coelacanthiformes = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.c_death
@@ -6609,7 +6763,14 @@ local sunfish = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -6681,7 +6842,14 @@ local moonfish = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -6818,7 +6986,14 @@ local swordfish = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -6909,7 +7084,14 @@ local penguin = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -6995,7 +7177,14 @@ local seal = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -7125,7 +7314,14 @@ local ray = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -7307,7 +7503,14 @@ local orca = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -7432,7 +7635,14 @@ local sperm_whale = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -7526,7 +7736,14 @@ local sea_urchin = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -7593,7 +7810,14 @@ local starfish = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -7746,7 +7970,14 @@ local shark = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -7799,7 +8030,14 @@ local lantern_fish = {
         G.GAME.sgt_obscure_mod = G.GAME.sgt_obscure_mod / card.ability.extra.rarity_mod
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -7852,7 +8090,14 @@ local nautilus = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -8030,7 +8275,14 @@ local stomiidae = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -8094,7 +8346,14 @@ local hermit_crab = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -8176,7 +8435,14 @@ local king_crab = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -8295,7 +8561,14 @@ local big_red_jelly = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -8445,7 +8718,14 @@ local narwhal = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -8521,7 +8801,14 @@ local seahorse = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.c_strength
@@ -8697,7 +8984,14 @@ local goblin_shark = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -8777,7 +9071,14 @@ local colossal_squid = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
@@ -8968,7 +9269,14 @@ local chimaera = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -9030,7 +9338,14 @@ local dumbo_octopus = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -9127,7 +9442,14 @@ local atolla_wyvillei = {
         G.GAME.sgt_obscure_mod = G.GAME.sgt_obscure_mod / card.ability.extra.rarity_mod
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -9224,7 +9546,14 @@ local faceless_cusk = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -9291,7 +9620,14 @@ local brittle_star = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -9397,7 +9733,14 @@ local comb_jellyfish = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         local _, count = Sagatro.check_suit_record(card.ability.extra, card.ability.suit_ge)
@@ -9493,7 +9836,14 @@ local lobster = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -9569,7 +9919,14 @@ local fangtooth = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         local text = card.ability.extra.stored_rank
@@ -9663,7 +10020,14 @@ local grenadier = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
@@ -9751,7 +10115,14 @@ local mahimahi = {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.find_card("j_sgt_submarine", true))
+        if G.GAME.story_mode then
+            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+            if submarine then
+                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
+            end
+            return false
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
