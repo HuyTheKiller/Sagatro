@@ -5373,6 +5373,15 @@ local octopus = {
                 }
             }
         end
+        return {
+            fish_vars = {
+                card.ability.immutable.depth_level,
+                self.rarity,
+                card.ability.immutable.depth_level,
+                card.ability.immutable.depth_range[1],
+                card.ability.immutable.depth_range[2],
+            }
+        }
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -5512,6 +5521,15 @@ local squid = {
                 }
             }
         end
+        return {
+            fish_vars = {
+                card.ability.immutable.depth_level,
+                self.rarity,
+                card.ability.immutable.depth_level,
+                card.ability.immutable.depth_range[1],
+                card.ability.immutable.depth_range[2],
+            }
+        }
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
