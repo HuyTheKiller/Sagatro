@@ -3936,8 +3936,8 @@ local submarine = {
     },
 	rarity = "sgt_obscure",
     cost = 14,
-    blueprint_compat = true,
-    demicoloncompat = true,
+    blueprint_compat = false,
+    demicoloncompat = false,
     eternal_compat = true,
     perishable_compat = false,
     set_ability = function(self, card, initial, delay_sprites)
