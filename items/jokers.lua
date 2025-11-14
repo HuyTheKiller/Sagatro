@@ -6326,10 +6326,6 @@ local ugly_blobfish = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
-            if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
-            end
             return false
         end
         return true
@@ -6464,13 +6460,6 @@ local coral_kingdom = {
         end
     end,
     in_pool = function(self, args)
-        if G.GAME.story_mode then
-            local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
-            if submarine then
-                return self.config.immutable.depth_level == submarine.ability.immutable.depth_level
-            end
-            return false
-        end
         return true
     end,
     loc_vars = function(self, info_queue, card)
