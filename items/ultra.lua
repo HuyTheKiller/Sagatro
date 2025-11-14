@@ -590,6 +590,15 @@ local concordia = {
         delay(0.6)
     end,
     loc_vars = function(self, info_queue, card)
+        if G.STAGE == G.STAGES.RUN then
+            card.ability.money = 0
+            for i = 1, #G.jokers.cards do
+                card.ability.money = card.ability.money + G.jokers.cards[i].cost
+            end
+            card.ability.money = math.min(card.ability.money, card.ability.max_money)
+        else
+            card.ability.money = 0
+        end
         return {vars = {card.ability.money, card.ability.max_money}}
     end,
 }
@@ -2819,8 +2828,14 @@ local crux_ansata = {
     cost = 6,
     config = {max_highlighted = 1},
     can_use = function(self, card)
-        return #G.jokers.highlighted > 0 and #G.jokers.highlighted <= card.ability.max_highlighted
+        local check = #G.jokers.highlighted > 0 and #G.jokers.highlighted <= card.ability.max_highlighted
         and #G.jokers.cards + #G.jokers.highlighted <= G.jokers.config.card_limit
+        if Sagatro.storyline_check("20k_miles_under_the_sea") then
+            for _, v in ipairs(G.jokers.highlighted) do
+                check = check and v.config.center_key ~= "j_sgt_submarine"
+            end
+        end
+        return check
     end,
     use = function(self, card, area, copier)
         local deletable_jokers = {}

@@ -20,6 +20,8 @@ SMODS.Booster:take_ownership_by_kind('Buffoon', {
                 end
             elseif Sagatro.event_check("finding_the_submarine") and i == 1 then
                 _card.key = "j_sgt_submarine"
+            elseif Sagatro.event_check("the_sub_engineer") and i == 1 then
+                _card.key = "j_sgt_sub_engineer"
             end
         end
         return _card
@@ -114,7 +116,7 @@ SMODS.Joker:take_ownership('splash',
 	true
 )
 
--- Make non-rerollable bosses not spawn Boss Tag
+-- Make non-rerollable bosses not spawn Boss Tag (yea, this somehow isn't working but it's fine)
 local boss_tag_in_pool = G.P_TAGS.tag_boss.in_pool
 SMODS.Tag:take_ownership('boss',
     {

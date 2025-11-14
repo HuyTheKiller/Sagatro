@@ -3842,7 +3842,7 @@ local lincoln_ship = {
     order = 31,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 0 },
-    config = {extra = {mult = 4}},
+    config = {extra = {mult = 8}},
 	rarity = 1,
     cost = 5,
     blueprint_compat = true,
@@ -3917,9 +3917,25 @@ local submarine = {
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 0 },
     extra_pos = { x = 0, y = 9 },
-    config = {immutable = {depth_level = 1, old_depth_level = 1, depth_list = {0, 100, 300, 750, 1600}}, extra = {chips = 0, chip_mod = 4}},
-	rarity = 3,
-    cost = 10,
+    config = {
+        immutable = {
+            depth_level = 1, old_depth_level = 1, armor_level = 1,
+            states = {
+                fuel_left = 5.0,
+                max_fuel = 10.0,
+                hunger_left = 5.0,
+                max_hunger = 10.0,
+            }
+        },
+        extra = {
+            joker_slot = 2, consumable_slot = 2, hand_size = 2,
+            joker_slot_story_mode = 0,
+            consumable_slot_story_mode = 1,
+            hand_size_story_mode = 0,
+        }
+    },
+	rarity = "sgt_obscure",
+    cost = 14,
     blueprint_compat = true,
     demicoloncompat = true,
     eternal_compat = true,
@@ -3931,36 +3947,59 @@ local submarine = {
         card.ability.in_transition = false
     end,
     calculate = function(self, card, context)
-        if context.individual and context.cardarea == G.play and not context.blueprint and not context.forcetrigger then
-            if not context.other_card.debuff then
-                card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
-                for i = 5, 1, -1 do
-                    if card.ability.extra.chips >= card.ability.immutable.depth_list[i] then
-                        card.ability.immutable.depth_level = i
-                        ease_background_colour_blind(G.STATE)
-                        break
+        if Sagatro.storyline_check(self.saga_group) then
+            if not (context.blueprint or context.retrigger_joker) then
+                if context.check_eternal and context.other_card == card then
+                    return {no_destroy = true}
+                end
+                if context.ante_change and context.ante_end then
+                    Sagatro.resolve_fuel(-1)
+                elseif context.reroll_shop then
+                    Sagatro.resolve_fuel(-0.2)
+                elseif context.open_booster or (context.buying_card and context.card.ability.set == "Voucher") then
+                    Sagatro.resolve_fuel(-0.1)
+                end
+                if context.after then
+                    G.E_MANAGER:add_event(Event({func = function()
+                        Sagatro.resolve_hunger(-0.1*#context.full_hand)
+                    return true end }))
+                elseif context.discard or (context.buying_card and context.card.ability.set ~= "Voucher") then
+                    Sagatro.resolve_hunger(-0.05)
+                end
+                if context.retrigger_joker_check
+                and card.ability.immutable.states.nourished then
+                    local leftmost_fish = nil
+                    for _, v in ipairs(G.jokers.cards) do
+                        if v.ability.immutable
+                        and v.ability.immutable.weight_level then
+                            leftmost_fish = v
+                            break
+                        end
+                    end
+                    if context.other_card == leftmost_fish then
+                        return {
+                            message = localize("k_again_ex"),
+                            repetitions = 1,
+                            card = card,
+                        }
                     end
                 end
-                return {
-                    extra = {focus = card, message = localize("k_submerge_ex")},
-                    colour = G.C.CHIPS,
-                    card = card
-                }
             end
-        end
-        if (context.joker_main or context.forcetrigger) and to_big(card.ability.extra.chips) > to_big(0) then
-            if context.forcetrigger then
-                card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
-            end
-            return {
-                chip_mod = card.ability.extra.chips,
-                message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
-            }
         end
     end,
     add_to_deck = function(self, card, from_debuff)
-        if G.GAME.story_mode and not from_debuff then
-            card:set_eternal(true)
+        if not G.GAME.story_mode then
+            G.jokers:change_size(card.ability.extra.joker_slot)
+            G.consumeables:change_size(card.ability.extra.consumable_slot)
+            G.hand:change_size(card.ability.extra.hand_size)
+        end
+        if Sagatro.storyline_check(self.saga_group) and not from_debuff then
+            G.GAME.supply_rate = 4
+            G.GAME.fish_vars = true
+            G.GAME.pending_fish_var_tooltip_removal = true
+            G.jokers:change_size(card.ability.extra.joker_slot_story_mode)
+            G.consumeables:change_size(card.ability.extra.consumable_slot_story_mode)
+            G.hand:change_size(card.ability.extra.hand_size_story_mode)
             Sagatro.progress_storyline("finding_the_submarine", "finish", self.saga_group, G.GAME.interwoven_storyline)
             G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
                 ease_background_colour_blind(G.STATE)
@@ -3968,7 +4007,15 @@ local submarine = {
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
-        if not from_debuff then
+        if not G.GAME.story_mode then
+            G.jokers:change_size(-card.ability.extra.joker_slot)
+            G.consumeables:change_size(-card.ability.extra.consumable_slot)
+            G.hand:change_size(-card.ability.extra.hand_size)
+        end
+        if Sagatro.storyline_check(self.saga_group) and not from_debuff then
+            G.jokers:change_size(-card.ability.extra.joker_slot_story_mode)
+            G.consumeables:change_size(-card.ability.extra.consumable_slot_story_mode)
+            G.hand:change_size(-card.ability.extra.hand_size_story_mode)
             G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
                 ease_background_colour_blind(G.STATE)
             return true end }))
@@ -3998,13 +4045,29 @@ local submarine = {
                 or card.ability.anim_pos.x == 11 then
                     card.ability.anim_pos.x = 0
                     card.ability.in_transition = false
+                    card.ability.transition_finished = true
                     card.ability.immutable.old_depth_level = card.ability.immutable.depth_level
+                    card.ability.anim_transition_path = card.ability.immutable.old_depth_level - card.ability.immutable.depth_level
                 else
                     card.ability.anim_pos.x = card.ability.anim_pos.x + 1
                 end
-                card.ability.anim_pos.y = (math.min(card.ability.immutable.old_depth_level, card.ability.immutable.depth_level) - 1)
+                local pending_up = 0
+                if card.ability.anim_transition_path ~= 0 then
+                    if card.ability.anim_transition_path > 0 and not card.ability.in_transition then
+                        pending_up = 1
+                    end
+                else
+                    if G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED and card.ability.transition_finished then
+                        card.ability.transition_finished = nil
+                        ease_background_colour_blind(G.STATE)
+                    end
+                end
+                card.ability.anim_pos.y = (math.min(card.ability.immutable.old_depth_level, card.ability.immutable.depth_level) - 1 + pending_up)
                 + (card.ability.in_transition and 5 or 0)
                 card.children.center:set_sprite_pos(card.ability.anim_pos)
+            end
+            if card.children.movement_buttons then
+                card.children.movement_buttons:recalculate()
             end
         end
     end,
@@ -4015,30 +4078,120 @@ local submarine = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.chips, card.ability.extra.chip_mod, card.ability.immutable.depth_level}}
+        card = card or SMODS.Center.create_fake_card(self)
+        local states = {"low_fuel", "high_fuel", "starvation", "nourished"}
+        for i = 1, #states do
+            if card.ability.immutable.states[states[i]] then
+                info_queue[#info_queue+1] = {set = "Other", key = "sgt_"..states[i]}
+            end
+        end
+        if G.GAME.submarine_movement_cooldown then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_movement_cooldown"}
+        end
+        local ret = {}
+        if G.GAME.story_mode then
+            ret.key = "j_sgt_submarine_storymode"
+            ret.vars = {
+                card.ability.immutable.states.fuel_left,
+                card.ability.immutable.states.max_fuel,
+                card.ability.immutable.states.hunger_left,
+                card.ability.immutable.states.max_hunger,
+                card.ability.immutable.depth_level,
+                card.ability.immutable.armor_level,
+                card.ability.extra.joker_slot_story_mode,
+                card.ability.extra.consumable_slot_story_mode,
+                card.ability.extra.hand_size_story_mode,
+                colours = {
+                    card.ability.immutable.states.low_fuel and G.C.RED
+                    or card.ability.immutable.states.high_fuel and G.C.GREEN
+                    or G.C.FILTER,
+                    card.ability.immutable.states.starvation and G.C.RED
+                    or card.ability.immutable.states.nourished and G.C.GREEN
+                    or G.C.FILTER,
+                    G.C.SUBMARINE_DEPTH[Sagatro.get_submarine_depth_colour()],
+                }
+            }
+        else
+            ret.vars = {card.ability.extra.joker_slot, card.ability.extra.consumable_slot, card.ability.extra.hand_size}
+        end
+        return ret
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
  	end,
     joker_display_def = function(JokerDisplay)
+        if not G.GAME.story_mode then return {} end
         return {
             text = {
-                { text = "+" },
-                { ref_table = "card.ability.extra", ref_value = "chips", retrigger_type = "mult" }
+                { ref_table = "card.ability.immutable.states", ref_value = "fuel_left", colour = G.C.FILTER },
+                { text = "/" },
+                { ref_table = "card.ability.immutable.states", ref_value = "max_fuel" },
+                { text = ", " },
+                { ref_table = "card.ability.immutable.states", ref_value = "hunger_left", colour = G.C.FILTER },
+                { text = "/" },
+                { ref_table = "card.ability.immutable.states", ref_value = "max_hunger" },
             },
-            reminder_text = {
-                { text = "(" },
-                { ref_table = "card.joker_display_values", ref_value = "localized_text" },
-                { text = ": " },
-                { ref_table = "card.ability.immutable", ref_value = "depth_level", colour = G.C.BLUE },
-                { text = ")" },
-            },
-            text_config = { colour = G.C.CHIPS },
-            calc_function = function(card)
-                card.joker_display_values.localized_text = localize("ph_depth_level")
+            text_config = { colour = G.C.UI.TEXT_INACTIVE },
+            style_function = function(card, text, reminder_text, extra)
+                if text and text.children[1] then
+                    text.children[1].config.colour = card.ability.immutable.states.low_fuel and G.C.RED
+                    or card.ability.immutable.states.high_fuel and G.C.GREEN or G.C.FILTER
+                end
+                if text and text.children[5] then
+                    text.children[5].config.colour = card.ability.immutable.states.starvation and G.C.RED
+                    or card.ability.immutable.states.nourished and G.C.GREEN or G.C.FILTER
+                end
+                return false
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                local leftmost_fish = nil
+                for _, v in ipairs(G.jokers.cards) do
+                    if v.ability.immutable
+                    and v.ability.immutable.weight_level then
+                        leftmost_fish = v
+                        break
+                    end
+                end
+                return card == leftmost_fish and retrigger_joker.ability.immutable.states.nourished and 1 or 0
             end,
         }
     end,
+}
+
+local sub_engineer = {
+    key = "sub_engineer",
+    name = "Sub Engineer",
+    atlas = "20k_miles_under_the_sea",
+    saga_group = "20k_miles_under_the_sea",
+    order = 33,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 1, y = 0 },
+    config = {amount = 1},
+	rarity = 2,
+    cost = 5,
+    blueprint_compat = false,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    add_to_deck = function(self, card, from_debuff)
+        SMODS.change_booster_limit(card.ability.amount)
+        Sagatro.progress_storyline("the_sub_engineer", "finish", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        SMODS.change_booster_limit(-card.ability.amount)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode then
+            return next(SMODS.find_card("j_sgt_submarine", true))
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.amount}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
 }
 
 local clownfish = {
@@ -4046,10 +4199,10 @@ local clownfish = {
     name = "Clownfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 33,
+    order = 35,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 5, y = 0 },
-    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {mult = 4}},
+    config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {mult = 4}},
 	rarity = 1,
     cost = 3,
     blueprint_compat = true,
@@ -4084,7 +4237,17 @@ local clownfish = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.mult}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.mult},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4121,7 +4284,7 @@ local blue_tang = {
     order = 34,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 6, y = 0 },
-    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {chips = 25}},
+    config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {chips = 25}},
 	rarity = 1,
     cost = 3,
     blueprint_compat = true,
@@ -4156,7 +4319,17 @@ local blue_tang = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.chips}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.chips},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4190,10 +4363,10 @@ local pufferfish = {
     name = "Pufferfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 35,
+    order = 36,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 1 },
-    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {xmult = 3}},
+    config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {xmult = 3}},
 	rarity = 2,
     cost = 5,
     blueprint_compat = true,
@@ -4213,7 +4386,17 @@ local pufferfish = {
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_dolphin
-        local ret = {vars = {card.ability.extra.xmult}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        local ret = {vars = {card.ability.extra.xmult},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
         if Ortalab then
             ret.main_end = {}
             localize{type = "other", key = "sgt_only_joker_area", nodes = ret.main_end, vars = {}}
@@ -4243,10 +4426,10 @@ local white_jellyfish = {
     name = "White Jellyfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 36,
+    order = 37,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 1 },
-    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {every = 2, xmult = 2.25, odds = 4}},
+    config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {every = 2, xmult = 2.25, odds = 4}},
     no_pool_flag = "white_jellyfish_pop",
 	rarity = 2,
     cost = 6,
@@ -4303,8 +4486,18 @@ local white_jellyfish = {
     end,
     loc_vars = function(self, info_queue, card)
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "white_jellyfish")
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
         return {vars = {card.ability.extra.xmult, card.ability.extra.every+1, n, d,
-        localize{type = 'variable', key = (card.ability.wj_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.wj_remaining or card.ability.extra.every}}}}
+        localize{type = 'variable', key = (card.ability.wj_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.wj_remaining or card.ability.extra.every}}},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4347,10 +4540,10 @@ local red_jellyfish = {
     name = "Red Jellyfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 37,
+    order = 38,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 1 },
-    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {every = 2, xmult = 4, odds = 32}},
+    config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 2}}, extra = {every = 2, xmult = 4, odds = 32}},
     yes_pool_flag = "white_jellyfish_pop",
     no_pool_flag = "red_jellyfish_pop",
 	rarity = 3,
@@ -4408,8 +4601,18 @@ local red_jellyfish = {
     end,
     loc_vars = function(self, info_queue, card)
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "red_jellyfish")
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
         return {vars = {card.ability.extra.xmult, card.ability.extra.every+1, n, d,
-        localize{type = 'variable', key = (card.ability.rj_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.rj_remaining or card.ability.extra.every}}}}
+        localize{type = 'variable', key = (card.ability.rj_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.rj_remaining or card.ability.extra.every}}},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4452,10 +4655,10 @@ local queen_jellyfish = {
     name = "Queen Jellyfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 38,
+    order = 39,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 1 },
-    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {every = 2, e_mult = 1.25, odds = 256}},
+    config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 3}}, extra = {every = 2, e_mult = 1.25, odds = 256}},
     yes_pool_flag = "red_jellyfish_pop",
 	rarity = "sgt_obscure",
     cost = 15,
@@ -4509,8 +4712,18 @@ local queen_jellyfish = {
     end,
     loc_vars = function(self, info_queue, card)
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "queen_jellyfish")
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
         return {vars = {card.ability.extra.e_mult, card.ability.extra.every+1, n, d,
-        localize{type = 'variable', key = (card.ability.qj_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.qj_remaining or card.ability.extra.every}}}}
+        localize{type = 'variable', key = (card.ability.qj_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {card.ability.qj_remaining or card.ability.extra.every}}},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4555,10 +4768,10 @@ local mandarin_fish = {
     name = "Mandarin Fish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 39,
+    order = 40,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 1 },
-    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {money = 75}},
+    config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {money = 75}},
     no_pool_flag = "mandarin_fish_extinct",
 	rarity = 3,
     cost = 7,
@@ -4580,7 +4793,17 @@ local mandarin_fish = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.money}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.money},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4599,10 +4822,10 @@ local barracuda = {
     name = "Barracuda",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 40,
+    order = 41,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 5, y = 1 },
-    config = {immutable = {depth_level = 1, weight_level = 2, target_offset = 1}, extra = {mult = 0, mult_mod = 10}},
+    config = {immutable = {depth_level = 1, weight_level = 2, depth_range = {1, 1}, target_offset = 1}, extra = {mult = 0, mult_mod = 10}},
     rarity = 2,
     cost = 6,
     blueprint_compat = true,
@@ -4683,7 +4906,17 @@ local barracuda = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4704,7 +4937,7 @@ local school = {
     name = "School Of Fish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 41,
+    order = 42,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 6, y = 1 },
     config = {},
@@ -4755,10 +4988,10 @@ local prawn = {
     name = "Sugpo Prawn",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 42,
+    order = 43,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 0, y = 2 },
-    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {money = 1}},
+    config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {money = 1}},
     rarity = 1,
     cost = 5,
     blueprint_compat = true,
@@ -4779,7 +5012,17 @@ local prawn = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.money}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.money},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4817,10 +5060,10 @@ local john_dory = {
     name = "John Dory",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 43,
+    order = 44,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 6, y = 3 },
-    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {money = 4}},
+    config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {money = 4}},
     rarity = 3,
     cost = 8,
     blueprint_compat = true,
@@ -4850,7 +5093,17 @@ local john_dory = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.money, localize("Jack", 'ranks'), localize("Diamonds", 'suits_plural')}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.money, localize("Jack", 'ranks'), localize("Diamonds", 'suits_plural')},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -4893,10 +5146,10 @@ local octopus = {
     name = "Octopus",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 44,
+    order = 45,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 3 },
-    config = {immutable = {depth_level = 2, weight_level = 3, target_offset = 1}},
+    config = {immutable = {depth_level = 2, weight_level = 3, depth_range = {1, 2}, target_offset = 1}},
     rarity = 3,
     cost = 10,
     blueprint_compat = true,
@@ -4938,6 +5191,9 @@ local octopus = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
         if card.area and (card.area == G.jokers or card.area == G.consumeables) then
             local other_joker
             for i = 1, #G.jokers.cards do
@@ -4975,7 +5231,15 @@ local octopus = {
                     }
                 }
             }
-            return { main_end = main_end }
+            return { main_end = main_end,
+                fish_vars = {
+                    card.ability.immutable.depth_level,
+                    self.rarity,
+                    card.ability.immutable.depth_level,
+                    card.ability.immutable.depth_range[1],
+                    card.ability.immutable.depth_range[2],
+                }
+            }
         end
     end,
     set_badges = function(self, card, badges)
@@ -4992,6 +5256,13 @@ local octopus = {
                 local copied_joker, copied_debuff = JokerDisplay.calculate_blueprint_copy(card)
                 card.joker_display_values.blueprint_compat = localize('k_incompatible')
                 JokerDisplay.copy_display(card, copied_joker, copied_debuff)
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
             end,
             get_blueprint_joker = function(card)
                 for i = 1, #G.jokers.cards do
@@ -5015,7 +5286,23 @@ local octopus = {
                     end
                 end
                 return nil
-            end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
+            end,
         }
     end,
 }
@@ -5025,10 +5312,10 @@ local squid = {
     name = "Squid",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 45,
+    order = 46,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 3 },
-    config = {immutable = {depth_level = 2, weight_level = 3, target = "leftmost"}},
+    config = {immutable = {depth_level = 2, weight_level = 3, depth_range = {1, 2}, target = "leftmost"}},
     rarity = 3,
     cost = 10,
     blueprint_compat = true,
@@ -5050,6 +5337,9 @@ local squid = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
         if card.area and (card.area == G.jokers or card.area == G.consumeables) then
             local compatible = G.jokers.cards[1] and G.jokers.cards[1] ~= card and
                 G.jokers.cards[1].config.center.blueprint_compat
@@ -5068,7 +5358,15 @@ local squid = {
                     }
                 }
             }
-            return { main_end = main_end }
+            return { main_end = main_end,
+                fish_vars = {
+                    card.ability.immutable.depth_level,
+                    self.rarity,
+                    card.ability.immutable.depth_level,
+                    card.ability.immutable.depth_range[1],
+                    card.ability.immutable.depth_range[2],
+                }
+            }
         end
     end,
     set_badges = function(self, card, badges)
@@ -5085,10 +5383,33 @@ local squid = {
                 local copied_joker, copied_debuff = JokerDisplay.calculate_blueprint_copy(card)
                 card.joker_display_values.blueprint_compat = localize('k_incompatible')
                 JokerDisplay.copy_display(card, copied_joker, copied_debuff)
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
             end,
             get_blueprint_joker = function(card)
                 return G.jokers.cards[1]
-            end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
+            end,
         }
     end,
 }
@@ -5098,7 +5419,7 @@ local turtle_egg = {
     name = "Turtle Egg",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 46,
+    order = 47,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 1, y = 2 },
     config = {extra = {sell_value_mod = 3, odds = 15, sell_odds = 30}},
@@ -5212,7 +5533,7 @@ local baby_turtle = {
     name = "Baby Turtle",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 47,
+    order = 48,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 2 },
     config = {extra = {xmult = 2}},
@@ -5298,10 +5619,10 @@ local green_turtle = {
     name = "Green Turtle",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 48,
+    order = 49,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 2 },
-    config = {immutable = {depth_level = 2, weight_level = 3, target = "rightmost"}, extra = {xmult = 1.5}},
+    config = {immutable = {depth_level = 2, weight_level = 3, depth_range = {1, 2}, target = "rightmost"}, extra = {xmult = 1.5}},
     yes_pool_flag = "mature_turtle",
     rarity = 3,
     cost = 8,
@@ -5336,7 +5657,17 @@ local green_turtle = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
-        return {vars = {card.ability.extra.xmult}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.xmult},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -5367,6 +5698,29 @@ local green_turtle = {
                     end
                 end
                 card.joker_display_values.xmult = card.ability.extra.xmult ^ count
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
             end,
         }
     end
@@ -5377,10 +5731,10 @@ local electric_eel = {
     name = "Electric Eel",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 49,
+    order = 50,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 2 },
-    config = {immutable = {depth_level = 4, weight_level = 3, target_offset = -1}, extra = {}},
+    config = {immutable = {depth_level = 4, weight_level = 3, depth_range = {3, 4}, target_offset = -1}, extra = {}},
     rarity = 2,
     cost = 6,
     blueprint_compat = true,
@@ -5461,12 +5815,33 @@ local electric_eel = {
     loc_vars = function(self, info_queue, card)
         Sagatro.electric_eel_info_queue_append(info_queue, Sagatro.electric_eel_info_queue)
         Sagatro.fish_loc_vars(info_queue, card)
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {
+            fish_vars = {
+                card.ability.immutable.depth_level,
+                self.rarity,
+                card.ability.immutable.depth_level,
+                card.ability.immutable.depth_range[1],
+                card.ability.immutable.depth_range[2],
+            }
+        }
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
  	end,
     joker_display_def = function(JokerDisplay)
         return {
+            calc_function = function(card)
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if held_in_hand then
                     local count = 0
@@ -5480,6 +5855,10 @@ local electric_eel = {
                             end
                         end
                     end
+                    local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                    count = count + (joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                    and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                    and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0)
                     return count*JokerDisplay.calculate_joker_triggers(joker_card)
                 else
                     local count = 0
@@ -5498,6 +5877,16 @@ local electric_eel = {
                     return count*JokerDisplay.calculate_joker_triggers(joker_card)
                 end
             end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
+            end,
         }
     end,
 }
@@ -5507,10 +5896,10 @@ local sea_angel = {
     name = "Sea Angel",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 50,
+    order = 51,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 4 },
-    config = {type = "Three of a Kind", immutable = {depth_level = 5, weight_level = 1}, extra = {e_mult = 1.23}},
+    config = {type = "Three of a Kind", immutable = {depth_level = 5, weight_level = 1, depth_range = {1, 5}}, extra = {e_mult = 1.23}},
     rarity = "sgt_obscure",
     cost = 12,
     blueprint_compat = true,
@@ -5528,7 +5917,17 @@ local sea_angel = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.e_mult, localize(card.ability.type, 'poker_hands')}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.e_mult, localize(card.ability.type, 'poker_hands')},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -5561,10 +5960,10 @@ local stonefish = {
     name = "Stonefish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 51,
+    order = 52,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 4 },
-    config = {immutable = {depth_level = 1, weight_level = 1}},
+    config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 2}}},
     rarity = 2,
     cost = 6,
     blueprint_compat = false,
@@ -5631,6 +6030,18 @@ local stonefish = {
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.m_stone
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {
+            fish_vars = {
+                card.ability.immutable.depth_level,
+                self.rarity,
+                card.ability.immutable.depth_level,
+                card.ability.immutable.depth_range[1],
+                card.ability.immutable.depth_range[2],
+            }
+        }
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -5642,10 +6053,10 @@ local blobfish = {
     name = "Blobfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 52,
+    order = 53,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 5, y = 2 },
-    config = {immutable = {depth_level = 5, weight_level = 2, target_offset = -1}, extra = {mult = 0, mult_mod = 3}},
+    config = {immutable = {depth_level = 5, weight_level = 2, depth_range = {4, 5}, target_offset = -1}, extra = {mult = 0, mult_mod = 3}},
     rarity = 1,
     cost = 5,
     blueprint_compat = true,
@@ -5710,7 +6121,17 @@ local blobfish = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
-        return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -5722,6 +6143,31 @@ local blobfish = {
                 { ref_table = "card.ability.extra", ref_value = "mult", retrigger_type = "mult" }
             },
             text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
+            end,
         }
     end,
 }
@@ -5731,7 +6177,7 @@ local ugly_blobfish = {
     name = "Ugly Blobfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 53,
+    order = 54,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 6, y = 2 },
     config = {extra = {xmult = 5}},
@@ -5799,7 +6245,7 @@ local coral_kingdom = {
     name = "Coral Kingdom",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 54,
+    order = 55,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 4 },
     config = {extra = {joker_count = 2, chips = 0, chip_mod = 15}},
@@ -5916,10 +6362,10 @@ local dolphin = {
     name = "Dolphin",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 55,
+    order = 56,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 3 },
-    config = {immutable = {depth_level = 3, weight_level = 3, target_offset = 1}, extra = {xmult = 1, xmult_mod = 0.2}},
+    config = {immutable = {depth_level = 3, weight_level = 3, depth_range = {1, 3}, target_offset = 1}, extra = {xmult = 1, xmult_mod = 0.2}},
     rarity = 2,
     cost = 6,
     blueprint_compat = true,
@@ -5976,7 +6422,17 @@ local dolphin = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
-        return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -5987,13 +6443,35 @@ local dolphin = {
                 {
                     border_nodes = {
                         { text = "X" },
-                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                        { ref_table = "card.ability.extra", ref_value = "xmult", retrigger_type = "exp" }
                     }
                 }
             },
             calc_function = function(card)
-                card.joker_display_values.xmult = card.ability.extra.xmult -- More on this later
-            end
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
+            end,
         }
     end,
 }
@@ -6003,10 +6481,10 @@ local coelacanthiformes = {
     name = "Coelacanthiformes",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 56,
+    order = 57,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 3 },
-    config = {immutable = {depth_level = 3, weight_level = 3, target_offset = -1}, extra = {}},
+    config = {immutable = {depth_level = 3, weight_level = 3, depth_range = {2, 3}, target_offset = -1}, extra = {}},
     rarity = 3,
     cost = 7,
     blueprint_compat = false,
@@ -6048,7 +6526,17 @@ local coelacanthiformes = {
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.c_death
         Sagatro.fish_loc_vars(info_queue, card)
-        return {vars = {localize{type = 'name_text', set = "Tarot", key = "c_death", nodes = {}}}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {localize{type = 'name_text', set = "Tarot", key = "c_death", nodes = {}}},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -6065,6 +6553,13 @@ local coelacanthiformes = {
                 and G.GAME.current_round.discards_left > 0
                 card.joker_display_values.death_count = card.joker_display_values.active
                 and is_discarding_one_card and ("+" .. (is_four and 1 or 0)) or "-"
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
             end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[1] then
@@ -6072,7 +6567,23 @@ local coelacanthiformes = {
                     and G.C.SECONDARY_SET.Tarot or G.C.UI.TEXT_INACTIVE
                 end
                 return false
-            end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
+            end,
         }
     end
 }
@@ -6082,10 +6593,10 @@ local sunfish = {
     name = "Sunfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 57,
+    order = 58,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 3 },
-    config = {immutable = {depth_level = 1, weight_level = 4, target_offset = 1}, extra = {}},
+    config = {immutable = {depth_level = 1, weight_level = 4, depth_range = {1, 3}, target_offset = 1}, extra = {}},
     rarity = 1,
     cost = 4,
     blueprint_compat = false,
@@ -6102,9 +6613,50 @@ local sunfish = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {
+            fish_vars = {
+                card.ability.immutable.depth_level,
+                self.rarity,
+                card.ability.immutable.depth_level,
+                card.ability.immutable.depth_range[1],
+                card.ability.immutable.depth_range[2],
+            }
+        }
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            calc_function = function(card)
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
+            end,
+        }
     end,
 }
 
@@ -6113,10 +6665,10 @@ local moonfish = {
     name = "Moonfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 58,
+    order = 59,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 5, y = 3 },
-    config = {immutable = {depth_level = 1, weight_level = 3, target_offset = -1}, extra = {}},
+    config = {immutable = {depth_level = 1, weight_level = 3, depth_range = {1, 3}, target_offset = -1}, extra = {}},
     rarity = 1,
     cost = 4,
     blueprint_compat = false,
@@ -6133,10 +6685,51 @@ local moonfish = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {
+            fish_vars = {
+                card.ability.immutable.depth_level,
+                self.rarity,
+                card.ability.immutable.depth_level,
+                card.ability.immutable.depth_range[1],
+                card.ability.immutable.depth_range[2],
+            }
+        }
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
  	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            calc_function = function(card)
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
+            end,
+        }
+    end
 }
 
 local swordfish = {
@@ -6144,10 +6737,10 @@ local swordfish = {
     name = "Swordfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 59,
+    order = 60,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 4 },
-    config = {immutable = {depth_level = 1, weight_level = 3, target_range = "leftward", eternal_block = true}, extra = {chips = 0, chip_mod = 24, chip_mod_mod = 3}},
+    config = {immutable = {depth_level = 1, weight_level = 3, depth_range = {1, 3}, target_range = "leftward", eternal_block = true}, extra = {chips = 0, chip_mod = 24, chip_mod_mod = 3}},
     rarity = 2,
     cost = 6,
     blueprint_compat = true,
@@ -6229,7 +6822,17 @@ local swordfish = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
-        return {vars = {card.ability.extra.chips, card.ability.extra.chip_mod, card.ability.extra.chip_mod_mod}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.chips, card.ability.extra.chip_mod, card.ability.extra.chip_mod_mod},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -6241,6 +6844,31 @@ local swordfish = {
                 { ref_table = "card.ability.extra", ref_value = "chips", retrigger_type = "mult" }
             },
             text_config = { colour = G.C.CHIPS },
+            calc_function = function(card)
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
+            end,
         }
     end,
 }
@@ -6250,10 +6878,10 @@ local penguin = {
     name = "Penguin",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 60,
+    order = 61,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 5, y = 4 },
-    config = {immutable = {depth_level = 1, weight_level = 2, target = "rightmost"}, extra = {times = 2}},
+    config = {immutable = {depth_level = 1, weight_level = 2, depth_range = {1, 3}, target = "rightmost"}, extra = {times = 2}},
     rarity = 1,
     cost = 5,
     blueprint_compat = true,
@@ -6285,10 +6913,57 @@ local penguin = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {
+            fish_vars = {
+                card.ability.immutable.depth_level,
+                self.rarity,
+                card.ability.immutable.depth_level,
+                card.ability.immutable.depth_range[1],
+                card.ability.immutable.depth_range[2],
+            }
+        }
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
  	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            calc_function = function(card)
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local count = 0
+                if not held_in_hand then
+                    count = not G.GAME.first_hand_played and G.GAME.current_round.discards_used == 0
+                    and joker_card.ability.extra.times or 0
+                end
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                count = held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or count
+                return count
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
+            end,
+        }
+    end,
 }
 
 local seal = {
@@ -6296,10 +6971,10 @@ local seal = {
     name = "Seal",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 61,
+    order = 62,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 6, y = 4 },
-    config = {immutable = {depth_level = 1, weight_level = 3, target_offset = -1}, type = "Flush"},
+    config = {immutable = {depth_level = 1, weight_level = 3, depth_range = {1, 4}, target_offset = -1}, type = "Flush"},
     rarity = 2,
     cost = 6,
     blueprint_compat = false,
@@ -6324,7 +6999,17 @@ local seal = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
-        return {vars = {localize(card.ability.type, 'poker_hands')}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {localize(card.ability.type, 'poker_hands')},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -6338,7 +7023,30 @@ local seal = {
             },
             calc_function = function(card)
                 card.joker_display_values.localized_text = localize(card.ability.type, 'poker_hands')
-            end
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
+            end,
         }
     end,
 }
@@ -6348,10 +7056,10 @@ local ray = {
     name = "Ray",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 62,
+    order = 63,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 5 },
-    config = {immutable = {depth_level = 2, weight_level = 3, target_offset = -1}, extra = {mult = 0, base_mult = 11}},
+    config = {immutable = {depth_level = 2, weight_level = 3, depth_range = {1, 3}, target_offset = -1}, extra = {mult = 0, base_mult = 11}},
     rarity = 2,
     cost = 7,
     blueprint_compat = true,
@@ -6421,7 +7129,17 @@ local ray = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
-        return {vars = {card.ability.extra.mult, card.ability.extra.base_mult}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.mult, card.ability.extra.base_mult},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -6433,6 +7151,31 @@ local ray = {
                 { ref_table = "card.ability.extra", ref_value = "mult", retrigger_type = "mult" }
             },
             text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
+            end,
         }
     end,
 }
@@ -6442,10 +7185,10 @@ local orca = {
     name = "Orca",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 63,
+    order = 64,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 5 },
-    config = {immutable = {depth_level = 3, weight_level = 4, target_offset = -1}, extra = {xmult = 1, found_add = 0.3, unfound_sub = 0.15, target_rank = "Ace", target_id = 14}},
+    config = {immutable = {depth_level = 3, weight_level = 4, depth_range = {1, 3}, target_offset = -1}, extra = {xmult = 1, found_add = 0.3, unfound_sub = 0.15, target_rank = "Ace", target_id = 14}},
     rarity = 3,
     cost = 9,
     blueprint_compat = true,
@@ -6568,7 +7311,17 @@ local orca = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
-        return {vars = {card.ability.extra.xmult, card.ability.extra.found_add, card.ability.extra.unfound_sub, localize(card.ability.extra.target_rank, "ranks")}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.xmult, card.ability.extra.found_add, card.ability.extra.unfound_sub, localize(card.ability.extra.target_rank, "ranks")},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -6590,6 +7343,29 @@ local orca = {
             },
             calc_function = function(card)
                 card.joker_display_values.localized_text = localize(card.ability.extra.target_rank, "ranks")
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
             end,
         }
     end,
@@ -6600,10 +7376,10 @@ local sperm_whale = {
     name = "Sperm Whale",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 64,
+    order = 65,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 5 },
-    config = {immutable = {depth_level = 4, weight_level = 5, target_range = "leftward", eternal_block = true}, extra = {poker_hand = "High Card", amount = 5}},
+    config = {immutable = {depth_level = 4, weight_level = 5, depth_range = {3, 4}, target_range = "leftward", eternal_block = true}, extra = {poker_hand = "High Card", amount = 5}},
     rarity = "sgt_obscure",
     cost = 12,
     blueprint_compat = true,
@@ -6660,7 +7436,17 @@ local sperm_whale = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
-        return {vars = {card.ability.extra.poker_hand, card.ability.extra.amount}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.poker_hand, card.ability.extra.amount},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -6674,6 +7460,29 @@ local sperm_whale = {
             },
             calc_function = function(card)
                 card.joker_display_values.poker_hand = localize(card.ability.extra.poker_hand, 'poker_hands')
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
             end,
         }
     end,
@@ -6684,10 +7493,10 @@ local sea_urchin = {
     name = "Sea Urchin",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 65,
+    order = 66,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 5 },
-    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {odds = 15}},
+    config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 2}}, extra = {odds = 15}},
     rarity = 1,
     cost = 3,
     blueprint_compat = false,
@@ -6720,7 +7529,17 @@ local sea_urchin = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "sea_urchin")}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "sea_urchin")},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -6747,10 +7566,10 @@ local starfish = {
     name = "Starfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 66,
+    order = 67,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 5 },
-    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {chips = 15}},
+    config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {chips = 15}},
     rarity = 1,
     cost = 4,
     blueprint_compat = true,
@@ -6777,7 +7596,17 @@ local starfish = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.chips*(card.ability.five_tally or 0), card.ability.extra.chips}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.chips*(card.ability.five_tally or 0), card.ability.extra.chips},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -6801,10 +7630,10 @@ local shark = {
     name = "Shark",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 67,
+    order = 68,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 5, y = 5 },
-    config = {immutable = {depth_level = 1, weight_level = 4, target_range = {-2, -1}}, extra = {chips = 0, eat_add = 25, eor_sub = 25}},
+    config = {immutable = {depth_level = 1, weight_level = 4, depth_range = {1, 3}, target_range = {-2, -1}}, extra = {chips = 0, eat_add = 25, eor_sub = 25}},
     rarity = 2,
     cost = 4,
     blueprint_compat = true,
@@ -6920,7 +7749,17 @@ local shark = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.chips, card.ability.extra.eat_add, card.ability.extra.eor_sub}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.chips, card.ability.extra.eat_add, card.ability.extra.eor_sub},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -6941,10 +7780,10 @@ local lantern_fish = {
     name = "Lantern Fish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 67,
+    order = 69,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 6, y = 5 },
-    config = {immutable = {depth_level = 4, weight_level = 1}, extra = {rarity_mod = 3}},
+    config = {immutable = {depth_level = 4, weight_level = 1, depth_range = {2, 4}}, extra = {rarity_mod = 3}},
     rarity = 2,
     cost = 7,
     blueprint_compat = false,
@@ -6963,7 +7802,17 @@ local lantern_fish = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.rarity_mod}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.rarity_mod},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -6975,10 +7824,10 @@ local nautilus = {
     name = "Nautilus",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 68,
+    order = 70,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 6 },
-    config = {immutable = {depth_level = 3, weight_level = 1}, extra = {rank_ids = {14, 2, 3, 5, 8, 13}, count = 0}},
+    config = {immutable = {depth_level = 3, weight_level = 1, depth_range = {2, 3}}, extra = {rank_ids = {14, 2, 3, 5, 8, 13}, count = 0}},
     rarity = "sgt_obscure",
     cost = 14,
     blueprint_compat = true,
@@ -7004,6 +7853,20 @@ local nautilus = {
     end,
     in_pool = function(self, args)
         return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    loc_vars = function(self, info_queue, card)
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {
+            fish_vars = {
+                card.ability.immutable.depth_level,
+                self.rarity,
+                card.ability.immutable.depth_level,
+                card.ability.immutable.depth_range[1],
+                card.ability.immutable.depth_range[2],
+            }
+        }
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -7050,10 +7913,10 @@ local stomiidae = {
     name = "Stomiidae",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 69,
+    order = 71,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 6 },
-    config = {immutable = {depth_level = 5, weight_level = 1}, extra = {xmult = 1, spade_add = 0.5, eor_sub = 1}},
+    config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {2, 4}}, extra = {xmult = 1, spade_add = 0.5, eor_sub = 1}},
     rarity = "sgt_obscure",
     cost = 14,
     blueprint_compat = true,
@@ -7170,7 +8033,17 @@ local stomiidae = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.xmult, card.ability.extra.spade_add, card.ability.extra.eor_sub}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.xmult, card.ability.extra.spade_add, card.ability.extra.eor_sub},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -7202,10 +8075,10 @@ local hermit_crab = {
     name = "Hermit Crab",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 70,
+    order = 72,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 6 },
-    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {mult = 16}, type = "Full House"},
+    config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {mult = 16}, type = "Full House"},
     rarity = 1,
     cost = 4,
     blueprint_compat = true,
@@ -7224,7 +8097,17 @@ local hermit_crab = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.mult, localize(card.ability.type, 'poker_hands')}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.mult, localize(card.ability.type, 'poker_hands')},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -7259,10 +8142,10 @@ local king_crab = {
     name = "King Crab",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 71,
+    order = 73,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 6 },
-    config = {immutable = {depth_level = 2, weight_level = 2, target_range = {-1, 1}}, fixed_type = "Two Pair"},
+    config = {immutable = {depth_level = 2, weight_level = 2, depth_range = {2, 3}, target_range = {-1, 1}}, fixed_type = "Two Pair"},
     rarity = 2,
     cost = 6,
     blueprint_compat = false,
@@ -7297,7 +8180,17 @@ local king_crab = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
-        return {vars = {localize(card.ability.fixed_type, 'poker_hands')}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {localize(card.ability.fixed_type, 'poker_hands')},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -7311,7 +8204,30 @@ local king_crab = {
             },
             calc_function = function(card)
                 card.joker_display_values.localized_text = localize(card.ability.fixed_type, 'poker_hands')
-            end
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
+            end,
         }
     end,
 }
@@ -7321,10 +8237,10 @@ local big_red_jelly = {
     name = "Big Red Jelly",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 72,
+    order = 74,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 6 },
-    config = {immutable = {depth_level = 4, weight_level = 3, target_offset = 1}, extra = {xmult = 1, xmult_mod = 0.1}},
+    config = {immutable = {depth_level = 4, weight_level = 3, depth_range = {3, 4}, target_offset = 1}, extra = {xmult = 1, xmult_mod = 0.1}},
     rarity = 3,
     cost = 8,
     blueprint_compat = true,
@@ -7383,7 +8299,17 @@ local big_red_jelly = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
-        return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -7398,6 +8324,31 @@ local big_red_jelly = {
                     }
                 }
             },
+            calc_function = function(card)
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
+            end,
         }
     end,
 }
@@ -7407,10 +8358,10 @@ local narwhal = {
     name = "Narwhal",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 73,
+    order = 75,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 5, y = 6 },
-    config = {immutable = {depth_level = 4, weight_level = 4}, extra = {xmult = 1, xmult_mod = 0.2}},
+    config = {immutable = {depth_level = 4, weight_level = 4, depth_range = {1, 4}}, extra = {xmult = 1, xmult_mod = 0.2}},
     rarity = 3,
     cost = 9,
     blueprint_compat = true,
@@ -7497,7 +8448,17 @@ local narwhal = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.xmult}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.xmult},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -7521,10 +8482,10 @@ local seahorse = {
     name = "Seahorse",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 74,
+    order = 76,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 6, y = 6 },
-    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {odds = 3}},
+    config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {odds = 3}},
     rarity = 1,
     cost = 5,
     blueprint_compat = true,
@@ -7564,8 +8525,18 @@ local seahorse = {
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.c_strength
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "seahorse")
-        return {vars = {n, d, localize{type = 'name_text', set = "Tarot", key = "c_strength", nodes = {}}}}
+        return {vars = {n, d, localize{type = 'name_text', set = "Tarot", key = "c_strength", nodes = {}}},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -7609,10 +8580,10 @@ local goblin_shark = {
     name = "Goblin Shark",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 75,
+    order = 77,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 7 },
-    config = {immutable = {depth_level = 4, weight_level = 3, target_range = {-2, -1}}, extra = {dollars = 0, dollar_mod = 5, sub_per_hand = 1}},
+    config = {immutable = {depth_level = 4, weight_level = 3, depth_range = {3, 4}, target_range = {-2, -1}}, extra = {dollars = 0, dollar_mod = 5, sub_per_hand = 1}},
     rarity = 3,
     cost = 9,
     blueprint_compat = false,
@@ -7729,7 +8700,17 @@ local goblin_shark = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.dollars, card.ability.extra.dollar_mod, card.ability.extra.sub_per_hand}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.dollars, card.ability.extra.dollar_mod, card.ability.extra.sub_per_hand},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -7756,10 +8737,10 @@ local colossal_squid = {
     name = "Colossal Squid",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 76,
+    order = 78,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 7 },
-    config = {immutable = {depth_level = 4, weight_level = 3, target = "leftmost"}, extra = {target_ids = {10, 11, 12, 13, 14}}},
+    config = {immutable = {depth_level = 4, weight_level = 3, depth_range = {3, 4}, target = "leftmost"}, extra = {target_ids = {10, 11, 12, 13, 14}}},
     rarity = 3,
     cost = 10,
     blueprint_compat = true,
@@ -7800,7 +8781,17 @@ local colossal_squid = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
-        return {vars = {localize("k_face_cards"), localize("Ace", "ranks")}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {localize("k_face_cards"), localize("Ace", "ranks")},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -7817,10 +8808,35 @@ local colossal_squid = {
             calc_function = function(card)
                 card.joker_display_values.localized_text_face_cards = localize("k_face_cards")
                 card.joker_display_values.localized_text_ace = localize("Ace", "ranks")
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
             end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
-                return table.contains(joker_card.ability.extra.target_ids, playing_card:get_id())
+                local count = 0
+                count = table.contains(joker_card.ability.extra.target_ids, playing_card:get_id())
                 and JokerDisplay.calculate_joker_triggers(joker_card) or 0
+                if held_in_hand then
+                    local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                    count = count + (joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                    and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                    and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0)
+                end
+                return count
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
             end,
         }
     end,
@@ -7831,10 +8847,10 @@ local chimaera = {
     name = "Chimaera",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 77,
+    order = 79,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 7 },
-    config = {immutable = {depth_level = 4, weight_level = 3}, extra = {spectral_count = 0, spectral_mod = 1, spectral_sub = 1}},
+    config = {immutable = {depth_level = 4, weight_level = 3, depth_range = {3, 5}}, extra = {spectral_count = 0, spectral_mod = 1, spectral_sub = 1}},
     rarity = 3,
     cost = 8,
     blueprint_compat = false,
@@ -7955,7 +8971,17 @@ local chimaera = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.spectral_count, card.ability.extra.spectral_mod, card.ability.extra.spectral_sub}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.spectral_count, card.ability.extra.spectral_mod, card.ability.extra.spectral_sub},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -7982,10 +9008,10 @@ local dumbo_octopus = {
     name = "Dombo Octopus",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 78,
+    order = 80,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 7 },
-    config = {immutable = {depth_level = 5, weight_level = 1}, extra = {retriggers = 8}},
+    config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {3, 5}}, extra = {retriggers = 8}},
     rarity = 3,
     cost = 8,
     blueprint_compat = true,
@@ -8007,7 +9033,17 @@ local dumbo_octopus = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.retriggers, localize("8", "ranks"), localize("Diamonds", 'suits_plural')}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.retriggers, localize("8", "ranks"), localize("Diamonds", 'suits_plural')},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -8040,10 +9076,10 @@ local atolla_wyvillei = {
     name = "Atolla wyvillei",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 79,
+    order = 81,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 7 },
-    config = {immutable = {depth_level = 5, weight_level = 1}, extra = {rarity_mod = 5, xmult = 20, xmult_sub = 1}},
+    config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {3, 5}}, extra = {rarity_mod = 5, xmult = 20, xmult_sub = 1}},
     rarity = 3,
     cost = 10,
     blueprint_compat = true,
@@ -8094,7 +9130,17 @@ local atolla_wyvillei = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.rarity_mod, card.ability.extra.xmult, card.ability.extra.xmult_sub}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.rarity_mod, card.ability.extra.xmult, card.ability.extra.xmult_sub},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -8118,10 +9164,10 @@ local faceless_cusk = {
     name = "Faceless Cusk",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 80,
+    order = 82,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 5, y = 7 },
-    config = {immutable = {depth_level = 5, weight_level = 1}, extra = {xmult = 1, xmult_mod = 0.5}},
+    config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {4, 5}}, extra = {xmult = 1, xmult_mod = 0.5}},
     rarity = 3,
     cost = 9,
     blueprint_compat = true,
@@ -8181,7 +9227,17 @@ local faceless_cusk = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -8205,10 +9261,10 @@ local brittle_star = {
     name = "Brittle Star",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 81,
+    order = 83,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 6, y = 7 },
-    config = {immutable = {depth_level = 5, weight_level = 1}, extra = {xmult = 1.75, odds = 4}},
+    config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {4, 5}}, extra = {xmult = 1.75, odds = 4}},
     rarity = 3,
     cost = 9,
     blueprint_compat = true,
@@ -8238,8 +9294,18 @@ local brittle_star = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "brittle_star")
-        return {vars = {n, d, card.ability.extra.xmult}}
+        return {vars = {n, d, card.ability.extra.xmult},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -8273,10 +9339,10 @@ local comb_jellyfish = {
     name = "Comb Jellyfish",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 82,
+    order = 84,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 8 },
-    config = {immutable = {depth_level = 5, weight_level = 1}, extra = {}, suit_ge = 4},
+    config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {3, 5}}, extra = {}, suit_ge = 4},
     rarity = 3,
     cost = 8,
     blueprint_compat = false,
@@ -8335,7 +9401,17 @@ local comb_jellyfish = {
     end,
     loc_vars = function(self, info_queue, card)
         local _, count = Sagatro.check_suit_record(card.ability.extra, card.ability.suit_ge)
-        return {vars = {card.ability.suit_ge, count}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.suit_ge, count},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -8362,10 +9438,10 @@ local lobster = {
     name = "Lobster",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 83,
+    order = 85,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 8 },
-    config = {immutable = {depth_level = 1, weight_level = 1}, extra = {retriggers = 2}},
+    config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 3}}, extra = {retriggers = 2}},
     rarity = 2,
     cost = 6,
     blueprint_compat = true,
@@ -8420,7 +9496,17 @@ local lobster = {
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.retriggers}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.retriggers},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -8443,10 +9529,10 @@ local fangtooth = {
     name = "Fangtooth",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 84,
+    order = 86,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 8 },
-    config = {immutable = {depth_level = 5, weight_level = 1}, extra = {xmult = 1.5}},
+    config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {4, 5}}, extra = {xmult = 1.5}},
     rarity = 3,
     cost = 9,
     blueprint_compat = true,
@@ -8489,7 +9575,17 @@ local fangtooth = {
         local text = card.ability.extra.stored_rank
         and localize(card.ability.extra.stored_rank, "ranks")
         or localize("k_none")
-        return {vars = {card.ability.extra.xmult, text}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.xmult, text},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -8533,10 +9629,10 @@ local grenadier = {
     name = "Grenadier",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 85,
+    order = 87,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 8 },
-    config = {immutable = {depth_level = 5, weight_level = 1}},
+    config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {4, 5}}},
     rarity = 3,
     cost = 8,
     blueprint_compat = false,
@@ -8569,6 +9665,20 @@ local grenadier = {
     in_pool = function(self, args)
         return next(SMODS.find_card("j_sgt_submarine", true))
     end,
+    loc_vars = function(self, info_queue, card)
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {
+            fish_vars = {
+                card.ability.immutable.depth_level,
+                self.rarity,
+                card.ability.immutable.depth_level,
+                card.ability.immutable.depth_range[1],
+                card.ability.immutable.depth_range[2],
+            }
+        }
+    end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
  	end,
@@ -8598,10 +9708,10 @@ local mahimahi = {
     name = "Mahi-mahi",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 86,
+    order = 88,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 8 },
-    config = {immutable = {depth_level = 2, weight_level = 2, target_offset = -1}, extra = {h_mult = 8}},
+    config = {immutable = {depth_level = 2, weight_level = 2, depth_range = {1, 2}, target_offset = -1}, extra = {h_mult = 8}},
     rarity = 2,
     cost = 7,
     blueprint_compat = true,
@@ -8645,7 +9755,17 @@ local mahimahi = {
     end,
     loc_vars = function(self, info_queue, card)
         Sagatro.fish_loc_vars(info_queue, card)
-        return {vars = {card.ability.extra.h_mult}}
+        if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
+        end
+        return {vars = {card.ability.extra.h_mult},
+        fish_vars = {
+            card.ability.immutable.depth_level,
+            self.rarity,
+            card.ability.immutable.weight_level,
+            card.ability.immutable.depth_range[1],
+            card.ability.immutable.depth_range[2],
+        }}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -8683,6 +9803,29 @@ local mahimahi = {
                     if held_in_hand_ranks[k] then triggered = true break end
                 end
                 card.joker_display_values.h_mult = triggered and card.ability.extra.h_mult*count or 0
+                card.joker_display_values.is_high_card = false
+                if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
+                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                        card.joker_display_values.is_high_card = true
+                    end
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
+                return held_in_hand and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
+                and joker_card.ability.immutable.eaten_weight == 3 and joker_card.ability.immutable.eaten_type == 2
+                and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            retrigger_joker_function = function(card, retrigger_joker)
+                if card == retrigger_joker then
+                    if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
+                        return 1
+                    elseif retrigger_joker.ability.immutable.eaten_weight == 4 and retrigger_joker.ability.immutable.eaten_type == 1 then
+                        return 2
+                    end
+                end
+                return 0
             end,
         }
     end,
@@ -8693,7 +9836,7 @@ local nemo = {
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 87,
+    order = 89,
     pos = { x = 0, y = 0 },
     pools = { [SAGA_GROUP_POOL.legend] = true },
     soul_pos = { x = 1, y = 0 },
@@ -10921,6 +12064,7 @@ local joker_table = {
     lamp_genie,
     lincoln_ship,
     submarine,
+    sub_engineer,
     clownfish,
     blue_tang,
     pufferfish,

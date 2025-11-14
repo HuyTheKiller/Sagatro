@@ -49,7 +49,7 @@ local turquoise_jellyfish = {
         G.E_MANAGER:add_event(Event({func = function()
             local selected_cards = Sagatro.random_select("turquoise_jellyfish", G.play, 2)
             for _, card in pairs(selected_cards) do
-                card.ability.true_perma_debuff = true
+                card.ability.perma_debuff = true
                 card.ability.debuffed_by_turquoise_jellyfish = true
                 card:juice_up(0.8, 0.8)
             end
@@ -63,7 +63,7 @@ local turquoise_jellyfish = {
     disable = function(self)
         for _, card in pairs(G.playing_cards) do
             if card.ability.debuffed_by_turquoise_jellyfish then
-                card.ability.true_perma_debuff = nil
+                card.ability.perma_debuff = nil
                 card.ability.debuffed_by_turquoise_jellyfish = nil
                 card:set_debuff()
             end
@@ -77,6 +77,11 @@ local turquoise_jellyfish = {
         end
         if G.GAME.story_mode then
             Sagatro.progress_storyline("turquoise_jellyfish", "finish", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+            local card = SMODS.find_card("j_sgt_submarine", true)[1]
+            if card then
+                card.ability.immutable.pending_go_down = nil
+                G.FUNCS.submarine_down({config = {ref_table = card}}, true)
+            end
 		end
     end,
     in_pool = function(self)
@@ -105,6 +110,11 @@ local aqua_eyeshard = {
     defeat = function(self)
         if G.GAME.story_mode then
             Sagatro.progress_storyline("aqua_eyeshard", "finish", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+            local card = SMODS.find_card("j_sgt_submarine", true)[1]
+            if card then
+                card.ability.immutable.pending_go_down = nil
+                G.FUNCS.submarine_down({config = {ref_table = card}}, true)
+            end
 		end
     end,
     in_pool = function(self)
@@ -128,6 +138,11 @@ local black_oil = {
     defeat = function(self)
         if G.GAME.story_mode then
             Sagatro.progress_storyline("black_oil", "finish", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+            local card = SMODS.find_card("j_sgt_submarine", true)[1]
+            if card then
+                card.ability.immutable.pending_go_down = nil
+                G.FUNCS.submarine_down({config = {ref_table = card}}, true)
+            end
 		end
     end,
     in_pool = function(self)
@@ -172,6 +187,12 @@ local shadow_seamine = {
     defeat = function(self)
         if G.GAME.story_mode then
             Sagatro.progress_storyline("shadow_seamine", "finish", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+            local card = SMODS.find_card("j_sgt_submarine", true)[1]
+            if card then
+                card.ability.immutable.pending_go_down = nil
+                G.FUNCS.submarine_down({config = {ref_table = card}}, true)
+                G.GAME.nyx_abyss_incoming = true
+            end
 		end
     end,
     in_pool = function(self)
@@ -221,6 +242,11 @@ local nyx_abyss = {
     defeat = function(self)
         if G.GAME.story_mode then
             Sagatro.progress_storyline("nyx_abyss", "finish", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+            local card = SMODS.find_card("j_sgt_submarine", true)[1]
+            if card then
+                card.ability.immutable.pending_go_down = nil
+                G.GAME.nyx_abyss_incoming = nil
+            end
 		end
     end,
     in_pool = function(self)

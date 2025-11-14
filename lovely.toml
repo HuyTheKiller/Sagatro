@@ -222,7 +222,7 @@ pattern = '''elseif [type == 'Boss' and ]*not run_info then'''
 position = 'at'
 payload = '''elseif type == 'Boss' and not run_info and not (next(SMODS.find_card("j_sgt_mad_hatter")) or mabel_stall()) then'''
 
-# Force win if Red Queen is defeated
+# Force win if a certain showdown blind is defeated
 [[patches]]
 [patches.pattern]
 target = 'functions/state_events.lua'
@@ -234,7 +234,7 @@ if (not G.GAME.story_mode and G.GAME.round_resets.ante >= G.GAME.win_ante and G.
 or (G.GAME.story_mode and table.contains(Sagatro.story_mode_showdown, G.GAME.blind.config.blind.key)) then
 '''
 
-# Make losing after Red Queen but before win Ante a valid endless run
+# Make losing after a certain showdown blind but before win Ante a valid endless run
 [[patches]]
 [patches.pattern]
 target = 'game.lua'
@@ -415,7 +415,7 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
-pattern = '''elseif blindname == 'Small Blind' or blindname == 'Big Blind' or blindname == '' then'''
+pattern = '''elseif G.GAME.won then '''
 position = "before"
 payload = '''
 elseif G.GAME.story_mode and next(SMODS.find_card("j_sgt_submarine", true)) then
@@ -669,11 +669,28 @@ payload = '''
 G.GAME.hands[text].played_this_ante = G.GAME.hands[text].played_this_ante + 1
 '''
 
-# Allow card.config.center.select_card to work the same as booster_obj.select_card
-# This regex patch will be removed in next SMODS release if Sagatro bumps dependency to that release
+# Imminent doom
 [[patches]]
-[patches.regex]
-target = "functions/UI_definitions.lua"
-pattern = '''booster_obj\.select_card'''
-position = "at"
-payload = "(booster_obj.select_card or card.config.center.select_card)"
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''-- TARGET: main end_of_round evaluation'''
+position = 'after'
+match_indent = true
+payload = '''
+if G.GAME.story_mode and G.GAME.blind.boss and G.GAME.imminent_doom then
+    game_over = true
+end
+'''
+
+# Make sure Ankh won't copy Submarine
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = '''local chosen_joker = pseudorandom_element(G.jokers.cards, pseudoseed('ankh_choice'))'''
+position = 'after'
+match_indent = true
+payload = '''
+while G.GAME.story_mode and chosen_joker.config.center_key == "j_sgt_submarine" do
+    chosen_joker = pseudorandom_element(G.jokers.cards, pseudoseed('ankh_choice_reroll'))
+end
+'''

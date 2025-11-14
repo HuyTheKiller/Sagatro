@@ -346,6 +346,15 @@ return {
 					"learn what it does",
 				},
 			},
+            undiscovered_supply = {
+				name = "Not Discovered",
+				text = {
+					"Purchase or use this",
+					"card in an unseeded",
+					"{C:sgt_sagadition}story mode{} run to",
+					"learn what it does",
+				},
+			},
             p_sgt_divinatio_normal = {
                 name = "Divinatio Pack",
                 text = {
@@ -375,7 +384,7 @@ return {
                 text = {
                     "Choose {C:attention}#1#{} of up to",
                     "{C:attention}#2#{C:sgt_celestara} Celestara{} cards to",
-                    "add to your consumables"
+                    "add to your consumables",
                 },
             },
             p_sgt_celestara_jumbo = {
@@ -383,7 +392,7 @@ return {
                 text = {
                     "Choose {C:attention}#1#{} of up to",
                     "{C:attention}#2#{C:sgt_celestara} Celestara{} cards to",
-                    "add to your consumables"
+                    "add to your consumables",
                 },
             },
             p_sgt_celestara_mega = {
@@ -391,7 +400,7 @@ return {
                 text = {
                     "Choose {C:attention}#1#{} of up to",
                     "{C:attention}#2#{C:sgt_celestara} Celestara{} cards to",
-                    "add to your consumables"
+                    "add to your consumables",
                 },
             },
             p_sgt_eldritch_normal = {
@@ -418,6 +427,14 @@ return {
                     "be used immediately",
                 },
             },
+            p_sgt_supply = {
+                name = "Supply Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:sgt_supply} Supply{} cards to",
+                    "add to your consumables",
+                },
+            },
             sgt_protected = {
 				name = "Protected",
 				text = {
@@ -425,6 +442,125 @@ return {
 					"debuffs",
 				},
 			},
+            sgt_off_depth = {
+                name = "Off Depth",
+                text = {
+                    "Return to this fish's depth range ({C:attention}#2#{} to {C:attention}#3#{})",
+                    "or {C:attention}debuffed{} after 3 rounds",
+                    "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
+                },
+            },
+            sgt_off_depth_singular = {
+                name = "Off Depth",
+                text = {
+                    "Return to this fish's depth ({C:attention}#2#{})",
+                    "or {C:attention}debuffed{} after 3 rounds",
+                    "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
+                },
+            },
+            sgt_off_depth_not_fish = {
+                name = "Off Depth",
+                text = {
+                    "You managed to add this sticker to",
+                    "{C:attention}something{} that is not a known fish",
+                    "Please, don't mess with debug tools",
+                },
+            },
+            sgt_imminent_doom = {
+                name = "Imminent Doom",
+                text = {
+                    "You managed to add this sticker",
+                    "to {C:attention}something{} that is not a submarine",
+                    "Please, don't mess with debug tools",
+                },
+            },
+            sgt_imminent_doom_f = {
+                name = "Imminent Doom",
+                text = {
+                    "Out of {C:attention}fuel{}!",
+                    "Refill it now or face",
+                    "a guaranteed loss at the",
+                    "end of next {C:attention}Boss Blind{}",
+                },
+            },
+            sgt_imminent_doom_h = {
+                name = "Imminent Doom",
+                text = {
+                    "{C:attention}Starvation{} reached its limit!",
+                    "Eat something now or face",
+                    "a guaranteed loss at the",
+                    "end of next {C:attention}Boss Blind{}",
+                },
+            },
+            sgt_low_fuel = {
+                name = "Low Fuel",
+                text = {
+                    "Low on {C:attention}fuel{}!",
+                    "Shop {C:green}reroll{} is disabled",
+                },
+            },
+            sgt_high_fuel = {
+                name = "High Fuel",
+                text = {
+                    "So much {C:attention}fuel{}!",
+                    "{C:dark_edition}+1{} Joker slot",
+                    "Reduce {C:green}reroll{} cost by {C:money}$1{}",
+                    "Fish jokers cost {C:money}$1{} less",
+                },
+            },
+            sgt_starvation = {
+                name = "Starvation",
+                text = {
+                    "{C:attention}Starvation{} started!",
+                    "{C:attention}-1{} hand size",
+                },
+            },
+            sgt_nourished = {
+                name = "Nourished",
+                text = {
+                    "Stomach is fully {C:attention}capped{}!",
+                    "{C:attention}Retrigger{} the",
+                    "leftmost fish joker",
+                },
+            },
+            sgt_submarine_states = {
+                text = {
+                    "Fuel: {V:1}#1#{}/#2#",
+                    "Hunger: {V:2}#3#{}/#4#",
+                }
+            },
+            sgt_movement_cooldown = {
+                name = "Movement Cooldown",
+                text = {
+                    "Defeat any {C:attention}Blind{} to",
+                    "start moving again",
+                },
+            },
+            sgt_fish_states = {
+                text = {
+                    "Depth Level: {C:attention}#1#",
+                    "Rarity: {C:attention}#2#",
+                    "Weight Level: {C:attention}#3#",
+                    "Depth Range: {C:attention}#4#{} to {C:attention}#5#",
+                },
+            },
+            sgt_fish_states_singular = {
+                text = {
+                    "Depth Level: {C:attention}#1#",
+                    "Rarity: {C:attention}#2#",
+                    "Weight Level: {C:attention}#3#",
+                    "Depth Range: Within {C:attention}#4#",
+                },
+            },
+            sgt_fish_vars = {
+                name = "Fish Properties",
+                text = {
+                    "Properties are {C:attention}shown{} on the card",
+                    "itself, expressed as our {C:attention}wonderful{} art",
+                    "You can turn off the box in",
+                    "{C:sgt_sagadition}Sagatro{}'s config tab",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -1469,10 +1605,34 @@ return {
             j_sgt_submarine = {
                 name = "Submarine",
                 text = {
-                    "This joker gains {C:chips}+#2#{} Chips",
-                    "for every card scored",
-                    "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
-                    "{C:inactive}(Depth level: {C:blue}#3#{C:inactive})",
+                    "{C:dark_edition}+#1#{} Joker slots",
+                    "{C:attention}+#2#{} consumable slots",
+                    "{C:attention}+#3#{} hand size",
+                    "{s:0.8,C:inactive}Different effect in story mode!",
+                },
+            },
+            j_sgt_submarine_storymode = {
+                name = "Submarine",
+                text = {
+                    {"{C:dark_edition}+#7#{} Joker slot",
+                    "{C:attention}+#8#{} consumable slot(s)",
+                    "{C:attention}+#9#{} hand size"},
+                    {"{C:attention}Travel{} the ocean!",
+                    "{C:attention}Explore{} the unknown!",
+                    "{C:inactive}(Depth level: {V:3}#5#{C:inactive})",
+                    "{C:inactive}(Toughness level: {C:attention}#6#{C:inactive})"},
+                },
+            },
+            j_sgt_sub_engineer = {
+                name = "Sub Engineer",
+                text = {
+                    {"{C:attention}+1{} Booster Pack slot"},
+                    {"{C:sgt_sagadition}20k Miles Under The Sea{}'s",
+                    "{C:attention}exclusive{} effect:",
+                    "Allow upgrading {C:sgt_supply}Supply{} cards",
+                    "to appear in {C:attention}Supply Packs{}",
+                    "{C:attention}Guarantee{} one {C:attention}Supply Pack{}",
+                    "at beginning of every ante"},
                 },
             },
             j_sgt_clownfish = {
@@ -2492,7 +2652,8 @@ return {
                     "{C:attention}swallow{} the target fish with",
                     "lower {C:attention}weight level{} to gain a",
                     "{C:attention}temporary effect{} if there isn't one",
-                    "{s:0.8,C:attention}Hover{s:0.8} this joker to view target",
+                    "{s:0.8,C:attention}Hover{s:0.8} and {s:0.8,C:attention}drag{s:0.8} this joker",
+                    "{s:0.8}around to view target",
                 },
             },
             weight1_type1 = {
@@ -2645,6 +2806,65 @@ return {
                 },
             },
         },
+        Supply = {
+            c_sgt_smithing = {
+                name = "Smithing",
+                text = {
+                    "Upgrade {C:attention}Submarine{}, allowing it",
+                    "to withstand up to depth level {C:attention}#1#{}",
+                },
+            },
+            c_sgt_welding = {
+                name = "Welding",
+                text = {
+                    "{C:attention}+#2#{} hand size",
+                    "Upgrade {C:attention}Submarine{}, allowing it",
+                    "to withstand up to depth level {C:attention}#1#{}",
+                },
+            },
+            c_sgt_composite = {
+                name = "Composite",
+                text = {
+                    "{C:attention}+#2#{} consumable slot",
+                    "Upgrade {C:attention}Submarine{}, allowing it",
+                    "to withstand up to depth level {C:attention}#1#{}",
+                },
+            },
+            c_sgt_nanotech = {
+                name = "Nano-tech",
+                text = {
+                    "{C:dark_edition}+#2#{} Joker slot",
+                    "Upgrade {C:attention}Submarine{}, allowing it",
+                    "to withstand up to depth level {C:attention}#1#{}",
+                },
+            },
+            c_sgt_small_canned_fish = {
+                name = "Small Canned Fish",
+                text = {
+                    "Refill {C:attention}#1#{} Hunger units",
+                },
+            },
+            c_sgt_medium_canned_fish = {
+                name = "Medium Canned Fish",
+                text = {
+                    "Refill {C:attention}#1#{} Hunger units",
+                },
+            },
+            c_sgt_large_canned_fish = {
+                name = "Large Canned Fish",
+                text = {
+                    "Refill {C:attention}#1#{} Hunger units",
+                },
+            },
+            c_sgt_fuel_barrel = {
+                name = "Fuel Barrel",
+                text = {
+                    "Refill {C:attention}#1#{} Fuel units",
+                    "Up to {C:attention}3{} uses",
+                    "{C:inactive}({C:attention}#2#{C:inactive} remaining)",
+                },
+            },
+        },
         Mod = {
             Sagatro = {
                 name = "Sagatro",
@@ -2683,6 +2903,7 @@ return {
             sgt_space_seal = "Space Seal",
             sgt_platinum_seal = "Platinum Seal",
             sgt_protected = "Protected",
+            sgt_imminent_doom = "Imminent Doom",
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Gambling Hansel",
@@ -2721,6 +2942,9 @@ return {
             k_eldritch = "Eldritch",
             b_eldritch_cards = "Eldritch Cards",
             sgt_eldritch_pack = "Eldritch Pack",
+            k_supply = "Supply",
+            b_supply_cards = "Supply Cards",
+            sgt_supply_pack = "Supply Pack",
             saga_tooltip = "Hint to progress",
             saga_fusion_tooltip = "Joker fusion",
             saga_storyline_start = "Boot up",
@@ -2735,6 +2959,9 @@ return {
             sgt_roll5 = "Number five",
             sgt_roll6 = "Number six",
             b_join = "JOIN",
+            b_sgt_up = "UP",
+            b_sgt_down = "DOWN",
+            b_sgt_ready = "READY",
             b_delete_ace = "Delete Ace",
             b_dont_even_try = "Don't even try",
             k_in_a_hurry_ex = "In a hurry!",
@@ -2797,6 +3024,7 @@ return {
             k_downgrade_ex = "Downgrade!",
             k_consumed_ex = "Consumed!",
             k_kaboom_ex = "Kaboom!",
+            k_incoming_ex = "Incoming!",
             k_plus_divinatio = "+1 Divinatio",
             k_plus_celestara = "+1 Celestara",
             ph_per_face_down = " per face-down",
@@ -2818,8 +3046,12 @@ return {
             ph_black_soul = "Black Soul",
             ph_celestaverse = "Celestaverse",
             sgt_swap = "Swap!",
+            SGT_story_related_settings = "Story-related settings",
+            SGT_misc_settings = "Misc. settings",
             SGT_disable_other_jokers = "Story Mode",
             SGT_disable_other_jokers_desc = {"Disable all other jokers and enable","linear storyline progression (Requires run restart)"},
+            SGT_view_fish_properties = "Fish Properties",
+            SGT_view_fish_properties_desc = {"Show fish properties as a separate box","below the main description"},
             SGT_disable_sagatro_items = "Disable Sagatro Items",
             SGT_disable_sagatro_items_desc = {"(Requires run restart, Story Mode","must be off to work)"},
             SGT_sagatro_music = "Sagatro Music",

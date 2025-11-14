@@ -345,6 +345,15 @@ return {
                     "để biết tác dụng của nó",
                 },
 			},
+            undiscovered_supply = {
+				name = "Chưa Khám Phá",
+				text = {
+					"Mua hoặc dùng lá này",
+                    "trong một trận ngẫu nhiên",
+					"ở {C:sgt_sagadition}chế độ cốt truyện{}",
+					"để biết tác dụng của nó",
+				},
+			},
             p_sgt_divinatio_normal = {
                 name = "Gói Chiêm Mộng",
                 text = {
@@ -417,6 +426,14 @@ return {
                     "để dùng ngay",
                 },
             },
+            p_sgt_supply = {
+                name = "Gói Tiếp Tế",
+                text = {
+                    "Chọn {C:attention}#1#{} trong tối đa",
+                    "{C:attention}#2#{} lá {C:sgt_supply}Tiếp Tế{} để",
+                    "thêm vào ô tiêu thụ",
+                },
+            },
             sgt_protected = {
 				name = "Bảo Vệ",
 				text = {
@@ -424,6 +441,125 @@ return {
 					"vô hiệu hoá",
 				},
 			},
+            sgt_off_depth = {
+                name = "Lệch Độ Sâu",
+                text = {
+                    "Trở về phạm vi độ sâu của cá này ({C:attention}#2#{} đến {C:attention}#3#{})",
+                    "hoặc sẽ bị {C:attention}vô hiệu hoá{} sau 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            sgt_off_depth_singular = {
+                name = "Lệch Độ Sâu",
+                text = {
+                    "Trở về mức độ sâu của cá này ({C:attention}#2#{})",
+                    "hoặc sẽ bị {C:attention}vô hiệu hoá{} sau 3 ván",
+                    "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                },
+            },
+            sgt_off_depth_not_fish = {
+                name = "Lệch Độ Sâu",
+                text = {
+                    "Nhãn này vừa được thêm vào",
+                    "{C:attention}thứ gì đó{} không phải cá đã biết",
+                    "Làm ơn, mấy bố đừng nghịch debug tool",
+                },
+            },
+            sgt_imminent_doom = {
+                name = "Sắp Hẹo",
+                text = {
+                    "Nhãn này vừa được thêm vào",
+                    "{C:attention}thứ gì đó{} không phải tàu ngầm",
+                    "Làm ơn, mấy bố đừng nghịch debug tool",
+                },
+            },
+            sgt_imminent_doom_f = {
+                name = "Sắp Hẹo",
+                text = {
+                    "Hết {C:attention}nhiên liệu{}!",
+                    "Nạp lại ngay, nếu không thì",
+                    "sẽ lập tức thua trận ở cuối",
+                    "{C:attention}Boss Blind{} kế tiếp",
+                },
+            },
+            sgt_imminent_doom_h = {
+                name = "Sắp Hẹo",
+                text = {
+                    "{C:attention}Cơn đói{} đạt đỉnh điểm!",
+                    "Ăn cá ngay, nếu không thì",
+                    "sẽ lập tức thua trận ở cuối",
+                    "{C:attention}Boss Blind{} kế tiếp",
+                },
+            },
+            sgt_low_fuel = {
+                name = "Cạn Nhiên Liệu",
+                text = {
+                    "Sắp hết {C:attention}nhiên liệu{}!",
+                    "Vô hiệu hoá {C:green}gieo lại{} shop",
+                },
+            },
+            sgt_high_fuel = {
+                name = "Đầy Nhiên Liệu",
+                text = {
+                    "Tràn phè {C:attention}nhiên liệu{}!",
+                    "{C:dark_edition}+1{} ô Joker",
+                    "Giảm giá {C:green}gieo lại{} đi {C:money}$1{}",
+                    "Joker cá tốn ít hơn {C:money}$1{}",
+                },
+            },
+            sgt_starvation = {
+                name = "Đói Meo",
+                text = {
+                    "Khởi đầu của {C:attention}cơn đói{}!",
+                    "{C:attention}-1{} lá giữ trong tay",
+                },
+            },
+            sgt_nourished = {
+                name = "No Căng",
+                text = {
+                    "Cái bụng no {C:attention}căng{} rồi!",
+                    "{C:attention}Tái kích{} joker cá",
+                    "ở tít bên trái",
+                },
+            },
+            sgt_submarine_states = {
+                text = {
+                    "Nhiên liệu: {V:1}#1#{}/#2#",
+                    "Lương thực: {V:2}#3#{}/#4#",
+                }
+            },
+            sgt_movement_cooldown = {
+                name = "Hồi Chiêu Di Chuyển",
+                text = {
+                    "Đánh bại bất kì {C:attention}Blind{} nào",
+                    "để tiếp tục di chuyển",
+                },
+            },
+            sgt_fish_states = {
+                text = {
+                    "Tầng Độ Sâu: {C:attention}#1#",
+                    "Độ Hiếm: {C:attention}#2#",
+                    "Cấp Cân Nặng: {C:attention}#3#",
+                    "Phạm Vi Độ Sâu: {C:attention}#4#{} đến {C:attention}#5#",
+                },
+            },
+            sgt_fish_states_singular = {
+                text = {
+                    "Tầng Độ Sâu: {C:attention}#1#",
+                    "Độ Hiếm: {C:attention}#2#",
+                    "Cấp Cân Nặng: {C:attention}#3#",
+                    "Phạm Vi Độ Sâu: nội trong {C:attention}#4#",
+                },
+            },
+            sgt_fish_vars = {
+                name = "Thuộc Tính Cá",
+                text = {
+                    "Thuộc tính được {C:attention}hiển thị{} ngay trên",
+                    "lá bài dưới dạng bức vẽ {C:attention}tuyệt đẹp",
+                    "Bạn có thể tắt hộp thuộc tính đi ở",
+                    "trong tab tuỳ chọn của {C:sgt_sagadition}Sagatro",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -1464,10 +1600,35 @@ return {
             j_sgt_submarine = {
                 name = "Tàu Ngầm",
                 text = {
-                    "Joker này thêm {C:chips}+#2#{} Chip",
-                    "cho mỗi lá bài ghi điểm",
-                    "{C:inactive}(Hiện tại là {C:chips}+#1#{C:inactive} Chip)",
-                    "{C:inactive}(Tầng độ sâu: {C:blue}#3#{C:inactive})",
+                    "{C:dark_edition}+#1#{} ô Joker",
+                    "{C:attention}+#2#{} ô tiêu thụ",
+                    "{C:attention}+#3#{} lá giữ trong tay",
+                    "{s:0.8,C:inactive}Hiệu ứng khác trong",
+                    "{s:0.8,C:inactive}chế độ cốt truyện!",
+                },
+            },
+            j_sgt_submarine_storymode = {
+                name = "Tàu Ngầm",
+                text = {
+                    {"{C:dark_edition}+#7#{} ô Joker",
+                    "{C:attention}+#8#{} ô tiêu thụ",
+                    "{C:attention}+#9#{} lá giữ trong tay"},
+                    {"{C:attention}Du hành{} xuyên đại dương!",
+                    "{C:attention}Khám phá{} điều chưa biết!",
+                    "{C:inactive}(Tầng độ sâu: {V:3}#5#{C:inactive})",
+                    "{C:inactive}(Cấp độ vỏ tàu: {C:attention}#6#{C:inactive})"},
+                },
+            },
+            j_sgt_sub_engineer = {
+                name = "Kĩ Sư Tàu Ngầm",
+                text = {
+                    {"{C:attention}+1{} ô Gói Bài"},
+                    {"Hiệu ứng {C:attention}đặc thù{} của",
+                    "{C:sgt_sagadition}2 Vạn Dặm Dưới Biển{}:",
+                    "Cho phép lá {C:sgt_supply}Tiếp Tế{} nâng cấp",
+                    "xuất hiện trong {C:attention}Gói Tiếp Tế{}",
+                    "{C:attention}Đảm bảo{} ra một {C:attention}Gói Tiếp Tế{}",
+                    "ở đầu mỗi ante"},
                 },
             },
             j_sgt_clownfish = {
@@ -2487,7 +2648,8 @@ return {
                     "cá mục tiêu với {C:attention}cân nặng{} thấp hơn",
                     "để nhận một {C:attention}hiệu ứng tạm thời",
                     "nếu chưa có hiệu ứng nào",
-                    "{s:0.8,C:attention}Lia chuột{s:0.8} lên joker này để xem mục tiêu",
+                    "{s:0.8,C:attention}Lia chuột{s:0.8} và {s:0.8,C:attention}kéo thả{s:0.8} joker này",
+                    "{s:0.8}xung quanh để xem mục tiêu",
                 },
             },
             weight1_type1 = {
@@ -2640,6 +2802,65 @@ return {
                 },
             },
         },
+        Supply = {
+            c_sgt_smithing = {
+                name = "Rèn",
+                text = {
+                    "Nâng cấp {C:attention}Tàu Ngầm{}, cho phép nó",
+                    "chống chịu được tầng độ sâu {C:attention}#1#{}",
+                },
+            },
+            c_sgt_welding = {
+                name = "Hàn",
+                text = {
+                    "{C:attention}+#2#{} lá giữ trong tay",
+                    "Nâng cấp {C:attention}Tàu Ngầm{}, cho phép nó",
+                    "chống chịu được tầng độ sâu {C:attention}#1#{}",
+                },
+            },
+            c_sgt_composite = {
+                name = "Phức Hợp",
+                text = {
+                    "{C:attention}+#2#{} ô tiêu thụ",
+                    "Nâng cấp {C:attention}Tàu Ngầm{}, cho phép nó",
+                    "chống chịu được tầng độ sâu {C:attention}#1#{}",
+                },
+            },
+            c_sgt_nanotech = {
+                name = "Công Nghệ Nano",
+                text = {
+                    "{C:dark_edition}+#2#{} ô Joker",
+                    "Nâng cấp {C:attention}Tàu Ngầm{}, cho phép nó",
+                    "chống chịu được tầng độ sâu {C:attention}#1#{}",
+                },
+            },
+            c_sgt_small_canned_fish = {
+                name = "Lon Cá Nhỏ",
+                text = {
+                    "Nạp {C:attention}#1#{} đơn vị Lương thực",
+                },
+            },
+            c_sgt_medium_canned_fish = {
+                name = "Lon Cá Vừa",
+                text = {
+                    "Nạp {C:attention}#1#{} đơn vị Lương thực",
+                },
+            },
+            c_sgt_large_canned_fish = {
+                name = "Lon Cá Lớn",
+                text = {
+                    "Nạp {C:attention}#1#{} đơn vị Lương thực",
+                },
+            },
+            c_sgt_fuel_barrel = {
+                name = "Thùng Nhiên Liệu",
+                text = {
+                    "Nạp {C:attention}#1#{} đơn vị Nhiên liệu",
+                    "Tối đa {C:attention}3{} lần dùng",
+                    "{C:inactive}(Còn lại {C:attention}#2#{C:inactive})",
+                },
+            },
+        },
         Mod = {
             Sagatro = {
                 name = "Sagatro",
@@ -2678,6 +2899,8 @@ return {
             sgt_space_seal = "Con Dấu Không Gian",
             sgt_platinum_seal = "Con Dấu Bạch Kim",
             sgt_protected = "Bảo Vệ",
+            sgt_imminent_doom = "Sắp Hẹo",
+            sgt_off_depth = "Lệch Độ Sâu",
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Hansel Đỏ Đen",
@@ -2716,6 +2939,9 @@ return {
             k_eldritch = "Hắc Linh",
             b_eldritch_cards = "Lá Hắc Linh",
             sgt_eldritch_pack = "Gói Hắc Linh",
+            k_supply = "Tiếp Tế",
+            b_supply_cards = "Lá Tiếp Tế",
+            sgt_supply_pack = "Gói Tiếp Tế",
             saga_tooltip = "Gợi ý tiến triển",
             saga_fusion_tooltip = "Kết hợp joker",
             saga_storyline_start = "Khởi động",
@@ -2730,6 +2956,9 @@ return {
             sgt_roll5 = "Số năm",
             sgt_roll6 = "Số sáu",
             b_join = "NHẬP",
+            b_sgt_up = "LÊN",
+            b_sgt_down = "XUỐNG",
+            b_sgt_ready = "S.SÀNG",
             b_delete_ace = "Huỷ Át",
             b_dont_even_try = "Đừng cố nữa",
             k_in_a_hurry_ex = "Tranh thủ lên!",
@@ -2792,6 +3021,7 @@ return {
             k_downgrade_ex = "Hạ Cấp!",
             k_consumed_ex = "Tiêu Thụ!",
             k_kaboom_ex = "Bùm!",
+            k_incoming_ex = "Sắp Đến!",
             k_plus_divinatio = "+1 Chiêm Mộng",
             k_plus_celestara = "+1 Huyền Thể",
             ph_per_face_down = " mỗi lá sấp",
@@ -2813,8 +3043,12 @@ return {
             ph_black_soul = "Black Soul",
             ph_celestaverse = "Celestaverse",
             sgt_swap = "Tráo!",
+            SGT_story_related_settings = "Cài đặt cốt truyện",
+            SGT_misc_settings = "Cài đặt khác",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",
             SGT_disable_other_jokers_desc = {"Tắt mọi joker khác và bật tiến trình","cốt truyện tuyến tính (Yêu cầu tạo trận mới)"},
+            SGT_view_fish_properties = "Thuộc Tính Cá",
+            SGT_view_fish_properties_desc = {"Xem thuộc tính cá dưới dạng hộp","riêng biệt bên dưới phần mô tả"},
             SGT_disable_sagatro_items = "Tắt Vật Phẩm Sagatro",
             SGT_disable_sagatro_items_desc = {"(Yêu cầu tạo trận mới, chỉ hoạt động","khi tắt Chế Độ Cốt Truyện)"},
             SGT_sagatro_music = "Nhạc Sagatro",

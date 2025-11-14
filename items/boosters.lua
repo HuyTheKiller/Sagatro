@@ -603,6 +603,48 @@ local eldritch_mega = {
     end,
 }
 
+local supply = {
+    key = "supply",
+    atlas = "supply",
+    pos = { x = 4, y = 0 },
+    config = { choose = 1, extra = 3 },
+    discovered = true,
+    no_collection = true,
+    group_key = "sgt_supply_pack",
+    cost = 4,
+    weight = 3,
+    kind = "Supply",
+    select_card = "consumeables",
+    ease_background_colour = function(self)
+        ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_SUPPLY)
+        ease_background_colour{new_colour = G.C.SGT_SUPPLY, special_colour = G.C.BLACK, contrast = 2}
+    end,
+    particles = function(self)
+        G.booster_pack_sparkles = Particles(1, 1, 0,0, {
+            timer = 0.015,
+            scale = 0.2,
+            initialize = true,
+            lifespan = 1,
+            speed = 1.1,
+            padding = -1,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.SGT_SUPPLY, lighten(G.C.SGT_SUPPLY, 0.4), lighten(G.C.SGT_SUPPLY, 0.2), darken(G.C.SGT_SUPPLY, 0.2)},
+            fill = true
+        })
+        G.booster_pack_sparkles.fade_alpha = 1
+        G.booster_pack_sparkles:fade(1, 0)
+    end,
+    create_card = function(self, card, i)
+        return {set = "Supply", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "spl"}
+    end,
+    in_pool = function(self, args)
+        return Sagatro.storyline_check("20k_miles_under_the_sea")
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
+    end,
+}
+
 local booster_table = {
     divinatio_normal_1,
     divinatio_normal_2,
@@ -618,6 +660,7 @@ local booster_table = {
     eldritch_mega,
     wish_primary,
     wish_secondary,
+    supply,
 }
 
 for _, v in ipairs(booster_table) do

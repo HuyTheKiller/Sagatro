@@ -1,5 +1,37 @@
 local talisman = Sagatro.mod_compat.talisman
 
+local supply = {
+    key = "Supply",
+    primary_colour = HEX("AFB2B9"),
+	secondary_colour = G.C.SGT_SUPPLY,
+	collection_rows = { 4, 4 },
+	shop_rate = 0.0,
+	loc_txt = {},
+	default = "c_sgt_small_canned_fish",
+}
+
+local consumabletype_table = {
+    supply,
+}
+
+for _, v in ipairs(consumabletype_table) do
+    SMODS.ConsumableType(v)
+end
+
+local un_supply = {
+    key = "Supply",
+    atlas = "supply",
+    pos = {x = 4, y = 1},
+}
+
+local undiscovered_sprite_table = {
+    un_supply,
+}
+
+for _, v in ipairs(undiscovered_sprite_table) do
+    SMODS.UndiscoveredSprite(v)
+end
+
 local streak = {
     key = "streak",
     name = "The Streak",
@@ -158,10 +190,311 @@ local omniscience = {
     end
 }
 
+local smithing = {
+    key = "smithing",
+    name = "Smithing",
+    set = "Supply",
+    atlas = "supply",
+    pos = {x = 0, y = 0},
+    config = {target_level = 2},
+    cost = 4,
+    can_use = function(self, card)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") then
+            return submarine.ability.immutable.armor_level + 1 == card.ability.target_level
+        end
+        return false
+    end,
+    use = function(self, card, area, copier)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine then
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                play_sound('timpani')
+                card:juice_up(0.3, 0.5)
+                submarine.ability.immutable.armor_level = submarine.ability.immutable.armor_level + 1
+                submarine:juice_up()
+                return true end }))
+            delay(0.6)
+        end
+	end,
+    loc_vars = function(self, info_queue, card)
+		return {vars = {card and card.ability.target_level or self.config.target_level}}
+	end,
+    in_pool = function(self, args)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") then
+            return submarine.ability.immutable.armor_level + 1 == self.config.target_level
+        end
+        return false
+    end,
+}
+
+local welding = {
+    key = "welding",
+    name = "Welding",
+    set = "Supply",
+    atlas = "supply",
+    pos = {x = 1, y = 0},
+    config = {target_level = 3, extra = {hand_size = 2}},
+    cost = 4,
+    can_use = function(self, card)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") then
+            return submarine.ability.immutable.armor_level + 1 == card.ability.target_level
+        end
+        return false
+    end,
+    use = function(self, card, area, copier)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine then
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                play_sound('timpani')
+                card:juice_up(0.3, 0.5)
+                submarine.ability.immutable.armor_level = submarine.ability.immutable.armor_level + 1
+                submarine:juice_up()
+                G.hand:change_size(card.ability.extra.hand_size)
+                submarine.ability.extra.hand_size_story_mode =
+                submarine.ability.extra.hand_size_story_mode + card.ability.extra.hand_size
+                return true end }))
+            delay(0.6)
+        end
+	end,
+    loc_vars = function(self, info_queue, card)
+		return {vars = {card and card.ability.target_level or self.config.target_level, card and card.ability.extra.hand_size or self.config.extra.hand_size}}
+	end,
+    in_pool = function(self, args)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") then
+            return submarine.ability.immutable.armor_level + 1 == self.config.target_level
+        end
+        return false
+    end,
+}
+
+local composite = {
+    key = "composite",
+    name = "composite",
+    set = "Supply",
+    atlas = "supply",
+    pos = {x = 2, y = 0},
+    config = {target_level = 4, extra = {consumable_slot = 1}},
+    cost = 4,
+    can_use = function(self, card)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") then
+            return submarine.ability.immutable.armor_level + 1 == card.ability.target_level
+        end
+        return false
+    end,
+    use = function(self, card, area, copier)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine then
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                play_sound('timpani')
+                card:juice_up(0.3, 0.5)
+                submarine.ability.immutable.armor_level = submarine.ability.immutable.armor_level + 1
+                submarine:juice_up()
+                G.consumeables:change_size(card.ability.extra.consumable_slot)
+                submarine.ability.extra.consumable_slot_story_mode =
+                submarine.ability.extra.consumable_slot_story_mode + card.ability.extra.consumable_slot
+                return true end }))
+            delay(0.6)
+        end
+	end,
+    loc_vars = function(self, info_queue, card)
+		return {vars = {card and card.ability.target_level or self.config.target_level, card and card.ability.extra.consumable_slot or self.config.extra.consumable_slot}}
+	end,
+    in_pool = function(self, args)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") then
+            return submarine.ability.immutable.armor_level + 1 == self.config.target_level
+        end
+        return false
+    end,
+}
+
+local nanotech = {
+    key = "nanotech",
+    name = "Nano-tech",
+    set = "Supply",
+    atlas = "supply",
+    pos = {x = 3, y = 0},
+    config = {target_level = 5, extra = {joker_slot = 1}},
+    cost = 4,
+    can_use = function(self, card)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") then
+            return submarine.ability.immutable.armor_level + 1 == card.ability.target_level
+        end
+        return false
+    end,
+    use = function(self, card, area, copier)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine then
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                play_sound('timpani')
+                card:juice_up(0.3, 0.5)
+                submarine.ability.immutable.armor_level = submarine.ability.immutable.armor_level + 1
+                submarine:juice_up()
+                G.jokers:change_size(card.ability.extra.joker_slot)
+                submarine.ability.extra.joker_slot_story_mode =
+                submarine.ability.extra.joker_slot_story_mode + card.ability.extra.joker_slot
+                return true end }))
+            delay(0.6)
+        end
+	end,
+    loc_vars = function(self, info_queue, card)
+		return {vars = {card and card.ability.target_level or self.config.target_level, card and card.ability.extra.joker_slot or self.config.extra.joker_slot}}
+	end,
+    in_pool = function(self, args)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine and Sagatro.storyline_check("20k_miles_under_the_sea") then
+            return submarine.ability.immutable.armor_level + 1 == self.config.target_level
+        end
+        return false
+    end,
+}
+
+local small_canned_fish = {
+    key = "small_canned_fish",
+    name = "Small Canned Fish",
+    set = "Supply",
+    atlas = "supply",
+    pos = {x = 0, y = 1},
+    config = {amount = 2},
+    cost = 4,
+    can_use = function(self, card)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    use = function(self, card, area, copier)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine then
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                play_sound('timpani')
+                card:juice_up(0.3, 0.5)
+                Sagatro.resolve_hunger(card.ability.amount)
+                submarine:juice_up()
+                return true end }))
+            delay(0.6)
+        end
+	end,
+    loc_vars = function(self, info_queue, card)
+		return {vars = {card and card.ability.amount or self.config.amount}}
+	end,
+    in_pool = function(self, args)
+        return Sagatro.storyline_check("20k_miles_under_the_sea")
+    end,
+}
+
+local medium_canned_fish = {
+    key = "medium_canned_fish",
+    name = "Medium Canned Fish",
+    set = "Supply",
+    atlas = "supply",
+    pos = {x = 1, y = 1},
+    config = {amount = 5},
+    cost = 4,
+    can_use = function(self, card)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    use = function(self, card, area, copier)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine then
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                play_sound('timpani')
+                card:juice_up(0.3, 0.5)
+                Sagatro.resolve_hunger(card.ability.amount)
+                submarine:juice_up()
+                return true end }))
+            delay(0.6)
+        end
+	end,
+    loc_vars = function(self, info_queue, card)
+		return {vars = {card and card.ability.amount or self.config.amount}}
+	end,
+    in_pool = function(self, args)
+        return Sagatro.storyline_check("20k_miles_under_the_sea")
+    end,
+}
+
+local large_canned_fish = {
+    key = "large_canned_fish",
+    name = "Large Canned Fish",
+    set = "Supply",
+    atlas = "supply",
+    pos = {x = 2, y = 1},
+    config = {amount = 10},
+    cost = 4,
+    can_use = function(self, card)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    use = function(self, card, area, copier)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine then
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                play_sound('timpani')
+                card:juice_up(0.3, 0.5)
+                Sagatro.resolve_hunger(card.ability.amount)
+                submarine:juice_up()
+                return true end }))
+            delay(0.6)
+        end
+	end,
+    loc_vars = function(self, info_queue, card)
+		return {vars = {card and card.ability.amount or self.config.amount}}
+	end,
+    in_pool = function(self, args)
+        return Sagatro.storyline_check("20k_miles_under_the_sea")
+    end,
+}
+
+local fuel_barrel = {
+    key = "fuel_barrel",
+    name = "Fuel Barrel",
+    set = "Supply",
+    atlas = "supply",
+    pos = {x = 3, y = 1},
+    config = {amount = 2, uses = 3},
+    cost = 4,
+    can_use = function(self, card)
+        return next(SMODS.find_card("j_sgt_submarine", true))
+    end,
+    keep_on_use = function(self, card)
+        return next(SMODS.find_card("j_sgt_submarine", true)) and card.ability.uses > 1
+    end,
+    use = function(self, card, area, copier)
+        local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
+        if submarine then
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                play_sound('timpani')
+                card:juice_up(0.3, 0.5)
+                Sagatro.resolve_fuel(card.ability.amount)
+                submarine:juice_up()
+                card.ability.uses = card.ability.uses - 1
+                return true end }))
+            delay(0.6)
+        end
+	end,
+    loc_vars = function(self, info_queue, card)
+		return {vars = {card and card.ability.amount or self.config.amount, card and card.ability.uses or self.config.uses}}
+	end,
+    in_pool = function(self, args)
+        return Sagatro.storyline_check("20k_miles_under_the_sea")
+    end,
+}
+
 local consumable_table = {
     streak,
     omniscience,
     lamp,
+    smithing,
+    welding,
+    composite,
+    nanotech,
+    small_canned_fish,
+    medium_canned_fish,
+    large_canned_fish,
+    fuel_barrel,
 }
 
 for _, v in ipairs(consumable_table) do
@@ -242,7 +575,10 @@ local edible = {
     no_collection = true,
     no_sticker_sheet = true,
     should_apply = false,
-    draw = function(self, card, layer) end,
+    draw = function(self, card, layer)
+        G.shared_stickers[self.key].role.draw_major = card
+        G.shared_stickers[self.key]:draw_shader('dissolve', nil, nil, nil, card.children.center)
+    end,
 }
 
 local inedible = {
@@ -256,7 +592,10 @@ local inedible = {
     no_collection = true,
     no_sticker_sheet = true,
     should_apply = false,
-    draw = function(self, card, layer) end,
+    draw = function(self, card, layer)
+        G.shared_stickers[self.key].role.draw_major = card
+        G.shared_stickers[self.key]:draw_shader('dissolve', nil, nil, nil, card.children.center)
+    end,
 }
 
 local not_food = {
@@ -270,7 +609,84 @@ local not_food = {
     no_collection = true,
     no_sticker_sheet = true,
     should_apply = false,
-    draw = function(self, card, layer) end,
+    draw = function(self, card, layer)
+        G.shared_stickers[self.key].role.draw_major = card
+        G.shared_stickers[self.key]:draw_shader('dissolve', nil, nil, nil, card.children.center)
+    end,
+}
+
+local off_depth = {
+    key = "sgt_off_depth",
+    name = "Off Depth",
+    atlas = "misc",
+    pos = {x = 4, y = 3},
+    badge_colour = HEX("FF0000"),
+    prefix_config = { key = false },
+    sets = { Joker = true },
+    no_collection = true,
+    no_sticker_sheet = true,
+    should_apply = false,
+    apply = function(self, card, val)
+        card.ability[self.key] = val
+        card.ability.sgt_off_depth_tally = val and 3 or nil
+    end,
+    calculate = function(self, card, context)
+        if context.end_of_round and context.main_eval then
+            if card.ability.sgt_off_depth_tally == 1 then
+                card.ability.sgt_off_depth_tally = 0
+                SMODS.calculate_effect({message = localize('k_disabled_ex'), colour = G.C.FILTER, delay = 0.45, no_retrigger = true}, v)
+                SMODS.debuff_card(card, true, "sgt_off_depth_expired")
+            else
+                card.ability.sgt_off_depth_tally = card.ability.sgt_off_depth_tally - 1
+                SMODS.calculate_effect({message = localize{type='variable',key='a_remaining',vars={card.ability.sgt_off_depth_tally}}, colour = G.C.FILTER, delay = 0.45, no_retrigger = true}, v)
+            end
+        end
+    end,
+    draw = function(self, card, layer)
+        G.shared_stickers[self.key].role.draw_major = card
+        G.shared_stickers[self.key]:draw_shader('dissolve', nil, nil, nil, card.children.center)
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {vars = {card.ability.sgt_off_depth_tally}}
+        if card.ability.immutable and card.ability.immutable.depth_range then
+            if card.ability.immutable.depth_range[1] == card.ability.immutable.depth_range[2] then
+                ret.key = "sgt_off_depth_singular"
+                ret.vars[#ret.vars+1] = card.ability.immutable.depth_range[1]
+            else
+                ret.vars[#ret.vars+1] = card.ability.immutable.depth_range[1]
+                ret.vars[#ret.vars+1] = card.ability.immutable.depth_range[2]
+            end
+        else
+            ret.key = "sgt_off_depth_not_fish"
+        end
+        return ret
+    end,
+}
+
+local imminent_doom = {
+    key = "sgt_imminent_doom",
+    name = "Imminent Doom",
+    atlas = "misc",
+    pos = {x = 0, y = 3},
+    badge_colour = HEX("BE5938"),
+    prefix_config = { key = false },
+    sets = { Joker = true },
+    no_collection = true,
+    no_sticker_sheet = true,
+    should_apply = false,
+    draw = function(self, card, layer)
+        G.shared_stickers[self.key].role.draw_major = card
+        G.shared_stickers[self.key]:draw_shader('dissolve', nil, nil, nil, card.children.center)
+    end,
+    loc_vars = function(self, info_queue, card)
+        if card and card.config.center_key == "j_sgt_submarine" then
+            if card.ability.immutable.states.fuel_left <= 0 then
+                return {key = "sgt_imminent_doom_f"}
+            elseif card.ability.immutable.states.hunger_left <= 0 then
+                return {key = "sgt_imminent_doom_h"}
+            end
+        end
+    end,
 }
 
 local sticker_table = {
@@ -278,6 +694,8 @@ local sticker_table = {
     edible,
     inedible,
     not_food,
+    off_depth,
+    imminent_doom,
 }
 
 for _, v in ipairs(sticker_table) do

@@ -6,6 +6,7 @@ G.C.SGT_WISH = HEX("9bbcfd")
 G.C.SGT_DIVINATIO = HEX("3bc9cf")
 G.C.SGT_CELESTARA = HEX("717beb")
 G.C.SGT_ELDRITCH = HEX("3f0c57")
+G.C.SGT_SUPPLY = HEX("485267")
 G.C.SGT_BADGE = HEX("6131ac")
 G.C.SUBMARINE_DEPTH = {
     HEX("3a86e1"),
@@ -67,6 +68,16 @@ Sagatro.story_mode_no_reroll = {
 Sagatro.main_storyline_list = {
     "alice_in_wonderland",
     "20k_miles_under_the_sea"
+}
+
+Sagatro.forced_buffoon_events = {
+    "white_rabbit_house",
+    "goodbye_frog",
+    "the_party",
+    "red_queen",
+    "gryphon",
+    "finding_the_submarine",
+    "the_sub_engineer",
 }
 
 local igo = Game.init_game_object
@@ -230,16 +241,16 @@ function CardArea:update(dt)
     if self == G.jokers and #G.jokers.highlighted == 0 and G.GAME.story_mode then
         local check = false
         for _, v in ipairs(G.jokers.cards) do
-            if v.states.hover.is or v.states.focus.is or v.states.drag.is then
+            if v.states.hover.is or v.states.drag.is then
                 check = true
                 break
             end
         end
         if not check then
-            for _, v in ipairs(G.jokers.cards) do
-                v:remove_sticker("sgt_not_food")
-                v:remove_sticker("sgt_inedible")
-                v:remove_sticker("sgt_edible")
+            for i = 1, #G.jokers.cards do
+                G.jokers.cards[i]:remove_sticker("sgt_not_food")
+                G.jokers.cards[i]:remove_sticker("sgt_inedible")
+                G.jokers.cards[i]:remove_sticker("sgt_edible")
             end
         end
     end
@@ -251,7 +262,6 @@ local card_update_ref = Card.update
 function Card:update(dt)
     card_update_ref(self, dt)
     if G.STAGE == G.STAGES.RUN then
-        if self.ability and self.ability.true_perma_debuff then self.debuff = true end
         if self:get_card_fusion() ~= nil then
             self.ability.fusion = self.ability.fusion or {}
             local my_fusion = self:get_card_fusion()
@@ -270,10 +280,17 @@ function Card:update(dt)
 			SMODS.change_play_limit(-1)
             SMODS.change_discard_limit(-1)
 		end
-        if self.states.hover.is or self.states.focus.is or self.states.drag.is then
+        if self.states.hover.is or self.states.drag.is then
             if self.area == G.jokers and G.GAME.story_mode then
                 if not self.debuff then
                     if self.ability.immutable and self.ability.immutable.weight_level then
+                        if self.ability.immutable.eaten_weight then
+                            for i = 1, #G.jokers.cards do
+                                G.jokers.cards[i]:remove_sticker("sgt_not_food")
+                                G.jokers.cards[i]:remove_sticker("sgt_inedible")
+                                G.jokers.cards[i]:remove_sticker("sgt_edible")
+                            end
+                        end
                         if self.ability.immutable.target_offset
                         and type(self.ability.immutable.target_offset) == "number" then
                             local target
@@ -283,32 +300,32 @@ function Card:update(dt)
                                     break
                                 end
                             end
+                            for i = 1, #G.jokers.cards do
+                                G.jokers.cards[i]:remove_sticker("sgt_not_food")
+                                G.jokers.cards[i]:remove_sticker("sgt_inedible")
+                                G.jokers.cards[i]:remove_sticker("sgt_edible")
+                            end
                             if target then
-                                for _, v in ipairs(G.jokers.cards) do
-                                    v:remove_sticker("sgt_not_food")
-                                    v:remove_sticker("sgt_inedible")
-                                    v:remove_sticker("sgt_edible")
-                                end
                                 Sagatro.process_edible_state(self, target)
                             end
                         elseif self.ability.immutable.target == "leftmost" then
                             local target = G.jokers.cards[1]
+                            for i = 1, #G.jokers.cards do
+                                G.jokers.cards[i]:remove_sticker("sgt_not_food")
+                                G.jokers.cards[i]:remove_sticker("sgt_inedible")
+                                G.jokers.cards[i]:remove_sticker("sgt_edible")
+                            end
                             if target ~= self then
-                                for _, v in ipairs(G.jokers.cards) do
-                                    v:remove_sticker("sgt_not_food")
-                                    v:remove_sticker("sgt_inedible")
-                                    v:remove_sticker("sgt_edible")
-                                end
                                 Sagatro.process_edible_state(self, target)
                             end
                         elseif self.ability.immutable.target == "rightmost" then
                             local target = G.jokers.cards[#G.jokers.cards]
+                            for i = 1, #G.jokers.cards do
+                                G.jokers.cards[i]:remove_sticker("sgt_not_food")
+                                G.jokers.cards[i]:remove_sticker("sgt_inedible")
+                                G.jokers.cards[i]:remove_sticker("sgt_edible")
+                            end
                             if target ~= self then
-                                for _, v in ipairs(G.jokers.cards) do
-                                    v:remove_sticker("sgt_not_food")
-                                    v:remove_sticker("sgt_inedible")
-                                    v:remove_sticker("sgt_edible")
-                                end
                                 Sagatro.process_edible_state(self, target)
                             end
                         elseif self.ability.immutable.target_range == "leftward" then
@@ -325,10 +342,10 @@ function Card:update(dt)
                                     targets[#targets+1] = G.jokers.cards[i]
                                 else break end
                             end
-                            for _, v in ipairs(G.jokers.cards) do
-                                v:remove_sticker("sgt_not_food")
-                                v:remove_sticker("sgt_inedible")
-                                v:remove_sticker("sgt_edible")
+                            for i = 1, #G.jokers.cards do
+                                G.jokers.cards[i]:remove_sticker("sgt_not_food")
+                                G.jokers.cards[i]:remove_sticker("sgt_inedible")
+                                G.jokers.cards[i]:remove_sticker("sgt_edible")
                             end
                             for _, target in ipairs(targets) do
                                 Sagatro.process_edible_state(self, target)
@@ -347,10 +364,10 @@ function Card:update(dt)
                                     targets[#targets+1] = G.jokers.cards[i]
                                 else break end
                             end
-                            for _, v in ipairs(G.jokers.cards) do
-                                v:remove_sticker("sgt_not_food")
-                                v:remove_sticker("sgt_inedible")
-                                v:remove_sticker("sgt_edible")
+                            for i = 1, #G.jokers.cards do
+                                G.jokers.cards[i]:remove_sticker("sgt_not_food")
+                                G.jokers.cards[i]:remove_sticker("sgt_inedible")
+                                G.jokers.cards[i]:remove_sticker("sgt_edible")
                             end
                             for _, target in ipairs(targets) do
                                 Sagatro.process_edible_state(self, target)
@@ -371,11 +388,44 @@ function Card:update(dt)
                                     end
                                 end
                             end
+                            for i = 1, #G.jokers.cards do
+                                G.jokers.cards[i]:remove_sticker("sgt_not_food")
+                                G.jokers.cards[i]:remove_sticker("sgt_inedible")
+                                G.jokers.cards[i]:remove_sticker("sgt_edible")
+                            end
                             for _, target in ipairs(targets) do
                                 Sagatro.process_edible_state(self, target)
                             end
+                        else
+                            for i = 1, #G.jokers.cards do
+                                G.jokers.cards[i]:remove_sticker("sgt_not_food")
+                                G.jokers.cards[i]:remove_sticker("sgt_inedible")
+                                G.jokers.cards[i]:remove_sticker("sgt_edible")
+                            end
+                        end
+                    else
+                        for i = 1, #G.jokers.cards do
+                            G.jokers.cards[i]:remove_sticker("sgt_not_food")
+                            G.jokers.cards[i]:remove_sticker("sgt_inedible")
+                            G.jokers.cards[i]:remove_sticker("sgt_edible")
                         end
                     end
+                end
+            end
+        end
+        if self.area == G.jokers and G.GAME.story_mode and not self.debuff then
+            if self.ability.immutable and self.ability.immutable.weight_level then
+                local i_start, i_end, is_within_range = self.ability.immutable.depth_range[1], self.ability.immutable.depth_range[2], false
+                for i = i_start, i_end do
+                    if i == Sagatro.get_submarine_depth_colour() then
+                        is_within_range = true
+                        break
+                    end
+                end
+                if is_within_range then
+                    self:remove_sticker("sgt_off_depth")
+                elseif not self.ability.sgt_off_depth then
+                    self:add_sticker("sgt_off_depth", true)
                 end
             end
         end
@@ -465,10 +515,17 @@ function Game:update(dt)
                                 v.ability.anim_pos.x = 0
                                 v.ability.in_transition = false
                                 v.ability.immutable.old_depth_level = v.ability.immutable.depth_level
+                                v.ability.anim_transition_path = v.ability.immutable.old_depth_level - v.ability.immutable.depth_level
                             else
                                 v.ability.anim_pos.x = v.ability.anim_pos.x + 1
                             end
-                            v.ability.anim_pos.y = (math.min(v.ability.immutable.old_depth_level, v.ability.immutable.depth_level) - 1)
+                            local pending_up = 0
+                            if v.ability.anim_transition_path ~= 0 then
+                                if v.ability.anim_transition_path > 0 and not v.ability.in_transition then
+                                    pending_up = 1
+                                end
+                            end
+                            v.ability.anim_pos.y = (math.min(v.ability.immutable.old_depth_level, v.ability.immutable.depth_level) - 1 + pending_up)
                             + (v.ability.in_transition and 5 or 0)
                             v.children.center:set_sprite_pos(v.ability.anim_pos)
                         end
@@ -916,20 +973,6 @@ function get_new_boss()
     return ret
 end
 
--- Block boss reroll if it's some certain boss blinds in story mode (you would waste $10 anyway, see hook above)
-local rbb = G.FUNCS.reroll_boss_button
-G.FUNCS.reroll_boss_button = function(e)
-    rbb(e)
-    if G.GAME.story_mode and table.contains(Sagatro.story_mode_no_reroll, G.GAME.round_resets.blind_choices.Boss) then
-        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-        e.config.button = nil
-        e.children[1].children[1].config.shadow = false
-        if e.children[2] then e.children[2].children[1].config.shadow = false end
-        e.children[1].children[1].config.text = localize("b_dont_even_try")
-        e.UIBox:recalculate()
-    end
-end
-
 -- Disabling Queen Of Hearts via using Eat Me! won't cut the score down to 2X base
 local disable_ref = Blind.disable
 function Blind:disable(...)
@@ -947,31 +990,6 @@ function Blind:defeat(s)
 	dft(self, s)
     if self.config.blind.key and table.contains(Sagatro.story_mode_showdown, self.config.blind.key) then
         G.GAME.story_ended = true
-    end
-end
-
--- Custom tooltip (modified from Ortalab)
-function saga_tooltip(_c, info_queue, card, desc_nodes, specific_vars, full_UI_table)
-    localize{type = 'descriptions', set = _c.set, key = _c.key, nodes = desc_nodes, vars = specific_vars or _c.vars}
-    desc_nodes['colour'] = _c.colour or Sagatro.badge_colour
-    desc_nodes.saga_tooltip = true
-    desc_nodes.title = _c.title or localize(_c.key) ~= "ERROR" and localize(_c.key) or localize('saga_tooltip')
-    desc_nodes.default_colour = _c.default_colour
-end
-
-local itfr = info_tip_from_rows
-function info_tip_from_rows(desc_nodes, name)
-    if desc_nodes.saga_tooltip then
-        local t = {}
-        for _, v in ipairs(desc_nodes) do
-        t[#t+1] = {n=G.UIT.R, config={align = "cm"}, nodes=v}
-        end
-        return {n=G.UIT.R, config={align = "cm", colour = desc_nodes.default_colour and mix_colours(G.C.WHITE, G.C.GREY, 0.2) or darken(desc_nodes.colour, 0.15), r = 0.1}, nodes={
-            {n=G.UIT.R, config={align = "tm", minh = 0.36, padding = 0.03}, nodes={{n=G.UIT.T, config={text = desc_nodes.title, scale = 0.32, colour = G.C.UI.TEXT_LIGHT}}}},
-            {n=G.UIT.R, config={align = "cm", minw = 1.5, minh = 0.4, r = 0.1, padding = 0.05, colour = desc_nodes.default_colour and G.C.WHITE or lighten(desc_nodes.colour, 0.5)}, nodes={{n=G.UIT.R, config={align = "cm", padding = 0.03}, nodes=t}}}
-        }}
-    else
-        return itfr(desc_nodes, name)
     end
 end
 
@@ -1153,34 +1171,19 @@ end
 -- Force the first pack in shop to be buffoon in certain events
 local gp = get_pack
 function get_pack(_key, _type)
-    if G.GAME.story_mode and not G.GAME.saga_event_forced_buffoon
-    and Sagatro.event_check({"white_rabbit_house", "goodbye_frog", "the_party", "red_queen", "gryphon", "finding_the_submarine"}, true) then
-        G.GAME.saga_event_forced_buffoon = true
-        local buffoon_pool = {"p_buffoon_normal_1", "p_buffoon_normal_2", "p_buffoon_jumbo_1", "p_buffoon_mega_1"}
-        local chosen_buffoon = pseudorandom_element(buffoon_pool, pseudoseed("saga_event_forced_buffoon"))
-        return G.P_CENTERS[chosen_buffoon]
-    end
-    return gp(_key, _type)
-end
-
-local csb = G.FUNCS.can_skip_booster
-G.FUNCS.can_skip_booster = function(e)
-    csb(e)
-    if G.pack_cards and (not (G.GAME.STOP_USE and G.GAME.STOP_USE > 0)) and
-    (G.STATE == G.STATES.SMODS_BOOSTER_OPENED and SMODS.OPENED_BOOSTER.label:find("wish_primary")) then
-        if next(SMODS.find_card("j_sgt_lamp_genie", true)) then
-            local max_collected_wish = 0
-            for _, card in ipairs(G.jokers.cards) do
-                if card.config.center_key == "j_sgt_lamp_genie" and card.ability.collected_wish > max_collected_wish then
-                    max_collected_wish = card.ability.collected_wish
-                end
-            end
-            if max_collected_wish < 2 then
-                e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-                e.config.button = nil
-            end
+    if G.GAME.story_mode then
+        if Sagatro.event_check(Sagatro.forced_buffoon_events, true)
+        and not G.GAME.saga_event_forced_buffoon then
+            G.GAME.saga_event_forced_buffoon = true
+            local buffoon_pool = {"p_buffoon_normal_1", "p_buffoon_normal_2", "p_buffoon_jumbo_1", "p_buffoon_mega_1"}
+            local chosen_buffoon = pseudorandom_element(buffoon_pool, pseudoseed("saga_event_forced_buffoon"))
+            return G.P_CENTERS[chosen_buffoon]
+        elseif next(SMODS.find_card("j_sgt_sub_engineer")) and not G.GAME.supply_drop then
+            G.GAME.supply_drop = true
+            return G.P_CENTERS.p_sgt_supply
         end
     end
+    return gp(_key, _type)
 end
 
 -- Reset debuff positions of all Mouses outside their own code (because they can't do that if debuffed)\
@@ -1196,9 +1199,11 @@ function Sagatro.reset_game_globals(run_start)
         end
     end
     if G.GAME.story_mode and G.GAME.saga_event_forced_buffoon
-    and Sagatro.event_check({"white_rabbit_house", "goodbye_frog", "the_party", "red_queen", "gryphon", "finding_the_submarine"}, true) then
+    and Sagatro.event_check(Sagatro.forced_buffoon_events, true) then
         G.GAME.saga_event_forced_buffoon = nil
     end
+    G.GAME.first_hand_played = nil
+    G.GAME.submarine_movement_cooldown = nil
     if G.GAME.saved_by_gods_miracle then
         G.GAME.saved_by_gods_miracle = nil
     end
@@ -1514,9 +1519,6 @@ end
 
 function Sagatro:calculate(context)
     if G.GAME.story_mode then
-        if context.before and Sagatro.storyline_check("20k_miles_under_the_sea") then
-            G.jokers:unhighlight_all()
-        end
         if context.end_of_round and context.main_eval then
             for _, v in pairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
                 if v.ability.set == "Joker" and v.ability.immutable then
@@ -1563,12 +1565,26 @@ function Sagatro:calculate(context)
         end
         if context.ante_change and context.ante_end then
             G.GAME.fish_effect.no_reshuffle = nil
+            G.GAME.supply_drop = nil
+            if G.GAME.pending_fish_var_tooltip_removal then
+                G.GAME.fish_vars = nil
+                G.GAME.pending_fish_var_tooltip_removal = nil
+            end
+            if Sagatro.storyline_check("20k_miles_under_the_sea") and G.GAME.round_resets.ante >= 3
+            and not next(SMODS.find_card("j_sgt_sub_engineer", true)) then
+                Sagatro.progress_storyline("the_sub_engineer", "add", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+            end
             for _, v in pairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
                 if v.ability.set == "Joker" and v.ability.immutable then
                     v.ability.immutable.no_reshuffle = nil
                 end
             end
         end
+    end
+    if context.after then
+        G.E_MANAGER:add_event(Event({func = function()
+            G.GAME.first_hand_played = true
+        return true end}))
     end
     if context.ante_change and context.ante_end then
         for _, v in pairs(G.GAME.hands) do
@@ -1600,8 +1616,8 @@ function Card:calculate_joker(context)
 end
 
 function Sagatro.calculate_fish_joker(card, context)
-    if (not context.eaten_weight and not context.eaten_stack) or context.blueprint or context.retrigger_joker then return end
-    if context.eaten_weight == 1 then
+    if (not context.eaten_weight and not context.eaten_stack) or context.retrigger_joker then return end
+    if context.eaten_weight == 1 and not context.blueprint then
         if context.eaten_type == 1 then
             if context.first_hand_drawn then
                 local selected_cards = Sagatro.random_select("eaten_select11", G.hand, 3)
@@ -1765,7 +1781,7 @@ function Sagatro.calculate_fish_joker(card, context)
             end
         end
     elseif context.eaten_weight == 2 then
-        if context.eaten_type == 1 then
+        if context.eaten_type == 1 and not context.blueprint then
             card.ability.immutable.eaten_weight = nil
             card.ability.immutable.eaten_type = nil
             card.ability.immutable.no_reshuffle = true
@@ -1789,7 +1805,7 @@ function Sagatro.calculate_fish_joker(card, context)
                     card.ability.triggered = nil
                 return true end }))
             end
-        elseif context.eaten_type == 3 then
+        elseif context.eaten_type == 3 and not context.blueprint then
             if context.before and #context.scoring_hand == 2 then
                 card.ability.triggered = true
             end
@@ -1801,7 +1817,7 @@ function Sagatro.calculate_fish_joker(card, context)
                     card.ability.triggered = nil
                 return true end }))
             end
-        elseif context.eaten_type == 4 then
+        elseif context.eaten_type == 4 and not context.blueprint then
             if context.before and #context.scoring_hand == 3 then
                 local money = 6
                 ease_dollars(money)
@@ -1817,7 +1833,7 @@ function Sagatro.calculate_fish_joker(card, context)
                     colour = G.C.MONEY,
                 }
             end
-        elseif context.eaten_type == 5 then
+        elseif context.eaten_type == 5 and not context.blueprint then
             if context.before and #context.scoring_hand == 4 then
                 card.ability.triggered = true
             end
@@ -1829,7 +1845,7 @@ function Sagatro.calculate_fish_joker(card, context)
                     card.ability.triggered = nil
                 return true end }))
             end
-        elseif context.eaten_type == 6 then
+        elseif context.eaten_type == 6 and not context.blueprint then
             if context.before and #context.scoring_hand == 5 then
                 card.ability.triggered = true
             end
@@ -1843,7 +1859,7 @@ function Sagatro.calculate_fish_joker(card, context)
             end
         end
     elseif context.eaten_weight == 3 then
-        if context.eaten_type == 1 then
+        if context.eaten_type == 1 and not context.blueprint then
             if context.hand_drawn then
                 G.hand:unhighlight_all()
                 local forced_cards = Sagatro.random_select("eaten_select31", G.hand, 1)
@@ -1871,7 +1887,7 @@ function Sagatro.calculate_fish_joker(card, context)
                     card = card,
                 }
             end
-        elseif context.eaten_type == 3 then
+        elseif context.eaten_type == 3 and not context.blueprint then
             if context.pre_discard and G.GAME.current_round.discards_used <= 0 and not context.hook then
                 local hand_type = G.FUNCS.get_poker_hand_info(G.hand.highlighted)
                 if to_big(G.GAME.hands[hand_type].level) > to_big(1) then
@@ -1889,7 +1905,7 @@ function Sagatro.calculate_fish_joker(card, context)
                     end
                 end
             end
-        elseif context.eaten_type == 4 then
+        elseif context.eaten_type == 4 and not context.blueprint then
             if context.pre_discard and #context.full_hand == 1
             and G.GAME.current_round.discards_used <= 0 and not context.hook then
                 delay(0.15)
@@ -1940,7 +1956,7 @@ function Sagatro.calculate_fish_joker(card, context)
                 end
                 delay(0.5)
             end
-        elseif context.eaten_type == 5 then
+        elseif context.eaten_type == 5 and not context.blueprint then
             if context.pre_discard and G.GAME.current_round.discards_left <= 1
             and #context.full_hand == 5 and not context.hook then
                 local selected_card = pseudorandom_element(context.full_hand, pseudoseed("eaten_select35"))
@@ -1995,7 +2011,7 @@ function Sagatro.calculate_fish_joker(card, context)
                     card = card,
                 }
             end
-        elseif context.eaten_type == 2 then
+        elseif context.eaten_type == 2 and not context.blueprint then
             if context.before then
                 local selected_card = pseudorandom_element(G.play.cards, pseudoseed("eaten_select52"))
                 delay(0.15)
@@ -2037,7 +2053,7 @@ function Sagatro.calculate_fish_joker(card, context)
                 end
                 delay(0.5)
             end
-        elseif context.eaten_type == 3 then
+        elseif context.eaten_type == 3 and not context.blueprint then
             if context.end_of_round and context.main_eval then
                 local money = math.min(to_number(G.GAME.dollars), 1e300)
                 ease_dollars(money)
@@ -2053,13 +2069,13 @@ function Sagatro.calculate_fish_joker(card, context)
                     colour = G.C.MONEY,
                 }
             end
-        elseif context.eaten_type == 4 then
+        elseif context.eaten_type == 4 and not context.blueprint then
             if context.after then
                 return {
                     sgt_e_score = 1.05,
                 }
             end
-        elseif context.eaten_type == 5 then
+        elseif context.eaten_type == 5 and not context.blueprint then
             if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
                 return {
                     sgt_e_mult = 1.1,
@@ -2127,7 +2143,9 @@ function Sagatro.process_edible_fish(card, context)
                 if weight_tally < joker.ability.immutable.weight_level then
                     weight_tally = joker.ability.immutable.weight_level
                 end
-                edible_fish[#edible_fish+1] = joker
+                if card.config.center_key == "j_sgt_dolphin" or joker.config.center_key ~= "j_sgt_pufferfish" then
+                    edible_fish[#edible_fish+1] = joker
+                end
             end
         end
         local dolphin_high
@@ -2164,22 +2182,22 @@ function Sagatro.process_edible_weight(card, weight_level)
     local roll = pseudorandom("fish_eating_weight")
     local chosen_weight, chosen_type, options = nil, nil, {}
     if weight_level == 1 then
-        chosen_weight = (roll < 0.9  and 1) --90%
-                     or 2                   --10%
+        chosen_weight = (roll < 0.7  and 1) --70%
+                     or 2                   --30%
     elseif weight_level == 2 then
-        chosen_weight = (roll < 0.9  and 2) --90%
-                     or (roll < 0.93 and 1) -- 3%
-                     or 3                   -- 7%
+        chosen_weight = (roll < 0.7  and 2) --70%
+                     or (roll < 0.79 and 1) -- 9%
+                     or 3                   --21%
     elseif weight_level == 3 then
-        chosen_weight = (roll < 0.9  and 3) --90%
-                     or (roll < 0.94 and 2) -- 4%
-                     or (roll < 0.95 and 1) -- 1%
-                     or 4                   -- 5%
+        chosen_weight = (roll < 0.7  and 3) --70%
+                     or (roll < 0.82 and 2) --12%
+                     or (roll < 0.85 and 1) -- 3%
+                     or 4                   --15%
     elseif weight_level == 4 then
-        chosen_weight = (roll < 0.9  and 4) --90%
-                     or (roll < 0.95 and 3) -- 5%
-                     or (roll < 0.99 and 2) -- 4%
-                     or 1                   -- 1%
+        chosen_weight = (roll < 0.7  and 4) --70%
+                     or (roll < 0.85 and 3) --15%
+                     or (roll < 0.97 and 2) --12%
+                     or 1                   -- 3%
     end
     if chosen_weight == 1 then
         chosen_type = pseudorandom("fish_eating_type", 1, 5)
@@ -2218,7 +2236,8 @@ function Sagatro.process_edible_state(card, eaten_object)
     if card.ability.immutable.eaten_weight then return end
     local source_weight = card.ability.immutable.weight_level
     local target_weight = (eaten_object.ability.immutable or {}).weight_level
-    if not target_weight then
+    if not target_weight or (card.config.center_key ~= "j_sgt_dolphin"
+    and eaten_object.config.center_key == "j_sgt_pufferfish") then
         eaten_object:add_sticker("sgt_not_food", true)
     elseif source_weight <= target_weight then
         eaten_object:add_sticker("sgt_inedible", true)
@@ -2274,6 +2293,108 @@ function Sagatro.fish_loc_vars(info_queue, card)
     end
 end
 
+function Sagatro.resolve_fuel(mod)
+    if not Sagatro.storyline_check("20k_miles_under_the_sea") then return end
+    local card = SMODS.find_card("j_sgt_submarine", true)[1]
+    if card then
+        card.ability.immutable.states.fuel_left =
+        math.min(card.ability.immutable.states.fuel_left + mod, card.ability.immutable.states.max_fuel)
+        if card.ability.immutable.states.fuel_left <= 0 then
+            card.ability.immutable.states.fuel_left = 0
+            card:add_sticker("sgt_imminent_doom", true)
+            G.GAME.imminent_doom = true
+        else
+            if card.ability.immutable.states.hunger_left > 0 then
+                card:remove_sticker("sgt_imminent_doom")
+                G.GAME.imminent_doom = nil
+            end
+            if card.ability.immutable.states.fuel_left <= 1.5 and not card.ability.immutable.states.low_fuel then
+                card.ability.immutable.states.low_fuel = true
+                G.GAME.submarine_low_fuel = true
+            elseif card.ability.immutable.states.fuel_left > 1.5 and card.ability.immutable.states.low_fuel then
+                card.ability.immutable.states.low_fuel = nil
+                G.GAME.submarine_low_fuel = nil
+            end
+            if card.ability.immutable.states.fuel_left >= 8 and not card.ability.immutable.states.high_fuel then
+                card.ability.immutable.states.high_fuel = true
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.jokers:change_size(1)
+                    G.GAME.round_resets.reroll_cost = G.GAME.round_resets.reroll_cost - 1
+                    calculate_reroll_cost(true)
+                    G.GAME.submarine_high_fuel = true
+                    Sagatro.global_set_cost()
+                return true end}))
+            elseif card.ability.immutable.states.fuel_left < 8 and card.ability.immutable.states.high_fuel then
+                card.ability.immutable.states.high_fuel = nil
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.jokers:change_size(-1)
+                    G.GAME.round_resets.reroll_cost = G.GAME.round_resets.reroll_cost + 1
+                    calculate_reroll_cost(true)
+                    G.GAME.submarine_high_fuel = nil
+                    Sagatro.global_set_cost()
+                return true end}))
+            end
+        end
+    end
+end
+
+function Sagatro.resolve_hunger(mod)
+    if not Sagatro.storyline_check("20k_miles_under_the_sea") then return end
+    local card = SMODS.find_card("j_sgt_submarine", true)[1]
+    if card then
+        card.ability.immutable.states.hunger_left =
+        math.min(card.ability.immutable.states.hunger_left + mod, card.ability.immutable.states.max_hunger)
+        if card.ability.immutable.states.hunger_left <= 0 then
+            card.ability.immutable.states.hunger_left = 0
+            card:add_sticker("sgt_imminent_doom", true)
+            G.GAME.imminent_doom = true
+        else
+            if card.ability.immutable.states.fuel_left > 0 then
+                card:remove_sticker("sgt_imminent_doom")
+                G.GAME.imminent_doom = nil
+            end
+            if card.ability.immutable.states.hunger_left <= 1.5 and not card.ability.immutable.states.starvation then
+                card.ability.immutable.states.starvation = true
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.hand:change_size(-1)
+                return true end}))
+            elseif card.ability.immutable.states.hunger_left > 1.5 and card.ability.immutable.states.starvation then
+                card.ability.immutable.states.starvation = nil
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.hand:change_size(1)
+                return true end}))
+            end
+            if card.ability.immutable.states.hunger_left >= 7 and not card.ability.immutable.states.nourished then
+                card.ability.immutable.states.nourished = true
+            elseif card.ability.immutable.states.hunger_left < 7 and card.ability.immutable.states.nourished then
+                card.ability.immutable.states.nourished = nil
+            end
+        end
+    end
+end
+
+local set_cost_ref = Card.set_cost
+function Card:set_cost()
+    set_cost_ref(self)
+    if self.ability.immutable and self.ability.immutable.weight_level then
+        if G.GAME.submarine_high_fuel and not self.ability.immutable.cost_reduced then
+            self.ability.immutable.cost_reduced = true
+            self.cost = self.cost - 1
+        elseif not G.GAME.submarine_high_fuel and self.ability.immutable.cost_reduced then
+            self.ability.immutable.cost_reduced = nil
+            self.cost = self.cost + 1
+        end
+    end
+end
+
+function Sagatro.global_set_cost()
+    G.E_MANAGER:add_event(Event({func = function()
+        for _, v in pairs(G.I.CARD) do
+            if v.set_cost then v:set_cost() end
+        end
+    return true end }))
+end
+
 ---@param mod number
 ---@param operator "+"|"X"|"^"|nil
 ---@param arbitrary boolean|nil
@@ -2294,37 +2415,6 @@ function Sagatro.modify_score(mod, operator, arbitrary)
         G.STATE_COMPLETE = true
         end_round()
     end
-end
-
--- Ortalab Mythos UI - modified to be interative with Void Hole
-local gcu = generate_card_ui
-function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, card)
-    local ui = gcu(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, card)
-    if (((_c.set == "Celestara" and _c.key ~= "c_sgt_soltera") or _c.key == "c_sgt_void_hole") and (card and card.area and not card.area.config.collection or _c.discovered)) then
-        local key = (card and card.hand_type_trigger or _c.key).."_effect"
-        local celestara_nodes = {background_colour = lighten(G.C.SGT_CELESTARA, 0.75)}
-        local vars = G.P_CENTERS[card and card.hand_type_trigger or _c.key]:loc_vars({}).vars
-        local consume = _c.key == "c_sgt_void_hole" and "void_hole_consume" or "celestara_consume"
-        localize{type = "descriptions", set = "Celestara", key = "celestara_heading", nodes = celestara_nodes, vars = vars}
-        localize{type = "descriptions", set = "Celestara", key = key, nodes = celestara_nodes, vars = vars}
-        if _c.key ~= "c_sgt_void_hole" or (card and card.hand_type_trigger == "c_sgt_void_hole") then
-            localize{type = "descriptions", set = "Celestara", key = consume, nodes = celestara_nodes, vars = {}}
-        end
-        ui[Ortalab and "mythos" or "celestara"] = celestara_nodes
-    end
-    return ui
-end
-
-local chp = G.UIDEF.card_h_popup
-function G.UIDEF.card_h_popup(card)
-    local ret_val = chp(card)
-    local AUT = card.ability_UIBox_table
-    if AUT.celestara then
-        table.insert(ret_val.nodes[1].nodes[1].nodes[1].nodes,
-        #ret_val.nodes[1].nodes[1].nodes[1].nodes+(card.config.center.discovered and 0 or 1),
-        desc_from_rows(AUT.celestara))
-    end
-    return ret_val
 end
 
 local tag_zodiac_align = {2, 2, 3, 4, 4, 5, 5, 6}
@@ -2526,210 +2616,36 @@ if Ortalab then
     end
 end
 
-SMODS.DrawStep {
-    key = 'eldritch_shine',
-    order = 10,
-    func = function(self)
-        if self.ability.set == "Eldritch" or self.config.center.group_key == "sgt_eldritch_pack" or self.ability.name == "Anima" or self.ability.name == "Soltera" then
-            self.children.center:draw_shader("booster", nil, self.ARGS.send_to_shader)
-        end
-    end,
-    conditions = { vortex = false, facing = "front" },
-}
-
-SMODS.DrawStep {
-    key = "extra_sprite",
-    order = 21,
-    func = function(self, layer)
-        if self.ability.name == "Submarine" and (self.config.center.discovered or self.bypass_discovery_center) then
-            local scale_mod = 0 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
-            local rotate_mod = 0 --0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
-            self.children.extra_sprite:draw_shader(
-                "dissolve",
-                nil,
-                nil,
-                nil,
-                self.children.center,
-                scale_mod,
-                rotate_mod
-            )
-            if self.edition and not self.delay_edition then
-                for k, v in pairs(G.P_CENTER_POOLS.Edition) do
-                    if self.edition[v.key:sub(3)] and v.shader then
-                        if type(v.draw) == 'function' then
-                            v:draw(self, layer)
-                        else
-                            self.children.extra_sprite:draw_shader(v.shader, nil, self.ARGS.send_to_shader, nil, self.children.center)
-                        end
-                    end
-                end
-            end
-            if self.edition and self.edition.negative then
-                self.children.extra_sprite:draw_shader('negative_shine', nil, self.ARGS.send_to_shader, nil, self.children.center)
-            end
-            if self.debuff then
-                self.children.extra_sprite:draw_shader('debuff', nil, self.ARGS.send_to_shader, nil, self.children.center)
-            end
-        end
-    end,
-    conditions = { vortex = false, facing = "front" },
-}
-SMODS.draw_ignore_keys.extra_sprite = true
-
-SMODS.DrawStep {
-    key = "floating_sprite2",
-    order = 58,
-    func = function(self)
-        if self.ability.name == "The Magic Lamp" and (self.config.center.discovered or self.bypass_discovery_center) then
-            local scale_mod2 = 0.07 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
-            local rotate_mod2 = 0 --0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
-            self.children.floating_sprite2:draw_shader(
-                "dissolve",
-                0,
-                nil,
-                nil,
-                self.children.center,
-                scale_mod2,
-                rotate_mod2,
-                nil,
-                0.1 --[[ + 0.03*math.cos(1.8*G.TIMERS.REAL)--]],
-                nil,
-                0.6
-            )
-            self.children.floating_sprite2:draw_shader(
-                "dissolve",
-                nil,
-                nil,
-                nil,
-                self.children.center,
-                scale_mod2,
-                rotate_mod2
-            )
-
-            local scale_mod = 0.05
-                + 0.05 * math.sin(1.8 * G.TIMERS.REAL)
-                + 0.07
-                    * math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL)) * math.pi * 14)
-                    * (1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL))) ^ 3
-            local rotate_mod = 0.1 * math.sin(1.219 * G.TIMERS.REAL)
-                + 0.07
-                    * math.sin(G.TIMERS.REAL * math.pi * 5)
-                    * (1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL))) ^ 2
-
-            self.children.floating_sprite.role.draw_major = self
-            self.children.floating_sprite:draw_shader(
-                "dissolve",
-                0,
-                nil,
-                nil,
-                self.children.center,
-                scale_mod,
-                rotate_mod,
-                nil,
-                0.1 + 0.03 * math.sin(1.8 * G.TIMERS.REAL),
-                nil,
-                0.6
-            )
-            self.children.floating_sprite:draw_shader(
-                "dissolve",
-                nil,
-                nil,
-                nil,
-                self.children.center,
-                scale_mod,
-                rotate_mod
-            )
-        elseif (self.ability.name == "The Sinister" or self.ability.name == "Anima" or self.ability.name == "Soltera") and (self.config.center.discovered or self.bypass_discovery_center) then
-            local scale_mod = 0.05
-                + 0.05 * math.sin(1.8 * G.TIMERS.REAL)
-                + 0.07
-                    * math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL)) * math.pi * 14)
-                    * (1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL))) ^ 3
-            local rotate_mod = 0.1 * math.sin(1.219 * G.TIMERS.REAL)
-                + 0.07
-                    * math.sin(G.TIMERS.REAL * math.pi * 5)
-                    * (1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL))) ^ 2
-
-            self.children.floating_sprite.role.draw_major = self
-            self.children.floating_sprite:draw_shader(
-                "dissolve",
-                0,
-                nil,
-                nil,
-                self.children.center,
-                scale_mod,
-                rotate_mod,
-                nil,
-                0.1 + 0.03 * math.sin(1.8 * G.TIMERS.REAL),
-                nil,
-                0.6
-            )
-            self.children.floating_sprite:draw_shader(
-                "dissolve",
-                nil,
-                nil,
-                nil,
-                self.children.center,
-                scale_mod,
-                rotate_mod
-            )
-        elseif
-            not Cryptid
-            and self.config.center.soul_pos
-            and self.config.center.soul_pos.extra
-            and (self.config.center.discovered or self.bypass_discovery_center)
-        then
-            local scale_mod = 0.07 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
-            local rotate_mod = 0 --0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
-            self.children.floating_sprite2:draw_shader(
-                "dissolve",
-                0,
-                nil,
-                nil,
-                self.children.center,
-                scale_mod,
-                rotate_mod,
-                nil,
-                0.1 --[[ + 0.03*math.cos(1.8*G.TIMERS.REAL)--]],
-                nil,
-                0.6
-            )
-            self.children.floating_sprite2:draw_shader(
-                "dissolve",
-                nil,
-                nil,
-                nil,
-                self.children.center,
-                scale_mod,
-                rotate_mod
-            )
-        end
-    end,
-    conditions = { vortex = false, facing = "front" },
-}
-SMODS.draw_ignore_keys.floating_sprite2 = true
-
-G.FUNCS.delete_ace_in_menu = function(e)
-    if G.title_top then
-        for _, card in ipairs(G.title_top.cards) do
-            if card.config.card_key then -- "Delete Ace" is cosmetic, this should delete any playing card
-                card:remove()
-                G.title_top.config.type = "title_2"
-                break
-            end
-        end
-    end
-    G.FUNCS.exit_overlay_menu()
-end
-
 Sagatro.config_tab = function()
-    return {n = G.UIT.ROOT, config = {r = 0.1, align = "cm", padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 4}, nodes = {
-        {n=G.UIT.C, config = {align = 'cm'}, nodes={
-			create_toggle({label = localize('SGT_disable_other_jokers'), ref_table = Sagatro.config, ref_value = 'DisableOtherJokers', info = localize('SGT_disable_other_jokers_desc'), active_colour = Sagatro.badge_colour, right = true}),
-			create_toggle({label = localize('SGT_disable_sagatro_items'), ref_table = Sagatro.config, ref_value = 'DisableSagatroItems', info = localize('SGT_disable_sagatro_items_desc'), active_colour = Sagatro.badge_colour, right = true}),
-			create_toggle({label = localize('SGT_sagatro_music'), ref_table = Sagatro.config, ref_value = 'SagatroMusic', info = localize('SGT_sagatro_music_desc'), active_colour = Sagatro.badge_colour, right = true}),
-			create_toggle({label = localize('SGT_ortagas'), ref_table = Sagatro.config, ref_value = 'Ortagas', info = localize('SGT_ortagas_desc'), active_colour = Sagatro.badge_colour, right = true, callback = function() if menu_refresh and G.title_top then menu_refresh() end end}),
+    return {n = G.UIT.ROOT, config = {r = 0.1, align = "tm", padding = 0.1, colour = Sagatro.secondary_colour, minw = 8, minh = 6}, nodes = {
+        {n=G.UIT.R, config = {align = 'cm', padding = 0.2}, nodes = {
+            {n=G.UIT.T, config = {scale = 0.5, text = localize('SGT_story_related_settings'), colour = G.C.WHITE}}
+        }},
+        {n=G.UIT.R, config = {align = 'cm'}, nodes={
+            {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
+                create_toggle({label = localize('SGT_disable_other_jokers'), ref_table = Sagatro.config, ref_value = 'DisableOtherJokers', info = localize('SGT_disable_other_jokers_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, left = true}),
+            }},
+            {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
+                create_toggle({label = localize('SGT_view_fish_properties'), ref_table = Sagatro.config, ref_value = 'ViewFishProperties', info = localize('SGT_view_fish_properties_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
+            }},
 		}},
+        {n=G.UIT.R, config = {minh = 0.04, minw = 4, colour = Sagatro.badge_colour}},
+        {n=G.UIT.R, config = {align = 'cm', padding = 0.2}, nodes = {
+            {n=G.UIT.T, config = {scale = 0.5, text = localize('SGT_misc_settings'), colour = G.C.WHITE}}
+        }},
+        {n=G.UIT.R, config = {align = 'cm', padding = 0.2}, nodes = {
+            {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
+                create_toggle({label = localize('SGT_disable_sagatro_items'), ref_table = Sagatro.config, ref_value = 'DisableSagatroItems', info = localize('SGT_disable_sagatro_items_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
+            }},
+            {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
+                create_toggle({label = localize('SGT_sagatro_music'), ref_table = Sagatro.config, ref_value = 'SagatroMusic', info = localize('SGT_sagatro_music_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
+            }},
+        }},
+        {n=G.UIT.R, config = {align = 'cm', padding = 0.2}, nodes = {
+            {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
+                create_toggle({label = localize('SGT_ortagas'), ref_table = Sagatro.config, ref_value = 'Ortagas', info = localize('SGT_ortagas_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true, callback = function() if menu_refresh and G.title_top then menu_refresh() end end}),
+            }},
+        }},
     }}
 end
 
@@ -2773,6 +2689,16 @@ if JokerDisplay then
             ret[#ret+1] = G.consumeables
         end
         return ret
+    end
+
+    local jdcjm = JokerDisplay.calculate_joker_modifiers
+    JokerDisplay.calculate_joker_modifiers = function(card)
+        local modifiers = jdcjm(card)
+        if card.ability.immutable and (card.ability.immutable.eaten_stack or 0) > 0 then
+            modifiers.chips = (modifiers.chips or 0) + 10*card.ability.immutable.eaten_stack
+            modifiers.mult = (modifiers.mult or 0) + 5*card.ability.immutable.eaten_stack
+        end
+        return modifiers
     end
 end
 

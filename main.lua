@@ -13,6 +13,8 @@ Sagatro.load_table = {
 	challenges = true,
 }
 
+Sagatro.secondary_colour = darken(Sagatro.badge_colour, 0.4)
+
 Sagatro.mod_compat = {
 	talisman = next(SMODS.find_mod("Talisman")) or false,
 }
@@ -71,3 +73,10 @@ SMODS.Atlas{
 Sagatro.description_loc_vars = function()
 	return { background_colour = G.C.CLEAR, text_colour = G.C.WHITE, scale = 1.2 }
 end
+
+Sagatro.ui_config = {
+    colour = Sagatro.badge_colour,
+    outline_colour = Sagatro.secondary_colour,
+    tab_button_colour = Sagatro.secondary_colour,
+    back_colour = Sagatro.secondary_colour,
+}
