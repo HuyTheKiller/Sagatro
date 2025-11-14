@@ -634,11 +634,11 @@ local off_depth = {
         if context.end_of_round and context.main_eval then
             if card.ability.sgt_off_depth_tally == 1 then
                 card.ability.sgt_off_depth_tally = 0
-                SMODS.calculate_effect({message = localize('k_disabled_ex'), colour = G.C.FILTER, delay = 0.45, no_retrigger = true}, v)
+                SMODS.calculate_effect({message = localize('k_disabled_ex'), colour = G.C.FILTER, delay = 0.45, no_retrigger = true}, card)
                 SMODS.debuff_card(card, true, "sgt_off_depth_expired")
             else
                 card.ability.sgt_off_depth_tally = card.ability.sgt_off_depth_tally - 1
-                SMODS.calculate_effect({message = localize{type='variable',key='a_remaining',vars={card.ability.sgt_off_depth_tally}}, colour = G.C.FILTER, delay = 0.45, no_retrigger = true}, v)
+                SMODS.calculate_effect({message = localize{type='variable',key='a_remaining',vars={card.ability.sgt_off_depth_tally}}, colour = G.C.FILTER, delay = 0.45, no_retrigger = true}, card)
             end
         end
     end,
