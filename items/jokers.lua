@@ -5066,6 +5066,9 @@ local school = {
         end
     end,
     in_pool = function(self, args)
+        if G.GAME.story_mode then
+            return Sagatro.storyline_check(self.saga_group)
+        end
         return true
     end,
     set_badges = function(self, card, badges)
@@ -6436,10 +6439,7 @@ local ugly_blobfish = {
         end
     end,
     in_pool = function(self, args)
-        if G.GAME.story_mode then
-            return false
-        end
-        return true
+        return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.xmult}}
@@ -6571,6 +6571,9 @@ local coral_kingdom = {
         end
     end,
     in_pool = function(self, args)
+        if G.GAME.story_mode then
+            return Sagatro.storyline_check(self.saga_group)
+        end
         return true
     end,
     loc_vars = function(self, info_queue, card)
