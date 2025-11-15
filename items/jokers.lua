@@ -3994,7 +3994,7 @@ local submarine = {
         if Sagatro.storyline_check(self.saga_group) and not from_debuff then
             G.GAME.supply_rate = 4
             G.GAME.fish_vars = true
-            G.GAME.pending_fish_var_tooltip_removal = true
+            G.GAME.pending_fish_var_tooltip_removal = 2
             G.GAME.submarine_hint_to_progress = true
             SMODS.debuff_card(card, "prevent_debuff", "j_sgt_submarine")
             G.jokers:change_size(card.ability.extra.joker_slot_story_mode)

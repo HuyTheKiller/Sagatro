@@ -1575,9 +1575,11 @@ function Sagatro:calculate(context)
             G.GAME.fish_effect.no_reshuffle = nil
             G.GAME.supply_drop = nil
             G.GAME.ante_cooldown = math.max(G.GAME.ante_cooldown - 1, 0)
-            if G.GAME.pending_fish_var_tooltip_removal then
+            if G.GAME.pending_fish_var_tooltip_removal == 1 then
                 G.GAME.fish_vars = nil
                 G.GAME.pending_fish_var_tooltip_removal = nil
+            else
+                G.GAME.pending_fish_var_tooltip_removal = G.GAME.pending_fish_var_tooltip_removal - 1
             end
             if Sagatro.storyline_check("20k_miles_under_the_sea") and G.GAME.round_resets.ante >= 3
             and not next(SMODS.find_card("j_sgt_sub_engineer", true)) then
