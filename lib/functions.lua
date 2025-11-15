@@ -1578,7 +1578,7 @@ function Sagatro:calculate(context)
             if G.GAME.pending_fish_var_tooltip_removal == 1 then
                 G.GAME.fish_vars = nil
                 G.GAME.pending_fish_var_tooltip_removal = nil
-            else
+            elseif type(G.GAME.pending_fish_var_tooltip_removal) == "number" then
                 G.GAME.pending_fish_var_tooltip_removal = G.GAME.pending_fish_var_tooltip_removal - 1
             end
             if Sagatro.storyline_check("20k_miles_under_the_sea") and G.GAME.round_resets.ante >= 3
