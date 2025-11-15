@@ -121,6 +121,7 @@ function Game:init_game_object()
     ret.alice_multiplier = 1
     ret.relief_factor = 1
     ret.orbis_fatum_odds = 4
+    ret.celestara_tooltip = true
 	return ret
 end
 

@@ -579,6 +579,16 @@ return {
                     "at beginning of every ante",
                 },
             },
+            sgt_celestara_help = {
+                key = "How To Use",
+                text = {
+                    "Press the {X:red,C:white}USE{} button to consume",
+                    "just like a regular {C:planet}Planet{} card",
+                    "Otherwise, keep this in consumable",
+                    "slot and play the {C:attention}specified{} hand",
+                    "to trigger the below effect",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {

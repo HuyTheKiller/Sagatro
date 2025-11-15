@@ -802,6 +802,7 @@ local argyra = {
         return true
     end,
     use = function(self, card, area, copier)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -830,6 +831,7 @@ local argyra = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -875,6 +877,9 @@ local argyra = {
                 }
             },
         }
+        if G.GAME.celestara_tooltip then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_celestara_help"}
+        end
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
@@ -933,6 +938,7 @@ local sulvatera = {
         return true
     end,
     use = function(self, card, area, copier)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -961,6 +967,7 @@ local sulvatera = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1007,6 +1014,9 @@ local sulvatera = {
                 }
             },
         }
+        if G.GAME.celestara_tooltip then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_celestara_help"}
+        end
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
@@ -1064,6 +1074,7 @@ local terranora = {
         return true
     end,
     use = function(self, card, area, copier)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1092,6 +1103,7 @@ local terranora = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1136,6 +1148,9 @@ local terranora = {
                 }
             },
         }
+        if G.GAME.celestara_tooltip then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_celestara_help"}
+        end
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
@@ -1192,6 +1207,7 @@ local valora = {
         return true
     end,
     use = function(self, card, area, copier)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1220,6 +1236,7 @@ local valora = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1264,6 +1281,9 @@ local valora = {
                 }
             },
         }
+        if G.GAME.celestara_tooltip then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_celestara_help"}
+        end
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
@@ -1329,6 +1349,7 @@ local zephyria = {
         return true
     end,
     use = function(self, card, area, copier)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1357,6 +1378,7 @@ local zephyria = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1401,6 +1423,9 @@ local zephyria = {
                 }
             },
         }
+        if G.GAME.celestara_tooltip then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_celestara_help"}
+        end
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
@@ -1468,6 +1493,7 @@ local chronara = {
         return true
     end,
     use = function(self, card, area, copier)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1496,6 +1522,7 @@ local chronara = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1540,6 +1567,9 @@ local chronara = {
                 }
             },
         }
+        if G.GAME.celestara_tooltip then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_celestara_help"}
+        end
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
@@ -1597,6 +1627,7 @@ local aetheron = {
         return true
     end,
     use = function(self, card, area, copier)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1625,6 +1656,7 @@ local aetheron = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1670,6 +1702,9 @@ local aetheron = {
                 }
             },
         }
+        if G.GAME.celestara_tooltip then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_celestara_help"}
+        end
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
@@ -1727,6 +1762,7 @@ local oceanis = {
         return true
     end,
     use = function(self, card, area, copier)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1755,6 +1791,7 @@ local oceanis = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1799,6 +1836,9 @@ local oceanis = {
                 }
             },
         }
+        if G.GAME.celestara_tooltip then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_celestara_help"}
+        end
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
@@ -1854,6 +1894,7 @@ local lonestra = {
         return true
     end,
     use = function(self, card, area, copier)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1882,6 +1923,7 @@ local lonestra = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1926,6 +1968,9 @@ local lonestra = {
                 }
             },
         }
+        if G.GAME.celestara_tooltip then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_celestara_help"}
+        end
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
@@ -1993,6 +2038,7 @@ local mystara = {
         return true
     end,
     use = function(self, card, area, copier)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -2021,6 +2067,7 @@ local mystara = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -2066,6 +2113,9 @@ local mystara = {
                 }
             },
         }
+        if G.GAME.celestara_tooltip then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_celestara_help"}
+        end
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
@@ -2115,6 +2165,7 @@ local ceratek = {
         return true
     end,
     use = function(self, card, area, copier)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -2143,6 +2194,7 @@ local ceratek = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -2187,6 +2239,9 @@ local ceratek = {
                 }
             },
         }
+        if G.GAME.celestara_tooltip then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_celestara_help"}
+        end
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
@@ -2242,6 +2297,7 @@ local discordia = {
         return true
     end,
     use = function(self, card, area, copier)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -2270,6 +2326,7 @@ local discordia = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
+        G.GAME.celestara_tooltip = nil
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -2315,6 +2372,9 @@ local discordia = {
                 }
             },
         }
+        if G.GAME.celestara_tooltip then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_celestara_help"}
+        end
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             ret.vars[#ret.vars+1] = localize(hand_type, "poker_hands")
         end
@@ -3365,6 +3425,7 @@ local void_hole = {
         end
     end,
     use = function(self, card, area, copier)
+        G.GAME.celestara_tooltip = nil
         if (G.SETTINGS.FASTFORWARD or 0) == 0 then
             update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
@@ -3404,6 +3465,7 @@ local void_hole = {
         end
 	end,
     bulk_use = function(self, card, area, copier, amount)
+        G.GAME.celestara_tooltip = nil
         if (G.SETTINGS.FASTFORWARD or 0) == 0 then
             update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
@@ -3458,6 +3520,9 @@ local void_hole = {
             info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_crystal
         elseif card.hand_type_trigger == "c_sgt_discordia" then
             info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_gravistone
+        end
+        if G.GAME.celestara_tooltip then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_celestara_help"}
         end
         local ret = {vars = {card.ability.amount, localize("sgt_Any", "poker_hands")}}
         if Overflow and not card.fake_card then

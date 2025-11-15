@@ -578,6 +578,16 @@ return {
                     "ở đầu mỗi ante",
                 },
             },
+            sgt_celestara_help = {
+                key = "Cách Dùng",
+                text = {
+                    "Nhấn nút {X:red,C:white}DÙNG{} để tiêu thụ",
+                    "như một lá {C:planet}Hành Tinh{} thông thường",
+                    "Hoặc giữ lá này ở ô tiêu thụ",
+                    "và chơi tay bài {C:attention}chỉ định{}",
+                    "để kích hoạt hiệu ứng bên dưới",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
