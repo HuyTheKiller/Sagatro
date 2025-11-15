@@ -5,25 +5,26 @@
 
 🎮 **About**  
 **Sagatro** brings classic fairy tale elements into the world of **Balatro**!  
-From whimsical Jokers to enchanting booster packs, this mod reimagines the game with storybook charm.  
-*Currently very much a work in progress! Expect frequent updates and new surprises.*
+From whimsical Jokers to enchanting booster packs, this mod reimagines the game with storybook charm.
 
 ---
 
 🛠️ **Current Features**  
-- ✨ 32 New Jokers: 30 from **Alice in the Wonderland**, 1 from **The Boy who cried wolf**, 1 from **Puss In Boots**.
+- ✨ 104 New Jokers from various stories (+14 more with Talisman installed!).
 - 📕 Story Mode: Enable the natural flow of a story - progress to get stronger, defeat the final boss to win regardless of win Ante. You can treat this mod as a simple content pack by turning it off.
-- 🔴 1 New Showdown Boss Blind: Red Queen - originally a Joker, but will become the final boss in Story Mode.
-- 📘 1 New Deck (+Sleeve): Saga Deck - simple yet powerful effects, specifically designed for Story Mode.
+- 🔴 6 New Showdown Boss Blinds: these will pose as villains in Story Mode.
+- 🎲 60+ new consumable cards - level the playing field against cruel blinds:
+- 📘 3 New Decks (+Sleeves):
+    * 🟪 Saga Deck - simple yet powerful effects, specifically designed for Story Mode.
+    * 🟫 Grimoire Deck - Powerful deck fixing with Divinatio and Eldritch cards.
+    * 🟦 Celestaverse Deck - Explore various ways to upgrade your poker hands with Celestara cards.
 - 🗻 Boost your Cryptid addiction with this mod's own Exponential Mult - an extremely powerful operation used for deep endless runs.
 - 🎨 Custom artwork: Many of them are pulled from Black Souls' twisted farity tales.
 
 ---
 
 🚧 **Status**  
-- **WIP (Work In Progress)**  
-- Frequent changes and experimental content  
-- Feedback and suggestions are welcome!
+- **Finished, with expandability in mind**  
 
 ---
 
@@ -34,9 +35,8 @@ From whimsical Jokers to enchanting booster packs, this mod reimagines the game 
 ---
 
 🧚‍♂️ **Future Plans**  
-- Full sets of fairy tale Jokers
-- A twisted version of Spectral cards: Darktral
-- Special animations and sound effects
+- Rebalancing of several jokers
+- More storylines to come!
 
 ---
 
