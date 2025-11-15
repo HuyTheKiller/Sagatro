@@ -419,7 +419,7 @@ function Card:update(dt)
                 end
             end
         end
-        if self.area == G.jokers and G.GAME.story_mode and not self.debuff then
+        if (self.area == G.jokers or self.area == G.shop_jokers) and G.GAME.story_mode and not self.debuff then
             if self.ability.immutable and self.ability.immutable.weight_level then
                 local i_start, i_end, is_within_range = self.ability.immutable.depth_range[1], self.ability.immutable.depth_range[2], false
                 for i = i_start, i_end do
