@@ -2918,6 +2918,7 @@ return {
             sgt_platinum_seal = "Platinum Seal",
             sgt_protected = "Protected",
             sgt_imminent_doom = "Imminent Doom",
+            sgt_off_depth = "Off Depth",
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Gambling Hansel",
