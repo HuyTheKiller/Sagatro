@@ -3875,6 +3875,7 @@ local lincoln_ship = {
             end
             Sagatro.init_storyline(self.saga_group)
             Sagatro.progress_storyline("finding_the_submarine", "add", self.saga_group, G.GAME.interwoven_storyline)
+            G.GAME.submarine_hint_to_progress = true
         end
     end,
     in_pool = function(self, args)
@@ -3949,9 +3950,6 @@ local submarine = {
     calculate = function(self, card, context)
         if Sagatro.storyline_check(self.saga_group) then
             if not (context.blueprint or context.retrigger_joker) then
-                if context.check_eternal and context.other_card == card then
-                    return {no_destroy = true}
-                end
                 if context.ante_change and context.ante_end then
                     Sagatro.resolve_fuel(-1)
                 elseif context.reroll_shop then
@@ -3997,6 +3995,8 @@ local submarine = {
             G.GAME.supply_rate = 4
             G.GAME.fish_vars = true
             G.GAME.pending_fish_var_tooltip_removal = true
+            G.GAME.submarine_hint_to_progress = true
+            SMODS.debuff_card(card, "prevent_debuff", "j_sgt_submarine")
             G.jokers:change_size(card.ability.extra.joker_slot_story_mode)
             G.consumeables:change_size(card.ability.extra.consumable_slot_story_mode)
             G.hand:change_size(card.ability.extra.hand_size_story_mode)
@@ -4079,14 +4079,22 @@ local submarine = {
     end,
     loc_vars = function(self, info_queue, card)
         card = card or SMODS.Center.create_fake_card(self)
-        local states = {"low_fuel", "high_fuel", "starvation", "nourished"}
-        for i = 1, #states do
-            if card.ability.immutable.states[states[i]] then
-                info_queue[#info_queue+1] = {set = "Other", key = "sgt_"..states[i]}
+        if not (card.ability.sgt_imminent_doom or card.fake_card) then
+            local states = {"low_fuel", "high_fuel", "starvation", "nourished"}
+            for i = 1, #states do
+                if card.ability.immutable.states[states[i]] then
+                    info_queue[#info_queue+1] = {set = "Other", key = "sgt_"..states[i]}
+                end
             end
         end
         if G.GAME.submarine_movement_cooldown then
             info_queue[#info_queue+1] = {set = "Other", key = "sgt_movement_cooldown"}
+        end
+        if G.GAME.ante_reduction_tooltip then
+            info_queue[#info_queue+1] = {set = "Other", key = "ante_reduction_tooltip"}
+        end
+        if G.GAME.submarine_hint_to_progress then
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "submarine"}
         end
         local ret = {}
         if G.GAME.story_mode then

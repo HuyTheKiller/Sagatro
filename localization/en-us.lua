@@ -561,6 +561,14 @@ return {
                     "{C:sgt_sagadition}Sagatro{}'s config tab",
                 },
             },
+            ante_reduction_tooltip = {
+                name = "Pro Tip",
+                text = {
+                    "Going up a depth level {C:attention}reduces{} Ante,",
+                    "but there will be a {C:attention}cooldown{}",
+                    "of passing {C:attention}2{} regular Antes",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -2643,6 +2651,14 @@ return {
                     "{s:0.8}Now meet the {s:0.8,C:sgt_sagadition}Mock Turtle{s:0.8}, he sings with pride...",
                     "{s:0.8}Hop on my back - I'll give you a ride.\"",
                 },
+            },
+            submarine = {
+                text = {
+                    "Survival Rougelike from {C:sgt_sagadition}Sagatro{}!",
+                    "Submerge and face predetermined",
+                    "Showdown Blinds as you progress",
+                    "Beat {C:bl_sgt_nyx_abyss}Nyx Abyss{} to win",
+                }
             },
         },
         fish_effect = {

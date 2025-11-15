@@ -39,6 +39,11 @@ function loc_colour(_c, _default)
 			G.ARGS.LOC_COLOURS[string.lower(k)] = v
 		end
 	end
+    for k, v in pairs(SMODS.Blinds) do
+        if v.mod and v.mod.id == "Sagatro" then
+            G.ARGS.LOC_COLOURS[k] = v.boss_colour
+        end
+    end
     return lc(_c, _default)
 end
 
@@ -112,6 +117,7 @@ function Game:init_game_object()
         },
     }
     ret.fish_effect = {}
+    ret.ante_cooldown = 0
     ret.alice_multiplier = 1
     ret.relief_factor = 1
     ret.orbis_fatum_odds = 4
@@ -1204,6 +1210,8 @@ function Sagatro.reset_game_globals(run_start)
     end
     G.GAME.first_hand_played = nil
     G.GAME.submarine_movement_cooldown = nil
+    G.GAME.ante_reduction_tooltip = nil
+    G.GAME.submarine_hint_to_progress = nil
     if G.GAME.saved_by_gods_miracle then
         G.GAME.saved_by_gods_miracle = nil
     end
@@ -1566,6 +1574,7 @@ function Sagatro:calculate(context)
         if context.ante_change and context.ante_end then
             G.GAME.fish_effect.no_reshuffle = nil
             G.GAME.supply_drop = nil
+            G.GAME.ante_cooldown = math.max(G.GAME.ante_cooldown - 1, 0)
             if G.GAME.pending_fish_var_tooltip_removal then
                 G.GAME.fish_vars = nil
                 G.GAME.pending_fish_var_tooltip_removal = nil
@@ -1579,6 +1588,9 @@ function Sagatro:calculate(context)
                     v.ability.immutable.no_reshuffle = nil
                 end
             end
+        end
+        if context.check_eternal and context.other_card.config.center_key == "j_sgt_submarine" then
+            return {no_destroy = true}
         end
     end
     if context.after then

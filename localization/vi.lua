@@ -560,6 +560,14 @@ return {
                     "trong tab tuỳ chọn của {C:sgt_sagadition}Sagatro",
                 },
             },
+            ante_reduction_tooltip = {
+                name = "Mẹo",
+                text = {
+                    "Đi lên 1 tầng độ sâu sẽ {C:attention}giảm{} Ante,",
+                    "nhưng sẽ có {C:attention}hồi chiêu{} là phải",
+                    "vượt qua {C:attention}2{} Ante",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -2639,6 +2647,14 @@ return {
                     "{s:0.8}Giờ đến gặp {s:0.8,C:sgt_sagadition}Rùa{s:0.8}, hắn hát đôi câu…",
                     "{s:0.8}Lên lưng tôi nhé, tôi đưa cô mau.",
                 },
+            },
+            submarine = {
+                text = {
+                    "Sinh Tồn Rougelike đến từ {C:sgt_sagadition}Sagatro{}!",
+                    "Lặn và đối đấu với các Blind Hạ Màn đã",
+                    "được định sẵn trong quá trình tiến triển",
+                    "Đánh bại {C:bl_sgt_nyx_abyss}Nyx Abyss{} để thắng",
+                }
             },
         },
         fish_effect = {

@@ -147,7 +147,18 @@ G.FUNCS.submarine_up = function(e)
     play_sound('timpani')
     submarine.ability.immutable.depth_level = math.max(submarine.ability.immutable.depth_level - 1, 1)
     G.GAME.submarine_movement_cooldown = true
+    Sagatro.resolve_fuel(-1)
     submarine:juice_up()
+    if G.GAME.ante_cooldown == 0 then
+        G.GAME.ante_cooldown = G.GAME.ante_cooldown + 2
+        if not G.GAME.ante_first_time then
+            G.GAME.ante_first_time = true
+            G.GAME.ante_reduction_tooltip = true
+        end
+        ease_ante(-1)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante - 1
+    end
     if submarine.ability.immutable.depth_level == 1 then
         G.E_MANAGER:add_event(Event({func = function()
             for _, v in ipairs(SMODS.find_card("j_sgt_blobfish")) do
@@ -190,6 +201,7 @@ G.FUNCS.submarine_down = function(e, force_go_down)
         submarine.ability.immutable.depth_level = math.min(submarine.ability.immutable.depth_level + 1, 5)
         if not force_go_down then
             G.GAME.submarine_movement_cooldown = true
+            Sagatro.resolve_fuel(-1)
         end
         submarine:juice_up()
     end
