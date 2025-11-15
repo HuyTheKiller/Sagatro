@@ -45,6 +45,10 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
             local vars = card.config.center:loc_vars({}, card).vars
             localize{type = "descriptions", set = "Other", key = "sgt_submarine_states", nodes = submarine_nodes, vars = vars}
             ui[Ortalab and "mythos" or "celestara"] = submarine_nodes
+        elseif _c.key == "j_sgt_sub_engineer" and Sagatro.storyline_check("20k_miles_under_the_sea") then
+            local sub_engi_nodes = {background_colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.25)}
+            localize{type = "descriptions", set = "Other", key = "sgt_sub_engineer", nodes = sub_engi_nodes, vars = {}}
+            ui[Ortalab and "mythos" or "celestara"] = sub_engi_nodes
         elseif card.ability.immutable and Sagatro.config.ViewFishProperties then
             if card.ability.immutable.weight_level then
                 local fish_nodes = {background_colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.25)}

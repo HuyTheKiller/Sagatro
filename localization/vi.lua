@@ -568,6 +568,16 @@ return {
                     "vượt qua {C:attention}2{} Ante",
                 },
             },
+            sgt_sub_engineer = {
+                text = {
+                    "Hiệu ứng {C:attention}đặc thù{} của",
+                    "{C:sgt_sagadition}2 Vạn Dặm Dưới Biển{}:",
+                    "Cho phép lá {C:sgt_supply}Tiếp Tế{} nâng cấp",
+                    "xuất hiện trong {C:attention}Gói Tiếp Tế{}",
+                    "{C:attention}Đảm bảo{} ra một {C:attention}Gói Tiếp Tế{}",
+                    "ở đầu mỗi ante",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -1630,13 +1640,7 @@ return {
             j_sgt_sub_engineer = {
                 name = "Kĩ Sư Tàu Ngầm",
                 text = {
-                    {"{C:attention}+1{} ô Gói Bài"},
-                    {"Hiệu ứng {C:attention}đặc thù{} của",
-                    "{C:sgt_sagadition}2 Vạn Dặm Dưới Biển{}:",
-                    "Cho phép lá {C:sgt_supply}Tiếp Tế{} nâng cấp",
-                    "xuất hiện trong {C:attention}Gói Tiếp Tế{}",
-                    "{C:attention}Đảm bảo{} ra một {C:attention}Gói Tiếp Tế{}",
-                    "ở đầu mỗi ante"},
+                    "{C:attention}+1{} ô Gói Bài",
                 },
             },
             j_sgt_clownfish = {

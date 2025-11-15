@@ -569,6 +569,16 @@ return {
                     "of passing {C:attention}2{} regular Antes",
                 },
             },
+            sgt_sub_engineer = {
+                text = {
+                    "{C:sgt_sagadition}20k Miles Under The Sea{}'s",
+                    "{C:attention}exclusive{} effect:",
+                    "Allow upgrading {C:sgt_supply}Supply{} cards",
+                    "to appear in {C:attention}Supply Packs{}",
+                    "{C:attention}Guarantee{} one {C:attention}Supply Pack{}",
+                    "at beginning of every ante",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -1634,13 +1644,7 @@ return {
             j_sgt_sub_engineer = {
                 name = "Sub Engineer",
                 text = {
-                    {"{C:attention}+1{} Booster Pack slot"},
-                    {"{C:sgt_sagadition}20k Miles Under The Sea{}'s",
-                    "{C:attention}exclusive{} effect:",
-                    "Allow upgrading {C:sgt_supply}Supply{} cards",
-                    "to appear in {C:attention}Supply Packs{}",
-                    "{C:attention}Guarantee{} one {C:attention}Supply Pack{}",
-                    "at beginning of every ante"},
+                    "{C:attention}+1{} Booster Pack slot",
                 },
             },
             j_sgt_clownfish = {
