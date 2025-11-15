@@ -1581,7 +1581,7 @@ function Sagatro:calculate(context)
             elseif type(G.GAME.pending_fish_var_tooltip_removal) == "number" then
                 G.GAME.pending_fish_var_tooltip_removal = G.GAME.pending_fish_var_tooltip_removal - 1
             end
-            if Sagatro.storyline_check("20k_miles_under_the_sea") and G.GAME.round_resets.ante >= 3
+            if Sagatro.storyline_check("20k_miles_under_the_sea") and G.GAME.round_resets.ante >= 2
             and not next(SMODS.find_card("j_sgt_sub_engineer", true)) then
                 Sagatro.progress_storyline("the_sub_engineer", "add", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
             end
