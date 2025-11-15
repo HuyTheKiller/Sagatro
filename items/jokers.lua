@@ -11187,6 +11187,13 @@ local necronomicon = {
             return true end }))
         end
     end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode and args
+        and args.source == "sho" and not G.GAME.won then
+            return pseudorandom(self.key.."_story_mode") < 0.2
+        end
+        return true
+    end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
  	end,
