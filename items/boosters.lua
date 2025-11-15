@@ -638,7 +638,7 @@ local supply = {
         return {set = "Supply", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "spl"}
     end,
     in_pool = function(self, args)
-        return Sagatro.storyline_check("20k_miles_under_the_sea")
+        return Sagatro.storyline_check("20k_miles_under_the_sea") and next(SMODS.find_card("j_sgt_submarine", true))
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
