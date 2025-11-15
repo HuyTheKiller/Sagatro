@@ -2691,6 +2691,11 @@ if JokerDisplay then
         if card.debuff then
             return 0
         end
+        if G.GAME.blind then
+            if G.GAME.blind.config.blind.key == "bl_sgt_black_oil" and not G.GAME.blind.disabled then
+                return 1
+            end
+        end
         local triggers = jdcct(card, scoring_hand, held_in_hand)
         triggers = triggers + (card:get_seal() == 'sgt_Blood' and 2 or 0)
         return triggers
