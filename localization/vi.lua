@@ -2270,6 +2270,14 @@ return {
                     "cho {C:mult}+#1#{} Nhân",
                 },
             },
+            j_sgt_seawater = {
+                name = "Nước Biển",
+                text = {
+                    "Mọi {C:attention}lá bài đã chơi",
+                    "đều ghi điểm",
+                    "{s:0.8,C:inactive}Nó đơn giản là {s:0.8,C:attention}Bắn Toé{s:0.8,C:inactive} thôi à?",
+                },
+            },
             j_sgt_nemo = {
                 name = "Thuyền Trưởng Nemo",
                 text = {

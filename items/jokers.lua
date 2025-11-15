@@ -4058,6 +4058,10 @@ local submarine = {
                     end
                 else
                     if G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED and card.ability.transition_finished then
+                        G.P_CENTERS.j_sgt_seawater.pos.x = card.ability.immutable.depth_level - 1
+                        for _, seawater in ipairs(SMODS.find_card("j_sgt_seawater", true)) do
+                            seawater.children.center:set_sprite_pos(G.P_CENTERS.j_sgt_seawater.pos)
+                        end
                         card.ability.transition_finished = nil
                         ease_background_colour_blind(G.STATE)
                     end
@@ -10463,12 +10467,46 @@ local mahimahi = {
     end,
 }
 
+local seawater = {
+    key = "seawater",
+    name = "Seawater",
+    atlas = "seawater",
+    saga_group = "20k_miles_under_the_sea",
+    order = 89,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    pos = { x = 0, y = 0 },
+    config = {immutable = {depth_level = 1}},
+    rarity = 1,
+    cost = 3,
+    blueprint_compat = false,
+    demicoloncompat = false,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.modify_scoring_hand and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
+			return {
+                add_to_hand = true,
+                no_retrigger = true
+            }
+		end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode then
+            return Sagatro.storyline_check(self.saga_group)
+        end
+        return true
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 89,
+    order = 90,
     pos = { x = 0, y = 0 },
     pools = { [SAGA_GROUP_POOL.legend] = true },
     soul_pos = { x = 1, y = 0 },
@@ -12759,6 +12797,7 @@ local joker_table = {
     fangtooth,
     grenadier,
     mahimahi,
+    seawater,
     nemo,
     hansels_cheat_dice,
     skoll_n_hati,

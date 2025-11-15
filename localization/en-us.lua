@@ -2274,6 +2274,14 @@ return {
                     "gives {C:mult}+#1#{} Mult",
                 },
             },
+            j_sgt_seawater = {
+                name = "Seawater",
+                text = {
+                    "Every {C:attention}played card",
+                    "counts in scoring",
+                    "{s:0.8,C:inactive}Isn't that just {s:0.8,C:attention}Splash{s:0.8,C:inactive}?",
+                },
+            },
             j_sgt_nemo = {
                 name = "Cpt. Nemo",
                 text = {

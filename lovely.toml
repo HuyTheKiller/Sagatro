@@ -73,6 +73,8 @@ elseif _type == 'Joker' then
             _pool[#_pool + 1] = "j_sgt_cheshire_cat"
         elseif Sagatro.event_check("mad_hatter") or next(SMODS.find_card("j_sgt_mad_hatter", true)) then
             _pool[#_pool + 1] = "j_sgt_tea"
+        elseif Sagatro.storyline_check("20k_miles_under_the_sea") then
+            _pool[#_pool + 1] = "j_sgt_seawater"
         else
             _pool[#_pool + 1] = "j_sgt_abducted_cow"
         end
@@ -108,6 +110,8 @@ else
             _pool[#_pool + 1] = "j_sgt_cheshire_cat"
         elseif Sagatro.event_check("mad_hatter") or next(SMODS.find_card("j_sgt_mad_hatter", true)) then
             _pool[#_pool + 1] = "j_sgt_tea"
+        elseif Sagatro.storyline_check("20k_miles_under_the_sea") then
+            _pool[#_pool + 1] = "j_sgt_seawater"
         else
             _pool[#_pool + 1] = "j_sgt_abducted_cow"
         end
