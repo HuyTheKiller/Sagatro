@@ -3922,9 +3922,9 @@ local submarine = {
         immutable = {
             depth_level = 1, old_depth_level = 1, armor_level = 1,
             states = {
-                fuel_left = 5.0,
+                fuel_left = 6.5,
                 max_fuel = 10.0,
-                hunger_left = 5.0,
+                hunger_left = 6.5,
                 max_hunger = 10.0,
             }
         },
