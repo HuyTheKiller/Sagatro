@@ -2696,6 +2696,19 @@ if JokerDisplay then
         return triggers
     end
 
+    local jdcjt = JokerDisplay.calculate_joker_triggers
+    JokerDisplay.calculate_joker_triggers = function(card)
+        if card.debuff then
+            return 0
+        end
+        if G.GAME.blind then
+            if G.GAME.blind.config.blind.key == "bl_sgt_black_oil" and not G.GAME.blind.disabled then
+                return 1
+            end
+        end
+        return jdcjt(card)
+    end
+
     local jdgda = JokerDisplay.get_display_areas
     function JokerDisplay.get_display_areas()
         local ret = jdgda()
