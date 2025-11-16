@@ -1,4 +1,4 @@
-# 🌟 Sagatro Demo 🌟
+# 🌟 Sagatro 🌟
 > **A magical fairy tale twist on Balatro!**
 
 ---
