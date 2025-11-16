@@ -10,6 +10,7 @@ Sagatro.load_table = {
 	misc = true,
 	wishes = true,
 	boosters = true,
+	deckskin = true,
 	challenges = true,
 }
 

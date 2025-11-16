@@ -22,6 +22,20 @@ SMODS.Atlas{
 }
 
 SMODS.Atlas{
+    key = "alice_in_wonderland_ds_lc",
+    path = "Alice_in_wonderland_DS_lc.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
+    key = "alice_in_wonderland_ds_hc",
+    path = "Alice_in_wonderland_DS_hc.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
     key = "alice",
     path = "Alice2.0.png",
     px = 71,
