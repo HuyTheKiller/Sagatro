@@ -10115,7 +10115,7 @@ local lobster = {
         return {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_diamond = nil
-                for _, v in ipairs(held_in_hand and G.hand.cards or scoring_hand) do
+                for _, v in ipairs(scoring_hand or {}) do
                     if v:is_suit("Diamonds") then first_diamond = v break end
                 end
                 return playing_card == first_diamond and joker_card.ability.extra.retriggers*JokerDisplay.calculate_joker_triggers(joker_card) or 0
