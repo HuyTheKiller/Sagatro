@@ -434,7 +434,7 @@ function Card:update(dt)
                 elseif not self.ability.sgt_off_depth then
                     self:add_sticker("sgt_off_depth", true)
                     if self.area == G.jokers then
-                        local eval = function(card) return card.states.hover.is and not G.RESET_JIGGLES end
+                        local eval = function(card) return card.states.hover.is end
                         juice_card_until(self, eval, true)
                     end
                 end
