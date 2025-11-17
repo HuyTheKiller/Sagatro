@@ -9847,7 +9847,7 @@ local brittle_star = {
                 card = card
             }
         end
-        if context.destroy_card and card.triggered
+        if context.destroy_card and context.cardarea == G.play and card.triggered
         and SMODS.pseudorandom_probability(card, 'brittle_cards', 1, card.ability.extra.odds, "brittle_star") then
             return {remove = true}
         end
