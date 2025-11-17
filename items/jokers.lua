@@ -11288,12 +11288,12 @@ local frog_prince = {
                     }))
                     G.GAME.consumeable_buffer = 0
                 return true end)}))
+                return {
+                    message = localize('k_plus_tarot'),
+                    colour = G.C.SECONDARY_SET.Tarot,
+                    card = card
+                }
             end
-            return {
-                message = localize('k_plus_tarot'),
-                colour = G.C.SECONDARY_SET.Tarot,
-                card = card
-            }
         end
     end,
     in_pool = function(self, args)
