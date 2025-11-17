@@ -7632,10 +7632,8 @@ local orca = {
             end
             if valid_cards[1] then
                 local target = pseudorandom_element(valid_cards, pseudoseed('orca'))
-                G.E_MANAGER:add_event(Event({func = function()
-                    card.ability.extra.target_rank = target.base.value
-                    card.ability.extra.target_id = target.base.id
-                return true end}))
+                card.ability.extra.target_rank = target.base.value
+                card.ability.extra.target_id = target.base.id
                 return {
                     message = localize(card.ability.extra.target_rank, "ranks")
                 }
