@@ -5382,7 +5382,7 @@ local octopus = {
                 fish_vars = {
                     card.ability.immutable.depth_level,
                     self.rarity,
-                    card.ability.immutable.depth_level,
+                    card.ability.immutable.weight_level,
                     card.ability.immutable.depth_range[1],
                     card.ability.immutable.depth_range[2],
                 }
@@ -5392,7 +5392,7 @@ local octopus = {
             fish_vars = {
                 card.ability.immutable.depth_level,
                 self.rarity,
-                card.ability.immutable.depth_level,
+                card.ability.immutable.weight_level,
                 card.ability.immutable.depth_range[1],
                 card.ability.immutable.depth_range[2],
             }
@@ -5530,7 +5530,7 @@ local squid = {
                 fish_vars = {
                     card.ability.immutable.depth_level,
                     self.rarity,
-                    card.ability.immutable.depth_level,
+                    card.ability.immutable.weight_level,
                     card.ability.immutable.depth_range[1],
                     card.ability.immutable.depth_range[2],
                 }
@@ -5540,7 +5540,7 @@ local squid = {
             fish_vars = {
                 card.ability.immutable.depth_level,
                 self.rarity,
-                card.ability.immutable.depth_level,
+                card.ability.immutable.weight_level,
                 card.ability.immutable.depth_range[1],
                 card.ability.immutable.depth_range[2],
             }
@@ -6023,7 +6023,7 @@ local electric_eel = {
             fish_vars = {
                 card.ability.immutable.depth_level,
                 self.rarity,
-                card.ability.immutable.depth_level,
+                card.ability.immutable.weight_level,
                 card.ability.immutable.depth_range[1],
                 card.ability.immutable.depth_range[2],
             }
@@ -6262,7 +6262,7 @@ local stonefish = {
             fish_vars = {
                 card.ability.immutable.depth_level,
                 self.rarity,
-                card.ability.immutable.depth_level,
+                card.ability.immutable.weight_level,
                 card.ability.immutable.depth_range[1],
                 card.ability.immutable.depth_range[2],
             }
@@ -6896,7 +6896,7 @@ local sunfish = {
             fish_vars = {
                 card.ability.immutable.depth_level,
                 self.rarity,
-                card.ability.immutable.depth_level,
+                card.ability.immutable.weight_level,
                 card.ability.immutable.depth_range[1],
                 card.ability.immutable.depth_range[2],
             }
@@ -6980,7 +6980,7 @@ local moonfish = {
             fish_vars = {
                 card.ability.immutable.depth_level,
                 self.rarity,
-                card.ability.immutable.depth_level,
+                card.ability.immutable.weight_level,
                 card.ability.immutable.depth_range[1],
                 card.ability.immutable.depth_range[2],
             }
@@ -7232,7 +7232,7 @@ local penguin = {
             fish_vars = {
                 card.ability.immutable.depth_level,
                 self.rarity,
-                card.ability.immutable.depth_level,
+                card.ability.immutable.weight_level,
                 card.ability.immutable.depth_range[1],
                 card.ability.immutable.depth_range[2],
             }
@@ -8282,7 +8282,7 @@ local nautilus = {
             fish_vars = {
                 card.ability.immutable.depth_level,
                 self.rarity,
-                card.ability.immutable.depth_level,
+                card.ability.immutable.weight_level,
                 card.ability.immutable.depth_range[1],
                 card.ability.immutable.depth_range[2],
             }
@@ -10297,7 +10297,7 @@ local grenadier = {
             fish_vars = {
                 card.ability.immutable.depth_level,
                 self.rarity,
-                card.ability.immutable.depth_level,
+                card.ability.immutable.weight_level,
                 card.ability.immutable.depth_range[1],
                 card.ability.immutable.depth_range[2],
             }
