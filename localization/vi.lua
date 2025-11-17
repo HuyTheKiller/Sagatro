@@ -2251,7 +2251,7 @@ return {
                 },
             },
             j_sgt_lobster = {
-                name = "Lobster",
+                name = "Tôm Hùm",
                 text = {
                     "{C:attention}Tái kích{} lá đầu tiên",
                     "có chất {C:diamonds}Rô{} ghi điểm và",
