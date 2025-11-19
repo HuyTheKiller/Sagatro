@@ -8334,7 +8334,7 @@ local stomiidae = {
     order = 71,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 6 },
-    config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {2, 4}}, extra = {xmult = 1, spade_add = 0.5, eor_sub = 1}},
+    config = {immutable = {depth_level = 4, weight_level = 1, depth_range = {2, 4}}, extra = {xmult = 1, spade_add = 0.5, eor_sub = 1}},
     rarity = "sgt_obscure",
     cost = 14,
     blueprint_compat = true,
