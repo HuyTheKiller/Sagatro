@@ -438,6 +438,9 @@ function Card:update(dt)
                         juice_card_until(self, eval, true)
                     end
                 end
+                if not self.ability.sgt_current_depth then
+                    self:add_sticker("sgt_current_depth", true)
+                end
             end
         end
     end
@@ -452,6 +455,7 @@ miracle_dt = 0
 miracle_animate = false
 nameless_dt = 0
 submarine_dt = 0
+current_depth_dt = 0
 local upd = Game.update
 function Game:update(dt)
 	upd(self, dt)
@@ -649,6 +653,19 @@ function Game:update(dt)
         else
             miracle.sprite_pos.x = 0
         end
+    end
+
+    current_depth_dt = current_depth_dt + dt
+    if G.shared_stickers and G.shared_stickers.sgt_current_depth and current_depth_dt > 0.125 then
+        current_depth_dt = current_depth_dt - 0.125
+        local current_depth = G.shared_stickers.sgt_current_depth
+        if current_depth.sprite_pos.x == 7 then
+            current_depth.sprite_pos.x = 0
+        else
+            current_depth.sprite_pos.x = current_depth.sprite_pos.x + 1
+        end
+        current_depth.sprite_pos.y = Sagatro.get_submarine_depth_colour() - 1
+        current_depth:set_sprite_pos(current_depth.sprite_pos)
     end
 
     if cause_crash then error("A manual crash is called. Don't be grumpy, you did this on purpose.", 0) end

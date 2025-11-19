@@ -537,18 +537,16 @@ return {
             },
             sgt_fish_states = {
                 text = {
-                    "Tầng Độ Sâu: {C:attention}#1#",
+                    "Phạm Vi Độ Sâu: {C:attention}#4#{} đến {C:attention}#5#",
                     "Độ Hiếm: {C:attention}#2#",
                     "Cấp Cân Nặng: {C:attention}#3#",
-                    "Phạm Vi Độ Sâu: {C:attention}#4#{} đến {C:attention}#5#",
                 },
             },
             sgt_fish_states_singular = {
                 text = {
-                    "Tầng Độ Sâu: {C:attention}#1#",
+                    "Phạm Vi Độ Sâu: nội trong {C:attention}#4#",
                     "Độ Hiếm: {C:attention}#2#",
                     "Cấp Cân Nặng: {C:attention}#3#",
-                    "Phạm Vi Độ Sâu: nội trong {C:attention}#4#",
                 },
             },
             sgt_fish_vars = {

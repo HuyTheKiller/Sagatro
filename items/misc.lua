@@ -619,6 +619,23 @@ local not_food = {
     end,
 }
 
+local current_depth = {
+    key = "sgt_current_depth",
+    name = "Current Depth",
+    atlas = "current_depth",
+    pos = {x = 0, y = 0},
+    hide_badge = true,
+    prefix_config = { key = false },
+    sets = { Joker = true },
+    no_collection = true,
+    no_sticker_sheet = true,
+    should_apply = false,
+    draw = function(self, card, layer)
+        G.shared_stickers[self.key].role.draw_major = card
+        G.shared_stickers[self.key]:draw_shader('dissolve', nil, nil, nil, card.children.center)
+    end,
+}
+
 local off_depth = {
     key = "sgt_off_depth",
     name = "Off Depth",
@@ -698,6 +715,7 @@ local sticker_table = {
     edible,
     inedible,
     not_food,
+    current_depth,
     off_depth,
     imminent_doom,
 }

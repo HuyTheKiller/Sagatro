@@ -162,6 +162,13 @@ SMODS.Atlas{
 }
 
 SMODS.Atlas{
+    key = "current_depth",
+    path = "Current_depth.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
     key = "ultra",
     path = "Ultra.png",
     px = 71,

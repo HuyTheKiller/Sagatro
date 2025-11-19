@@ -538,18 +538,16 @@ return {
             },
             sgt_fish_states = {
                 text = {
-                    "Depth Level: {C:attention}#1#",
+                    "Depth Range: {C:attention}#4#{} to {C:attention}#5#",
                     "Rarity: {C:attention}#2#",
                     "Weight Level: {C:attention}#3#",
-                    "Depth Range: {C:attention}#4#{} to {C:attention}#5#",
                 },
             },
             sgt_fish_states_singular = {
                 text = {
-                    "Depth Level: {C:attention}#1#",
+                    "Depth Range: Within {C:attention}#4#",
                     "Rarity: {C:attention}#2#",
                     "Weight Level: {C:attention}#3#",
-                    "Depth Range: Within {C:attention}#4#",
                 },
             },
             sgt_fish_vars = {
