@@ -577,7 +577,7 @@ return {
                 },
             },
             sgt_celestara_help = {
-                key = "Cách Dùng",
+                name = "Cách Dùng",
                 text = {
                     "Nhấn nút {X:red,C:white}DÙNG{} để tiêu thụ",
                     "như một lá {C:planet}Hành Tinh{} thông thường",

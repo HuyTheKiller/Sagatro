@@ -578,7 +578,7 @@ return {
                 },
             },
             sgt_celestara_help = {
-                key = "How To Use",
+                name = "How To Use",
                 text = {
                     "Press the {X:red,C:white}USE{} button to consume",
                     "just like a regular {C:planet}Planet{} card",
