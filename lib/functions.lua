@@ -1913,8 +1913,10 @@ function Sagatro.calculate_fish_joker(card, context)
                 G.hand:unhighlight_all()
                 local forced_cards = Sagatro.random_select("eaten_select31", G.hand, 1)
                 for _, _card in ipairs(forced_cards) do
-                    _card.ability.forced_selection = true
-                    G.hand:add_to_highlighted(_card)
+                    if not _card.ability.forced_selection then
+                        _card.ability.forced_selection = true
+                        G.hand:add_to_highlighted(_card)
+                    end
                 end
             end
             if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
@@ -1925,8 +1927,10 @@ function Sagatro.calculate_fish_joker(card, context)
                 G.hand:unhighlight_all()
                 local forced_cards = Sagatro.random_select("eaten_select32", G.hand, 2)
                 for _, _card in ipairs(forced_cards) do
-                    _card.ability.forced_selection = true
-                    G.hand:add_to_highlighted(_card)
+                    if not _card.ability.forced_selection then
+                        _card.ability.forced_selection = true
+                        G.hand:add_to_highlighted(_card)
+                    end
                 end
             end
             if context.retrigger_joker_check and context.other_card == card then
