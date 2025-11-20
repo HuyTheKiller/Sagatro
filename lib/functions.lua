@@ -2414,7 +2414,7 @@ end
 local set_cost_ref = Card.set_cost
 function Card:set_cost()
     set_cost_ref(self)
-    if self.ability.immutable and self.ability.immutable.weight_level then
+    if self.ability.immutable and self.ability.immutable.weight_level and not self.ability.couponed then
         if G.GAME.submarine_high_fuel and not self.ability.immutable.cost_reduced then
             self.ability.immutable.cost_reduced = true
             self.cost = self.cost - 1
