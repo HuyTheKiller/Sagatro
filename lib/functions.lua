@@ -1915,9 +1915,11 @@ function Sagatro.calculate_fish_joker(card, context)
                 for _, _card in ipairs(forced_cards) do
                     if not _card.ability.forced_selection then
                         _card.ability.forced_selection = true
-                        G.hand:add_to_highlighted(_card)
                     end
                 end
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.hand:parse_highlighted()
+                return true end }))
             end
             if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
                 return {xmult = 1.5}
@@ -1929,9 +1931,11 @@ function Sagatro.calculate_fish_joker(card, context)
                 for _, _card in ipairs(forced_cards) do
                     if not _card.ability.forced_selection then
                         _card.ability.forced_selection = true
-                        G.hand:add_to_highlighted(_card)
                     end
                 end
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.hand:parse_highlighted()
+                return true end }))
             end
             if context.retrigger_joker_check and context.other_card == card then
                 return {
