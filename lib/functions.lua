@@ -470,6 +470,9 @@ function Game:update(dt)
                 break
             end
         end
+        if not next(SMODS.find_card("j_sgt_submarine", true)) then
+            G.P_CENTERS.j_sgt_seawater.pos.x = 0
+        end
         if G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP then
             -- Handle opening Mega Buffoon Pack spawned by Utima Vox (restricted to during shop and blind select)
             if G.GAME.pending_mega_buffoon then
@@ -507,6 +510,7 @@ function Game:update(dt)
         Sagatro.debug_info["Game state"] = nil
         Sagatro.debug_info["Story mode"] = nil
         Sagatro.debug_info["In main menu"] = true
+        G.P_CENTERS.j_sgt_seawater.pos.x = 0
     end
 
     if G.your_collection and type(G.your_collection) == "table" then
