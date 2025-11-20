@@ -771,6 +771,7 @@ local argyra = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+                G.GAME.celestara_tooltip = nil
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -907,6 +908,7 @@ local sulvatera = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+                G.GAME.celestara_tooltip = nil
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1044,6 +1046,7 @@ local terranora = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+                G.GAME.celestara_tooltip = nil
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1178,6 +1181,7 @@ local valora = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+                G.GAME.celestara_tooltip = nil
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1311,6 +1315,7 @@ local zephyria = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+                G.GAME.celestara_tooltip = nil
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1453,6 +1458,7 @@ local chronara = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+                G.GAME.celestara_tooltip = nil
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1597,6 +1603,7 @@ local aetheron = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+                G.GAME.celestara_tooltip = nil
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1732,6 +1739,7 @@ local oceanis = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+                G.GAME.celestara_tooltip = nil
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1866,6 +1874,7 @@ local lonestra = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+                G.GAME.celestara_tooltip = nil
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -2013,6 +2022,7 @@ local mystara = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+                G.GAME.celestara_tooltip = nil
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -2143,6 +2153,7 @@ local ceratek = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+                G.GAME.celestara_tooltip = nil
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -2269,6 +2280,7 @@ local discordia = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+                G.GAME.celestara_tooltip = nil
 				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -3262,164 +3274,165 @@ local void_hole = {
         end
     end,
     calculate = function(self, card, context)
-        for _, celestara_card in pairs(G.P_CENTER_POOLS.Celestara) do
-            if context.before and not context.blueprint and not context.retrigger_joker
-            and context.scoring_name == celestara_card.config.hand_type then
-                if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
-                    local t = copy_table(celestara_card.config)
-                    for k, v in pairs(t) do
-                        card.ability[k] = v
-                    end
-                    SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
-                    for _, hand_type in ipairs(card.ability.dissonance or {}) do
-                        SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
-                        SMODS.smart_level_up_hand(card, hand_type)
-                    end
-                    if context.scoring_name == "Pair" then
-                        local selected_cards = Sagatro.random_select("argyra_steel", G.hand, 2)
-                        for _, v in ipairs(selected_cards) do
-                            v:set_ability(G.P_CENTERS.m_steel, nil, true)
-                            G.E_MANAGER:add_event(Event({
-                                func = function()
-                                    v:juice_up()
-                                    return true
-                                end
-                            }))
+        if context.before and not context.blueprint and not context.retrigger_joker then
+            for _, celestara_card in pairs(G.P_CENTER_POOLS.Celestara) do
+                if context.scoring_name == celestara_card.config.hand_type then
+                    if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
+                        G.GAME.celestara_tooltip = nil
+                        for k, v in pairs(copy_table(celestara_card.config)) do
+                            card.ability[k] = v
                         end
-                    elseif context.scoring_name == "Three of a Kind" then
-                        context.scoring_hand[1]:set_ability(G.P_CENTERS.m_lucky, nil, true)
-                        context.scoring_hand[2]:set_ability(G.P_CENTERS.m_wild, nil, true)
-                        for i = 1, 2 do
-                            G.E_MANAGER:add_event(Event({
-                                func = function()
-                                    context.scoring_hand[i]:juice_up()
-                                    return true
-                                end
-                            }))
+                        SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
+                        for _, hand_type in ipairs(card.ability.dissonance or {}) do
+                            SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
+                            SMODS.smart_level_up_hand(card, hand_type)
                         end
-                    elseif context.scoring_name == "Full House" then
-                        for _, _card in ipairs(G.hand.cards) do
-                            G.E_MANAGER:add_event(Event({
-                                func = function()
-                                    assert(SMODS.modify_rank(_card, 1))
-                                    _card:juice_up()
-                                    return true
-                                end
-                            }))
-                        end
-                    elseif context.scoring_name == "Four of a Kind" then
-                        G.E_MANAGER:add_event(Event({func = function()
-                            local selected_cards = Sagatro.random_select("valora_destroy", G.deck, 2)
-                            local count = #selected_cards
-                            if count > 0 then
-                                SMODS.destroy_cards(selected_cards, nil, true)
-                                G.deck.config.card_limit = G.deck.config.card_limit - count
+                        if context.scoring_name == "Pair" then
+                            local selected_cards = Sagatro.random_select("argyra_steel", G.hand, 2)
+                            for _, v in ipairs(selected_cards) do
+                                v:set_ability(G.P_CENTERS.m_steel, nil, true)
+                                G.E_MANAGER:add_event(Event({
+                                    func = function()
+                                        v:juice_up()
+                                        return true
+                                    end
+                                }))
                             end
-                        return true end}))
-                    elseif context.scoring_name == "Flush" then
-                        G.E_MANAGER:add_event(Event({
-                            func = function()
-                                local new_cards = {}
-                                G.playing_card = (G.playing_card and G.playing_card + 1) or 1
-                                local new_card = copy_card(context.full_hand[1], nil, nil, G.playing_card)
-                                table.insert(new_cards, new_card)
-                                new_card:add_to_deck()
-                                G.deck.config.card_limit = G.deck.config.card_limit + 1
-                                table.insert(G.playing_cards, new_card)
-                                G.deck:emplace(new_card)
-                                context.full_hand[1]:juice_up()
-                                new_card:juice_up()
-                                playing_card_joker_effects(new_cards)
-                                G.deck:shuffle('zephyria_shuffle')
-                                return true
+                        elseif context.scoring_name == "Three of a Kind" then
+                            context.scoring_hand[1]:set_ability(G.P_CENTERS.m_lucky, nil, true)
+                            context.scoring_hand[2]:set_ability(G.P_CENTERS.m_wild, nil, true)
+                            for i = 1, 2 do
+                                G.E_MANAGER:add_event(Event({
+                                    func = function()
+                                        context.scoring_hand[i]:juice_up()
+                                        return true
+                                    end
+                                }))
                             end
-                        }))
-                    elseif context.scoring_name == "Straight" then
-                        for _, v in ipairs(context.full_hand) do
-                            G.E_MANAGER:add_event(Event({
-                                func = function()
-                                    if not SMODS.has_no_rank(v) then
-                                    local _rank = pseudorandom_element(SMODS.Ranks, pseudoseed('chronara_random_rank'))
-                                    assert(SMODS.change_base(v, nil, _rank.key))
-                                    v:juice_up()
+                        elseif context.scoring_name == "Full House" then
+                            for _, _card in ipairs(G.hand.cards) do
+                                G.E_MANAGER:add_event(Event({
+                                    func = function()
+                                        assert(SMODS.modify_rank(_card, 1))
+                                        _card:juice_up()
+                                        return true
+                                    end
+                                }))
+                            end
+                        elseif context.scoring_name == "Four of a Kind" then
+                            G.E_MANAGER:add_event(Event({func = function()
+                                local selected_cards = Sagatro.random_select("valora_destroy", G.deck, 2)
+                                local count = #selected_cards
+                                if count > 0 then
+                                    SMODS.destroy_cards(selected_cards, nil, true)
+                                    G.deck.config.card_limit = G.deck.config.card_limit - count
                                 end
-                                return true
-                            end
-                        }))
-                        end
-                        G.E_MANAGER:add_event(Event({trigger = "immediate", func = (function()
-                            assert(SMODS.add_card({
-                                set = "Spectral",
-                                key_append = "chronara",
-                            }))
-                            return true end)}))
-                        SMODS.calculate_effect({message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral}, card)
-                    elseif context.scoring_name == "Two Pair" then
-                        if G.hand.cards[1] then
-                            G.hand.cards[1]:set_ability(G.P_CENTERS.m_sgt_crystal, nil, true)
+                            return true end}))
+                        elseif context.scoring_name == "Flush" then
                             G.E_MANAGER:add_event(Event({
                                 func = function()
-                                    G.hand.cards[1]:juice_up()
+                                    local new_cards = {}
+                                    G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+                                    local new_card = copy_card(context.full_hand[1], nil, nil, G.playing_card)
+                                    table.insert(new_cards, new_card)
+                                    new_card:add_to_deck()
+                                    G.deck.config.card_limit = G.deck.config.card_limit + 1
+                                    table.insert(G.playing_cards, new_card)
+                                    G.deck:emplace(new_card)
+                                    context.full_hand[1]:juice_up()
+                                    new_card:juice_up()
+                                    playing_card_joker_effects(new_cards)
+                                    G.deck:shuffle('zephyria_shuffle')
+                                    return true
+                                end
+                            }))
+                        elseif context.scoring_name == "Straight" then
+                            for _, v in ipairs(context.full_hand) do
+                                G.E_MANAGER:add_event(Event({
+                                    func = function()
+                                        if not SMODS.has_no_rank(v) then
+                                        local _rank = pseudorandom_element(SMODS.Ranks, pseudoseed('chronara_random_rank'))
+                                        assert(SMODS.change_base(v, nil, _rank.key))
+                                        v:juice_up()
+                                    end
+                                    return true
+                                end
+                            }))
+                            end
+                            G.E_MANAGER:add_event(Event({trigger = "immediate", func = (function()
+                                assert(SMODS.add_card({
+                                    set = "Spectral",
+                                    key_append = "chronara",
+                                }))
+                                return true end)}))
+                            SMODS.calculate_effect({message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral}, card)
+                        elseif context.scoring_name == "Two Pair" then
+                            if G.hand.cards[1] then
+                                G.hand.cards[1]:set_ability(G.P_CENTERS.m_sgt_crystal, nil, true)
+                                G.E_MANAGER:add_event(Event({
+                                    func = function()
+                                        G.hand.cards[1]:juice_up()
+                                        return true
+                                    end
+                                }))
+                            end
+                        elseif context.scoring_name == "Straight Flush" then
+                            if G.hand.cards[1] then
+                                G.E_MANAGER:add_event(Event({
+                                    func = function()
+                                        copy_card(context.scoring_hand[1], G.hand.cards[1])
+                                        G.hand.cards[1]:juice_up()
+                                        return true
+                                    end
+                                }))
+                            end
+                        elseif context.scoring_name == "Five of a Kind" then
+                            for _, v in ipairs(context.scoring_hand) do
+                                v.ability.perma_x_mult = v.ability.perma_x_mult + card.ability.perma_x_mult_mod
+                                SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, v)
+                            end
+                        elseif context.scoring_name == "Flush House" then
+                            context.scoring_hand[1]:set_edition(poll_edition('ceratek_edition', nil, nil, true), nil, nil, true)
+                        elseif context.scoring_name == "Flush Five" then
+                            context.scoring_hand[1]:set_ability(G.P_CENTERS.m_sgt_gravistone, nil, true)
+                            G.E_MANAGER:add_event(Event({
+                                func = function()
+                                    context.scoring_hand[1]:juice_up()
                                     return true
                                 end
                             }))
                         end
-                    elseif context.scoring_name == "Straight Flush" then
-                        if G.hand.cards[1] then
-                            G.E_MANAGER:add_event(Event({
-                                func = function()
-                                    copy_card(context.scoring_hand[1], G.hand.cards[1])
-                                    G.hand.cards[1]:juice_up()
-                                    return true
-                                end
-                            }))
+                        card.ability.amount = card.ability.amount - 1
+                        card.reduced = true
+                        if card.ability.amount <= 0 then
+                            card.triggered = true
                         end
-                    elseif context.scoring_name == "Five of a Kind" then
-                        for _, v in ipairs(context.scoring_hand) do
-                            v.ability.perma_x_mult = v.ability.perma_x_mult + card.ability.perma_x_mult_mod
-                            SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, v)
-                        end
-                    elseif context.scoring_name == "Flush House" then
-                        context.scoring_hand[1]:set_edition(poll_edition('ceratek_edition', nil, nil, true), nil, nil, true)
-                    elseif context.scoring_name == "Flush Five" then
-                        context.scoring_hand[1]:set_ability(G.P_CENTERS.m_sgt_gravistone, nil, true)
-                        G.E_MANAGER:add_event(Event({
-                            func = function()
-                                context.scoring_hand[1]:juice_up()
-                                return true
-                            end
-                        }))
+                        delay(0.25*G.SETTINGS.GAMESPEED)
                     end
-                    card.ability.amount = card.ability.amount - 1
-                    card.reduced = true
-                    if card.ability.amount <= 0 then
-                        card.triggered = true
-                    end
-                    delay(0.25*G.SETTINGS.GAMESPEED)
                 end
-            end
-            if context.repetition and context.cardarea == G.hand and not context.blueprint and not context.retrigger_joker
-            and (next(context.card_effects[1]) or #context.card_effects > 1)
-            and context.scoring_name == "High Card" then
-                return {
-                    message = localize('k_again_ex'),
-                    repetitions = 1,
-                }
-            end
-            if context.after and not context.blueprint and not context.retrigger_joker then
-                if card.triggered then
-                    Sagatro.self_destruct(card, {no_destruction_context = true})
+                if context.repetition and context.cardarea == G.hand and not context.blueprint and not context.retrigger_joker
+                and (next(context.card_effects[1]) or #context.card_effects > 1)
+                and context.scoring_name == "High Card" then
                     return {
-                        message = localize('k_consumed_ex'),
-                        colour = G.C.FILTER,
+                        message = localize('k_again_ex'),
+                        repetitions = 1,
                     }
-                elseif card.reduced then
-                    card.reduced = nil
-                    return {
-                        message = card.ability.amount..'',
-                        colour = G.C.FILTER,
-                        no_retrigger = true
-                    }
+                end
+                if context.after and not context.blueprint and not context.retrigger_joker then
+                    if card.triggered then
+                        Sagatro.self_destruct(card, {no_destruction_context = true})
+                        return {
+                            message = localize('k_consumed_ex'),
+                            colour = G.C.FILTER,
+                        }
+                    elseif card.reduced then
+                        card.reduced = nil
+                        return {
+                            message = card.ability.amount..'',
+                            colour = G.C.FILTER,
+                            no_retrigger = true
+                        }
+                    end
                 end
             end
         end
