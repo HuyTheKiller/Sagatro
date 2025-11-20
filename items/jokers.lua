@@ -11547,13 +11547,15 @@ local abducted_cow = {
             end
         end
         if context.before and not context.blueprint and not context.retrigger_joker
-        and G.GAME.current_round.hands_played == 0 and #context.full_hand == 1 and not context.full_hand[1].abducted then
+        and G.GAME.current_round.hands_played == 0 and #context.full_hand == 1 then
             local _card = context.full_hand[1]
-            _card.abducted = true
-            card.ability.extra.held_card = {}
-            card.ability.extra.held_card.suit = _card.base.suit
-            card.ability.extra.held_card.rank = _card.config.card.value
-            card.ability.extra.triggered = true
+            if not (SMODS.has_no_rank(_card) or SMODS.has_no_suit(_card) or _card.abducted) then
+                _card.abducted = true
+                card.ability.extra.held_card = {}
+                card.ability.extra.held_card.suit = _card.base.suit
+                card.ability.extra.held_card.rank = _card.config.card.value
+                card.ability.extra.triggered = true
+            end
         end
         if context.destroy_card and context.cardarea == G.play and card.ability.extra.triggered then
             return {
