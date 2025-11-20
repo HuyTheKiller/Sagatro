@@ -10601,9 +10601,7 @@ local hansels_cheat_dice = {
             card.ability.immutable.current_roll = pseudorandom("cheat_dice_roll", 1, 6)
             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_roll_ex')})
             if card.ability.immutable.current_roll == 1 then
-                ease_ante(1)
-                G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
-                G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + 1
+                Sagatro.ease_ante(1)
             end
         end
         if card.ability.immutable.current_roll > 0 and not context.blueprint then
@@ -12594,13 +12592,9 @@ local mabel = {
     calculate = function(self, card, context)
         if (context.ending_shop and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
             if (G.jokers.cards[1] == card and G.jokers.cards[#G.jokers.cards].config.center_key ~= "j_sgt_mabel") or context.forcetrigger then
-                ease_ante(-card.ability.amount)
-                G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
-                G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante - card.ability.amount
+                Sagatro.ease_ante(-card.ability.amount)
             elseif G.jokers.cards[#G.jokers.cards] == card and G.jokers.cards[1].config.center_key ~= "j_sgt_mabel" then
-                ease_ante(card.ability.amount)
-                G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
-                G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.amount
+                Sagatro.ease_ante(card.ability.amount)
             end
         end
     end,

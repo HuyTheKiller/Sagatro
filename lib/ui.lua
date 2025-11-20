@@ -159,9 +159,7 @@ G.FUNCS.submarine_up = function(e)
             G.GAME.ante_first_time = true
             G.GAME.ante_reduction_tooltip = true
         end
-        ease_ante(-1)
-        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
-        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante - 1
+        Sagatro.ease_ante(-1)
     end
     if submarine.ability.immutable.depth_level == 1 then
         G.E_MANAGER:add_event(Event({func = function()

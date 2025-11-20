@@ -1481,11 +1481,18 @@ function Sagatro.update_blind_amounts(instant)
         G.blind_select = UIBox{
             definition = create_UIBox_blind_select(),
             config = {align = "bmi",
-            offset = {x = 0, y = instant and (0.8 - (G.hand.T.y - G.jokers.T.y) + 31.16) or (G.ROOM.T.y + 29)},
+            offset = {x = 0, y = instant and (0.8 - (G.hand.T.y - G.jokers.T.y) + G.blind_select.T.h) or (G.ROOM.T.y + 29)},
             major = G.hand, bond = 'Weak'}
         }
         if not instant then G.blind_select.alignment.offset.y = 0.8-(G.hand.T.y - G.jokers.T.y) + G.blind_select.T.h end
     end
+end
+
+function Sagatro.ease_ante(mod)
+    ease_ante(mod)
+    G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+    G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + mod
+    Sagatro.update_blind_amounts(true)
 end
 
 local gba = get_blind_amount
