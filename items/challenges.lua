@@ -139,9 +139,24 @@ local ragnarok = {
 	button_colour = G.C.SGT_SAGADITION,
 }
 
+local inversion = {
+	key = "inversion",
+    rules = {
+        custom = {
+            { id = "sgt_inversion_text1" },
+            { id = "sgt_inversion_text2" },
+            { id = "sgt_inversion_text3" },
+            { id = "sgt_inversion_text4" },
+            { id = "sgt_inversion_text5" },
+        },
+    },
+	button_colour = G.C.SGT_SAGADITION,
+}
+
 local challenge_table = {
     gambling_hansel,
 	ragnarok,
+	inversion,
 }
 
 for _, v in ipairs(challenge_table) do

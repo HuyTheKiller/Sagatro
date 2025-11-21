@@ -586,6 +586,12 @@ return {
                     "để kích hoạt hiệu ứng bên dưới",
                 },
             },
+            sgt_inverse_bonus = {
+                name = "Thưởng Nghịch Đảo",
+                text = {
+                    "Lorem Ipsum",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -2939,6 +2945,7 @@ return {
         challenge_names = {
             c_sgt_gambling_hansel = "Hansel Đỏ Đen",
             c_sgt_ragnarok = "Khải Huyền Ragnarök",
+            c_sgt_inversion = "Nghịch Đảo",
         },
         v_dictionary = {
             sgt_rank_of_suit = "#1# #2#",
@@ -2948,11 +2955,11 @@ return {
             ch_c_sgt_disable_sagatro_items = { "Vật phẩm của {C:sgt_sagadition}Sagatro{} không còn xuất hiện trong {C:attention}shop" },
             ch_c_sgt_no_tags = { "Khả năng bỏ qua bị {C:attention}vô hiệu hóa{}" },
             ch_c_sgt_ragnarok_challenge_text = { "Điểm yêu cầu tăng rất nhanh sau mỗi {C:attention}Ante" },
-            ch_c_sgt_demo_challenge_text1 = { "{C:sgt_sagadition}Sagatro{} hiện đang ở bản demo." },
-            ch_c_sgt_demo_challenge_text2 = { "Không có cách nào để lấy joker này" },
-            ch_c_sgt_demo_challenge_text3 = { "ngoài Bộ Bài Cân Bằng của Cryptid." },
-            ch_c_sgt_demo_challenge_text4 = { "Thử thách này nhằm cung cấp trước" },
-            ch_c_sgt_demo_challenge_text5 = { "trải nghiệm cho người chơi Talisman." },
+            ch_c_sgt_inversion_text1 = { "Mọi {C:attention}Blind{} giảm điểm dần về 0" },
+            ch_c_sgt_inversion_text2 = { "Ghi điểm {C:attention}thấp hơn{} mức yêu cầu để thắng" },
+            ch_c_sgt_inversion_text3 = { "Dùng phép tính {C:attention}Chia{}" },
+            ch_c_sgt_inversion_text4 = { "{X:chips,C:white}X1.1{} Chip mỗi lần tay poker đó" },
+            ch_c_sgt_inversion_text5 = { "được chơi trừ đi 1 trong trận này" },
         },
         poker_hands = {
 			sgt_Any = "bất kì tay nào",
@@ -3076,6 +3083,8 @@ return {
             ph_norse = "Thần Thoại Bắc Âu",
             ph_black_soul = "Black Soul",
             ph_celestaverse = "Celestaverse",
+            ph_blind_score_at_most = "Đạt tối đa",
+            ph_up_ante_2_inverse = "Giảm toàn bộ Blind",
             sgt_swap = "Tráo!",
             SGT_story_related_settings = "Cài đặt cốt truyện",
             SGT_misc_settings = "Cài đặt khác",

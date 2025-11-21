@@ -288,9 +288,8 @@ function Game:start_run(args)
 				G.GAME.round_resets.blind_choices.Boss = Sagatro.get_new_showdown()
 				G.GAME.modifiers.scaling = 10
 				G.GAME.modifiers.sgt_ragnarok_challenge_text = nil
-				-- for i = 1, 5 do
-				-- 	G.GAME.modifiers["sgt_demo_challenge_text"..i] = nil
-				-- end
+			elseif args.challenge.key == "c_sgt_inversion" then
+				Sagatro.inverse()
 			end
 		end
 		if not G.GAME.story_mode and Sagatro.config.DisableSagatroItems then

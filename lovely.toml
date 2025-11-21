@@ -226,6 +226,168 @@ pattern = '''elseif [type == 'Boss' and ]*not run_info then'''
 position = 'at'
 payload = '''elseif type == 'Boss' and not run_info and not (next(SMODS.find_card("j_sgt_mad_hatter")) or mabel_stall()) then'''
 
+# Inverse scaling
+[[patches]]
+[patches.regex]
+target = 'functions/UI_definitions.lua'
+pattern = '''localize\('ph_blind_score_at_least'\)'''
+position = 'at'
+payload = '''G.GAME.inversed_scaling and localize('ph_blind_score_at_most') or localize('ph_blind_score_at_least')'''
+
+[[patches]]
+[patches.regex]
+target = 'functions/UI_definitions.lua'
+pattern = '''localize\('ph_blind_score_at_least'\), scale = 0\.3, colour = G\.C\.WHITE, shadow = true'''
+position = 'at'
+payload = '''localize('ph_blind_score_at_least'), scale = 0.3, colour = G.C.WHITE, shadow = true, id = "HUD_blind_score_at_least_most"'''
+
+[[patches]]
+[patches.regex]
+target = 'functions/common_events.lua'
+pattern = '''localize\('ph_score_at_least'\)'''
+position = 'at'
+payload = '''(G.GAME.inversed_scaling and localize('ph_blind_score_at_most') or localize('ph_score_at_least'))'''
+
+[[patches]]
+[patches.regex]
+target = 'functions/UI_definitions.lua'
+pattern = '''blind\.mult\.\.localize\('k_x_base'\)'''
+position = 'at'
+payload = '''G.GAME.inversed_scaling and number_format(1/math.max(blind.mult*((0.8+(0.05*math.log(blind.mult)))^blind.mult), 1))..localize('k_x_base') or blind.mult..localize('k_x_base')'''
+
+[[patches]]
+[patches.regex]
+target = 'functions/UI_definitions.lua'
+pattern = '''localize\('ph_up_ante_2'\)'''
+position = 'at'
+payload = '''G.GAME.inversed_scaling and localize('ph_up_ante_2_inverse') or localize('ph_up_ante_2')'''
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua' # Non-Talisman
+pattern = '''if G.GAME.chips - G.GAME.blind.chips >= 0 then'''
+position = 'at'
+match_indent = true
+payload = '''
+if (not G.GAME.inversed_scaling and to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips))
+or (G.GAME.inversed_scaling and to_big(G.GAME.chips) <= to_big(G.GAME.blind.chips)) then
+'''
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua' # Talisman
+pattern = '''if to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips) then'''
+position = 'at'
+match_indent = true
+payload = '''
+if (not G.GAME.inversed_scaling and to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips))
+or (G.GAME.inversed_scaling and to_big(G.GAME.chips) <= to_big(G.GAME.blind.chips)) then
+'''
+
+# Double blind rewards in inverse mode
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''if G.GAME.current_round.discards_left > 0 and G.GAME.modifiers.money_per_discard then'''
+position = 'before'
+match_indent = true
+payload = '''
+if G.GAME.current_round.discards_left > 0 and G.GAME.inversed_scaling then
+    add_round_eval_row({dollars = G.GAME.current_round.discards_left, bonus='true', name='joker_inversed_score', card={config={center={set='Other', key='sgt_inverse_bonus'}}, juice_up=function(self) end}, pitch = pitch})
+    pitch = pitch + 0.06
+    dollars = dollars +  G.GAME.current_round.discards_left
+end
+'''
+
+# Inverse blinds scale the other way
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''local blind_amt = get_blind_amount(G.GAME.round_resets.blind_ante)*blind_choice.config.mult*G.GAME.starting_params.ante_scaling'''
+position = 'after'
+match_indent = true
+payload = '''
+if G.GAME.inversed_scaling then
+    blind_amt = get_blind_amount(G.GAME.round_resets.blind_ante)/math.max(blind_choice.config.mult*((0.8+(0.05*math.log(blind_choice.config.mult)))^blind_choice.config.mult), 1)
+end
+'''
+
+# Allow fractional score in inverse
+[[patches]]
+[patches.regex]
+target = 'functions/state_events.lua'
+pattern = '''math\.floor\( SMODS\.calculate_round_score\(\) \)'''
+position = 'at'
+payload = '''(G.GAME.inversed_scaling and SMODS.calculate_round_score() or math.floor( SMODS.calculate_round_score() ))'''
+
+[[patches]]
+[patches.regex]
+target = 'functions/state_events.lua'
+pattern = '''math\.floor\(t\)'''
+position = 'at'
+payload = '''G.GAME.inversed_scaling and t or math.floor(t)'''
+
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''
+G.GAME.current_round.current_hand.chip_total_text = ''
+'''
+position = 'at'
+match_indent = true
+payload = '''
+if G.GAME.inversed_scaling and to_big(G.GAME.current_round.current_hand.chip_total) > to_big(0) then
+  local new_chip_total_text = number_format(G.GAME.current_round.current_hand.chip_total)
+  if new_chip_total_text ~= G.GAME.current_round.current_hand.chip_total_text then 
+    e.config.object.scale = scale_number(G.GAME.current_round.current_hand.chip_total, 0.95, 100000000)
+    
+    G.GAME.current_round.current_hand.chip_total_text = new_chip_total_text
+    if not G.ARGS.hand_chip_total_UI_set or to_big(G.ARGS.hand_chip_total_UI_set) < to_big(G.GAME.current_round.current_hand.chip_total) then
+      G.FUNCS.text_super_juice(e, math.floor(math.log10(G.GAME.current_round.current_hand.chip_total)))
+    end
+    G.ARGS.hand_chip_total_UI_set = G.GAME.current_round.current_hand.chip_total
+    --e.UIBox:recalculate()
+  end
+else
+  G.GAME.current_round.current_hand.chip_total_text = ''
+end
+'''
+
+# Proper number format
+[[patches]]
+[patches.pattern]
+target = 'functions/misc_functions.lua'
+pattern = '''if num < 0.01 then return tostring(num) end'''
+position = 'at'
+match_indent = true
+payload = '''
+if num < 0.01 then
+  if num >= 1e-5 then
+    formatted = string.format(num >= 1e-3 and "%.3f" or num >= 1e-4 and "%.4f" or "%.5f", num)
+    if formatted:sub(-1) == "0" then
+      formatted = formatted:gsub("%.?0+$", "")
+    end
+  else
+    formatted = tostring(num)
+    local e_pos, remaining1, remaining2
+    for i = 1, #formatted do
+      if formatted:sub(i, i) == "e" then
+        e_pos = i
+        break
+      end
+    end
+    if e_pos > 5 then
+      remaining1, remaining2 = formatted:sub(1, 4), formatted:sub(e_pos, #formatted)
+      formatted = remaining1..remaining2
+    end
+    if formatted:sub(-2, -2) == "0" and formatted:sub(-3, -3) == "-" then
+      formatted = formatted:reverse():gsub("0", "", 1):reverse()
+    end
+  end
+  return sign..formatted
+end
+'''
+
 # Force win if a certain showdown blind is defeated
 [[patches]]
 [patches.pattern]

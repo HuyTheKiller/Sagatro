@@ -587,6 +587,12 @@ return {
                     "to trigger the below effect",
                 },
             },
+            sgt_inverse_bonus = {
+                name = "Inverse Bonus",
+                text = {
+                    "Lorem Ipsum",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -2943,6 +2949,7 @@ return {
         challenge_names = {
             c_sgt_gambling_hansel = "Gambling Hansel",
             c_sgt_ragnarok = "The Ragnarök",
+            c_sgt_inversion = "Inversion",
         },
         v_dictionary = {
             sgt_rank_of_suit = "#1# of #2#",
@@ -2952,11 +2959,11 @@ return {
             ch_c_sgt_disable_sagatro_items = { "{C:sgt_sagadition}Sagatro{} items no longer appear in the {C:attention}shop" },
             ch_c_sgt_no_tags = { "Skipping is {C:attention}disabled{}" },
             ch_c_sgt_ragnarok_challenge_text = { "Required score scales very fast for each {C:attention}Ante" },
-            ch_c_sgt_demo_challenge_text1 = { "{C:sgt_sagadition}Sagatro{} is currently in demo state." },
-            ch_c_sgt_demo_challenge_text2 = { "There is no way to get this joker" },
-            ch_c_sgt_demo_challenge_text3 = { "except Cryptid's Deck of Equilibrium." },
-            ch_c_sgt_demo_challenge_text4 = { "This challenge serves as a sneak peek" },
-            ch_c_sgt_demo_challenge_text5 = { "for Talisman enjoyers out there." },
+            ch_c_sgt_inversion_text1 = { "All {C:attention}Blinds{} scale towards 0" },
+            ch_c_sgt_inversion_text2 = { "Score {C:attention}below{} the theshold to win" },
+            ch_c_sgt_inversion_text3 = { "Use {C:attention}Division{} operator" },
+            ch_c_sgt_inversion_text4 = { "{X:chips,C:white}X1.1{} Chips every time that poker hand" },
+            ch_c_sgt_inversion_text5 = { "is played minus 1 this run" },
         },
         poker_hands = {
 			sgt_Any = "any hand",
@@ -3080,6 +3087,8 @@ return {
             ph_norse = "Norse Mythology",
             ph_black_soul = "Black Soul",
             ph_celestaverse = "Celestaverse",
+            ph_blind_score_at_most = "Score at most",
+            ph_up_ante_2_inverse = "Lower all Blinds",
             sgt_swap = "Swap!",
             SGT_story_related_settings = "Story-related settings",
             SGT_misc_settings = "Misc. settings",

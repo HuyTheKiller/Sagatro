@@ -1490,6 +1490,8 @@ function Sagatro.update_blind_amounts(instant)
         }
         if not instant then G.blind_select.alignment.offset.y = 0.8-(G.hand.T.y - G.jokers.T.y) + G.blind_select.T.h end
     end
+    local at_least_most = G.HUD_blind:get_UIE_by_ID("HUD_blind_score_at_least_most")
+    at_least_most.config.text = G.GAME.inversed_scaling and localize('ph_blind_score_at_most') or localize('ph_blind_score_at_least')
 end
 
 function Sagatro.ease_ante(mod)
@@ -1502,11 +1504,55 @@ end
 local gba = get_blind_amount
 function get_blind_amount(ante)
     local amount = gba(ante)
+    if G.GAME.inversed_scaling then
+        local i, s = ante, G.GAME.modifiers.scaling or 1
+        -- amount = amount/((1+0.2*(s-1))^math.max(i-1, 0))/(math.max((i-4)*(2^math.max(i-8, 0)), 4)^math.max(i, 0))
+        amount = 1500*(amount^-0.5)
+        return amount
+    end
     for _, card in ipairs(SMODS.find_card('j_sgt_three_winters')) do
         amount = amount * card.ability.extra.xblind_amount
     end
     return amount
 end
+
+local set_blind_ref = Blind.set_blind
+function Blind:set_blind(blind, reset, silent)
+    set_blind_ref(self, blind, reset, silent)
+    if G.GAME.inversed_scaling then
+        self.chips = get_blind_amount(G.GAME.round_resets.ante)/math.max(self.mult*((0.8+(0.05*math.log(self.mult)))^self.mult), 1)
+        self.chip_text = number_format(self.chips)
+    end
+end
+
+function Sagatro.inverse()
+    G.GAME.inversed_scaling = not G.GAME.inversed_scaling
+    if G.STAGE == G.STAGES.RUN then
+        if G.GAME.inversed_scaling then
+            G.GAME.prev_scoring_calculation_key = G.GAME.current_scoring_calculation.key
+        end
+        SMODS.set_scoring_calculation(G.GAME.inversed_scaling and "sgt_divide" or G.GAME.prev_scoring_calculation_key)
+        if not G.GAME.inversed_scaling then
+            G.GAME.prev_scoring_calculation_key = nil
+        end
+        Sagatro.update_blind_amounts(true)
+    end
+end
+
+local sn = scale_number
+function scale_number(number, scale, max, e_switch_point)
+    local ret = sn(number, scale, max, e_switch_point)
+    if to_big(number) < to_big(1) then
+        
+    end
+    return ret
+end
+
+SMODS.Scoring_Calculation {
+    key = "divide",
+    func = function(self, chips, mult, flames) return chips*1.0 / mult*1.0 end,
+    text = '/',
+}
 
 ---@param card any must be a card object
 ---@param args table|nil configurable arguments, supports `no_destruction_context`, `no_sound`, `sound`, `pitch` and `volume`
@@ -1559,7 +1605,7 @@ function Sagatro.quip_filter(quip, quip_type)
 end
 
 -- Fix a damn edge case where the mod object is passed as a joker card without ability to check for retriggers
-Sagatro.ability = {}
+Sagatro.ability = {repetition_penalty = 1.1}
 function Sagatro:calculate(context)
     if G.GAME.story_mode then
         if context.end_of_round and context.main_eval then
@@ -1628,6 +1674,14 @@ function Sagatro:calculate(context)
         end
         if context.check_eternal and context.other_card.config.center_key == "j_sgt_submarine" then
             return {no_destroy = true}
+        end
+    end
+    if context.final_scoring_step and G.GAME.inversed_scaling then
+        if G.GAME.hands[context.scoring_name].played - 1 > 0 then
+            return {
+                Xchip_mod = Sagatro.ability.repetition_penalty^(G.GAME.hands[context.scoring_name].played - 1),
+                message = localize{type='variable', key='a_xchips', vars={Sagatro.ability.repetition_penalty^(G.GAME.hands[context.scoring_name].played - 1)}}
+            }
         end
     end
     if context.after then
