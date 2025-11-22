@@ -1473,14 +1473,14 @@ return {
                 },
             },
             j_sgt_bread = {
-                name = "Bánh Mì",
+                name = "Tách Trà",
                 text = {
                     "{C:chips}+#1#{} Chip trong",
                     "{C:attention}#2#{} tay bài tiếp theo",
                 },
             },
             j_sgt_butter = {
-                name = "Bơ",
+                name = "Viên Đường",
                 text = {
                     "{C:mult}+#1#{} Nhân trong",
                     "{C:attention}#2#{} tay bài tiếp theo",

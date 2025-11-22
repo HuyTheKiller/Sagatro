@@ -2174,7 +2174,7 @@ local tea = {
 
 local bread = {
     key = "bread",
-    name = "Bread",
+    name = "Teapot",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 21,
@@ -2251,7 +2251,7 @@ local bread = {
 
 local butter = {
     key = "butter",
-    name = "Butter",
+    name = "Sugarcube",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 22,

@@ -1478,14 +1478,14 @@ return {
                 },
             },
             j_sgt_bread = {
-                name = "Bread",
+                name = "Teapot",
                 text = {
                     "{C:chips}+#1#{} Chips for",
                     "the next {C:attention}#2#{} hand(s)",
                 },
             },
             j_sgt_butter = {
-                name = "Butter",
+                name = "Sugarcube",
                 text = {
                     "{C:mult}+#1#{} Mult for",
                     "the next {C:attention}#2#{} hand(s)",
