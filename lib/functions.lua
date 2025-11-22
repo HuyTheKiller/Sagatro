@@ -1539,15 +1539,6 @@ function Sagatro.inverse()
     end
 end
 
-local sn = scale_number
-function scale_number(number, scale, max, e_switch_point)
-    local ret = sn(number, scale, max, e_switch_point)
-    if to_big(number) < to_big(1) then
-        
-    end
-    return ret
-end
-
 SMODS.Scoring_Calculation {
     key = "divide",
     func = function(self, chips, mult, flames) return chips*1.0 / mult*1.0 end,
