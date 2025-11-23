@@ -3099,7 +3099,7 @@ return {
             SGT_disable_sagatro_items = "Disable Sagatro Items",
             SGT_disable_sagatro_items_desc = {"(Requires run restart, Story Mode","must be off to work)"},
             SGT_sagatro_music = "Sagatro Music",
-            SGT_sagatro_music_desc = {"Enable Sagatro music outside Story Mode"},
+            SGT_sagatro_music_desc = {"Enable Sagatro music inside a run"},
             SGT_ortagas = "Switch to Ortagas",
             SGT_ortagas_desc = {"Does nothing?"},
         },
