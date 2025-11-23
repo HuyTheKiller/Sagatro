@@ -700,11 +700,15 @@ local imminent_doom = {
         G.shared_stickers[self.key]:draw_shader('dissolve', nil, nil, nil, card.children.center)
     end,
     loc_vars = function(self, info_queue, card)
-        if card and card.config.center_key == "j_sgt_submarine" then
-            if card.ability.immutable.states.fuel_left <= 0 then
-                return {key = "sgt_imminent_doom_f"}
-            elseif card.ability.immutable.states.hunger_left <= 0 then
-                return {key = "sgt_imminent_doom_h"}
+        if card then
+            if card.config.center_key == "j_sgt_submarine" then
+                if card.ability.immutable.states.fuel_left <= 0 then
+                    return {key = "sgt_imminent_doom_f"}
+                elseif card.ability.immutable.states.hunger_left <= 0 then
+                    return {key = "sgt_imminent_doom_h"}
+                end
+            elseif card.ability.storyline_derailed then
+                return {key = "sgt_imminent_doom_sd"}
             end
         end
     end,

@@ -22,6 +22,12 @@ SMODS.Gradient{
 } -- Skull, not putting inside assets.lua for preventive measures
 G.C.SGT_SAGADITION = SMODS.Gradients["sgt_sagadition"]
 SMODS.Gradient{
+    key = "sagattention",
+    colours = {G.C.SUBMARINE_DEPTH[1], G.C.GREEN},
+    cycle = 1,
+}
+G.C.SGT_SAGATTENTION = SMODS.Gradients["sgt_sagattention"]
+SMODS.Gradient{
     key = "miracle",
     colours = {HEX('E7A73D'), HEX('FFEE00')},
     cycle = 2,
@@ -1136,6 +1142,12 @@ function Sagatro.progress_storyline(event_name, queue_mode, storyline_name, inte
             table.insert(G.GAME.saga_event_queue, event_name)
         elseif queue_mode == "force_add" then
             table.insert(G.GAME.saga_event_queue, 1, event_name)
+            if event_name == "game_over" and G.jokers.cards[1] then
+                G.jokers.cards[1].ability.storyline_derailed = true
+                G.jokers.cards[1]:add_sticker("sgt_imminent_doom", true)
+                local eval = function(card) return not card.states.hover.is end
+                juice_card_until(G.jokers.cards[1], eval, true)
+            end
         elseif queue_mode == "finish" and G.GAME.saga_event_queue[1] == event_name then
             table.remove(G.GAME.saga_event_queue, 1)
             if not table.contains(G.GAME.saga_finished_events, event_name) then
@@ -1173,7 +1185,7 @@ end
 ---@param event_table string|table string or table of strings
 ---@param flag boolean|nil if `true` or `nil` (left empty), check if first element in queue matches string
 ---if `false`, check if queue doesn't contain string
----@param only_finished boolean|table|nil only check for finished events
+---@param only_finished boolean|{contain: boolean}|nil only check for finished events
 function Sagatro.event_check(event_table, flag, only_finished)
     if not G.GAME.story_mode then return false end
     if flag == nil then flag = true end
@@ -1207,6 +1219,7 @@ function get_pack(_key, _type)
         if Sagatro.event_check(Sagatro.forced_buffoon_events, true)
         and not G.GAME.saga_event_forced_buffoon then
             G.GAME.saga_event_forced_buffoon = true
+            G.GAME.juice_up_booster = true
             local buffoon_pool = {"p_buffoon_normal_1", "p_buffoon_normal_2", "p_buffoon_jumbo_1", "p_buffoon_mega_1"}
             local chosen_buffoon = pseudorandom_element(buffoon_pool, pseudoseed("saga_event_forced_buffoon"))
             return G.P_CENTERS[chosen_buffoon]
@@ -1665,6 +1678,16 @@ function Sagatro:calculate(context)
         end
         if context.check_eternal and context.other_card.config.center_key == "j_sgt_submarine" then
             return {no_destroy = true}
+        end
+        if context.starting_shop and G.GAME.juice_up_booster then
+            G.GAME.juice_up_booster = nil
+            for _, v in ipairs(G.shop_booster.cards) do
+                if v.ability.booster_pos == 1 then
+                    local eval = function(card) return not card.states.hover.is end
+                    juice_card_until(v, eval, true)
+                end
+                break
+            end
         end
     end
     if context.final_scoring_step and G.GAME.inversed_scaling then

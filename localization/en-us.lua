@@ -492,6 +492,13 @@ return {
                     "end of next {C:attention}Boss Blind{}",
                 },
             },
+            sgt_imminent_doom_sd = {
+                name = "Imminent Doom",
+                text = {
+                    "The storyline progress has been {C:attention}derailed{}!",
+                    "It's a guaranteed {C:red}loss{} at end of round",
+                },
+            },
             sgt_low_fuel = {
                 name = "Low Fuel",
                 text = {

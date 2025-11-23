@@ -843,7 +843,7 @@ pattern = '''-- TARGET: main end_of_round evaluation'''
 position = 'after'
 match_indent = true
 payload = '''
-if G.GAME.story_mode and G.GAME.blind.boss and G.GAME.imminent_doom then
+if G.GAME.story_mode and ((G.GAME.blind.boss and G.GAME.imminent_doom) or Sagatro.event_check("game_over")) then
     game_over = true
 end
 '''

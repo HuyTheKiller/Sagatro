@@ -491,6 +491,13 @@ return {
                     "{C:attention}Boss Blind{} kế tiếp",
                 },
             },
+            sgt_imminent_doom_sd = {
+                name = "Sắp Hẹo",
+                text = {
+                    "Tiến trình cốt truyện đã bị {C:attention}chệch hướng{}!",
+                    "Sẽ lập tức {C:red}thua trận{} ở cuối ván",
+                },
+            },
             sgt_low_fuel = {
                 name = "Cạn Nhiên Liệu",
                 text = {

@@ -151,6 +151,7 @@ G.FUNCS.submarine_up = function(e)
     play_sound('timpani')
     submarine.ability.immutable.depth_level = math.max(submarine.ability.immutable.depth_level - 1, 1)
     G.GAME.submarine_movement_cooldown = true
+    G.GAME.first_submarine_up = true
     Sagatro.resolve_fuel(-1)
     submarine:juice_up()
     if G.GAME.ante_cooldown == 0 then
@@ -178,7 +179,7 @@ G.FUNCS.submarine_can_go_up = function(e)
     local submarine = e.config.ref_table
     if submarine.ability.immutable.depth_level > 1 and not G.GAME.submarine_movement_cooldown
     and not submarine.ability.immutable.pending_go_down then
-        e.config.colour = G.C.SUBMARINE_DEPTH[1]
+        e.config.colour = G.GAME.first_submarine_up and G.C.SUBMARINE_DEPTH[1] or G.C.SGT_SAGATTENTION
         e.config.button = 'submarine_up'
     else
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE

@@ -1093,12 +1093,17 @@ local mushroom = {
                     }
                 end
                 if context.after then
+                    local game_over = Sagatro.event_check("pig_and_pepper", nil, {contain = true})
                     Sagatro.progress_storyline("pig_and_pepper", "add", self.saga_group, G.GAME.interwoven_storyline)
                     if Sagatro.event_check("mad_hatter") then -- allows leniency (you don't have to take March Hare and Dormouse)
                         Sagatro.progress_storyline("the_party", "force_finish", self.saga_group, G.GAME.interwoven_storyline)
                         Sagatro.progress_storyline("red_queen", "add", self.saga_group, G.GAME.interwoven_storyline)
+                        game_over = false
                     end
                     if card.ability.extra - 1 <= 0 then
+                        if game_over then
+                            Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
+                        end
                         Sagatro.self_destruct(card)
                         return {
                             message = localize('k_eaten_ex'),
@@ -1135,12 +1140,17 @@ local mushroom = {
                     }
                 end
                 if context.after then
+                    local game_over = Sagatro.event_check("pig_and_pepper", nil, {contain = true})
                     Sagatro.progress_storyline("pig_and_pepper", "add", self.saga_group, G.GAME.interwoven_storyline)
                     if Sagatro.event_check("mad_hatter") then -- allows leniency (you don't have to take March Hare and Dormouse)
                         Sagatro.progress_storyline("the_party", "force_finish", self.saga_group, G.GAME.interwoven_storyline)
                         Sagatro.progress_storyline("red_queen", "add", self.saga_group, G.GAME.interwoven_storyline)
+                        game_over = false
                     end
                     if card.ability.extra - 1 <= 0 then
+                        if game_over then
+                            Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
+                        end
                         Sagatro.self_destruct(card)
                         return {
                             message = localize('k_eaten_ex'),
@@ -2048,6 +2058,9 @@ local mad_hatter = {
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
             Sagatro.progress_storyline("mad_hatter", "force_finish", self.saga_group, G.GAME.interwoven_storyline)
+            if G.GAME.story_mode and not Sagatro.event_check("the_party", nil, {contain = true}) then
+                Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
+            end
         end
         Sagatro.update_blind_amounts()
         for k, v in pairs(G.GAME) do
@@ -2516,6 +2529,9 @@ local red_queen = {
                 end
             return true end }))
             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_enraged_ex'), colour = G.C.RED})
+        end
+        if context.first_hand_drawn and not context.blueprint and not context.retrigger_joker and #G.jokers.cards == 1 then
+            Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
         end
         if context.individual and context.cardarea == G.play and not context.forcetrigger then
             if not context.other_card.debuff then
