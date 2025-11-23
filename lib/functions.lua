@@ -1112,6 +1112,19 @@ table.contains = table.contains or function(table, element)
 	return false
 end
 
+---@param t table
+table.remove_duplicate = function(t, element)
+    local times = 0
+    for i, v in ipairs(t) do
+		if v == element then
+			times = times + 1
+            if times > 1 then
+                table.remove(t, i)
+            end
+		end
+	end
+end
+
 ---@param table table
 ---@return integer
 table.size = table.size or function(table)

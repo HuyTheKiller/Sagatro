@@ -5072,10 +5072,12 @@ local school = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if (context.pre_discard and not context.blueprint and not context.hook) or context.forcetrigger then
+        if (context.pre_discard and not context.blueprint and not context.retrigger_joker
+        and not context.hook) or context.forcetrigger then
+            card.ability.triggered = true
             if #G.hand.highlighted == 1 or context.forcetrigger then
                 for _, v in ipairs(G.hand.cards) do
-                    if not v.highlighted then
+                    if not (v.area ~= G.hand or v.highlighted or table.contains(G.hand.highlighted, v)) then
                         G.hand.highlighted[#G.hand.highlighted+1] = v
 					    v:highlight(true)
                     end
@@ -5083,6 +5085,11 @@ local school = {
                 play_sound('cardSlide1')
                 G.FUNCS.discard_cards_from_highlighted(nil, true)
             end
+        end
+        if context.hand_drawn and not context.first_hand_drawn
+        and not context.blueprint and not context.retrigger_joker and card.ability.triggered then
+            card.ability.triggered = nil
+            table.remove_duplicate(G.discard.cards, G.discard.cards[1])
         end
     end,
     in_pool = function(self, args)
