@@ -269,7 +269,7 @@ return {
                 name = "Cộng Hưởng",
                 text = {
                     "Nếu chip và nhân chuẩn",
-                    "của {C:attention}tay poker đã chơi{}",
+                    "của {C:attention}tay poker này{}",
                     "vượt quá tay cộng hưởng,",
                     "{C:attention}nâng level{} tay cộng hưởng",
                 },
@@ -478,7 +478,7 @@ return {
                 text = {
                     "Hết {C:attention}nhiên liệu{}!",
                     "Nạp lại ngay, nếu không thì",
-                    "sẽ lập tức thua trận ở cuối",
+                    "sẽ lập tức {C:red}thua trận{} ở cuối",
                     "{C:attention}Boss Blind{} kế tiếp",
                 },
             },
@@ -487,7 +487,7 @@ return {
                 text = {
                     "{C:attention}Cơn đói{} đạt đỉnh điểm!",
                     "Ăn cá ngay, nếu không thì",
-                    "sẽ lập tức thua trận ở cuối",
+                    "sẽ lập tức {C:red}thua trận{} ở cuối",
                     "{C:attention}Boss Blind{} kế tiếp",
                 },
             },
@@ -570,8 +570,8 @@ return {
                 text = {
                     "Hiệu ứng {C:attention}đặc thù{} của",
                     "{C:sgt_sagadition}2 Vạn Dặm Dưới Biển{}:",
-                    "Cho phép lá {C:sgt_supply}Tiếp Tế{} nâng cấp",
-                    "xuất hiện trong {C:attention}Gói Tiếp Tế{}",
+                    "Cho phép lá {C:sgt_supply}Tiếp Tế{} nâng cấp {C:attention}Tàu",
+                    "{C:attention}Ngầm{} xuất hiện trong {C:attention}Gói Tiếp Tế{}",
                     "{C:attention}Đảm bảo{} ra một {C:attention}Gói Tiếp Tế{}",
                     "ở đầu mỗi ante",
                 },
@@ -583,7 +583,8 @@ return {
                     "như một lá {C:planet}Hành Tinh{} thông thường",
                     "Hoặc giữ lá này ở ô tiêu thụ",
                     "và chơi tay bài {C:attention}chỉ định{}",
-                    "để kích hoạt hiệu ứng bên dưới",
+                    "ở lv.2 hoặc cao hơn để kích",
+                    "hoạt hiệu ứng bên dưới",
                 },
             },
             sgt_inverse_bonus = {
@@ -1783,6 +1784,7 @@ return {
                         "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
                     },
                     {
+                        "Chỉ {C:sgt_sagadition}2 Vạn Dặm Dưới Biển{}:",
                         "{C:attention}Bán{} lá này để có thể",
                         "tìm thấy {C:attention}#2#{}",
                     },
@@ -2164,7 +2166,7 @@ return {
             j_sgt_narwhal = {
                 name = "Kì Lân Biển",
                 text = {
-                    "Khi {C:attention}Blind{} được chọn, {C:attention}đâm{}",
+                    "Khi {C:attention}Blind{} được chọn, {C:attention}phá huỷ{}",
                     "mọi joker ở bên trái {C:inactive}(Từ phải",
                     "{C:inactive}qua trái, bị Vĩnh Hằng chặn){}",
                     "và thêm {C:attention}1/5{} tổng giá bán",
@@ -2202,9 +2204,9 @@ return {
             j_sgt_chimaera = {
                 name = "Chimaera",
                 text = {
-                    "Khi {C:attention}Blind{} được chọn, {C:attention}giết{} 2 joker liền phải",
+                    "Khi {C:attention}Blind{} được chọn, {C:attention}phá huỷ{} 2 joker liền phải",
                     "và {C:attention}+#2#{} vào số lá {C:spectral}Siêu Linh{} sẽ tạo ra",
-                    "ở cuối ván cho mỗi joker đã giết,",
+                    "ở cuối ván cho mỗi joker đã phá huỷ,",
                     "giảm đi {C:attention}#3#{} ở cuối ván",
                     "{C:inactive}(Hiện tại là {C:spectral}+#1#{C:inactive}, phải có ô trống)",
                 },
@@ -2679,7 +2681,9 @@ return {
                     "Sinh Tồn Rougelike đến từ {C:sgt_sagadition}Sagatro{}!",
                     "Lặn và đối đấu với các Blind Hạ Màn đã",
                     "được định sẵn trong quá trình tiến triển",
+                    "Ngoi để lùi Ante một cách chiến thuật",
                     "Đánh bại {C:bl_sgt_nyx_abyss}Nyx Abyss{} để thắng",
+                    "{s:0.8,C:attention}Nhấn vào tàu ngầm để bắt đầu",
                 }
             },
         },

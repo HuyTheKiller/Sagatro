@@ -270,7 +270,7 @@ return {
                 name = "Resonance",
                 text = {
                     "If base chips and mult",
-                    "of {C:attention}played poker hand{}",
+                    "of {C:attention}this poker hand{}",
                     "exceeds resonated hand,",
                     "{C:attention}level up{} resonated hand",
                 },
@@ -479,7 +479,7 @@ return {
                 text = {
                     "Out of {C:attention}fuel{}!",
                     "Refill it now or face",
-                    "a guaranteed loss at the",
+                    "a guaranteed {C:red}loss{} at the",
                     "end of next {C:attention}Boss Blind{}",
                 },
             },
@@ -488,7 +488,7 @@ return {
                 text = {
                     "{C:attention}Starvation{} reached its limit!",
                     "Eat something now or face",
-                    "a guaranteed loss at the",
+                    "a guaranteed {C:red}loss{} at the",
                     "end of next {C:attention}Boss Blind{}",
                 },
             },
@@ -571,8 +571,8 @@ return {
                 text = {
                     "{C:sgt_sagadition}20k Miles Under The Sea{}'s",
                     "{C:attention}exclusive{} effect:",
-                    "Allow upgrading {C:sgt_supply}Supply{} cards",
-                    "to appear in {C:attention}Supply Packs{}",
+                    "Allow {C:attention}Submarine{}-upgrading {C:sgt_supply}Supply{}",
+                    "card to appear in {C:attention}Supply Packs{}",
                     "{C:attention}Guarantee{} one {C:attention}Supply Pack{}",
                     "at beginning of every ante",
                 },
@@ -583,7 +583,8 @@ return {
                     "Press the {X:red,C:white}USE{} button to consume",
                     "just like a regular {C:planet}Planet{} card",
                     "Otherwise, keep this in consumable",
-                    "slot and play the {C:attention}specified{} hand",
+                    "slot and play the {C:attention}specified{} hand,",
+                    "which is at lvl.2 or higher,",
                     "to trigger the below effect",
                 },
             },
@@ -1787,6 +1788,7 @@ return {
                         "when scored",
                     },
                     {
+                        "{C:sgt_sagadition}20k Miles Under The Sea{} only:",
                         "{C:attention}Sell{} this card to be able",
                         "to find {C:attention}#2#{}",
                     },
@@ -2168,7 +2170,7 @@ return {
             j_sgt_narwhal = {
                 name = "Narwhal",
                 text = {
-                    "When {C:attention}Blind{} is selected, {C:attention}impale{}",
+                    "When {C:attention}Blind{} is selected, {C:attention}destroy{}",
                     "all jokers to the left {C:inactive}(From right",
                     "{C:inactive}to left, blocked by Eternal){} and",
                     "add {C:attention}one-fifth{} of their total",
@@ -2206,9 +2208,9 @@ return {
             j_sgt_chimaera = {
                 name = "Chimaera",
                 text = {
-                    "When {C:attention}Blind{} is selected, {C:attention}kill{} 2 jokers to the right",
+                    "When {C:attention}Blind{} is selected, {C:attention}destroy{} 2 jokers to the right",
                     "and {C:attention}+#2#{} to {C:spectral}Spectral{} card count created",
-                    "at end of round for each killed joker,",
+                    "at end of round for each destroyed joker,",
                     "reduce by {C:attention}#3#{} at end of round",
                     "{C:inactive}(Currently {C:spectral}+#1#{C:inactive}, must have room)",
                 },
@@ -2683,7 +2685,9 @@ return {
                     "Survival Rougelike from {C:sgt_sagadition}Sagatro{}!",
                     "Submerge and face predetermined",
                     "Showdown Blinds as you progress",
+                    "Emerge to reduce Ante strategically",
                     "Beat {C:bl_sgt_nyx_abyss}Nyx Abyss{} to win",
+                    "{s:0.8,C:attention}Select the submarine to get started",
                 }
             },
         },
