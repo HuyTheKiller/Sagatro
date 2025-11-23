@@ -1,7 +1,7 @@
 return {
     DisableOtherJokers = true,
     DisableSagatroItems = true,
-    SagatroMusic = false,
+    SagatroMusic = true,
     ViewFishProperties = true,
     Ortagas = false,
 }
