@@ -982,7 +982,9 @@ end
 -- If you own Queen Of Hearts in story mode, triggering Final Showdown event "turns" her into Showdown Blind
 -- Also general blind handling in story mode
 local gnb = get_new_boss
-function get_new_boss()
+function get_new_boss(...)
+    local ret = gnb(...)
+    local overridden = false
     if not G.GAME.won then
         if Sagatro.event_check("final_showdown") and not next(SMODS.find_card("j_sgt_mad_hatter")) then
             for _, v in ipairs(G.jokers.cards) do
@@ -993,21 +995,34 @@ function get_new_boss()
                     Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
                 end
             end
-            return 'bl_sgt_red_queen'
+            ret = 'bl_sgt_red_queen'
+            overridden = true
         elseif Sagatro.event_check("turquoise_jellyfish") then
-            return 'bl_sgt_turquoise_jellyfish'
+            ret = 'bl_sgt_turquoise_jellyfish'
+            overridden = true
         elseif Sagatro.event_check("aqua_eyeshard") then
-            return 'bl_sgt_aqua_eyeshard'
+            ret = 'bl_sgt_aqua_eyeshard'
+            overridden = true
         elseif Sagatro.event_check("black_oil") then
-            return 'bl_sgt_black_oil'
+            ret = 'bl_sgt_black_oil'
+            overridden = true
         elseif Sagatro.event_check("shadow_seamine") then
-            return 'bl_sgt_shadow_seamine'
+            ret = 'bl_sgt_shadow_seamine'
+            overridden = true
         elseif Sagatro.event_check("nyx_abyss") then
-            return 'bl_sgt_nyx_abyss'
+            ret = 'bl_sgt_nyx_abyss'
+            overridden = true
         end
     end
-    local ret = gnb()
     if ret == 'bl_sgt_red_queen' then G.GAME.red_queen_blind = true end
+    if Cartomancer then
+        G.GAME.cartomancer_bosses_list = G.GAME.cartomancer_bosses_list or {}
+        if overridden then
+            G.GAME.cartomancer_bosses_list[#G.GAME.cartomancer_bosses_list] = ret
+        else
+            G.GAME.cartomancer_bosses_list[#G.GAME.cartomancer_bosses_list+1] = ret
+        end
+    end
     return ret
 end
 
