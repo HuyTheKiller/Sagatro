@@ -2690,7 +2690,7 @@ return {
                     "được định sẵn trong quá trình tiến triển",
                     "Ngoi để lùi Ante một cách chiến thuật",
                     "Đánh bại {C:bl_sgt_nyx_abyss}Nyx Abyss{} để thắng",
-                    "{s:0.8,C:inactive}Nhấn vào tàu ngầm để bắt đầu",
+                    "{s:0.8,C:sgt_sagadition}Nhấn vào tàu ngầm để bắt đầu",
                 }
             },
         },
