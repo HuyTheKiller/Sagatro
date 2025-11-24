@@ -464,7 +464,7 @@ local fuel_barrel = {
     set = "Supply",
     atlas = "supply",
     pos = {x = 3, y = 1},
-    config = {amount = 2, uses = 3},
+    config = {amount = 1.5, uses = 3},
     cost = 4,
     can_use = function(self, card)
         return next(SMODS.find_card("j_sgt_submarine", true))
