@@ -199,6 +199,10 @@ G.FUNCS.submarine_down = function(e, force_go_down)
         return true end }))
         SMODS.calculate_effect({message = localize{type = 'name_text', set = 'Blind', key = 'bl_sgt_'..bosses[submarine.ability.immutable.depth_level]}}, submarine)
         SMODS.calculate_effect({message = localize("k_incoming_ex")}, submarine)
+        if G.blind_select_opts then
+            G.from_boss_tag = true
+            G.FUNCS.reroll_boss()
+        end
     else
         play_sound('timpani')
         submarine.ability.immutable.depth_level = math.min(submarine.ability.immutable.depth_level + 1, 5)
