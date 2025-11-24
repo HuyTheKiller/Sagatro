@@ -1553,8 +1553,8 @@ return {
                 text = {
                     "{C:green}#1# in #2#{} chance for {X:dark_edition,C:white}^#3#{} Mult",
                     "{C:green}#4# in #5#{} chance to {C:red,E:2}self destruct{}",
-                    "after every hand played, reduce by {C:attention}1{}",
-                    "every {X:dark_edition,C:white}^Mult{} trigger",
+                    "after every hand played, reduce denominator",
+                    "by {C:attention}1{} every {X:dark_edition,C:white}^Mult{} trigger",
                 },
             },
             j_sgt_alice = {

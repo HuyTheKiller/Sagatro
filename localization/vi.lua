@@ -1548,8 +1548,8 @@ return {
                 text = {
                     "Xác suất {C:green}#1# trên #2#{} để được {X:dark_edition,C:white}^#3#{} Nhân",
                     "Xác suất {C:green}#4# trên #5#{} để {C:red,E:2}tự huỷ{}",
-                    "sau mỗi tay bài, giảm đi {C:attention}1{} sau",
-                    "mỗi lần kích hoạt {X:dark_edition,C:white}^Nhân{}",
+                    "sau mỗi tay bài, giảm mẫu số đi {C:attention}1{}",
+                    "sau mỗi lần kích hoạt {X:dark_edition,C:white}^Nhân{}",
                 },
             },
             j_sgt_alice = {
