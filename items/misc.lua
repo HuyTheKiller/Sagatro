@@ -417,7 +417,10 @@ local medium_canned_fish = {
 		return {vars = {card and card.ability.amount or self.config.amount}}
 	end,
     in_pool = function(self, args)
-        return Sagatro.storyline_check("20k_miles_under_the_sea")
+        if Sagatro.storyline_check("20k_miles_under_the_sea") then
+            return pseudorandom("medium_food_supply") < 0.33
+        end
+        return false
     end,
 }
 
@@ -448,7 +451,10 @@ local large_canned_fish = {
 		return {vars = {card and card.ability.amount or self.config.amount}}
 	end,
     in_pool = function(self, args)
-        return Sagatro.storyline_check("20k_miles_under_the_sea")
+        if Sagatro.storyline_check("20k_miles_under_the_sea") then
+            return pseudorandom("large_food_supply") < 0.11
+        end
+        return false
     end,
 }
 
