@@ -1780,9 +1780,9 @@ return {
                         "Otherwise, gain {C:money}$#1#{} of sell value",
                     },
                     {
-                        "{C:attention}Sell{} this card for",
-                        "{C:green}#5# in #6#{} chance instead",
-                        "Only hatch {C:attention}once{} per run",
+                        "{C:attention}Sell{} this card for {C:green}#5# in #6#{}",
+                        "chance to {C:red,E:2}self destruct{} instead",
+                        "Only {C:red,E:2}self destruct {C:attention}once{} per run",
                     },
                 },
             },

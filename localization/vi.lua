@@ -1776,9 +1776,9 @@ return {
                         "Nếu trật, thêm {C:money}$#1#{} giá bán",
                     },
                     {
-                        "{C:attention}Bán{} lá này để lăn",
-                        "xác suất {C:green}#5# trên #6#{}",
-                        "Chỉ nở {C:attention}một lần{} mỗi trận",
+                        "{C:attention}Bán{} lá này để lăn xác suất",
+                        "{C:green}#5# trên #6#{} để {C:red,E:2}tự huỷ{}",
+                        "Chỉ {C:red,E:2}tự huỷ {C:attention}một lần{} mỗi trận",
                     },
                 },
             },
