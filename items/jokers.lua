@@ -7820,7 +7820,7 @@ local sperm_whale = {
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
             info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
         end
-        return {vars = {card.ability.extra.poker_hand, card.ability.extra.amount},
+        return {vars = {localize(card.ability.extra.poker_hand, "poker_hands"), card.ability.extra.amount},
         fish_vars = {
             card.ability.immutable.depth_level,
             self.rarity,
