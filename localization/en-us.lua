@@ -2694,7 +2694,7 @@ return {
                     "Showdown Blinds as you progress",
                     "Emerge to reduce Ante strategically",
                     "Beat {C:bl_sgt_nyx_abyss}Nyx Abyss{} to win",
-                    "{s:0.8,C:attention}Select the submarine to get started",
+                    "{s:0.8,C:inactive}Select the submarine to get started",
                 }
             },
         },
