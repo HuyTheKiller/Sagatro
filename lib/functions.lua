@@ -2485,6 +2485,9 @@ function Sagatro.resolve_fuel(mod)
                     calculate_reroll_cost(true)
                     G.GAME.submarine_high_fuel = nil
                     Sagatro.global_set_cost()
+                    -- For some dunk reason the first call adds $2 of buy value instead of 1
+                    -- So I'm calling it again, damn
+                    Sagatro.global_set_cost()
                 return true end}))
             end
         end
@@ -2540,12 +2543,18 @@ function Card:set_cost()
     end
 end
 
-function Sagatro.global_set_cost()
-    G.E_MANAGER:add_event(Event({func = function()
+function Sagatro.global_set_cost(from_event)
+    if from_event then
+        G.E_MANAGER:add_event(Event({func = function()
+            for _, v in pairs(G.I.CARD) do
+                if v.set_cost then v:set_cost() end
+            end
+        return true end }))
+    else
         for _, v in pairs(G.I.CARD) do
             if v.set_cost then v:set_cost() end
         end
-    return true end }))
+    end
 end
 
 ---@param mod number
