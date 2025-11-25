@@ -1637,7 +1637,7 @@ end
 -- Fix a damn edge case where the mod object is passed as a joker card without ability to check for retriggers
 Sagatro.ability = {repetition_penalty = 1.1}
 function Sagatro:calculate(context)
-    if G.GAME.story_mode then
+    if G.GAME.story_mode and not context.retrigger_joker then
         if context.end_of_round and context.main_eval then
             for _, v in pairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
                 if v.ability.set == "Joker" and v.ability.immutable then
@@ -1716,7 +1716,7 @@ function Sagatro:calculate(context)
             end
         end
     end
-    if context.final_scoring_step and G.GAME.inversed_scaling then
+    if context.final_scoring_step and not context.retrigger_joker and G.GAME.inversed_scaling then
         if G.GAME.hands[context.scoring_name].played - 1 > 0 then
             return {
                 Xchip_mod = Sagatro.ability.repetition_penalty^(G.GAME.hands[context.scoring_name].played - 1),
@@ -1724,12 +1724,12 @@ function Sagatro:calculate(context)
             }
         end
     end
-    if context.after then
+    if context.after and not context.retrigger_joker then
         G.E_MANAGER:add_event(Event({func = function()
             G.GAME.first_hand_played = true
         return true end}))
     end
-    if context.ante_change and context.ante_end then
+    if context.ante_change and context.ante_end and not context.retrigger_joker then
         for _, v in pairs(G.GAME.hands) do
             v.played_this_ante = 0
         end
