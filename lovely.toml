@@ -825,6 +825,7 @@ else
 end
 '''
 # Increment played_this_ante for poker hands
+# TODO: REMOVE this patch in next SMODS release
 [[patches]]
 [patches.pattern]
 target = 'functions/state_events.lua'
