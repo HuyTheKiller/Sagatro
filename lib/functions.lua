@@ -1019,8 +1019,6 @@ function get_new_boss(...)
         G.GAME.cartomancer_bosses_list = G.GAME.cartomancer_bosses_list or {}
         if overridden then
             G.GAME.cartomancer_bosses_list[#G.GAME.cartomancer_bosses_list] = ret
-        else
-            G.GAME.cartomancer_bosses_list[#G.GAME.cartomancer_bosses_list+1] = ret
         end
     end
     return ret
