@@ -2110,8 +2110,7 @@ function Sagatro.calculate_fish_joker(card, context)
                 delay(0.5)
             end
         elseif context.eaten_type == 5 and not context.blueprint then
-            if context.pre_discard and G.GAME.current_round.discards_left <= 1
-            and #context.full_hand == 5 and not context.hook then
+            if context.pre_discard and G.GAME.current_round.discards_left <= 1 and not context.hook then
                 local selected_card = pseudorandom_element(context.full_hand, pseudoseed("eaten_select35"))
                 delay(0.15)
                 for i = 1, #context.full_hand do
