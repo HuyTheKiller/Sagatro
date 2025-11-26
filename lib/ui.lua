@@ -291,6 +291,14 @@ function Sagatro.update_HUD()
             definition = create_UIBox_HUD(),
             config = {align=('cli'), offset = {x=-0.7,y=0},major = G.ROOM_ATTACH}
         }
+        G.hand_text_area.ante = G.HUD:get_UIE_by_ID('ante_UI_count')
+        G.hand_text_area.round = G.HUD:get_UIE_by_ID('round_UI_count')
+        G.hand_text_area.chip_total = G.HUD:get_UIE_by_ID('hand_chip_total')
+        G.hand_text_area.handname = G.HUD:get_UIE_by_ID('hand_name')
+        G.hand_text_area.hand_level = G.HUD:get_UIE_by_ID('hand_level')
+        G.hand_text_area.game_chips = G.HUD:get_UIE_by_ID('chip_UI_count')
+        G.hand_text_area.blind_spacer = G.HUD:get_UIE_by_ID('blind_spacer')
+        SMODS.refresh_score_UI_list()
     end
 end
 
