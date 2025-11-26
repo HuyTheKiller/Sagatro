@@ -285,11 +285,13 @@ function create_UIBox_HUD()
 end
 
 function Sagatro.update_HUD()
-    G.HUD:remove()
-    G.HUD = UIBox{
-        definition = create_UIBox_HUD(),
-        config = {align=('cli'), offset = {x=-0.7,y=0},major = G.ROOM_ATTACH}
-    }
+    if G.HUD then
+        G.HUD:remove()
+        G.HUD = UIBox{
+            definition = create_UIBox_HUD(),
+            config = {align=('cli'), offset = {x=-0.7,y=0},major = G.ROOM_ATTACH}
+        }
+    end
 end
 
 SMODS.DrawStep {
