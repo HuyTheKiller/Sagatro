@@ -1154,10 +1154,20 @@ table.size = table.size or function(table)
 end
 
 ---@param storyline_name string
-function Sagatro.init_storyline(storyline_name)
+---@param interwoven boolean|nil
+---@param override boolean|nil
+function Sagatro.init_storyline(storyline_name, interwoven, override)
     if not G.GAME.story_mode then return end
-    if G.GAME.current_storyline == "none" and table.contains(Sagatro.main_storyline_list, storyline_name) then
-        G.GAME.current_storyline = storyline_name
+    if table.contains(Sagatro.main_storyline_list, storyline_name) then
+        if interwoven then
+            if not G.GAME.interwoven_storyline or override then
+                G.GAME.interwoven_storyline = storyline_name
+            end
+        else
+            if G.GAME.current_storyline == "none" or override then
+                G.GAME.current_storyline = storyline_name
+            end
+        end
     end
 end
 
