@@ -963,16 +963,6 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
     return card
 end
 
-function Sagatro.debug_boss(blind_key)
-    if blind_key and G.P_BLINDS[blind_key]
-    and G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
-        G.FORCE_BOSS = blind_key
-        G.from_boss_tag = true
-        G.FUNCS.reroll_boss()
-        G.FORCE_BOSS = nil
-    end
-end
-
 -- Black Oil disable retriggers
 local insert_rep_ref = SMODS.insert_repetitions
 function SMODS.insert_repetitions(ret, eval, effect_card, _type)
@@ -2897,25 +2887,54 @@ if JokerDisplay then
 end
 
 -- Debug territory
-function sgt_help()
+function Sagatro.help()
     if Sagatro.debug then
         print("Sagatro debug commands:")
-        print("sgt_help() or help(): show this help screen.")
-        print("sgt_print_rarity(): print out modifications of each rarity pool.")
-        print("sgt_change_joker(index, x, ...): change the numerical values inside 'ability.extra' table (or ability.extra itself if it's a number) of the joker at 'index' slot to 'x' and the following arguments (if applicable).")
-        print("sgt_event(): show event queue and list of finished events.")
-        print("sgt_story_mode(): check if a run has story mode enabled.")
-        print("sgt_final_hand(): set hand count to 1.")
-        print("sgt_no_discard(): set discard count to 0.")
-        print("sgt_crash() or crash(): manually cause a crash.")
-        return "Remember to always prepend 'eval' because that's how DebugPlus executes lua code directly."
+        print("Sagatro.help() or help(): show this help screen.")
+        print("Sagatro.DT_boss(blind_key): Reroll the boss to the specified one.")
+        print("Sagatro.DT_isl(storyline_name): Instantly initialize storyline_name.")
+        print("Sagatro.DT_rarity(): print out modifications of each rarity pool.")
+        print("Sagatro.DT_event(): show event queue and list of finished events.")
+        print("Sagatro.DT_i(): Prints debug info Sagatro will give in crash screen.")
+        print("Sagatro.DT_1h(): set hand count to 1.")
+        print("Sagatro.DT_0d(): set discard count to 0.")
+        print("Sagatro.crash() or crash(): manually cause a crash.")
+        return "Remember to always prepend 'eval' because that's how DebugPlus executes lua code directly. I don't really want to dwell with DebugPlus' built-in feature to execute commands."
     end
     return "Debug commands are unavailable."
 end
 
-help = help or sgt_help
+help = help or Sagatro.help
 
-function sgt_print_rarity()
+function Sagatro.DT_boss(blind_key)
+    if blind_key and G.P_BLINDS[blind_key]
+    and G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
+        G.FORCE_BOSS = blind_key
+        G.from_boss_tag = true
+        G.FUNCS.reroll_boss()
+        G.FORCE_BOSS = nil
+    end
+end
+
+function Sagatro.DT_isl(storyline_name)
+    if Sagatro.debug then
+        if Sagatro.storyline_check("none") then
+            if storyline_name == "alice_in_wonderland" then
+                SMODS.add_card{key = "j_sgt_white_rabbit"}
+            elseif storyline_name == "20k_miles_under_the_sea" then
+                SMODS.add_card{key = "j_sgt_lincoln_ship"}
+            elseif storyline_name == "alice_in_mirrorworld" then
+                SMODS.add_card{key = "j_sgt_white_rabbit"}
+                SMODS.add_card{key = "j_sgt_mirror"}
+            end
+            return "Initialized '"..storyline_name.."'"
+        end
+        return "Not in story mode or there's already an active storyline."
+    end
+    return "Debug commands are unavailable."
+end
+
+function Sagatro.DT_rarity()
     if Sagatro.debug then
         for k, v in pairs(G.GAME) do
             if string.len(k) > 4 and string.find(k, "_mod") and type(v) == "number" then
@@ -2927,35 +2946,7 @@ function sgt_print_rarity()
     return "Debug commands are unavailable."
 end
 
----@param index number
----@param x number
----@param ... number
-function sgt_change_joker(index, x, ...)
-    if not Sagatro.debug then return "Debug commands are unavailable." end
-    if G and not G.jokers then return "Failed: not in a live run." end
-    if G.jokers.cards[index] then
-        if type(G.jokers.cards[index].ability.extra) == "number" then
-            G.jokers.cards[1].ability.extra = x
-        elseif type(G.jokers.cards[index].ability.extra) == "table" then
-            local i = 0
-            for k, v in pairs(G.jokers.cards[index].ability.extra) do
-                if type(v) == "number" then
-                    if i > 0 and select(i, ...) then
-                        G.jokers.cards[index].ability.extra[k] = select(i, ...)
-                        i = i + 1
-                    else
-                        G.jokers.cards[index].ability.extra[k] = x
-                        i = i + 1
-                    end
-                end
-            end
-        end
-        return string.format("Successfully changed the value(s) to %q and the following argument(s).", x)
-    end
-    return "Failed: index out of range."
-end
-
-function sgt_event()
+function Sagatro.DT_event()
     if Sagatro.debug then
         local queue = next(G.GAME.saga_event_queue) and table.concat(G.GAME.saga_event_queue, ", ") or "empty"
         local finished = next(G.GAME.saga_finished_events) and table.concat(G.GAME.saga_finished_events, ", ") or "empty"
@@ -2968,22 +2959,14 @@ function sgt_event()
     return "Debug commands are unavailable."
 end
 
-function sgt_story_mode()
+function Sagatro.DT_i()
     if Sagatro.debug then
-        if G.STAGE == G.STAGES.RUN then
-            if G.GAME.story_mode then
-                return "This run is currently in story mode."
-            else
-                return "This run is currently not in story mode."
-            end
-        else
-            return "You're not in a live run."
-        end
+        return Sagatro.debug_info
     end
     return "Debug commands are unavailable."
 end
 
-function sgt_final_hand()
+function Sagatro.DT_1h()
     if Sagatro.debug then
         ease_hands_played(-G.GAME.current_round.hands_left + 1)
         return "Successfully set hand count to 1."
@@ -2991,7 +2974,7 @@ function sgt_final_hand()
     return "Debug commands are unavailable."
 end
 
-function sgt_no_discard()
+function Sagatro.DT_0d()
     if Sagatro.debug then
         ease_discards(-G.GAME.current_round.discards_left)
         return "Successfully set discard count to 0."
@@ -2999,16 +2982,16 @@ function sgt_no_discard()
     return "Debug commands are unavailable."
 end
 
-function sgt_debug()
+function Sagatro.DT()
     Sagatro.debug = not Sagatro.debug
     return Sagatro.debug and "Sagatro debug mode enabled." or "Sagatro debug mode disabled."
 end
 
-function sgt_crash()
+function Sagatro.crash()
     if Sagatro.debug then
         cause_crash = true
     end
     return not Sagatro.debug and "Are you sure you want to do this? Thankfully Sagatro debug mode is off. Turn it on before executing this command." or "Crashing game..."
 end
 
-crash = crash or sgt_crash
+crash = crash or Sagatro.crash

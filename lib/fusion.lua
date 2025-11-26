@@ -309,6 +309,6 @@ function Game:start_run(args)
 	G.C.BLIND.Small = G.GAME.story_mode and Sagatro.badge_colour or HEX("50846e")
 	G.C.BLIND.Big = G.GAME.story_mode and Sagatro.badge_colour or HEX("50846e")
 	if Sagatro.debug then
-		sendInfoMessage("Welcome to Sagatro debug mode! Make sure you have DebugPlus installed! Type 'eval sgt_help()' for more info. ", "Sagatro")
+		sendInfoMessage("Welcome to Sagatro debug mode! Make sure you have DebugPlus installed! Type 'eval Sagatro.help()' for more info. ", "Sagatro")
 	end
 end
