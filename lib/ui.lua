@@ -272,6 +272,26 @@ G.FUNCS.can_reroll = function(e)
     end
 end
 
+local UIBox_HUD_ref = create_UIBox_HUD
+function create_UIBox_HUD()
+    local ret = UIBox_HUD_ref()
+    local HUD_ante_container = ret.nodes[1].nodes[1].nodes[5].nodes[2].nodes[5].nodes[1].nodes[2]
+    if G.GAME.story_mode then
+        HUD_ante_container.nodes[4] = nil
+        HUD_ante_container.nodes[3] = nil
+        HUD_ante_container.nodes[2] = nil
+    end
+    return ret
+end
+
+function Sagatro.update_HUD()
+    G.HUD:remove()
+    G.HUD = UIBox{
+        definition = create_UIBox_HUD(),
+        config = {align=('cli'), offset = {x=-0.7,y=0},major = G.ROOM_ATTACH}
+    }
+end
+
 SMODS.DrawStep {
     key = "submarine_buttons",
     order = -31,

@@ -300,6 +300,9 @@ function Game:start_run(args)
 			G.GAME.dollars = to_big(250)
 			SMODS.change_free_rerolls(1e10)
 		end
+		if G.GAME.story_mode then
+			Sagatro.update_HUD()
+		end
 	end
 	G.GAME.fusion_table = G.GAME.story_mode and SagaFusion.fusions or {}
 	-- Change colour in story mode, but the hook is over here, I just want to save space
