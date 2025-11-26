@@ -963,9 +963,14 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
     return card
 end
 
-function debug_boss_spawn(blind_key)
-    Sagatro.init_storyline("20k_miles_under_the_sea")
-    Sagatro.progress_storyline(blind_key, "force_add", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+function Sagatro.debug_boss(blind_key)
+    if blind_key and G.P_BLINDS[blind_key]
+    and G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
+        G.FORCE_BOSS = blind_key
+        G.from_boss_tag = true
+        G.FUNCS.reroll_boss()
+        G.FORCE_BOSS = nil
+    end
 end
 
 -- Black Oil disable retriggers
