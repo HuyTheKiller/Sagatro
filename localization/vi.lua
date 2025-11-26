@@ -2565,7 +2565,7 @@ return {
             },
             storyline_start = {
                 text = {
-                    "Mua joker này để",
+                    "Trang bị joker này để",
                     "bắt đầu mạch truyện:",
                     "{C:sgt_sagadition}#1#{}",
                 },

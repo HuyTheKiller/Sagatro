@@ -2569,7 +2569,7 @@ return {
             },
             storyline_start = {
                 text = {
-                    "Buy this joker to",
+                    "Equip this joker to",
                     "begin the storyline:",
                     "{C:sgt_sagadition}#1#{}",
                 },
