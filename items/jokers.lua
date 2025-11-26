@@ -481,7 +481,7 @@ local kid_gloves_and_fan = {
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 for _ = 1, G.GAME.alice_multiplier do
-                                    if temp:get_id() <= 2 then break end
+                                    if temp:get_id() == 2 then break end
                                     assert(SMODS.modify_rank(temp, -1))
                                 end
 
@@ -494,7 +494,7 @@ local kid_gloves_and_fan = {
             if context.destroy_card and context.cardarea == G.play and not context.blueprint and not context.retrigger_joker then
                 if not context.destroy_card.debuff then
                     local temp = context.destroy_card
-                    if not SMODS.has_no_rank(temp) and temp:get_id() <= 2 then
+                    if not SMODS.has_no_rank(temp) and temp:get_id() == 2 then
                         return {
                             message = localize("k_poof_ex"),
                             colour = G.C.FILTER,
@@ -8420,7 +8420,7 @@ local stomiidae = {
         if context.destroy_card and context.cardarea == G.play and not context.blueprint and not context.retrigger_joker then
             if not context.destroy_card.debuff then
                 local temp = context.destroy_card
-                if not SMODS.has_no_rank(temp) and temp:get_id() <= 2 and temp:is_suit("Spades") then
+                if not SMODS.has_no_rank(temp) and temp:get_id() == 2 and temp:is_suit("Spades") then
                     return {remove = true}
                 end
             end
