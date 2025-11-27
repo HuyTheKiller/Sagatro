@@ -10169,12 +10169,12 @@ local fangtooth = {
         end
         if context.discard and not context.blueprint and not context.retrigger_joker and G.GAME.current_round.discards_used <= 0
         and #context.full_hand == 1 and not SMODS.has_no_rank(context.full_hand[1]) then
-            card.ability.extra.stored_rank = context.full_hand[1].config.card.value
+            card.ability.extra.stored_rank = context.full_hand[1].base.value
             return {remove = true}
         end
         if context.individual and context.cardarea == G.play and card.ability.extra.stored_rank then
             if not SMODS.has_no_rank(context.other_card)
-            and context.other_card.config.card.value == card.ability.extra.stored_rank then
+            and context.other_card.base.value == card.ability.extra.stored_rank then
                 return {
                     x_mult = card.ability.extra.xmult,
                     colour = G.C.RED,
@@ -10244,7 +10244,7 @@ local fangtooth = {
                 if text ~= 'Unknown' and card.ability.extra.stored_rank then
                     for _, scoring_card in pairs(scoring_hand) do
                         if not SMODS.has_no_rank(scoring_card)
-                        and scoring_card.config.card.value == card.ability.extra.stored_rank then
+                        and scoring_card.base.value == card.ability.extra.stored_rank then
                             count = count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
                         end
                     end
@@ -10277,10 +10277,12 @@ local grenadier = {
             local ranks = {}
             local temp_ID, lowest_card = 15, nil
             for _, v in ipairs(context.scoring_hand) do
-                ranks[v.config.card.value] = (ranks[v.config.card.value] or 0) + 1
-                if temp_ID > v.base.id and not SMODS.has_no_rank(v) then
-                    temp_ID = v.base.id
-                    lowest_card = v
+                if not SMODS.has_no_rank(v) then
+                    ranks[v.base.value] = (ranks[v.base.value] or 0) + 1
+                    if temp_ID > v.base.id then
+                        temp_ID = v.base.id
+                        lowest_card = v
+                    end
                 end
             end
             if table.size(ranks) > 1 or context.forcetrigger then
@@ -10339,7 +10341,7 @@ local grenadier = {
                 local _, _, scoring_hand = JokerDisplay.evaluate_hand()
                 local ranks = {}
                 for _, scoring_card in ipairs(scoring_hand) do
-                    ranks[scoring_card.config.card.value] = (ranks[scoring_card.config.card.value] or 0) + 1
+                    ranks[scoring_card.base.value] = (ranks[scoring_card.base.value] or 0) + 1
                 end
                 card.joker_display_values.active = table.size(ranks) > 1
                 and localize("jdis_active") or localize("jdis_inactive")
@@ -10371,10 +10373,10 @@ local mahimahi = {
             card.triggered = nil
             local played_ranks, held_in_hand_ranks = {}, {}
             for _, v in ipairs(context.full_hand) do
-                played_ranks[v.config.card.value] = (played_ranks[v.config.card.value] or 0) + 1
+                played_ranks[v.base.value] = (played_ranks[v.base.value] or 0) + 1
             end
             for _, v in ipairs(G.hand.cards) do
-                held_in_hand_ranks[v.config.card.value] = (held_in_hand_ranks[v.config.card.value] or 0) + 1
+                held_in_hand_ranks[v.base.value] = (held_in_hand_ranks[v.base.value] or 0) + 1
             end
             for k, _ in pairs(played_ranks) do
                 if held_in_hand_ranks[k] then card.triggered = true break end
@@ -10441,18 +10443,18 @@ local mahimahi = {
                 local played_ranks, held_in_hand_ranks = {}, {}
                 for _, playing_card in ipairs(G.hand.cards) do
                     if playing_hand or not playing_card.highlighted then
-                        held_in_hand_ranks[playing_card.config.card.value] = (held_in_hand_ranks[playing_card.config.card.value] or 0) + 1
+                        held_in_hand_ranks[playing_card.base.value] = (held_in_hand_ranks[playing_card.base.value] or 0) + 1
                         if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
                             count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
                         end
                     else
-                        played_ranks[playing_card.config.card.value] = (played_ranks[playing_card.config.card.value] or 0) + 1
+                        played_ranks[playing_card.base.value] = (played_ranks[playing_card.base.value] or 0) + 1
                     end
                 end
                 if playing_hand then
                     for _, playing_card in ipairs(G.play.cards) do
-                        if playing_card.config.card and playing_card.config.card.value then
-                            played_ranks[playing_card.config.card.value] = (played_ranks[playing_card.config.card.value] or 0) + 1
+                        if playing_card.config.card and playing_card.base.value then
+                            played_ranks[playing_card.base.value] = (played_ranks[playing_card.base.value] or 0) + 1
                         end
                     end
                 end
@@ -11576,7 +11578,7 @@ local abducted_cow = {
                 _card.abducted = true
                 card.ability.extra.held_card = {}
                 card.ability.extra.held_card.suit = _card.base.suit
-                card.ability.extra.held_card.rank = _card.config.card.value
+                card.ability.extra.held_card.rank = _card.base.value
                 card.ability.extra.triggered = true
             end
         end
@@ -11689,7 +11691,7 @@ local flying_house = {
             local ranks = {}
             for _, v in ipairs(context.scoring_hand) do
                 if not SMODS.has_no_rank(v) then
-                    ranks[v.config.card.value] = (ranks[v.config.card.value] or 0) + 1
+                    ranks[v.base.value] = (ranks[v.base.value] or 0) + 1
                 end
             end
             local max_count, rank = 0, nil
@@ -11697,7 +11699,7 @@ local flying_house = {
                 if max_count < v then max_count = v; rank = k end
             end
             for _, v in ipairs(context.scoring_hand) do
-                if ranks[v.config.card.value] and ranks[v.config.card.value] ~= max_count then
+                if ranks[v.base.value] and ranks[v.base.value] ~= max_count then
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             v:juice_up()

@@ -2768,7 +2768,7 @@ local lexicon = {
         return #G.hand.highlighted > 0 and #G.hand.highlighted <= card.ability.max_highlighted
     end,
     use = function(self, card, area, copier)
-        local rank = G.hand.highlighted[1].config.card.value
+        local rank = G.hand.highlighted[1].base.value
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             delay = 0.4,
