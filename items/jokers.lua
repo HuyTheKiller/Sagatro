@@ -631,9 +631,7 @@ local dodo_bird = {
                 and G.GAME.current_round.hands_left <= 1
                 and G.GAME.current_round.discards_left == 0
                 and localize("jdis_active") or localize("jdis_inactive")
-                if mod_joker.ability.set == "Joker" then
-                    return { x_mult = (G.GAME.current_round.hands_left <= 1 and G.GAME.current_round.discards_left == 0 and (mod_joker.ability.extra.xmult*G.GAME.alice_multiplier) ^ JokerDisplay.calculate_joker_triggers(mod_joker) or nil) }
-                end
+                return { x_mult = (card.ability.set == "Joker" and G.GAME.current_round.hands_left <= 1 and G.GAME.current_round.discards_left == 0 and (mod_joker.ability.extra.xmult*G.GAME.alice_multiplier) ^ JokerDisplay.calculate_joker_triggers(mod_joker) or nil) }
             end
         }
     end,
