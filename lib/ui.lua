@@ -272,33 +272,16 @@ G.FUNCS.can_reroll = function(e)
     end
 end
 
-local UIBox_HUD_ref = create_UIBox_HUD
-function create_UIBox_HUD()
-    local ret = UIBox_HUD_ref()
-    local HUD_ante_container = ret.nodes[1].nodes[1].nodes[5].nodes[2].nodes[5].nodes[1].nodes[2]
-    if G.GAME.story_mode then
-        HUD_ante_container.nodes[4] = nil
-        HUD_ante_container.nodes[3] = nil
-        HUD_ante_container.nodes[2] = nil
-    end
-    return ret
-end
-
 function Sagatro.update_HUD()
-    if G.HUD then
-        G.HUD:remove()
-        G.HUD = UIBox{
-            definition = create_UIBox_HUD(),
-            config = {align=('cli'), offset = {x=-0.7,y=0},major = G.ROOM_ATTACH}
-        }
-        G.hand_text_area.ante = G.HUD:get_UIE_by_ID('ante_UI_count')
-        G.hand_text_area.round = G.HUD:get_UIE_by_ID('round_UI_count')
-        G.hand_text_area.chip_total = G.HUD:get_UIE_by_ID('hand_chip_total')
-        G.hand_text_area.handname = G.HUD:get_UIE_by_ID('hand_name')
-        G.hand_text_area.hand_level = G.HUD:get_UIE_by_ID('hand_level')
-        G.hand_text_area.game_chips = G.HUD:get_UIE_by_ID('chip_UI_count')
-        G.hand_text_area.blind_spacer = G.HUD:get_UIE_by_ID('blind_spacer')
-        SMODS.refresh_score_UI_list()
+    if G.HUD and G.GAME.story_mode then
+        local ante_box_children = G.HUD:get_UIE_by_ID("hud_ante").children[2].children
+        for i = 4, 2, -1 do
+            if ante_box_children[i] then
+                ante_box_children[i]:remove()
+                ante_box_children[i] = nil
+            end
+        end
+        G.HUD:recalculate()
     end
 end
 
