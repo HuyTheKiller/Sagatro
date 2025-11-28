@@ -3198,18 +3198,6 @@ local puss_in_boots = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.before and not context.forcetrigger then
-            card.ability.extra.jack_triggered = false
-            if not context.blueprint and not context.retrigger_joker then
-                for i = 1, #context.scoring_hand do
-                    local temp = context.scoring_hand[i]
-                    if temp:get_id() == 11 then
-                        card.ability.extra.jack_triggered = true
-                        break
-                    end
-                end
-            end
-        end
         if context.individual and context.cardarea == G.play and not context.forcetrigger then
             local temp = context.other_card
             if temp:get_id() == 12 or temp:get_id() == 13 then
@@ -3225,11 +3213,16 @@ local puss_in_boots = {
             G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
             if Talisman and not Talisman.config_file.disable_anims then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end
         end
-        if (context.joker_main and card.ability.extra.jack_triggered) or context.forcetrigger then
-            return {
-                message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
-                Xmult_mod = card.ability.extra.xmult
-            }
+        if context.joker_main or context.forcetrigger then
+            for i = 1, #context.scoring_hand do
+                local temp = context.scoring_hand[i]
+                if temp:get_id() == 11 or context.forcetrigger then
+                    return {
+                        message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
+                        Xmult_mod = card.ability.extra.xmult
+                    }
+                end
+            end
         end
     end,
     in_pool = function(self, args)
