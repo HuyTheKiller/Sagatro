@@ -4,6 +4,7 @@ local white_rabbit = {
     name = "White Rabbit",
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    saga_difficulty = 3,
     order = 1,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 0 },
@@ -106,7 +107,7 @@ local white_rabbit = {
         end
         if Sagatro.storyline_check("none") and G.STAGE == G.STAGES.RUN then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
-            specific_vars = {localize('ph_alice_in_wond')}, title = localize("saga_storyline_start")}
+            specific_vars = {localize('ph_alice_in_wond'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
         end
 		return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.extra.chip_mod*G.GAME.alice_multiplier}}
 	end,
@@ -3846,6 +3847,7 @@ local lincoln_ship = {
     name = "Lincoln Ship",
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
+    saga_difficulty = 5,
     order = 61,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 0 },
@@ -3895,7 +3897,7 @@ local lincoln_ship = {
         info_queue[#info_queue+1] = G.P_CENTERS["j_splash"]
         if Sagatro.storyline_check("none") and G.STAGE == G.STAGES.RUN then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
-            specific_vars = {localize('ph_20k')}, title = localize("saga_storyline_start")}
+            specific_vars = {localize('ph_20k'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
         end
         return {vars = {card.ability.extra.mult, localize{type = 'name_text', set = "Joker", key = "j_splash", nodes = {}}}}
     end,

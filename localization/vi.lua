@@ -2568,6 +2568,15 @@ return {
                     "Trang bị joker này để",
                     "bắt đầu mạch truyện:",
                     "{C:sgt_sagadition}#1#{}",
+                    "Độ khó: {V:1}#2#{}/5",
+                },
+            },
+            interwoven_storyline_start = {
+                text = {
+                    "Trang bị joker này để đan xen",
+                    "mạch truyện hiện tại với:",
+                    "{C:sgt_sagadition}#1#{}",
+                    "Độ khó: {V:1}#2#{}/5",
                 },
             },
             white_rabbit = {
