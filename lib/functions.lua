@@ -2252,13 +2252,7 @@ function Sagatro.process_edible_fish(card, context)
     if context.setting_blind and not card.getting_sliced and not context.forcetrigger
     and not context.blueprint and not context.retrigger_joker then
         if card.area == G.consumeables then return end
-        local pos = nil
-        for i = 1, #G.jokers.cards do
-            if G.jokers.cards[i] == card then
-                pos = i
-                break
-            end
-        end
+        local pos = Sagatro.get_pos(card)
         local jokers = {}
         if pos then
             if card.ability.immutable.target_offset then
@@ -2548,15 +2542,26 @@ function Card:set_cost()
 end
 
 function Sagatro.global_set_cost(from_event)
-    if from_event then
-        G.E_MANAGER:add_event(Event({func = function()
-            for _, v in pairs(G.I.CARD) do
-                if v.set_cost then v:set_cost() end
-            end
-        return true end }))
-    else
+    local set_cost = function()
         for _, v in pairs(G.I.CARD) do
             if v.set_cost then v:set_cost() end
+        end
+    end
+    if from_event then
+        G.E_MANAGER:add_event(Event({func = function()
+            set_cost()
+        return true end }))
+    else
+        set_cost()
+    end
+end
+
+function Sagatro.get_pos(card)
+    if card.area then
+        for i, v in ipairs(card.area.cards) do
+            if v == card then
+                return i
+            end
         end
     end
 end

@@ -4249,7 +4249,7 @@ local clownfish = {
         end
         if context.forcetrigger then
             return {
-                mult_mod = card.ability.extra.mult,
+                mult = card.ability.extra.mult,
                 card = card,
             }
         end
@@ -4343,7 +4343,7 @@ local blue_tang = {
         end
         if context.forcetrigger then
             return {
-                chip_mod = card.ability.extra.chips,
+                chips = card.ability.extra.chips,
                 card = card,
             }
         end
@@ -4946,13 +4946,7 @@ local barracuda = {
         if context.setting_blind and not card.getting_sliced and not context.forcetrigger
         and not context.blueprint and not context.retrigger_joker then
             if card.area == G.consumeables then return end
-            local pos = nil
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] == card then
-                    pos = i
-                    break
-                end
-            end
+            local pos = Sagatro.get_pos(card)
             local joker = nil
             if pos then joker = G.jokers.cards[pos+card.ability.immutable.target_offset] end
             if joker and not card.getting_sliced
@@ -8046,13 +8040,7 @@ local shark = {
     calculate = function(self, card, context)
         if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
             if card.area == G.consumeables or G.jokers.cards[1] == card then return end
-            local pos = nil
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] == card then
-                    pos = i
-                    break
-                end
-            end
+            local pos = Sagatro.get_pos(card)
             local eaten_fish = {}
             local total_addition = 0
             for i = pos-2, pos-1 do
@@ -8853,13 +8841,7 @@ local narwhal = {
     calculate = function(self, card, context)
         if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
             if card.area == G.consumeables or G.jokers.cards[1] == card then return end
-            local pos = nil
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] == card then
-                    pos = i
-                    break
-                end
-            end
+            local pos = Sagatro.get_pos(card)
             local impaled_jokers = {}
             local total_sell_cost = 0
             for i = pos-1, 1, -1 do
@@ -9104,13 +9086,7 @@ local goblin_shark = {
     calculate = function(self, card, context)
         if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
             if card.area == G.consumeables or G.jokers.cards[1] == card then return end
-            local pos = nil
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] == card then
-                    pos = i
-                    break
-                end
-            end
+            local pos = Sagatro.get_pos(card)
             local eaten_fish = {}
             local total_addition = 0
             for i = pos-2, pos-1 do
@@ -9390,13 +9366,7 @@ local chimaera = {
     calculate = function(self, card, context)
         if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
             if card.area == G.consumeables or G.jokers.cards[#G.jokers.cards] == card then return end
-            local pos = nil
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] == card then
-                    pos = i
-                    break
-                end
-            end
+            local pos = Sagatro.get_pos(card)
             local killed_jokers = {}
             for i = pos+1, pos+2 do
                 local joker = G.jokers.cards[i]
