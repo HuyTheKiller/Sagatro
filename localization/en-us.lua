@@ -584,6 +584,41 @@ return {
                     "at beginning of every ante",
                 },
             },
+            sgt_mirror = {
+                text = {
+                    "{C:sgt_sagadition}Alice Through the Looking Glass{}'",
+                    "{C:attention}exclusive{} effect:",
+                    "Allows {C:attention}moving{} between the",
+                    "{C:sgt_sagadition}Mirrorworld{} and the {C:sgt_sagadition}Real World",
+                },
+            },
+            sgt_mirrorworld = {
+                text = {
+                    "Inactive outside the {C:sgt_sagadition}Mirrorworld{},",
+                    "but takes {C:attention}no{} joker slot",
+                },
+            },
+            sgt_realworld = {
+                text = {
+                    "Takes {C:attention}no{} joker slot in the {C:sgt_sagadition}Mirrorworld{},",
+                    "but can't be sold or destroyed",
+                },
+            },
+            sgt_switch_cooldown = {
+                name = "Switch Cooldown",
+                text = {
+                    "Defeat any {C:attention}Blind{} to",
+                    "start switching again",
+                },
+            },
+            free_reroll_tooltip = {
+                name = "Pro Tip",
+                text = {
+                    "Switching automatically",
+                    "{C:green}rerolls{} the shop for {C:attention}free",
+                    "{C:inactive}(only while in shop)",
+                },
+            },
             sgt_celestara_help = {
                 name = "How To Use",
                 text = {
@@ -2318,6 +2353,106 @@ return {
                     "to {C:sgt_sagadition}20k Miles Under The Sea{}",
                 },
             },
+            j_sgt_mirror = {
+                name = "Mirror",
+                text = {
+                    "If played hand is a {C:attention}#1#{}, convert",
+                    "the suit of the {C:attention}second card{} to the",
+                    "suit of the {C:attention}first card{}",
+                },
+            },
+            j_sgt_white_pawn = {
+                name = "White Pawn",
+                text = {
+                    {"If played hand contains a {C:attention}#1#{}",
+                    "and only one card with {C:hearts}Hearts{} or",
+                    "{C:diamonds}Diamonds{} suit scores, {C:attention}destroy{} it"},
+                    {"If played hand is a {C:spades}Spades{} or {C:clubs}Clubs",
+                    "{C:attention}#2#{} and the highest rank is",
+                    "a {C:attention}Queen{}, promote to {C:attention}White Queen{}"},
+                },
+            },
+            j_sgt_white_queen = {
+                name = "White Queen",
+                text = {
+                    {"Each {C:attention}Queen{} held in hand gives {C:mult}+#1#{} Mult"},
+                    {"{C:mult}+#1#*A{} Mult, where A is the difference between",
+                    "total {C:spades}Spades{} and {C:clubs}Clubs{} in hand and",
+                    "total {C:hearts}Hearts{} and {C:diamonds}Diamonds{} in hand"},
+                },
+            },
+            j_sgt_white_king = {
+                name = "White King",
+                text = {
+                    {"Each {C:attention}King{} held in hand gives {X:mult,C:white}X#1#{} Mult"},
+                    {"{X:mult,C:white}X#1#*A{} Mult, where A is the quotient between",
+                    "total {C:spades}Spades{} and {C:clubs}Clubs{} in hand and",
+                    "total {C:hearts}Hearts{} and {C:diamonds}Diamonds{} in hand"},
+                },
+            },
+            j_sgt_live_flowers = {
+                name = "Live Flowers",
+                text = {
+                    "{C:mult}+#1#{} Mult",
+                    "{C:mult}-#2#{} Mult per hand played",
+                },
+            },
+            j_sgt_ticket_checker = {
+                name = "Ticket Checker",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult if at least",
+                    "one {C:attention}voucher{} is redeemed",
+                },
+            },
+            j_sgt_man_in_white = {
+                name = "Man In White",
+                text = {
+                    {"Gain {C:mult}+#2#{} Mult if played hand",
+                    "contains a {C:attention}Straight{} and an {C:attention}Ace",
+                    "{C:mult}-#3#{} Mult otherwise",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"},
+                    {"The {C:attention}Goat{} to the right of",
+                    "this joker gives {X:mult,C:white}X1.5{} Mult"},
+                },
+            },
+            j_sgt_goat = {
+                name = "Goat",
+                text = {
+                    {"Gain {C:mult}+#2#{} Mult if played hand",
+                    "contains a {C:attention}Straight{} and a {C:attention}King",
+                    "{C:mult}-#3#{} Mult otherwise",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"},
+                    {"The {C:attention}Beetle{} to the right of",
+                    "this joker gives {X:mult,C:white}X1.5{} Mult"},
+                },
+            },
+            j_sgt_beetle = {
+                name = "Beetle",
+                text = {
+                    "Gain {C:mult}+#2#{} Mult if played hand",
+                    "contains a {C:attention}Straight{} and a {C:attention}Queen",
+                    "{C:mult}-#3#{} Mult otherwise",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_dinah = {
+                name = "Dinah",
+                text = {
+                    "If scoring hand contains a(n) {C:attention}#3#{} of {V:1}#4#{},",
+                    "{C:attention}destroy{} it and gain {X:dark_edition,C:white}^#2#{} Mult",
+                    "for each of that card destroyed",
+                    "{s:0.8}Card changes every round",
+                    "{C:inactive}(Currently {X:dark_edition,C:white}^#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_ecila = {
+                name = "Ecila",
+                text = {
+                    "Each joker belonging to {C:sgt_sagadition}Alice",
+                    "{C:sgt_sagadition}Through the Looking Glass{}",
+                    "gives {X:mult,C:white}X#1#{} Mult",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -2704,7 +2839,16 @@ return {
                     "Emerge to reduce Ante strategically",
                     "Beat {C:bl_sgt_nyx_abyss}Nyx Abyss{} to win",
                     "{s:0.8,C:sgt_sagadition}Select the submarine to get started",
-                }
+                },
+            },
+            mirror = {
+                text = {
+                    "{C:sgt_sagadition}Sagatro{}'s first interwoven story!",
+                    "Progress {C:sgt_sagadition}Alice in the Wonderland{}",
+                    "normally, but the true villain awaits",
+                    "you at the other side of the world...",
+                    "{s:0.8,C:sgt_sagadition}Select the mirror to get started",
+                },
             },
         },
         fish_effect = {
@@ -3024,6 +3168,7 @@ return {
             b_sgt_up = "UP",
             b_sgt_down = "DOWN",
             b_sgt_ready = "READY",
+            b_sgt_switch = "SWITCH",
             b_delete_ace = "Delete Ace",
             b_dont_even_try = "Don't even try",
             k_in_a_hurry_ex = "In a hurry!",
@@ -3078,6 +3223,10 @@ return {
             k_depleted_ex = "Depleted!",
             k_smeared_ex = "Smeared!",
             k_enhanced_ex = "Enhanced!",
+            k_promoted_ex = "Promoted!",
+            k_elegant_ex = "Elegant!",
+            k_baah_ex = "Baah!",
+            k_bzzz_ex = "Bzzz!",
             k_zzz = "ZZZ",
             k_charge = "Charge",
             k_release = "Release",
@@ -3101,6 +3250,7 @@ return {
             ph_alice_in_wond = "Alice in the Wonderland",
             ph_misc_story = "Misc. Story",
             ph_20k = "20k Miles Under The Sea",
+            ph_alice_in_mirr = "Alice Through the Looking Glass",
             ph_gods_miracle = "Saved by God's Miracle",
             ph_depth_level = "Depth level",
             ph_lovecraft = "Lovecraft",

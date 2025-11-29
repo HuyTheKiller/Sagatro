@@ -73,6 +73,8 @@ elseif _type == 'Joker' then
             _pool[#_pool + 1] = "j_sgt_cheshire_cat"
         elseif Sagatro.event_check("mad_hatter") or next(SMODS.find_card("j_sgt_mad_hatter", true)) then
             _pool[#_pool + 1] = "j_sgt_tea"
+        elseif Sagatro.event_check("mirrorworld") then
+            _pool[#_pool + 1] = "j_sgt_white_pawn"
         elseif Sagatro.storyline_check("20k_miles_under_the_sea") then
             _pool[#_pool + 1] = "j_sgt_seawater"
         else
@@ -110,6 +112,8 @@ else
             _pool[#_pool + 1] = "j_sgt_cheshire_cat"
         elseif Sagatro.event_check("mad_hatter") or next(SMODS.find_card("j_sgt_mad_hatter", true)) then
             _pool[#_pool + 1] = "j_sgt_tea"
+        elseif Sagatro.event_check("mirrorworld") then
+            _pool[#_pool + 1] = "j_sgt_white_pawn"
         elseif Sagatro.storyline_check("20k_miles_under_the_sea") then
             _pool[#_pool + 1] = "j_sgt_seawater"
         else
@@ -424,7 +428,7 @@ position = 'at'
 match_indent = true
 payload = '''
 if (not G.GAME.story_mode and G.GAME.round_resets.ante >= G.GAME.win_ante and G.GAME.blind_on_deck == 'Boss')
-or (G.GAME.story_mode and table.contains(Sagatro.story_mode_showdown, G.GAME.blind.config.blind.key)) then
+or (G.GAME.story_mode and table.contains(Sagatro.story_mode_showdown, G.GAME.blind.config.blind.key) and not G.GAME.paused_showdown) then
 '''
 
 # Make losing after a certain showdown blind but before win Ante a valid endless run
@@ -604,7 +608,7 @@ and #self.cards < self.config.card_limit then
 '''
 match_indent = true
 
-# Submarine adds custom background colour in story mode
+# Custom background colour in story mode
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
@@ -613,6 +617,8 @@ position = "before"
 payload = '''
 elseif G.GAME.story_mode and next(SMODS.find_card("j_sgt_submarine", true)) then
     ease_background_colour{new_colour = G.C.SUBMARINE_DEPTH[Sagatro.get_submarine_depth_colour()], contrast = 1}
+elseif G.GAME.story_mode and G.GAME.inversed_scaling then
+    ease_background_colour{new_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5), contrast = 1}
 '''
 match_indent = true
 
@@ -876,7 +882,7 @@ if G.GAME.story_mode and ((G.GAME.blind.boss and G.GAME.imminent_doom) or Sagatr
 end
 '''
 
-# Make sure Ankh won't copy Submarine
+# Make sure Ankh won't copy Submarine/Mirror
 [[patches]]
 [patches.pattern]
 target = 'card.lua'
@@ -884,7 +890,21 @@ pattern = '''local chosen_joker = pseudorandom_element(G.jokers.cards, pseudosee
 position = 'after'
 match_indent = true
 payload = '''
-while G.GAME.story_mode and chosen_joker.config.center_key == "j_sgt_submarine" do
+while G.GAME.story_mode and (chosen_joker.config.center_key == "j_sgt_submarine"
+or chosen_joker.config.center_key == "j_sgt_mirror") do
     chosen_joker = pseudorandom_element(G.jokers.cards, pseudoseed('ankh_choice_reroll'))
 end
 '''
+
+# Reroll-switch doesn't trigger save
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.E_MANAGER:add_event(Event({ func = function() save_run(); return true end}))'''
+position = "at"
+payload = '''
+if not Sagatro.reroll_no_save then
+  G.E_MANAGER:add_event(Event({ func = function() save_run(); return true end}))
+end
+'''
+match_indent = true

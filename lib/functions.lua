@@ -15,6 +15,13 @@ G.C.SUBMARINE_DEPTH = {
     HEX("091829"),
     HEX("060f1a"),
 }
+G.C.SAGA_DIFFICULTY = {
+    G.C.GREEN,
+    G.C.GREEN,
+    G.C.YELLOW,
+    G.C.YELLOW,
+    G.C.RED,
+}
 SMODS.Gradient{
     key = "sagadition",
     colours = {Sagatro.badge_colour, G.C.RARITY[4]},
@@ -78,7 +85,8 @@ Sagatro.story_mode_no_reroll = {
 
 Sagatro.main_storyline_list = {
     "alice_in_wonderland",
-    "20k_miles_under_the_sea"
+    "20k_miles_under_the_sea",
+    "alice_in_mirrorworld",
 }
 
 Sagatro.forced_buffoon_events = {
@@ -121,8 +129,23 @@ function Game:init_game_object()
                 "j_sgt_alice",
             },
         },
+        alice_in_mirrorworld = {
+            mirrorworld = {
+                "j_sgt_white_pawn",
+                "j_sgt_white_queen",
+                "j_sgt_white_king",
+                "j_sgt_live_flowers",
+                "j_sgt_ticket_checker",
+                "j_sgt_man_in_white",
+                "j_sgt_goat",
+                "j_sgt_beetle",
+                "j_sgt_dinah",
+                "j_sgt_ecila",
+            },
+        },
     }
     ret.fish_effect = {}
+    ret.current_round.dinah_card = {suit = "Spades", rank = "Ace"}
     ret.ante_cooldown = 0
     ret.alice_multiplier = 1
     ret.relief_factor = 1
@@ -187,6 +210,31 @@ function Game:main_menu(change_context)
             return true
         end,
     }))
+
+    if newcard and (math.random() < 0.1 or Sagatro.debug) then
+        local card
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 4.04,
+            func = (function()
+                card = Card(G.title_top.T.x, G.title_top.T.y, G.CARD_W*1.1*1.2, G.CARD_H*1.1*1.2, G.P_CARDS.empty, G.P_CENTERS.j_sgt_ecila, { bypass_discovery_center = true })
+                card.no_ui = true
+                card.states.visible = false
+                card.sticker_run = "NONE" 
+                card.sagatro_target = true
+                newcard.parent = nil
+                newcard:start_dissolve({G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD})
+                return true
+        end)}))
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 1.04,
+            func = (function()
+                card:start_materialize()
+                G.title_top:emplace(card)
+                return true
+        end)}))
+    end
 end
 
 -- Mouse and Pufferfish's conditional debuff mechanic
@@ -465,7 +513,20 @@ current_depth_dt = 0
 local upd = Game.update
 function Game:update(dt)
 	upd(self, dt)
-
+    if Sagatro.debug then
+        if not Sagatro.STATE then
+            Sagatro.STATE = G.STATE
+        end
+        if Sagatro.STATE ~= G.STATE then
+            Sagatro.STATE = G.STATE
+            for k, v in pairs(G.STATES) do
+                if Sagatro.STATE == v then
+                    print(k)
+                    break
+                end
+            end
+        end
+    end
     if G.STAGE == G.STAGES.RUN then
         Sagatro.debug_info["During a run"] = true
         Sagatro.debug_info["Story mode"] = G.GAME.story_mode
@@ -1009,7 +1070,12 @@ function get_new_boss(...)
             overridden = true
         end
     end
-    if ret == 'bl_sgt_red_queen' then G.GAME.red_queen_blind = true end
+    if ret == 'bl_sgt_red_queen' then
+        G.GAME.red_queen_blind = true
+        if Sagatro.storyline_check("alice_in_mirrorworld") then
+            G.GAME.paused_showdown = true
+        end
+    end
     if Cartomancer then
         G.GAME.cartomancer_bosses_list = G.GAME.cartomancer_bosses_list or {}
         if overridden then
@@ -1280,8 +1346,9 @@ function Sagatro.reset_game_globals(run_start)
     end
     G.GAME.first_hand_played = nil
     G.GAME.submarine_movement_cooldown = nil
+    G.GAME.mirror_switch_cooldown = nil
     G.GAME.ante_reduction_tooltip = nil
-    G.GAME.submarine_hint_to_progress = nil
+    G.GAME.free_reroll_tooltip = nil
     if G.GAME.saved_by_gods_miracle then
         G.GAME.saved_by_gods_miracle = nil
     end
@@ -1290,6 +1357,23 @@ function Sagatro.reset_game_globals(run_start)
         G.jokers.config.highlighted_limit = 1
         G.consumeables.config.highlighted_limit = 1
     end
+    --#region reset_dinah_card()
+    G.GAME.current_round.dinah_card.rank = 'Ace'
+    G.GAME.current_round.dinah_card.suit = 'Spades'
+    G.GAME.current_round.dinah_card.id = 14
+    local valid_dinah_cards = {}
+    for k, v in ipairs(G.playing_cards) do
+        if not SMODS.has_no_suit(v) and not SMODS.has_no_rank(v) then
+            valid_dinah_cards[#valid_dinah_cards+1] = v
+        end
+    end
+    if valid_dinah_cards[1] then
+        local dinah_card = pseudorandom_element(valid_dinah_cards, pseudoseed('dinah'..G.GAME.round_resets.ante))
+        G.GAME.current_round.dinah_card.rank = dinah_card.base.value
+        G.GAME.current_round.dinah_card.suit = dinah_card.base.suit
+        G.GAME.current_round.dinah_card.id = dinah_card.base.id
+    end
+    --#endregion
 end
 
 function Sagatro.get_submarine_depth_colour()
@@ -1520,7 +1604,11 @@ end
 -- Borrowing these from Ortalab (nope, the +JokerSlot animation is not necessary)
 function Sagatro.update_blind_amounts(instant)
     if G.GAME.blind then
-        G.GAME.blind.chips = get_blind_amount(G.GAME.round_resets.ante)*G.GAME.blind.mult*G.GAME.starting_params.ante_scaling
+        if G.GAME.inversed_scaling then
+            G.GAME.blind.chips = get_blind_amount(G.GAME.round_resets.ante)/math.max(G.GAME.blind.mult*((0.8+(0.05*math.log(G.GAME.blind.mult)))^G.GAME.blind.mult), 1)
+        else
+            G.GAME.blind.chips = get_blind_amount(G.GAME.round_resets.ante)*G.GAME.blind.mult*G.GAME.starting_params.ante_scaling
+        end
         G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
     end
     if G.STATE == G.STATES.BLIND_SELECT and G.blind_select then
@@ -1690,6 +1778,9 @@ function Sagatro:calculate(context)
         if context.ante_change and context.ante_end then
             G.GAME.fish_effect.no_reshuffle = nil
             G.GAME.supply_drop = nil
+            G.GAME.submarine_hint_to_progress = nil
+            G.GAME.mirror_hint_to_progress = nil
+            G.GAME.paused_showdown = nil
             G.GAME.ante_cooldown = math.max(G.GAME.ante_cooldown - 1, 0)
             if G.GAME.pending_fish_var_tooltip_removal == 1 then
                 G.GAME.fish_vars = nil
@@ -1707,8 +1798,14 @@ function Sagatro:calculate(context)
                 end
             end
         end
-        if context.check_eternal and context.other_card.config.center_key == "j_sgt_submarine" then
-            return {no_destroy = true}
+        if context.check_eternal then
+            if context.other_card.config.center_key == "j_sgt_submarine"
+            or context.other_card.config.center_key == "j_sgt_mirror" then
+                return {no_destroy = true}
+            end
+            if not context.other_card.config.center.mirrorworld and G.GAME.inversed_scaling then
+                return {no_destroy = true}
+            end
         end
         if context.starting_shop and G.GAME.juice_up_booster then
             G.GAME.juice_up_booster = nil
@@ -2541,6 +2638,17 @@ function Card:set_cost()
     end
 end
 
+function Sagatro.instant_reroll()
+    if G.STATE == G.STATES.SHOP then
+        SMODS.change_free_rerolls(1)
+        Sagatro.reroll_no_save = true
+        G.FUNCS.reroll_shop()
+        Sagatro.reroll_no_save = nil
+        G.GAME.round_resets.free_rerolls = G.GAME.round_resets.free_rerolls - 1
+        calculate_reroll_cost(true)
+    end
+end
+
 function Sagatro.global_set_cost(from_event)
     local set_cost = function()
         for _, v in pairs(G.I.CARD) do
@@ -2564,6 +2672,24 @@ function Sagatro.get_pos(card)
             end
         end
     end
+end
+
+mod_mult_ref = mod_mult
+function mod_mult(_mult)
+	_mult = mod_mult_ref(_mult)
+	if G.GAME.inversed_scaling then
+		_mult = math.max(_mult, 1)
+	end
+	return _mult
+end
+
+mod_chips_ref = mod_chips
+function mod_chips(_chips)
+	_chips = mod_chips_ref(_chips)
+	if G.GAME.inversed_scaling then
+		_chips = math.max(_chips, 1)
+	end
+	return _chips
 end
 
 ---@param mod number

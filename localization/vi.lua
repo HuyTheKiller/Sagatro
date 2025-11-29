@@ -583,6 +583,41 @@ return {
                     "ở đầu mỗi ante",
                 },
             },
+            sgt_mirror = {
+                text = {
+                    "Hiệu ứng {C:attention}đặc thù{} của",
+                    "{C:sgt_sagadition}Alice ở Xứ Sở Trong Gương{}:",
+                    "Cho phép {C:attention}di chuyển{} giữa",
+                    "{C:sgt_sagadition}Thế Giới Gương{} và {C:sgt_sagadition}Thế Giới Thực",
+                },
+            },
+            sgt_mirrorworld = {
+                text = {
+                    "Bất hoạt ngoài {C:sgt_sagadition}Thế Giới Gương{},",
+                    "nhưng {C:attention}không{} tốn ô joker",
+                },
+            },
+            sgt_realworld = {
+                text = {
+                    "{C:attention}Không{} tốn ô joker trong {C:sgt_sagadition}Thế Giới Gương{},",
+                    "nhưng không thể bán hoặc bị phá huỷ",
+                },
+            },
+            sgt_switch_cooldown = {
+                name = "Hồi Chiêu Chuyển Đổi",
+                text = {
+                    "Đánh bại bất kì {C:attention}Blind{} nào",
+                    "để tiếp tục chuyển đổi",
+                },
+            },
+            free_reroll_tooltip = {
+                name = "Mẹo",
+                text = {
+                    "Chuyển đổi sẽ tự động",
+                    "{C:green}gieo lại{} shop {C:attention}miễn phí",
+                    "{C:inactive}(chỉ khi ở trong shop)",
+                },
+            },
             sgt_celestara_help = {
                 name = "Cách Dùng",
                 text = {
@@ -2314,6 +2349,106 @@ return {
                     "về {C:sgt_sagadition}2 Vạn Dặm Dưới Biển{}",
                 },
             },
+            j_sgt_mirror = {
+                name = "Gương",
+                text = {
+                    "Nếu tay đã chơi là {C:attention}#1#{}, biến đổi",
+                    "chất của {C:attention}lá thứ hai{} thành",
+                    "chất của {C:attention}lá đầu tiên{}",
+                },
+            },
+            j_sgt_white_pawn = {
+                name = "Tốt Trắng",
+                text = {
+                    {"Nếu tay bài đã chơi chứa {C:attention}#1#{}",
+                    "và chỉ một lá có chất {C:hearts}Cơ{} hoặc",
+                    "{C:diamonds}Rô{} ghi điểm, {C:attention}phá huỷ{} nó"},
+                    {"Nếu tay bài đã chơi là {C:attention}#2#{}",
+                    "{C:spades}Bích{} hoặc {C:clubs}Tép{} và bậc cao nhất",
+                    "là {C:attention}Đầm{}, phong cấp lên {C:attention}Hậu Trắng{}"},
+                },
+            },
+            j_sgt_white_queen = {
+                name = "Hậu Trắng",
+                text = {
+                    {"Mỗi lá {C:attention}Đầm{} giữ trên tay cho {C:mult}+#1#{} Nhân"},
+                    {"{C:mult}+#1#*A{} Nhân, với A bằng hiệu của",
+                    "tổng lá {C:spades}Bích{} và {C:clubs}Tép{} trên tay",
+                    "và tổng lá {C:hearts}Cơ{} và {C:diamonds}Rô{} trên tay"},
+                },
+            },
+            j_sgt_white_king = {
+                name = "Vua Trắng",
+                text = {
+                    {"Mỗi lá {C:attention}Già{} giữ trên tay cho {X:mult,C:white}X#1#{} Nhân"},
+                    {"{X:mult,C:white}X#1#*A{} Nhân, với A bằng thương của",
+                    "tổng lá {C:spades}Bích{} và {C:clubs}Tép{} trên tay",
+                    "và tổng lá {C:hearts}Cơ{} và {C:diamonds}Rô{} trên tay"},
+                },
+            },
+            j_sgt_live_flowers = {
+                name = "Chùm Hoa Biết Nói",
+                text = {
+                    "{C:mult}+#1#{} Nhân",
+                    "{C:mult}-#2#{} Nhân mỗi tay bài đã chơi",
+                },
+            },
+            j_sgt_ticket_checker = {
+                name = "Người Soát Vé",
+                text = {
+                    "{X:mult,C:white}X#1#{} Nhân nếu đã quy đổi",
+                    "ít nhất một {C:attention}phiếu{}",
+                },
+            },
+            j_sgt_man_in_white = {
+                name = "Quý Ông Áo Trắng",
+                text = {
+                    {"Thêm {C:mult}+#2#{} Nhân nếu tay đã chơi",
+                    "chứa {C:attention}Sảnh{} và lá {C:attention}Át",
+                    "Nếu không, {C:mult}-#3#{} Nhân",
+                    "{C:inactive}(Hiện tại là {C:mult}+#1#{C:inactive} Nhân)"},
+                    {"{C:attention}Con Dê{} ở bên phải",
+                    "joker này cho {X:mult,C:white}X1.5{} Nhân"},
+                },
+            },
+            j_sgt_goat = {
+                name = "Con Dê",
+                text = {
+                    {"Thêm {C:mult}+#2#{} Nhân nếu tay đã chơi",
+                    "chứa {C:attention}Sảnh{} và lá {C:attention}Già",
+                    "Nếu không, {C:mult}-#3#{} Nhân",
+                    "{C:inactive}(Hiện tại là {C:mult}+#1#{C:inactive} Nhân)"},
+                    {"{C:attention}Con Bọ{} ở bên phải",
+                    "joker này cho {X:mult,C:white}X1.5{} Nhân"},
+                },
+            },
+            j_sgt_beetle = {
+                name = "Con Bọ",
+                text = {
+                    "Thêm {C:mult}+#2#{} Nhân nếu tay đã chơi",
+                    "chứa {C:attention}Sảnh{} và lá {C:attention}Đầm",
+                    "Nếu không, {C:mult}-#3#{} Nhân",
+                    "{C:inactive}(Hiện tại là {C:mult}+#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_dinah = {
+                name = "Dinah",
+                text = {
+                    "Nếu tay bài ghi điểm chứa lá {C:attention}#3# {V:1}#4#{},",
+                    "{C:attention}phá huỷ{} nó và thêm {X:dark_edition,C:white}^#2#{} Nhân",
+                    "cho mỗi lá như vậy bị phá huỷ",
+                    "{s:0.8}Lá bài thay đổi sau mỗi ván",
+                    "{C:inactive}(Hiện tại là {X:dark_edition,C:white}^#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_ecila = {
+                name = "Ecila",
+                text = {
+                    "Mỗi joker thuộc về {C:sgt_sagadition}Alice",
+                    "{C:sgt_sagadition}ở Xứ Sở Trong Gương{}",
+                    "cho {X:mult,C:white}X#1#{} Nhân",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -2700,7 +2835,16 @@ return {
                     "Ngoi để lùi Ante một cách chiến thuật",
                     "Đánh bại {C:bl_sgt_nyx_abyss}Nyx Abyss{} để thắng",
                     "{s:0.8,C:sgt_sagadition}Nhấn vào tàu ngầm để bắt đầu",
-                }
+                },
+            },
+            mirror = {
+                text = {
+                    "Mạch truyện đan xen đầu tiên của {C:sgt_sagadition}Sagatro{}!",
+                    "Tiến triển {C:sgt_sagadition}Alice ở Xứ Sở Diệu Kì{} như",
+                    "bình thường, nhưng trùm cuối thực sự",
+                    "đang chờ đợi ở thế giới bên kia...",
+                    "{s:0.8,C:sgt_sagadition}Nhấn vào gương để bắt đầu",
+                },
             },
         },
         fish_effect = {
@@ -3020,6 +3164,7 @@ return {
             b_sgt_up = "LÊN",
             b_sgt_down = "XUỐNG",
             b_sgt_ready = "S.SÀNG",
+            b_sgt_switch = "CHUYỂN",
             b_delete_ace = "Huỷ Át",
             b_dont_even_try = "Đừng cố nữa",
             k_in_a_hurry_ex = "Tranh thủ lên!",
@@ -3074,6 +3219,10 @@ return {
             k_depleted_ex = "Cạn Kiệt!",
             k_smeared_ex = "Nhoè!",
             k_enhanced_ex = "Cường Hoá!",
+            k_promoted_ex = "Phong Cấp!",
+            k_elegant_ex = "Thanh Lịch!",
+            k_baah_ex = "Beee!",
+            k_bzzz_ex = "Bzzz!",
             k_zzz = "ZZZ",
             k_charge = "Nạp",
             k_release = "Xả",
@@ -3097,6 +3246,7 @@ return {
             ph_alice_in_wond = "Alice ở Xứ Sở Diệu Kì",
             ph_misc_story = "Truyện Khác",
             ph_20k = "2 Vạn Dặm Dưới Biển",
+            ph_alice_in_mirr = "Alice ở Xứ Sở Trong Gương",
             ph_gods_miracle = "Được cứu bởi Phép Lạ Của Chúa",
             ph_depth_level = "Tầng độ sâu",
             ph_lovecraft = "Lovecraft",
