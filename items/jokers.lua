@@ -12625,6 +12625,10 @@ local mabel = {
     end,
 }
 
+Sagatro.test_joker = {
+    hyperscore = {1, 1}
+}
+
 local test = {
     key = "test",
     name = "Test Joker",
@@ -12635,53 +12639,43 @@ local test = {
             "on {C:dark_edition}HuyTheKiller{}'s demand",
             "",
             "Current effect:",
-            "destroy all unscored cards and gain",
-            "{X:mult,C:white}X#2#{} Mult for every card",
-            "destroyed",
-            "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
+            "{X:dark_edition,C:white}#1##2##3##4#{} Score",
         }
     },
     order = 9999,
     debug_obj = true,
-    config = {extra = {xmult = 1, xmult_mod = 0.1}},
+    config = {},
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.joker_main and to_big(card.ability.extra.xmult) > to_big(1) then
-            return {
-                x_mult = card.ability.extra.xmult
-            }
-        end
-        if context.destroy_card and context.cardarea == "unscored" then
-            context.destroy_card.slime_removal = true
-            return {remove = true}
-        end
-        if context.remove_playing_cards and not context.blueprint then
-            local count = 0
-            for _, removed_card in ipairs(context.removed) do
-                if removed_card.slime_removal then count = count + 1 end
+        if context.after then
+            local ret = {}
+            if next(Sagatro.test_joker.hyperscore) then
+                local operator = "sgt_e_score"
+                if Sagatro.test_joker.hyperscore[1] == 1 then
+                    operator = "sgt_e_score"
+                elseif Sagatro.test_joker.hyperscore[1] == 2 then
+                    operator = "sgt_ee_score"
+                elseif Sagatro.test_joker.hyperscore[1] == 3 then
+                    operator = "sgt_eee_score"
+                elseif Sagatro.test_joker.hyperscore[1] >= 4 then
+                    operator = "sgt_hyper_score"
+                end
+                if operator ~= "sgt_hyper_score" then
+                    ret[operator] = Sagatro.test_joker.hyperscore[2]
+                else
+                    ret[operator] = {Sagatro.test_joker.hyperscore[1], Sagatro.test_joker.hyperscore[2]}
+                end
             end
-            if count > 0 then
-                SMODS.scale_card(card, {
-                    ref_table = card.ability.extra,
-                    ref_value = "xmult",
-                    scalar_value = "xmult_mod",
-                    operation = function(ref_table, ref_value, initial, scaling)
-                        ref_table[ref_value] = initial + count*scaling
-                    end,
-                    scaling_message = {
-                        message = "test"
-                    }
-                })
-            end
+            return ret
         end
     end,
     in_pool = function(self, args)
         return false
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod}}
+        return {vars = {"{", Sagatro.test_joker.hyperscore[1], "}", Sagatro.test_joker.hyperscore[2]}}
     end,
 }
 

@@ -2567,17 +2567,23 @@ function Sagatro.get_pos(card)
 end
 
 ---@param mod number
----@param operator "+"|"X"|"^"|nil
+---@param operator "+"|"X"|"^"|"^^"|"^^^"|{hyper: number}|nil
 ---@param arbitrary boolean|nil
 function Sagatro.modify_score(mod, operator, arbitrary)
     if not G.GAME.facing_blind then return end
     operator = operator or "+"
     if operator == "+" then
         G.GAME.chips = to_big(G.GAME.chips + mod)
-    elseif operator == "X" then
+    elseif operator == "X" and mod ~= 1 then
         G.GAME.chips = to_big(G.GAME.chips * mod)
-    elseif operator == "^" then
+    elseif operator == "^" and mod ~= 1 then
         G.GAME.chips = to_big(G.GAME.chips ^ mod)
+    elseif operator == "^^" and Sagatro.mod_compat.talisman then
+        G.GAME.chips = to_big(G.GAME.chips):arrow(2, mod)
+    elseif operator == "^^^" and Sagatro.mod_compat.talisman then
+        G.GAME.chips = to_big(G.GAME.chips):arrow(3, mod)
+    elseif type(operator) == "table" and Sagatro.mod_compat.talisman then
+        G.GAME.chips = to_big(G.GAME.chips):arrow(operator.hyper, mod)
     end
     G.FUNCS.chip_UI_set(G.hand_text_area.game_chips)
     G.hand_text_area.game_chips:juice_up()
@@ -2705,6 +2711,60 @@ function SMODS.calculate_individual_effect(effect, scored_card, key, amount, fro
         end
         return true
     end
+    if (key == 'sgt_ee_score' or key == 'sgt_eescore' or key == 'sgt_EEscore_mod') and Sagatro.mod_compat.talisman then
+        if effect.card then juice_card(effect.card) end
+        G.E_MANAGER:add_event(Event({func = function()
+            Sagatro.modify_score(amount, "^^")
+        return true end}))
+        if not effect.remove_default_message then
+            if from_edition then
+                card_eval_status_text(scored_card, 'jokers', nil, percent, nil, {message = "^^"..amount.." "..localize("k_score"), colour =  G.C.EDITION, edition = true})
+            elseif key ~= 'sgt_EEscore_mod' then
+                if effect.eescore_message then
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'extra', nil, percent, nil, effect.eescore_message)
+                else
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'sgt_ee_score', amount, percent)
+                end
+            end
+        end
+        return true
+    end
+    if (key == 'sgt_eee_score' or key == 'sgt_eeescore' or key == 'sgt_EEEscore_mod') and Sagatro.mod_compat.talisman then
+        if effect.card then juice_card(effect.card) end
+        G.E_MANAGER:add_event(Event({func = function()
+            Sagatro.modify_score(amount, "^^^")
+        return true end}))
+        if not effect.remove_default_message then
+            if from_edition then
+                card_eval_status_text(scored_card, 'jokers', nil, percent, nil, {message = "^^^"..amount.." "..localize("k_score"), colour =  G.C.EDITION, edition = true})
+            elseif key ~= 'sgt_EEEscore_mod' then
+                if effect.eeescore_message then
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'extra', nil, percent, nil, effect.eeescore_message)
+                else
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'sgt_eee_score', amount, percent)
+                end
+            end
+        end
+        return true
+    end
+    if (key == 'sgt_hyper_score' or key == 'sgt_hyperscore' or key == 'sgt_hyperscore_mod') and Sagatro.mod_compat.talisman and type(amount) == "table" then
+        if effect.card then juice_card(effect.card) end
+        G.E_MANAGER:add_event(Event({func = function()
+            Sagatro.modify_score(amount[2], {hyper = amount[1]})
+        return true end}))
+        if not effect.remove_default_message then
+            if from_edition then
+                card_eval_status_text(scored_card, 'jokers', nil, percent, nil, {message = ((amount[1] > 5 and ('{' .. amount[1] .. '}') or string.rep('^', amount[1])) .. amount[2]).." "..localize("k_score"), colour =  G.C.EDITION, edition = true})
+            elseif key ~= 'sgt_hyperscore_mod' then
+                if effect.eeescore_message then
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'extra', nil, percent, nil, effect.eeescore_message)
+                else
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'sgt_hyper_score', amount, percent)
+                end
+            end
+        end
+        return true
+    end
 end
 
 for _, v in ipairs{'sgt_e_mult','sgt_emult','sgt_Emult_mod'} do
@@ -2712,7 +2772,10 @@ for _, v in ipairs{'sgt_e_mult','sgt_emult','sgt_Emult_mod'} do
 end
 for _, v in ipairs{'sgt_a_score', 'sgt_ascore', 'sgt_Ascore_mod',
                     'sgt_x_score', 'sgt_xscore', 'sgt_Xscore_mod',
-                    'sgt_e_score', 'sgt_escore', 'sgt_Escore_mod'} do
+                    'sgt_e_score', 'sgt_escore', 'sgt_Escore_mod',
+                    'sgt_ee_score', 'sgt_eescore', 'sgt_EEscore_mod',
+                    'sgt_eee_score', 'sgt_eeescore', 'sgt_EEEscore_mod',
+                    'sgt_hyper_score', 'sgt_hyperscore', 'sgt_hyperscore_mod'} do
     table.insert(SMODS.other_calculation_keys, v)
 end
 
