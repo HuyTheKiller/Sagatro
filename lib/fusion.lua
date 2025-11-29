@@ -311,4 +311,5 @@ function Game:start_run(args)
 	if Sagatro.debug then
 		sendInfoMessage("Welcome to Sagatro debug mode! Make sure you have DebugPlus installed! Type 'eval Sagatro.help()' for more info. ", "Sagatro")
 	end
+	ease_background_colour_blind(G.STATE)
 end

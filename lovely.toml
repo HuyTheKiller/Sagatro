@@ -18,9 +18,9 @@ if G.GAME.story_mode then
         local story, interwoven, event = G.GAME.current_storyline, G.GAME.interwoven_storyline, G.GAME.saga_event_queue[1]
         if (story ~= "none" or interwoven) and event
         and (G.GAME.saga_spawn_table[story] or G.GAME.saga_spawn_table[interwoven or story])
-        and (G.GAME.saga_spawn_table[story][event] or G.GAME.saga_spawn_table[interwoven or story][event])
+        and (G.GAME.saga_spawn_table[story][event] or (G.GAME.saga_spawn_table[interwoven or story] or {})[event])
         and (type(G.GAME.saga_spawn_table[story][event]) == "table"
-        or type(G.GAME.saga_spawn_table[interwoven or story][event]) == "table") then
+        or type((G.GAME.saga_spawn_table[interwoven or story] or {})[event]) == "table") then
             add = nil
             for _, key in ipairs(G.GAME.saga_spawn_table[story][event] or {}) do
                 if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not SMODS.showman(v.key))
@@ -28,7 +28,7 @@ if G.GAME.story_mode then
                     add = true
                 end
             end
-            for _, key in ipairs(G.GAME.saga_spawn_table[interwoven or story][event] or {}) do
+            for _, key in ipairs((G.GAME.saga_spawn_table[interwoven or story] or {})[event] or {}) do
                 if not (G.GAME.used_jokers[v.key] and not pool_opts.allow_duplicates and not SMODS.showman(v.key))
                 and v.unlocked ~= false and v.key == key then
                     add = true
