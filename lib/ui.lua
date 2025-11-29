@@ -57,7 +57,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
             local mirrorworld_nodes = {background_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.25)}
             localize{type = "descriptions", set = "Other", key = "sgt_mirrorworld", nodes = mirrorworld_nodes, vars = {}}
             ui[Ortalab and "mythos" or "celestara"] = mirrorworld_nodes
-        elseif not _c.mirrorworld and _c.saga_group and _c.discovered and G.GAME.inversed_scaling and Sagatro.storyline_check("alice_in_mirrorworld") then
+        elseif not _c.mirrorworld and _c.discovered and G.GAME.inversed_scaling and Sagatro.storyline_check("alice_in_mirrorworld") then
             local realworld_nodes = {background_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.25)}
             localize{type = "descriptions", set = "Other", key = "sgt_realworld", nodes = realworld_nodes, vars = {}}
             ui[Ortalab and "mythos" or "celestara"] = realworld_nodes
@@ -84,12 +84,64 @@ local chp = G.UIDEF.card_h_popup
 function G.UIDEF.card_h_popup(card)
     local ret_val = chp(card)
     local AUT = card.ability_UIBox_table
+    local obj = card.config.center or (card.config.tag and G.P_TAGS[card.config.tag.key])
     if AUT.celestara then
         table.insert(ret_val.nodes[1].nodes[1].nodes[1].nodes,
         #ret_val.nodes[1].nodes[1].nodes[1].nodes+(card.config.center.discovered and 0 or 1),
         desc_from_rows(AUT.celestara))
     end
+    if card.area and card.area.config.collection and not card.config.center.discovered then return ret_val end
+    if not Ortalab and obj and obj.artist_credits then
+        table.insert(ret_val.nodes[1].nodes[1].nodes[1].nodes, Sagatro.artist_node(obj.artist_credits, localize('sgt_art_credit')))
+    end
     return ret_val
+end
+
+function Sagatro.artist_node(artists, first_string)
+    local artist_node = {n=G.UIT.R, config = {align = 'tm'}, nodes = {
+        {n=G.UIT.T, config={
+            text = first_string,
+            shadow = true,
+            colour = G.C.UI.BACKGROUND_WHITE,
+            scale = 0.27}}
+    }}
+    local total_artists = #artists
+    for i, artist in ipairs(artists) do
+        if total_artists > 1 and i > 1 then
+            if i == total_artists then
+                table.insert(artist_node.nodes,
+                    {n=G.UIT.T, config={
+                    text = localize('sgt_and'),
+                    shadow = true,
+                    colour = G.C.WHITE,
+                    scale = 0.27}}
+                )
+            else
+                table.insert(artist_node.nodes,
+                    {n=G.UIT.T, config={
+                    text = ', ',
+                    shadow = true,
+                    colour = G.C.WHITE,
+                    scale = 0.27}}
+                )
+            end
+        end
+        table.insert(artist_node.nodes,
+            {n=G.UIT.O, config={
+                object = DynaText({string = localize{type = 'raw_descriptions', set = 'sgt_artist', key = artist},
+                colours = {G.ARGS.LOC_COLOURS[artist] or G.C.SGT_SAGADITION},
+                bump = true,
+                silent = true,
+                pop_in = 0,
+                pop_in_rate = 4,
+                shadow = true,
+                y_offset = -0.6,
+                scale =  0.27
+                })
+            }}
+        )
+    end
+    return artist_node
 end
 
 local desctab_ref = buildModDescTab
@@ -294,10 +346,24 @@ G.FUNCS.mirror_switch = function(e)
                 Sagatro.progress_storyline("mirrorworld", "remove", "alice_in_wonderland", G.GAME.interwoven_storyline)
             end
             for _, v in ipairs(G.jokers.cards) do
-                if v.config.center.mirrorworld then
-                    v.ability.extra_slots_used = v.ability.extra_slots_used + (G.GAME.inversed_scaling and 1 or -1)
-                elseif v.config.center.saga_group then
-                    v.ability.extra_slots_used = v.ability.extra_slots_used + (G.GAME.inversed_scaling and -1 or 1)
+                if v.config.center_key ~= "j_sgt_mirror" then
+                    if v.config.center.mirrorworld then
+                        v.ability.extra_slots_used = v.ability.extra_slots_used + (G.GAME.inversed_scaling and 1 or -1)
+                        v.ability.inactive = not G.GAME.inversed_scaling
+                        if JokerDisplay and v.ability.inactive then
+                            Sagatro.jd_toggle_override = true
+                            v:joker_display_toggle()
+                            Sagatro.jd_toggle_override = nil
+                        end
+                    else
+                        v.ability.extra_slots_used = v.ability.extra_slots_used + (G.GAME.inversed_scaling and -1 or 1)
+                        v.ability.inactive = G.GAME.inversed_scaling
+                        if JokerDisplay and v.ability.inactive then
+                            Sagatro.jd_toggle_override = true
+                            v:joker_display_toggle()
+                            Sagatro.jd_toggle_override = nil
+                        end
+                    end
                 end
             end
         end

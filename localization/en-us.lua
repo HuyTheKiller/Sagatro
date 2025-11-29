@@ -586,7 +586,7 @@ return {
             },
             sgt_mirror = {
                 text = {
-                    "{C:sgt_sagadition}Alice Through the Looking Glass{}'",
+                    "{C:sgt_sagadition}Alice Through the Looking-Glass{}'",
                     "{C:attention}exclusive{} effect:",
                     "Allows {C:attention}moving{} between the",
                     "{C:sgt_sagadition}Mirrorworld{} and the {C:sgt_sagadition}Real World",
@@ -600,8 +600,9 @@ return {
             },
             sgt_realworld = {
                 text = {
-                    "Takes {C:attention}no{} joker slot in the {C:sgt_sagadition}Mirrorworld{},",
-                    "but can't be sold or destroyed",
+                    "Inactive inside the {C:sgt_sagadition}Mirrorworld{},",
+                    "but takes {C:attention}no{} joker slot and",
+                    "can't be sold or destroyed",
                 },
             },
             sgt_switch_cooldown = {
@@ -3071,6 +3072,38 @@ return {
                 },
             },
         },
+        sgt_artist = {
+            temp = {
+                text = {
+                    "HuyTheKiller's Temp Art",
+                },
+            },
+            huycorn = {
+                text = {
+                    "HuyCorn",
+                },
+            },
+            amy = {
+                text = {
+                    "Amy",
+                },
+            },
+            kazumi = {
+                text = {
+                    "Kazumi",
+                },
+            },
+            huythekiller = {
+                text = {
+                    "HuyTheKiller",
+                },
+            },
+            dj = {
+                text = {
+                    "D.J.",
+                },
+            },
+        },
         Mod = {
             Sagatro = {
                 name = "Sagatro",
@@ -3080,7 +3113,7 @@ return {
                     "Music used here are not copyrighted. Feel free to stream!",
                     " ",
                     "Credits:",
-                    "{C:attention}Original Art{}: HuyCorn, Amy, TNhie, Kazumi",
+                    "{C:attention}Original Art{}: HuyCorn, Amy, TNhie, Kazumi, D.J.",
                     "{C:attention}Art Polishing{}: HuyTheKiller",
                     "{C:attention}Idea{}: HuyCorn",
                     "{C:attention}Balancing{}: HuyTheKiller, HuyCorn",
@@ -3250,7 +3283,7 @@ return {
             ph_alice_in_wond = "Alice in the Wonderland",
             ph_misc_story = "Misc. Story",
             ph_20k = "20k Miles Under The Sea",
-            ph_alice_in_mirr = "Alice Through the Looking Glass",
+            ph_alice_in_mirr = "Alice Through the Looking-Glass",
             ph_gods_miracle = "Saved by God's Miracle",
             ph_depth_level = "Depth level",
             ph_lovecraft = "Lovecraft",
@@ -3260,6 +3293,8 @@ return {
             ph_blind_score_at_most = "Score at most",
             ph_up_ante_2_inverse = "Lower all Blinds",
             sgt_swap = "Swap!",
+            sgt_art_credit = "Art by ",
+            sgt_and = " and ",
             SGT_story_related_settings = "Story-related settings",
             SGT_misc_settings = "Misc. settings",
             SGT_disable_other_jokers = "Story Mode",

@@ -312,4 +312,27 @@ function Game:start_run(args)
 		sendInfoMessage("Welcome to Sagatro debug mode! Make sure you have DebugPlus installed! Type 'eval Sagatro.help()' for more info. ", "Sagatro")
 	end
 	ease_background_colour_blind(G.STATE)
+	G.E_MANAGER:add_event(Event({trigger = "immediate", func = function()
+        if Sagatro.storyline_check("alice_in_mirrorworld") then
+            for _, v in ipairs(G.jokers.cards) do
+				if v.config.center_key ~= "j_sgt_mirror" then
+					if v.config.center.mirrorworld then
+						v.ability.inactive = not G.GAME.inversed_scaling
+						if JokerDisplay and v.ability.inactive then
+							Sagatro.jd_toggle_override = true
+							v:joker_display_toggle()
+							Sagatro.jd_toggle_override = nil
+						end
+					else
+						v.ability.inactive = G.GAME.inversed_scaling
+						if JokerDisplay and v.ability.inactive then
+							Sagatro.jd_toggle_override = true
+							v:joker_display_toggle()
+							Sagatro.jd_toggle_override = nil
+						end
+					end
+				end
+            end
+        end
+    return true end}))
 end

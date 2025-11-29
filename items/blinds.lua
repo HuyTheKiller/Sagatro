@@ -1,6 +1,7 @@
 local red_queen = {
     key = "red_queen",
     name = "Queen Of Hearts",
+    -- artist_credits = {"huycorn"},
     atlas = "blinds",
     pos = { x = 0, y = 0 },
     mult = 6,
@@ -34,6 +35,7 @@ local red_queen = {
 local turquoise_jellyfish = {
     key = "turquoise_jellyfish",
     name = "Turquoise Jellyfish",
+    -- artist_credits = {"huycorn"},
     atlas = "blinds",
     pos = { x = 0, y = 1 },
     mult = 2,
@@ -92,6 +94,7 @@ local turquoise_jellyfish = {
 local aqua_eyeshard = {
     key = "aqua_eyeshard",
     name = "Aqua Eyeshard",
+    -- artist_credits = {"huycorn"},
     atlas = "blinds",
     pos = { x = 0, y = 2 },
     mult = 2,
@@ -135,6 +138,7 @@ local aqua_eyeshard = {
 local black_oil = {
     key = "black_oil",
     name = "Black Oil",
+    -- artist_credits = {"huycorn"},
     atlas = "blinds",
     pos = { x = 0, y = 3 },
     mult = 2,
@@ -163,6 +167,7 @@ local black_oil = {
 local shadow_seamine = {
     key = "shadow_seamine",
     name = "Shadow Seamine",
+    -- artist_credits = {"huycorn"},
     atlas = "blinds",
     pos = { x = 0, y = 4 },
     mult = 2,
@@ -219,6 +224,7 @@ local shadow_seamine = {
 local nyx_abyss = {
     key = "nyx_abyss",
     name = "Nyx Abyss",
+    -- artist_credits = {"huycorn"},
     atlas = "blinds",
     pos = { x = 0, y = 5 },
     mult = 2,
@@ -286,6 +292,11 @@ if JokerDisplay then
     jd_blind_def["bl_sgt_red_queen"] = {
         trigger_function = function(blind, text, poker_hands, scoring_hand, full_hand)
             return true
+        end
+    }
+    jd_blind_def["bl_sgt_aqua_eyeshard"] = {
+        trigger_function = function(blind, text, poker_hands, scoring_hand, full_hand)
+            return blind.hands[text] or false
         end
     }
 end

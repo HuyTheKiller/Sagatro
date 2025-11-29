@@ -2,6 +2,7 @@
 local white_rabbit = {
     key = "white_rabbit",
     name = "White Rabbit",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     saga_difficulty = 3,
@@ -131,6 +132,7 @@ local white_rabbit = {
 local drink_me = {
     key = "drink_me",
     name = "Drink Me!",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 2,
@@ -239,6 +241,7 @@ local drink_me = {
 local eat_me = {
     key = "eat_me",
     name = "Eat Me!",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 3,
@@ -361,6 +364,7 @@ local eat_me = {
 local mouse = {
     key = "mouse",
     name = "Mouse",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 4,
@@ -460,6 +464,7 @@ local mouse = {
 local kid_gloves_and_fan = {
     key = "kid_gloves_and_fan",
     name = "Kid-gloves And The Fan",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 5,
@@ -557,6 +562,7 @@ local kid_gloves_and_fan = {
 local dodo_bird = {
     key = "dodo_bird",
     name = "Dodo Bird",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 6,
@@ -641,6 +647,7 @@ local dodo_bird = {
 local unlabeled_bottle = {
     key = "unlabeled_bottle",
     name = "Unlabeled Bottle",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 7,
@@ -775,6 +782,7 @@ local unlabeled_bottle = {
 local little_bill = {
     key = "little_bill",
     name = "Little Bill",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 8,
@@ -840,6 +848,9 @@ local little_bill = {
                 and card.ability.extra*G.GAME.alice_multiplier or 0
             end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                    return 0
+                end
                 if held_in_hand then return 0 end
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return first_card and playing_card == first_card and joker_card.joker_display_values.is_full_house and
@@ -852,6 +863,7 @@ local little_bill = {
 local huge_dog = {
     key = "huge_dog",
     name = "Huge Puppy",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 9,
@@ -944,6 +956,9 @@ local huge_dog = {
                 card.joker_display_values.localized_text_ace = localize("Ace", "ranks")
             end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                    return 0
+                end
                 if held_in_hand then return 0 end
                 local valid_cards, all_cards = 0, 0
                 for _, playing_card in ipairs(G.play.cards) do
@@ -965,6 +980,7 @@ local huge_dog = {
 local caterpillar = {
     key = "caterpillar",
     name = "SauKhongHu",
+    artist_credits = {"huycorn", "amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 10,
@@ -1057,6 +1073,7 @@ local caterpillar = {
 local mushroom = {
     key = "mushroom",
     name = "Mushroom",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 11,
@@ -1224,6 +1241,7 @@ local mushroom = {
 local pigeon = {
     key = "pigeon",
     name = "Pigeon",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 12,
@@ -1352,6 +1370,7 @@ local pigeon = {
 local frog_footman = {
     key = "frog_footman",
     name = "Frog-Footman",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 13,
@@ -1449,6 +1468,7 @@ local frog_footman = {
 local the_cook = {
     key = "the_cook",
     name = "The Cook",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 14,
@@ -1562,6 +1582,7 @@ local the_cook = {
 local cheshire_cat = {
     key = "cheshire_cat",
     name = "Cheshire Cat",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 16,
@@ -1739,6 +1760,7 @@ local cheshire_cat = {
 local duchess = {
     key = "duchess",
     name = "Duchess",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 17,
@@ -1842,6 +1864,7 @@ local duchess = {
 local the_baby = {
     key = "the_baby",
     name = "The Baby",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 18,
@@ -1916,6 +1939,9 @@ local the_baby = {
                 return false
             end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                    return 0
+                end
                 if held_in_hand then return 0 end
                 return G.GAME and G.GAME.current_round.hands_left <= 1
                 and (joker_card.ability.extra*G.GAME.alice_multiplier)*JokerDisplay.calculate_joker_triggers(joker_card) or 0
@@ -1927,6 +1953,7 @@ local the_baby = {
 local pepper_caster = {
     key = "pepper_caster",
     name = "Pepper-caster",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 15,
@@ -2011,6 +2038,9 @@ local pepper_caster = {
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
             end,
             retrigger_joker_function = function(card, retrigger_joker)
+                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                    return 0
+                end
                 return card.config.center_key ~= "j_sgt_pepper_caster" and
                     retrigger_joker.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier) or 0
             end,
@@ -2021,6 +2051,7 @@ local pepper_caster = {
 local mad_hatter = {
     key = "mad_hatter",
     name = "Mad Hatter",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 19,
@@ -2110,6 +2141,7 @@ local mad_hatter = {
 local tea = {
     key = "tea",
     name = "Tea",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 20,
@@ -2187,6 +2219,7 @@ local tea = {
 local bread = {
     key = "bread",
     name = "Teapot",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 21,
@@ -2264,6 +2297,7 @@ local bread = {
 local butter = {
     key = "butter",
     name = "Sugarcube",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 22,
@@ -2341,6 +2375,7 @@ local butter = {
 local march_hare = {
     key = "march_hare",
     name = "March Hare",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 23,
@@ -2438,6 +2473,7 @@ local march_hare = {
 local dormouse = {
     key = "dormouse",
     name = "Dormouse",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 24,
@@ -2497,6 +2533,7 @@ local dormouse = {
 local red_queen = {
     key = "red_queen",
     name = "Queen Of Hearts",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 25,
@@ -2629,6 +2666,7 @@ local red_queen = {
 local king = {
     key = "king",
     name = "The King",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 26,
@@ -2699,6 +2737,7 @@ local king = {
 local flamingo = {
     key = "flamingo",
     name = "The Flamingo",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 27,
@@ -2769,6 +2808,7 @@ local flamingo = {
 local gryphon = {
     key = "gryphon",
     name = "Gryphon",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 28,
@@ -2863,6 +2903,7 @@ local gryphon = {
 local mock_turtle = {
     key = "mock_turtle",
     name = "Mock Turtle",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 29,
@@ -2986,6 +3027,7 @@ local mock_turtle = {
 local alice = {
     key = "alice",
     name = "Alice",
+    artist_credits = {"amy"},
     atlas = "alice",
     saga_group = "alice_in_wonderland",
     order = 30,
@@ -3055,6 +3097,7 @@ local alice = {
 local shepherd_boy = {
     key = "shepherd_boy",
     name = "Shepherd Boy",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "the_boy_who_cried_wolf",
     order = 990,
@@ -3187,6 +3230,7 @@ local shepherd_boy = {
 local puss_in_boots = {
     key = "puss_in_boots",
     name = "Puss In Boots",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "puss_in_boots",
     order = 991,
@@ -3276,6 +3320,7 @@ local puss_in_boots = {
 local iron_john = {
     key = "iron_john",
     name = "Iron John",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "iron_john",
     order = 992,
@@ -3385,6 +3430,7 @@ local iron_john = {
 local aladdin = {
     key = "aladdin",
     name = "Aladdin",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "aladdin_and_the_magic_lamp",
     order = 1004,
@@ -3510,6 +3556,7 @@ local aladdin = {
 local magic_lamp = {
     key = "magic_lamp",
     name = "Magic Lamp",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "aladdin_and_the_magic_lamp",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -3620,6 +3667,7 @@ local magic_lamp = {
 local lamp_genie = {
     key = "lamp_genie",
     name = "Lamp Genie",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "aladdin_and_the_magic_lamp",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -3827,6 +3875,9 @@ local lamp_genie = {
                 and card.ability.extra.e_mult or ""
             end,
             retrigger_joker_function = function(card, retrigger_joker)
+                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                    return 0
+                end
                 return retrigger_joker.ability.wishlist.c_sgt_love
                 and retrigger_joker.ability.extra.retriggers or 0
             end,
@@ -3845,6 +3896,7 @@ local lamp_genie = {
 local lincoln_ship = {
     key = "lincoln_ship",
     name = "Lincoln Ship",
+    artist_credits = {"amy"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     saga_difficulty = 5,
@@ -3921,6 +3973,7 @@ local lincoln_ship = {
 local submarine = {
     key = "submarine",
     name = "Submarine",
+    artist_credits = {"huycorn"},
     atlas = "submarine",
     saga_group = "20k_miles_under_the_sea",
     order = 68,
@@ -4182,6 +4235,7 @@ local submarine = {
 local sub_engineer = {
     key = "sub_engineer",
     name = "Sub Engineer",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 62,
@@ -4218,6 +4272,7 @@ local sub_engineer = {
 local clownfish = {
     key = "clownfish",
     name = "Clownfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 70,
@@ -4312,6 +4367,7 @@ local clownfish = {
 local blue_tang = {
     key = "blue_tang",
     name = "Blue Tang",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 71,
@@ -4406,6 +4462,7 @@ local blue_tang = {
 local pufferfish = {
     key = "pufferfish",
     name = "Pufferfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 72,
@@ -4481,6 +4538,7 @@ local pufferfish = {
 local white_jellyfish = {
     key = "white_jellyfish",
     name = "White Jellyfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 73,
@@ -4607,6 +4665,7 @@ local white_jellyfish = {
 local red_jellyfish = {
     key = "red_jellyfish",
     name = "Red Jellyfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 74,
@@ -4734,6 +4793,7 @@ local red_jellyfish = {
 local queen_jellyfish = {
     key = "queen_jellyfish",
     name = "Queen Jellyfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 75,
@@ -4859,6 +4919,7 @@ local queen_jellyfish = {
 local mandarin_fish = {
     key = "mandarin_fish",
     name = "Mandarin Fish",
+    artist_credits = {"kazumi"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 76,
@@ -4925,6 +4986,7 @@ local mandarin_fish = {
 local barracuda = {
     key = "barracuda",
     name = "Barracuda",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 83,
@@ -5046,6 +5108,7 @@ local barracuda = {
 local school = {
     key = "school",
     name = "School Of Fish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 63,
@@ -5107,6 +5170,7 @@ local school = {
 local prawn = {
     key = "prawn",
     name = "Sugpo Prawn",
+    artist_credits = {"amy"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 77,
@@ -5191,6 +5255,7 @@ local prawn = {
 local john_dory = {
     key = "john_dory",
     name = "John Dory",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 81,
@@ -5289,6 +5354,7 @@ local john_dory = {
 local octopus = {
     key = "octopus",
     name = "Octopus",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 85,
@@ -5476,6 +5542,7 @@ local octopus = {
 local squid = {
     key = "squid",
     name = "Squid",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 86,
@@ -5604,6 +5671,7 @@ local squid = {
 local turtle_egg = {
     key = "turtle_egg",
     name = "Turtle Egg",
+    artist_credits = {"amy"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 66,
@@ -5718,6 +5786,7 @@ local turtle_egg = {
 local baby_turtle = {
     key = "baby_turtle",
     name = "Baby Turtle",
+    artist_credits = {"amy"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 67,
@@ -5804,6 +5873,7 @@ local baby_turtle = {
 local green_turtle = {
     key = "green_turtle",
     name = "Green Turtle",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 87,
@@ -5928,6 +5998,7 @@ local green_turtle = {
 local electric_eel = {
     key = "electric_eel",
     name = "Electric Eel",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 106,
@@ -6105,6 +6176,7 @@ local electric_eel = {
 local sea_angel = {
     key = "sea_angel",
     name = "Sea Angel",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 100,
@@ -6181,6 +6253,7 @@ local sea_angel = {
 local stonefish = {
     key = "stonefish",
     name = "Stonefish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 82,
@@ -6286,6 +6359,7 @@ local stonefish = {
 local blobfish = {
     key = "blobfish",
     name = "Blobfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 115,
@@ -6422,6 +6496,7 @@ local blobfish = {
 local ugly_blobfish = {
     key = "ugly_blobfish",
     name = "Ugly Blobfish",
+    artist_credits = {"amy"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 65,
@@ -6490,6 +6565,7 @@ local ugly_blobfish = {
 local coral_kingdom = {
     key = "coral_kingdom",
     name = "Coral Kingdom",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 64,
@@ -6610,6 +6686,7 @@ local coral_kingdom = {
 local dolphin = {
     key = "dolphin",
     name = "Dolphin",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 91,
@@ -6741,6 +6818,7 @@ local dolphin = {
 local coelacanthiformes = {
     key = "coelacanthiformes",
     name = "Coelacanthiformes",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 102,
@@ -6865,6 +6943,7 @@ local coelacanthiformes = {
 local sunfish = {
     key = "sunfish",
     name = "Sunfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 92,
@@ -6949,6 +7028,7 @@ local sunfish = {
 local moonfish = {
     key = "moonfish",
     name = "Moonfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 93,
@@ -7033,6 +7113,7 @@ local moonfish = {
 local swordfish = {
     key = "swordfish",
     name = "Swordfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 94,
@@ -7186,6 +7267,7 @@ local swordfish = {
 local penguin = {
     key = "penguin",
     name = "Penguin",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 90,
@@ -7291,6 +7373,7 @@ local penguin = {
 local seal = {
     key = "seal",
     name = "Seal",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 98,
@@ -7388,6 +7471,7 @@ local seal = {
 local ray = {
     key = "ray",
     name = "Ray",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 95,
@@ -7529,6 +7613,7 @@ local ray = {
 local orca = {
     key = "orca",
     name = "Orca",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 96,
@@ -7730,6 +7815,7 @@ local orca = {
 local sperm_whale = {
     key = "sperm_whale",
     name = "Sperm Whale",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 110,
@@ -7859,6 +7945,7 @@ local sperm_whale = {
 local sea_urchin = {
     key = "sea_urchin",
     name = "Sea Urchin",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 88,
@@ -7944,6 +8031,7 @@ local sea_urchin = {
 local starfish = {
     key = "starfish",
     name = "Starfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 78,
@@ -8020,6 +8108,7 @@ local starfish = {
 local shark = {
     key = "shark",
     name = "Shark",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 97,
@@ -8176,6 +8265,7 @@ local shark = {
 local lantern_fish = {
     key = "lantern_fish",
     name = "Lantern Fish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 104,
@@ -8232,6 +8322,7 @@ local lantern_fish = {
 local nautilus = {
     key = "nautilus",
     name = "Nautilus",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 103,
@@ -8333,6 +8424,7 @@ local nautilus = {
 local stomiidae = {
     key = "stomiidae",
     name = "Stomiidae",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 105,
@@ -8507,6 +8599,7 @@ local stomiidae = {
 local hermit_crab = {
     key = "hermit_crab",
     name = "Hermit Crab",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 79,
@@ -8586,6 +8679,7 @@ local hermit_crab = {
 local king_crab = {
     key = "king_crab",
     name = "King Crab",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 101,
@@ -8693,6 +8787,7 @@ local king_crab = {
 local big_red_jelly = {
     key = "big_red_jelly",
     name = "Big Red Jelly",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 107,
@@ -8826,6 +8921,7 @@ local big_red_jelly = {
 local narwhal = {
     key = "narwhal",
     name = "Narwhal",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 99,
@@ -8956,6 +9052,7 @@ local narwhal = {
 local seahorse = {
     key = "seahorse",
     name = "Seahorse",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 80,
@@ -9066,6 +9163,7 @@ local seahorse = {
 local goblin_shark = {
     key = "goblin_shark",
     name = "Goblin Shark",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 108,
@@ -9229,6 +9327,7 @@ local goblin_shark = {
 local colossal_squid = {
     key = "colossal_squid",
     name = "Colossal Squid",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 109,
@@ -9351,6 +9450,7 @@ local colossal_squid = {
 local chimaera = {
     key = "chimaera",
     name = "Chimaera",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 111,
@@ -9518,6 +9618,7 @@ local chimaera = {
 local dumbo_octopus = {
     key = "dumbo_octopus",
     name = "Dombo Octopus",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 112,
@@ -9598,6 +9699,7 @@ local dumbo_octopus = {
 local atolla_wyvillei = {
     key = "atolla_wyvillei",
     name = "Atolla wyvillei",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 113,
@@ -9698,6 +9800,7 @@ local atolla_wyvillei = {
 local faceless_cusk = {
     key = "faceless_cusk",
     name = "Faceless Cusk",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 116,
@@ -9807,6 +9910,7 @@ local faceless_cusk = {
 local brittle_star = {
     key = "brittle_star",
     name = "Brittle Star",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 117,
@@ -9897,6 +10001,7 @@ local brittle_star = {
 local comb_jellyfish = {
     key = "comb_jellyfish",
     name = "Comb Jellyfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 114,
@@ -10008,6 +10113,7 @@ local comb_jellyfish = {
 local lobster = {
     key = "lobster",
     name = "Lobster",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 89,
@@ -10111,6 +10217,7 @@ local lobster = {
 local fangtooth = {
     key = "fangtooth",
     name = "Fangtooth",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 118,
@@ -10223,6 +10330,7 @@ local fangtooth = {
 local grenadier = {
     key = "grenadier",
     name = "Grenadier",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 119,
@@ -10316,6 +10424,7 @@ local grenadier = {
 local mahimahi = {
     key = "mahimahi",
     name = "Mahi-mahi",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
     order = 84,
@@ -10456,6 +10565,7 @@ local mahimahi = {
 local seawater = {
     key = "seawater",
     name = "Seawater",
+    artist_credits = {"huycorn"},
     atlas = "seawater",
     saga_group = "20k_miles_under_the_sea",
     order = 69,
@@ -10490,6 +10600,7 @@ local seawater = {
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
+    artist_credits = {"amy"},
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
     order = 120,
@@ -10573,6 +10684,7 @@ local nemo = {
 local mirror = {
     key = "mirror",
     name = "Mirror",
+    artist_credits = {"temp"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     saga_difficulty = 4,
@@ -10638,7 +10750,7 @@ local mirror = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.storyline_check("alice_in_wonderland") and args.source == "buf"
+            return Sagatro.storyline_check("alice_in_wonderland")
         end
         return true
     end,
@@ -10681,6 +10793,7 @@ local mirror = {
 local white_pawn = {
     key = "white_pawn",
     name = "White Pawn",
+    artist_credits = {"temp"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -10695,77 +10808,75 @@ local white_pawn = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.inversed_scaling or not G.GAME.story_mode then
-            if context.before and not context.blueprint and not context.retrigger_joker
-            and context.poker_hands and next(context.poker_hands[card.ability.type]) then
-                local hearts_diamonds = 0
-                local target
-                for _, v in ipairs(context.scoring_hand) do
-                    if v:is_suit("Hearts") or v:is_suit("Diamonds") then
-                        hearts_diamonds = hearts_diamonds + 1
-                        v.white_pawn_marked = hearts_diamonds == 1 or nil
-                        target = hearts_diamonds == 1 and v or target
-                    end
-                end
-                if hearts_diamonds == 1 then
-                    card.ability.triggered = true
-                elseif target then
-                    target.white_pawn_marked = nil
+        if context.before and not context.blueprint and not context.retrigger_joker
+        and context.poker_hands and next(context.poker_hands[card.ability.type]) then
+            local hearts_diamonds = 0
+            local target
+            for _, v in ipairs(context.scoring_hand) do
+                if v:is_suit("Hearts") or v:is_suit("Diamonds") then
+                    hearts_diamonds = hearts_diamonds + 1
+                    v.white_pawn_marked = hearts_diamonds == 1 or nil
+                    target = hearts_diamonds == 1 and v or target
                 end
             end
-            if context.destroy_card and card.ability.triggered and context.destroy_card.white_pawn_marked then
-                card.ability.triggered = nil
-                return {remove = true}
+            if hearts_diamonds == 1 then
+                card.ability.triggered = true
+            elseif target then
+                target.white_pawn_marked = nil
             end
-            if context.after and not context.blueprint and not context.retrigger_joker
-            and context.scoring_name == card.ability.extra_type then
-                local temp_ID, highest_card = 0, nil
-                for _, v in ipairs(context.scoring_hand) do
-                    if v:is_suit("Spades") or v:is_suit("Clubs") then
-                        if not SMODS.has_no_rank(v) then
-                            if temp_ID < v.base.id then
-                                temp_ID = v.base.id
-                                highest_card = v
-                            end
+        end
+        if context.destroy_card and card.ability.triggered and context.destroy_card.white_pawn_marked then
+            card.ability.triggered = nil
+            return {remove = true}
+        end
+        if context.after and not context.blueprint and not context.retrigger_joker
+        and context.scoring_name == card.ability.extra_type then
+            local temp_ID, highest_card = 0, nil
+            for _, v in ipairs(context.scoring_hand) do
+                if v:is_suit("Spades") or v:is_suit("Clubs") then
+                    if not SMODS.has_no_rank(v) then
+                        if temp_ID < v.base.id then
+                            temp_ID = v.base.id
+                            highest_card = v
                         end
                     end
                 end
-                if highest_card and highest_card:get_id() == 12 then
-                    local percent = 1.15 - (1 - 0.999) / (1 - 0.998) * 0.3
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'after',
-                        delay = 0.15,
-                        func = function()
-                            if card.facing == "front" then
-                                card.genuine_flip = true
-                                play_sound('card1', percent)
-                                card:juice_up(0.3, 0.3)
-                                card:flip()
-                            end
-                            return true
+            end
+            if highest_card and highest_card:get_id() == 12 then
+                local percent = 1.15 - (1 - 0.999) / (1 - 0.998) * 0.3
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.15,
+                    func = function()
+                        if card.facing == "front" then
+                            card.genuine_flip = true
+                            play_sound('card1', percent)
+                            card:juice_up(0.3, 0.3)
+                            card:flip()
                         end
-                    }))
-                    G.E_MANAGER:add_event(Event({
-                        func = function()
-                            card:set_ability("j_sgt_white_queen")
-                            card:set_cost()
-                            SMODS.calculate_effect({message = localize("k_promoted_ex"), colour = G.C.FILTER, instant = true}, card)
-                            return true
+                        return true
+                    end
+                }))
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        card:set_ability("j_sgt_white_queen")
+                        card:set_cost()
+                        SMODS.calculate_effect({message = localize("k_promoted_ex"), colour = G.C.FILTER, instant = true}, card)
+                        return true
+                    end
+                }))
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.15,
+                    func = function()
+                        if card.genuine_flip then
+                            card.genuine_flip = nil
+                            card:flip()
+                            play_sound('tarot2', percent, 0.6)
                         end
-                    }))
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'after',
-                        delay = 0.15,
-                        func = function()
-                            if card.genuine_flip then
-                                card.genuine_flip = nil
-                                card:flip()
-                                play_sound('tarot2', percent, 0.6)
-                            end
-                            return true
-                        end
-                    }))
-                end
+                        return true
+                    end
+                }))
             end
         end
     end,
@@ -10828,6 +10939,7 @@ local white_pawn = {
 local white_queen = {
     key = "white_queen",
     name = "White Queen",
+    artist_credits = {"temp"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -10842,42 +10954,40 @@ local white_queen = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.inversed_scaling or not G.GAME.story_mode then
-            if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
-                if context.other_card:get_id() == 12 then
-                    if context.other_card.debuff then
-                        return {
-                            message = localize('k_debuffed'),
-                            colour = G.C.RED,
-                        }
-                    else
-                        return {
-                            h_mult = card.ability.extra.mult,
-                        }
-                    end
-                end
-            end
-            if context.joker_main then
-                local hearts_diamonds, spades_clubs = 0, 0
-                for _, v in ipairs(G.hand.cards) do
-                    if v:is_suit("Hearts") or v:is_suit("Diamonds") then
-                        hearts_diamonds = hearts_diamonds + 1
-                    elseif v:is_suit("Spades") or v:is_suit("Clubs") then
-                        spades_clubs = spades_clubs + 1
-                    end
-                end
-                if spades_clubs - hearts_diamonds ~= 0 then
-                    local difference = spades_clubs - hearts_diamonds
+        if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
+            if context.other_card:get_id() == 12 then
+                if context.other_card.debuff then
                     return {
-                        mult = card.ability.extra.mult*difference,
+                        message = localize('k_debuffed'),
+                        colour = G.C.RED,
+                    }
+                else
+                    return {
+                        h_mult = card.ability.extra.mult,
                     }
                 end
             end
-            if context.forcetrigger then
+        end
+        if context.joker_main then
+            local hearts_diamonds, spades_clubs = 0, 0
+            for _, v in ipairs(G.hand.cards) do
+                if v:is_suit("Hearts") or v:is_suit("Diamonds") then
+                    hearts_diamonds = hearts_diamonds + 1
+                elseif v:is_suit("Spades") or v:is_suit("Clubs") then
+                    spades_clubs = spades_clubs + 1
+                end
+            end
+            if spades_clubs - hearts_diamonds ~= 0 then
+                local difference = spades_clubs - hearts_diamonds
                 return {
-                    mult = card.ability.extra.mult,
+                    mult = card.ability.extra.mult*difference,
                 }
             end
+        end
+        if context.forcetrigger then
+            return {
+                mult = card.ability.extra.mult,
+            }
         end
     end,
     in_pool = function(self, args)
@@ -10934,6 +11044,7 @@ local white_queen = {
 local white_king = {
     key = "white_king",
     name = "White King",
+    artist_credits = {"temp"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -10948,43 +11059,41 @@ local white_king = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.inversed_scaling or not G.GAME.story_mode then
-            if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
-                if context.other_card:get_id() == 13 then
-                    if context.other_card.debuff then
-                        return {
-                            message = localize('k_debuffed'),
-                            colour = G.C.RED,
-                        }
-                    else
-                        return {
-                            x_mult = card.ability.extra.xmult,
-                        }
-                    end
-                end
-            end
-            if context.joker_main then
-                local hearts_diamonds, spades_clubs = 0, 0
-                for _, v in ipairs(G.hand.cards) do
-                    if v:is_suit("Hearts") or v:is_suit("Diamonds") then
-                        hearts_diamonds = hearts_diamonds + 1
-                    elseif v:is_suit("Spades") or v:is_suit("Clubs") then
-                        spades_clubs = spades_clubs + 1
-                    end
-                end
-                if hearts_diamonds == 0 then hearts_diamonds = 1 end
-                if spades_clubs / hearts_diamonds ~= 0 then
-                    local quotient = spades_clubs / hearts_diamonds
+        if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
+            if context.other_card:get_id() == 13 then
+                if context.other_card.debuff then
                     return {
-                        x_mult = card.ability.extra.xmult*quotient,
+                        message = localize('k_debuffed'),
+                        colour = G.C.RED,
+                    }
+                else
+                    return {
+                        x_mult = card.ability.extra.xmult,
                     }
                 end
             end
-            if context.forcetrigger then
+        end
+        if context.joker_main then
+            local hearts_diamonds, spades_clubs = 0, 0
+            for _, v in ipairs(G.hand.cards) do
+                if v:is_suit("Hearts") or v:is_suit("Diamonds") then
+                    hearts_diamonds = hearts_diamonds + 1
+                elseif v:is_suit("Spades") or v:is_suit("Clubs") then
+                    spades_clubs = spades_clubs + 1
+                end
+            end
+            if hearts_diamonds == 0 then hearts_diamonds = 1 end
+            if spades_clubs / hearts_diamonds ~= 0 then
+                local quotient = spades_clubs / hearts_diamonds
                 return {
-                    x_mult = card.ability.extra.xmult,
+                    x_mult = card.ability.extra.xmult*quotient,
                 }
             end
+        end
+        if context.forcetrigger then
+            return {
+                x_mult = card.ability.extra.xmult,
+            }
         end
     end,
     in_pool = function(self, args)
@@ -11045,6 +11154,7 @@ local white_king = {
 local live_flowers = {
     key = "live_flowers",
     name = "Live Flowers",
+    artist_credits = {"temp"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -11059,31 +11169,29 @@ local live_flowers = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.inversed_scaling or not G.GAME.story_mode then
-            if context.joker_main or context.forcetrigger then
+        if context.joker_main or context.forcetrigger then
+            return {
+                mult = card.ability.extra.mult,
+            }
+        end
+        if context.after and not context.blueprint and not context.retrigger_joker then
+            if card.ability.extra.mult - card.ability.extra.mult_sub <= 0 then
+                Sagatro.self_destruct(card)
                 return {
-                    mult = card.ability.extra.mult,
+                    message = localize('k_poof_ex'),
+                    colour = G.C.FILTER,
+                    no_retrigger = true
                 }
-            end
-            if context.after and not context.blueprint and not context.retrigger_joker then
-                if card.ability.extra.mult - card.ability.extra.mult_sub <= 0 then
-                    Sagatro.self_destruct(card)
-                    return {
-                        message = localize('k_poof_ex'),
-                        colour = G.C.FILTER,
-                        no_retrigger = true
-                    }
-                else
-                    SMODS.scale_card(card, {
-                        ref_table = card.ability.extra,
-                        ref_value = "mult",
-                        scalar_value = "mult_sub",
-                        message_key = 'a_mult_minus',
-                        colour = G.C.MULT,
-                        operation = '-'
-                    })
-                    return nil, true
-                end
+            else
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "mult",
+                    scalar_value = "mult_sub",
+                    message_key = 'a_mult_minus',
+                    colour = G.C.MULT,
+                    operation = '-'
+                })
+                return nil, true
             end
         end
     end,
@@ -11117,6 +11225,7 @@ local live_flowers = {
 local ticket_checker = {
     key = "ticket_checker",
     name = "Ticket Checker",
+    artist_credits = {"temp"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -11131,12 +11240,10 @@ local ticket_checker = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.inversed_scaling or not G.GAME.story_mode then
-            if (context.joker_main and table.size(G.GAME.used_vouchers) > 0) or context.forcetrigger then
-                return {
-                    xmult = card.ability.extra.xmult,
-                }
-            end
+        if (context.joker_main and table.size(G.GAME.used_vouchers) > 0) or context.forcetrigger then
+            return {
+                xmult = card.ability.extra.xmult,
+            }
         end
     end,
     in_pool = function(self, args)
@@ -11172,6 +11279,7 @@ local ticket_checker = {
 local man_in_white = {
     key = "man_in_white",
     name = "Man In White",
+    artist_credits = {"temp"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -11186,67 +11294,65 @@ local man_in_white = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.inversed_scaling or not G.GAME.story_mode then
-            if context.before and not context.blueprint then
-                local ace_found = false
-                for _, v in ipairs(context.scoring_hand) do
-                    if v:get_id() == 14 then
-                        ace_found = true
-                        break
-                    end
+        if context.before and not context.blueprint then
+            local ace_found = false
+            for _, v in ipairs(context.scoring_hand) do
+                if v:get_id() == 14 then
+                    ace_found = true
+                    break
                 end
-                if ace_found and next(context.poker_hands["Straight"]) then
+            end
+            if ace_found and next(context.poker_hands["Straight"]) then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "mult",
+                    scalar_value = "mult_mod",
+                    scaling_message = {
+                        message = localize("k_elegant_ex"),
+                        colour = G.C.FILTER,
+                        card = card
+                    }
+                })
+                return nil, true
+            else
+                local prev_mult = card.ability.extra.mult
+                if prev_mult ~= 0 then
                     SMODS.scale_card(card, {
                         ref_table = card.ability.extra,
                         ref_value = "mult",
-                        scalar_value = "mult_mod",
+                        scalar_value = "mult_sub",
+                        operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = math.max(initial - scaling, 0)
+                        end,
                         scaling_message = {
-                            message = localize("k_elegant_ex"),
+                            message = localize("k_upset_ex"),
                             colour = G.C.FILTER,
                             card = card
                         }
                     })
                     return nil, true
-                else
-                    local prev_mult = card.ability.extra.mult
-                    if prev_mult ~= 0 then
-                        SMODS.scale_card(card, {
-                            ref_table = card.ability.extra,
-                            ref_value = "mult",
-                            scalar_value = "mult_sub",
-                            operation = function(ref_table, ref_value, initial, scaling)
-                                ref_table[ref_value] = math.max(initial - scaling, 0)
-                            end,
-                            scaling_message = {
-                                message = localize("k_upset_ex"),
-                                colour = G.C.FILTER,
-                                card = card
-                            }
-                        })
-                        return nil, true
-                    end
                 end
             end
-            if (context.joker_main and to_big(card.ability.extra.mult) > to_big(0)) or context.forcetrigger then
-                if context.forcetrigger then
-                    SMODS.scale_card(card, {
-                        ref_table = card.ability.extra,
-                        ref_value = "mult",
-                        scalar_value = "mult_add",
-                        no_message = true
-                    })
-                end
+        end
+        if (context.joker_main and to_big(card.ability.extra.mult) > to_big(0)) or context.forcetrigger then
+            if context.forcetrigger then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "mult",
+                    scalar_value = "mult_add",
+                    no_message = true
+                })
+            end
+            return {
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}},
+                mult_mod = card.ability.extra.mult
+            }
+        end
+        if context.other_joker and context.other_joker.config.center_key == "j_sgt_goat" then
+            if Sagatro.get_pos(card) + 1 == Sagatro.get_pos(context.other_joker) then
                 return {
-                    message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}},
-                    mult_mod = card.ability.extra.mult
+                    xmult = 1.5,
                 }
-            end
-            if context.other_joker and context.other_joker.config.center_key == "j_sgt_goat" then
-                if Sagatro.get_pos(card) + 1 == Sagatro.get_pos(context.other_joker) then
-                    return {
-                        xmult = 1.5,
-                    }
-                end
             end
         end
     end,
@@ -11292,6 +11398,7 @@ local man_in_white = {
 local goat = {
     key = "goat",
     name = "Goat",
+    artist_credits = {"temp"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -11306,20 +11413,36 @@ local goat = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.inversed_scaling or not G.GAME.story_mode then
-            if context.before and not context.blueprint then
-                local king_found = false
-                for _, v in ipairs(context.scoring_hand) do
-                    if v:get_id() == 13 then
-                        king_found = true
-                        break
-                    end
+        if context.before and not context.blueprint then
+            local king_found = false
+            for _, v in ipairs(context.scoring_hand) do
+                if v:get_id() == 13 then
+                    king_found = true
+                    break
                 end
-                if king_found and next(context.poker_hands["Straight"]) then
+            end
+            if king_found and next(context.poker_hands["Straight"]) then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "mult",
+                    scalar_value = "mult_mod",
+                    scaling_message = {
+                        message = localize("k_baah_ex"),
+                        colour = G.C.FILTER,
+                        card = card
+                    }
+                })
+                return nil, true
+            else
+                local prev_mult = card.ability.extra.mult
+                if prev_mult ~= 0 then
                     SMODS.scale_card(card, {
                         ref_table = card.ability.extra,
                         ref_value = "mult",
-                        scalar_value = "mult_mod",
+                        scalar_value = "mult_sub",
+                        operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = math.max(initial - scaling, 0)
+                        end,
                         scaling_message = {
                             message = localize("k_baah_ex"),
                             colour = G.C.FILTER,
@@ -11327,46 +11450,28 @@ local goat = {
                         }
                     })
                     return nil, true
-                else
-                    local prev_mult = card.ability.extra.mult
-                    if prev_mult ~= 0 then
-                        SMODS.scale_card(card, {
-                            ref_table = card.ability.extra,
-                            ref_value = "mult",
-                            scalar_value = "mult_sub",
-                            operation = function(ref_table, ref_value, initial, scaling)
-                                ref_table[ref_value] = math.max(initial - scaling, 0)
-                            end,
-                            scaling_message = {
-                                message = localize("k_baah_ex"),
-                                colour = G.C.FILTER,
-                                card = card
-                            }
-                        })
-                        return nil, true
-                    end
                 end
             end
-            if (context.joker_main and to_big(card.ability.extra.mult) > to_big(0)) or context.forcetrigger then
-                if context.forcetrigger then
-                    SMODS.scale_card(card, {
-                        ref_table = card.ability.extra,
-                        ref_value = "mult",
-                        scalar_value = "mult_add",
-                        no_message = true
-                    })
-                end
+        end
+        if (context.joker_main and to_big(card.ability.extra.mult) > to_big(0)) or context.forcetrigger then
+            if context.forcetrigger then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "mult",
+                    scalar_value = "mult_add",
+                    no_message = true
+                })
+            end
+            return {
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}},
+                mult_mod = card.ability.extra.mult
+            }
+        end
+        if context.other_joker and context.other_joker.config.center_key == "j_sgt_beetle" then
+            if Sagatro.get_pos(card) + 1 == Sagatro.get_pos(context.other_joker) then
                 return {
-                    message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}},
-                    mult_mod = card.ability.extra.mult
+                    xmult = 1.5,
                 }
-            end
-            if context.other_joker and context.other_joker.config.center_key == "j_sgt_beetle" then
-                if Sagatro.get_pos(card) + 1 == Sagatro.get_pos(context.other_joker) then
-                    return {
-                        xmult = 1.5,
-                    }
-                end
             end
         end
     end,
@@ -11412,6 +11517,7 @@ local goat = {
 local beetle = {
     key = "beetle",
     name = "Beetle",
+    artist_credits = {"temp"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -11426,20 +11532,36 @@ local beetle = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.inversed_scaling or not G.GAME.story_mode then
-            if context.before and not context.blueprint then
-                local queen_found = false
-                for _, v in ipairs(context.scoring_hand) do
-                    if v:get_id() == 12 then
-                        queen_found = true
-                        break
-                    end
+        if context.before and not context.blueprint then
+            local queen_found = false
+            for _, v in ipairs(context.scoring_hand) do
+                if v:get_id() == 12 then
+                    queen_found = true
+                    break
                 end
-                if queen_found and next(context.poker_hands["Straight"]) then
+            end
+            if queen_found and next(context.poker_hands["Straight"]) then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "mult",
+                    scalar_value = "mult_mod",
+                    scaling_message = {
+                        message = localize("k_bzzz_ex"),
+                        colour = G.C.FILTER,
+                        card = card
+                    }
+                })
+                return nil, true
+            else
+                local prev_mult = card.ability.extra.mult
+                if prev_mult ~= 0 then
                     SMODS.scale_card(card, {
                         ref_table = card.ability.extra,
                         ref_value = "mult",
-                        scalar_value = "mult_mod",
+                        scalar_value = "mult_sub",
+                        operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = math.max(initial - scaling, 0)
+                        end,
                         scaling_message = {
                             message = localize("k_bzzz_ex"),
                             colour = G.C.FILTER,
@@ -11447,40 +11569,22 @@ local beetle = {
                         }
                     })
                     return nil, true
-                else
-                    local prev_mult = card.ability.extra.mult
-                    if prev_mult ~= 0 then
-                        SMODS.scale_card(card, {
-                            ref_table = card.ability.extra,
-                            ref_value = "mult",
-                            scalar_value = "mult_sub",
-                            operation = function(ref_table, ref_value, initial, scaling)
-                                ref_table[ref_value] = math.max(initial - scaling, 0)
-                            end,
-                            scaling_message = {
-                                message = localize("k_bzzz_ex"),
-                                colour = G.C.FILTER,
-                                card = card
-                            }
-                        })
-                        return nil, true
-                    end
                 end
             end
-            if (context.joker_main and to_big(card.ability.extra.mult) > to_big(0)) or context.forcetrigger then
-                if context.forcetrigger then
-                    SMODS.scale_card(card, {
-                        ref_table = card.ability.extra,
-                        ref_value = "mult",
-                        scalar_value = "mult_add",
-                        no_message = true
-                    })
-                end
-                return {
-                    message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}},
-                    mult_mod = card.ability.extra.mult
-                }
+        end
+        if (context.joker_main and to_big(card.ability.extra.mult) > to_big(0)) or context.forcetrigger then
+            if context.forcetrigger then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "mult",
+                    scalar_value = "mult_add",
+                    no_message = true
+                })
             end
+            return {
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}},
+                mult_mod = card.ability.extra.mult
+            }
         end
     end,
     in_pool = function(self, args)
@@ -11513,6 +11617,7 @@ local beetle = {
 local dinah = {
     key = "dinah",
     name = "Dinah",
+    artist_credits = {"temp"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -11527,50 +11632,48 @@ local dinah = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.inversed_scaling or not G.GAME.story_mode then
-            if context.before and not context.blueprint then
-                local targets = {}
-                for _, v in ipairs(context.scoring_hand) do
-                    if v:get_id() == G.GAME.current_round.dinah_card.id
-                    and v:is_suit(G.GAME.current_round.dinah_card.suit)
-                    and not v.dinah_marked then
-                        targets[#targets+1] = v
-                        v.dinah_marked = true
-                    end
-                end
-                if next(targets) then
-                    SMODS.scale_card(card, {
-                        ref_table = card.ability.extra,
-                        ref_value = "e_mult",
-                        scalar_value = "e_mult_mod",
-                        operation = function(ref_table, ref_value, initial, scaling)
-                                ref_table[ref_value] = initial + scaling*#targets
-                            end,
-                        scaling_message = {
-                            message = localize("k_happy_ex"),
-                            colour = G.C.FILTER,
-                            card = card
-                        }
-                    })
-                    return nil, true
+        if context.before and not context.blueprint then
+            local targets = {}
+            for _, v in ipairs(context.scoring_hand) do
+                if v:get_id() == G.GAME.current_round.dinah_card.id
+                and v:is_suit(G.GAME.current_round.dinah_card.suit)
+                and not v.dinah_marked then
+                    targets[#targets+1] = v
+                    v.dinah_marked = true
                 end
             end
-            if (context.joker_main and to_big(card.ability.extra.e_mult) > to_big(1)) or context.forcetrigger then
-                if context.forcetrigger then
-                    SMODS.scale_card(card, {
-                        ref_table = card.ability.extra,
-                        ref_value = "e_mult",
-                        scalar_value = "e_mult_mod",
-                        no_message = true
-                    })
-                end
-                return {
-                    sgt_e_mult = card.ability.extra.e_mult,
-                }
+            if next(targets) then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "e_mult",
+                    scalar_value = "e_mult_mod",
+                    operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = initial + scaling*#targets
+                        end,
+                    scaling_message = {
+                        message = localize("k_happy_ex"),
+                        colour = G.C.FILTER,
+                        card = card
+                    }
+                })
+                return nil, true
             end
-            if context.destroy_card and context.destroy_card.dinah_marked then
-                return {remove = true}
+        end
+        if (context.joker_main and to_big(card.ability.extra.e_mult) > to_big(1)) or context.forcetrigger then
+            if context.forcetrigger then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "e_mult",
+                    scalar_value = "e_mult_mod",
+                    no_message = true
+                })
             end
+            return {
+                sgt_e_mult = card.ability.extra.e_mult,
+            }
+        end
+        if context.destroy_card and context.destroy_card.dinah_marked then
+            return {remove = true}
         end
     end,
     in_pool = function(self, args)
@@ -11616,6 +11719,7 @@ local dinah = {
 local ecila = {
     key = "ecila",
     name = "Ecila",
+    artist_credits = {"amy"},
     atlas = "ecila",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -11631,19 +11735,17 @@ local ecila = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.inversed_scaling or not G.GAME.story_mode then
-            if context.other_joker and not context.forcetrigger then
-                if context.other_joker.config.center.saga_group == "alice_in_mirrorworld" then
-                    return {
-                        xmult = card.ability.extra.xmult,
-                    }
-                end
-            end
-            if context.forcetrigger then
+        if context.other_joker and not context.forcetrigger then
+            if context.other_joker.config.center.saga_group == "alice_in_mirrorworld" then
                 return {
                     xmult = card.ability.extra.xmult,
                 }
             end
+        end
+        if context.forcetrigger then
+            return {
+                xmult = card.ability.extra.xmult,
+            }
         end
     end,
     add_to_deck = function(self, card, from_debuff)
@@ -11675,6 +11777,7 @@ local ecila = {
 local hansels_cheat_dice = {
     key = "hansels_cheat_dice",
     name = "Hansel's Cheat Dice",
+    artist_credits = {"amy"},
     atlas = "misc_jokers",
     saga_group = "gambling_hansel",
     order = 993,
@@ -11767,6 +11870,7 @@ local hansels_cheat_dice = {
 local skoll_n_hati = {
     key = "skoll_n_hati",
     name = "Sköll And Hati",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "norse_mythology",
     order = 994,
@@ -12061,6 +12165,7 @@ local skoll_n_hati = {
 local three_winters = {
     key = "three_winters",
     name = "Fimbulwinter",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "norse_mythology",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -12145,6 +12250,7 @@ local three_winters = {
 local adam = {
     key = "adam",
     name = "Adam And Eva's Original Sin",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "adams_original_sin",
     order = 996,
@@ -12184,6 +12290,9 @@ local adam = {
     joker_display_def = function(JokerDisplay)
         return {
             retrigger_joker_function = function(card, retrigger_joker)
+                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                    return 0
+                end
                 return card.config.center_key ~= "j_sgt_adam" and ((Ortalab and card.curse)
                 or (not Ortalab and card.ability.perishable)) and 1 or 0
             end,
@@ -12194,6 +12303,7 @@ local adam = {
 local saint_germain = {
     key = "saint_germain",
     name = "Saint Germain",
+    artist_credits = {"amy"},
     atlas = "misc_jokers",
     saga_group = "saint_germain_immortal",
     order = 997,
@@ -12257,6 +12367,7 @@ local saint_germain = {
 local necronomicon = {
     key = "necronomicon",
     name = "Necronomicon",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "lovecraft",
     order = 998,
@@ -12348,6 +12459,7 @@ local necronomicon = {
 local frog_prince = {
     key = "frog_prince",
     name = "Frog Prince",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "frog_prince",
     order = 999,
@@ -12433,6 +12545,7 @@ local frog_prince = {
 local little_prince = {
     key = "little_prince",
     name = "Little Prince",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "little_prince",
     order = 1000,
@@ -12508,6 +12621,7 @@ local little_prince = {
 local pumpkin_carriage = {
     key = "pumpkin_carriage",
     name = "Pumpkin Carriage",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "cinderella",
     order = 1001,
@@ -12618,6 +12732,7 @@ local pumpkin_carriage = {
 local abducted_cow = {
     key = "abducted_cow",
     name = "Abducted Cow",
+    artist_credits = {"huycorn", "huythekiller"},
     atlas = "misc_jokers",
     saga_group = "common_story",
     order = 1002,
@@ -12733,6 +12848,7 @@ local abducted_cow = {
 local flying_house = {
     key = "flying_house",
     name = "Howl's Flying House",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "howls_flying_house",
     order = 1003,
@@ -12818,6 +12934,7 @@ local flying_house = {
 local shub = {
     key = "shub",
     name = "Shub-Niggurath",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "lovecraft",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -12912,6 +13029,7 @@ local shub = {
 local ragnarok = {
     key = "ragnarok",
     name = "Ragnarök",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "norse_mythology",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -13016,6 +13134,7 @@ local ragnarok = {
 local yggdrasil = {
     key = "yggdrasil",
     name = "Yggdrasil",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "norse_mythology",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -13038,6 +13157,7 @@ local yggdrasil = {
 local thor = {
     key = "thor",
     name = "Thórr",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "norse_mythology",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -13170,6 +13290,9 @@ local thor = {
                 card.joker_display_values.e_mult = emult^count
             end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                    return 0
+                end
                 if held_in_hand then
                     local count = 0
                     for i, v in ipairs(G.hand.cards) do
@@ -13207,6 +13330,7 @@ local thor = {
 local odin = {
     key = "odin",
     name = "Ódinn",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "norse_mythology",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -13284,6 +13408,7 @@ local odin = {
 local hermod = {
     key = "hermod",
     name = "Hermódr",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "norse_mythology",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -13373,6 +13498,7 @@ local hermod = {
 local three_body = {
     key = "three_body",
     name = "Three-body Dynamics",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "celestaverse",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -13482,6 +13608,7 @@ local three_body = {
 local azathoth = {
     key = "azathoth",
     name = "Azathoth",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "lovecraft",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -13568,6 +13695,7 @@ local azathoth = {
 local darkness = {
     key = "darkness",
     name = "Darkness",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "lovecraft",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -13598,6 +13726,7 @@ local darkness = {
 local nameless = {
     key = "nameless",
     name = "Magnum Innominandum",
+    artist_credits = {"huycorn"},
     atlas = "nameless",
     saga_group = "lovecraft",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -13650,6 +13779,7 @@ local nameless = {
 local mabel = {
     key = "mabel",
     name = "Mabel",
+    artist_credits = {"amy"},
     atlas = "mabel",
     no_collection = not Sagatro.mod_compat.talisman,
     saga_group = "black_soul",

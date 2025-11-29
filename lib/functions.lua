@@ -57,6 +57,10 @@ function loc_colour(_c, _default)
             G.ARGS.LOC_COLOURS[k] = v.boss_colour
         end
     end
+    G.ARGS.LOC_COLOURS.huycorn = G.C.SGT_DIVINATIO
+    G.ARGS.LOC_COLOURS.huythekiller = G.C.GREEN
+    G.ARGS.LOC_COLOURS.amy = G.C.YELLOW
+    G.ARGS.LOC_COLOURS.temp = G.C.UI.BACKGROUND_WHITE
     return lc(_c, _default)
 end
 
@@ -836,6 +840,20 @@ function Card:set_sprites(_center, _front)
 		self.children.floating_sprite2.states.hover.can = false
 		self.children.floating_sprite2.states.click.can = false
 	end
+end
+
+local can_calc_ref = Card.can_calculate
+function Card:can_calculate(ignore_debuff, ignore_sliced)
+    local is_available = can_calc_ref(self, ignore_debuff, ignore_sliced)
+    if Sagatro.storyline_check("alice_in_mirrorworld") and self.ability.set == "Joker"
+    and self.config.center_key ~= "j_sgt_mirror" then
+        if self.config.center.mirrorworld and not G.GAME.inversed_scaling then
+            is_available = false
+        elseif not self.config.center.mirrorworld and G.GAME.inversed_scaling then
+            is_available = false
+        end
+    end
+    return is_available
 end
 
 -- Gravistone jank
@@ -3077,6 +3095,18 @@ if JokerDisplay then
             modifiers.mult = (modifiers.mult or 0) + 5*card.ability.immutable.eaten_stack
         end
         return modifiers
+    end
+
+    local jd_toggle_ref = Card.joker_display_toggle
+    function Card:joker_display_toggle()
+        if not Sagatro.jd_toggle_override and Sagatro.storyline_check("alice_in_mirrorworld")
+        and self.config.center_key ~= "j_sgt_mirror" then
+            if (self.config.center.mirrorworld and not G.GAME.inversed_scaling)
+            or (not self.config.center.mirrorworld and G.GAME.inversed_scaling) then
+                return
+            end
+        end
+        jd_toggle_ref(self)
     end
 end
 

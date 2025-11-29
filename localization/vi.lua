@@ -599,8 +599,9 @@ return {
             },
             sgt_realworld = {
                 text = {
-                    "{C:attention}Không{} tốn ô joker trong {C:sgt_sagadition}Thế Giới Gương{},",
-                    "nhưng không thể bán hoặc bị phá huỷ",
+                    "Bất hoạt trong {C:sgt_sagadition}Thế Giới Gương{},",
+                    "nhưng {C:attention}không{} tốn ô joker và",
+                    "không thể bán hoặc bị phá huỷ",
                 },
             },
             sgt_switch_cooldown = {
@@ -3067,6 +3068,38 @@ return {
                 },
             },
         },
+        sgt_artist = {
+            temp = {
+                text = {
+                    "HuyTheKiller's Temp Art",
+                },
+            },
+            huycorn = {
+                text = {
+                    "HuyCorn",
+                },
+            },
+            amy = {
+                text = {
+                    "Amy",
+                },
+            },
+            kazumi = {
+                text = {
+                    "Kazumi",
+                },
+            },
+            huythekiller = {
+                text = {
+                    "HuyTheKiller",
+                },
+            },
+            dj = {
+                text = {
+                    "D.J.",
+                },
+            },
+        },
         Mod = {
             Sagatro = {
                 name = "Sagatro",
@@ -3076,7 +3109,7 @@ return {
                     "Nhạc được dùng không có bản quyền. Có thể live stream thoả thích!",
                     " ",
                     "Danh đề:",
-                    "{C:attention}Hình Ảnh Gốc{}: HuyCorn, Amy, TNhie, Kazumi",
+                    "{C:attention}Hình Ảnh Gốc{}: HuyCorn, Amy, TNhie, Kazumi, D.J.",
                     "{C:attention}Chỉnh Sửa Ảnh{}: HuyTheKiller",
                     "{C:attention}Ý Tưởng{}: HuyCorn",
                     "{C:attention}Cân Bằng{}: HuyTheKiller, HuyCorn",
@@ -3256,6 +3289,8 @@ return {
             ph_blind_score_at_most = "Đạt tối đa",
             ph_up_ante_2_inverse = "Giảm toàn bộ Blind",
             sgt_swap = "Tráo!",
+            sgt_art_credit = "Ảnh vẽ bởi ",
+            sgt_and = " và ",
             SGT_story_related_settings = "Cài đặt cốt truyện",
             SGT_misc_settings = "Cài đặt khác",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",

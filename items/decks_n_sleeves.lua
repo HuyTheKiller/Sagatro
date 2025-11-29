@@ -1,6 +1,7 @@
 local saga_deck = {
     key = "saga",
     name = "Saga Deck",
+    -- artist_credits = {"amy"},
     atlas = "decks",
     pos = { x = 0, y = 0 },
     config = {joker_slot = 3, extra = {win_ante_gain = 8}},
@@ -15,6 +16,7 @@ local saga_deck = {
 local grimoire_deck = {
     key = "grimoire",
     name = "Grimoire Deck",
+    -- artist_credits = {"amy"},
     atlas = "decks",
     pos = { x = 1, y = 0 },
     config = {vouchers = {'v_sgt_oculus_divina', 'v_sgt_shadow_oath'}, consumables = {'c_sgt_rex_divinus'}, ante_scaling = 1.5},
@@ -31,6 +33,7 @@ local grimoire_deck = {
 local celestaverse_deck = {
     key = "celestaverse",
     name = "Celestaverse Deck",
+    -- artist_credits = {"amy"},
     atlas = "decks",
     pos = { x = 2, y = 0 },
     config = {vouchers = {'v_sgt_alien_life', 'v_sgt_civilization'}, consumable_slot = 1},
@@ -85,6 +88,7 @@ if CardSleeves then
     local saga_sleeve = {
 		key = "saga",
 		name = "Saga Sleeve",
+        -- artist_credits = {"amy"},
 		atlas = 'sleeves',
 		pos = { x = 0, y = 0 },
 		unlocked = false,
@@ -116,6 +120,7 @@ if CardSleeves then
     local grimoire_sleeve = {
         key = "grimoire",
 		name = "Grimoire Sleeve",
+        -- artist_credits = {"amy"},
 		atlas = 'sleeves',
 		pos = { x = 1, y = 0 },
 		unlocked = false,
@@ -151,6 +156,7 @@ if CardSleeves then
     local celestaverse_sleeve = {
         key = "celestaverse",
 		name = "Celestaverse Sleeve",
+        -- artist_credits = {"amy"},
 		atlas = 'sleeves',
 		pos = { x = 2, y = 0 },
 		unlocked = false,

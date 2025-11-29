@@ -1,6 +1,7 @@
 local holy = {
     key = "holy",
     name = "Holy Tag",
+    artist_credits = {"huythekiller"},
     atlas = "tags",
     pos = {x = 0, y = 0},
     min_ante = 2,
@@ -34,6 +35,7 @@ local holy = {
 local ghostly = {
     key = "ghostly",
     name = "Ghostly Tag",
+    artist_credits = {"huythekiller"},
     atlas = "tags",
     pos = {x = 1, y = 0},
     min_ante = 2,
@@ -67,6 +69,7 @@ local ghostly = {
 local alien = {
     key = "alien",
     name = "Alien Tag",
+    artist_credits = {"huythekiller"},
     atlas = "tags",
     pos = {x = 2, y = 0},
     min_ante = 2,

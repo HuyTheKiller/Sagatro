@@ -208,8 +208,8 @@ position = 'before'
 match_indent = true
 payload = '''
 if G.jokers then
-    for _, v in ipairs(G.jokers.cards) do
-        if v.config.center_key == 'j_sgt_the_cook' and not v.debuff then
+    for _, v in ipairs(SMODS.find_card("j_sgt_the_cook")) do
+        if v:can_calculate() then
             if (SMODS.pseudorandom_probability(v, 'thecook'..G.SEED, 1, v.ability.extra.odds, 'thecook')) and (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.DRAW_TO_HAND) then
                 SMODS.calculate_context({sgt_stay_flipped = true})
                 return true
@@ -227,8 +227,8 @@ position = 'after'
 match_indent = true
 payload = '''
 if G.jokers then
-    for _, v in ipairs(G.jokers.cards) do
-        if v.config.center.key == 'j_sgt_the_cook' and not v.debuff then
+    for _, v in ipairs(SMODS.find_card("j_sgt_the_cook")) do
+        if v:can_calculate() then
             SMODS.calculate_context({sgt_play_cards = true})
         end
     end
