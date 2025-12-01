@@ -10521,9 +10521,9 @@ local mahimahi = {
                     if playing_hand or not playing_card.highlighted then
                         if not SMODS.has_no_rank(playing_card) then
                             held_in_hand_ranks[playing_card.base.value] = (held_in_hand_ranks[playing_card.base.value] or 0) + 1
-                            if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
-                                count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
-                            end
+                        end
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
+                            count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
                         end
                     else
                         played_ranks[playing_card.base.value] = (played_ranks[playing_card.base.value] or 0) + 1
