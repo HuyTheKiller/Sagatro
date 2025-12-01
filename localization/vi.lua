@@ -614,7 +614,9 @@ return {
             free_reroll_tooltip = {
                 name = "Mẹo",
                 text = {
-                    "Chuyển đổi sẽ tự động",
+                    "Nhận {C:money}$#1#{} mỗi ván đã ở lại",
+                    "một thế giới trước khi chuyển,",
+                    "và chuyển đổi sẽ tự động",
                     "{C:green}gieo lại{} shop {C:attention}miễn phí",
                     "{C:inactive}(chỉ khi ở trong shop)",
                 },

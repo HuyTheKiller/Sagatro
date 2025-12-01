@@ -615,7 +615,9 @@ return {
             free_reroll_tooltip = {
                 name = "Pro Tip",
                 text = {
-                    "Switching automatically",
+                    "Earn {C:money}$#1#{} every round stayed",
+                    "in a world before switching,",
+                    "and doing so automatically",
                     "{C:green}rerolls{} the shop for {C:attention}free",
                     "{C:inactive}(only while in shop)",
                 },

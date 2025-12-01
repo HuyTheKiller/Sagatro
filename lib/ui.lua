@@ -338,6 +338,8 @@ G.FUNCS.mirror_switch = function(e)
         play_sound('timpani')
         mirror:juice_up()
         Sagatro.inverse()
+        ease_dollars(G.GAME.switch_bonus)
+        G.GAME.switch_bonus = 0
         ease_background_colour_blind(G.STATE)
         if G.GAME.story_mode then
             if G.GAME.inversed_scaling then
@@ -345,33 +347,7 @@ G.FUNCS.mirror_switch = function(e)
             else
                 Sagatro.progress_storyline("mirrorworld", "remove", "alice_in_wonderland", G.GAME.interwoven_storyline)
             end
-            for _, v in ipairs(G.jokers.cards) do
-                if v.config.center_key ~= "j_sgt_mirror" then
-                    if v.config.center.mirrorworld then
-                        v.ability.extra_slots_used = v.ability.extra_slots_used + (G.GAME.inversed_scaling and 1 or -1)
-                        v.ability.inactive = not G.GAME.inversed_scaling
-                        if JokerDisplay then
-                            if v.ability.inactive or (not v.ability.inactive
-							and (v.joker_display_values or {}).disabled) then
-                                Sagatro.jd_toggle_override = true
-                                v:joker_display_toggle()
-                                Sagatro.jd_toggle_override = nil
-                            end
-                        end
-                    else
-                        v.ability.extra_slots_used = v.ability.extra_slots_used + (G.GAME.inversed_scaling and -1 or 1)
-                        v.ability.inactive = G.GAME.inversed_scaling
-                        if JokerDisplay then
-                            if v.ability.inactive or (not v.ability.inactive
-							and (v.joker_display_values or {}).disabled) then
-                                Sagatro.jd_toggle_override = true
-                                v:joker_display_toggle()
-                                Sagatro.jd_toggle_override = nil
-                            end
-                        end
-                    end
-                end
-            end
+            Sagatro.update_inactive_state()
         end
         Sagatro.instant_reroll()
     return true end }))

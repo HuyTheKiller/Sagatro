@@ -155,6 +155,7 @@ function Game:init_game_object()
     ret.alice_multiplier = 1
     ret.relief_factor = 1
     ret.orbis_fatum_odds = 4
+    ret.switch_bonus = 0
     ret.celestara_tooltip = true
 	return ret
 end
@@ -1747,7 +1748,7 @@ function Sagatro.quip_filter(quip, quip_type)
 end
 
 -- Fix a damn edge case where the mod object is passed as a joker card without ability to check for retriggers
-Sagatro.ability = {repetition_penalty = 1.1}
+Sagatro.ability = {switch_bonus = 10, repetition_penalty = 1.1}
 function Sagatro:calculate(context)
     if G.GAME.story_mode and not context.retrigger_joker then
         if context.end_of_round and context.main_eval then
@@ -1770,6 +1771,9 @@ function Sagatro:calculate(context)
                         end
                     end
                 end
+            end
+            if Sagatro.storyline_check("alice_in_wonderland") then
+                G.GAME.switch_bonus = G.GAME.switch_bonus + Sagatro.ability.switch_bonus
             end
         end
         if context.after then
@@ -1834,6 +1838,9 @@ function Sagatro:calculate(context)
                 end
                 break
             end
+        end
+        if context.setting_ability then
+            Sagatro.update_inactive_state()
         end
     end
     if context.final_scoring_step and not context.retrigger_joker and G.GAME.inversed_scaling then
@@ -2687,6 +2694,36 @@ function Sagatro.get_pos(card)
         for i, v in ipairs(card.area.cards) do
             if v == card then
                 return i
+            end
+        end
+    end
+end
+
+function Sagatro.update_inactive_state()
+    if G.jokers and Sagatro.storyline_check("alice_in_mirrorworld") then
+        for _, v in ipairs(G.jokers.cards) do
+            if v.config.center_key ~= "j_sgt_mirror" then
+                if v.config.center.mirrorworld then
+                    v.ability.inactive = not G.GAME.inversed_scaling
+                    if JokerDisplay then
+                        if v.ability.inactive or (not v.ability.inactive
+                        and (v.joker_display_values or {}).disabled) then
+                            Sagatro.jd_toggle_override = true
+                            v:joker_display_toggle()
+                            Sagatro.jd_toggle_override = nil
+                        end
+                    end
+                else
+                    v.ability.inactive = G.GAME.inversed_scaling
+                    if JokerDisplay then
+                        if v.ability.inactive or (not v.ability.inactive
+                        and (v.joker_display_values or {}).disabled) then
+                            Sagatro.jd_toggle_override = true
+                            v:joker_display_toggle()
+                            Sagatro.jd_toggle_override = nil
+                        end
+                    end
+                end
             end
         end
     end

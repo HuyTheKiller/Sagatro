@@ -10773,7 +10773,7 @@ local mirror = {
             info_queue[#info_queue+1] = {set = "Other", key = "sgt_switch_cooldown"}
         end
         if G.GAME.free_reroll_tooltip then
-            info_queue[#info_queue+1] = {set = "Other", key = "free_reroll_tooltip"}
+            info_queue[#info_queue+1] = {set = "Other", key = "free_reroll_tooltip", specific_vars = {Sagatro.ability.switch_bonus}}
         end
         if G.GAME.mirror_hint_to_progress then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "mirror"}
