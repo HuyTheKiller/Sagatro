@@ -58,7 +58,7 @@ local turquoise_jellyfish = {
         return true
     end,
     recalc_debuff = function(self, card, from_blind)
-        return card.debuff
+        return card.debuff and card.ability.set ~= "Joker"
     end,
     disable = function(self)
         for _, card in pairs(G.playing_cards) do
