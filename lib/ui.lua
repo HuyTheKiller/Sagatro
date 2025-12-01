@@ -350,18 +350,24 @@ G.FUNCS.mirror_switch = function(e)
                     if v.config.center.mirrorworld then
                         v.ability.extra_slots_used = v.ability.extra_slots_used + (G.GAME.inversed_scaling and 1 or -1)
                         v.ability.inactive = not G.GAME.inversed_scaling
-                        if JokerDisplay and v.ability.inactive then
-                            Sagatro.jd_toggle_override = true
-                            v:joker_display_toggle()
-                            Sagatro.jd_toggle_override = nil
+                        if JokerDisplay then
+                            if v.ability.inactive or (not v.ability.inactive
+							and (v.joker_display_values or {}).disabled) then
+                                Sagatro.jd_toggle_override = true
+                                v:joker_display_toggle()
+                                Sagatro.jd_toggle_override = nil
+                            end
                         end
                     else
                         v.ability.extra_slots_used = v.ability.extra_slots_used + (G.GAME.inversed_scaling and -1 or 1)
                         v.ability.inactive = G.GAME.inversed_scaling
-                        if JokerDisplay and v.ability.inactive then
-                            Sagatro.jd_toggle_override = true
-                            v:joker_display_toggle()
-                            Sagatro.jd_toggle_override = nil
+                        if JokerDisplay then
+                            if v.ability.inactive or (not v.ability.inactive
+							and (v.joker_display_values or {}).disabled) then
+                                Sagatro.jd_toggle_override = true
+                                v:joker_display_toggle()
+                                Sagatro.jd_toggle_override = nil
+                            end
                         end
                     end
                 end
