@@ -10445,10 +10445,14 @@ local mahimahi = {
             card.triggered = nil
             local played_ranks, held_in_hand_ranks = {}, {}
             for _, v in ipairs(context.full_hand) do
-                played_ranks[v.base.value] = (played_ranks[v.base.value] or 0) + 1
+                if not SMODS.has_no_rank(v) then
+                    played_ranks[v.base.value] = (played_ranks[v.base.value] or 0) + 1
+                end
             end
             for _, v in ipairs(G.hand.cards) do
-                held_in_hand_ranks[v.base.value] = (held_in_hand_ranks[v.base.value] or 0) + 1
+                if not SMODS.has_no_rank(v) then
+                    held_in_hand_ranks[v.base.value] = (held_in_hand_ranks[v.base.value] or 0) + 1
+                end
             end
             for k, _ in pairs(played_ranks) do
                 if held_in_hand_ranks[k] then card.triggered = true break end
@@ -10505,7 +10509,7 @@ local mahimahi = {
         return {
             text = {
                 { text = "+" },
-                { ref_table = "card.joker_display_values", ref_value = "h_mult" },
+                { ref_table = "card.joker_display_values", ref_value = "h_mult", retrigger_type = "mult" },
             },
             text_config = { colour = G.C.MULT },
             calc_function = function(card)
@@ -10515,9 +10519,11 @@ local mahimahi = {
                 local played_ranks, held_in_hand_ranks = {}, {}
                 for _, playing_card in ipairs(G.hand.cards) do
                     if playing_hand or not playing_card.highlighted then
-                        held_in_hand_ranks[playing_card.base.value] = (held_in_hand_ranks[playing_card.base.value] or 0) + 1
-                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
-                            count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
+                        if not SMODS.has_no_rank(playing_card) then
+                            held_in_hand_ranks[playing_card.base.value] = (held_in_hand_ranks[playing_card.base.value] or 0) + 1
+                            if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
+                                count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
+                            end
                         end
                     else
                         played_ranks[playing_card.base.value] = (played_ranks[playing_card.base.value] or 0) + 1
@@ -10526,7 +10532,9 @@ local mahimahi = {
                 if playing_hand then
                     for _, playing_card in ipairs(G.play.cards) do
                         if playing_card.config.card and playing_card.base.value then
-                            played_ranks[playing_card.base.value] = (played_ranks[playing_card.base.value] or 0) + 1
+                            if not SMODS.has_no_rank(playing_card) then
+                                played_ranks[playing_card.base.value] = (played_ranks[playing_card.base.value] or 0) + 1
+                            end
                         end
                     end
                 end
