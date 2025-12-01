@@ -61,6 +61,7 @@ function loc_colour(_c, _default)
     G.ARGS.LOC_COLOURS.huythekiller = G.C.GREEN
     G.ARGS.LOC_COLOURS.amy = G.C.YELLOW
     G.ARGS.LOC_COLOURS.temp = G.C.UI.BACKGROUND_WHITE
+    G.ARGS.LOC_COLOURS.dj = G.C.BLUE
     return lc(_c, _default)
 end
 
