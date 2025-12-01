@@ -25,6 +25,9 @@ local red_queen = {
     defeat = function(self)
         if G.GAME.story_mode then
             Sagatro.progress_storyline("final_showdown", "finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
+            if Sagatro.storyline_check("alice_in_mirrorworld") then
+                G.GAME.paused_showdown = nil
+            end
 		end
     end,
     in_pool = function(self)

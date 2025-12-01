@@ -1799,7 +1799,6 @@ function Sagatro:calculate(context)
             G.GAME.supply_drop = nil
             G.GAME.submarine_hint_to_progress = nil
             G.GAME.mirror_hint_to_progress = nil
-            G.GAME.paused_showdown = nil
             G.GAME.ante_cooldown = math.max(G.GAME.ante_cooldown - 1, 0)
             if G.GAME.pending_fish_var_tooltip_removal == 1 then
                 G.GAME.fish_vars = nil
