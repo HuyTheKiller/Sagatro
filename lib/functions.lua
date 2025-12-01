@@ -2699,11 +2699,14 @@ function Sagatro.get_pos(card)
     end
 end
 
-function Sagatro.update_inactive_state()
+function Sagatro.update_inactive_state(update_slots_used)
     if G.jokers and Sagatro.storyline_check("alice_in_mirrorworld") then
         for _, v in ipairs(G.jokers.cards) do
             if v.config.center_key ~= "j_sgt_mirror" then
                 if v.config.center.mirrorworld then
+                    if update_slots_used then
+                        v.ability.extra_slots_used = v.ability.extra_slots_used + (G.GAME.inversed_scaling and 1 or -1)
+                    end
                     v.ability.inactive = not G.GAME.inversed_scaling
                     if JokerDisplay then
                         if v.ability.inactive or (not v.ability.inactive
@@ -2714,6 +2717,9 @@ function Sagatro.update_inactive_state()
                         end
                     end
                 else
+                    if update_slots_used then
+                        v.ability.extra_slots_used = v.ability.extra_slots_used + (G.GAME.inversed_scaling and -1 or 1)
+                    end
                     v.ability.inactive = G.GAME.inversed_scaling
                     if JokerDisplay then
                         if v.ability.inactive or (not v.ability.inactive

@@ -347,7 +347,7 @@ G.FUNCS.mirror_switch = function(e)
             else
                 Sagatro.progress_storyline("mirrorworld", "remove", "alice_in_wonderland", G.GAME.interwoven_storyline)
             end
-            Sagatro.update_inactive_state()
+            Sagatro.update_inactive_state(true)
         end
         Sagatro.instant_reroll()
     return true end }))
