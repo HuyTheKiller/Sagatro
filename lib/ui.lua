@@ -57,7 +57,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
             local mirrorworld_nodes = {background_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.25)}
             localize{type = "descriptions", set = "Other", key = "sgt_mirrorworld", nodes = mirrorworld_nodes, vars = {}}
             ui[Ortalab and "mythos" or "celestara"] = mirrorworld_nodes
-        elseif not _c.mirrorworld and _c.discovered and G.GAME.inversed_scaling and Sagatro.storyline_check("alice_in_mirrorworld") then
+        elseif _c.set == "Joker" and not _c.mirrorworld and _c.discovered and G.GAME.inversed_scaling and Sagatro.storyline_check("alice_in_mirrorworld") then
             local realworld_nodes = {background_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.25)}
             localize{type = "descriptions", set = "Other", key = "sgt_realworld", nodes = realworld_nodes, vars = {}}
             ui[Ortalab and "mythos" or "celestara"] = realworld_nodes
