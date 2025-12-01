@@ -129,7 +129,7 @@ function Sagatro.artist_node(artists, first_string)
         table.insert(artist_node.nodes,
             {n=G.UIT.O, config={
                 object = DynaText({string = localize{type = 'raw_descriptions', set = 'sgt_artist', key = artist},
-                colours = {G.ARGS.LOC_COLOURS[artist] or G.C.SGT_SAGADITION},
+                colours = {G.ARGS.LOC_COLOURS[artist] or G.C.RARITY[4]},
                 bump = true,
                 silent = true,
                 pop_in = 0,
