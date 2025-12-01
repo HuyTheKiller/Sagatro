@@ -577,17 +577,19 @@ local dodo_bird = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.other_joker and not context.forcetrigger then
-            if G.GAME.current_round.hands_left == 0 and G.GAME.current_round.discards_left == 0 then
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        context.other_joker:juice_up(0.5, 0.5)
-                        return true
-                    end
-                }))
-                return {
-                    message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult*G.GAME.alice_multiplier}},
-                    Xmult_mod = card.ability.extra.xmult*G.GAME.alice_multiplier
-                }
+            if not context.other_joker.ability.inactive then
+                if G.GAME.current_round.hands_left == 0 and G.GAME.current_round.discards_left == 0 then
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            context.other_joker:juice_up(0.5, 0.5)
+                            return true
+                        end
+                    }))
+                    return {
+                        message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult*G.GAME.alice_multiplier}},
+                        Xmult_mod = card.ability.extra.xmult*G.GAME.alice_multiplier
+                    }
+                end
             end
         end
         if context.forcetrigger then
@@ -638,7 +640,7 @@ local dodo_bird = {
                 and G.GAME.current_round.hands_left <= 1
                 and G.GAME.current_round.discards_left == 0
                 and localize("jdis_active") or localize("jdis_inactive")
-                return { x_mult = (card.ability.set == "Joker" and G.GAME.current_round.hands_left <= 1 and G.GAME.current_round.discards_left == 0 and (not G.GAME.inversed_scaling or not G.GAME.story_mode) and (mod_joker.ability.extra.xmult*G.GAME.alice_multiplier) ^ JokerDisplay.calculate_joker_triggers(mod_joker) or nil) }
+                return { x_mult = (card.ability.set == "Joker" and not card.ability.inactive and G.GAME.current_round.hands_left <= 1 and G.GAME.current_round.discards_left == 0 and (not G.GAME.inversed_scaling or not G.GAME.story_mode) and (mod_joker.ability.extra.xmult*G.GAME.alice_multiplier) ^ JokerDisplay.calculate_joker_triggers(mod_joker) or nil) }
             end
         }
     end,

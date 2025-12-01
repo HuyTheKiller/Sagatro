@@ -1394,7 +1394,7 @@ return {
             j_sgt_dodo_bird = {
                 name = "Dodo Bird",
                 text = {
-                    "Each joker card gives {X:mult,C:white}X#1#{} Mult",
+                    "Each active joker gives {X:mult,C:white}X#1#{} Mult",
                     "on {C:attention}final hand{} of round with",
                     "{C:attention}0{} discards left",
                 },
