@@ -2704,26 +2704,26 @@ function Sagatro.update_inactive_state(update_slots_used)
         for _, v in ipairs(G.jokers.cards) do
             if v.config.center_key ~= "j_sgt_mirror" then
                 if v.config.center.mirrorworld then
-                    if update_slots_used then
+                    if update_slots_used and v.ability.inactive == G.GAME.inversed_scaling then
                         v.ability.extra_slots_used = v.ability.extra_slots_used + (G.GAME.inversed_scaling and 1 or -1)
                     end
                     v.ability.inactive = not G.GAME.inversed_scaling
                     if JokerDisplay then
-                        if v.ability.inactive or (not v.ability.inactive
-                        and (v.joker_display_values or {}).disabled) then
+                        if (v.ability.inactive and not (v.joker_display_values or {}).disabled)
+                        or (not v.ability.inactive and (v.joker_display_values or {}).disabled) then
                             Sagatro.jd_toggle_override = true
                             v:joker_display_toggle()
                             Sagatro.jd_toggle_override = nil
                         end
                     end
                 else
-                    if update_slots_used then
+                    if update_slots_used and v.ability.inactive ~= G.GAME.inversed_scaling then
                         v.ability.extra_slots_used = v.ability.extra_slots_used + (G.GAME.inversed_scaling and -1 or 1)
                     end
                     v.ability.inactive = G.GAME.inversed_scaling
                     if JokerDisplay then
-                        if v.ability.inactive or (not v.ability.inactive
-                        and (v.joker_display_values or {}).disabled) then
+                        if (v.ability.inactive and not (v.joker_display_values or {}).disabled)
+                        or (not v.ability.inactive and (v.joker_display_values or {}).disabled) then
                             Sagatro.jd_toggle_override = true
                             v:joker_display_toggle()
                             Sagatro.jd_toggle_override = nil
