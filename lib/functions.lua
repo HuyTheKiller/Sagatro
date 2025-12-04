@@ -510,6 +510,7 @@ end
 cause_crash = false
 nemo_dt = 0
 alice_dt = 0
+ecila_dt = 0
 cosmic_dt = 0
 miracle_dt = 0
 miracle_animate = false
@@ -692,6 +693,22 @@ function Game:update(dt)
         for _, card in pairs(G.I.CARD) do
             if card and card.config.center == alice then
                 card.children.floating_sprite:set_sprite_pos(alice.soul_pos)
+            end
+        end
+    end
+
+    ecila_dt = ecila_dt + dt
+    if G.P_CENTERS and G.P_CENTERS.j_sgt_ecila and ecila_dt > 0.125 then
+        ecila_dt = ecila_dt - 0.125
+        local ecila = G.P_CENTERS.j_sgt_ecila
+        if ecila.soul_pos.x == 39 then
+            ecila.soul_pos.x = 1
+        else
+            ecila.soul_pos.x = ecila.soul_pos.x + 1
+        end
+        for _, card in pairs(G.I.CARD) do
+            if card and card.config.center == ecila then
+                card.children.floating_sprite:set_sprite_pos(ecila.soul_pos)
             end
         end
     end
