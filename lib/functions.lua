@@ -1658,6 +1658,17 @@ function Sagatro.update_blind_amounts(instant)
             major = G.hand, bond = 'Weak'}
         }
         if not instant then G.blind_select.alignment.offset.y = 0.8-(G.hand.T.y - G.jokers.T.y) + G.blind_select.T.h end
+        if ColdBeans then
+            if G.GAME.round_resets.blind_states['Forced'] == "Select" then
+                G.blind_select.alignment.offset.x = 0
+            elseif G.GAME.round_resets.blind_states['Teeny'] == "Select" then
+                G.blind_select.alignment.offset.x = 5
+            elseif G.GAME.round_resets.blind_states['Small'] == "Select" then
+                G.blind_select.alignment.offset.x = 1
+            else
+                G.blind_select.alignment.offset.x = -4
+            end
+        end
     end
     local at_least_most = G.HUD_blind:get_UIE_by_ID("HUD_blind_score_at_least_most")
     at_least_most.config.text = G.GAME.inversed_scaling and localize('ph_blind_score_at_most') or localize('ph_blind_score_at_least')
