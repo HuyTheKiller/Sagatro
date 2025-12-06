@@ -2448,6 +2448,40 @@ return {
                     "{C:inactive}(Currently {X:dark_edition,C:white}^#1#{C:inactive} Mult)",
                 },
             },
+            j_sgt_tweedledum = {
+                name = "Tweedledum",
+                text = {
+                    {"Played cards with",
+                    "{C:attention}even{} rank give",
+                    "{X:chips,C:white}X#2#{} Chips when scored",
+                    "{C:inactive}(10, 8, 6, 4, 2)"},
+                    {"Played cards with",
+                    "{C:attention}odd{} rank give",
+                    "{X:mult,C:white}X#1#{} Mult when scored",
+                    "{C:inactive}(A, 9, 7, 5, 3)"},
+                },
+            },
+            j_sgt_tweedledee = {
+                name = "Tweedledee",
+                text = {
+                    {"Played cards with",
+                    "{C:attention}odd{} rank give",
+                    "{X:chips,C:white}X#2#{} Chips when scored",
+                    "{C:inactive}(A, 9, 7, 5, 3)"},
+                    {"Played cards with",
+                    "{C:attention}even{} rank give",
+                    "{X:mult,C:white}X#1#{} Mult when scored",
+                    "{C:inactive}(10, 8, 6, 4, 2)"},
+                },
+            },
+            j_sgt_sheep = {
+                name = "Sheep",
+                text = {
+                    "{X:dark_edition,C:white}X#1#{} Score, reduce by {X:dark_edition,C:white}X#2#{}",
+                    "for each joker to the left",
+                    "of this joker",
+                },
+            },
             j_sgt_ecila = {
                 name = "Ecila",
                 text = {

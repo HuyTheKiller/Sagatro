@@ -2444,6 +2444,40 @@ return {
                     "{C:inactive}(Hiện tại là {X:dark_edition,C:white}^#1#{C:inactive} Nhân)",
                 },
             },
+            j_sgt_tweedledum = {
+                name = "Ò E Anh",
+                text = {
+                    {"Lá đã chơi với",
+                    "bậc {C:attention}chẵn{} ghi thêm",
+                    "{X:chips,C:white}X#2#{} Chip khi ghi điểm",
+                    "{C:inactive}(10, 8, 6, 4, 2)"},
+                    {"Lá đã chơi với",
+                    "bậc {C:attention}lẻ{} ghi thêm",
+                    "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                    "{C:inactive}(A, 9, 7, 5, 3)"},
+                },
+            },
+            j_sgt_tweedledee = {
+                name = "Ò E Em",
+                text = {
+                    {"Lá đã chơi với",
+                    "bậc {C:attention}lẻ{} ghi thêm",
+                    "{X:chips,C:white}X#2#{} Chip khi ghi điểm",
+                    "{C:inactive}(A, 9, 7, 5, 3)"},
+                    {"Lá đã chơi với",
+                    "bậc {C:attention}chẵn{} ghi thêm",
+                    "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                    "{C:inactive}(10, 8, 6, 4, 2)"},
+                },
+            },
+            j_sgt_sheep = {
+                name = "Cừu",
+                text = {
+                    "{X:dark_edition,C:white}X#1#{} Điểm, giảm đi {X:dark_edition,C:white}X#2#{}",
+                    "cho mỗi joker ở bên trái",
+                    "joker này",
+                },
+            },
             j_sgt_ecila = {
                 name = "Ecila",
                 text = {

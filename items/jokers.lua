@@ -11726,6 +11726,253 @@ local dinah = {
     end,
 }
 
+local tweedledum = {
+    key = "tweedledum",
+    name = "Tweedledum",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 131,
+    pos = { x = 4, y = 1 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {xmult = 1.2, xchips = 1.2}},
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play then
+            if (context.other_card:get_id() <= 10 and context.other_card:get_id() >= 0)
+            or context.other_card:get_id() == 14 then
+                if context.other_card:get_id() % 2 == 0 and context.other_card:get_id() ~= 14 then
+                    return {
+                        Xchip_mod = card.ability.extra.xchips,
+                        message = localize{type='variable', key='a_xchips', vars={card.ability.extra.xchips}}
+                    }
+                else
+                    return {
+                        Xmult_mod = card.ability.extra.xmult,
+                        message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}}
+                    }
+                end
+            end
+        end
+        if context.forcetrigger then
+            return {
+                Xmult_mod = card.ability.extra.xmult,
+                Xchip_mod = card.ability.extra.xchips,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult, card.ability.extra.xchips}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                },
+                { text = " " },
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xchips", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.CHIPS
+                },
+            },
+            calc_function = function(card)
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                local xmult_count, xchips_count = 0, 0
+                if text ~= 'Unknown' then
+                    for _, scoring_card in ipairs(scoring_hand) do
+                        if (scoring_card:get_id() <= 10 and scoring_card:get_id() >= 0)
+                        or scoring_card:get_id() == 14 then
+                            if scoring_card:get_id() % 2 == 0 and scoring_card:get_id() ~= 14 then
+                                xchips_count = xchips_count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                            else
+                                xmult_count = xmult_count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                            end
+                        end
+                    end
+                end
+                card.joker_display_values.xmult = card.ability.extra.xmult^xmult_count
+                card.joker_display_values.xchips = card.ability.extra.xchips^xchips_count
+            end,
+        }
+    end,
+}
+
+local tweedledee = {
+    key = "tweedledee",
+    name = "Tweedledee",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 132,
+    pos = { x = 5, y = 1 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {xmult = 1.2, xchips = 1.2}},
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play then
+            if (context.other_card:get_id() <= 10 and context.other_card:get_id() >= 0)
+            or context.other_card:get_id() == 14 then
+                if context.other_card:get_id() % 2 == 0 and context.other_card:get_id() ~= 14 then
+                    return {
+                        Xmult_mod = card.ability.extra.xmult,
+                        message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}}
+                    }
+                else
+                    return {
+                        Xchip_mod = card.ability.extra.xchips,
+                        message = localize{type='variable', key='a_xchips', vars={card.ability.extra.xchips}}
+                    }
+                end
+            end
+        end
+        if context.forcetrigger then
+            return {
+                Xmult_mod = card.ability.extra.xmult,
+                Xchip_mod = card.ability.extra.xchips,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult, card.ability.extra.xchips}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                },
+                { text = " " },
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xchips", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.CHIPS
+                },
+            },
+            calc_function = function(card)
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                local xmult_count, xchips_count = 0, 0
+                if text ~= 'Unknown' then
+                    for _, scoring_card in ipairs(scoring_hand) do
+                        if (scoring_card:get_id() <= 10 and scoring_card:get_id() >= 0)
+                        or scoring_card:get_id() == 14 then
+                            if scoring_card:get_id() % 2 == 0 and scoring_card:get_id() ~= 14 then
+                                xmult_count = xmult_count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                            else
+                                xchips_count = xchips_count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                            end
+                        end
+                    end
+                end
+                card.joker_display_values.xmult = card.ability.extra.xmult^xmult_count
+                card.joker_display_values.xchips = card.ability.extra.xchips^xchips_count
+            end,
+        }
+    end,
+}
+
+local sheep = {
+    key = "sheep",
+    name = "Sheep",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 133,
+    pos = { x = 0, y = 2 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {xscore = 1.08, xscore_mod = 0.01}},
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.after then
+            if card.ability.extra.xscore - card.ability.extra.xscore_mod*(Sagatro.get_pos(card)-1) ~= 1 then
+                return {
+                    sgt_x_score = card.ability.extra.xscore - card.ability.extra.xscore_mod*(Sagatro.get_pos(card)-1),
+                }
+            end
+        end
+        if context.forcetrigger then
+            return {
+                sgt_x_score = card.ability.extra.xscore,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xscore, card.ability.extra.xscore_mod}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xscore", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.DARK_EDITION
+                }
+            },
+            calc_function = function(card)
+                card.joker_display_values.xscore = card.ability.extra.xscore - card.ability.extra.xscore_mod*(Sagatro.get_pos(card)-1)
+            end,
+        }
+    end,
+}
+
 local ecila = {
     key = "ecila",
     name = "Ecila",
@@ -14028,6 +14275,9 @@ local joker_table = {
     goat,
     beetle,
     dinah,
+    tweedledum,
+    tweedledee,
+    sheep,
     ecila,
     hansels_cheat_dice,
     skoll_n_hati,
