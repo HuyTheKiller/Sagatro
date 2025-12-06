@@ -12366,8 +12366,8 @@ local saint_germain = {
                 { text = ")" },
             },
             calc_function = function(card)
-                local _, _, scoring_hand = JokerDisplay.evaluate_hand()
-                card.joker_display_values.active = #scoring_hand == 1 and scoring_hand[1]:get_id() == 13
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                card.joker_display_values.active = text ~= 'Unknown' and #scoring_hand == 1 and scoring_hand[1]:get_id() == 13
                 and localize("jdis_active") or localize("jdis_inactive")
             end,
         }
