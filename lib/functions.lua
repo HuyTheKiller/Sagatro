@@ -148,6 +148,7 @@ function Game:init_game_object()
                 "j_sgt_tweedledum",
                 "j_sgt_tweedledee",
                 "j_sgt_sheep",
+                "j_sgt_rocking_house_fly",
                 "j_sgt_ecila",
             },
         },

@@ -11974,6 +11974,113 @@ local sheep = {
     end,
 }
 
+local rocking_horse_fly = {
+    key = "rocking_horse_fly",
+    name = "Rocking-House-Fly",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 134,
+    pos = { x = 1, y = 2 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {type = "Two Pair"},
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play then
+            if next(context.poker_hands[card.ability.type]) then
+                local temp_minID, lowest_card = 15, nil
+                local temp_maxID, highest_card = 0, nil
+                local temp_maxMult, temp_minMult = 0, 15
+                for _, v in ipairs(context.scoring_hand) do
+                    if not SMODS.has_no_rank(v) then
+                        if temp_minID > v.base.id then
+                            temp_minMult = v.base.nominal
+                            temp_minID = v.base.id
+                            lowest_card = v
+                        end
+                        if temp_maxID < v.base.id then
+                            temp_maxMult = v.base.nominal
+                            temp_maxID = v.base.id
+                            highest_card = v
+                        end
+                    end
+                end
+                local finalMult = temp_maxMult - temp_minMult
+                if (lowest_card == context.other_card or highest_card == context.other_card)
+                and finalMult > 0 then
+                    return {
+                        mult = finalMult*2,
+                    }
+                end
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {localize(card.ability.type, 'poker_hands')}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text", colour = G.C.ORANGE },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                local mult = 0
+                local _, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
+                if poker_hands[card.ability.type] and next(poker_hands[card.ability.type]) then
+                    local temp_minID, lowest_card = 15, nil
+                    local temp_maxID, highest_card = 0, nil
+                    local temp_maxMult, temp_minMult = 0, 15
+                    for _, scoring_card in pairs(scoring_hand) do
+                        if not SMODS.has_no_rank(scoring_card) then
+                            if temp_minID > scoring_card.base.id then
+                                temp_minMult = scoring_card.base.nominal
+                                temp_minID = scoring_card.base.id
+                                lowest_card = scoring_card
+                            end
+                            if temp_maxID < scoring_card.base.id then
+                                temp_maxMult = scoring_card.base.nominal
+                                temp_maxID = scoring_card.base.id
+                                highest_card = scoring_card
+                            end
+                        end
+                    end
+                    local finalMult = temp_maxMult - temp_minMult
+                    if highest_card and not highest_card.debuff and highest_card.facing ~= 'back' then
+                        mult = mult + finalMult*2
+                    end
+                    if lowest_card and not lowest_card.debuff and lowest_card.facing ~= 'back' then
+                        mult = mult + finalMult*2
+                    end
+                end
+                card.joker_display_values.mult = mult
+                card.joker_display_values.localized_text = localize(card.ability.type, 'poker_hands')
+            end
+        }
+    end,
+}
+
 local ecila = {
     key = "ecila",
     name = "Ecila",
@@ -14279,6 +14386,7 @@ local joker_table = {
     tweedledum,
     tweedledee,
     sheep,
+    rocking_horse_fly,
     ecila,
     hansels_cheat_dice,
     skoll_n_hati,

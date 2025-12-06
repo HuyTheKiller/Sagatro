@@ -2483,6 +2483,15 @@ return {
                     "{C:inactive}(Currently {X:dark_edition,C:white}X#3#{C:inactive} Score)",
                 },
             },
+            j_sgt_rocking_horse_fly = {
+                name = "Rocking-Horse-Fly",
+                text = {
+                    "if played hand contains a {C:attention}#1#{},",
+                    "add {C:attention}double{} the rank difference between",
+                    "the {C:attention}highest{} and {C:attention}lowest{} ranked card",
+                    "scored to their Mult",
+                },
+            },
             j_sgt_ecila = {
                 name = "Ecila",
                 text = {
