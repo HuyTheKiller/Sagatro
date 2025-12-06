@@ -2480,6 +2480,7 @@ return {
                     "{X:dark_edition,C:white}X#1#{} Score, reduce by {X:dark_edition,C:white}X#2#{}",
                     "for each joker to the left",
                     "of this joker",
+                    "{C:inactive}(Currently {X:dark_edition,C:white}X#3#{C:inactive} Score)",
                 },
             },
             j_sgt_ecila = {

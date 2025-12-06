@@ -2476,6 +2476,7 @@ return {
                     "{X:dark_edition,C:white}X#1#{} Điểm, giảm đi {X:dark_edition,C:white}X#2#{}",
                     "cho mỗi joker ở bên trái",
                     "joker này",
+                    "{C:inactive}(Hiện tại là {X:dark_edition,C:white}X#3#{C:inactive} Điểm)",
                 },
             },
             j_sgt_ecila = {

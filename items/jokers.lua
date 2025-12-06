@@ -11950,7 +11950,8 @@ local sheep = {
         return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.xscore, card.ability.extra.xscore_mod}}
+        return {vars = {card.ability.extra.xscore, card.ability.extra.xscore_mod,
+            card.ability.extra.xscore - card.ability.extra.xscore_mod*(Sagatro.get_pos(card)-1)}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
