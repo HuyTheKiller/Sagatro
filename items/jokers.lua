@@ -10413,7 +10413,7 @@ local grenadier = {
             calc_function = function(card)
                 local _, _, scoring_hand = JokerDisplay.evaluate_hand()
                 local ranks = {}
-                for _, scoring_card in ipairs(scoring_hand) do
+                for _, scoring_card in pairs(scoring_hand) do
                     ranks[scoring_card.base.value] = (ranks[scoring_card.base.value] or 0) + 1
                 end
                 card.joker_display_values.active = table.size(ranks) > 1
@@ -11801,7 +11801,7 @@ local tweedledum = {
                 local text, _, scoring_hand = JokerDisplay.evaluate_hand()
                 local xmult_count, xchips_count = 0, 0
                 if text ~= 'Unknown' then
-                    for _, scoring_card in ipairs(scoring_hand) do
+                    for _, scoring_card in pairs(scoring_hand) do
                         if (scoring_card:get_id() <= 10 and scoring_card:get_id() >= 0)
                         or scoring_card:get_id() == 14 then
                             if scoring_card:get_id() % 2 == 0 and scoring_card:get_id() ~= 14 then
@@ -11894,7 +11894,7 @@ local tweedledee = {
                 local text, _, scoring_hand = JokerDisplay.evaluate_hand()
                 local xmult_count, xchips_count = 0, 0
                 if text ~= 'Unknown' then
-                    for _, scoring_card in ipairs(scoring_hand) do
+                    for _, scoring_card in pairs(scoring_hand) do
                         if (scoring_card:get_id() <= 10 and scoring_card:get_id() >= 0)
                         or scoring_card:get_id() == 14 then
                             if scoring_card:get_id() % 2 == 0 and scoring_card:get_id() ~= 14 then
