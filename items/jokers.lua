@@ -11976,7 +11976,7 @@ local sheep = {
 
 local rocking_horse_fly = {
     key = "rocking_horse_fly",
-    name = "Rocking-House-Fly",
+    name = "Rocking-Horse-Fly",
     artist_credits = {"temp"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
@@ -12019,6 +12019,11 @@ local rocking_horse_fly = {
                     }
                 end
             end
+        end
+        if context.forcetrigger then
+            return {
+                mult = 36,
+            }
         end
     end,
     in_pool = function(self, args)

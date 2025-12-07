@@ -2479,7 +2479,7 @@ return {
                     "{C:inactive}(Hiện tại là {X:dark_edition,C:white}X#3#{C:inactive} Điểm)",
                 },
             },
-            j_sgt_rocking_house_fly = {
+            j_sgt_rocking_horse_fly = {
                 name = "Ruồi Ngựa Bấp Bênh",
                 text = {
                     "Nếu tay bài đã chơi chứa {C:attention}#1#{},",
