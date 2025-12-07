@@ -2488,6 +2488,21 @@ return {
                     "vào hệ số Nhân của chúng",
                 },
             },
+            j_sgt_bread_and_butter_fly = {
+                name = "Ruồi Bánh Mì Bơ",
+                text = {
+                    "Đặt tiền về {C:money}$#1#{} nếu",
+                    "{C:attention}ít hơn{} giá trị đó",
+                    "ở cuối ván",
+                },
+            },
+            j_sgt_snap_dragon_fly = {
+                name = "Chuồn Chuồn Đớp",
+                text = {
+                    "Mỗi lá {C:attention}2{} giữ trên tay",
+                    "cho {C:mult}+#1#{} Nhân",
+                },
+            },
             j_sgt_ecila = {
                 name = "Ecila",
                 text = {

@@ -149,6 +149,8 @@ function Game:init_game_object()
                 "j_sgt_tweedledee",
                 "j_sgt_sheep",
                 "j_sgt_rocking_horse_fly",
+                "j_sgt_bread_and_butter_fly",
+                "j_sgt_snap_dragon_fly",
                 "j_sgt_ecila",
             },
         },

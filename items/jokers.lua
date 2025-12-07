@@ -12086,6 +12086,134 @@ local rocking_horse_fly = {
     end,
 }
 
+local bread_and_butter_fly = {
+    key = "bread_and_butter_fly",
+    name = "Bread-and-Butter-Fly",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 135,
+    pos = { x = 2, y = 2 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {min_money = 5}},
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if (context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+            if G.GAME.dollars < to_big(card.ability.extra.min_money) or context.forcetrigger then
+                ease_dollars(card.ability.extra.min_money-to_number(G.GAME.dollars))
+                return {
+                    message = localize("$")..card.ability.extra.min_money,
+                    colour = G.C.GOLD,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.min_money}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+$", colour = G.C.GOLD },
+                { ref_table = "card.joker_display_values", ref_value = "money", colour = G.C.GOLD },
+            },
+            calc_function = function(card)
+                card.joker_display_values.money = math.max(card.ability.extra.min_money - to_number(G.GAME.dollars), 0)
+            end,
+        }
+    end,
+}
+
+local snap_dragon_fly = {
+    key = "snap_dragon_fly",
+    name = "Snap-Dragon-Fly",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 136,
+    pos = { x = 3, y = 2 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {mult = 12}},
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
+            if context.other_card:get_id() == 2 then
+                if context.other_card.debuff then
+                    return {
+                        message = localize('k_debuffed'),
+                        colour = G.C.RED,
+                        card = card,
+                    }
+                else
+                    return {
+                        h_mult = card.ability.extra.mult,
+                        card = card,
+                    }
+                end
+            end
+        end
+        if context.forcetrigger then
+            return {
+                mult = card.ability.extra.mult,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.mult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" },
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                local playing_hand = next(G.play.cards)
+                local mult = 0
+                for _, playing_card in ipairs(G.hand.cards) do
+                    if playing_hand or not playing_card.highlighted then
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff and playing_card:get_id() == 2 then
+                            mult = mult + card.ability.extra.mult * JokerDisplay.calculate_card_triggers(playing_card, nil, true)
+                        end
+                    end
+                end
+                card.joker_display_values.mult = mult
+            end
+        }
+    end,
+}
+
 local ecila = {
     key = "ecila",
     name = "Ecila",
@@ -14392,6 +14520,8 @@ local joker_table = {
     tweedledee,
     sheep,
     rocking_horse_fly,
+    bread_and_butter_fly,
+    snap_dragon_fly,
     ecila,
     hansels_cheat_dice,
     skoll_n_hati,

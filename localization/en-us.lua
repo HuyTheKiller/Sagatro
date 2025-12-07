@@ -2492,6 +2492,21 @@ return {
                     "scored to their Mult",
                 },
             },
+            j_sgt_bread_and_butter_fly = {
+                name = "Bread-and-Butter-Fly",
+                text = {
+                    "Set money to {C:money}$#1#{} if",
+                    "{C:attention}less{} than that amount",
+                    "at end of round",
+                },
+            },
+            j_sgt_snap_dragon_fly = {
+                name = "Snap-Dragon-Fly",
+                text = {
+                    "Each {C:attention}2{} held in hand",
+                    "gives {C:mult}+#1#{} Mult",
+                },
+            },
             j_sgt_ecila = {
                 name = "Ecila",
                 text = {
