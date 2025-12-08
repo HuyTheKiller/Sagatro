@@ -1289,8 +1289,8 @@ return {
                 name = "Bóng Ma",
                 text = {
                     "Tạo ra một {C:attention}Joker",
-                    "{C:red}Hiếm{} ngẫu nhiên,",
-                    "Mất {C:money}một nửa{} số tiền"
+                    "{C:sgt_obscure}Mờ Mịt{} ngẫu nhiên,",
+                    "Đặt tiền về {C:money}#1#{}",
                 },
             },
             c_sgt_magiseal = {

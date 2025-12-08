@@ -2679,16 +2679,17 @@ local spectre = {
     can_use = function(self, card)
         return G.jokers.config.card_limit > #G.jokers.cards
     end,
+    config = {target_money = -3},
     use = function(self, card, area, copier)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             delay = 0.4,
             func = function()
                 play_sound('timpani')
-                SMODS.add_card{set = 'Joker', rarity = 'Rare'}
+                SMODS.add_card{set = 'Joker', rarity = 'sgt_obscure'}
                 card:juice_up(0.3, 0.5)
-                if G.GAME.dollars > to_big(0) then
-                    ease_dollars(-math.floor(to_number(G.GAME.dollars)/2), true)
+                if G.GAME.dollars > to_big(card.ability.target_money) then
+                    ease_dollars(-to_number(G.GAME.dollars)+card.ability.target_money, true)
                 end
                 return true
             end
@@ -2696,7 +2697,7 @@ local spectre = {
         delay(0.6)
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.max_highlighted}}
+        return {vars = {SMODS.signed_dollars(card.ability.target_money)}}
     end,
 }
 

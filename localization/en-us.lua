@@ -1291,8 +1291,8 @@ return {
                 name = "Spectre",
                 text = {
                     "Creates a random",
-                    "{C:red}Rare{C:attention} Joker{},",
-                    "Lose {C:money}half{} of your money",
+                    "{C:sgt_obscure}Obscure{C:attention} Joker{},",
+                    "Set money to {C:money}#1#{}",
                 },
             },
             c_sgt_magiseal = {
