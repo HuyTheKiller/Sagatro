@@ -881,6 +881,17 @@ function Card:can_calculate(ignore_debuff, ignore_sliced)
     return is_available
 end
 
+local calc_rental = Card.calculate_rental
+function Card:calculate_rental()
+    calc_rental(self)
+    if self.ability.rental then
+        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) - G.GAME.rental_rate
+        G.E_MANAGER:add_event(Event({func = function()
+            G.GAME.dollar_buffer = 0
+        return true end}))
+    end
+end
+
 -- Gravistone jank
 local copy_cardref = copy_card
 function copy_card(other, new_card, card_scale, playing_card, strip_edition)

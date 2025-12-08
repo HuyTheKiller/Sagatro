@@ -12105,12 +12105,9 @@ local bread_and_butter_fly = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if (context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
-            if G.GAME.dollars < to_big(card.ability.extra.min_money) or context.forcetrigger then
-                ease_dollars(card.ability.extra.min_money-to_number(G.GAME.dollars))
-                return {
-                    message = localize("$")..card.ability.extra.min_money,
-                    colour = G.C.GOLD,
-                }
+            if to_big(card.ability.extra.min_money) > G.GAME.dollars + (G.GAME.dollar_buffer or 0) or context.forcetrigger then
+                ease_dollars(card.ability.extra.min_money - (to_number(G.GAME.dollars) + (G.GAME.dollar_buffer or 0)))
+                card_eval_status_text(card, 'dollars', card.ability.extra.min_money)
             end
         end
     end,
