@@ -227,11 +227,16 @@ function G.UIDEF.movement_buttons(card)
 end
 
 function G.UIDEF.switch_button(card)
-    local switch = nil
+    local switch, ready = nil, nil
     if Sagatro.storyline_check("alice_in_mirrorworld") and card.config.center_key == "j_sgt_mirror" then
         switch = {n=G.UIT.C, config={align = "cl"}, nodes={
         {n=G.UIT.C, config={ref_table = card, align = "cl",maxw = 1.25, padding = 0.1, r=0.08, minw = 1.25, minh = 0, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, one_press = true, button = 'mirror_switch', func = 'mirror_can_switch'}, nodes={
             {n=G.UIT.T, config={text = localize('b_sgt_switch'),colour = G.C.UI.TEXT_LIGHT, scale = 0.55, shadow = true}},
+            {n=G.UIT.B, config = {w=0.1,h=0.6}},
+        }}}}
+        ready = {n=G.UIT.C, config={align = "cl"}, nodes={
+        {n=G.UIT.C, config={ref_table = card, align = "cl",maxw = 1.25, padding = 0.1, r=0.08, minw = 1.25, minh = 0, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, one_press = true, button = 'mirror_ready', func = 'mirror_can_ready'}, nodes={
+            {n=G.UIT.T, config={text = localize('b_sgt_ready'),colour = G.C.UI.TEXT_LIGHT, scale = 0.55, shadow = true}},
             {n=G.UIT.B, config = {w=0.1,h=0.6}},
         }}}}
     end
@@ -240,6 +245,9 @@ function G.UIDEF.switch_button(card)
         {n=G.UIT.C, config={padding = 0.15, align = 'cr'}, nodes={
         {n=G.UIT.R, config={align = 'cr'}, nodes={
             switch
+        }},
+        {n=G.UIT.R, config={align = 'cr'}, nodes={
+            ready
         }},
         }},
     }}
@@ -303,6 +311,7 @@ G.FUNCS.submarine_down = function(e, force_go_down)
             G.from_boss_tag = true
             G.FUNCS.reroll_boss()
         end
+        G.GAME.saga_forced_boss = true
     else
         play_sound('timpani')
         submarine.ability.immutable.depth_level = math.min(submarine.ability.immutable.depth_level + 1, 5)
@@ -354,10 +363,42 @@ G.FUNCS.mirror_switch = function(e)
 end
 
 G.FUNCS.mirror_can_switch = function(e)
-    if not G.GAME.mirror_switch_cooldown
+    if not G.GAME.mirror_switch_cooldown and not G.GAME.saga_forced_boss
     and (G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP) then
         e.config.colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5)
         e.config.button = 'mirror_switch'
+    else
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+end
+
+G.FUNCS.mirror_ready = function(e)
+    local mirror = e.config.ref_table
+    G.E_MANAGER:add_event(Event({func = function()
+        play_sound('timpani')
+        mirror:juice_up()
+        if G.GAME.story_mode then
+            for _, v in ipairs{--[["the_pawn", "the_rook", "the_knight", "the_bishop", "true_red_queen", "red_king"]]} do
+                if Sagatro.event_check(v, nil, true) then
+                    Sagatro.progress_storyline(v, "add", "alice_in_wonderland", G.GAME.interwoven_storyline)
+                    if G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
+                        G.from_boss_tag = true
+                        G.FUNCS.reroll_boss()
+                    end
+                    G.GAME.saga_forced_boss = true
+                    break
+                end
+            end
+        end
+    return true end }))
+end
+
+G.FUNCS.mirror_can_ready = function(e)
+    if G.GAME.inversed_scaling and not G.GAME.saga_forced_boss
+    and not G.GAME.won and G.STATE == G.STATES.BLIND_SELECT then
+        e.config.colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5)
+        e.config.button = 'mirror_ready'
     else
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil

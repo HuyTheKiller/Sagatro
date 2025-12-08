@@ -1095,7 +1095,7 @@ local gnb = get_new_boss
 function get_new_boss(...)
     local ret = gnb(...)
     local overridden = false
-    if not G.GAME.won then
+    if G.GAME.story_mode and not G.GAME.won then
         if Sagatro.event_check("final_showdown") and not next(SMODS.find_card("j_sgt_mad_hatter")) then
             for _, v in ipairs(G.jokers.cards) do
                 if v.config.center_key == "j_sgt_red_queen" then
@@ -1105,21 +1105,27 @@ function get_new_boss(...)
                     Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
                 end
             end
+            G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
             ret = 'bl_sgt_red_queen'
             overridden = true
         elseif Sagatro.event_check("turquoise_jellyfish") then
+            G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
             ret = 'bl_sgt_turquoise_jellyfish'
             overridden = true
         elseif Sagatro.event_check("aqua_eyeshard") then
+            G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
             ret = 'bl_sgt_aqua_eyeshard'
             overridden = true
         elseif Sagatro.event_check("black_oil") then
+            G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
             ret = 'bl_sgt_black_oil'
             overridden = true
         elseif Sagatro.event_check("shadow_seamine") then
+            G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
             ret = 'bl_sgt_shadow_seamine'
             overridden = true
         elseif Sagatro.event_check("nyx_abyss") then
+            G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
             ret = 'bl_sgt_nyx_abyss'
             overridden = true
         end
@@ -1136,6 +1142,10 @@ function get_new_boss(...)
             G.GAME.cartomancer_bosses_list[#G.GAME.cartomancer_bosses_list] = ret
         end
     end
+    if overridden then
+        G.GAME.saga_forced_boss = true
+        G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] + 1
+    end    
     return ret
 end
 
@@ -1845,6 +1855,7 @@ function Sagatro:calculate(context)
             end
         end
         if context.ante_change and context.ante_end then
+            G.GAME.saga_forced_boss = nil
             G.GAME.fish_effect.no_reshuffle = nil
             G.GAME.supply_drop = nil
             G.GAME.submarine_hint_to_progress = nil
@@ -1887,6 +1898,11 @@ function Sagatro:calculate(context)
         end
         if context.setting_ability then
             Sagatro.update_inactive_state()
+        end
+        if context.prevent_tag_trigger then
+            if G.GAME.saga_forced_boss and context.prevent_tag_trigger.name == 'Boss Tag' then
+                return {prevent_trigger = true}
+            end
         end
     end
     if context.final_scoring_step and not context.retrigger_joker and G.GAME.inversed_scaling then
