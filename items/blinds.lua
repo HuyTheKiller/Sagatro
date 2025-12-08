@@ -424,25 +424,28 @@ local true_red_queen = {
         showdown = true,
     },
     boss_colour = HEX("be0606"),
+    config = {extra = {cume_modifier = 1}},
     calculate = function(self, blind, context)
         if context.after and not (blind.disabled or context.retrigger_joker) then --???
             if G.GAME.inversed_scaling then
                 G.E_MANAGER:add_event(Event({func = function()
-                if to_big(G.GAME.chips) < to_big(blind.chips)/2 then
-                    blind.triggered = true
-                    blind.chips = blind.chips/2
-                    blind.chip_text = number_format(blind.chips)
-                    SMODS.juice_up_blind()
-                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
-                        play_sound('tarot2', 0.76, 0.4);return true end}))
-                    play_sound('tarot2', 1, 0.4)
-                end
+                    if to_big(G.GAME.chips) < to_big(blind.chips)/2 then
+                        blind.triggered = true
+                        blind.chips = blind.chips/2
+                        blind.effect.extra.cume_modifier = blind.effect.extra.cume_modifier/2
+                        blind.chip_text = number_format(blind.chips)
+                        SMODS.juice_up_blind()
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
+                            play_sound('tarot2', 0.76, 0.4);return true end}))
+                        play_sound('tarot2', 1, 0.4)
+                    end
                 return true end }))
             else
                 G.E_MANAGER:add_event(Event({func = function()
                     if to_big(G.GAME.chips) < to_big(blind.chips) then
                         blind.triggered = true
                         blind.chips = blind.chips*2
+                        blind.effect.extra.cume_modifier = blind.effect.extra.cume_modifier*2
                         blind.chip_text = number_format(blind.chips)
                         SMODS.juice_up_blind()
                         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
@@ -452,6 +455,10 @@ local true_red_queen = {
                 return true end }))
             end
         end
+    end,
+    disable = function(self)
+        G.GAME.blind.chips = G.GAME.blind.chips/G.GAME.blind.effect.extra.cume_modifier
+        G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
     end,
     defeat = function(self)
         if G.GAME.story_mode then
@@ -483,23 +490,26 @@ local red_king = {
         showdown = true,
     },
     boss_colour = HEX("be0606"),
+    config = {extra = {cume_modifier = 1}},
     calculate = function(self, blind, context)
         if context.before and not (blind.disabled or context.retrigger_joker) then --???
             if G.GAME.hands[context.scoring_name].played > 0 then -- Cryptid compat?
                 if G.GAME.inversed_scaling then
                     G.E_MANAGER:add_event(Event({func = function()
-                    blind.triggered = true
-                    blind.chips = blind.chips/G.GAME.hands[context.scoring_name].played
-                    blind.chip_text = number_format(blind.chips)
-                    SMODS.juice_up_blind()
-                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
-                        play_sound('tarot2', 0.76, 0.4);return true end}))
-                    play_sound('tarot2', 1, 0.4)
+                        blind.triggered = true
+                        blind.chips = blind.chips/G.GAME.hands[context.scoring_name].played
+                        blind.effect.extra.cume_modifier = blind.effect.extra.cume_modifier/G.GAME.hands[context.scoring_name].played
+                        blind.chip_text = number_format(blind.chips)
+                        SMODS.juice_up_blind()
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
+                            play_sound('tarot2', 0.76, 0.4);return true end}))
+                        play_sound('tarot2', 1, 0.4)
                     return true end }))
                 else
                     G.E_MANAGER:add_event(Event({func = function()
                         blind.triggered = true
                         blind.chips = blind.chips*G.GAME.hands[context.scoring_name].played
+                        blind.effect.extra.cume_modifier = blind.effect.extra.cume_modifier*G.GAME.hands[context.scoring_name].played
                         blind.chip_text = number_format(blind.chips)
                         SMODS.juice_up_blind()
                         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
@@ -509,6 +519,10 @@ local red_king = {
                 end
             end
         end
+    end,
+    disable = function(self)
+        G.GAME.blind.chips = G.GAME.blind.chips/G.GAME.blind.effect.extra.cume_modifier
+        G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
     end,
     defeat = function(self)
         if G.GAME.story_mode then
