@@ -432,6 +432,18 @@ payload = '''
 {n=G.UIT.T, config={text = blind_choice.config.dollars < 10 and string.rep(localize("$"), blind_choice.config.dollars)..'+' or localize("$")..blind_choice.config.dollars..'+', scale = 0.35, colour = disabled and G.C.UI.TEXT_INACTIVE or G.C.MONEY, shadow = not disabled}}
 '''
 
+[[patches]] # Ortalab doesn't have this one for some reason
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+match_indent = true
+position = 'at'
+pattern = '''
+{n=G.UIT.O, config={object = DynaText({string = {_dollars and string.rep(localize('$'),_dollars) or '-'}, colours = {G.C.MONEY}, rotate = true, bump = true, silent = true, scale = 0.45})}},
+'''
+payload = '''
+{n=G.UIT.O, config={object = DynaText({string = {_dollars and (_dollars < 10 and string.rep(localize('$'),_dollars) or localize("$").._dollars) or '-'}, colours = {G.C.MONEY}, rotate = true, bump = true, silent = true, scale = 0.45})}},
+'''
+
 [[patches]]
 [patches.pattern]
 target = 'blind.lua'
