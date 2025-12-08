@@ -182,7 +182,7 @@ local shadow_seamine = {
 	},
     boss_colour = HEX("086F84"),
     calculate = function(self, blind, context)
-        if context.after then
+        if context.after and not (blind.disabled or context.retrigger_joker) then --???
             if SMODS.pseudorandom_probability(self, "shadow_seamine", 1, 6) then
                 blind.triggered = true
                 if G.jokers.cards[1] then
