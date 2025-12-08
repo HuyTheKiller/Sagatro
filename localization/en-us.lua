@@ -2605,9 +2605,11 @@ return {
             j_sgt_thor = {
                 name = "Thórr",
                 text = {
-                    "{C:attention}Retrigger{} cards adjacent to {C:attention}conductive enhancements",
-                    "Each {C:attention}held in hand{} card with {C:attention}conductive",
-                    "{C:attention}enhancement{} gives {X:dark_edition,C:white}^#1#{} Mult",
+                    "{C:attention}Retrigger{} cards adjacent to",
+                    "{C:attention}conductive enhancements",
+                    "Each {C:attention}held in hand{} card with",
+                    "{C:attention}conductive enhancement",
+                    "gives {X:dark_edition,C:white}^#1#{} Mult",
                 },
             },
             j_sgt_odin = {

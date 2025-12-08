@@ -2601,9 +2601,11 @@ return {
             j_sgt_thor = {
                 name = "Thórr",
                 text = {
-                    "{C:attention}Tái kích{} lá bài bên cạnh {C:attention}cường hoá dẫn điện",
-                    "Mỗi lá {C:attention}giữ trên tay{} có {C:attention}cường hoá",
-                    "{C:attention}dẫn điện{} cho {X:dark_edition,C:white}^#1#{} Nhân",
+                    "{C:attention}Tái kích{} lá bài bên cạnh",
+                    "{C:attention}cường hoá dẫn điện",
+                    "Mỗi lá {C:attention}giữ trên tay{} có",
+                    "{C:attention}cường hoá dẫn điện",
+                    "cho {X:dark_edition,C:white}^#1#{} Nhân",
                 },
             },
             j_sgt_odin = {
