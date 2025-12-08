@@ -379,7 +379,7 @@ G.FUNCS.mirror_ready = function(e)
         play_sound('timpani')
         mirror:juice_up()
         if G.GAME.story_mode then
-            for _, v in ipairs{--[["the_pawn", "the_rook", "the_knight", "the_bishop", "true_red_queen", "red_king"]]} do
+            for _, v in ipairs{"the_pawn", "the_rook", "the_knight", "the_bishop", "true_red_queen", "red_king"} do
                 if Sagatro.event_check(v, nil, true) then
                     Sagatro.progress_storyline(v, "add", "alice_in_wonderland", G.GAME.interwoven_storyline)
                     if G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
@@ -395,8 +395,8 @@ G.FUNCS.mirror_ready = function(e)
 end
 
 G.FUNCS.mirror_can_ready = function(e)
-    if G.GAME.inversed_scaling and not G.GAME.saga_forced_boss
-    and not G.GAME.won and G.STATE == G.STATES.BLIND_SELECT then
+    if G.GAME.inversed_scaling and not G.GAME.saga_forced_boss and not G.GAME.won and G.STATE == G.STATES.BLIND_SELECT
+    and (Sagatro.event_check("the_bishop", nil, true) or G.GAME.mirrorworld_showdown) then
         e.config.colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5)
         e.config.button = 'mirror_ready'
     else

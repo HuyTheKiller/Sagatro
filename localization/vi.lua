@@ -130,6 +130,61 @@ return {
                     "mỗi tay bài và lượt bỏ đã dùng",
                 },
             },
+            bl_sgt_pawn = {
+                name = "The Pawn",
+                text = {
+                    "#1# Chip chuẩn",
+                },
+            },
+            bl_sgt_rook = {
+                name = "The Rook",
+                text = {
+                    "Hóa Đá mọi lá giữ",
+                    "trên tay mỗi tay bài",
+                },
+            },
+            bl_sgt_knight = {
+                name = "The Knight",
+                text = {
+                    "Chỉ lá đã chơi đầu tiên",
+                    "và cuối cùng sẽ ghi điểm",
+                },
+            },
+            bl_sgt_bishop = {
+                name = "The Bishop",
+                text = {
+                    "Mọi lá Bích và Tép",
+                    "bị vô hiệu hóa",
+                },
+            },
+            bl_sgt_true_red_queen = {
+                name = "Red Queen",
+                text = {
+                    "X2 điểm blind nếu không bị",
+                    "đánh bại trong tay bài này",
+                },
+            },
+            bl_sgt_true_red_queen_inv = {
+                name = "Red Queen",
+                text = {
+                    "/2 điểm blind nếu điểm",
+                    "thấp hơn 50% yêu cầu",
+                },
+            },
+            bl_sgt_red_king = {
+                name = "Red King",
+                text = {
+                    "Nhân điểm blind với số lần",
+                    "đã chơi tay poker",
+                },
+            },
+            bl_sgt_red_king_inv = {
+                name = "Red King",
+                text = {
+                    "Chia điểm blind cho số lần",
+                    "đã chơi tay poker",
+                },
+            },
         },
         Tag = {
             tag_sgt_holy = {

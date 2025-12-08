@@ -130,6 +130,61 @@ return {
                     "every hand and discard used",
                 },
             },
+            bl_sgt_pawn = {
+                name = "The Pawn",
+                text = {
+                    "#1# base Chips",
+                },
+            },
+            bl_sgt_rook = {
+                name = "The Rook",
+                text = {
+                    "Stoneify all cards held",
+                    "in hand every hand",
+                },
+            },
+            bl_sgt_knight = {
+                name = "The Knight",
+                text = {
+                    "Only first and last",
+                    "played card will score",
+                },
+            },
+            bl_sgt_bishop = {
+                name = "The Bishop",
+                text = {
+                    "All Spades and Clubs",
+                    "cards are debuffed",
+                },
+            },
+            bl_sgt_true_red_queen = {
+                name = "Red Queen",
+                text = {
+                    "X2 blind size if not",
+                    "beaten in this hand",
+                },
+            },
+            bl_sgt_true_red_queen_inv = {
+                name = "Red Queen",
+                text = {
+                    "/2 blind size if score",
+                    "is below 50% requirement",
+                },
+            },
+            bl_sgt_red_king = {
+                name = "Red King",
+                text = {
+                    "Multiply blind size by number of",
+                    "times poker hand has been played",
+                },
+            },
+            bl_sgt_red_king_inv = {
+                name = "Red King",
+                text = {
+                    "Divide blind size by number of",
+                    "times poker hand has been played",
+                },
+            },
         },
         Tag = {
             tag_sgt_holy = {

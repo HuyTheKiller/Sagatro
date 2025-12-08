@@ -77,6 +77,7 @@ end
 Sagatro.story_mode_showdown = {
 	"bl_sgt_red_queen",
     "bl_sgt_nyx_abyss",
+    "bl_sgt_red_king",
 }
 
 Sagatro.story_mode_no_reroll = {
@@ -86,6 +87,12 @@ Sagatro.story_mode_no_reroll = {
     "bl_sgt_black_oil",
     "bl_sgt_shadow_seamine",
     "bl_sgt_nyx_abyss",
+    "bl_sgt_pawn",
+    "bl_sgt_rook",
+    "bl_sgt_knight",
+    "bl_sgt_bishop",
+    "bl_sgt_true_red_queen",
+    "bl_sgt_red_king",
 }
 
 Sagatro.main_storyline_list = {
@@ -878,6 +885,15 @@ function Card:can_calculate(ignore_debuff, ignore_sliced)
             is_available = false
         end
     end
+    if G.GAME.blind then
+        if G.GAME.blind.config.blind.key == "bl_sgt_knight" and not G.GAME.blind.disabled then
+            if self.ability.set == "Default" or self.ability.set == "Enhanced" then
+                if self.area == G.play then
+                    is_available = is_available and (Sagatro.get_pos(self) == 1 or Sagatro.get_pos(self) == #G.play.cards)
+                end
+            end
+        end
+    end
     return is_available
 end
 
@@ -1128,6 +1144,40 @@ function get_new_boss(...)
             G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
             ret = 'bl_sgt_nyx_abyss'
             overridden = true
+        elseif G.GAME.inversed_scaling then
+            if Sagatro.event_check("the_pawn", nil, true)
+            and not Sagatro.event_check("the_pawn", false) then
+                G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
+                ret = 'bl_sgt_pawn'
+                overridden = true
+            elseif Sagatro.event_check("the_rook", nil, true)
+            and not Sagatro.event_check("the_rook", false) then
+                G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
+                ret = 'bl_sgt_rook'
+                overridden = true
+            elseif Sagatro.event_check("the_knight", nil, true)
+            and not Sagatro.event_check("the_knight", false) then
+                G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
+                ret = 'bl_sgt_knight'
+                overridden = true
+            elseif Sagatro.event_check("the_bishop", nil, true)
+            and not Sagatro.event_check("the_bishop", false) then
+                G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
+                ret = 'bl_sgt_bishop'
+                overridden = true
+            elseif G.GAME.mirrorworld_showdown then
+                if Sagatro.event_check("true_red_queen", nil, true)
+                and not Sagatro.event_check("true_red_queen", false) then
+                    G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
+                    ret = 'bl_sgt_true_red_queen'
+                    overridden = true
+                elseif Sagatro.event_check("red_king", nil, true)
+                and not Sagatro.event_check("red_king", false) then
+                    G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
+                    ret = 'bl_sgt_red_king'
+                    overridden = true
+                end
+            end
         end
     end
     if ret == 'bl_sgt_red_queen' then
@@ -1135,6 +1185,10 @@ function get_new_boss(...)
         if Sagatro.storyline_check("alice_in_mirrorworld") then
             G.GAME.paused_showdown = true
         end
+    elseif ret == 'bl_sgt_true_red_queen' then
+        G.GAME.true_red_queen_blind = true
+    elseif ret == 'bl_sgt_red_king' then
+        G.GAME.red_king_blind = true
     end
     if Cartomancer then
         G.GAME.cartomancer_bosses_list = G.GAME.cartomancer_bosses_list or {}
@@ -1145,7 +1199,7 @@ function get_new_boss(...)
     if overridden then
         G.GAME.saga_forced_boss = true
         G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] + 1
-    end    
+    end
     return ret
 end
 
