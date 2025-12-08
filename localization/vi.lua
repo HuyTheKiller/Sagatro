@@ -208,6 +208,13 @@ return {
                     "{C:sgt_eldritch}Hắc Linh{} miễn phí",
                 },
             },
+            tag_sgt_obscure = {
+                name = "Nhãn Mờ Mịt",
+                text = {
+                    "Shop có một",
+                    "{C:sgt_obscure}Joker Mờ Mịt",
+                },
+            },
         },
         Other = {
             p_sgt_wish_primary = {

@@ -208,6 +208,13 @@ return {
                     "{C:sgt_eldritch}Eldritch Pack",
                 },
             },
+            tag_sgt_obscure = {
+                name = "Obscure Tag",
+                text = {
+                    "Shop has an",
+                    "{C:sgt_obscure}Obscure Joker",
+                },
+            },
         },
         Other = {
             p_sgt_wish_primary = {
