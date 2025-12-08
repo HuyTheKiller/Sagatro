@@ -2817,7 +2817,8 @@ end
 
 function Sagatro.update_inactive_state(update_slots_used)
     if G.jokers and Sagatro.storyline_check("alice_in_mirrorworld") then
-        for _, v in ipairs(G.jokers.cards) do
+        for i = 1, #G.jokers.cards do
+            local v = G.jokers.cards[i]
             if v.config.center_key ~= "j_sgt_mirror" then
                 if v.config.center.mirrorworld then
                     if update_slots_used and v.ability.inactive == G.GAME.inversed_scaling then
