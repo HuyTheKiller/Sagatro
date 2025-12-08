@@ -1782,6 +1782,7 @@ function Sagatro.set_ability_reset_keys()
         "anim_transition_path",
         "in_transition",
         "buffed",
+        "debuffed_by_turquoise_jellyfish",
     }
 end
 

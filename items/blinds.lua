@@ -49,16 +49,16 @@ local turquoise_jellyfish = {
 		showdown = true,
 	},
     boss_colour = HEX("31CFB2"),
-    config = {extra = {triggered = false}},
     press_play = function(self)
         G.E_MANAGER:add_event(Event({func = function()
             local selected_cards = Sagatro.random_select("turquoise_jellyfish", G.play, 2)
             for _, card in pairs(selected_cards) do
                 card.ability.perma_debuff = true
                 card.ability.debuffed_by_turquoise_jellyfish = true
-                card:juice_up(0.8, 0.8)
+                card:juice_up()
             end
         return true end }))
+        G.GAME.blind.triggered = true
         delay(0.7)
         return true
     end,
@@ -184,6 +184,7 @@ local shadow_seamine = {
     calculate = function(self, blind, context)
         if context.after then
             if SMODS.pseudorandom_probability(self, "shadow_seamine", 1, 6) then
+                blind.triggered = true
                 if G.jokers.cards[1] then
                     local eligible_jokers = {}
                     for _, v in ipairs(G.jokers.cards) do
