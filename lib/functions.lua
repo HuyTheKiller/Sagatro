@@ -1973,6 +1973,9 @@ function Sagatro:calculate(context)
             if not context.other_card.config.center.mirrorworld and G.GAME.inversed_scaling then
                 return {no_destroy = true}
             end
+            if context.other_card.config.center_key == "c_soul" then
+                return {no_destroy = {override_compat = true}}
+            end
         end
         if context.starting_shop and G.GAME.juice_up_booster then
             G.GAME.juice_up_booster = nil

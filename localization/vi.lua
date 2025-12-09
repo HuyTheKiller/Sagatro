@@ -560,6 +560,14 @@ return {
                     "Sẽ lập tức {C:red}thua trận{} ở cuối ván",
                 },
             },
+            sgt_easter_egg = {
+                name = "Easter Egg",
+                text = {
+                    "Bạn vừa tìm thấy một trong",
+                    "những Easter Egg của {C:sgt_sagadition}Sagatro{}!",
+                    "Hãy tận hưởng!",
+                },
+            },
             sgt_low_fuel = {
                 name = "Cạn Nhiên Liệu",
                 text = {
@@ -3308,6 +3316,7 @@ return {
             sgt_protected = "Bảo Vệ",
             sgt_imminent_doom = "Sắp Hẹo",
             sgt_off_depth = "Lệch Độ Sâu",
+            sgt_easter_egg = "Easter Egg",
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Hansel Đỏ Đen",

@@ -561,6 +561,14 @@ return {
                     "It's a guaranteed {C:red}loss{} at end of round",
                 },
             },
+            sgt_easter_egg = {
+                name = "Easter Egg",
+                text = {
+                    "You've found one of",
+                    "{C:sgt_sagadition}Sagatro{}'s Easter Eggs!",
+                    "Enjoy!",
+                },
+            },
             sgt_low_fuel = {
                 name = "Low Fuel",
                 text = {
@@ -3312,6 +3320,7 @@ return {
             sgt_protected = "Protected",
             sgt_imminent_doom = "Imminent Doom",
             sgt_off_depth = "Off Depth",
+            sgt_easter_egg = "Easter Egg",
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Gambling Hansel",

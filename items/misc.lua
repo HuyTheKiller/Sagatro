@@ -731,6 +731,19 @@ local imminent_doom = {
     end,
 }
 
+local easter_egg = {
+    key = "sgt_easter_egg",
+    name = "Easter Egg",
+    atlas = "misc",
+    pos = {x = 2, y = 4},
+    badge_colour = G.C.SGT_SAGADITION,
+    prefix_config = { key = false },
+    sets = { Joker = true },
+    no_collection = true,
+    no_sticker_sheet = true,
+    should_apply = false,
+}
+
 local sticker_table = {
     protected,
     edible,
@@ -739,6 +752,7 @@ local sticker_table = {
     current_depth,
     off_depth,
     imminent_doom,
+    easter_egg,
 }
 
 for _, v in ipairs(sticker_table) do
