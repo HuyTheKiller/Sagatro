@@ -353,8 +353,14 @@ G.FUNCS.mirror_switch = function(e)
         if G.GAME.story_mode then
             if G.GAME.inversed_scaling then
                 Sagatro.progress_storyline("mirrorworld", "force_add", "alice_in_wonderland", G.GAME.interwoven_storyline)
+                for _, alice in ipairs(SMODS.find_card("j_sgt_alice", true)) do
+                    alice:set_ability("j_sgt_ecila")
+                end
             else
                 Sagatro.progress_storyline("mirrorworld", "remove", "alice_in_wonderland", G.GAME.interwoven_storyline)
+                for _, ecila in ipairs(SMODS.find_card("j_sgt_ecila", true)) do
+                    ecila:set_ability("j_sgt_alice")
+                end
             end
             Sagatro.update_inactive_state(true)
         end
