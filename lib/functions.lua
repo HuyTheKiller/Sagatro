@@ -2904,6 +2904,49 @@ function Sagatro.get_seal_chips(card)
     return 0
 end
 
+function Sagatro.quick_restart()
+    if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
+        G.SETTINGS.paused = true
+        if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+            G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+        end
+        G:save_settings()
+        G.SETTINGS.current_setup = 'New Run'
+        G.GAME.viewed_back = nil
+        G.run_setup_seed = G.GAME.seeded
+        G.challenge_tab = G.GAME and G.GAME.challenge and G.GAME.challenge_tab or nil
+        G.forced_seed, G.setup_seed = nil, nil
+        if G.GAME.seeded then G.forced_seed = G.GAME.pseudorandom.seed end
+        G.forced_stake = G.GAME.stake
+        local _seed = G.run_setup_seed and G.setup_seed or G.forced_seed or nil
+        local _challenge = G.challenge_tab or nil
+        local _stake = G.forced_stake or G.PROFILES[G.SETTINGS.profile].MEMORY.stake or 1
+        G.E_MANAGER:clear_queue()
+        G.E_MANAGER:add_event(Event({
+            trigger = 'immediate',
+            no_delete = true,
+            func = function()
+            G:delete_run()
+            G:start_run{stake = _stake, seed = _seed, challenge = _challenge}
+            return true
+            end
+        }))
+        G.forced_stake = nil
+        G.challenge_tab = nil
+        G.forced_seed = nil
+    end
+end
+
+SMODS.Keybind {
+    key = "quick_restart",
+    key_pressed = 'r',
+    action = function(self)
+        if Sagatro.config.QuickRestart then
+            Sagatro.quick_restart()
+        end
+    end
+}
+
 mod_mult_ref = mod_mult
 function mod_mult(_mult)
 	_mult = mod_mult_ref(_mult)
@@ -3232,6 +3275,9 @@ Sagatro.config_tab = function()
             }},
         }},
         {n=G.UIT.R, config = {align = 'cm', padding = 0.2}, nodes = {
+            {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
+                create_toggle({label = localize('SGT_quick_restart'), ref_table = Sagatro.config, ref_value = 'QuickRestart', info = localize('SGT_quick_restart_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
+            }},
             {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
                 create_toggle({label = localize('SGT_ortagas'), ref_table = Sagatro.config, ref_value = 'Ortagas', info = localize('SGT_ortagas_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true, callback = function() if menu_refresh and G.title_top then menu_refresh() end end}),
             }},

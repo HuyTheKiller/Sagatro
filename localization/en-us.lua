@@ -3479,6 +3479,8 @@ return {
             SGT_sagatro_music_desc = {"Enable Sagatro music inside a run"},
             SGT_ortagas = "Switch to Ortagas",
             SGT_ortagas_desc = {"Does nothing?"},
+            SGT_quick_restart = "Quick Restart",
+            SGT_quick_restart_desc = {"Press R to instantly restart the run"},
         },
         quips = {
             sgt_good_end1 = {

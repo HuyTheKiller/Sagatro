@@ -3475,6 +3475,8 @@ return {
             SGT_sagatro_music_desc = {"Bật nhạc Sagatro trong trận"},
             SGT_ortagas = "Chuyển sang Ortagas",
             SGT_ortagas_desc = {"Vô dụng?"},
+            SGT_quick_restart = "Trận Mới Nhanh",
+            SGT_quick_restart_desc = {"Nhấn R để tạo trận mới tức thí"},
         },
         quips = {
             sgt_good_end1 = {
