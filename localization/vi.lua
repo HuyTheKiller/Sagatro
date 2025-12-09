@@ -2565,6 +2565,34 @@ return {
                     "cho {C:mult}+#1#{} Nhân",
                 },
             },
+            j_sgt_white_rook = {
+                name = "Xe Trắng",
+                text = {
+                    {"Nếu {C:attention}Vua Trắng{} sắp bị",
+                    "phá huỷ, {C:red,E:2}tự huỷ{} thay cho nó",
+                    "Áp dụng {C:attention}Bốn Ngón Tay{} nếu có",
+                    "một lá {C:attention}không bậc{} giữ trên tay"},
+                    {"{C:mult}+#1#*A{} Nhân, với A bằng hiệu của",
+                    "tổng lá {C:spades}Bích{} và {C:clubs}Tép{} trên tay",
+                    "và tổng lá {C:hearts}Cơ{} và {C:diamonds}Rô{} trên tay"},
+                },
+            },
+            j_sgt_white_knight = {
+                name = "Mã Trắng",
+                text = {
+                    "Áp dụng {C:attention}Đường Tắt",
+                    "{C:mult}+#1#*A{} Nhân, với A bằng hiệu của",
+                    "tổng lá {C:spades}Bích{} và {C:clubs}Tép{} trên tay",
+                    "và tổng lá {C:hearts}Cơ{} và {C:diamonds}Rô{} trên tay",
+                },
+            },
+            j_sgt_white_bishop = {
+                name = "Tượng Trắng",
+                text = {
+                    "{X:mult,C:white}X#1#{} Nhân nếu tay bài",
+                    "ghi điểm chỉ chứa {C:spades}Bích{} hoặc {C:clubs}Tép{}",
+                },
+            },
             j_sgt_ecila = {
                 name = "Ecila",
                 text = {
@@ -3381,6 +3409,7 @@ return {
             k_elegant_ex = "Thanh Lịch!",
             k_baah_ex = "Beee!",
             k_bzzz_ex = "Bzzz!",
+            k_castled_ex = "Nhập Thành!",
             k_zzz = "ZZZ",
             k_charge = "Nạp",
             k_release = "Xả",

@@ -10938,7 +10938,7 @@ local white_pawn = {
                         straight_flush_active = true
                     end
                 end
-                card.joker_display_values.active = (G.GAME.inversed_scaling or not G.GAME.story_mode)
+                card.joker_display_values.active = card:can_calculate()
                 and (straight_active or straight_flush_active)
                 and localize("jdis_active") or localize("jdis_inactive")
             end,
@@ -11040,7 +11040,7 @@ local white_queen = {
                 end
                 card.joker_display_values.plus = "+"
                 card.joker_display_values.mult = mult*(count + spades_clubs - hearts_diamonds)
-                if not G.GAME.inversed_scaling and G.GAME.story_mode then
+                if not card:can_calculate() then
                     card.joker_display_values.mult = 0
                 end
                 if card.joker_display_values.mult < 0 then
@@ -11153,7 +11153,7 @@ local white_king = {
                     result = xmult*(spades_clubs / hearts_diamonds)
                 end
                 card.joker_display_values.xmult = (xmult^count)*result
-                if not G.GAME.inversed_scaling and G.GAME.story_mode then
+                if not card:can_calculate() then
                     card.joker_display_values.xmult = 1
                 end
             end,
@@ -11225,7 +11225,7 @@ local live_flowers = {
             },
             text_config = { colour = G.C.MULT },
             calc_function = function(card)
-                card.joker_display_values.mult = (G.GAME.inversed_scaling or not G.GAME.story_mode)
+                card.joker_display_values.mult = card:can_calculate()
                 and card.ability.extra.mult or 0
             end,
         }
@@ -11279,7 +11279,7 @@ local ticket_checker = {
                 }
             },
             calc_function = function(card)
-                card.joker_display_values.xmult = (G.GAME.inversed_scaling or not G.GAME.story_mode)
+                card.joker_display_values.xmult = card:can_calculate()
                 and table.size(G.GAME.used_vouchers) > 0 and card.ability.extra.xmult or 1
             end,
         }
@@ -11389,12 +11389,12 @@ local man_in_white = {
             },
             text_config = { colour = G.C.MULT },
             calc_function = function(card)
-                card.joker_display_values.mult = (G.GAME.inversed_scaling or not G.GAME.story_mode)
+                card.joker_display_values.mult = card:can_calculate()
                 and card.ability.extra.mult or 0
             end,
             mod_function = function(card, mod_joker)
                 local ret = {}
-                if (G.GAME.inversed_scaling or not G.GAME.story_mode) and card.config.center_key == "j_sgt_goat" then
+                if mod_joker:can_calculate() and card.config.center_key == "j_sgt_goat" then
                     if Sagatro.get_pos(mod_joker) + 1 == Sagatro.get_pos(card) then
                         ret.x_mult = 1.5
                     end
@@ -11508,12 +11508,12 @@ local goat = {
             },
             text_config = { colour = G.C.MULT },
             calc_function = function(card)
-                card.joker_display_values.mult = (G.GAME.inversed_scaling or not G.GAME.story_mode)
+                card.joker_display_values.mult = card:can_calculate()
                 and card.ability.extra.mult or 0
             end,
             mod_function = function(card, mod_joker)
                 local ret = {}
-                if (G.GAME.inversed_scaling or not G.GAME.story_mode) and card.config.center_key == "j_sgt_beetle" then
+                if mod_joker:can_calculate() and card.config.center_key == "j_sgt_beetle" then
                     if Sagatro.get_pos(mod_joker) + 1 == Sagatro.get_pos(card) then
                         ret.x_mult = 1.5
                     end
@@ -11617,7 +11617,7 @@ local beetle = {
             },
             text_config = { colour = G.C.MULT },
             calc_function = function(card)
-                card.joker_display_values.mult = (G.GAME.inversed_scaling or not G.GAME.story_mode)
+                card.joker_display_values.mult = card:can_calculate()
                 and card.ability.extra.mult or 0
             end,
         }
@@ -11719,7 +11719,7 @@ local dinah = {
         },
             calc_function = function(card)
                 card.joker_display_values.dinah_card = localize { type = 'variable', key = "jdis_rank_of_suit", vars = {localize(G.GAME.current_round.dinah_card.rank, 'ranks'), localize(G.GAME.current_round.dinah_card.suit, 'suits_plural') } }
-                card.joker_display_values.emult = (G.GAME.inversed_scaling or not G.GAME.story_mode)
+                card.joker_display_values.emult = card:can_calculate()
                 and card.ability.extra.e_mult or 1
             end,
         }
@@ -11814,6 +11814,10 @@ local tweedledum = {
                 end
                 card.joker_display_values.xmult = card.ability.extra.xmult^xmult_count
                 card.joker_display_values.xchips = card.ability.extra.xchips^xchips_count
+                if not card:can_calculate() then
+                    card.joker_display_values.xmult = 1
+                    card.joker_display_values.xchips = 1
+                end
             end,
         }
     end,
@@ -11907,6 +11911,10 @@ local tweedledee = {
                 end
                 card.joker_display_values.xmult = card.ability.extra.xmult^xmult_count
                 card.joker_display_values.xchips = card.ability.extra.xchips^xchips_count
+                if not card:can_calculate() then
+                    card.joker_display_values.xmult = 1
+                    card.joker_display_values.xchips = 1
+                end
             end,
         }
     end,
@@ -11969,6 +11977,9 @@ local sheep = {
             },
             calc_function = function(card)
                 card.joker_display_values.xscore = card.ability.extra.xscore - card.ability.extra.xscore_mod*(Sagatro.get_pos(card)-1)
+                if not card:can_calculate() then
+                    card.joker_display_values.xscore = 1
+                end
             end,
         }
     end,
@@ -12080,6 +12091,9 @@ local rocking_horse_fly = {
                     end
                 end
                 card.joker_display_values.mult = mult
+                if not card:can_calculate() then
+                    card.joker_display_values.mult = 0
+                end
                 card.joker_display_values.localized_text = localize(card.ability.type, 'poker_hands')
             end
         }
@@ -12131,6 +12145,9 @@ local bread_and_butter_fly = {
             },
             calc_function = function(card)
                 card.joker_display_values.money = math.max(card.ability.extra.min_money - to_number(G.GAME.dollars), 0)
+                if not card:can_calculate() then
+                    card.joker_display_values.money = 0
+                end
             end,
         }
     end,
@@ -12206,7 +12223,270 @@ local snap_dragon_fly = {
                     end
                 end
                 card.joker_display_values.mult = mult
+                if not card:can_calculate() then
+                    card.joker_display_values.mult = 0
+                end
             end
+        }
+    end,
+}
+
+local white_rook = {
+    key = "white_rook",
+    name = "White Rook",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 137,
+    pos = { x = 4, y = 2 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {mult = 3}},
+    rarity = 2,
+    cost = 7,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_type_destroyed and not card.getting_sliced
+        and context.card.config.center_key == "j_sgt_white_king" then
+            Sagatro.self_destruct(card)
+            return {
+                message = localize('k_castled_ex'),
+                colour = G.C.FILTER,
+                no_retrigger = true,
+                no_destroy = true,
+            }
+        end
+        if context.joker_main then
+            local hearts_diamonds, spades_clubs = 0, 0
+            for _, v in ipairs(G.hand.cards) do
+                if v:is_suit("Hearts") or v:is_suit("Diamonds") then
+                    hearts_diamonds = hearts_diamonds + 1
+                elseif v:is_suit("Spades") or v:is_suit("Clubs") then
+                    spades_clubs = spades_clubs + 1
+                end
+            end
+            if spades_clubs - hearts_diamonds ~= 0 then
+                local difference = spades_clubs - hearts_diamonds
+                return {
+                    mult = card.ability.extra.mult*difference,
+                }
+            end
+        end
+        if context.forcetrigger then
+            return {
+                mult = card.ability.extra.mult,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_king
+        info_queue[#info_queue+1] = G.P_CENTERS.j_four_fingers
+        return {vars = {card.ability.extra.mult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { ref_table = "card.joker_display_values", ref_value = "plus" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                local hearts_diamonds, spades_clubs = 0, 0
+                local mult = card.ability.extra.mult
+                local playing_hand = next(G.play.cards)
+                for _, playing_card in ipairs(G.hand.cards) do
+                    if playing_hand or not playing_card.highlighted then
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
+                            if playing_card:is_suit("Hearts") or playing_card:is_suit("Diamonds") then
+                                hearts_diamonds = hearts_diamonds + 1
+                            elseif playing_card:is_suit("Spades") or playing_card:is_suit("Clubs") then
+                                spades_clubs = spades_clubs + 1
+                            end
+                        end
+                    end
+                end
+                card.joker_display_values.plus = "+"
+                card.joker_display_values.mult = mult*(spades_clubs - hearts_diamonds)
+                if not card:can_calculate() then
+                    card.joker_display_values.mult = 0
+                end
+                if card.joker_display_values.mult < 0 then
+                    card.joker_display_values.plus = ""
+                end
+            end,
+        }
+    end,
+}
+
+local white_knight = {
+    key = "white_knight",
+    name = "White Knight",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 138,
+    pos = { x = 5, y = 2 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {mult = 3}},
+    rarity = 2,
+    cost = 8,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            local hearts_diamonds, spades_clubs = 0, 0
+            for _, v in ipairs(G.hand.cards) do
+                if v:is_suit("Hearts") or v:is_suit("Diamonds") then
+                    hearts_diamonds = hearts_diamonds + 1
+                elseif v:is_suit("Spades") or v:is_suit("Clubs") then
+                    spades_clubs = spades_clubs + 1
+                end
+            end
+            if spades_clubs - hearts_diamonds ~= 0 then
+                local difference = spades_clubs - hearts_diamonds
+                return {
+                    mult = card.ability.extra.mult*difference,
+                }
+            end
+        end
+        if context.forcetrigger then
+            return {
+                mult = card.ability.extra.mult,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.j_shortcut
+        return {vars = {card.ability.extra.mult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { ref_table = "card.joker_display_values", ref_value = "plus" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                local hearts_diamonds, spades_clubs = 0, 0
+                local mult = card.ability.extra.mult
+                local playing_hand = next(G.play.cards)
+                for _, playing_card in ipairs(G.hand.cards) do
+                    if playing_hand or not playing_card.highlighted then
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
+                            if playing_card:is_suit("Hearts") or playing_card:is_suit("Diamonds") then
+                                hearts_diamonds = hearts_diamonds + 1
+                            elseif playing_card:is_suit("Spades") or playing_card:is_suit("Clubs") then
+                                spades_clubs = spades_clubs + 1
+                            end
+                        end
+                    end
+                end
+                card.joker_display_values.plus = "+"
+                card.joker_display_values.mult = mult*(spades_clubs - hearts_diamonds)
+                if not card:can_calculate() then
+                    card.joker_display_values.mult = 0
+                end
+                if card.joker_display_values.mult < 0 then
+                    card.joker_display_values.plus = ""
+                end
+            end,
+        }
+    end,
+}
+
+local white_bishop = {
+    key = "white_bishop",
+    name = "White Bishop",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 139,
+    pos = { x = 0, y = 3 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {xmult = 3}},
+    rarity = 2,
+    cost = 7,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main or context.forcetrigger then
+            local spades_clubs = true
+            for _, v in ipairs(context.scoring_hand) do
+                if not (v:is_suit("Spades", true) or v:is_suit("Clubs", true)) then
+                    spades_clubs = false
+                end
+            end
+            if spades_clubs or context.forcetrigger then
+                return {
+                    x_mult = card.ability.extra.xmult,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                }
+            },
+            calc_function = function(card)
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                local spades_clubs = true
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        if not (scoring_card:is_suit("Spades", true) or scoring_card:is_suit("Clubs", true)) then
+                            spades_clubs = false
+                        end
+                    end
+                end
+                card.joker_display_values.xmult = spades_clubs and card.ability.extra.xmult or 1
+                if not card:can_calculate() then
+                    card.joker_display_values.xmult = 1
+                end
+            end,
         }
     end,
 }
@@ -12263,7 +12543,7 @@ local ecila = {
     joker_display_def = function(JokerDisplay)
         return {
             mod_function = function(card, mod_joker)
-                return { x_mult = card.config.center.saga_group == "alice_in_mirrorworld" and (G.GAME.inversed_scaling or not G.GAME.story_mode) and mod_joker.ability.extra.xmult ^ JokerDisplay.calculate_joker_triggers(mod_joker) or nil }
+                return { x_mult = card.config.center.saga_group == "alice_in_mirrorworld" and card:can_calculate() and mod_joker.ability.extra.xmult ^ JokerDisplay.calculate_joker_triggers(mod_joker) or nil }
             end
         }
     end,
@@ -14519,6 +14799,9 @@ local joker_table = {
     rocking_horse_fly,
     bread_and_butter_fly,
     snap_dragon_fly,
+    white_rook,
+    white_knight,
+    white_bishop,
     ecila,
     hansels_cheat_dice,
     skoll_n_hati,

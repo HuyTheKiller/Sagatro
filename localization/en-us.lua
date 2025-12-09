@@ -2569,6 +2569,34 @@ return {
                     "gives {C:mult}+#1#{} Mult",
                 },
             },
+            j_sgt_white_rook = {
+                name = "White Rook",
+                text = {
+                    {"If {C:attention}White King{} is about to be",
+                    "destroyed, {C:red,E:2}self destructs{} instead",
+                    "Apply {C:attention}Four Fingers{} if there is",
+                    "a {C:attention}rankless{} card held in hand"},
+                    {"{C:mult}+#1#*A{} Mult, where A is the difference between",
+                    "total {C:spades}Spades{} and {C:clubs}Clubs{} in hand and",
+                    "total {C:hearts}Hearts{} and {C:diamonds}Diamonds{} in hand"},
+                },
+            },
+            j_sgt_white_knight = {
+                name = "White Knight",
+                text = {
+                    "Apply {C:attention}Shortcut",
+                    "{C:mult}+#1#*A{} Mult, where A is the difference between",
+                    "total {C:spades}Spades{} and {C:clubs}Clubs{} in hand and",
+                    "total {C:hearts}Hearts{} and {C:diamonds}Diamonds{} in hand",
+                },
+            },
+            j_sgt_white_bishop = {
+                name = "White Bishop",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult if scoring hand",
+                    "only contains {C:spades}Spades{} or {C:clubs}Clubs{}",
+                },
+            },
             j_sgt_ecila = {
                 name = "Ecila",
                 text = {
@@ -3385,6 +3413,7 @@ return {
             k_elegant_ex = "Elegant!",
             k_baah_ex = "Baah!",
             k_bzzz_ex = "Bzzz!",
+            k_castled_ex = "Castled!",
             k_zzz = "ZZZ",
             k_charge = "Charge",
             k_release = "Release",

@@ -144,6 +144,9 @@ function Game:init_game_object()
         alice_in_mirrorworld = {
             mirrorworld = {
                 "j_sgt_white_pawn",
+                "j_sgt_white_rook",
+                "j_sgt_white_knight",
+                "j_sgt_white_bishop",
                 "j_sgt_white_queen",
                 "j_sgt_white_king",
                 "j_sgt_live_flowers",
@@ -1272,10 +1275,39 @@ end
 
 local shortcut = SMODS.shortcut
 function SMODS.shortcut()
-    if next(SMODS.find_card('j_sgt_frog_prince')) then
-        return true
+    local frog_princes, white_knights = SMODS.find_card('j_sgt_frog_prince'), SMODS.find_card('j_sgt_white_knight')
+    if next(frog_princes) or next(white_knights) then
+        for i = 1, #frog_princes do
+            if not frog_princes[i].ability.inactive then
+                return true
+            end
+        end
+        for i = 1, #white_knights do
+            if not white_knights[i].ability.inactive then
+                return true
+            end
+        end
+        return shortcut()
     end
     return shortcut()
+end
+
+local four_fingers = SMODS.four_fingers
+function SMODS.four_fingers(hand_type)
+    local white_rooks = SMODS.find_card('j_sgt_white_rook')
+    if next(white_rooks) then
+        for i = 1, #white_rooks do
+            if not white_rooks[i].ability.inactive and G.hand then
+                for ii = 1, #G.hand.cards do
+                    if SMODS.has_no_rank(G.hand.cards[ii]) then
+                        return 4
+                    end
+                end
+            end
+        end
+        return four_fingers(hand_type)
+    end
+    return four_fingers(hand_type)
 end
 
 function table.extract_total_value(t)
