@@ -2429,8 +2429,8 @@ return {
                     "và chỉ một lá có chất {C:hearts}Cơ{} hoặc",
                     "{C:diamonds}Rô{} ghi điểm, {C:attention}phá huỷ{} nó"},
                     {"Nếu tay bài đã chơi là {C:attention}#2#{}",
-                    "{C:spades}Bích{} hoặc {C:clubs}Tép{} và bậc cao nhất",
-                    "là {C:attention}Đầm{}, phong cấp lên {C:attention}Hậu Trắng{}"},
+                    "{C:spades}Bích{} hoặc {C:clubs}Tép{}, phong cấp lên",
+                    "thành một {C:attention}quân cờ trắng{} ngẫu nhiên"},
                 },
             },
             j_sgt_white_queen = {

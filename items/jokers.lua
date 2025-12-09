@@ -10843,7 +10843,7 @@ local white_pawn = {
         and context.scoring_name == card.ability.extra_type then
             local temp_ID, highest_card = 0, nil
             for _, v in ipairs(context.scoring_hand) do
-                if v:is_suit("Spades") or v:is_suit("Clubs") then
+                if v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
                     if not SMODS.has_no_rank(v) then
                         if temp_ID < v.base.id then
                             temp_ID = v.base.id
@@ -10852,7 +10852,7 @@ local white_pawn = {
                     end
                 end
             end
-            if highest_card and highest_card:get_id() == 12 then
+            if highest_card then
                 local percent = 1.15 - (1 - 0.999) / (1 - 0.998) * 0.3
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
@@ -10869,7 +10869,9 @@ local white_pawn = {
                 }))
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        card:set_ability("j_sgt_white_queen")
+                        local chess_pieces = {"j_sgt_white_rook", "j_sgt_white_knight", "j_sgt_white_bishop", "j_sgt_white_queen"}
+                        local chess_piece = pseudorandom_element(chess_pieces, pseudoseed("white_pawn_promote"))
+                        card:set_ability(chess_piece)
                         card:set_cost()
                         SMODS.calculate_effect({message = localize("k_promoted_ex"), colour = G.C.FILTER, instant = true}, card)
                         return true
@@ -10897,6 +10899,9 @@ local white_pawn = {
         return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_rook
+        info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_knight
+        info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_bishop
         info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_queen
         return {vars = {localize(card.ability.type, "poker_hands"), localize(card.ability.extra_type, "poker_hands")}}
     end,
@@ -10922,7 +10927,7 @@ local white_pawn = {
                     for _, scoring_card in pairs(scoring_hand) do
                         if scoring_card:is_suit("Hearts") or scoring_card:is_suit("Diamonds") then
                             hearts_diamonds = hearts_diamonds + 1
-                        elseif is_straight_flush and scoring_card:is_suit("Spades") or scoring_card:is_suit("Clubs") then
+                        elseif is_straight_flush and scoring_card:is_suit("Spades", nil, true) or scoring_card:is_suit("Clubs", nil, true) then
                             if not SMODS.has_no_rank(scoring_card) then
                                 if temp_ID < scoring_card.base.id then
                                     temp_ID = scoring_card.base.id
@@ -10934,7 +10939,7 @@ local white_pawn = {
                     if hearts_diamonds ~= 1 then
                         straight_active = false
                     end
-                    if highest_card and highest_card:get_id() == 12 then
+                    if highest_card then
                         straight_flush_active = true
                     end
                 end
@@ -12288,8 +12293,10 @@ local white_rook = {
         return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_king
-        info_queue[#info_queue+1] = G.P_CENTERS.j_four_fingers
+        if not card.fake_card then
+            info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_king
+            info_queue[#info_queue+1] = G.P_CENTERS.j_four_fingers
+        end
         return {vars = {card.ability.extra.mult}}
     end,
     set_badges = function(self, card, badges)
@@ -12377,7 +12384,9 @@ local white_knight = {
         return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = G.P_CENTERS.j_shortcut
+        if not card.fake_card then
+            info_queue[#info_queue+1] = G.P_CENTERS.j_shortcut
+        end
         return {vars = {card.ability.extra.mult}}
     end,
     set_badges = function(self, card, badges)

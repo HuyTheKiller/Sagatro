@@ -2433,8 +2433,8 @@ return {
                     "and only one card with {C:hearts}Hearts{} or",
                     "{C:diamonds}Diamonds{} suit scores, {C:attention}destroy{} it"},
                     {"If played hand is a {C:spades}Spades{} or {C:clubs}Clubs",
-                    "{C:attention}#2#{} and the highest rank is",
-                    "a {C:attention}Queen{}, promote to {C:attention}White Queen{}"},
+                    "{C:attention}#2#{}, promote to a random",
+                    "{C:attention}white chess piece{}"},
                 },
             },
             j_sgt_white_queen = {
