@@ -7,6 +7,17 @@ local saga_deck = {
     config = {joker_slot = 3, extra = {win_ante_gain = 8}},
     apply = function(self, back)
 		G.GAME.win_ante = G.GAME.win_ante + self.config.extra.win_ante_gain
+        if G.GAME.story_mode then
+            if pseudorandom("saga_deck_mc_aura") > 0.997 then
+                delay(0.4)
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        SMODS.add_card{key = "c_soul"}
+                    return true
+                    end
+                }))
+            end
+        end
 	end,
     loc_vars = function(self)
         return {vars = {self.config.joker_slot, 8 + self.config.extra.win_ante_gain}}
