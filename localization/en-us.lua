@@ -2597,6 +2597,23 @@ return {
                     "only contains {C:spades}Spades{} or {C:clubs}Clubs{}",
                 },
             },
+            j_sgt_jabberwock = {
+                name = "Jabberwock",
+                text = {
+                    "Add the {C:attention}total chip values{} of",
+                    "scoring cards {C:attention}divided{} by number",
+                    "of scoring cards {C:attention}squared{} to",
+                    "this joker's {X:mult,C:white}XMult{}",
+                },
+            },
+            j_sgt_bandersnatch = {
+                name = "Bandersnatch",
+                text = {
+                    "When {C:attention}Blind{} is selected, add",
+                    "{C:dark_edition}Negative{} and {C:attention}Perishable",
+                    "to joker to the right",
+                },
+            },
             j_sgt_ecila = {
                 name = "Ecila",
                 text = {
@@ -3414,6 +3431,7 @@ return {
             k_baah_ex = "Baah!",
             k_bzzz_ex = "Bzzz!",
             k_castled_ex = "Castled!",
+            k_roar_ex = "Roar!",
             k_zzz = "ZZZ",
             k_charge = "Charge",
             k_release = "Release",

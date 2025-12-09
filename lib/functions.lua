@@ -161,6 +161,8 @@ function Game:init_game_object()
                 "j_sgt_rocking_horse_fly",
                 "j_sgt_bread_and_butter_fly",
                 "j_sgt_snap_dragon_fly",
+                "j_sgt_jabberwock",
+                "j_sgt_bandersnatch",
                 "j_sgt_ecila",
             },
         },
@@ -2882,6 +2884,24 @@ function Sagatro.update_inactive_state(update_slots_used)
             end
         end
     end
+end
+
+function Sagatro.get_edition_chips(card)
+    if not card.edition then return 0 end
+    local ret = card:calculate_edition({main_scoring = true, cardarea = G.play})
+    if not ret then return 0 end
+    if ret.chips then return ret.chips end
+    if ret.chip_mod then return ret.chip_mod end
+    return 0
+end
+
+function Sagatro.get_seal_chips(card)
+    if not card.seal then return 0 end
+    local ret = card:calculate_seal({main_scoring = true, cardarea = G.play})
+    if not ret then return 0 end
+    if ret.chips then return ret.chips end
+    if ret.chip_mod then return ret.chip_mod end
+    return 0
 end
 
 mod_mult_ref = mod_mult

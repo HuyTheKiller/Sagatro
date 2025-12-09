@@ -12500,6 +12500,125 @@ local white_bishop = {
     end,
 }
 
+local jabberwock = {
+    key = "jabberwock",
+    name = "Jabberwock",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 140,
+    pos = { x = 1, y = 3 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {},
+    rarity = "sgt_obscure",
+    cost = 14,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            local total_chips = 0
+            for _, v in ipairs(context.scoring_hand) do
+                total_chips = total_chips + v:get_chip_bonus()
+                + Sagatro.get_edition_chips(v) + Sagatro.get_seal_chips(v)
+            end
+            return {
+                x_mult = total_chips/((#context.scoring_hand)^2),
+            }
+        end
+        if context.forcetrigger then
+            return {
+                x_mult = 11, -- equivalent to playing a High Card Ace
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                }
+            },
+            calc_function = function(card)
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                local total_chips = 0
+                card.joker_display_values.xmult = 0
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        total_chips = total_chips + scoring_card:get_chip_bonus()
+                        + Sagatro.get_edition_chips(scoring_card)
+                        + Sagatro.get_seal_chips(scoring_card)
+                    end
+                    card.joker_display_values.xmult = total_chips/(#scoring_hand > 0 and (#scoring_hand)^2 or 1)
+                end
+                if card.joker_display_values.xmult == 0 or not card:can_calculate() then
+                    card.joker_display_values.xmult = 1
+                end
+            end,
+        }
+    end,
+}
+
+local bandersnatch = {
+    key = "bandersnatch",
+    name = "Bandersnatch",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 141,
+    pos = { x = 2, y = 3 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {},
+    rarity = "sgt_obscure",
+    cost = 16,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if (context.setting_blind and not card.getting_sliced
+        and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+            local target = card.area and card.area.cards[Sagatro.get_pos(card)+1]
+            if target and target.ability.set == "Joker" then
+                target:set_edition("e_negative")
+                target:add_sticker("perishable", true)
+                return {
+                    message = localize("k_roar_ex"),
+                    colour = G.C.FILTER,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {key = 'e_negative', set = 'Edition', config = {extra = 1}}
+        return {vars = {}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
 local ecila = {
     key = "ecila",
     name = "Ecila",
@@ -14811,6 +14930,8 @@ local joker_table = {
     white_rook,
     white_knight,
     white_bishop,
+    jabberwock,
+    bandersnatch,
     ecila,
     hansels_cheat_dice,
     skoll_n_hati,

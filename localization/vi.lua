@@ -2593,6 +2593,23 @@ return {
                     "ghi điểm chỉ chứa {C:spades}Bích{} hoặc {C:clubs}Tép{}",
                 },
             },
+            j_sgt_jabberwock = {
+                name = "Jabberwock",
+                text = {
+                    "Thêm {C:attention}tổng giá trị chip{} của",
+                    "lá ghi điểm {C:attention}chia{} cho {C:attention}bình phương",
+                    "số lá ghi điểm vào {X:mult,C:white}XNhân{}",
+                    "của joker này",
+                },
+            },
+            j_sgt_bandersnatch = {
+                name = "Bandersnatch",
+                text = {
+                    "Khi {C:attention}Blind{} được chọn, thêm",
+                    "{C:dark_edition}Âm Bản{} và {C:attention}Ngắn Hạn",
+                    "cho joker liền phải",
+                },
+            },
             j_sgt_ecila = {
                 name = "Ecila",
                 text = {
@@ -3410,6 +3427,7 @@ return {
             k_baah_ex = "Beee!",
             k_bzzz_ex = "Bzzz!",
             k_castled_ex = "Nhập Thành!",
+            k_roar_ex = "Grào!",
             k_zzz = "ZZZ",
             k_charge = "Nạp",
             k_release = "Xả",
