@@ -163,6 +163,7 @@ function Game:init_game_object()
                 "j_sgt_snap_dragon_fly",
                 "j_sgt_jabberwock",
                 "j_sgt_bandersnatch",
+                "j_sgt_jubjub_bird",
                 "j_sgt_ecila",
             },
         },
@@ -521,6 +522,7 @@ function Card:update(dt)
                 end
             end
         end
+        if self.ability.inactive == false then self.ability.inactive = nil end
     end
 end
 
@@ -595,7 +597,17 @@ function Game:update(dt)
         end
         -- Adam's ability to enable perishable in shop (take Orange Stake effect into account)
         if not (Ortalab or G.GAME.perishable_already_active) then
-            G.GAME.modifiers.enable_perishables_in_shop = next(SMODS.find_card("j_sgt_adam")) and true or nil
+            G.GAME.modifiers.enable_perishables_in_shop = next(Sagatro.find_active_card("j_sgt_adam")) and true or nil
+        end
+        -- Jubjub Bird's ability to remove boss reward (take challenge modifier effect into account)
+        if not G.GAME.no_boss_reward_already_active then
+            G.GAME.modifiers.no_blind_reward = G.GAME.modifiers.no_blind_reward or {}
+            local prev = G.GAME.modifiers.no_blind_reward.Boss
+            G.GAME.modifiers.no_blind_reward.Boss = next(Sagatro.find_active_card("j_sgt_jubjub_bird")) and true or nil
+            if prev ~= G.GAME.modifiers.no_blind_reward.Boss then
+                prev = G.GAME.modifiers.no_blind_reward.Boss
+                Sagatro.update_blind_amounts(true)
+            end
         end
     elseif G.STAGE == G.STAGES.MAIN_MENU then
         Sagatro.debug_info["During a run"] = nil
@@ -882,14 +894,7 @@ end
 local can_calc_ref = Card.can_calculate
 function Card:can_calculate(ignore_debuff, ignore_sliced)
     local is_available = can_calc_ref(self, ignore_debuff, ignore_sliced)
-    if Sagatro.storyline_check("alice_in_mirrorworld") and self.ability.set == "Joker"
-    and self.config.center_key ~= "j_sgt_mirror" then
-        if self.config.center.mirrorworld and not G.GAME.inversed_scaling then
-            is_available = false
-        elseif not self.config.center.mirrorworld and G.GAME.inversed_scaling then
-            is_available = false
-        end
-    end
+    is_available = is_available and not self.ability.inactive
     if G.GAME.blind then
         if G.GAME.blind.config.blind.key == "bl_sgt_knight" and not G.GAME.blind.disabled then
             if self.ability.set == "Default" or self.ability.set == "Enhanced" then
@@ -1277,37 +1282,20 @@ end
 
 local shortcut = SMODS.shortcut
 function SMODS.shortcut()
-    local frog_princes, white_knights = SMODS.find_card('j_sgt_frog_prince'), SMODS.find_card('j_sgt_white_knight')
-    if next(frog_princes) or next(white_knights) then
-        for i = 1, #frog_princes do
-            if not frog_princes[i].ability.inactive then
-                return true
-            end
-        end
-        for i = 1, #white_knights do
-            if not white_knights[i].ability.inactive then
-                return true
-            end
-        end
-        return shortcut()
+    if next(Sagatro.find_active_card('j_sgt_frog_prince')) or next(Sagatro.find_active_card('j_sgt_frog_white_knight')) then
+        return true
     end
     return shortcut()
 end
 
 local four_fingers = SMODS.four_fingers
 function SMODS.four_fingers(hand_type)
-    local white_rooks = SMODS.find_card('j_sgt_white_rook')
-    if next(white_rooks) then
-        for i = 1, #white_rooks do
-            if not white_rooks[i].ability.inactive and G.hand then
-                for ii = 1, #G.hand.cards do
-                    if SMODS.has_no_rank(G.hand.cards[ii]) then
-                        return 4
-                    end
-                end
+    if G.hand and next(Sagatro.find_active_card('j_sgt_white_rook')) then
+        for i = 1, #G.hand.cards do
+            if SMODS.has_no_rank(G.hand.cards[i]) then
+                return 4
             end
         end
-        return four_fingers(hand_type)
     end
     return four_fingers(hand_type)
 end
@@ -1743,7 +1731,7 @@ function Sagatro.set_debuff(card)
     end
 end
 
-function mabel_stall()
+function Sagatro.mabel_stall()
     if not G.jokers then return false end
     for i, v in ipairs(G.jokers.cards) do
         if v.config.center_key == "j_sgt_mabel" and i ~= 1 and i ~= #G.jokers.cards then
@@ -1881,6 +1869,7 @@ function Sagatro.set_ability_reset_keys()
         "in_transition",
         "buffed",
         "debuffed_by_turquoise_jellyfish",
+        "inactive",
     }
 end
 
@@ -2013,6 +2002,9 @@ function Sagatro:calculate(context)
         for _, v in pairs(G.GAME.hands) do
             v.played_this_ante = 0
         end
+    end
+    if context.end_of_round and context.main_eval and not context.retrigger_joker then
+        G.GAME.jjb_cash_out = G.GAME.blind_on_deck == "Boss"
     end
 end
 
@@ -2905,6 +2897,20 @@ function Sagatro.get_seal_chips(card)
     if ret.chips then return ret.chips end
     if ret.chip_mod then return ret.chip_mod end
     return 0
+end
+
+function Sagatro.find_active_card(key, count_debuffed, count_inactive)
+    local cards = {}
+    for _, v in ipairs(SMODS.find_card(key, count_debuffed)) do
+        if not v.ability.inactive or count_inactive then
+            cards[#cards+1] = v
+        end
+    end
+    return cards
+end
+
+function Sagatro.stall_ante()
+    return next(Sagatro.find_active_card("j_sgt_mad_hatter")) or next(Sagatro.find_active_card("j_sgt_jubjub_bird")) or Sagatro.mabel_stall()
 end
 
 function Sagatro.quick_restart()

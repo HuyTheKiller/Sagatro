@@ -2618,6 +2618,15 @@ return {
                     "cho joker liền phải",
                 },
             },
+            j_sgt_jubjub_bird = {
+                name = "Chim Điên Jubjub",
+                text = {
+                    "{C:attention}Boss Blind{} không có tiền thưởng",
+                    "Quay trở về {C:attention}Boss Blind{} vừa",
+                    "đánh bại sau khi nhận tiền",
+                    "rồi giảm giá bán đi {C:money}#1#{}",
+                },
+            },
             j_sgt_ecila = {
                 name = "Ecila",
                 text = {

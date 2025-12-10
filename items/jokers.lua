@@ -12621,6 +12621,60 @@ local bandersnatch = {
  	end,
 }
 
+local jubjub_bird = {
+    key = "jubjub_bird",
+    name = "Jubjub Bird",
+    artist_credits = {"huycorn"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 142,
+    pos = { x = 3, y = 3 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {value_loss = 3},
+    rarity = "sgt_obscure",
+    cost = 12,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.sgt_jjb_reduction then
+            card.ability.extra_value = (card.ability.extra_value or 0) - card.ability.value_loss
+            card:set_cost()
+            return {
+                message = localize('k_again_ex'),
+                colour = G.C.FILTER,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {SMODS.signed_dollars(card.ability.value_loss)}}
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "sell_cost", colour = G.C.GOLD },
+                { text = ")" },
+            },
+            reminder_text_config = { scale = 0.35 },
+            calc_function = function(card)
+                card.joker_display_values.sell_cost = SMODS.signed_dollars(card.sell_cost)
+            end,
+        }
+    end,
+}
+
 local ecila = {
     key = "ecila",
     name = "Ecila",
@@ -14934,6 +14988,7 @@ local joker_table = {
     white_bishop,
     jabberwock,
     bandersnatch,
+    jubjub_bird,
     ecila,
     hansels_cheat_dice,
     skoll_n_hati,

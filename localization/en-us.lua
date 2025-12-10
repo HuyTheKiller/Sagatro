@@ -2622,6 +2622,15 @@ return {
                     "to joker to the right",
                 },
             },
+            j_sgt_jubjub_bird = {
+                name = "Jubjub Bird",
+                text = {
+                    "{C:attention}Boss Blind{} gives no reward money",
+                    "Return to the previously defeated",
+                    "{C:attention}Boss Blind{} after cashing out,",
+                    "reducing sell cost by {C:money}#1#{}",
+                },
+            },
             j_sgt_ecila = {
                 name = "Ecila",
                 text = {

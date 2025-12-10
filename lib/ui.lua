@@ -411,6 +411,27 @@ G.FUNCS.mirror_can_ready = function(e)
     end
 end
 
+G.FUNCS.cash_out_into_boss_blind = function()
+    G.GAME.facing_blind = true
+    G.E_MANAGER:add_event(Event({
+        trigger = 'immediate',
+        func = function()
+            ease_round(1)
+            inc_career_stat('c_rounds', 1)
+            G.GAME.round_resets.blind = G.P_BLINDS[G.GAME.round_resets.blind_choices["Boss"]]
+            G.GAME.round_resets.blind_states.Boss = 'Current'
+            delay(0.2)
+        return true
+    end}))
+    G.E_MANAGER:add_event(Event({
+        trigger = 'immediate',
+        func = function()
+            new_round()
+            return true
+        end
+    }))
+end
+
 -- Block boss reroll if it's some certain boss blinds in story mode (you would waste $10 just to roll into the same boss anyway)
 local rbb = G.FUNCS.reroll_boss_button
 G.FUNCS.reroll_boss_button = function(e)

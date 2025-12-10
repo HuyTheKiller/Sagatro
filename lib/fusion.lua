@@ -296,6 +296,7 @@ function Game:start_run(args)
 			G.GAME.modifiers.sgt_disable_sagatro_items = true
 		end
 		G.GAME.perishable_already_active = G.GAME.modifiers.enable_perishables_in_shop -- used by Adam
+		G.GAME.no_boss_reward_already_active = (G.GAME.modifiers.no_blind_reward or {}).Boss -- used by Jubjub Bird
 		if Sagatro.debug then
 			G.GAME.dollars = to_big(250)
 			SMODS.change_free_rerolls(1e10)

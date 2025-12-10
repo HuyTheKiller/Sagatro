@@ -71,7 +71,7 @@ elseif _type == 'Joker' then
             _pool[#_pool + 1] = "j_splash"
         elseif Sagatro.event_check("goodbye_frog") then
             _pool[#_pool + 1] = "j_sgt_cheshire_cat"
-        elseif Sagatro.event_check("mad_hatter") or next(SMODS.find_card("j_sgt_mad_hatter", true)) then
+        elseif Sagatro.event_check("mad_hatter") or next(Sagatro.find_active_card("j_sgt_mad_hatter", true)) then
             _pool[#_pool + 1] = "j_sgt_tea"
         elseif Sagatro.event_check("mirrorworld") then
             _pool[#_pool + 1] = "j_sgt_white_pawn"
@@ -80,7 +80,7 @@ elseif _type == 'Joker' then
         else
             _pool[#_pool + 1] = "j_sgt_abducted_cow"
         end
-    elseif next(SMODS.find_card("j_sgt_mad_hatter")) then
+    elseif next(Sagatro.find_active_card("j_sgt_mad_hatter")) then
         _pool[#_pool + 1] = "j_sgt_tea"
     -- This redundancy is to allow other mods to find the same pattern
     elseif _type == 'Joker' then _pool[#_pool + 1] = "j_joker"
@@ -110,7 +110,7 @@ else
             _pool[#_pool + 1] = "j_splash"
         elseif Sagatro.event_check("goodbye_frog") then
             _pool[#_pool + 1] = "j_sgt_cheshire_cat"
-        elseif Sagatro.event_check("mad_hatter") or next(SMODS.find_card("j_sgt_mad_hatter", true)) then
+        elseif Sagatro.event_check("mad_hatter") or next(Sagatro.find_active_card("j_sgt_mad_hatter", true)) then
             _pool[#_pool + 1] = "j_sgt_tea"
         elseif Sagatro.event_check("mirrorworld") then
             _pool[#_pool + 1] = "j_sgt_white_pawn"
@@ -119,7 +119,7 @@ else
         else
             _pool[#_pool + 1] = "j_sgt_abducted_cow"
         end
-    elseif next(SMODS.find_card("j_sgt_mad_hatter", true)) then
+    elseif next(Sagatro.find_active_card("j_sgt_mad_hatter", true)) then
         _pool[#_pool + 1] = "j_sgt_tea"
     else _pool[#_pool + 1] = "j_joker"
     end
@@ -208,7 +208,7 @@ position = 'before'
 match_indent = true
 payload = '''
 if G.jokers then
-    for _, v in ipairs(SMODS.find_card("j_sgt_the_cook")) do
+    for _, v in ipairs(Sagatro.find_active_card("j_sgt_the_cook")) do
         if v:can_calculate() then
             if (SMODS.pseudorandom_probability(v, 'thecook'..G.SEED, 1, v.ability.extra.odds, 'thecook')) and (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.DRAW_TO_HAND) then
                 SMODS.calculate_context({sgt_stay_flipped = true})
@@ -227,21 +227,19 @@ position = 'after'
 match_indent = true
 payload = '''
 if G.jokers then
-    for _, v in ipairs(SMODS.find_card("j_sgt_the_cook")) do
-        if v:can_calculate() then
-            SMODS.calculate_context({sgt_play_cards = true})
-        end
+    for _, v in ipairs(Sagatro.find_active_card("j_sgt_the_cook")) do
+        SMODS.calculate_context({sgt_play_cards = true})
     end
 end
 '''
 
-# Mad Hatter patches to disable Up the Ante
+# Patches to disable Up the Ante
 [[patches]]
 [patches.regex]
 target = 'functions/state_events.lua'
 pattern = '''delay\(0\.4\);.* ease_ante\('''
 position = 'before'
-payload = '''if not (next(SMODS.find_card("j_sgt_mad_hatter")) or mabel_stall()) then '''
+payload = '''if not Sagatro.stall_ante() then '''
 
 [[patches]]
 [patches.regex]
@@ -255,7 +253,7 @@ payload = ''' end'''
 target = 'functions/UI_definitions.lua'
 pattern = '''elseif [type == 'Boss' and ]*not run_info then'''
 position = 'at'
-payload = '''elseif type == 'Boss' and not run_info and not (next(SMODS.find_card("j_sgt_mad_hatter")) or mabel_stall()) then'''
+payload = '''elseif type == 'Boss' and not run_info and not Sagatro.stall_ante() then'''
 
 # Inverse scaling
 [[patches]]
@@ -307,6 +305,17 @@ or (G.GAME.inversed_scaling and to_big(G.GAME.chips) <= to_big(G.GAME.blind.chip
 [[patches]]
 [patches.pattern]
 target = 'functions/state_events.lua' # Talisman
+pattern = '''if to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips) then'''
+position = 'at'
+match_indent = true
+payload = '''
+if (not G.GAME.inversed_scaling and to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips))
+or (G.GAME.inversed_scaling and to_big(G.GAME.chips) <= to_big(G.GAME.blind.chips)) then
+'''
+
+[[patches]]
+[patches.pattern]
+target = 'main.lua' # Talisman
 pattern = '''if to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips) then'''
 position = 'at'
 match_indent = true
@@ -652,7 +661,7 @@ target = "functions/common_events.lua"
 pattern = '''elseif G.GAME.won then '''
 position = "before"
 payload = '''
-elseif G.GAME.story_mode and next(SMODS.find_card("j_sgt_submarine", true)) then
+elseif G.GAME.story_mode and next(Sagatro.find_active_card("j_sgt_submarine", true)) then
     ease_background_colour{new_colour = G.C.SUBMARINE_DEPTH[Sagatro.get_submarine_depth_colour()], contrast = 1}
 elseif G.GAME.story_mode and G.GAME.inversed_scaling then
     ease_background_colour{new_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5), contrast = 1}
@@ -666,7 +675,7 @@ target = "functions/common_events.lua"
 pattern = '''G.GAME.round_resets.blind_choices.Boss = get_new_boss()'''
 position = "at"
 payload = '''
-if next(SMODS.find_card("j_sgt_ragnarok")) then
+if next(Sagatro.find_active_card("j_sgt_ragnarok")) then
     local small_hide = G.GAME.round_resets.blind_states.Small == 'Hide'
     local big_hide = G.GAME.round_resets.blind_states.Big == 'Hide'
     G.GAME.round_resets.blind_choices.Small = not small_hide and get_new_boss()
@@ -684,7 +693,7 @@ target = "functions/button_callbacks.lua"
 pattern = '''G.GAME.round_resets.blind_choices.Boss = get_new_boss()'''
 position = "at"
 payload = '''
-if next(SMODS.find_card("j_sgt_ragnarok")) then
+if next(Sagatro.find_active_card("j_sgt_ragnarok")) then
   local small_hide = G.GAME.round_resets.blind_states.Small == 'Hide'
   local big_hide = G.GAME.round_resets.blind_states.Big == 'Hide'
   G.GAME.round_resets.blind_choices.Small = not small_hide and get_new_boss()
@@ -968,7 +977,49 @@ match_indent = true
 target = "game.lua"
 pattern = '''localize\('ph_unscored_hand'\)'''
 position = "at"
+payload = '''G.GAME.inversed_scaling and localize('ph_overscored_hand') or localize('ph_unscored_hand')'''
+match_indent = true
+
+# Jubjub bird effect
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.STATE = G.STATES.SHOP'''
+position = "at"
 payload = '''
-G.GAME.inversed_scaling and localize('ph_overscored_hand') or localize('ph_unscored_hand')
+if G.GAME.jjb_cash_out and next(Sagatro.find_active_card("j_sgt_jubjub_bird")) then
+  G.FUNCS.cash_out_into_boss_blind()
+else
+  G.STATE = G.STATES.SHOP
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+G.GAME.shop_d6ed = nil
+G.STATE_COMPLETE = false
+'''
+position = "at"
+payload = '''
+G.GAME.shop_d6ed = nil
+if not (G.GAME.jjb_cash_out and next(Sagatro.find_active_card("j_sgt_jubjub_bird"))) then
+  G.STATE_COMPLETE = false
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "if G.GAME.round_resets.blind_states.Boss == 'Defeated' then "
+position = "before"
+payload = '''
+if G.GAME.jjb_cash_out and next(Sagatro.find_active_card("j_sgt_jubjub_bird")) then
+  G.GAME.round_resets.blind_states.Boss = 'Current'
+  SMODS.calculate_context{sgt_jjb_reduction = true}
+end
 '''
 match_indent = true
