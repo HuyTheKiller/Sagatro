@@ -2858,7 +2858,7 @@ function Sagatro.update_inactive_state(update_slots_used)
             local v = G.jokers.cards[i]
             if v.config.center_key ~= "j_sgt_mirror" then
                 if v.config.center.mirrorworld then
-                    if update_slots_used and v.ability.inactive == G.GAME.inversed_scaling then
+                    if update_slots_used then
                         v.ability.extra_slots_used = G.GAME.inversed_scaling and 0 or -1
                     end
                     v.ability.inactive = not G.GAME.inversed_scaling
@@ -2871,7 +2871,7 @@ function Sagatro.update_inactive_state(update_slots_used)
                         end
                     end
                 else
-                    if update_slots_used and v.ability.inactive ~= G.GAME.inversed_scaling then
+                    if update_slots_used then
                         v.ability.extra_slots_used = G.GAME.inversed_scaling and -1 or 0
                     end
                     v.ability.inactive = G.GAME.inversed_scaling
