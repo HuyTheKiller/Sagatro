@@ -12596,7 +12596,9 @@ local bandersnatch = {
             local target = card.area and card.area.cards[Sagatro.get_pos(card)+1]
             if target and target.ability.set == "Joker" then
                 target:set_edition("e_negative")
-                target:add_sticker("perishable", true)
+                if not target.ability.perishable then
+                    target:add_sticker("perishable", true)
+                end
                 return {
                     message = localize("k_roar_ex"),
                     colour = G.C.FILTER,
