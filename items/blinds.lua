@@ -365,7 +365,7 @@ local the_knight = {
     calculate = function(self, blind, context)
         if context.before then
             for i, v in pairs(context.full_hand) do
-                if i ~= 1 and i ~= #full_hand and table.contains(context.scoring_hand, v) then
+                if i ~= 1 and i ~= #context.full_hand and table.contains(context.scoring_hand, v) then
                     blind.triggered = true
                 end
             end
