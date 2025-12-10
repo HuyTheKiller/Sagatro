@@ -1881,7 +1881,7 @@ function Sagatro.quip_filter(quip, quip_type)
 end
 
 -- Fix a damn edge case where the mod object is passed as a joker card without ability to check for retriggers
-Sagatro.ability = {switch_bonus = 10, repetition_penalty = 1.1}
+Sagatro.ability = {switch_bonus = 5, repetition_penalty = 1.1}
 function Sagatro:calculate(context)
     if G.GAME.story_mode and not context.retrigger_joker then
         if context.end_of_round and context.main_eval then
