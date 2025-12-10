@@ -2950,24 +2950,6 @@ SMODS.Keybind {
     end
 }
 
-mod_mult_ref = mod_mult
-function mod_mult(_mult)
-	_mult = mod_mult_ref(_mult)
-	if G.GAME.inversed_scaling then
-		_mult = math.max(_mult, 1)
-	end
-	return _mult
-end
-
-mod_chips_ref = mod_chips
-function mod_chips(_chips)
-	_chips = mod_chips_ref(_chips)
-	if G.GAME.inversed_scaling then
-		_chips = math.max(_chips, 1)
-	end
-	return _chips
-end
-
 ---@param mod number
 ---@param operator "+"|"X"|"^"|"^^"|"^^^"|{hyper: number}|nil
 ---@param arbitrary boolean|nil

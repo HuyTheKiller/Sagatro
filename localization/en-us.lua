@@ -3473,6 +3473,7 @@ return {
             ph_celestaverse = "Celestaverse",
             ph_blind_score_at_most = "Score at most",
             ph_up_ante_2_inverse = "Lower all Blinds",
+            ph_overscored_hand = "Hand will overscore",
             sgt_swap = "Swap!",
             sgt_art_credit = "Art by ",
             sgt_and = " and ",

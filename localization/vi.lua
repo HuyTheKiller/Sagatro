@@ -3469,6 +3469,7 @@ return {
             ph_celestaverse = "Celestaverse",
             ph_blind_score_at_most = "Đạt tối đa",
             ph_up_ante_2_inverse = "Giảm toàn bộ Blind",
+            ph_overscored_hand = "Tay này sẽ ghi quá điểm",
             sgt_swap = "Tráo!",
             sgt_art_credit = "Ảnh vẽ bởi ",
             sgt_and = " và ",
