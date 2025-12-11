@@ -48,7 +48,7 @@ end
 
 function Card:can_fuse_card()
 	for _, fusion in ipairs(G.GAME.fusion_table or {}) do
-		if to_number(G.GAME.dollars) >= fusion.cost then
+		if to_number(G.GAME.dollars) - G.GAME.bankrupt_at >= fusion.cost then
 			local found_me = false
 			local all_jokers = true
 			for _, joker in ipairs(fusion.jokers) do
