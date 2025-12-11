@@ -963,7 +963,7 @@ local huge_dog = {
                 end
                 if held_in_hand then return 0 end
                 local valid_cards, all_cards = 0, 0
-                for _, playing_card in ipairs(G.play.cards) do
+                for _, playing_card in ipairs(scoring_hand) do
                     all_cards = all_cards + 1
                     if playing_card:get_id() == 2 or playing_card:get_id() == 14 then
                         valid_cards = valid_cards + 1
