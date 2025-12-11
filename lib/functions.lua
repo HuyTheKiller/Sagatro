@@ -166,6 +166,11 @@ function Game:init_game_object()
                 "j_sgt_jubjub_bird",
                 "j_sgt_humpty_dumpty",
                 "j_sgt_seal_and_carpenter",
+                "j_sgt_lion",
+                "j_sgt_unicorn",
+                "j_sgt_true_red_queen",
+                "j_sgt_red_king",
+                "j_sgt_vorpal_sword",
                 "j_sgt_ecila",
             },
         },
@@ -1126,14 +1131,6 @@ function get_new_boss(...)
     local overridden = false
     if G.GAME.story_mode and not G.GAME.won then
         if Sagatro.event_check("final_showdown") and not next(SMODS.find_card("j_sgt_mad_hatter")) then
-            for _, v in ipairs(G.jokers.cards) do
-                if v.config.center_key == "j_sgt_red_queen" then
-                    local guilty_text = function()
-                        card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
-                    end
-                    Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
-                end
-            end
             G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
             ret = 'bl_sgt_red_queen'
             overridden = true
@@ -1195,13 +1192,31 @@ function get_new_boss(...)
     end
     if ret == 'bl_sgt_red_queen' then
         G.GAME.red_queen_blind = true
+        for _, v in ipairs(SMODS.find_card("j_sgt_red_queen", true)) do
+            local guilty_text = function()
+                card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
+            end
+            Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
+        end
         if Sagatro.storyline_check("alice_in_mirrorworld") then
             G.GAME.paused_showdown = true
         end
     elseif ret == 'bl_sgt_true_red_queen' then
         G.GAME.true_red_queen_blind = true
+        for _, v in ipairs(SMODS.find_card("j_sgt_true_red_queen", true)) do
+            local guilty_text = function()
+                card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
+            end
+            Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
+        end
     elseif ret == 'bl_sgt_red_king' then
         G.GAME.red_king_blind = true
+        for _, v in ipairs(SMODS.find_card("j_sgt_red_king", true)) do
+            local guilty_text = function()
+                card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
+            end
+            Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
+        end
     end
     if Cartomancer then
         G.GAME.cartomancer_bosses_list = G.GAME.cartomancer_bosses_list or {}
@@ -2926,8 +2941,44 @@ function Sagatro.find_active_card(key, count_debuffed, count_inactive)
     return cards
 end
 
+function Sagatro.vorpal_jubjub()
+    for _, v in ipairs(Sagatro.find_active_card("j_sgt_vorpal_sword")) do
+        if v.ability.extra.sliced_beasts.jubjub_bird_sliced then
+            return true
+        end
+    end
+    return false
+end
+
 function Sagatro.stall_ante()
-    return next(Sagatro.find_active_card("j_sgt_mad_hatter")) or next(Sagatro.find_active_card("j_sgt_jubjub_bird")) or Sagatro.mabel_stall()
+    return next(Sagatro.find_active_card("j_sgt_mad_hatter")) or next(Sagatro.find_active_card("j_sgt_jubjub_bird")) or Sagatro.mabel_stall() or Sagatro.vorpal_jubjub()
+end
+
+-- Wizard of Oz sneak peek
+function Sagatro.handle_dissolve(card, dissolve, dissolve_time)
+    dissolve = dissolve or card.dissolve == 0
+    dissolve_time = dissolve_time or 10
+    card.dissolve = card.dissolve or not dissolve and 1 or 0
+    card.dissolve_colours =
+    dissolve and {G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD, G.C.JOKER_GREY} or
+    (card.ability.set == 'Joker' and {G.C.RARITY[card.config.center.rarity]}) or
+    (card.ability.set == 'Voucher' and {G.C.SECONDARY_SET.Voucher, G.C.CLEAR}) or
+    (card.ability.set == 'Booster' and {G.C.BOOSTER}) or
+    {G.C.SECONDARY_SET[card.ability.set] or G.C.GREEN}
+    G.E_MANAGER:add_event(Event({
+        trigger = 'ease',
+        blockable = false,
+        ref_table = card,
+        ref_value = 'dissolve',
+        ease_to = dissolve and 1 or 0,
+        delay =  1*dissolve_time*(G.STAGE == G.STAGES.RUN and G.SETTINGS.GAMESPEED or 1),
+        func = (function(t) return t end)
+    }))
+end
+
+-- Overriding this since it gives -$-0 at value 0 and I hate it
+function SMODS.signed_dollars(val)
+    return val and (val >= 0 and '$'..val or '-$'..-val) or '0'
 end
 
 function Sagatro.quick_restart()

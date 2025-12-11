@@ -708,6 +708,32 @@ return {
                     "Lorem Ipsum",
                 },
             },
+            jabberwock_sliced = {
+                name = "Jabberwock",
+                text = {
+                    "Thêm {C:attention}tổng giá trị chip{} của",
+                    "lá trên tay {C:attention}chia{} cho {C:attention}bình phương",
+                    "số lá ghi điểm vào {X:mult,C:white}XNhân{}",
+                    "của joker này",
+                },
+            },
+            bandersnatch_sliced = {
+                name = "Bandersnatch",
+                text = {
+                    "Khi {C:attention}Boss Blind{} được chọn,",
+                    "thêm {C:dark_edition}Âm Bản{} vào joker",
+                    "liền phải",
+                },
+            },
+            jubjub_bird_sliced = {
+                name = "Chim Điên Jubjub",
+                text = {
+                    "Quay trở về {C:attention}Boss Blind{} vừa",
+                    "đánh bại sau khi nhận tiền",
+                    "Xác suất {C:green}#1# trên #2#{} để {C:red,E:2}tự huỷ{},",
+                    "giảm mẫu số đi {C:attention}1{} nếu trật",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -2604,6 +2630,7 @@ return {
             j_sgt_jabberwock = {
                 name = "Jabberwock",
                 text = {
+                    "{B:1,C:white}Quái Vật Mù Mịt{}",
                     "Thêm {C:attention}tổng giá trị chip{} của",
                     "lá ghi điểm {C:attention}chia{} cho {C:attention}bình phương",
                     "số lá ghi điểm vào {X:mult,C:white}XNhân{}",
@@ -2613,6 +2640,7 @@ return {
             j_sgt_bandersnatch = {
                 name = "Bandersnatch",
                 text = {
+                    "{B:1,C:white}Quái Vật Mù Mịt{}",
                     "Khi {C:attention}Blind{} được chọn, thêm",
                     "{C:dark_edition}Âm Bản{} và {C:attention}Ngắn Hạn",
                     "cho joker liền phải",
@@ -2621,10 +2649,13 @@ return {
             j_sgt_jubjub_bird = {
                 name = "Chim Điên Jubjub",
                 text = {
+                    "{B:1,C:white}Quái Vật Mù Mịt{}",
                     "{C:attention}Boss Blind{} không có tiền thưởng",
                     "Quay trở về {C:attention}Boss Blind{} vừa",
                     "đánh bại sau khi nhận tiền",
                     "rồi giảm giá bán đi {C:money}#1#{}",
+                    "{C:inactive}(Chỉ tác dụng lên Boss Blind",
+                    "{C:inactive}không phải của Ragnarök)",
                 },
             },
             j_sgt_humpty_dumpty = {
@@ -2643,6 +2674,60 @@ return {
                 text = {
                     "Khi ván bắt đầu, {C:attention}phá huỷ{} một",
                     "{C:attention}lá bài thường{} ngẫu nhiên trên tay",
+                },
+            },
+            j_sgt_lion = {
+                name = "Sư Tử",
+                text = {
+                    "{C:attention}Tái kích{} mọi lá đã chơi một lần",
+                    "Tái kích {C:attention}một lần{} nữa nếu tay bài",
+                    "ghi điểm chỉ chứa {C:hearts}Cơ{} hoặc {C:diamonds}Rô{}",
+                },
+            },
+            j_sgt_unicorn = {
+                name = "Kì Lân",
+                text = {
+                    "Khi {C:attention}Blind{} bị bỏ qua,",
+                    "thêm {C:red}$#2#{} khả năng ghi nợ",
+                    "{C:inactive}(Hiện tại là {C:red}$#1#{C:inactive})",
+                },
+            },
+            j_sgt_true_red_queen = {
+                name = "Hậu Đỏ",
+                text = {
+                    "Nếu tay bài đã chơi chứa {C:attention}#1#{},",
+                    "mỗi lá đã chơi có chất {C:hearts}Cơ{} hoặc",
+                    "{C:diamonds}Rô{} cho {X:dark_edition,C:white}^#2#{} Nhân",
+                    "khi ghi điểm",
+                },
+            },
+            j_sgt_red_king = {
+                name = "Vua Đỏ",
+                text = {
+                    "Xác suất {C:green}#2# trên #3#{} để",
+                    "tạo ra {C:tarot}#1# {C:dark_edition}Âm Bản{}",
+                    "ở cuối {C:attention}shop{}",
+                },
+            },
+            j_sgt_vorpal_sword = {
+                name = "Kiếm Vorpal",
+                text = {
+                    {"Khi {C:attention}Blind{} được chọn, phá huỷ Joker",
+                    "liền phải và vĩnh viễn thêm {C:attention}8 lần",
+                    "giá bán của nó vào hệ số {C:red}Nhân",
+                    "{C:inactive}(Hiện tại là {C:mult}+#1#{C:inactive} Nhân)"},
+                    {"{C:inactive}Phá huỷ một {B:1,C:white}Quái Vật Mù Mịt{}",
+                    "{C:inactive}để nhận một khả năng độc nhất"},
+                },
+            },
+            j_sgt_vorpal_sword_bloodshed = {
+                name = "Kiếm Vorpal",
+                text = {
+                    {"Cho khả năng {C:attention}độc nhất{} dựa trên",
+                    "{C:attention}quái vật{} đã phá huỷ trước đó"},
+                    {"Khi {C:attention}Blind{} được chọn, phá huỷ",
+                    "{B:1,C:white}Quái Vật Mù Mịt{} liền phải và làm mới",
+                    "khả năng độc nhất của joker này"},
                 },
             },
             j_sgt_ecila = {
@@ -3465,6 +3550,8 @@ return {
             k_castled_ex = "Nhập Thành!",
             k_roar_ex = "Grào!",
             k_shattered_ex = "Vỡ Tung!",
+            k_sheathe_ex = "Tra Vào Vỏ!",
+            k_bloodshed_ex = "Nhuốm Máu!",
             k_zzz = "ZZZ",
             k_charge = "Nạp",
             k_release = "Xả",

@@ -987,7 +987,7 @@ target = "functions/button_callbacks.lua"
 pattern = '''G.STATE = G.STATES.SHOP'''
 position = "at"
 payload = '''
-if G.GAME.jjb_cash_out and next(Sagatro.find_active_card("j_sgt_jubjub_bird")) then
+if G.GAME.jjb_cash_out and (next(Sagatro.find_active_card("j_sgt_jubjub_bird")) or Sagatro.vorpal_jubjub()) then
   G.FUNCS.cash_out_into_boss_blind()
 else
   G.STATE = G.STATES.SHOP
@@ -1005,7 +1005,7 @@ G.STATE_COMPLETE = false
 position = "at"
 payload = '''
 G.GAME.shop_d6ed = nil
-if not (G.GAME.jjb_cash_out and next(Sagatro.find_active_card("j_sgt_jubjub_bird"))) then
+if not (G.GAME.jjb_cash_out and (next(Sagatro.find_active_card("j_sgt_jubjub_bird")) or Sagatro.vorpal_jubjub())) then
   G.STATE_COMPLETE = false
 end
 '''
@@ -1017,7 +1017,7 @@ target = "functions/button_callbacks.lua"
 pattern = "if G.GAME.round_resets.blind_states.Boss == 'Defeated' then "
 position = "before"
 payload = '''
-if G.GAME.jjb_cash_out and next(Sagatro.find_active_card("j_sgt_jubjub_bird")) then
+if G.GAME.jjb_cash_out and (next(Sagatro.find_active_card("j_sgt_jubjub_bird")) or Sagatro.vorpal_jubjub()) then
   G.GAME.round_resets.blind_states.Boss = 'Current'
   SMODS.calculate_context{sgt_jjb_reduction = true}
 end

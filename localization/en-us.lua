@@ -709,6 +709,32 @@ return {
                     "Lorem Ipsum",
                 },
             },
+            jabberwock_sliced = {
+                name = "Jabberwock",
+                text = {
+                    "Add the {C:attention}total chip values{} of",
+                    "cards in hand {C:attention}divided{} by number",
+                    "of scoring cards {C:attention}squared{} to",
+                    "this joker's {X:mult,C:white}XMult{}",
+                },
+            },
+            bandersnatch_sliced = {
+                name = "Bandersnatch",
+                text = {
+                    "When {C:attention}Boss Blind{} is selected,",
+                    "add {C:dark_edition}Negative{} to joker",
+                    "to the right",
+                },
+            },
+            jubjub_bird_sliced = {
+                name = "Jubjub Bird",
+                text = {
+                    "Return to the previously defeated",
+                    "{C:attention}Boss Blind{} after cashing out",
+                    "{C:green}#1# in #2#{} chance to {C:red,E:2}self destruct{},",
+                    "otherwise reduce denominator by {C:attention}1{}",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -2608,6 +2634,7 @@ return {
             j_sgt_jabberwock = {
                 name = "Jabberwock",
                 text = {
+                    "{B:1,C:white}Obscure Beast{}",
                     "Add the {C:attention}total chip values{} of",
                     "scoring cards {C:attention}divided{} by number",
                     "of scoring cards {C:attention}squared{} to",
@@ -2617,6 +2644,7 @@ return {
             j_sgt_bandersnatch = {
                 name = "Bandersnatch",
                 text = {
+                    "{B:1,C:white}Obscure Beast{}",
                     "When {C:attention}Blind{} is selected, add",
                     "{C:dark_edition}Negative{} and {C:attention}Perishable",
                     "to joker to the right",
@@ -2625,10 +2653,12 @@ return {
             j_sgt_jubjub_bird = {
                 name = "Jubjub Bird",
                 text = {
+                    "{B:1,C:white}Obscure Beast{}",
                     "{C:attention}Boss Blind{} gives no reward money",
                     "Return to the previously defeated",
                     "{C:attention}Boss Blind{} after cashing out,",
                     "reducing sell cost by {C:money}#1#{}",
+                    "{C:inactive}(Only affects non-Ragnarök Boss Blinds)",
                 },
             },
             j_sgt_humpty_dumpty = {
@@ -2647,6 +2677,60 @@ return {
                 text = {
                     "When round begins, {C:attention}destroy{} a",
                     "random {C:attention}playing card{} in hand",
+                },
+            },
+            j_sgt_lion = {
+                name = "Lion",
+                text = {
+                    "{C:attention}Retrigger{} all cards played once",
+                    "Retrigger {C:attention}once{} more if scoring hand",
+                    "only contains {C:hearts}Hearts{} or {C:diamonds}Diamonds{}",
+                },
+            },
+            j_sgt_unicorn = {
+                name = "Unicorn",
+                text = {
+                    "When {C:attention}Blind{} is skipped,",
+                    "gain {C:red}$#2#{} of allowed debt",
+                    "{C:inactive}(Currently {C:red}$#1#{C:inactive})",
+                },
+            },
+            j_sgt_true_red_queen = {
+                name = "Red Queen",
+                text = {
+                    "If played hand contains a {C:attention}#1#{},",
+                    "each played card with {C:hearts}Hearts{} or",
+                    "{C:diamonds}Diamonds{} suit gives {X:dark_edition,C:white}^#2#{} Mult",
+                    "when scored",
+                },
+            },
+            j_sgt_red_king = {
+                name = "Red King",
+                text = {
+                    "{C:green}#2# in #3#{} chance to create",
+                    "a {C:dark_edition}Negative {C:tarot}#1#{} at",
+                    "the end of the {C:attention}shop{}",
+                },
+            },
+            j_sgt_vorpal_sword = {
+                name = "Vorpal Sword",
+                text = {
+                    {"When {C:attention}Blind{} is selected, destroy Joker",
+                    "to the right and permanently add {C:attention}8 times",
+                    "its sell value to this {C:red}Mult",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"},
+                    {"Destroy an {B:1,C:white}Obscure Beast{}",
+                    "to gain a unique ability"},
+                },
+            },
+            j_sgt_vorpal_sword_bloodshed = {
+                name = "Vorpal Sword",
+                text = {
+                    {"Gives a {C:attention}unique{} effect based on",
+                    "the previously destroyed {C:attention}beast{}"},
+                    {"When {C:attention}Blind{} is selected, destroy an",
+                    "{B:1,C:white}Obscure Beast{} to the right and refresh",
+                    "this joker's unique ability"},
                 },
             },
             j_sgt_ecila = {
@@ -3469,6 +3553,8 @@ return {
             k_castled_ex = "Castled!",
             k_roar_ex = "Roar!",
             k_shattered_ex = "Shattered!",
+            k_sheathe_ex = "Sheathe!",
+            k_bloodshed_ex = "Bloodshed!",
             k_zzz = "ZZZ",
             k_charge = "Charge",
             k_release = "Release",
