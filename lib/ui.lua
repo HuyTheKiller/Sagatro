@@ -477,6 +477,16 @@ G.FUNCS.can_reroll = function(e)
     end
 end
 
+G.FUNCS.openModUI_Sagatro_fromAlice = function(e)
+    G.ACTIVE_MOD_UI = Sagatro
+    if e and e.config and e.config.page then
+        SMODS.LAST_SELECTED_MOD_TAB = e.config.page
+    end
+    G.FUNCS.overlay_menu({
+        definition = create_UIBox_mods(e)
+    })
+end
+
 function Sagatro.update_HUD()
     if G.HUD and G.GAME.story_mode then
         local ante_box_children = G.HUD:get_UIE_by_ID("hud_ante").children[2].children

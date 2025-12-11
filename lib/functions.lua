@@ -3376,6 +3376,24 @@ if JokerDisplay then
     end
 end
 
+local card_click = Card.click
+function Card:click()
+    card_click(self)
+    if self.sagatro_target then
+        G.FUNCS.openModUI_Sagatro_fromAlice{config = {page = "mod_desc"}, back_func = "exit_overlay_menu"}
+    end
+end
+
+local card_single_tap = Card.single_tap
+function Card:single_tap()
+    if card_single_tap then
+        card_single_tap(self)
+    end
+    if self.sagatro_target then
+        G.FUNCS.openModUI_Sagatro_fromAlice{config = {page = "mod_desc"}, back_func = "exit_overlay_menu"}
+    end
+end
+
 -- Debug territory
 function Sagatro.help()
     if Sagatro.debug then

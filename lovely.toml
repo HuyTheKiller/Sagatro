@@ -1023,3 +1023,11 @@ if G.GAME.jjb_cash_out and next(Sagatro.find_active_card("j_sgt_jubjub_bird")) t
 end
 '''
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/ui.lua"]'
+pattern = '''back_func = "mods_button",'''
+position = "at"
+payload = '''back_func = args and args.back_func or "mods_button",'''
+match_indent = true
