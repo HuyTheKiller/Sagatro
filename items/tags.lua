@@ -1,6 +1,7 @@
 local holy = {
     key = "holy",
     name = "Holy Tag",
+    artist_credits = {"huythekiller"},
     atlas = "tags",
     pos = {x = 0, y = 0},
     min_ante = 2,
@@ -34,6 +35,7 @@ local holy = {
 local ghostly = {
     key = "ghostly",
     name = "Ghostly Tag",
+    artist_credits = {"huythekiller"},
     atlas = "tags",
     pos = {x = 1, y = 0},
     min_ante = 2,
@@ -67,6 +69,7 @@ local ghostly = {
 local alien = {
     key = "alien",
     name = "Alien Tag",
+    artist_credits = {"huythekiller"},
     atlas = "tags",
     pos = {x = 2, y = 0},
     min_ante = 2,
@@ -97,10 +100,49 @@ local alien = {
     end,
 }
 
+local obscure = {
+    key = "obscure",
+    name = "Obscure Tag",
+    artist_credits = {"huythekiller"},
+    atlas = "tags",
+    pos = {x = 3, y = 0},
+    min_ante = 2,
+    apply = function(self, tag, context)
+        if context.type == 'store_joker_create' then
+            local card = nil
+            local obscures_in_posession = {0}
+            for k, v in ipairs(G.jokers.cards) do
+                if v.config.center.rarity == "sgt_obscure" and not obscures_in_posession[v.config.center.key] then
+                    obscures_in_posession[1] = obscures_in_posession[1] + 1
+                    obscures_in_posession[v.config.center.key] = true
+                end
+            end
+
+            if #G.P_JOKER_RARITY_POOLS["sgt_obscure"] > obscures_in_posession[1] then
+                card = create_card('Joker', context.area, nil, "sgt_obscure", nil, nil, nil, 'ota')
+                create_shop_card_ui(card, 'Joker', context.area)
+                card.states.visible = false
+                tag:yep('+', G.C.SGT_OBSCURE,function()
+                    card:start_materialize()
+                    return true
+                end)
+            else
+                tag:nope()
+            end
+            tag.triggered = true
+            return card
+        end
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items
+    end,
+}
+
 local tag_table = {
     holy,
     alien,
     ghostly,
+    obscure,
 }
 
 for _, v in ipairs(tag_table) do

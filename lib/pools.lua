@@ -9,8 +9,10 @@ SAGA_GROUP_POOL = {
     norse = "Norse Mythology",
     ngods = "Norse Gods",
     celestaverse = "Celestaverse",
+    alice_m = "Alice Through the Looking Glass",
+    story_starter = "Story Starter",
 }
 
 for _, v in pairs(SAGA_GROUP_POOL) do
-    SMODS.ObjectType{key = v}
+    SMODS.ObjectType{key = v, default = "j_sgt_abducted_cow"}
 end

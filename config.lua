@@ -4,4 +4,5 @@ return {
     SagatroMusic = true,
     ViewFishProperties = true,
     Ortagas = false,
+    QuickRestart = false,
 }

@@ -130,6 +130,61 @@ return {
                     "every hand and discard used",
                 },
             },
+            bl_sgt_pawn = {
+                name = "The Pawn",
+                text = {
+                    "#1# base Chips",
+                },
+            },
+            bl_sgt_rook = {
+                name = "The Rook",
+                text = {
+                    "Stoneify all cards held",
+                    "in hand every hand",
+                },
+            },
+            bl_sgt_knight = {
+                name = "The Knight",
+                text = {
+                    "Only first and last",
+                    "played card will score",
+                },
+            },
+            bl_sgt_bishop = {
+                name = "The Bishop",
+                text = {
+                    "All Spades and Clubs",
+                    "cards are debuffed",
+                },
+            },
+            bl_sgt_true_red_queen = {
+                name = "Red Queen",
+                text = {
+                    "X2 blind size if not",
+                    "beaten in this hand",
+                },
+            },
+            bl_sgt_true_red_queen_inv = {
+                name = "Red Queen",
+                text = {
+                    "/2 blind size if score",
+                    "is below 50% requirement",
+                },
+            },
+            bl_sgt_red_king = {
+                name = "Red King",
+                text = {
+                    "Multiply blind size by number of",
+                    "times poker hand has been played",
+                },
+            },
+            bl_sgt_red_king_inv = {
+                name = "Red King",
+                text = {
+                    "Divide blind size by number of",
+                    "times poker hand has been played",
+                },
+            },
         },
         Tag = {
             tag_sgt_holy = {
@@ -151,6 +206,13 @@ return {
                 text = {
                     "Gives a free",
                     "{C:sgt_eldritch}Eldritch Pack",
+                },
+            },
+            tag_sgt_obscure = {
+                name = "Obscure Tag",
+                text = {
+                    "Shop has an",
+                    "{C:sgt_obscure}Obscure Joker",
                 },
             },
         },
@@ -499,6 +561,14 @@ return {
                     "It's a guaranteed {C:red}loss{} at end of round",
                 },
             },
+            sgt_easter_egg = {
+                name = "Easter Egg",
+                text = {
+                    "You've found one of",
+                    "{C:sgt_sagadition}Sagatro{}'s Easter Eggs!",
+                    "Enjoy!",
+                },
+            },
             sgt_low_fuel = {
                 name = "Low Fuel",
                 text = {
@@ -584,6 +654,44 @@ return {
                     "at beginning of every ante",
                 },
             },
+            sgt_mirror = {
+                text = {
+                    "{C:sgt_sagadition}Alice Through the Looking-Glass{}'",
+                    "{C:attention}exclusive{} effect:",
+                    "Allows {C:attention}moving{} between the",
+                    "{C:sgt_sagadition}Mirrorworld{} and the {C:sgt_sagadition}Real World",
+                },
+            },
+            sgt_mirrorworld = {
+                text = {
+                    "Inactive outside the {C:sgt_sagadition}Mirrorworld{},",
+                    "but takes {C:attention}no{} joker slot",
+                },
+            },
+            sgt_realworld = {
+                text = {
+                    "Inactive inside the {C:sgt_sagadition}Mirrorworld{},",
+                    "but takes {C:attention}no{} joker slot and",
+                    "can't be sold or destroyed",
+                },
+            },
+            sgt_switch_cooldown = {
+                name = "Switch Cooldown",
+                text = {
+                    "Defeat any {C:attention}Blind{} to",
+                    "start switching again",
+                },
+            },
+            free_reroll_tooltip = {
+                name = "Pro Tip",
+                text = {
+                    "Earn {C:money}$#1#{} every round stayed",
+                    "in a world before switching,",
+                    "and doing so automatically",
+                    "{C:green}rerolls{} the shop for {C:attention}free",
+                    "{C:inactive}(only while in shop)",
+                },
+            },
             sgt_celestara_help = {
                 name = "How To Use",
                 text = {
@@ -599,6 +707,32 @@ return {
                 name = "Inverse Bonus",
                 text = {
                     "Lorem Ipsum",
+                },
+            },
+            jabberwock_sliced = {
+                name = "Jabberwock",
+                text = {
+                    "Add the {C:attention}total chip values{} of",
+                    "cards in hand {C:attention}divided{} by number",
+                    "of scoring cards {C:attention}squared{} to",
+                    "this joker's {X:mult,C:white}XMult{}",
+                },
+            },
+            bandersnatch_sliced = {
+                name = "Bandersnatch",
+                text = {
+                    "When {C:attention}Boss Blind{} is selected,",
+                    "add {C:dark_edition}Negative{} to joker",
+                    "to the right",
+                },
+            },
+            jubjub_bird_sliced = {
+                name = "Jubjub Bird",
+                text = {
+                    "Return to the previously defeated",
+                    "{C:attention}Boss Blind{} after cashing out",
+                    "{C:green}#1# in #2#{} chance to {C:red,E:2}self destruct{},",
+                    "otherwise reduce denominator by {C:attention}1{}",
                 },
             },
         },
@@ -1191,8 +1325,8 @@ return {
                 name = "Spectre",
                 text = {
                     "Creates a random",
-                    "{C:red}Rare{C:attention} Joker{},",
-                    "Lose {C:money}half{} of your money",
+                    "{C:sgt_obscure}Obscure{C:attention} Joker{},",
+                    "Set money to {C:money}#1#{}",
                 },
             },
             c_sgt_magiseal = {
@@ -1358,7 +1492,7 @@ return {
             j_sgt_dodo_bird = {
                 name = "Dodo Bird",
                 text = {
-                    "Each joker card gives {X:mult,C:white}X#1#{} Mult",
+                    "Each active joker gives {X:mult,C:white}X#1#{} Mult",
                     "on {C:attention}final hand{} of round with",
                     "{C:attention}0{} discards left",
                 },
@@ -2318,6 +2452,295 @@ return {
                     "to {C:sgt_sagadition}20k Miles Under The Sea{}",
                 },
             },
+            j_sgt_mirror = {
+                name = "Mirror",
+                text = {
+                    "If played hand is a {C:attention}#1#{}, convert",
+                    "the suit of the {C:attention}second card{} to the",
+                    "suit of the {C:attention}first card{}",
+                },
+            },
+            j_sgt_white_pawn = {
+                name = "White Pawn",
+                text = {
+                    {"If played hand contains a {C:attention}#1#{}",
+                    "and only one card with {C:hearts}Hearts{} or",
+                    "{C:diamonds}Diamonds{} suit scores, {C:attention}destroy{} it"},
+                    {"If played hand is a {C:spades}Spades{} or {C:clubs}Clubs",
+                    "{C:attention}#2#{}, promote to a random",
+                    "{C:attention}white chess piece{}"},
+                },
+            },
+            j_sgt_white_queen = {
+                name = "White Queen",
+                text = {
+                    {"Each {C:attention}Queen{} held in hand gives {C:mult}+#1#{} Mult"},
+                    {"{C:mult}+#1#*A{} Mult, where A is the difference between",
+                    "total {C:spades}Spades{} and {C:clubs}Clubs{} in hand and",
+                    "total {C:hearts}Hearts{} and {C:diamonds}Diamonds{} in hand"},
+                },
+            },
+            j_sgt_white_king = {
+                name = "White King",
+                text = {
+                    {"Each {C:attention}King{} held in hand gives {X:mult,C:white}X#1#{} Mult"},
+                    {"{X:mult,C:white}X#1#*A{} Mult, where A is the quotient between",
+                    "total {C:spades}Spades{} and {C:clubs}Clubs{} in hand and",
+                    "total {C:hearts}Hearts{} and {C:diamonds}Diamonds{} in hand"},
+                },
+            },
+            j_sgt_live_flowers = {
+                name = "Live Flowers",
+                text = {
+                    "{C:mult}+#1#{} Mult",
+                    "{C:mult}-#2#{} Mult per hand played",
+                },
+            },
+            j_sgt_ticket_checker = {
+                name = "Ticket Checker",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult if at least",
+                    "one {C:attention}voucher{} is redeemed",
+                },
+            },
+            j_sgt_man_in_white = {
+                name = "Man In White",
+                text = {
+                    {"Gain {C:mult}+#2#{} Mult if played hand",
+                    "contains a {C:attention}Straight{} and an {C:attention}Ace",
+                    "{C:mult}-#3#{} Mult otherwise",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"},
+                    {"The {C:attention}Goat{} to the right of",
+                    "this joker gives {X:mult,C:white}X1.5{} Mult"},
+                },
+            },
+            j_sgt_goat = {
+                name = "Goat",
+                text = {
+                    {"Gain {C:mult}+#2#{} Mult if played hand",
+                    "contains a {C:attention}Straight{} and a {C:attention}King",
+                    "{C:mult}-#3#{} Mult otherwise",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"},
+                    {"The {C:attention}Beetle{} to the right of",
+                    "this joker gives {X:mult,C:white}X1.5{} Mult"},
+                },
+            },
+            j_sgt_beetle = {
+                name = "Beetle",
+                text = {
+                    "Gain {C:mult}+#2#{} Mult if played hand",
+                    "contains a {C:attention}Straight{} and a {C:attention}Queen",
+                    "{C:mult}-#3#{} Mult otherwise",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_dinah = {
+                name = "Dinah",
+                text = {
+                    "If scoring hand contains a(n) {C:attention}#3#{} of {V:1}#4#{},",
+                    "{C:attention}destroy{} it and gain {X:dark_edition,C:white}^#2#{} Mult",
+                    "for each of that card destroyed",
+                    "{s:0.8}Card changes every round",
+                    "{C:inactive}(Currently {X:dark_edition,C:white}^#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_tweedledum = {
+                name = "Tweedledum",
+                text = {
+                    {"Played cards with",
+                    "{C:attention}even{} rank give",
+                    "{X:chips,C:white}X#2#{} Chips when scored",
+                    "{C:inactive}(10, 8, 6, 4, 2)"},
+                    {"Played cards with",
+                    "{C:attention}odd{} rank give",
+                    "{X:mult,C:white}X#1#{} Mult when scored",
+                    "{C:inactive}(A, 9, 7, 5, 3)"},
+                },
+            },
+            j_sgt_tweedledee = {
+                name = "Tweedledee",
+                text = {
+                    {"Played cards with",
+                    "{C:attention}odd{} rank give",
+                    "{X:chips,C:white}X#2#{} Chips when scored",
+                    "{C:inactive}(A, 9, 7, 5, 3)"},
+                    {"Played cards with",
+                    "{C:attention}even{} rank give",
+                    "{X:mult,C:white}X#1#{} Mult when scored",
+                    "{C:inactive}(10, 8, 6, 4, 2)"},
+                },
+            },
+            j_sgt_sheep = {
+                name = "Sheep",
+                text = {
+                    "{X:dark_edition,C:white}X#1#{} Score, reduce by {X:dark_edition,C:white}X#2#{}",
+                    "for each joker to the left",
+                    "of this joker",
+                    "{C:inactive}(Currently {X:dark_edition,C:white}X#3#{C:inactive} Score)",
+                },
+            },
+            j_sgt_rocking_horse_fly = {
+                name = "Rocking-Horse-Fly",
+                text = {
+                    "if played hand contains a {C:attention}#1#{},",
+                    "add {C:attention}double{} the rank difference between",
+                    "the {C:attention}highest{} and {C:attention}lowest{} ranked card",
+                    "scored to their Mult",
+                },
+            },
+            j_sgt_bread_and_butter_fly = {
+                name = "Bread-and-Butter-Fly",
+                text = {
+                    "Set money to {C:money}$#1#{} if",
+                    "{C:attention}less{} than that amount",
+                    "at end of round",
+                },
+            },
+            j_sgt_snap_dragon_fly = {
+                name = "Snap-Dragon-Fly",
+                text = {
+                    "Each {C:attention}2{} held in hand",
+                    "gives {C:mult}+#1#{} Mult",
+                },
+            },
+            j_sgt_white_rook = {
+                name = "White Rook",
+                text = {
+                    {"If {C:attention}White King{} is about to be",
+                    "destroyed, {C:red,E:2}self destructs{} instead",
+                    "Apply {C:attention}Four Fingers{} if there is",
+                    "a {C:attention}rankless{} card held in hand"},
+                    {"{C:mult}+#1#*A{} Mult, where A is the difference between",
+                    "total {C:spades}Spades{} and {C:clubs}Clubs{} in hand and",
+                    "total {C:hearts}Hearts{} and {C:diamonds}Diamonds{} in hand"},
+                },
+            },
+            j_sgt_white_knight = {
+                name = "White Knight",
+                text = {
+                    "Apply {C:attention}Shortcut",
+                    "{C:mult}+#1#*A{} Mult, where A is the difference between",
+                    "total {C:spades}Spades{} and {C:clubs}Clubs{} in hand and",
+                    "total {C:hearts}Hearts{} and {C:diamonds}Diamonds{} in hand",
+                },
+            },
+            j_sgt_white_bishop = {
+                name = "White Bishop",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult if scoring hand",
+                    "only contains {C:spades}Spades{} or {C:clubs}Clubs{}",
+                },
+            },
+            j_sgt_jabberwock = {
+                name = "Jabberwock",
+                text = {
+                    "{B:1,C:white}Obscure Beast{}",
+                    "Add the {C:attention}total chip values{} of",
+                    "scoring cards {C:attention}divided{} by number",
+                    "of scoring cards {C:attention}squared{} to",
+                    "this joker's {X:mult,C:white}XMult{}",
+                },
+            },
+            j_sgt_bandersnatch = {
+                name = "Bandersnatch",
+                text = {
+                    "{B:1,C:white}Obscure Beast{}",
+                    "When {C:attention}Blind{} is selected, add",
+                    "{C:dark_edition}Negative{} and {C:attention}Perishable",
+                    "to joker to the right",
+                },
+            },
+            j_sgt_jubjub_bird = {
+                name = "Jubjub Bird",
+                text = {
+                    "{B:1,C:white}Obscure Beast{}",
+                    "{C:attention}Boss Blind{} gives no reward money",
+                    "Return to the previously defeated",
+                    "{C:attention}Boss Blind{} after cashing out,",
+                    "reducing sell cost by {C:money}#1#{}",
+                    "{C:inactive}(Only affects non-Ragnarök Boss Blinds)",
+                },
+            },
+            j_sgt_humpty_dumpty = {
+                name = "Humpty Dumpty",
+                text = {
+                    {"Gain {C:money}$#1#{} of sell value",
+                    "for each discarded {C:attention}#2#{},",
+                    "rank changes every round"},
+                    {"{C:green}#3# in #4#{} chance this",
+                    "card is destroyed",
+                    "at end of round"},
+                },
+            },
+            j_sgt_seal_and_carpenter = {
+                name = "Seal And Carpenter",
+                text = {
+                    "When round begins, {C:attention}destroy{} a",
+                    "random {C:attention}playing card{} in hand",
+                },
+            },
+            j_sgt_lion = {
+                name = "Lion",
+                text = {
+                    "{C:attention}Retrigger{} all cards played once",
+                    "Retrigger {C:attention}once{} more if scoring hand",
+                    "only contains {C:hearts}Hearts{} or {C:diamonds}Diamonds{}",
+                },
+            },
+            j_sgt_unicorn = {
+                name = "Unicorn",
+                text = {
+                    "When {C:attention}Blind{} is skipped,",
+                    "gain {C:red}$#2#{} of allowed debt",
+                    "{C:inactive}(Currently {C:red}$#1#{C:inactive})",
+                },
+            },
+            j_sgt_true_red_queen = {
+                name = "Red Queen",
+                text = {
+                    "If played hand contains a {C:attention}#1#{},",
+                    "each played card with {C:hearts}Hearts{} or",
+                    "{C:diamonds}Diamonds{} suit gives {X:dark_edition,C:white}^#2#{} Mult",
+                    "when scored",
+                },
+            },
+            j_sgt_red_king = {
+                name = "Red King",
+                text = {
+                    "{C:green}#2# in #3#{} chance to create",
+                    "a {C:dark_edition}Negative {C:tarot}#1#{} at",
+                    "the end of the {C:attention}shop{}",
+                },
+            },
+            j_sgt_vorpal_sword = {
+                name = "Vorpal Sword",
+                text = {
+                    {"When {C:attention}Blind{} is selected, destroy Joker",
+                    "to the right and permanently add {C:attention}8 times",
+                    "its sell value to this {C:red}Mult",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"},
+                    {"Destroy an {B:1,C:white}Obscure Beast{}",
+                    "to gain a unique ability"},
+                },
+            },
+            j_sgt_vorpal_sword_bloodshed = {
+                name = "Vorpal Sword",
+                text = {
+                    {"Gives a {C:attention}unique{} effect based on",
+                    "the previously destroyed {C:attention}beast{}"},
+                    {"When {C:attention}Blind{} is selected, destroy an",
+                    "{B:1,C:white}Obscure Beast{} to the right and refresh",
+                    "this joker's unique ability"},
+                },
+            },
+            j_sgt_ecila = {
+                name = "Ecila",
+                text = {
+                    "Each joker belonging to {C:sgt_sagadition}Alice",
+                    "{C:sgt_sagadition}Through the Looking Glass{}",
+                    "gives {X:mult,C:white}X#1#{} Mult",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -2346,9 +2769,11 @@ return {
             j_sgt_thor = {
                 name = "Thórr",
                 text = {
-                    "{C:attention}Retrigger{} cards adjacent to {C:attention}conductive enhancements",
-                    "Each {C:attention}held in hand{} card with {C:attention}conductive",
-                    "{C:attention}enhancement{} gives {X:dark_edition,C:white}^#1#{} Mult",
+                    "{C:attention}Retrigger{} cards adjacent to",
+                    "{C:attention}conductive enhancements",
+                    "Each {C:attention}held in hand{} card with",
+                    "{C:attention}conductive enhancement",
+                    "gives {X:dark_edition,C:white}^#1#{} Mult",
                 },
             },
             j_sgt_odin = {
@@ -2572,6 +2997,15 @@ return {
                     "Equip this joker to",
                     "begin the storyline:",
                     "{C:sgt_sagadition}#1#{}",
+                    "Difficulty: {V:1}#2#{}/5",
+                },
+            },
+            interwoven_storyline_start = {
+                text = {
+                    "Equip this joker to interweave",
+                    "the current storyline with:",
+                    "{C:sgt_sagadition}#1#{}",
+                    "Difficulty: {V:1}#2#{}/5",
                 },
             },
             white_rabbit = {
@@ -2695,7 +3129,16 @@ return {
                     "Emerge to reduce Ante strategically",
                     "Beat {C:bl_sgt_nyx_abyss}Nyx Abyss{} to win",
                     "{s:0.8,C:sgt_sagadition}Select the submarine to get started",
-                }
+                },
+            },
+            mirror = {
+                text = {
+                    "{C:sgt_sagadition}Sagatro{}'s first interwoven story!",
+                    "Progress {C:sgt_sagadition}Alice in the Wonderland{}",
+                    "normally, but the true villain awaits",
+                    "you at the other side of the world...",
+                    "{s:0.8,C:sgt_sagadition}Select the mirror to get started",
+                },
             },
         },
         fish_effect = {
@@ -2918,6 +3361,38 @@ return {
                 },
             },
         },
+        sgt_artist = {
+            temp = {
+                text = {
+                    "HuyTheKiller's Temp Art",
+                },
+            },
+            huycorn = {
+                text = {
+                    "HuyCorn",
+                },
+            },
+            amy = {
+                text = {
+                    "Amy",
+                },
+            },
+            kazumi = {
+                text = {
+                    "Kazumi",
+                },
+            },
+            huythekiller = {
+                text = {
+                    "HuyTheKiller",
+                },
+            },
+            dj = {
+                text = {
+                    "D.J.",
+                },
+            },
+        },
         Mod = {
             Sagatro = {
                 name = "Sagatro",
@@ -2927,7 +3402,7 @@ return {
                     "Music used here are not copyrighted. Feel free to stream!",
                     " ",
                     "Credits:",
-                    "{C:attention}Original Art{}: HuyCorn, Amy, TNhie, Kazumi",
+                    "{C:attention}Original Art{}: HuyCorn, Amy, TNhie, Kazumi, D.J.",
                     "{C:attention}Art Polishing{}: HuyTheKiller",
                     "{C:attention}Idea{}: HuyCorn",
                     "{C:attention}Balancing{}: HuyTheKiller, HuyCorn",
@@ -2956,6 +3431,7 @@ return {
             sgt_protected = "Protected",
             sgt_imminent_doom = "Imminent Doom",
             sgt_off_depth = "Off Depth",
+            sgt_easter_egg = "Easter Egg",
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Gambling Hansel",
@@ -3015,6 +3491,7 @@ return {
             b_sgt_up = "UP",
             b_sgt_down = "DOWN",
             b_sgt_ready = "READY",
+            b_sgt_switch = "SWITCH",
             b_delete_ace = "Delete Ace",
             b_dont_even_try = "Don't even try",
             k_in_a_hurry_ex = "In a hurry!",
@@ -3069,6 +3546,15 @@ return {
             k_depleted_ex = "Depleted!",
             k_smeared_ex = "Smeared!",
             k_enhanced_ex = "Enhanced!",
+            k_promoted_ex = "Promoted!",
+            k_elegant_ex = "Elegant!",
+            k_baah_ex = "Baah!",
+            k_bzzz_ex = "Bzzz!",
+            k_castled_ex = "Castled!",
+            k_roar_ex = "Roar!",
+            k_shattered_ex = "Shattered!",
+            k_sheathe_ex = "Sheathe!",
+            k_bloodshed_ex = "Bloodshed!",
             k_zzz = "ZZZ",
             k_charge = "Charge",
             k_release = "Release",
@@ -3092,6 +3578,7 @@ return {
             ph_alice_in_wond = "Alice in the Wonderland",
             ph_misc_story = "Misc. Story",
             ph_20k = "20k Miles Under The Sea",
+            ph_alice_in_mirr = "Alice Through the Looking-Glass",
             ph_gods_miracle = "Saved by God's Miracle",
             ph_depth_level = "Depth level",
             ph_lovecraft = "Lovecraft",
@@ -3100,7 +3587,10 @@ return {
             ph_celestaverse = "Celestaverse",
             ph_blind_score_at_most = "Score at most",
             ph_up_ante_2_inverse = "Lower all Blinds",
+            ph_overscored_hand = "Hand will overscore",
             sgt_swap = "Swap!",
+            sgt_art_credit = "Art by ",
+            sgt_and = " and ",
             SGT_story_related_settings = "Story-related settings",
             SGT_misc_settings = "Misc. settings",
             SGT_disable_other_jokers = "Story Mode",
@@ -3113,6 +3603,8 @@ return {
             SGT_sagatro_music_desc = {"Enable Sagatro music inside a run"},
             SGT_ortagas = "Switch to Ortagas",
             SGT_ortagas_desc = {"Does nothing?"},
+            SGT_quick_restart = "Quick Restart",
+            SGT_quick_restart_desc = {"Press R to instantly restart the run"},
         },
         quips = {
             sgt_good_end1 = {

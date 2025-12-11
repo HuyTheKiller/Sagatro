@@ -762,6 +762,7 @@ local anima = {
 local argyra = {
     key = "argyra",
     name = "Argyra",
+    artist_credits = {"huycorn"},
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 1, y = 6},
@@ -899,6 +900,7 @@ local argyra = {
 local sulvatera = {
     key = "sulvatera",
     name = "Sulvatera",
+    artist_credits = {"huycorn"},
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 2, y = 6},
@@ -1037,6 +1039,7 @@ local sulvatera = {
 local terranora = {
     key = "terranora",
     name = "Terranora",
+    artist_credits = {"huycorn", "huythekiller"},
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 3, y = 6},
@@ -1172,6 +1175,7 @@ local terranora = {
 local valora = {
     key = "valora",
     name = "Valora",
+    artist_credits = {"amy"},
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 4, y = 6},
@@ -1306,6 +1310,7 @@ local valora = {
 local zephyria = {
     key = "zephyria",
     name = "Zephyria",
+    artist_credits = {"amy"},
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 5, y = 6},
@@ -1449,6 +1454,7 @@ local zephyria = {
 local chronara = {
     key = "chronara",
     name = "Chronara",
+    artist_credits = {"huycorn"},
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 6, y = 6},
@@ -1594,6 +1600,7 @@ local chronara = {
 local aetheron = {
     key = "aetheron",
     name = "Aetheron",
+    artist_credits = {"huycorn"},
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 7, y = 6},
@@ -1730,6 +1737,7 @@ local aetheron = {
 local oceanis = {
     key = "oceanis",
     name = "Oceanis",
+    artist_credits = {"amy"},
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 8, y = 6},
@@ -1865,6 +1873,7 @@ local oceanis = {
 local lonestra = {
     key = "lonestra",
     name = "Lonestra",
+    artist_credits = {"huycorn"},
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 9, y = 6},
@@ -2013,6 +2022,7 @@ local lonestra = {
 local mystara = {
     key = "mystara",
     name = "Mystara",
+    artist_credits = {"huycorn"},
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 9, y = 7},
@@ -2144,6 +2154,7 @@ local mystara = {
 local ceratek = {
     key = "ceratek",
     name = "Ceratek",
+    artist_credits = {"huycorn"},
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 8, y = 7},
@@ -2271,6 +2282,7 @@ local ceratek = {
 local discordia = {
     key = "discordia",
     name = "Discordia",
+    artist_credits = {"huycorn"},
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 6, y = 7},
@@ -2405,6 +2417,7 @@ local discordia = {
 local soltera = {
     key = "soltera",
     name = "Soltera",
+    artist_credits = {"huycorn"},
     set = "Celestara",
     atlas = "ultra",
     pos = {x = 2, y = 7},
@@ -2666,16 +2679,17 @@ local spectre = {
     can_use = function(self, card)
         return G.jokers.config.card_limit > #G.jokers.cards
     end,
+    config = {target_money = -3},
     use = function(self, card, area, copier)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             delay = 0.4,
             func = function()
                 play_sound('timpani')
-                SMODS.add_card{set = 'Joker', rarity = 'Rare'}
+                SMODS.add_card{set = 'Joker', rarity = 'sgt_obscure'}
                 card:juice_up(0.3, 0.5)
-                if G.GAME.dollars > to_big(0) then
-                    ease_dollars(-math.floor(to_number(G.GAME.dollars)/2), true)
+                if G.GAME.dollars > to_big(card.ability.target_money) then
+                    ease_dollars(-to_number(G.GAME.dollars)+card.ability.target_money, true)
                 end
                 return true
             end
@@ -2683,7 +2697,7 @@ local spectre = {
         delay(0.6)
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.max_highlighted}}
+        return {vars = {SMODS.signed_dollars(card.ability.target_money)}}
     end,
 }
 
@@ -2768,7 +2782,7 @@ local lexicon = {
         return #G.hand.highlighted > 0 and #G.hand.highlighted <= card.ability.max_highlighted
     end,
     use = function(self, card, area, copier)
-        local rank = G.hand.highlighted[1].config.card.value
+        local rank = G.hand.highlighted[1].base.value
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             delay = 0.4,
@@ -3238,6 +3252,7 @@ local sinister = {
 local void_hole = {
     key = "void_hole",
     name = "Void Hole",
+    artist_credits = {"huythekiller"},
     set = "Eldritch",
     atlas = "ultra",
     pos = {x = 0, y = 6},
@@ -4174,6 +4189,7 @@ end
 local oculus_divina = {
     key = "oculus_divina",
     name = "Oculus Divina",
+    artist_credits = {"amy"},
     atlas = "ultra",
     pos = {x = 8, y = 5},
     in_pool = function(self, args)
@@ -4184,6 +4200,7 @@ local oculus_divina = {
 local oculus_omniscientis = {
     key = "oculus_omniscientis",
     name = "Oculus Omniscientis",
+    artist_credits = {"amy"},
     atlas = "ultra",
     pos = {x = 9, y = 5},
     config = {extra = {rate = 2}},
@@ -4206,6 +4223,7 @@ local oculus_omniscientis = {
 local alien_life = {
     key = "alien_life",
     name = "Alien Life",
+    artist_credits = {"huycorn"},
     atlas = "ultra",
     pos = {x = 0, y = 7},
     in_pool = function(self, args)
@@ -4216,6 +4234,7 @@ local alien_life = {
 local civilization = {
     key = "civilization",
     name = "Civilization",
+    artist_credits = {"huycorn"},
     atlas = "ultra",
     pos = {x = 1, y = 7},
     config = {extra = {rate = 2}},
@@ -4238,6 +4257,7 @@ local civilization = {
 local shadow_oath = {
     key = "shadow_oath",
     name = "Shadow Oath",
+    artist_credits = {"huycorn"},
     atlas = "ultra",
     pos = {x = 8, y = 4},
     in_pool = function(self, args)
@@ -4248,6 +4268,7 @@ local shadow_oath = {
 local abyss_pact = {
     key = "abyss_pact",
     name = "Abyss Pact",
+    artist_credits = {"huycorn"},
     atlas = "ultra",
     pos = {x = 9, y = 4},
     config = {extra = {rate = 1}},

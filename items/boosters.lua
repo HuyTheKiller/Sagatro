@@ -10,6 +10,7 @@ local wish_ipairs = {
 
 local wish_primary = {
     key = "wish_primary",
+    artist_credits = {"huycorn"},
     atlas = "booster",
     pos = { x = 0, y = 0 },
     config = { choose = 3, extra = 6 },
@@ -52,6 +53,7 @@ local wish_primary = {
 
 local wish_secondary = {
     key = "wish_secondary",
+    artist_credits = {"huycorn"},
     atlas = "booster",
     pos = { x = 0, y = 0 },
     config = { choose = 1, extra = 1 },
@@ -94,6 +96,7 @@ local wish_secondary = {
 
 local divinatio_normal_1 = {
     key = "divinatio_normal_1",
+    artist_credits = {"amy"},
     atlas = "booster",
     pos = { x = 2, y = 0 },
     config = { choose = 1, extra = 3 },
@@ -134,6 +137,7 @@ local divinatio_normal_1 = {
 
 local divinatio_normal_2 = {
     key = "divinatio_normal_2",
+    artist_credits = {"huycorn"},
     atlas = "booster",
     pos = { x = 3, y = 0 },
     config = { choose = 1, extra = 3 },
@@ -174,6 +178,7 @@ local divinatio_normal_2 = {
 
 local divinatio_jumbo = {
     key = "divinatio_jumbo",
+    artist_credits = {"huycorn"},
     atlas = "booster",
     pos = { x = 4, y = 0 },
     config = { choose = 1, extra = 5 },
@@ -214,6 +219,7 @@ local divinatio_jumbo = {
 
 local divinatio_mega = {
     key = "divinatio_mega",
+    artist_credits = {"huycorn"},
     atlas = "booster",
     pos = { x = 5, y = 0 },
     config = { choose = 2, extra = 5 },
@@ -254,6 +260,7 @@ local divinatio_mega = {
 
 local celestara_normal_1 = {
     key = "celestara_normal_1",
+    artist_credits = {"amy"},
     atlas = "booster",
     pos = { x = 2, y = 2 },
     config = { choose = 1, extra = 2 },
@@ -302,6 +309,7 @@ local celestara_normal_1 = {
 
 local celestara_normal_2 = {
     key = "celestara_normal_2",
+    artist_credits = {"amy"},
     atlas = "booster",
     pos = { x = 3, y = 2 },
     config = { choose = 1, extra = 2 },
@@ -350,6 +358,7 @@ local celestara_normal_2 = {
 
 local celestara_jumbo = {
     key = "celestara_jumbo",
+    artist_credits = {"amy"},
     atlas = "booster",
     pos = { x = 4, y = 2 },
     config = { choose = 1, extra = 4 },
@@ -398,6 +407,7 @@ local celestara_jumbo = {
 
 local celestara_mega = {
     key = "celestara_mega",
+    artist_credits = {"amy"},
     atlas = "booster",
     pos = { x = 5, y = 2 },
     config = { choose = 2, extra = 4 },
@@ -446,6 +456,7 @@ local celestara_mega = {
 
 local eldritch_normal_1 = {
     key = "eldritch_normal_1",
+    artist_credits = {"amy"},
     atlas = "booster",
     pos = { x = 2, y = 1 },
     config = { choose = 1, extra = 2 },
@@ -486,6 +497,7 @@ local eldritch_normal_1 = {
 
 local eldritch_normal_2 = {
     key = "eldritch_normal_2",
+    artist_credits = {"huycorn"},
     atlas = "booster",
     pos = { x = 3, y = 1 },
     config = { choose = 1, extra = 2 },
@@ -525,6 +537,7 @@ local eldritch_normal_2 = {
 }
 local eldritch_jumbo = {
     key = "eldritch_jumbo",
+    artist_credits = {"huycorn"},
     atlas = "booster",
     pos = { x = 4, y = 1 },
     config = { choose = 1, extra = 4 },
@@ -565,6 +578,7 @@ local eldritch_jumbo = {
 
 local eldritch_mega = {
     key = "eldritch_mega",
+    artist_credits = {"huycorn"},
     atlas = "booster",
     pos = { x = 5, y = 1 },
     config = { choose = 2, extra = 4 },
@@ -605,6 +619,7 @@ local eldritch_mega = {
 
 local supply = {
     key = "supply",
+    artist_credits = {"huycorn"},
     atlas = "supply",
     pos = { x = 4, y = 0 },
     config = { choose = 1, extra = 3 },

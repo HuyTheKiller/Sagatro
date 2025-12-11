@@ -2,10 +2,12 @@
 local white_rabbit = {
     key = "white_rabbit",
     name = "White Rabbit",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
+    saga_difficulty = 3,
     order = 1,
-    pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
+    pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.story_starter] = true },
     pos = { x = 0, y = 0 },
     config = {extra = {chips = 0, chip_mod = 6}},
 	rarity = 1,
@@ -106,7 +108,7 @@ local white_rabbit = {
         end
         if Sagatro.storyline_check("none") and G.STAGE == G.STAGES.RUN then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
-            specific_vars = {localize('ph_alice_in_wond')}, title = localize("saga_storyline_start")}
+            specific_vars = {localize('ph_alice_in_wond'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
         end
 		return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.extra.chip_mod*G.GAME.alice_multiplier}}
 	end,
@@ -130,6 +132,7 @@ local white_rabbit = {
 local drink_me = {
     key = "drink_me",
     name = "Drink Me!",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 2,
@@ -238,6 +241,7 @@ local drink_me = {
 local eat_me = {
     key = "eat_me",
     name = "Eat Me!",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 3,
@@ -360,6 +364,7 @@ local eat_me = {
 local mouse = {
     key = "mouse",
     name = "Mouse",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 4,
@@ -459,6 +464,7 @@ local mouse = {
 local kid_gloves_and_fan = {
     key = "kid_gloves_and_fan",
     name = "Kid-gloves And The Fan",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 5,
@@ -481,7 +487,7 @@ local kid_gloves_and_fan = {
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 for _ = 1, G.GAME.alice_multiplier do
-                                    if temp:get_id() <= 2 then break end
+                                    if temp:get_id() == 2 then break end
                                     assert(SMODS.modify_rank(temp, -1))
                                 end
 
@@ -494,7 +500,7 @@ local kid_gloves_and_fan = {
             if context.destroy_card and context.cardarea == G.play and not context.blueprint and not context.retrigger_joker then
                 if not context.destroy_card.debuff then
                     local temp = context.destroy_card
-                    if not SMODS.has_no_rank(temp) and temp:get_id() <= 2 then
+                    if not SMODS.has_no_rank(temp) and temp:get_id() == 2 then
                         return {
                             message = localize("k_poof_ex"),
                             colour = G.C.FILTER,
@@ -556,6 +562,7 @@ local kid_gloves_and_fan = {
 local dodo_bird = {
     key = "dodo_bird",
     name = "Dodo Bird",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 6,
@@ -570,17 +577,19 @@ local dodo_bird = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.other_joker and not context.forcetrigger then
-            if G.GAME.current_round.hands_left == 0 and G.GAME.current_round.discards_left == 0 then
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        context.other_joker:juice_up(0.5, 0.5)
-                        return true
-                    end
-                }))
-                return {
-                    message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult*G.GAME.alice_multiplier}},
-                    Xmult_mod = card.ability.extra.xmult*G.GAME.alice_multiplier
-                }
+            if not context.other_joker.ability.inactive then
+                if G.GAME.current_round.hands_left == 0 and G.GAME.current_round.discards_left == 0 then
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            context.other_joker:juice_up(0.5, 0.5)
+                            return true
+                        end
+                    }))
+                    return {
+                        message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult*G.GAME.alice_multiplier}},
+                        Xmult_mod = card.ability.extra.xmult*G.GAME.alice_multiplier
+                    }
+                end
             end
         end
         if context.forcetrigger then
@@ -631,7 +640,7 @@ local dodo_bird = {
                 and G.GAME.current_round.hands_left <= 1
                 and G.GAME.current_round.discards_left == 0
                 and localize("jdis_active") or localize("jdis_inactive")
-                return { x_mult = (card.ability.set == "Joker" and G.GAME.current_round.hands_left <= 1 and G.GAME.current_round.discards_left == 0 and (not G.GAME.inversed_scaling or not G.GAME.story_mode) and (mod_joker.ability.extra.xmult*G.GAME.alice_multiplier) ^ JokerDisplay.calculate_joker_triggers(mod_joker) or nil) }
+                return { x_mult = (card.ability.set == "Joker" and not card.ability.inactive and G.GAME.current_round.hands_left <= 1 and G.GAME.current_round.discards_left == 0 and mod_joker:can_calculate() and (mod_joker.ability.extra.xmult*G.GAME.alice_multiplier) ^ JokerDisplay.calculate_joker_triggers(mod_joker) or nil) }
             end
         }
     end,
@@ -640,6 +649,7 @@ local dodo_bird = {
 local unlabeled_bottle = {
     key = "unlabeled_bottle",
     name = "Unlabeled Bottle",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 7,
@@ -774,6 +784,7 @@ local unlabeled_bottle = {
 local little_bill = {
     key = "little_bill",
     name = "Little Bill",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 8,
@@ -839,6 +850,9 @@ local little_bill = {
                 and card.ability.extra*G.GAME.alice_multiplier or 0
             end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                    return 0
+                end
                 if held_in_hand then return 0 end
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return first_card and playing_card == first_card and joker_card.joker_display_values.is_full_house and
@@ -851,6 +865,7 @@ local little_bill = {
 local huge_dog = {
     key = "huge_dog",
     name = "Huge Puppy",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 9,
@@ -943,9 +958,12 @@ local huge_dog = {
                 card.joker_display_values.localized_text_ace = localize("Ace", "ranks")
             end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                    return 0
+                end
                 if held_in_hand then return 0 end
                 local valid_cards, all_cards = 0, 0
-                for _, playing_card in ipairs(G.play.cards) do
+                for _, playing_card in ipairs(scoring_hand) do
                     all_cards = all_cards + 1
                     if playing_card:get_id() == 2 or playing_card:get_id() == 14 then
                         valid_cards = valid_cards + 1
@@ -964,6 +982,7 @@ local huge_dog = {
 local caterpillar = {
     key = "caterpillar",
     name = "SauKhongHu",
+    artist_credits = {"huycorn", "amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 10,
@@ -1056,6 +1075,7 @@ local caterpillar = {
 local mushroom = {
     key = "mushroom",
     name = "Mushroom",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 11,
@@ -1223,6 +1243,7 @@ local mushroom = {
 local pigeon = {
     key = "pigeon",
     name = "Pigeon",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 12,
@@ -1351,6 +1372,7 @@ local pigeon = {
 local frog_footman = {
     key = "frog_footman",
     name = "Frog-Footman",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 13,
@@ -1448,6 +1470,7 @@ local frog_footman = {
 local the_cook = {
     key = "the_cook",
     name = "The Cook",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 14,
@@ -1561,6 +1584,7 @@ local the_cook = {
 local cheshire_cat = {
     key = "cheshire_cat",
     name = "Cheshire Cat",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 16,
@@ -1577,7 +1601,7 @@ local cheshire_cat = {
         card.ability.extra.odds = G.GAME.story_mode and 2 or 3
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint and not context.retrigger_joker then
+        if context.end_of_round and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
             if SMODS.pseudorandom_probability(card, 'cheshire_cat_vanish', 1, card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), "cheshire_cat") then
 				Sagatro.self_destruct(card)
                 if Sagatro.event_check("goodbye_frog") then
@@ -1738,6 +1762,7 @@ local cheshire_cat = {
 local duchess = {
     key = "duchess",
     name = "Duchess",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 17,
@@ -1841,6 +1866,7 @@ local duchess = {
 local the_baby = {
     key = "the_baby",
     name = "The Baby",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 18,
@@ -1915,6 +1941,9 @@ local the_baby = {
                 return false
             end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                    return 0
+                end
                 if held_in_hand then return 0 end
                 return G.GAME and G.GAME.current_round.hands_left <= 1
                 and (joker_card.ability.extra*G.GAME.alice_multiplier)*JokerDisplay.calculate_joker_triggers(joker_card) or 0
@@ -1926,6 +1955,7 @@ local the_baby = {
 local pepper_caster = {
     key = "pepper_caster",
     name = "Pepper-caster",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 15,
@@ -2010,6 +2040,9 @@ local pepper_caster = {
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
             end,
             retrigger_joker_function = function(card, retrigger_joker)
+                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                    return 0
+                end
                 return card.config.center_key ~= "j_sgt_pepper_caster" and
                     retrigger_joker.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier) or 0
             end,
@@ -2020,6 +2053,7 @@ local pepper_caster = {
 local mad_hatter = {
     key = "mad_hatter",
     name = "Mad Hatter",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 19,
@@ -2109,6 +2143,7 @@ local mad_hatter = {
 local tea = {
     key = "tea",
     name = "Tea",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 20,
@@ -2186,6 +2221,7 @@ local tea = {
 local bread = {
     key = "bread",
     name = "Teapot",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 21,
@@ -2263,6 +2299,7 @@ local bread = {
 local butter = {
     key = "butter",
     name = "Sugarcube",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 22,
@@ -2340,6 +2377,7 @@ local butter = {
 local march_hare = {
     key = "march_hare",
     name = "March Hare",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 23,
@@ -2437,6 +2475,7 @@ local march_hare = {
 local dormouse = {
     key = "dormouse",
     name = "Dormouse",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 24,
@@ -2496,6 +2535,7 @@ local dormouse = {
 local red_queen = {
     key = "red_queen",
     name = "Queen Of Hearts",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 25,
@@ -2628,6 +2668,7 @@ local red_queen = {
 local king = {
     key = "king",
     name = "The King",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 26,
@@ -2698,6 +2739,7 @@ local king = {
 local flamingo = {
     key = "flamingo",
     name = "The Flamingo",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 27,
@@ -2768,6 +2810,7 @@ local flamingo = {
 local gryphon = {
     key = "gryphon",
     name = "Gryphon",
+    artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 28,
@@ -2862,6 +2905,7 @@ local gryphon = {
 local mock_turtle = {
     key = "mock_turtle",
     name = "Mock Turtle",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
     order = 29,
@@ -2985,6 +3029,7 @@ local mock_turtle = {
 local alice = {
     key = "alice",
     name = "Alice",
+    artist_credits = {"amy"},
     atlas = "alice",
     saga_group = "alice_in_wonderland",
     order = 30,
@@ -3029,7 +3074,7 @@ local alice = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.storyline_check("none") or Sagatro.storyline_check(self.saga_group)
+            return (Sagatro.storyline_check("none") or Sagatro.storyline_check(self.saga_group)) and not G.GAME.invsersed_scaling
         end
         return true
     end,
@@ -3054,6 +3099,7 @@ local alice = {
 local shepherd_boy = {
     key = "shepherd_boy",
     name = "Shepherd Boy",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "the_boy_who_cried_wolf",
     order = 990,
@@ -3186,6 +3232,7 @@ local shepherd_boy = {
 local puss_in_boots = {
     key = "puss_in_boots",
     name = "Puss In Boots",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "puss_in_boots",
     order = 991,
@@ -3275,6 +3322,7 @@ local puss_in_boots = {
 local iron_john = {
     key = "iron_john",
     name = "Iron John",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "iron_john",
     order = 992,
@@ -3384,6 +3432,7 @@ local iron_john = {
 local aladdin = {
     key = "aladdin",
     name = "Aladdin",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "aladdin_and_the_magic_lamp",
     order = 1004,
@@ -3509,6 +3558,7 @@ local aladdin = {
 local magic_lamp = {
     key = "magic_lamp",
     name = "Magic Lamp",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "aladdin_and_the_magic_lamp",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -3619,6 +3669,7 @@ local magic_lamp = {
 local lamp_genie = {
     key = "lamp_genie",
     name = "Lamp Genie",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "aladdin_and_the_magic_lamp",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -3826,6 +3877,9 @@ local lamp_genie = {
                 and card.ability.extra.e_mult or ""
             end,
             retrigger_joker_function = function(card, retrigger_joker)
+                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                    return 0
+                end
                 return retrigger_joker.ability.wishlist.c_sgt_love
                 and retrigger_joker.ability.extra.retriggers or 0
             end,
@@ -3844,10 +3898,12 @@ local lamp_genie = {
 local lincoln_ship = {
     key = "lincoln_ship",
     name = "Lincoln Ship",
+    artist_credits = {"amy"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 31,
-    pools = {[SAGA_GROUP_POOL["20k"]] = true},
+    saga_difficulty = 5,
+    order = 61,
+    pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL.story_starter] = true},
     pos = { x = 0, y = 0 },
     config = {extra = {mult = 8}},
 	rarity = 1,
@@ -3895,7 +3951,7 @@ local lincoln_ship = {
         info_queue[#info_queue+1] = G.P_CENTERS["j_splash"]
         if Sagatro.storyline_check("none") and G.STAGE == G.STAGES.RUN then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
-            specific_vars = {localize('ph_20k')}, title = localize("saga_storyline_start")}
+            specific_vars = {localize('ph_20k'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
         end
         return {vars = {card.ability.extra.mult, localize{type = 'name_text', set = "Joker", key = "j_splash", nodes = {}}}}
     end,
@@ -3919,9 +3975,10 @@ local lincoln_ship = {
 local submarine = {
     key = "submarine",
     name = "Submarine",
+    artist_credits = {"huycorn"},
     atlas = "submarine",
     saga_group = "20k_miles_under_the_sea",
-    order = 38,
+    order = 68,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 0 },
     extra_pos = { x = 0, y = 9 },
@@ -4180,9 +4237,10 @@ local submarine = {
 local sub_engineer = {
     key = "sub_engineer",
     name = "Sub Engineer",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 32,
+    order = 62,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 0 },
     config = {amount = 1},
@@ -4216,9 +4274,10 @@ local sub_engineer = {
 local clownfish = {
     key = "clownfish",
     name = "Clownfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 40,
+    order = 70,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 5, y = 0 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {mult = 4}},
@@ -4247,7 +4306,7 @@ local clownfish = {
         end
         if context.forcetrigger then
             return {
-                mult_mod = card.ability.extra.mult,
+                mult = card.ability.extra.mult,
                 card = card,
             }
         end
@@ -4310,9 +4369,10 @@ local clownfish = {
 local blue_tang = {
     key = "blue_tang",
     name = "Blue Tang",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 41,
+    order = 71,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 6, y = 0 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {chips = 25}},
@@ -4341,7 +4401,7 @@ local blue_tang = {
         end
         if context.forcetrigger then
             return {
-                chip_mod = card.ability.extra.chips,
+                chips = card.ability.extra.chips,
                 card = card,
             }
         end
@@ -4404,9 +4464,10 @@ local blue_tang = {
 local pufferfish = {
     key = "pufferfish",
     name = "Pufferfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 42,
+    order = 72,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {xmult = 3}},
@@ -4479,9 +4540,10 @@ local pufferfish = {
 local white_jellyfish = {
     key = "white_jellyfish",
     name = "White Jellyfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 43,
+    order = 73,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {every = 2, xmult = 2.25, odds = 4}},
@@ -4605,9 +4667,10 @@ local white_jellyfish = {
 local red_jellyfish = {
     key = "red_jellyfish",
     name = "Red Jellyfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 44,
+    order = 74,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 2}}, extra = {every = 2, xmult = 4, odds = 32}},
@@ -4732,9 +4795,10 @@ local red_jellyfish = {
 local queen_jellyfish = {
     key = "queen_jellyfish",
     name = "Queen Jellyfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 45,
+    order = 75,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 3}}, extra = {every = 2, e_mult = 1.25, odds = 256}},
@@ -4857,9 +4921,10 @@ local queen_jellyfish = {
 local mandarin_fish = {
     key = "mandarin_fish",
     name = "Mandarin Fish",
+    artist_credits = {"kazumi"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 46,
+    order = 76,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {money = 75}},
@@ -4923,9 +4988,10 @@ local mandarin_fish = {
 local barracuda = {
     key = "barracuda",
     name = "Barracuda",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 53,
+    order = 83,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 5, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 2, depth_range = {1, 1}, target_offset = 1}, extra = {mult = 0, mult_mod = 10}},
@@ -4944,13 +5010,7 @@ local barracuda = {
         if context.setting_blind and not card.getting_sliced and not context.forcetrigger
         and not context.blueprint and not context.retrigger_joker then
             if card.area == G.consumeables then return end
-            local pos = nil
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] == card then
-                    pos = i
-                    break
-                end
-            end
+            local pos = Sagatro.get_pos(card)
             local joker = nil
             if pos then joker = G.jokers.cards[pos+card.ability.immutable.target_offset] end
             if joker and not card.getting_sliced
@@ -4967,7 +5027,7 @@ local barracuda = {
                     end
                     card:juice_up(0.8, 0.8)
                     eaten_fish:start_dissolve({G.C.RED}, true, 1.6)
-                    play_sound('sgt_swallow', 0.96+math.random()*0.08)
+                    play_sound('sgt_swallow', 0.96+math.random()*0.08, 0.7)
                 return true end }))
                 if SMODS.scale_card then
                     SMODS.scale_card(card, {
@@ -5050,9 +5110,10 @@ local barracuda = {
 local school = {
     key = "school",
     name = "School Of Fish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 33,
+    order = 63,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 6, y = 1 },
     config = {},
@@ -5111,9 +5172,10 @@ local school = {
 local prawn = {
     key = "prawn",
     name = "Sugpo Prawn",
+    artist_credits = {"amy"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 47,
+    order = 77,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 0, y = 2 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {money = 1}},
@@ -5195,9 +5257,10 @@ local prawn = {
 local john_dory = {
     key = "john_dory",
     name = "John Dory",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 51,
+    order = 81,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 6, y = 3 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {money = 4}},
@@ -5293,9 +5356,10 @@ local john_dory = {
 local octopus = {
     key = "octopus",
     name = "Octopus",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 55,
+    order = 85,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 3 },
     config = {immutable = {depth_level = 2, weight_level = 3, depth_range = {1, 2}, target_offset = 1}},
@@ -5480,9 +5544,10 @@ local octopus = {
 local squid = {
     key = "squid",
     name = "Squid",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 56,
+    order = 86,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 3 },
     config = {immutable = {depth_level = 2, weight_level = 3, depth_range = {1, 2}, target = "leftmost"}},
@@ -5608,9 +5673,10 @@ local squid = {
 local turtle_egg = {
     key = "turtle_egg",
     name = "Turtle Egg",
+    artist_credits = {"amy"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 36,
+    order = 66,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 1, y = 2 },
     config = {extra = {sell_value_mod = 3, odds = 15, sell_odds = 30}},
@@ -5722,9 +5788,10 @@ local turtle_egg = {
 local baby_turtle = {
     key = "baby_turtle",
     name = "Baby Turtle",
+    artist_credits = {"amy"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 37,
+    order = 67,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 2 },
     config = {extra = {xmult = 2}},
@@ -5808,9 +5875,10 @@ local baby_turtle = {
 local green_turtle = {
     key = "green_turtle",
     name = "Green Turtle",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 57,
+    order = 87,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 2 },
     config = {immutable = {depth_level = 2, weight_level = 3, depth_range = {1, 2}, target = "rightmost"}, extra = {xmult = 1.5}},
@@ -5932,9 +6000,10 @@ local green_turtle = {
 local electric_eel = {
     key = "electric_eel",
     name = "Electric Eel",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 76,
+    order = 106,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 2 },
     config = {immutable = {depth_level = 4, weight_level = 3, depth_range = {3, 4}, target_offset = -1}, extra = {}},
@@ -6109,9 +6178,10 @@ local electric_eel = {
 local sea_angel = {
     key = "sea_angel",
     name = "Sea Angel",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 70,
+    order = 100,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 4 },
     config = {type = "Three of a Kind", immutable = {depth_level = 5, weight_level = 1, depth_range = {1, 5}}, extra = {e_mult = 1.23}},
@@ -6185,9 +6255,10 @@ local sea_angel = {
 local stonefish = {
     key = "stonefish",
     name = "Stonefish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 52,
+    order = 82,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 4 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 2}}},
@@ -6290,9 +6361,10 @@ local stonefish = {
 local blobfish = {
     key = "blobfish",
     name = "Blobfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 85,
+    order = 115,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 5, y = 2 },
     config = {immutable = {depth_level = 5, weight_level = 2, depth_range = {4, 5}, target_offset = -1}, extra = {mult = 0, mult_mod = 3}},
@@ -6426,9 +6498,10 @@ local blobfish = {
 local ugly_blobfish = {
     key = "ugly_blobfish",
     name = "Ugly Blobfish",
+    artist_credits = {"amy"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 35,
+    order = 65,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 6, y = 2 },
     config = {extra = {xmult = 5}},
@@ -6494,9 +6567,10 @@ local ugly_blobfish = {
 local coral_kingdom = {
     key = "coral_kingdom",
     name = "Coral Kingdom",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 34,
+    order = 64,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 4 },
     config = {extra = {joker_count = 2, chips = 0, chip_mod = 15}},
@@ -6614,9 +6688,10 @@ local coral_kingdom = {
 local dolphin = {
     key = "dolphin",
     name = "Dolphin",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 61,
+    order = 91,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 3 },
     config = {immutable = {depth_level = 3, weight_level = 3, depth_range = {1, 3}, target_offset = 1}, extra = {xmult = 1, xmult_mod = 0.2}},
@@ -6745,9 +6820,10 @@ local dolphin = {
 local coelacanthiformes = {
     key = "coelacanthiformes",
     name = "Coelacanthiformes",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 72,
+    order = 102,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 3 },
     config = {immutable = {depth_level = 3, weight_level = 3, depth_range = {2, 3}, target_offset = -1}, extra = {}},
@@ -6869,9 +6945,10 @@ local coelacanthiformes = {
 local sunfish = {
     key = "sunfish",
     name = "Sunfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 62,
+    order = 92,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 3 },
     config = {immutable = {depth_level = 1, weight_level = 4, depth_range = {1, 3}, target_offset = 1}, extra = {}},
@@ -6953,9 +7030,10 @@ local sunfish = {
 local moonfish = {
     key = "moonfish",
     name = "Moonfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 63,
+    order = 93,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 5, y = 3 },
     config = {immutable = {depth_level = 1, weight_level = 3, depth_range = {1, 3}, target_offset = -1}, extra = {}},
@@ -7037,9 +7115,10 @@ local moonfish = {
 local swordfish = {
     key = "swordfish",
     name = "Swordfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 64,
+    order = 94,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 4 },
     config = {immutable = {depth_level = 1, weight_level = 3, depth_range = {1, 3}, target_range = "leftward", eternal_block = true}, extra = {chips = 0, chip_mod = 24, chip_mod_mod = 3}},
@@ -7190,9 +7269,10 @@ local swordfish = {
 local penguin = {
     key = "penguin",
     name = "Penguin",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 60,
+    order = 90,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 5, y = 4 },
     config = {immutable = {depth_level = 1, weight_level = 2, depth_range = {1, 3}, target = "rightmost"}, extra = {times = 2}},
@@ -7295,9 +7375,10 @@ local penguin = {
 local seal = {
     key = "seal",
     name = "Seal",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 68,
+    order = 98,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 6, y = 4 },
     config = {immutable = {depth_level = 1, weight_level = 3, depth_range = {1, 4}, target_offset = -1}, type = "Flush"},
@@ -7392,9 +7473,10 @@ local seal = {
 local ray = {
     key = "ray",
     name = "Ray",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 65,
+    order = 95,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 5 },
     config = {immutable = {depth_level = 2, weight_level = 3, depth_range = {1, 3}, target_offset = -1}, extra = {mult = 0, base_mult = 11}},
@@ -7533,9 +7615,10 @@ local ray = {
 local orca = {
     key = "orca",
     name = "Orca",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 66,
+    order = 96,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 5 },
     config = {immutable = {depth_level = 3, weight_level = 4, depth_range = {1, 3}, target_offset = -1}, extra = {xmult = 1, found_add = 0.3, unfound_sub = 0.15, target_rank = "Ace", target_id = 14}},
@@ -7734,9 +7817,10 @@ local orca = {
 local sperm_whale = {
     key = "sperm_whale",
     name = "Sperm Whale",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 80,
+    order = 110,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 5 },
     config = {immutable = {depth_level = 4, weight_level = 5, depth_range = {3, 4}, target_range = "leftward", eternal_block = true}, extra = {poker_hand = "High Card", amount = 5}},
@@ -7765,7 +7849,7 @@ local sperm_whale = {
         end
         if context.before and not context.retrigger_joker
         and G.GAME.current_round.hands_played == 0 and context.scoring_name == card.ability.extra.poker_hand then
-            SMODS.smart_level_up_hand(card, card.ability.extra.poker_hand, nil, card.ability.extra.amount)
+            SMODS.smart_level_up_hand(context.blueprint_card or card, card.ability.extra.poker_hand, nil, card.ability.extra.amount)
             if not context.blueprint then
                 card.ability.extra.triggered = true
             end
@@ -7863,9 +7947,10 @@ local sperm_whale = {
 local sea_urchin = {
     key = "sea_urchin",
     name = "Sea Urchin",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 58,
+    order = 88,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 5 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 2}}, extra = {odds = 15}},
@@ -7948,9 +8033,10 @@ local sea_urchin = {
 local starfish = {
     key = "starfish",
     name = "Starfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 48,
+    order = 78,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 5 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {chips = 15}},
@@ -8024,9 +8110,10 @@ local starfish = {
 local shark = {
     key = "shark",
     name = "Shark",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 67,
+    order = 97,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 5, y = 5 },
     config = {immutable = {depth_level = 1, weight_level = 4, depth_range = {1, 3}, target_range = {-2, -1}}, extra = {chips = 0, eat_add = 25, eor_sub = 25}},
@@ -8044,13 +8131,7 @@ local shark = {
     calculate = function(self, card, context)
         if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
             if card.area == G.consumeables or G.jokers.cards[1] == card then return end
-            local pos = nil
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] == card then
-                    pos = i
-                    break
-                end
-            end
+            local pos = Sagatro.get_pos(card)
             local eaten_fish = {}
             local total_addition = 0
             for i = pos-2, pos-1 do
@@ -8077,7 +8158,7 @@ local shark = {
                     for _, fish in ipairs(eaten_fish) do
                         fish:start_dissolve({G.C.RED}, true, 1.6)
                     end
-                    play_sound('sgt_swallow', 0.96+math.random()*0.08)
+                    play_sound('sgt_swallow', 0.96+math.random()*0.08, 0.7)
                 return true end }))
                 if SMODS.scale_card then
                     SMODS.scale_card(card, {
@@ -8186,9 +8267,10 @@ local shark = {
 local lantern_fish = {
     key = "lantern_fish",
     name = "Lantern Fish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 74,
+    order = 104,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 6, y = 5 },
     config = {immutable = {depth_level = 4, weight_level = 1, depth_range = {2, 4}}, extra = {rarity_mod = 3}},
@@ -8242,9 +8324,10 @@ local lantern_fish = {
 local nautilus = {
     key = "nautilus",
     name = "Nautilus",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 73,
+    order = 103,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 6 },
     config = {immutable = {depth_level = 3, weight_level = 1, depth_range = {2, 3}}, extra = {rank_ids = {14, 2, 3, 5, 8, 13}, count = 0}},
@@ -8343,9 +8426,10 @@ local nautilus = {
 local stomiidae = {
     key = "stomiidae",
     name = "Stomiidae",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 75,
+    order = 105,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 6 },
     config = {immutable = {depth_level = 4, weight_level = 1, depth_range = {2, 4}}, extra = {xmult = 1, spade_add = 0.5, eor_sub = 1}},
@@ -8411,7 +8495,7 @@ local stomiidae = {
         if context.destroy_card and context.cardarea == G.play and not context.blueprint and not context.retrigger_joker then
             if not context.destroy_card.debuff then
                 local temp = context.destroy_card
-                if not SMODS.has_no_rank(temp) and temp:get_id() <= 2 and temp:is_suit("Spades") then
+                if not SMODS.has_no_rank(temp) and temp:get_id() == 2 and temp:is_suit("Spades") then
                     return {remove = true}
                 end
             end
@@ -8517,9 +8601,10 @@ local stomiidae = {
 local hermit_crab = {
     key = "hermit_crab",
     name = "Hermit Crab",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 49,
+    order = 79,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 6 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {mult = 16}, type = "Full House"},
@@ -8596,9 +8681,10 @@ local hermit_crab = {
 local king_crab = {
     key = "king_crab",
     name = "King Crab",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 71,
+    order = 101,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 6 },
     config = {immutable = {depth_level = 2, weight_level = 2, depth_range = {2, 3}, target_range = {-1, 1}}, fixed_type = "Two Pair"},
@@ -8703,9 +8789,10 @@ local king_crab = {
 local big_red_jelly = {
     key = "big_red_jelly",
     name = "Big Red Jelly",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 77,
+    order = 107,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 6 },
     config = {immutable = {depth_level = 4, weight_level = 3, depth_range = {3, 4}, target_offset = 1}, extra = {xmult = 1, xmult_mod = 0.1}},
@@ -8836,9 +8923,10 @@ local big_red_jelly = {
 local narwhal = {
     key = "narwhal",
     name = "Narwhal",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 69,
+    order = 99,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 5, y = 6 },
     config = {immutable = {depth_level = 4, weight_level = 4, depth_range = {1, 4}}, extra = {xmult = 1, xmult_mod = 0.2}},
@@ -8851,13 +8939,7 @@ local narwhal = {
     calculate = function(self, card, context)
         if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
             if card.area == G.consumeables or G.jokers.cards[1] == card then return end
-            local pos = nil
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] == card then
-                    pos = i
-                    break
-                end
-            end
+            local pos = Sagatro.get_pos(card)
             local impaled_jokers = {}
             local total_sell_cost = 0
             for i = pos-1, 1, -1 do
@@ -8883,7 +8965,7 @@ local narwhal = {
                     for _, impaled_joker in ipairs(impaled_jokers) do
                         impaled_joker:start_dissolve({G.C.RED}, true, 1.6)
                     end
-                    play_sound('sgt_narwhal_impale', 0.96+math.random()*0.08)
+                    play_sound('sgt_narwhal_impale', 0.96+math.random()*0.08, 0.7)
                 return true end }))
                 if SMODS.scale_card then
                     SMODS.scale_card(card, {
@@ -8972,9 +9054,10 @@ local narwhal = {
 local seahorse = {
     key = "seahorse",
     name = "Seahorse",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 50,
+    order = 80,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 6, y = 6 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {odds = 3}},
@@ -9082,9 +9165,10 @@ local seahorse = {
 local goblin_shark = {
     key = "goblin_shark",
     name = "Goblin Shark",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 78,
+    order = 108,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 7 },
     config = {immutable = {depth_level = 4, weight_level = 3, depth_range = {3, 4}, target_range = {-2, -1}}, extra = {dollars = 0, dollar_mod = 5, sub_per_hand = 1}},
@@ -9102,13 +9186,7 @@ local goblin_shark = {
     calculate = function(self, card, context)
         if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
             if card.area == G.consumeables or G.jokers.cards[1] == card then return end
-            local pos = nil
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] == card then
-                    pos = i
-                    break
-                end
-            end
+            local pos = Sagatro.get_pos(card)
             local eaten_fish = {}
             local total_addition = 0
             for i = pos-2, pos-1 do
@@ -9135,7 +9213,7 @@ local goblin_shark = {
                     for _, fish in ipairs(eaten_fish) do
                         fish:start_dissolve({G.C.RED}, true, 1.6)
                     end
-                    play_sound('sgt_swallow', 0.96+math.random()*0.08)
+                    play_sound('sgt_swallow', 0.96+math.random()*0.08, 0.7)
                 return true end }))
                 if SMODS.scale_card then
                     SMODS.scale_card(card, {
@@ -9251,9 +9329,10 @@ local goblin_shark = {
 local colossal_squid = {
     key = "colossal_squid",
     name = "Colossal Squid",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 79,
+    order = 109,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 7 },
     config = {immutable = {depth_level = 4, weight_level = 3, depth_range = {3, 4}, target = "leftmost"}, extra = {target_ids = {10, 11, 12, 13, 14}}},
@@ -9373,9 +9452,10 @@ local colossal_squid = {
 local chimaera = {
     key = "chimaera",
     name = "Chimaera",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 81,
+    order = 111,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 7 },
     config = {immutable = {depth_level = 4, weight_level = 3, depth_range = {3, 5}}, extra = {spectral_count = 0, spectral_mod = 1, spectral_sub = 1}},
@@ -9388,13 +9468,7 @@ local chimaera = {
     calculate = function(self, card, context)
         if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
             if card.area == G.consumeables or G.jokers.cards[#G.jokers.cards] == card then return end
-            local pos = nil
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] == card then
-                    pos = i
-                    break
-                end
-            end
+            local pos = Sagatro.get_pos(card)
             local killed_jokers = {}
             for i = pos+1, pos+2 do
                 local joker = G.jokers.cards[i]
@@ -9418,7 +9492,7 @@ local chimaera = {
                     for _, killed_joker in ipairs(killed_jokers) do
                         killed_joker:start_dissolve({G.C.RED}, true, 1.6)
                     end
-                    play_sound('sgt_narwhal_impale', 0.96+math.random()*0.08)
+                    play_sound('sgt_narwhal_impale', 0.96+math.random()*0.08, 0.7)
                 return true end }))
                 if SMODS.scale_card then
                     SMODS.scale_card(card, {
@@ -9546,9 +9620,10 @@ local chimaera = {
 local dumbo_octopus = {
     key = "dumbo_octopus",
     name = "Dombo Octopus",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 82,
+    order = 112,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 7 },
     config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {3, 5}}, extra = {retriggers = 8}},
@@ -9626,9 +9701,10 @@ local dumbo_octopus = {
 local atolla_wyvillei = {
     key = "atolla_wyvillei",
     name = "Atolla wyvillei",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 83,
+    order = 113,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 7 },
     config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {3, 5}}, extra = {rarity_mod = 5, xmult = 20, xmult_sub = 1}},
@@ -9726,9 +9802,10 @@ local atolla_wyvillei = {
 local faceless_cusk = {
     key = "faceless_cusk",
     name = "Faceless Cusk",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 86,
+    order = 116,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 5, y = 7 },
     config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {4, 5}}, extra = {xmult = 1, xmult_mod = 0.5}},
@@ -9835,9 +9912,10 @@ local faceless_cusk = {
 local brittle_star = {
     key = "brittle_star",
     name = "Brittle Star",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 87,
+    order = 117,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 6, y = 7 },
     config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {4, 5}}, extra = {xmult = 1.75, odds = 4}},
@@ -9925,9 +10003,10 @@ local brittle_star = {
 local comb_jellyfish = {
     key = "comb_jellyfish",
     name = "Comb Jellyfish",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 84,
+    order = 114,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 8 },
     config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {3, 5}}, extra = {}, suit_ge = 4},
@@ -10036,9 +10115,10 @@ local comb_jellyfish = {
 local lobster = {
     key = "lobster",
     name = "Lobster",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 59,
+    order = 89,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 8 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 3}}, extra = {retriggers = 2}},
@@ -10139,9 +10219,10 @@ local lobster = {
 local fangtooth = {
     key = "fangtooth",
     name = "Fangtooth",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 88,
+    order = 118,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 2, y = 8 },
     config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {4, 5}}, extra = {xmult = 1.5}},
@@ -10160,12 +10241,12 @@ local fangtooth = {
         end
         if context.discard and not context.blueprint and not context.retrigger_joker and G.GAME.current_round.discards_used <= 0
         and #context.full_hand == 1 and not SMODS.has_no_rank(context.full_hand[1]) then
-            card.ability.extra.stored_rank = context.full_hand[1].config.card.value
+            card.ability.extra.stored_rank = context.full_hand[1].base.value
             return {remove = true}
         end
         if context.individual and context.cardarea == G.play and card.ability.extra.stored_rank then
             if not SMODS.has_no_rank(context.other_card)
-            and context.other_card.config.card.value == card.ability.extra.stored_rank then
+            and context.other_card.base.value == card.ability.extra.stored_rank then
                 return {
                     x_mult = card.ability.extra.xmult,
                     colour = G.C.RED,
@@ -10235,7 +10316,7 @@ local fangtooth = {
                 if text ~= 'Unknown' and card.ability.extra.stored_rank then
                     for _, scoring_card in pairs(scoring_hand) do
                         if not SMODS.has_no_rank(scoring_card)
-                        and scoring_card.config.card.value == card.ability.extra.stored_rank then
+                        and scoring_card.base.value == card.ability.extra.stored_rank then
                             count = count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
                         end
                     end
@@ -10251,9 +10332,10 @@ local fangtooth = {
 local grenadier = {
     key = "grenadier",
     name = "Grenadier",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 89,
+    order = 119,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 3, y = 8 },
     config = {immutable = {depth_level = 5, weight_level = 1, depth_range = {4, 5}}},
@@ -10268,10 +10350,12 @@ local grenadier = {
             local ranks = {}
             local temp_ID, lowest_card = 15, nil
             for _, v in ipairs(context.scoring_hand) do
-                ranks[v.config.card.value] = (ranks[v.config.card.value] or 0) + 1
-                if temp_ID > v.base.id and not SMODS.has_no_rank(v) then
-                    temp_ID = v.base.id
-                    lowest_card = v
+                if not SMODS.has_no_rank(v) then
+                    ranks[v.base.value] = (ranks[v.base.value] or 0) + 1
+                    if temp_ID > v.base.id then
+                        temp_ID = v.base.id
+                        lowest_card = v
+                    end
                 end
             end
             if table.size(ranks) > 1 or context.forcetrigger then
@@ -10329,8 +10413,8 @@ local grenadier = {
             calc_function = function(card)
                 local _, _, scoring_hand = JokerDisplay.evaluate_hand()
                 local ranks = {}
-                for _, scoring_card in ipairs(scoring_hand) do
-                    ranks[scoring_card.config.card.value] = (ranks[scoring_card.config.card.value] or 0) + 1
+                for _, scoring_card in pairs(scoring_hand) do
+                    ranks[scoring_card.base.value] = (ranks[scoring_card.base.value] or 0) + 1
                 end
                 card.joker_display_values.active = table.size(ranks) > 1
                 and localize("jdis_active") or localize("jdis_inactive")
@@ -10342,9 +10426,10 @@ local grenadier = {
 local mahimahi = {
     key = "mahimahi",
     name = "Mahi-mahi",
+    artist_credits = {"huycorn"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    order = 54,
+    order = 84,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 4, y = 8 },
     config = {immutable = {depth_level = 2, weight_level = 2, depth_range = {1, 2}, target_offset = -1}, extra = {h_mult = 8}},
@@ -10362,10 +10447,14 @@ local mahimahi = {
             card.triggered = nil
             local played_ranks, held_in_hand_ranks = {}, {}
             for _, v in ipairs(context.full_hand) do
-                played_ranks[v.config.card.value] = (played_ranks[v.config.card.value] or 0) + 1
+                if not SMODS.has_no_rank(v) then
+                    played_ranks[v.base.value] = (played_ranks[v.base.value] or 0) + 1
+                end
             end
             for _, v in ipairs(G.hand.cards) do
-                held_in_hand_ranks[v.config.card.value] = (held_in_hand_ranks[v.config.card.value] or 0) + 1
+                if not SMODS.has_no_rank(v) then
+                    held_in_hand_ranks[v.base.value] = (held_in_hand_ranks[v.base.value] or 0) + 1
+                end
             end
             for k, _ in pairs(played_ranks) do
                 if held_in_hand_ranks[k] then card.triggered = true break end
@@ -10422,7 +10511,7 @@ local mahimahi = {
         return {
             text = {
                 { text = "+" },
-                { ref_table = "card.joker_display_values", ref_value = "h_mult" },
+                { ref_table = "card.joker_display_values", ref_value = "h_mult", retrigger_type = "mult" },
             },
             text_config = { colour = G.C.MULT },
             calc_function = function(card)
@@ -10432,18 +10521,22 @@ local mahimahi = {
                 local played_ranks, held_in_hand_ranks = {}, {}
                 for _, playing_card in ipairs(G.hand.cards) do
                     if playing_hand or not playing_card.highlighted then
-                        held_in_hand_ranks[playing_card.config.card.value] = (held_in_hand_ranks[playing_card.config.card.value] or 0) + 1
+                        if not SMODS.has_no_rank(playing_card) then
+                            held_in_hand_ranks[playing_card.base.value] = (held_in_hand_ranks[playing_card.base.value] or 0) + 1
+                        end
                         if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
                             count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
                         end
                     else
-                        played_ranks[playing_card.config.card.value] = (played_ranks[playing_card.config.card.value] or 0) + 1
+                        played_ranks[playing_card.base.value] = (played_ranks[playing_card.base.value] or 0) + 1
                     end
                 end
                 if playing_hand then
                     for _, playing_card in ipairs(G.play.cards) do
-                        if playing_card.config.card and playing_card.config.card.value then
-                            played_ranks[playing_card.config.card.value] = (played_ranks[playing_card.config.card.value] or 0) + 1
+                        if playing_card.config.card and playing_card.base.value then
+                            if not SMODS.has_no_rank(playing_card) then
+                                played_ranks[playing_card.base.value] = (played_ranks[playing_card.base.value] or 0) + 1
+                            end
                         end
                     end
                 end
@@ -10482,9 +10575,10 @@ local mahimahi = {
 local seawater = {
     key = "seawater",
     name = "Seawater",
+    artist_credits = {"huycorn"},
     atlas = "seawater",
     saga_group = "20k_miles_under_the_sea",
-    order = 39,
+    order = 69,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 0 },
     config = {immutable = {depth_level = 1}},
@@ -10516,9 +10610,10 @@ local seawater = {
 local nemo = {
     key = "nemo",
     name = "Cpt. Nemo",
+    artist_credits = {"amy"},
     atlas = "nemo",
     saga_group = "20k_miles_under_the_sea",
-    order = 90,
+    order = 120,
     pos = { x = 0, y = 0 },
     pools = { [SAGA_GROUP_POOL.legend] = true },
     soul_pos = { x = 1, y = 0 },
@@ -10596,9 +10691,2715 @@ local nemo = {
     end,
 }
 
+local mirror = {
+    key = "mirror",
+    name = "Mirror",
+    artist_credits = {"amy"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    saga_difficulty = 4,
+    order = 31,
+    pos = { x = 0, y = 0 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {type = "Pair"},
+    rarity = 1,
+    cost = 3,
+    blueprint_compat = false,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = false,
+    calculate = function(self, card, context)
+        if context.before and context.scoring_name == card.ability.type then
+            local ranks = {}
+            for _, v in ipairs(context.scoring_hand) do
+                if not SMODS.has_no_rank(v) then
+                    ranks[v.base.value] = (ranks[v.base.value] or 0) + 1
+                end
+            end
+            local max_count, rank = 0, nil
+            for k, v in pairs(ranks) do
+                if max_count < v then max_count = v; rank = k end
+            end
+            local i = 1
+            local _card = context.scoring_hand[i]
+            while _card and SMODS.has_no_rank(_card)
+            and _card.base.value ~= rank do
+                i = i + 1
+                _card = context.scoring_hand[i]
+            end
+            local orig_card = _card
+            i = i + 1
+            _card = context.scoring_hand[i]
+            while _card and SMODS.has_no_rank(_card)
+            and _card.base.value ~= rank do
+                i = i + 1
+                _card = context.scoring_hand[i]
+            end
+            if _card then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        _card:juice_up()
+                        assert(SMODS.change_base(_card, orig_card.base.suit, nil))
+                        return true
+                    end
+                }))
+                return {
+                    message = localize("k_smeared_ex"),
+                    colour = G.C.FILTER,
+                    no_retrigger = true,
+                }
+            end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff then
+            Sagatro.init_storyline(self.saga_group, true)
+            G.GAME.mirror_hint_to_progress = true
+            SMODS.debuff_card(card, "prevent_debuff", "j_sgt_mirror")
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode then
+            return Sagatro.storyline_check("alice_in_wonderland")
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        if G.GAME.story_mode and not Sagatro.storyline_check(self.saga_group) and G.STAGE == G.STAGES.RUN then
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "interwoven_storyline_start",
+            specific_vars = {localize('ph_alice_in_mirr'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
+        end
+        if G.GAME.mirror_switch_cooldown then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_switch_cooldown"}
+        end
+        if G.GAME.free_reroll_tooltip then
+            info_queue[#info_queue+1] = {set = "Other", key = "free_reroll_tooltip", specific_vars = {Sagatro.ability.switch_bonus}}
+        end
+        if G.GAME.mirror_hint_to_progress then
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "mirror"}
+        end
+        return {vars = {localize(card.ability.type, "poker_hands")}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "active" },
+                { text = ")" },
+            },
+            text_config = { colour = G.C.UI.TEXT_INACTIVE },
+            calc_function = function(card)
+                local text, _, _ = JokerDisplay.evaluate_hand()
+                local is_pair = text == card.ability.type
+                card.joker_display_values.active = is_pair and localize("jdis_active") or localize("jdis_inactive")
+            end,
+        }
+    end,
+}
+
+local white_pawn = {
+    key = "white_pawn",
+    name = "White Pawn",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 32,
+    pos = { x = 1, y = 0 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {type = "Straight", extra_type = "Straight Flush"},
+    rarity = 1,
+    cost = 3,
+    blueprint_compat = false,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint and not context.retrigger_joker
+        and context.poker_hands and next(context.poker_hands[card.ability.type]) then
+            local hearts_diamonds = 0
+            local target
+            for _, v in ipairs(context.scoring_hand) do
+                if v:is_suit("Hearts") or v:is_suit("Diamonds") then
+                    hearts_diamonds = hearts_diamonds + 1
+                    v.white_pawn_marked = hearts_diamonds == 1 or nil
+                    target = hearts_diamonds == 1 and v or target
+                end
+            end
+            if hearts_diamonds == 1 then
+                card.ability.triggered = true
+            elseif target then
+                target.white_pawn_marked = nil
+            end
+        end
+        if context.destroy_card and card.ability.triggered and context.destroy_card.white_pawn_marked then
+            card.ability.triggered = nil
+            return {remove = true}
+        end
+        if context.after and not context.blueprint and not context.retrigger_joker
+        and context.scoring_name == card.ability.extra_type then
+            local temp_ID, highest_card = 0, nil
+            for _, v in ipairs(context.scoring_hand) do
+                if v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
+                    if not SMODS.has_no_rank(v) then
+                        if temp_ID < v.base.id then
+                            temp_ID = v.base.id
+                            highest_card = v
+                        end
+                    end
+                end
+            end
+            if highest_card then
+                local percent = 1.15 - (1 - 0.999) / (1 - 0.998) * 0.3
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.15,
+                    func = function()
+                        if card.facing == "front" then
+                            card.genuine_flip = true
+                            play_sound('card1', percent)
+                            card:juice_up(0.3, 0.3)
+                            card:flip()
+                        end
+                        return true
+                    end
+                }))
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        local chess_pieces = {"j_sgt_white_rook", "j_sgt_white_knight", "j_sgt_white_bishop", "j_sgt_white_queen"}
+                        local chess_piece = pseudorandom_element(chess_pieces, pseudoseed("white_pawn_promote"))
+                        card:set_ability(chess_piece)
+                        card:set_cost()
+                        SMODS.calculate_effect({message = localize("k_promoted_ex"), colour = G.C.FILTER, instant = true}, card)
+                        return true
+                    end
+                }))
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.15,
+                    func = function()
+                        if card.genuine_flip then
+                            card.genuine_flip = nil
+                            card:flip()
+                            play_sound('tarot2', percent, 0.6)
+                        end
+                        return true
+                    end
+                }))
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_rook
+        info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_knight
+        info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_bishop
+        info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_queen
+        return {vars = {localize(card.ability.type, "poker_hands"), localize(card.ability.extra_type, "poker_hands")}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "active" },
+                { text = ")" },
+            },
+            text_config = { colour = G.C.UI.TEXT_INACTIVE },
+            calc_function = function(card)
+                local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
+                local is_straight_flush = text == card.ability.extra_type
+                local straight_active, straight_flush_active
+                if poker_hands[card.ability.type] and next(poker_hands[card.ability.type]) then
+                    straight_active = true
+                    local hearts_diamonds = 0
+                    local temp_ID, highest_card = 0, nil
+                    for _, scoring_card in pairs(scoring_hand) do
+                        if scoring_card:is_suit("Hearts") or scoring_card:is_suit("Diamonds") then
+                            hearts_diamonds = hearts_diamonds + 1
+                        elseif is_straight_flush and scoring_card:is_suit("Spades", nil, true) or scoring_card:is_suit("Clubs", nil, true) then
+                            if not SMODS.has_no_rank(scoring_card) then
+                                if temp_ID < scoring_card.base.id then
+                                    temp_ID = scoring_card.base.id
+                                    highest_card = scoring_card
+                                end
+                            end
+                        end
+                    end
+                    if hearts_diamonds ~= 1 then
+                        straight_active = false
+                    end
+                    if highest_card then
+                        straight_flush_active = true
+                    end
+                end
+                card.joker_display_values.active = card:can_calculate()
+                and (straight_active or straight_flush_active)
+                and localize("jdis_active") or localize("jdis_inactive")
+            end,
+        }
+    end,
+}
+
+local white_queen = {
+    key = "white_queen",
+    name = "White Queen",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 36,
+    pos = { x = 2, y = 0 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {mult = 10}},
+    rarity = 2,
+    cost = 7,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
+            if context.other_card:get_id() == 12 then
+                if context.other_card.debuff then
+                    return {
+                        message = localize('k_debuffed'),
+                        colour = G.C.RED,
+                    }
+                else
+                    return {
+                        h_mult = card.ability.extra.mult,
+                    }
+                end
+            end
+        end
+        if context.joker_main then
+            local hearts_diamonds, spades_clubs = 0, 0
+            for _, v in ipairs(G.hand.cards) do
+                if v:is_suit("Hearts") or v:is_suit("Diamonds") then
+                    hearts_diamonds = hearts_diamonds + 1
+                elseif v:is_suit("Spades") or v:is_suit("Clubs") then
+                    spades_clubs = spades_clubs + 1
+                end
+            end
+            if spades_clubs - hearts_diamonds ~= 0 then
+                local difference = spades_clubs - hearts_diamonds
+                return {
+                    mult = card.ability.extra.mult*difference,
+                }
+            end
+        end
+        if context.forcetrigger then
+            return {
+                mult = card.ability.extra.mult,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.mult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { ref_table = "card.joker_display_values", ref_value = "plus" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                local count = 0
+                local hearts_diamonds, spades_clubs = 0, 0
+                local mult = card.ability.extra.mult
+                local playing_hand = next(G.play.cards)
+                for _, playing_card in ipairs(G.hand.cards) do
+                    if playing_hand or not playing_card.highlighted then
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
+                            if playing_card:get_id() == 12 then
+                                count = count + JokerDisplay.calculate_card_triggers(playing_card)
+                            end
+                            if playing_card:is_suit("Hearts") or playing_card:is_suit("Diamonds") then
+                                hearts_diamonds = hearts_diamonds + 1
+                            elseif playing_card:is_suit("Spades") or playing_card:is_suit("Clubs") then
+                                spades_clubs = spades_clubs + 1
+                            end
+                        end
+                    end
+                end
+                card.joker_display_values.plus = "+"
+                card.joker_display_values.mult = mult*(count + spades_clubs - hearts_diamonds)
+                if not card:can_calculate() then
+                    card.joker_display_values.mult = 0
+                end
+                if card.joker_display_values.mult < 0 then
+                    card.joker_display_values.plus = ""
+                end
+            end,
+        }
+    end,
+}
+
+local white_king = {
+    key = "white_king",
+    name = "White King",
+    artist_credits = {"dj"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 37,
+    pos = { x = 3, y = 0 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {xmult = 1.2}},
+    rarity = 3,
+    cost = 10,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
+            if context.other_card:get_id() == 13 then
+                if context.other_card.debuff then
+                    return {
+                        message = localize('k_debuffed'),
+                        colour = G.C.RED,
+                    }
+                else
+                    return {
+                        x_mult = card.ability.extra.xmult,
+                    }
+                end
+            end
+        end
+        if context.joker_main then
+            local hearts_diamonds, spades_clubs = 0, 0
+            for _, v in ipairs(G.hand.cards) do
+                if v:is_suit("Hearts") or v:is_suit("Diamonds") then
+                    hearts_diamonds = hearts_diamonds + 1
+                elseif v:is_suit("Spades") or v:is_suit("Clubs") then
+                    spades_clubs = spades_clubs + 1
+                end
+            end
+            if hearts_diamonds == 0 then hearts_diamonds = 1 end
+            if spades_clubs / hearts_diamonds ~= 0 then
+                local quotient = spades_clubs / hearts_diamonds
+                return {
+                    x_mult = card.ability.extra.xmult*quotient,
+                }
+            end
+        end
+        if context.forcetrigger then
+            return {
+                x_mult = card.ability.extra.xmult,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                }
+            },
+            calc_function = function(card)
+                local count = 0
+                local hearts_diamonds, spades_clubs = 0, 0
+                local xmult = card.ability.extra.xmult
+                local playing_hand = next(G.play.cards)
+                for _, playing_card in ipairs(G.hand.cards) do
+                    if playing_hand or not playing_card.highlighted then
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
+                            if playing_card:get_id() == 13 then
+                                count = count + JokerDisplay.calculate_card_triggers(playing_card)
+                            end
+                            if playing_card:is_suit("Hearts") or playing_card:is_suit("Diamonds") then
+                                hearts_diamonds = hearts_diamonds + 1
+                            elseif playing_card:is_suit("Spades") or playing_card:is_suit("Clubs") then
+                                spades_clubs = spades_clubs + 1
+                            end
+                        end
+                    end
+                end
+                if hearts_diamonds == 0 then hearts_diamonds = 1 end
+                local result = 1
+                if xmult*(spades_clubs / hearts_diamonds) ~= 0 then
+                    result = xmult*(spades_clubs / hearts_diamonds)
+                end
+                card.joker_display_values.xmult = (xmult^count)*result
+                if not card:can_calculate() then
+                    card.joker_display_values.xmult = 1
+                end
+            end,
+        }
+    end,
+}
+
+local live_flowers = {
+    key = "live_flowers",
+    name = "Live Flowers",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 38,
+    pos = { x = 4, y = 0 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {mult = 20, mult_sub = 1}},
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main or context.forcetrigger then
+            return {
+                mult = card.ability.extra.mult,
+            }
+        end
+        if context.after and not context.blueprint and not context.retrigger_joker then
+            if card.ability.extra.mult - card.ability.extra.mult_sub <= 0 then
+                Sagatro.self_destruct(card)
+                return {
+                    message = localize('k_poof_ex'),
+                    colour = G.C.FILTER,
+                    no_retrigger = true
+                }
+            else
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "mult",
+                    scalar_value = "mult_sub",
+                    message_key = 'a_mult_minus',
+                    colour = G.C.MULT,
+                    operation = '-'
+                })
+                return nil, true
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.mult, card.ability.extra.mult_sub}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                card.joker_display_values.mult = card:can_calculate()
+                and card.ability.extra.mult or 0
+            end,
+        }
+    end,
+}
+
+local ticket_checker = {
+    key = "ticket_checker",
+    name = "Ticket Checker",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 39,
+    pos = { x = 5, y = 0 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {xmult = 3}},
+    rarity = 3,
+    cost = 10,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if (context.joker_main and table.size(G.GAME.used_vouchers) > 0) or context.forcetrigger then
+            return {
+                xmult = card.ability.extra.xmult,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                }
+            },
+            calc_function = function(card)
+                card.joker_display_values.xmult = card:can_calculate()
+                and table.size(G.GAME.used_vouchers) > 0 and card.ability.extra.xmult or 1
+            end,
+        }
+    end,
+}
+
+local man_in_white = {
+    key = "man_in_white",
+    name = "Man In White",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 40,
+    pos = { x = 0, y = 1 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {mult = 0, mult_mod = 16, mult_sub = 4}},
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint then
+            local ace_found = false
+            for _, v in ipairs(context.scoring_hand) do
+                if v:get_id() == 14 then
+                    ace_found = true
+                    break
+                end
+            end
+            if ace_found and next(context.poker_hands["Straight"]) then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "mult",
+                    scalar_value = "mult_mod",
+                    scaling_message = {
+                        message = localize("k_elegant_ex"),
+                        colour = G.C.FILTER,
+                        card = card
+                    }
+                })
+                return nil, true
+            else
+                local prev_mult = card.ability.extra.mult
+                if prev_mult ~= 0 then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "mult",
+                        scalar_value = "mult_sub",
+                        operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = math.max(initial - scaling, 0)
+                        end,
+                        scaling_message = {
+                            message = localize("k_upset_ex"),
+                            colour = G.C.FILTER,
+                            card = card
+                        }
+                    })
+                    return nil, true
+                end
+            end
+        end
+        if (context.joker_main and to_big(card.ability.extra.mult) > to_big(0)) or context.forcetrigger then
+            if context.forcetrigger then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "mult",
+                    scalar_value = "mult_add",
+                    no_message = true
+                })
+            end
+            return {
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}},
+                mult_mod = card.ability.extra.mult
+            }
+        end
+        if context.other_joker and context.other_joker.config.center_key == "j_sgt_goat" then
+            if Sagatro.get_pos(card) + 1 == Sagatro.get_pos(context.other_joker) then
+                return {
+                    xmult = 1.5,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        if not card.fake_card then
+            info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_goat
+        end
+        return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod, card.ability.extra.mult_sub}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                card.joker_display_values.mult = card:can_calculate()
+                and card.ability.extra.mult or 0
+            end,
+            mod_function = function(card, mod_joker)
+                local ret = {}
+                if mod_joker:can_calculate() and card.config.center_key == "j_sgt_goat" then
+                    if Sagatro.get_pos(mod_joker) + 1 == Sagatro.get_pos(card) then
+                        ret.x_mult = 1.5
+                    end
+                end
+                return ret
+            end
+        }
+    end,
+}
+
+local goat = {
+    key = "goat",
+    name = "Goat",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 41,
+    pos = { x = 2, y = 1 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {mult = 0, mult_mod = 8, mult_sub = 2}},
+    rarity = 1,
+    cost = 4,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint then
+            local king_found = false
+            for _, v in ipairs(context.scoring_hand) do
+                if v:get_id() == 13 then
+                    king_found = true
+                    break
+                end
+            end
+            if king_found and next(context.poker_hands["Straight"]) then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "mult",
+                    scalar_value = "mult_mod",
+                    scaling_message = {
+                        message = localize("k_baah_ex"),
+                        colour = G.C.FILTER,
+                        card = card
+                    }
+                })
+                return nil, true
+            else
+                local prev_mult = card.ability.extra.mult
+                if prev_mult ~= 0 then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "mult",
+                        scalar_value = "mult_sub",
+                        operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = math.max(initial - scaling, 0)
+                        end,
+                        scaling_message = {
+                            message = localize("k_baah_ex"),
+                            colour = G.C.FILTER,
+                            card = card
+                        }
+                    })
+                    return nil, true
+                end
+            end
+        end
+        if (context.joker_main and to_big(card.ability.extra.mult) > to_big(0)) or context.forcetrigger then
+            if context.forcetrigger then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "mult",
+                    scalar_value = "mult_add",
+                    no_message = true
+                })
+            end
+            return {
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}},
+                mult_mod = card.ability.extra.mult
+            }
+        end
+        if context.other_joker and context.other_joker.config.center_key == "j_sgt_beetle" then
+            if Sagatro.get_pos(card) + 1 == Sagatro.get_pos(context.other_joker) then
+                return {
+                    xmult = 1.5,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        if not card.fake_card then
+            info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_beetle
+        end
+        return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod, card.ability.extra.mult_sub}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                card.joker_display_values.mult = card:can_calculate()
+                and card.ability.extra.mult or 0
+            end,
+            mod_function = function(card, mod_joker)
+                local ret = {}
+                if mod_joker:can_calculate() and card.config.center_key == "j_sgt_beetle" then
+                    if Sagatro.get_pos(mod_joker) + 1 == Sagatro.get_pos(card) then
+                        ret.x_mult = 1.5
+                    end
+                end
+                return ret
+            end
+        }
+    end,
+}
+
+local beetle = {
+    key = "beetle",
+    name = "Beetle",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 42,
+    pos = { x = 3, y = 1 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {mult = 0, mult_mod = 4, mult_sub = 1}},
+    rarity = 1,
+    cost = 3,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint then
+            local queen_found = false
+            for _, v in ipairs(context.scoring_hand) do
+                if v:get_id() == 12 then
+                    queen_found = true
+                    break
+                end
+            end
+            if queen_found and next(context.poker_hands["Straight"]) then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "mult",
+                    scalar_value = "mult_mod",
+                    scaling_message = {
+                        message = localize("k_bzzz_ex"),
+                        colour = G.C.FILTER,
+                        card = card
+                    }
+                })
+                return nil, true
+            else
+                local prev_mult = card.ability.extra.mult
+                if prev_mult ~= 0 then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "mult",
+                        scalar_value = "mult_sub",
+                        operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = math.max(initial - scaling, 0)
+                        end,
+                        scaling_message = {
+                            message = localize("k_bzzz_ex"),
+                            colour = G.C.FILTER,
+                            card = card
+                        }
+                    })
+                    return nil, true
+                end
+            end
+        end
+        if (context.joker_main and to_big(card.ability.extra.mult) > to_big(0)) or context.forcetrigger then
+            if context.forcetrigger then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "mult",
+                    scalar_value = "mult_add",
+                    no_message = true
+                })
+            end
+            return {
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}},
+                mult_mod = card.ability.extra.mult
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod, card.ability.extra.mult_sub}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                card.joker_display_values.mult = card:can_calculate()
+                and card.ability.extra.mult or 0
+            end,
+        }
+    end,
+}
+
+local dinah = {
+    key = "dinah",
+    name = "Dinah",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 53,
+    pos = { x = 1, y = 1 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {e_mult = 1, e_mult_mod = 0.1}},
+    rarity = "sgt_obscure",
+    cost = 14,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint then
+            local targets = {}
+            for _, v in ipairs(context.scoring_hand) do
+                if v:get_id() == G.GAME.current_round.dinah_card.id
+                and v:is_suit(G.GAME.current_round.dinah_card.suit)
+                and not v.dinah_marked then
+                    targets[#targets+1] = v
+                    v.dinah_marked = true
+                end
+            end
+            if next(targets) then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "e_mult",
+                    scalar_value = "e_mult_mod",
+                    operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = initial + scaling*#targets
+                        end,
+                    scaling_message = {
+                        message = localize("k_happy_ex"),
+                        colour = G.C.FILTER,
+                        card = card
+                    }
+                })
+                return nil, true
+            end
+        end
+        if (context.joker_main and to_big(card.ability.extra.e_mult) > to_big(1)) or context.forcetrigger then
+            if context.forcetrigger then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "e_mult",
+                    scalar_value = "e_mult_mod",
+                    no_message = true
+                })
+            end
+            return {
+                sgt_e_mult = card.ability.extra.e_mult,
+            }
+        end
+        if context.destroy_card and context.destroy_card.dinah_marked then
+            return {remove = true}
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.e_mult, card.ability.extra.e_mult_mod,
+        localize(G.GAME.current_round.dinah_card.rank, 'ranks'),
+        localize(G.GAME.current_round.dinah_card.suit, 'suits_plural'),
+        colours = {G.C.SUITS[G.GAME.current_round.dinah_card.suit]}}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "^" },
+                        { ref_table = "card.joker_display_values", ref_value = "emult", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.DARK_EDITION
+                }
+            },
+            reminder_text = {
+            { text = "(" },
+            { ref_table = "card.joker_display_values", ref_value = "dinah_card", colour = G.C.FILTER },
+            { text = ")" },
+        },
+            calc_function = function(card)
+                card.joker_display_values.dinah_card = localize { type = 'variable', key = "jdis_rank_of_suit", vars = {localize(G.GAME.current_round.dinah_card.rank, 'ranks'), localize(G.GAME.current_round.dinah_card.suit, 'suits_plural') } }
+                card.joker_display_values.emult = card:can_calculate()
+                and card.ability.extra.e_mult or 1
+            end,
+        }
+    end,
+}
+
+local tweedledum = {
+    key = "tweedledum",
+    name = "Tweedledum",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 43,
+    pos = { x = 4, y = 1 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {xmult = 1.2, xchips = 1.2}},
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play then
+            if (context.other_card:get_id() <= 10 and context.other_card:get_id() >= 0)
+            or context.other_card:get_id() == 14 then
+                if context.other_card:get_id() % 2 == 0 and context.other_card:get_id() ~= 14 then
+                    return {
+                        Xchip_mod = card.ability.extra.xchips,
+                        message = localize{type='variable', key='a_xchips', vars={card.ability.extra.xchips}}
+                    }
+                else
+                    return {
+                        Xmult_mod = card.ability.extra.xmult,
+                        message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}}
+                    }
+                end
+            end
+        end
+        if context.forcetrigger then
+            return {
+                Xmult_mod = card.ability.extra.xmult,
+                Xchip_mod = card.ability.extra.xchips,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult, card.ability.extra.xchips}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                },
+                { text = " " },
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xchips", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.CHIPS
+                },
+            },
+            calc_function = function(card)
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                local xmult_count, xchips_count = 0, 0
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        if (scoring_card:get_id() <= 10 and scoring_card:get_id() >= 0)
+                        or scoring_card:get_id() == 14 then
+                            if scoring_card:get_id() % 2 == 0 and scoring_card:get_id() ~= 14 then
+                                xchips_count = xchips_count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                            else
+                                xmult_count = xmult_count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                            end
+                        end
+                    end
+                end
+                card.joker_display_values.xmult = card.ability.extra.xmult^xmult_count
+                card.joker_display_values.xchips = card.ability.extra.xchips^xchips_count
+                if not card:can_calculate() then
+                    card.joker_display_values.xmult = 1
+                    card.joker_display_values.xchips = 1
+                end
+            end,
+        }
+    end,
+}
+
+local tweedledee = {
+    key = "tweedledee",
+    name = "Tweedledee",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 44,
+    pos = { x = 5, y = 1 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {xmult = 1.2, xchips = 1.2}},
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play then
+            if (context.other_card:get_id() <= 10 and context.other_card:get_id() >= 0)
+            or context.other_card:get_id() == 14 then
+                if context.other_card:get_id() % 2 == 0 and context.other_card:get_id() ~= 14 then
+                    return {
+                        Xmult_mod = card.ability.extra.xmult,
+                        message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}}
+                    }
+                else
+                    return {
+                        Xchip_mod = card.ability.extra.xchips,
+                        message = localize{type='variable', key='a_xchips', vars={card.ability.extra.xchips}}
+                    }
+                end
+            end
+        end
+        if context.forcetrigger then
+            return {
+                Xmult_mod = card.ability.extra.xmult,
+                Xchip_mod = card.ability.extra.xchips,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult, card.ability.extra.xchips}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                },
+                { text = " " },
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xchips", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.CHIPS
+                },
+            },
+            calc_function = function(card)
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                local xmult_count, xchips_count = 0, 0
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        if (scoring_card:get_id() <= 10 and scoring_card:get_id() >= 0)
+                        or scoring_card:get_id() == 14 then
+                            if scoring_card:get_id() % 2 == 0 and scoring_card:get_id() ~= 14 then
+                                xmult_count = xmult_count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                            else
+                                xchips_count = xchips_count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                            end
+                        end
+                    end
+                end
+                card.joker_display_values.xmult = card.ability.extra.xmult^xmult_count
+                card.joker_display_values.xchips = card.ability.extra.xchips^xchips_count
+                if not card:can_calculate() then
+                    card.joker_display_values.xmult = 1
+                    card.joker_display_values.xchips = 1
+                end
+            end,
+        }
+    end,
+}
+
+local sheep = {
+    key = "sheep",
+    name = "Sheep",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 45,
+    pos = { x = 0, y = 2 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {xscore = 1.08, xscore_mod = 0.01}},
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.after then
+            if card.ability.extra.xscore - card.ability.extra.xscore_mod*(Sagatro.get_pos(card)-1) ~= 1 then
+                return {
+                    sgt_x_score = card.ability.extra.xscore - card.ability.extra.xscore_mod*(Sagatro.get_pos(card)-1),
+                }
+            end
+        end
+        if context.forcetrigger then
+            return {
+                sgt_x_score = card.ability.extra.xscore,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xscore, card.ability.extra.xscore_mod,
+            card.ability.extra.xscore - card.ability.extra.xscore_mod*(Sagatro.get_pos(card)-1)}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xscore", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.DARK_EDITION
+                }
+            },
+            calc_function = function(card)
+                card.joker_display_values.xscore = card.ability.extra.xscore - card.ability.extra.xscore_mod*(Sagatro.get_pos(card)-1)
+                if not card:can_calculate() then
+                    card.joker_display_values.xscore = 1
+                end
+            end,
+        }
+    end,
+}
+
+local rocking_horse_fly = {
+    key = "rocking_horse_fly",
+    name = "Rocking-Horse-Fly",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 46,
+    pos = { x = 1, y = 2 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {type = "Two Pair"},
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play then
+            if next(context.poker_hands[card.ability.type]) then
+                local temp_minID, lowest_card = 15, nil
+                local temp_maxID, highest_card = 0, nil
+                local temp_maxMult, temp_minMult = 0, 15
+                for _, v in ipairs(context.scoring_hand) do
+                    if not SMODS.has_no_rank(v) then
+                        if temp_minID > v.base.id then
+                            temp_minMult = v.base.nominal
+                            temp_minID = v.base.id
+                            lowest_card = v
+                        end
+                        if temp_maxID < v.base.id then
+                            temp_maxMult = v.base.nominal
+                            temp_maxID = v.base.id
+                            highest_card = v
+                        end
+                    end
+                end
+                local finalMult = temp_maxMult - temp_minMult
+                if (lowest_card == context.other_card or highest_card == context.other_card)
+                and finalMult > 0 then
+                    return {
+                        mult = finalMult*2,
+                    }
+                end
+            end
+        end
+        if context.forcetrigger then
+            return {
+                mult = 36,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {localize(card.ability.type, 'poker_hands')}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text", colour = G.C.ORANGE },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                local mult = 0
+                local _, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
+                if poker_hands[card.ability.type] and next(poker_hands[card.ability.type]) then
+                    local temp_minID, lowest_card = 15, nil
+                    local temp_maxID, highest_card = 0, nil
+                    local temp_maxMult, temp_minMult = 0, 15
+                    for _, scoring_card in pairs(scoring_hand) do
+                        if not SMODS.has_no_rank(scoring_card) then
+                            if temp_minID > scoring_card.base.id then
+                                temp_minMult = scoring_card.base.nominal
+                                temp_minID = scoring_card.base.id
+                                lowest_card = scoring_card
+                            end
+                            if temp_maxID < scoring_card.base.id then
+                                temp_maxMult = scoring_card.base.nominal
+                                temp_maxID = scoring_card.base.id
+                                highest_card = scoring_card
+                            end
+                        end
+                    end
+                    local finalMult = temp_maxMult - temp_minMult
+                    if highest_card and not highest_card.debuff and highest_card.facing ~= 'back' then
+                        mult = mult + finalMult*2
+                    end
+                    if lowest_card and not lowest_card.debuff and lowest_card.facing ~= 'back' then
+                        mult = mult + finalMult*2
+                    end
+                end
+                card.joker_display_values.mult = mult
+                if not card:can_calculate() then
+                    card.joker_display_values.mult = 0
+                end
+                card.joker_display_values.localized_text = localize(card.ability.type, 'poker_hands')
+            end
+        }
+    end,
+}
+
+local bread_and_butter_fly = {
+    key = "bread_and_butter_fly",
+    name = "Bread-and-Butter-Fly",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 47,
+    pos = { x = 2, y = 2 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {min_money = 5}},
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if (context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+            if to_big(card.ability.extra.min_money) > G.GAME.dollars + (G.GAME.dollar_buffer or 0) or context.forcetrigger then
+                ease_dollars(card.ability.extra.min_money - (to_number(G.GAME.dollars) + (G.GAME.dollar_buffer or 0)))
+                card_eval_status_text(card, 'dollars', card.ability.extra.min_money)
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.min_money}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+$", colour = G.C.GOLD },
+                { ref_table = "card.joker_display_values", ref_value = "money", colour = G.C.GOLD },
+            },
+            calc_function = function(card)
+                card.joker_display_values.money = math.max(card.ability.extra.min_money - to_number(G.GAME.dollars), 0)
+                if not card:can_calculate() then
+                    card.joker_display_values.money = 0
+                end
+            end,
+        }
+    end,
+}
+
+local snap_dragon_fly = {
+    key = "snap_dragon_fly",
+    name = "Snap-Dragon-Fly",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 48,
+    pos = { x = 3, y = 2 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {mult = 12}},
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
+            if context.other_card:get_id() == 2 then
+                if context.other_card.debuff then
+                    return {
+                        message = localize('k_debuffed'),
+                        colour = G.C.RED,
+                        card = card,
+                    }
+                else
+                    return {
+                        h_mult = card.ability.extra.mult,
+                        card = card,
+                    }
+                end
+            end
+        end
+        if context.forcetrigger then
+            return {
+                mult = card.ability.extra.mult,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.mult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" },
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                local playing_hand = next(G.play.cards)
+                local mult = 0
+                for _, playing_card in ipairs(G.hand.cards) do
+                    if playing_hand or not playing_card.highlighted then
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff and playing_card:get_id() == 2 then
+                            mult = mult + card.ability.extra.mult * JokerDisplay.calculate_card_triggers(playing_card, nil, true)
+                        end
+                    end
+                end
+                card.joker_display_values.mult = mult
+                if not card:can_calculate() then
+                    card.joker_display_values.mult = 0
+                end
+            end
+        }
+    end,
+}
+
+local white_rook = {
+    key = "white_rook",
+    name = "White Rook",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 33,
+    pos = { x = 4, y = 2 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {mult = 3}},
+    rarity = 2,
+    cost = 7,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_type_destroyed and not card.getting_sliced
+        and context.card.config.center_key == "j_sgt_white_king" then
+            Sagatro.self_destruct(card)
+            return {
+                message = localize('k_castled_ex'),
+                colour = G.C.FILTER,
+                no_retrigger = true,
+                no_destroy = true,
+            }
+        end
+        if context.joker_main then
+            local hearts_diamonds, spades_clubs = 0, 0
+            for _, v in ipairs(G.hand.cards) do
+                if v:is_suit("Hearts") or v:is_suit("Diamonds") then
+                    hearts_diamonds = hearts_diamonds + 1
+                elseif v:is_suit("Spades") or v:is_suit("Clubs") then
+                    spades_clubs = spades_clubs + 1
+                end
+            end
+            if spades_clubs - hearts_diamonds ~= 0 then
+                local difference = spades_clubs - hearts_diamonds
+                return {
+                    mult = card.ability.extra.mult*difference,
+                }
+            end
+        end
+        if context.forcetrigger then
+            return {
+                mult = card.ability.extra.mult,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        if not card.fake_card then
+            info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_king
+            info_queue[#info_queue+1] = G.P_CENTERS.j_four_fingers
+        end
+        return {vars = {card.ability.extra.mult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { ref_table = "card.joker_display_values", ref_value = "plus" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                local hearts_diamonds, spades_clubs = 0, 0
+                local mult = card.ability.extra.mult
+                local playing_hand = next(G.play.cards)
+                for _, playing_card in ipairs(G.hand.cards) do
+                    if playing_hand or not playing_card.highlighted then
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
+                            if playing_card:is_suit("Hearts") or playing_card:is_suit("Diamonds") then
+                                hearts_diamonds = hearts_diamonds + 1
+                            elseif playing_card:is_suit("Spades") or playing_card:is_suit("Clubs") then
+                                spades_clubs = spades_clubs + 1
+                            end
+                        end
+                    end
+                end
+                card.joker_display_values.plus = "+"
+                card.joker_display_values.mult = mult*(spades_clubs - hearts_diamonds)
+                if not card:can_calculate() then
+                    card.joker_display_values.mult = 0
+                end
+                if card.joker_display_values.mult < 0 then
+                    card.joker_display_values.plus = ""
+                end
+            end,
+        }
+    end,
+}
+
+local white_knight = {
+    key = "white_knight",
+    name = "White Knight",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 34,
+    pos = { x = 5, y = 2 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {mult = 3}},
+    rarity = 2,
+    cost = 8,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            local hearts_diamonds, spades_clubs = 0, 0
+            for _, v in ipairs(G.hand.cards) do
+                if v:is_suit("Hearts") or v:is_suit("Diamonds") then
+                    hearts_diamonds = hearts_diamonds + 1
+                elseif v:is_suit("Spades") or v:is_suit("Clubs") then
+                    spades_clubs = spades_clubs + 1
+                end
+            end
+            if spades_clubs - hearts_diamonds ~= 0 then
+                local difference = spades_clubs - hearts_diamonds
+                return {
+                    mult = card.ability.extra.mult*difference,
+                }
+            end
+        end
+        if context.forcetrigger then
+            return {
+                mult = card.ability.extra.mult,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        if not card.fake_card then
+            info_queue[#info_queue+1] = G.P_CENTERS.j_shortcut
+        end
+        return {vars = {card.ability.extra.mult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { ref_table = "card.joker_display_values", ref_value = "plus" },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                local hearts_diamonds, spades_clubs = 0, 0
+                local mult = card.ability.extra.mult
+                local playing_hand = next(G.play.cards)
+                for _, playing_card in ipairs(G.hand.cards) do
+                    if playing_hand or not playing_card.highlighted then
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
+                            if playing_card:is_suit("Hearts") or playing_card:is_suit("Diamonds") then
+                                hearts_diamonds = hearts_diamonds + 1
+                            elseif playing_card:is_suit("Spades") or playing_card:is_suit("Clubs") then
+                                spades_clubs = spades_clubs + 1
+                            end
+                        end
+                    end
+                end
+                card.joker_display_values.plus = "+"
+                card.joker_display_values.mult = mult*(spades_clubs - hearts_diamonds)
+                if not card:can_calculate() then
+                    card.joker_display_values.mult = 0
+                end
+                if card.joker_display_values.mult < 0 then
+                    card.joker_display_values.plus = ""
+                end
+            end,
+        }
+    end,
+}
+
+local white_bishop = {
+    key = "white_bishop",
+    name = "White Bishop",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 35,
+    pos = { x = 0, y = 3 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {xmult = 3}},
+    rarity = 2,
+    cost = 7,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main or context.forcetrigger then
+            local spades_clubs = true
+            for _, v in ipairs(context.scoring_hand) do
+                if not (v:is_suit("Spades", true) or v:is_suit("Clubs", true)) then
+                    spades_clubs = false
+                end
+            end
+            if spades_clubs or context.forcetrigger then
+                return {
+                    x_mult = card.ability.extra.xmult,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                }
+            },
+            calc_function = function(card)
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                local spades_clubs = true
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        if not (scoring_card:is_suit("Spades", true) or scoring_card:is_suit("Clubs", true)) then
+                            spades_clubs = false
+                        end
+                    end
+                end
+                card.joker_display_values.xmult = spades_clubs and card.ability.extra.xmult or 1
+                if not card:can_calculate() then
+                    card.joker_display_values.xmult = 1
+                end
+            end,
+        }
+    end,
+}
+
+local jabberwock = {
+    key = "jabberwock",
+    name = "Jabberwock",
+    artist_credits = {"huycorn"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 54,
+    pos = { x = 1, y = 3 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {},
+    rarity = "sgt_obscure",
+    cost = 14,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            local total_chips = 0
+            for _, v in ipairs(context.scoring_hand) do
+                total_chips = total_chips + v:get_chip_bonus()
+                + Sagatro.get_edition_chips(v) + Sagatro.get_seal_chips(v)
+            end
+            return {
+                x_mult = total_chips/((#context.scoring_hand)^2),
+            }
+        end
+        if context.forcetrigger then
+            return {
+                x_mult = 11, -- equivalent to playing a High Card Ace
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {colours = {G.C.SGT_OBSCURE}}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                }
+            },
+            calc_function = function(card)
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                local total_chips = 0
+                card.joker_display_values.xmult = 0
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        total_chips = total_chips + scoring_card:get_chip_bonus()
+                        + Sagatro.get_edition_chips(scoring_card)
+                        + Sagatro.get_seal_chips(scoring_card)
+                    end
+                    card.joker_display_values.xmult = total_chips/(#scoring_hand > 0 and (#scoring_hand)^2 or 1)
+                end
+                if card.joker_display_values.xmult == 0 or not card:can_calculate() then
+                    card.joker_display_values.xmult = 1
+                end
+            end,
+        }
+    end,
+}
+
+local bandersnatch = {
+    key = "bandersnatch",
+    name = "Bandersnatch",
+    artist_credits = {"huycorn"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 55,
+    pos = { x = 2, y = 3 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {},
+    rarity = "sgt_obscure",
+    cost = 16,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if (context.setting_blind and not card.getting_sliced
+        and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+            local target = card.area and card.area.cards[Sagatro.get_pos(card)+1]
+            if target and target.ability.set == "Joker" then
+                target:set_edition("e_negative")
+                if not target.ability.perishable then
+                    target:add_sticker("perishable", true)
+                end
+                return {
+                    message = localize("k_roar_ex"),
+                    colour = G.C.FILTER,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {key = 'e_negative', set = 'Edition', config = {extra = 1}}
+        return {vars = {colours = {G.C.SGT_OBSCURE}}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
+local jubjub_bird = {
+    key = "jubjub_bird",
+    name = "Jubjub Bird",
+    artist_credits = {"huycorn"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 56,
+    pos = { x = 3, y = 3 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {value_loss = 3},
+    rarity = "sgt_obscure",
+    cost = 12,
+    blueprint_compat = false,
+    demicoloncompat = false,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.sgt_jjb_reduction and not context.blueprint and not context.retrigger_joker then
+            SMODS.scale_card(card, {
+                ref_table = card.ability,
+                ref_value = "extra_value",
+                scalar_value = "value_loss",
+                operation = "-",
+                scaling_message = {
+                    message = localize('k_again_ex'),
+                    colour = G.C.FILTER,
+                }
+            })
+            card:set_cost()
+            return nil, true
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {SMODS.signed_dollars(card.ability.value_loss), colours = {G.C.SGT_OBSCURE}}}
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "sell_cost", colour = G.C.GOLD },
+                { text = ")" },
+            },
+            reminder_text_config = { scale = 0.35 },
+            calc_function = function(card)
+                card.joker_display_values.sell_cost = SMODS.signed_dollars(card.sell_cost)
+            end,
+        }
+    end,
+}
+
+local humpty_dumpty = {
+    key = "humpty_dumpty",
+    name = "Humpty Dumpty",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 49,
+    pos = { x = 4, y = 3 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {value_gain = 3, odds = 6}},
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.discard and not context.blueprint
+        and not context.other_card.debuff and context.other_card:get_id() == G.GAME.current_round.humdum_card.id then
+            SMODS.scale_card(card, {
+                ref_table = card.ability,
+                ref_value = "extra_value",
+                scalar_table = card.ability.extra,
+                scalar_value = "value_gain",
+                scaling_message = {
+                    message = localize('k_val_up'),
+                    colour = G.C.MONEY
+                }
+            })
+            card:set_cost()
+            return nil, true
+        end
+        if context.end_of_round and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
+            if SMODS.pseudorandom_probability(card, 'humdum_irreversible', 1, card.ability.extra.odds, "humpty_dumpty") then
+				Sagatro.self_destruct(card)
+				return {
+					message = localize("k_shattered_ex"),
+                    no_retrigger = true
+				}
+			else
+				return {
+					message = localize("k_safe_ex"),
+                    no_retrigger = true
+				}
+			end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.value_gain, localize(G.GAME.current_round.humdum_card.rank, 'ranks'),
+        SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "humpty_dumpty")}}
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "$" },
+                { ref_table = "card", ref_value = "sell_cost" },
+                { text = "+$" },
+                { ref_table = "card.joker_display_values", ref_value = "dollars", retrigger_type = "mult" },
+            },
+            text_config = { colour = G.C.GOLD },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "humdum_card_rank", colour = G.C.ORANGE },
+                { text = ")" }
+            },
+            reminder_text_config = { scale = 0.35 },
+            extra = {
+                {
+                    { text = "(" },
+                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { text = ")" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            calc_function = function(card)
+                local dollars = 0
+                local hand = G.hand.highlighted
+                for _, playing_card in pairs(hand) do
+                    if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff
+                    and playing_card:get_id() and playing_card:get_id() == G.GAME.current_round.humdum_card.id then
+                        dollars = dollars + card.ability.extra.value_gain
+                    end
+                end
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "humpty_dumpty") } }
+                card.joker_display_values.dollars = G.GAME.current_round.discards_left > 0 and card:can_calculate() and dollars or 0
+                card.joker_display_values.humdum_card_rank = localize(G.GAME.current_round.humdum_card.rank, 'ranks')
+            end,
+        }
+    end,
+}
+
+local seal_and_carpenter = {
+    key = "seal_and_carpenter",
+    name = "Seal And Carpenter",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 50,
+    pos = { x = 5, y = 3 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {},
+    rarity = 1,
+    cost = 4,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if (context.first_hand_drawn and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+            G.E_MANAGER:add_event(Event({func = function()
+                SMODS.destroy_cards(Sagatro.random_select("snc_destroy", G.hand, 1), nil, true)
+                if not context.forcetrigger then
+                    G.E_MANAGER:add_event(Event({triggger = "after", delay = 0.6, func = function()
+                        save_run()
+                    return true end}))
+                end
+            return true end}))
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
+local lion = {
+    key = "lion",
+    name = "Lion",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 51,
+    pos = { x = 0, y = 4 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {times = 1, extra_times = 1}},
+    rarity = 3,
+    cost = 9,
+    blueprint_compat = true,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            local valid_cards, all_cards = 0, 0
+            local temp = context.other_card
+            for _, v in ipairs(context.scoring_hand) do
+                all_cards = all_cards + 1
+                if v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
+                    valid_cards = valid_cards + 1
+                end
+            end
+            return {
+                message = localize("k_again_ex"),
+                repetitions = card.ability.extra.times + (valid_cards == all_cards and card.ability.extra.extra_times or 0),
+                card = card,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.times, card.ability.extra.extra_times}}
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "x" },
+                { ref_table = "card.joker_display_values", ref_value = "retriggers", retrigger_type = "mult" },
+            },
+            calc_function = function(card)
+                local playing_hand = next(G.play.cards) or next(G.hand.highlighted)
+                local valid_cards, all_cards = 0, 0
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        all_cards = all_cards + 1
+                        if scoring_card:is_suit("Hearts", nil, true) or scoring_card:is_suit("Diamonds", nil, true) then
+                            valid_cards = valid_cards + 1
+                        end
+                    end
+                else
+                    valid_cards = 1 -- Face down cards force retrigger count to be 1
+                end
+                local count = playing_hand and valid_cards == all_cards
+                and card.ability.extra.times+card.ability.extra.extra_times
+                or card.ability.extra.times
+
+                card.joker_display_values.retriggers = count
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if not joker_card:can_calculate() then
+                    return 0
+                end
+                if held_in_hand then return 0 end
+                local valid_cards, all_cards = 0, 0
+                for _, playing_card in ipairs(scoring_hand) do
+                    all_cards = all_cards + 1
+                    if playing_card:is_suit("Hearts", nil, true) or playing_card:is_suit("Diamonds", nil, true) then
+                        valid_cards = valid_cards + 1
+                    end
+                end
+                local count = valid_cards == all_cards
+                and joker_card.ability.extra.times+joker_card.ability.extra.extra_times
+                or joker_card.ability.extra.times
+                return count * JokerDisplay.calculate_joker_triggers(joker_card)
+            end,
+        }
+    end,
+}
+
+local unicorn = {
+    key = "unicorn",
+    name = "Unicorn",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 52,
+    pos = { x = 1, y = 4 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {debt_amount = 0, debt_mod = 20 }},
+    rarity = 3,
+    cost = 7,
+    blueprint_compat = false,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.skip_blind and not context.blueprint and not context.retrigger_joker then
+            SMODS.scale_card(card, {
+                ref_table = card.ability.extra,
+                ref_value = "debt_amount",
+                scalar_value = "debt_mod",
+                scaling_message = {
+                    message = "$"..(card.ability.extra.debt_amount+card.ability.extra.debt_mod),
+                    colour = G.C.RED,
+                }
+            })
+            G.GAME.bankrupt_at = G.GAME.bankrupt_at - card.ability.extra.debt_mod
+            return nil, true
+        end
+    end,
+    update = function(self, card, dt)
+        if G.STAGE == G.STAGES.RUN then
+            if card.ability then
+                if card.ability.inactive and not card.ability.extra.debt_off then
+                    card.ability.extra.debt_off = true
+                    G.GAME.bankrupt_at = G.GAME.bankrupt_at + card.ability.extra.debt_amount
+                elseif not card.ability.inactive and card.ability.extra.debt_off then
+                    card.ability.extra.debt_off = nil
+                    G.GAME.bankrupt_at = G.GAME.bankrupt_at - card.ability.extra.debt_amount
+                end
+            end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        G.GAME.bankrupt_at = G.GAME.bankrupt_at - card.ability.extra.debt_amount
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        G.GAME.bankrupt_at = G.GAME.bankrupt_at + card.ability.extra.debt_amount
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.debt_amount, card.ability.extra.debt_mod}}
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "$" },
+                { ref_table = "card.ability.extra", ref_value = "debt_amount" },
+            },
+            text_config = { colour = G.C.RED },
+        }
+    end,
+}
+
+local true_red_queen = {
+    key = "true_red_queen",
+    name = "Red Queen",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 58,
+    pos = { x = 2, y = 4 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {type = "Straight", extra = {e_mult = 1.1}},
+    rarity = "sgt_obscure",
+    cost = 16,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.poker_hands and next(context.poker_hands[card.ability.type])
+        and context.individual and context.cardarea == G.play and not context.forcetrigger then
+            if context.other_card:is_suit("Hearts", nil, true)
+            or context.other_card:is_suit("Diamonds", nil, true) then
+                return {
+                    sgt_e_mult = card.ability.extra.e_mult,
+                }
+            end
+        end
+        if context.forcetrigger then
+            return {
+                sgt_e_mult = card.ability.extra.e_mult,
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling and not G.GAME.true_red_queen_blind
+        end
+        return not (G.GAME.story_mode or G.GAME.true_red_queen_blind)
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.type, card.ability.extra.e_mult}}
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "^" },
+                        { ref_table = "card.joker_display_values", ref_value = "e_mult", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.DARK_EDITION
+                }
+            },
+            calc_function = function(card)
+                local count = 0
+                local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
+                if text ~= 'Unknown' then
+                    if poker_hands[card.ability.type] and next(poker_hands[card.ability.type]) then
+                        for _, scoring_card in pairs(scoring_hand) do
+                            count = count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                        end
+                    end
+                end
+                card.joker_display_values.e_mult = card:can_calculate() and card.ability.extra.e_mult^count or 1
+            end,
+        }
+    end,
+}
+
+local red_king = {
+    key = "red_king",
+    name = "Red King",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 59,
+    pos = { x = 3, y = 4 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {odds = 2}},
+    rarity = "sgt_obscure",
+    cost = 14,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.ending_shop or context.forcetrigger then
+            if context.forcetrigger or SMODS.pseudorandom_probability(card, 'red_king_zzz', 1, card.ability.extra.odds, "red_king") then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'immediate',
+                    func = (function()
+                        assert(SMODS.add_card({
+                            set = "Tarot",
+                            key = "c_fool",
+                            edition = "e_negative",
+                        }))
+                    return true
+                end)}))
+                return {
+                    message = localize('k_zzz'),
+                    colour = G.C.SECONDARY_SET.Tarot,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling and not G.GAME.red_king_blind
+        end
+        return not (G.GAME.story_mode or G.GAME.red_king_blind)
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {key = 'e_negative_consumable', set = 'Edition', config = {extra = 1}}
+        info_queue[#info_queue+1] = G.P_CENTERS.c_fool
+        return {vars = {localize{type = 'name_text', set = "Tarot", key = "c_fool", nodes = {}},
+        SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "red_king")}}
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            extra = {
+                {
+                    { text = "(" },
+                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { text = ")" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            calc_function = function(card)
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "red_king") } }
+            end,
+        }
+    end,
+}
+
+local vorpal_sword = {
+    key = "vorpal_sword",
+    name = "Vorpal Sword",
+    artist_credits = {"huycorn"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 57,
+    pos = { x = 4, y = 4 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {mult = 0, odds = 20, sliced_beasts = {}}},
+    rarity = "sgt_obscure",
+    cost = 12,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.setting_blind and not card.getting_sliced and not context.blueprint then
+            if card.area and card.area.cards[Sagatro.get_pos(card)+1]
+            and not SMODS.is_eternal(card.area.cards[Sagatro.get_pos(card)+1], card)
+            and not card.area.cards[Sagatro.get_pos(card)+1].getting_sliced then
+                local potential_target = card.area.cards[Sagatro.get_pos(card)+1]
+                if card.ability.extra.sliced_beasts.bandersnatch_sliced and context.blind.boss
+                and potential_target.config.center_key ~= "j_sgt_bandersnatch"
+                and potential_target.config.center_key ~= "j_sgt_jubjub_bird"
+                and potential_target.config.center_key ~= "j_sgt_jabberwock" then
+                    potential_target:set_edition("e_negative")
+                    return {
+                        message = localize("k_sheathe_ex"),
+                        no_retrigger = true,
+                    }
+                elseif (potential_target.config.center_key == "j_sgt_bandersnatch"
+                or potential_target.config.center_key == "j_sgt_jubjub_bird"
+                or potential_target.config.center_key == "j_sgt_jabberwock") then
+                    card.temp_paused = true
+                    card.ability.extra.obscure_bloodshed = true
+                    for k, _ in pairs(card.ability.extra.sliced_beasts) do
+                        card.ability.extra.sliced_beasts[k] = nil
+                    end
+                    card.ability.extra.sliced_beasts[potential_target.config.center_key:sub(7).."_sliced"] = true
+                    card.ability.extra.jubjub_odds = 20
+                    potential_target.getting_sliced = true
+                    G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+                    G.E_MANAGER:add_event(Event({func = function()
+                        G.GAME.joker_buffer = 0
+                        card:juice_up(0.8, 0.8)
+                        potential_target:start_dissolve({HEX("57ecab")}, nil, 1.6)
+                        play_sound('slice1', 0.96+math.random()*0.08)
+                    return true end }))
+                    return {
+                        message = localize("k_bloodshed_ex"),
+                        colour = G.C.RED,
+                    }
+                elseif not card.ability.extra.obscure_bloodshed then
+                    potential_target.getting_sliced = true
+                    G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+                    G.E_MANAGER:add_event(Event({func = function()
+                        G.GAME.joker_buffer = 0
+                        card:juice_up(0.8, 0.8)
+                        potential_target:start_dissolve({HEX("57ecab")}, nil, 1.6)
+                        play_sound('slice1', 0.96+math.random()*0.08)
+                    return true end }))
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "mult",
+                        scalar_table = potential_target,
+                        scalar_value = "sell_cost",
+                        operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = initial + 8*scaling
+                        end,
+                        scaling_message = {
+                            message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult+8*potential_target.sell_cost}},
+                            colour = G.C.RED,
+                            no_juice = true
+                        }
+                    })
+                    return nil, true
+                end
+            end
+        end
+        if context.sgt_jjb_reduction and not context.blueprint and not context.retrigger_joker
+        and card.ability.extra.sliced_beasts.jubjub_bird_sliced then
+            if SMODS.pseudorandom_probability(card, 'vorpal_jubjub_poof', 1, card.ability.extra.odds, "vorpal") then
+                Sagatro.self_destruct(card)
+                return {
+                    message = localize("k_poof_ex"),
+                    colour = G.C.FILTER,
+                }
+            else
+                card.ability.extra.odds = card.ability.extra.odds - 1
+                return {
+                    message = localize('k_again_ex'),
+                    colour = G.C.FILTER,
+                }
+            end
+        end
+        if context.joker_main then
+            if card.ability.extra.obscure_bloodshed then
+                if card.ability.extra.sliced_beasts.jabberwock_sliced then
+                    local total_chips = 0
+                    for _, v in ipairs(G.hand.cards) do
+                        total_chips = total_chips + v:get_chip_bonus()
+                        + Sagatro.get_edition_chips(v) + Sagatro.get_seal_chips(v)
+                    end
+                    local final_xmult = total_chips/((#context.scoring_hand)^2)
+                    if final_xmult == 0 then final_xmult = 1 end
+                    if final_xmult ~= 1 then
+                        return {
+                            x_mult = final_xmult,
+                        }
+                    end
+                end
+            elseif card.ability.extra.mult > 0 then
+                return {
+                    mult = card.ability.extra.mult,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        for k, _ in pairs(card.ability.extra.sliced_beasts) do
+            local info = {set = "Other", key = k}
+            if k == "jubjub_bird_sliced" then
+                info.specific_vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "vorpal")}
+            end
+            info_queue[#info_queue+1] = info
+        end
+        return {key = card.ability.extra.obscure_bloodshed and "j_sgt_vorpal_sword_bloodshed" or nil,
+        vars = {card.ability.extra.mult, colours = {G.C.SGT_OBSCURE}}}
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            extra = {
+                {
+                    { ref_table = "card.joker_display_values", ref_value = "open_bracket" },
+                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { ref_table = "card.joker_display_values", ref_value = "close_bracket" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            text = {
+                { ref_table = "card.joker_display_values", ref_value = "plus", colour = G.C.MULT },
+                { ref_table = "card.joker_display_values", ref_value = "mult", colour = G.C.MULT },
+                {
+                    border_nodes = {
+                        { ref_table = "card.joker_display_values", ref_value = "times" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                }
+            },
+            calc_function = function(card)
+                local jabber, bander, jubjub =
+                card.ability.extra.sliced_beasts.jabberwock_sliced and card:can_calculate(),
+                card.ability.extra.sliced_beasts.bandersnatch_sliced and card:can_calculate(),
+                card.ability.extra.sliced_beasts.jubjub_bird_sliced and card:can_calculate()
+                local normal = not (jabber or bander or jubjub) and card:can_calculate()
+                card.joker_display_values.open_bracket = jubjub and "(" or ""
+                card.joker_display_values.odds = jubjub
+                and localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "vorpal") } }
+                or ""
+                card.joker_display_values.close_bracket = jubjub and ")" or ""
+                card.joker_display_values.plus = normal and "+" or ""
+                card.joker_display_values.mult = normal and card.ability.extra.mult or ""
+                card.joker_display_values.times = jabber and "X" or ""
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                local total_chips = 0
+                local xmult = 0
+                local playing_hand = next(G.play.cards)
+                if text ~= 'Unknown' then
+                    for _, playing_card in ipairs(G.hand.cards) do
+                        if playing_hand or not playing_card.highlighted then
+                            total_chips = total_chips + playing_card:get_chip_bonus()
+                            + Sagatro.get_edition_chips(playing_card)
+                            + Sagatro.get_seal_chips(playing_card)
+                        end
+                    end
+                    xmult = total_chips/(#scoring_hand > 0 and (#scoring_hand)^2 or 1)
+                end
+                if xmult == 0 then
+                    xmult = 1
+                end
+                card.joker_display_values.xmult = jabber and xmult or ""
+            end,
+            style_function = function(card, text, reminder_text, extra)
+                if text and text.children[3] then
+                    text.children[3].config.colour =
+                    card.ability.extra.sliced_beasts.jabberwock_sliced and card:can_calculate()
+                    and G.C.MULT or G.C.CLEAR
+                end
+                return false
+            end,
+        }
+    end
+}
+
+local ecila = {
+    key = "ecila",
+    name = "Ecila",
+    artist_credits = {"amy"},
+    atlas = "ecila",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 60,
+    pos = { x = 0, y = 0 },
+    pools = { [SAGA_GROUP_POOL.legend] = true },
+    soul_pos = { x = 1, y = 0 },
+    config = {extra = {xmult = 3}},
+    rarity = 4,
+    cost = 20,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.other_joker and not context.forcetrigger then
+            if context.other_joker.config.center.saga_group == "alice_in_mirrorworld" then
+                return {
+                    xmult = card.ability.extra.xmult,
+                }
+            end
+        end
+        if context.forcetrigger then
+            return {
+                xmult = card.ability.extra.xmult,
+            }
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if Sagatro.storyline_check("alice_in_wonderland") and not from_debuff then
+            Sagatro.init_storyline(self.saga_group, true)
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            mod_function = function(card, mod_joker)
+                return { x_mult = card.config.center.saga_group == "alice_in_mirrorworld" and card:can_calculate() and mod_joker.ability.extra.xmult ^ JokerDisplay.calculate_joker_triggers(mod_joker) or nil }
+            end
+        }
+    end,
+}
+
 local hansels_cheat_dice = {
     key = "hansels_cheat_dice",
     name = "Hansel's Cheat Dice",
+    artist_credits = {"amy"},
     atlas = "misc_jokers",
     saga_group = "gambling_hansel",
     order = 993,
@@ -10691,6 +13492,7 @@ local hansels_cheat_dice = {
 local skoll_n_hati = {
     key = "skoll_n_hati",
     name = "Sköll And Hati",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "norse_mythology",
     order = 994,
@@ -10985,6 +13787,7 @@ local skoll_n_hati = {
 local three_winters = {
     key = "three_winters",
     name = "Fimbulwinter",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "norse_mythology",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -11069,6 +13872,7 @@ local three_winters = {
 local adam = {
     key = "adam",
     name = "Adam And Eva's Original Sin",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "adams_original_sin",
     order = 996,
@@ -11108,6 +13912,9 @@ local adam = {
     joker_display_def = function(JokerDisplay)
         return {
             retrigger_joker_function = function(card, retrigger_joker)
+                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                    return 0
+                end
                 return card.config.center_key ~= "j_sgt_adam" and ((Ortalab and card.curse)
                 or (not Ortalab and card.ability.perishable)) and 1 or 0
             end,
@@ -11118,6 +13925,7 @@ local adam = {
 local saint_germain = {
     key = "saint_germain",
     name = "Saint Germain",
+    artist_credits = {"amy"},
     atlas = "misc_jokers",
     saga_group = "saint_germain_immortal",
     order = 997,
@@ -11170,8 +13978,8 @@ local saint_germain = {
                 { text = ")" },
             },
             calc_function = function(card)
-                local _, _, scoring_hand = JokerDisplay.evaluate_hand()
-                card.joker_display_values.active = #scoring_hand == 1 and scoring_hand[1]:get_id() == 13
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                card.joker_display_values.active = text ~= 'Unknown' and #scoring_hand == 1 and scoring_hand[1]:get_id() == 13
                 and localize("jdis_active") or localize("jdis_inactive")
             end,
         }
@@ -11181,6 +13989,7 @@ local saint_germain = {
 local necronomicon = {
     key = "necronomicon",
     name = "Necronomicon",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "lovecraft",
     order = 998,
@@ -11272,6 +14081,7 @@ local necronomicon = {
 local frog_prince = {
     key = "frog_prince",
     name = "Frog Prince",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "frog_prince",
     order = 999,
@@ -11357,6 +14167,7 @@ local frog_prince = {
 local little_prince = {
     key = "little_prince",
     name = "Little Prince",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "little_prince",
     order = 1000,
@@ -11432,6 +14243,7 @@ local little_prince = {
 local pumpkin_carriage = {
     key = "pumpkin_carriage",
     name = "Pumpkin Carriage",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "cinderella",
     order = 1001,
@@ -11542,6 +14354,7 @@ local pumpkin_carriage = {
 local abducted_cow = {
     key = "abducted_cow",
     name = "Abducted Cow",
+    artist_credits = {"huycorn", "huythekiller"},
     atlas = "misc_jokers",
     saga_group = "common_story",
     order = 1002,
@@ -11567,7 +14380,7 @@ local abducted_cow = {
                 _card.abducted = true
                 card.ability.extra.held_card = {}
                 card.ability.extra.held_card.suit = _card.base.suit
-                card.ability.extra.held_card.rank = _card.config.card.value
+                card.ability.extra.held_card.rank = _card.base.value
                 card.ability.extra.triggered = true
             end
         end
@@ -11657,6 +14470,7 @@ local abducted_cow = {
 local flying_house = {
     key = "flying_house",
     name = "Howl's Flying House",
+    artist_credits = {"huycorn"},
     atlas = "misc_jokers",
     saga_group = "howls_flying_house",
     order = 1003,
@@ -11680,7 +14494,7 @@ local flying_house = {
             local ranks = {}
             for _, v in ipairs(context.scoring_hand) do
                 if not SMODS.has_no_rank(v) then
-                    ranks[v.config.card.value] = (ranks[v.config.card.value] or 0) + 1
+                    ranks[v.base.value] = (ranks[v.base.value] or 0) + 1
                 end
             end
             local max_count, rank = 0, nil
@@ -11688,7 +14502,7 @@ local flying_house = {
                 if max_count < v then max_count = v; rank = k end
             end
             for _, v in ipairs(context.scoring_hand) do
-                if ranks[v.config.card.value] and ranks[v.config.card.value] ~= max_count then
+                if ranks[v.base.value] and ranks[v.base.value] ~= max_count then
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             v:juice_up()
@@ -11742,6 +14556,7 @@ local flying_house = {
 local shub = {
     key = "shub",
     name = "Shub-Niggurath",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "lovecraft",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -11836,6 +14651,7 @@ local shub = {
 local ragnarok = {
     key = "ragnarok",
     name = "Ragnarök",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "norse_mythology",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -11940,6 +14756,7 @@ local ragnarok = {
 local yggdrasil = {
     key = "yggdrasil",
     name = "Yggdrasil",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "norse_mythology",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -11962,6 +14779,7 @@ local yggdrasil = {
 local thor = {
     key = "thor",
     name = "Thórr",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "norse_mythology",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -12094,6 +14912,9 @@ local thor = {
                 card.joker_display_values.e_mult = emult^count
             end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                    return 0
+                end
                 if held_in_hand then
                     local count = 0
                     for i, v in ipairs(G.hand.cards) do
@@ -12131,6 +14952,7 @@ local thor = {
 local odin = {
     key = "odin",
     name = "Ódinn",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "norse_mythology",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -12208,6 +15030,7 @@ local odin = {
 local hermod = {
     key = "hermod",
     name = "Hermódr",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "norse_mythology",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -12297,6 +15120,7 @@ local hermod = {
 local three_body = {
     key = "three_body",
     name = "Three-body Dynamics",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "celestaverse",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -12406,6 +15230,7 @@ local three_body = {
 local azathoth = {
     key = "azathoth",
     name = "Azathoth",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "lovecraft",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -12464,6 +15289,7 @@ local azathoth = {
         end
     end,
     loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {key = 'e_negative_consumable', set = 'Edition', config = {extra = 1}}
         info_queue[#info_queue+1] = G.P_CENTERS.c_fool
         return {vars = {card.ability.extra.amount, card.ability.extra.amount_mod, localize{type = 'name_text', set = "Tarot", key = "c_fool", nodes = {}}}}
     end,
@@ -12492,6 +15318,7 @@ local azathoth = {
 local darkness = {
     key = "darkness",
     name = "Darkness",
+    artist_credits = {"huycorn"},
     atlas = "esoteric",
     saga_group = "lovecraft",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -12522,6 +15349,7 @@ local darkness = {
 local nameless = {
     key = "nameless",
     name = "Magnum Innominandum",
+    artist_credits = {"huycorn"},
     atlas = "nameless",
     saga_group = "lovecraft",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -12574,6 +15402,7 @@ local nameless = {
 local mabel = {
     key = "mabel",
     name = "Mabel",
+    artist_credits = {"amy"},
     atlas = "mabel",
     no_collection = not Sagatro.mod_compat.talisman,
     saga_group = "black_soul",
@@ -12597,9 +15426,9 @@ local mabel = {
             for i, v in ipairs(G.jokers.cards) do
                 if v == card and (card.ability.immutable.position or 0) ~= i then
                     card.ability.immutable.position = i
-                    if (card.ability.immutable.switch or false) ~= mabel_stall() then
+                    if (card.ability.immutable.switch or false) ~= Sagatro.mabel_stall() then
                         Sagatro.update_blind_amounts(true)
-                        card.ability.immutable.switch = mabel_stall()
+                        card.ability.immutable.switch = Sagatro.mabel_stall()
                     end
                     break
                 end
@@ -12651,6 +15480,10 @@ local mabel = {
     end,
 }
 
+Sagatro.test_joker = {
+    hyperscore = {1, 1}
+}
+
 local test = {
     key = "test",
     name = "Test Joker",
@@ -12661,53 +15494,43 @@ local test = {
             "on {C:dark_edition}HuyTheKiller{}'s demand",
             "",
             "Current effect:",
-            "destroy all unscored cards and gain",
-            "{X:mult,C:white}X#2#{} Mult for every card",
-            "destroyed",
-            "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
+            "{X:dark_edition,C:white}#1##2##3##4#{} Score",
         }
     },
     order = 9999,
     debug_obj = true,
-    config = {extra = {xmult = 1, xmult_mod = 0.1}},
+    config = {},
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.joker_main and to_big(card.ability.extra.xmult) > to_big(1) then
-            return {
-                x_mult = card.ability.extra.xmult
-            }
-        end
-        if context.destroy_card and context.cardarea == "unscored" then
-            context.destroy_card.slime_removal = true
-            return {remove = true}
-        end
-        if context.remove_playing_cards and not context.blueprint then
-            local count = 0
-            for _, removed_card in ipairs(context.removed) do
-                if removed_card.slime_removal then count = count + 1 end
+        if context.after then
+            local ret = {}
+            if next(Sagatro.test_joker.hyperscore) then
+                local operator = "sgt_e_score"
+                if Sagatro.test_joker.hyperscore[1] == 1 then
+                    operator = "sgt_e_score"
+                elseif Sagatro.test_joker.hyperscore[1] == 2 then
+                    operator = "sgt_ee_score"
+                elseif Sagatro.test_joker.hyperscore[1] == 3 then
+                    operator = "sgt_eee_score"
+                elseif Sagatro.test_joker.hyperscore[1] >= 4 then
+                    operator = "sgt_hyper_score"
+                end
+                if operator ~= "sgt_hyper_score" then
+                    ret[operator] = Sagatro.test_joker.hyperscore[2]
+                else
+                    ret[operator] = {Sagatro.test_joker.hyperscore[1], Sagatro.test_joker.hyperscore[2]}
+                end
             end
-            if count > 0 then
-                SMODS.scale_card(card, {
-                    ref_table = card.ability.extra,
-                    ref_value = "xmult",
-                    scalar_value = "xmult_mod",
-                    operation = function(ref_table, ref_value, initial, scaling)
-                        ref_table[ref_value] = initial + count*scaling
-                    end,
-                    scaling_message = {
-                        message = "test"
-                    }
-                })
-            end
+            return ret
         end
     end,
     in_pool = function(self, args)
         return false
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod}}
+        return {vars = {"{", Sagatro.test_joker.hyperscore[1], "}", Sagatro.test_joker.hyperscore[2]}}
     end,
 }
 
@@ -12808,6 +15631,36 @@ local joker_table = {
     mahimahi,
     seawater,
     nemo,
+    mirror,
+    white_pawn,
+    white_queen,
+    white_king,
+    live_flowers,
+    ticket_checker,
+    man_in_white,
+    goat,
+    beetle,
+    dinah,
+    tweedledum,
+    tweedledee,
+    sheep,
+    rocking_horse_fly,
+    bread_and_butter_fly,
+    snap_dragon_fly,
+    white_rook,
+    white_knight,
+    white_bishop,
+    jabberwock,
+    bandersnatch,
+    jubjub_bird,
+    humpty_dumpty,
+    seal_and_carpenter,
+    lion,
+    unicorn,
+    true_red_queen,
+    red_king,
+    vorpal_sword,
+    ecila,
     hansels_cheat_dice,
     skoll_n_hati,
     three_winters,

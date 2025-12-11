@@ -35,6 +35,7 @@ end
 local streak = {
     key = "streak",
     name = "The Streak",
+    artist_credits = {"huycorn"},
     set = "Spectral",
     atlas = "misc",
     pos = {x = 0, y = 0},
@@ -138,6 +139,7 @@ local streak = {
 local lamp = {
     key = "lamp",
     name = "The Magic Lamp",
+    artist_credits = {"huycorn"},
     set = "Spectral",
     atlas = "esoteric",
     no_collection = not Sagatro.mod_compat.talisman,
@@ -174,6 +176,7 @@ local lamp = {
 local omniscience = {
     key = "omniscience",
     name = "The Omniscience",
+    artist_credits = {"huycorn"},
     set = "Spectral",
     atlas = "misc",
     pos = {x = 1, y = 0},
@@ -193,6 +196,7 @@ local omniscience = {
 local smithing = {
     key = "smithing",
     name = "Smithing",
+    artist_credits = {"huycorn"},
     set = "Supply",
     atlas = "supply",
     pos = {x = 0, y = 0},
@@ -233,6 +237,7 @@ local smithing = {
 local welding = {
     key = "welding",
     name = "Welding",
+    artist_credits = {"huycorn"},
     set = "Supply",
     atlas = "supply",
     pos = {x = 1, y = 0},
@@ -275,7 +280,8 @@ local welding = {
 
 local composite = {
     key = "composite",
-    name = "composite",
+    name = "Composite",
+    artist_credits = {"huycorn"},
     set = "Supply",
     atlas = "supply",
     pos = {x = 2, y = 0},
@@ -319,6 +325,7 @@ local composite = {
 local nanotech = {
     key = "nanotech",
     name = "Nano-tech",
+    artist_credits = {"huycorn"},
     set = "Supply",
     atlas = "supply",
     pos = {x = 3, y = 0},
@@ -362,6 +369,7 @@ local nanotech = {
 local small_canned_fish = {
     key = "small_canned_fish",
     name = "Small Canned Fish",
+    artist_credits = {"huycorn"},
     set = "Supply",
     atlas = "supply",
     pos = {x = 0, y = 1},
@@ -393,6 +401,7 @@ local small_canned_fish = {
 local medium_canned_fish = {
     key = "medium_canned_fish",
     name = "Medium Canned Fish",
+    artist_credits = {"huycorn"},
     set = "Supply",
     atlas = "supply",
     pos = {x = 1, y = 1},
@@ -427,6 +436,7 @@ local medium_canned_fish = {
 local large_canned_fish = {
     key = "large_canned_fish",
     name = "Large Canned Fish",
+    artist_credits = {"huycorn"},
     set = "Supply",
     atlas = "supply",
     pos = {x = 2, y = 1},
@@ -461,6 +471,7 @@ local large_canned_fish = {
 local fuel_barrel = {
     key = "fuel_barrel",
     name = "Fuel Barrel",
+    artist_credits = {"huycorn"},
     set = "Supply",
     atlas = "supply",
     pos = {x = 3, y = 1},
@@ -720,6 +731,19 @@ local imminent_doom = {
     end,
 }
 
+local easter_egg = {
+    key = "sgt_easter_egg",
+    name = "Easter Egg",
+    atlas = "misc",
+    pos = {x = 2, y = 4},
+    badge_colour = G.C.SGT_SAGADITION,
+    prefix_config = { key = false },
+    sets = { Joker = true },
+    no_collection = true,
+    no_sticker_sheet = true,
+    should_apply = false,
+}
+
 local sticker_table = {
     protected,
     edible,
@@ -728,6 +752,7 @@ local sticker_table = {
     current_depth,
     off_depth,
     imminent_doom,
+    easter_egg,
 }
 
 for _, v in ipairs(sticker_table) do

@@ -130,6 +130,61 @@ return {
                     "mỗi tay bài và lượt bỏ đã dùng",
                 },
             },
+            bl_sgt_pawn = {
+                name = "The Pawn",
+                text = {
+                    "#1# Chip chuẩn",
+                },
+            },
+            bl_sgt_rook = {
+                name = "The Rook",
+                text = {
+                    "Hóa Đá mọi lá giữ",
+                    "trên tay mỗi tay bài",
+                },
+            },
+            bl_sgt_knight = {
+                name = "The Knight",
+                text = {
+                    "Chỉ lá đã chơi đầu tiên",
+                    "và cuối cùng sẽ ghi điểm",
+                },
+            },
+            bl_sgt_bishop = {
+                name = "The Bishop",
+                text = {
+                    "Mọi lá Bích và Tép",
+                    "bị vô hiệu hóa",
+                },
+            },
+            bl_sgt_true_red_queen = {
+                name = "Red Queen",
+                text = {
+                    "X2 điểm blind nếu không bị",
+                    "đánh bại trong tay bài này",
+                },
+            },
+            bl_sgt_true_red_queen_inv = {
+                name = "Red Queen",
+                text = {
+                    "/2 điểm blind nếu điểm",
+                    "thấp hơn 50% yêu cầu",
+                },
+            },
+            bl_sgt_red_king = {
+                name = "Red King",
+                text = {
+                    "Nhân điểm blind với số lần",
+                    "đã chơi tay poker",
+                },
+            },
+            bl_sgt_red_king_inv = {
+                name = "Red King",
+                text = {
+                    "Chia điểm blind cho số lần",
+                    "đã chơi tay poker",
+                },
+            },
         },
         Tag = {
             tag_sgt_holy = {
@@ -151,6 +206,13 @@ return {
                 text = {
                     "Nhận một {C:sgt_eldritch}Gói",
                     "{C:sgt_eldritch}Hắc Linh{} miễn phí",
+                },
+            },
+            tag_sgt_obscure = {
+                name = "Nhãn Mờ Mịt",
+                text = {
+                    "Shop có một",
+                    "{C:sgt_obscure}Joker Mờ Mịt",
                 },
             },
         },
@@ -498,6 +560,14 @@ return {
                     "Sẽ lập tức {C:red}thua trận{} ở cuối ván",
                 },
             },
+            sgt_easter_egg = {
+                name = "Easter Egg",
+                text = {
+                    "Bạn vừa tìm thấy một trong",
+                    "những Easter Egg của {C:sgt_sagadition}Sagatro{}!",
+                    "Hãy tận hưởng!",
+                },
+            },
             sgt_low_fuel = {
                 name = "Cạn Nhiên Liệu",
                 text = {
@@ -583,6 +653,44 @@ return {
                     "ở đầu mỗi ante",
                 },
             },
+            sgt_mirror = {
+                text = {
+                    "Hiệu ứng {C:attention}đặc thù{} của",
+                    "{C:sgt_sagadition}Alice ở Xứ Sở Trong Gương{}:",
+                    "Cho phép {C:attention}di chuyển{} giữa",
+                    "{C:sgt_sagadition}Thế Giới Gương{} và {C:sgt_sagadition}Thế Giới Thực",
+                },
+            },
+            sgt_mirrorworld = {
+                text = {
+                    "Bất hoạt ngoài {C:sgt_sagadition}Thế Giới Gương{},",
+                    "nhưng {C:attention}không{} tốn ô joker",
+                },
+            },
+            sgt_realworld = {
+                text = {
+                    "Bất hoạt trong {C:sgt_sagadition}Thế Giới Gương{},",
+                    "nhưng {C:attention}không{} tốn ô joker và",
+                    "không thể bán hoặc bị phá huỷ",
+                },
+            },
+            sgt_switch_cooldown = {
+                name = "Hồi Chiêu Chuyển Đổi",
+                text = {
+                    "Đánh bại bất kì {C:attention}Blind{} nào",
+                    "để tiếp tục chuyển đổi",
+                },
+            },
+            free_reroll_tooltip = {
+                name = "Mẹo",
+                text = {
+                    "Nhận {C:money}$#1#{} mỗi ván đã ở lại",
+                    "một thế giới trước khi chuyển,",
+                    "và chuyển đổi sẽ tự động",
+                    "{C:green}gieo lại{} shop {C:attention}miễn phí",
+                    "{C:inactive}(chỉ khi ở trong shop)",
+                },
+            },
             sgt_celestara_help = {
                 name = "Cách Dùng",
                 text = {
@@ -598,6 +706,32 @@ return {
                 name = "Thưởng Nghịch Đảo",
                 text = {
                     "Lorem Ipsum",
+                },
+            },
+            jabberwock_sliced = {
+                name = "Jabberwock",
+                text = {
+                    "Thêm {C:attention}tổng giá trị chip{} của",
+                    "lá trên tay {C:attention}chia{} cho {C:attention}bình phương",
+                    "số lá ghi điểm vào {X:mult,C:white}XNhân{}",
+                    "của joker này",
+                },
+            },
+            bandersnatch_sliced = {
+                name = "Bandersnatch",
+                text = {
+                    "Khi {C:attention}Boss Blind{} được chọn,",
+                    "thêm {C:dark_edition}Âm Bản{} vào joker",
+                    "liền phải",
+                },
+            },
+            jubjub_bird_sliced = {
+                name = "Chim Điên Jubjub",
+                text = {
+                    "Quay trở về {C:attention}Boss Blind{} vừa",
+                    "đánh bại sau khi nhận tiền",
+                    "Xác suất {C:green}#1# trên #2#{} để {C:red,E:2}tự huỷ{},",
+                    "giảm mẫu số đi {C:attention}1{} nếu trật",
                 },
             },
         },
@@ -1189,8 +1323,8 @@ return {
                 name = "Bóng Ma",
                 text = {
                     "Tạo ra một {C:attention}Joker",
-                    "{C:red}Hiếm{} ngẫu nhiên,",
-                    "Mất {C:money}một nửa{} số tiền"
+                    "{C:sgt_obscure}Mờ Mịt{} ngẫu nhiên,",
+                    "Đặt tiền về {C:money}#1#{}",
                 },
             },
             c_sgt_magiseal = {
@@ -1353,7 +1487,7 @@ return {
             j_sgt_dodo_bird = {
                 name = "Chim Dodo",
                 text = {
-                    "Mỗi joker ghi thêm {X:mult,C:white}X#1#{} Nhân",
+                    "Mỗi joker hoạt động ghi thêm {X:mult,C:white}X#1#{} Nhân",
                     "ở {C:attention}tay bài cuối{} của ván",
                     "với {C:attention}0{} lượt bỏ bài",
                 },
@@ -2314,6 +2448,296 @@ return {
                     "về {C:sgt_sagadition}2 Vạn Dặm Dưới Biển{}",
                 },
             },
+            j_sgt_mirror = {
+                name = "Gương",
+                text = {
+                    "Nếu tay đã chơi là {C:attention}#1#{}, biến đổi",
+                    "chất của {C:attention}lá thứ hai{} thành",
+                    "chất của {C:attention}lá đầu tiên{}",
+                },
+            },
+            j_sgt_white_pawn = {
+                name = "Tốt Trắng",
+                text = {
+                    {"Nếu tay bài đã chơi chứa {C:attention}#1#{}",
+                    "và chỉ một lá có chất {C:hearts}Cơ{} hoặc",
+                    "{C:diamonds}Rô{} ghi điểm, {C:attention}phá huỷ{} nó"},
+                    {"Nếu tay bài đã chơi là {C:attention}#2#{}",
+                    "{C:spades}Bích{} hoặc {C:clubs}Tép{}, phong cấp lên",
+                    "thành một {C:attention}quân cờ trắng{} ngẫu nhiên"},
+                },
+            },
+            j_sgt_white_queen = {
+                name = "Hậu Trắng",
+                text = {
+                    {"Mỗi lá {C:attention}Đầm{} giữ trên tay cho {C:mult}+#1#{} Nhân"},
+                    {"{C:mult}+#1#*A{} Nhân, với A bằng hiệu của",
+                    "tổng lá {C:spades}Bích{} và {C:clubs}Tép{} trên tay",
+                    "và tổng lá {C:hearts}Cơ{} và {C:diamonds}Rô{} trên tay"},
+                },
+            },
+            j_sgt_white_king = {
+                name = "Vua Trắng",
+                text = {
+                    {"Mỗi lá {C:attention}Già{} giữ trên tay cho {X:mult,C:white}X#1#{} Nhân"},
+                    {"{X:mult,C:white}X#1#*A{} Nhân, với A bằng thương của",
+                    "tổng lá {C:spades}Bích{} và {C:clubs}Tép{} trên tay",
+                    "và tổng lá {C:hearts}Cơ{} và {C:diamonds}Rô{} trên tay"},
+                },
+            },
+            j_sgt_live_flowers = {
+                name = "Chùm Hoa Biết Nói",
+                text = {
+                    "{C:mult}+#1#{} Nhân",
+                    "{C:mult}-#2#{} Nhân mỗi tay bài đã chơi",
+                },
+            },
+            j_sgt_ticket_checker = {
+                name = "Người Soát Vé",
+                text = {
+                    "{X:mult,C:white}X#1#{} Nhân nếu đã quy đổi",
+                    "ít nhất một {C:attention}phiếu{}",
+                },
+            },
+            j_sgt_man_in_white = {
+                name = "Quý Ông Áo Trắng",
+                text = {
+                    {"Thêm {C:mult}+#2#{} Nhân nếu tay đã chơi",
+                    "chứa {C:attention}Sảnh{} và lá {C:attention}Át",
+                    "Nếu không, {C:mult}-#3#{} Nhân",
+                    "{C:inactive}(Hiện tại là {C:mult}+#1#{C:inactive} Nhân)"},
+                    {"{C:attention}Con Dê{} ở bên phải",
+                    "joker này cho {X:mult,C:white}X1.5{} Nhân"},
+                },
+            },
+            j_sgt_goat = {
+                name = "Con Dê",
+                text = {
+                    {"Thêm {C:mult}+#2#{} Nhân nếu tay đã chơi",
+                    "chứa {C:attention}Sảnh{} và lá {C:attention}Già",
+                    "Nếu không, {C:mult}-#3#{} Nhân",
+                    "{C:inactive}(Hiện tại là {C:mult}+#1#{C:inactive} Nhân)"},
+                    {"{C:attention}Con Bọ{} ở bên phải",
+                    "joker này cho {X:mult,C:white}X1.5{} Nhân"},
+                },
+            },
+            j_sgt_beetle = {
+                name = "Con Bọ",
+                text = {
+                    "Thêm {C:mult}+#2#{} Nhân nếu tay đã chơi",
+                    "chứa {C:attention}Sảnh{} và lá {C:attention}Đầm",
+                    "Nếu không, {C:mult}-#3#{} Nhân",
+                    "{C:inactive}(Hiện tại là {C:mult}+#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_dinah = {
+                name = "Dinah",
+                text = {
+                    "Nếu tay bài ghi điểm chứa lá {C:attention}#3# {V:1}#4#{},",
+                    "{C:attention}phá huỷ{} nó và thêm {X:dark_edition,C:white}^#2#{} Nhân",
+                    "cho mỗi lá như vậy bị phá huỷ",
+                    "{s:0.8}Lá bài thay đổi sau mỗi ván",
+                    "{C:inactive}(Hiện tại là {X:dark_edition,C:white}^#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_tweedledum = {
+                name = "Ò E Anh",
+                text = {
+                    {"Lá đã chơi với",
+                    "bậc {C:attention}chẵn{} ghi thêm",
+                    "{X:chips,C:white}X#2#{} Chip khi ghi điểm",
+                    "{C:inactive}(10, 8, 6, 4, 2)"},
+                    {"Lá đã chơi với",
+                    "bậc {C:attention}lẻ{} ghi thêm",
+                    "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                    "{C:inactive}(A, 9, 7, 5, 3)"},
+                },
+            },
+            j_sgt_tweedledee = {
+                name = "Ò E Em",
+                text = {
+                    {"Lá đã chơi với",
+                    "bậc {C:attention}lẻ{} ghi thêm",
+                    "{X:chips,C:white}X#2#{} Chip khi ghi điểm",
+                    "{C:inactive}(A, 9, 7, 5, 3)"},
+                    {"Lá đã chơi với",
+                    "bậc {C:attention}chẵn{} ghi thêm",
+                    "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                    "{C:inactive}(10, 8, 6, 4, 2)"},
+                },
+            },
+            j_sgt_sheep = {
+                name = "Cừu",
+                text = {
+                    "{X:dark_edition,C:white}X#1#{} Điểm, giảm đi {X:dark_edition,C:white}X#2#{}",
+                    "cho mỗi joker ở bên trái",
+                    "joker này",
+                    "{C:inactive}(Hiện tại là {X:dark_edition,C:white}X#3#{C:inactive} Điểm)",
+                },
+            },
+            j_sgt_rocking_horse_fly = {
+                name = "Ruồi Ngựa Bấp Bênh",
+                text = {
+                    "Nếu tay bài đã chơi chứa {C:attention}#1#{},",
+                    "Thêm {C:attention}hai lần{} hiệu bậc giữa",
+                    "lá ghi điểm có bậc {C:attention}cao nhất{} và {C:attention}thấp nhất{}",
+                    "vào hệ số Nhân của chúng",
+                },
+            },
+            j_sgt_bread_and_butter_fly = {
+                name = "Ruồi Bánh Mì Bơ",
+                text = {
+                    "Đặt tiền về {C:money}$#1#{} nếu",
+                    "{C:attention}ít hơn{} giá trị đó",
+                    "ở cuối ván",
+                },
+            },
+            j_sgt_snap_dragon_fly = {
+                name = "Chuồn Chuồn Đớp",
+                text = {
+                    "Mỗi lá {C:attention}2{} giữ trên tay",
+                    "cho {C:mult}+#1#{} Nhân",
+                },
+            },
+            j_sgt_white_rook = {
+                name = "Xe Trắng",
+                text = {
+                    {"Nếu {C:attention}Vua Trắng{} sắp bị",
+                    "phá huỷ, {C:red,E:2}tự huỷ{} thay cho nó",
+                    "Áp dụng {C:attention}Bốn Ngón Tay{} nếu có",
+                    "một lá {C:attention}không bậc{} giữ trên tay"},
+                    {"{C:mult}+#1#*A{} Nhân, với A bằng hiệu của",
+                    "tổng lá {C:spades}Bích{} và {C:clubs}Tép{} trên tay",
+                    "và tổng lá {C:hearts}Cơ{} và {C:diamonds}Rô{} trên tay"},
+                },
+            },
+            j_sgt_white_knight = {
+                name = "Mã Trắng",
+                text = {
+                    "Áp dụng {C:attention}Đường Tắt",
+                    "{C:mult}+#1#*A{} Nhân, với A bằng hiệu của",
+                    "tổng lá {C:spades}Bích{} và {C:clubs}Tép{} trên tay",
+                    "và tổng lá {C:hearts}Cơ{} và {C:diamonds}Rô{} trên tay",
+                },
+            },
+            j_sgt_white_bishop = {
+                name = "Tượng Trắng",
+                text = {
+                    "{X:mult,C:white}X#1#{} Nhân nếu tay bài",
+                    "ghi điểm chỉ chứa {C:spades}Bích{} hoặc {C:clubs}Tép{}",
+                },
+            },
+            j_sgt_jabberwock = {
+                name = "Jabberwock",
+                text = {
+                    "{B:1,C:white}Quái Vật Mù Mịt{}",
+                    "Thêm {C:attention}tổng giá trị chip{} của",
+                    "lá ghi điểm {C:attention}chia{} cho {C:attention}bình phương",
+                    "số lá ghi điểm vào {X:mult,C:white}XNhân{}",
+                    "của joker này",
+                },
+            },
+            j_sgt_bandersnatch = {
+                name = "Bandersnatch",
+                text = {
+                    "{B:1,C:white}Quái Vật Mù Mịt{}",
+                    "Khi {C:attention}Blind{} được chọn, thêm",
+                    "{C:dark_edition}Âm Bản{} và {C:attention}Ngắn Hạn",
+                    "cho joker liền phải",
+                },
+            },
+            j_sgt_jubjub_bird = {
+                name = "Chim Điên Jubjub",
+                text = {
+                    "{B:1,C:white}Quái Vật Mù Mịt{}",
+                    "{C:attention}Boss Blind{} không có tiền thưởng",
+                    "Quay trở về {C:attention}Boss Blind{} vừa",
+                    "đánh bại sau khi nhận tiền",
+                    "rồi giảm giá bán đi {C:money}#1#{}",
+                    "{C:inactive}(Chỉ tác dụng lên Boss Blind",
+                    "{C:inactive}không phải của Ragnarök)",
+                },
+            },
+            j_sgt_humpty_dumpty = {
+                name = "Humpty Dumpty",
+                text = {
+                    {"Thêm {C:money}$#1#{} giá bán",
+                    "cho mỗi lá {C:attention}#2#{} bị bỏ,",
+                    "bậc thay đổi mỗi ván"},
+                    {"Xác suất {C:green}#3# trên #4#{}",
+                    "lá này bị phá huỷ",
+                    "ở cuối ván"},
+                },
+            },
+            j_sgt_seal_and_carpenter = {
+                name = "Hải Cẩu Và Thợ Mộc",
+                text = {
+                    "Khi ván bắt đầu, {C:attention}phá huỷ{} một",
+                    "{C:attention}lá bài thường{} ngẫu nhiên trên tay",
+                },
+            },
+            j_sgt_lion = {
+                name = "Sư Tử",
+                text = {
+                    "{C:attention}Tái kích{} mọi lá đã chơi một lần",
+                    "Tái kích {C:attention}một lần{} nữa nếu tay bài",
+                    "ghi điểm chỉ chứa {C:hearts}Cơ{} hoặc {C:diamonds}Rô{}",
+                },
+            },
+            j_sgt_unicorn = {
+                name = "Kì Lân",
+                text = {
+                    "Khi {C:attention}Blind{} bị bỏ qua,",
+                    "thêm {C:red}$#2#{} khả năng ghi nợ",
+                    "{C:inactive}(Hiện tại là {C:red}$#1#{C:inactive})",
+                },
+            },
+            j_sgt_true_red_queen = {
+                name = "Hậu Đỏ",
+                text = {
+                    "Nếu tay bài đã chơi chứa {C:attention}#1#{},",
+                    "mỗi lá đã chơi có chất {C:hearts}Cơ{} hoặc",
+                    "{C:diamonds}Rô{} cho {X:dark_edition,C:white}^#2#{} Nhân",
+                    "khi ghi điểm",
+                },
+            },
+            j_sgt_red_king = {
+                name = "Vua Đỏ",
+                text = {
+                    "Xác suất {C:green}#2# trên #3#{} để",
+                    "tạo ra {C:tarot}#1# {C:dark_edition}Âm Bản{}",
+                    "ở cuối {C:attention}shop{}",
+                },
+            },
+            j_sgt_vorpal_sword = {
+                name = "Kiếm Vorpal",
+                text = {
+                    {"Khi {C:attention}Blind{} được chọn, phá huỷ Joker",
+                    "liền phải và vĩnh viễn thêm {C:attention}8 lần",
+                    "giá bán của nó vào hệ số {C:red}Nhân",
+                    "{C:inactive}(Hiện tại là {C:mult}+#1#{C:inactive} Nhân)"},
+                    {"{C:inactive}Phá huỷ một {B:1,C:white}Quái Vật Mù Mịt{}",
+                    "{C:inactive}để nhận một khả năng độc nhất"},
+                },
+            },
+            j_sgt_vorpal_sword_bloodshed = {
+                name = "Kiếm Vorpal",
+                text = {
+                    {"Cho khả năng {C:attention}độc nhất{} dựa trên",
+                    "{C:attention}quái vật{} đã phá huỷ trước đó"},
+                    {"Khi {C:attention}Blind{} được chọn, phá huỷ",
+                    "{B:1,C:white}Quái Vật Mù Mịt{} liền phải và làm mới",
+                    "khả năng độc nhất của joker này"},
+                },
+            },
+            j_sgt_ecila = {
+                name = "Ecila",
+                text = {
+                    "Mỗi joker thuộc về {C:sgt_sagadition}Alice",
+                    "{C:sgt_sagadition}ở Xứ Sở Trong Gương{}",
+                    "cho {X:mult,C:white}X#1#{} Nhân",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -2342,9 +2766,11 @@ return {
             j_sgt_thor = {
                 name = "Thórr",
                 text = {
-                    "{C:attention}Tái kích{} lá bài bên cạnh {C:attention}cường hoá dẫn điện",
-                    "Mỗi lá {C:attention}giữ trên tay{} có {C:attention}cường hoá",
-                    "{C:attention}dẫn điện{} cho {X:dark_edition,C:white}^#1#{} Nhân",
+                    "{C:attention}Tái kích{} lá bài bên cạnh",
+                    "{C:attention}cường hoá dẫn điện",
+                    "Mỗi lá {C:attention}giữ trên tay{} có",
+                    "{C:attention}cường hoá dẫn điện",
+                    "cho {X:dark_edition,C:white}^#1#{} Nhân",
                 },
             },
             j_sgt_odin = {
@@ -2568,6 +2994,15 @@ return {
                     "Trang bị joker này để",
                     "bắt đầu mạch truyện:",
                     "{C:sgt_sagadition}#1#{}",
+                    "Độ khó: {V:1}#2#{}/5",
+                },
+            },
+            interwoven_storyline_start = {
+                text = {
+                    "Trang bị joker này để đan xen",
+                    "mạch truyện hiện tại với:",
+                    "{C:sgt_sagadition}#1#{}",
+                    "Độ khó: {V:1}#2#{}/5",
                 },
             },
             white_rabbit = {
@@ -2691,7 +3126,16 @@ return {
                     "Ngoi để lùi Ante một cách chiến thuật",
                     "Đánh bại {C:bl_sgt_nyx_abyss}Nyx Abyss{} để thắng",
                     "{s:0.8,C:sgt_sagadition}Nhấn vào tàu ngầm để bắt đầu",
-                }
+                },
+            },
+            mirror = {
+                text = {
+                    "Mạch truyện đan xen đầu tiên của {C:sgt_sagadition}Sagatro{}!",
+                    "Tiến triển {C:sgt_sagadition}Alice ở Xứ Sở Diệu Kì{} như",
+                    "bình thường, nhưng trùm cuối thực sự",
+                    "đang chờ đợi ở thế giới bên kia...",
+                    "{s:0.8,C:sgt_sagadition}Nhấn vào gương để bắt đầu",
+                },
             },
         },
         fish_effect = {
@@ -2914,6 +3358,38 @@ return {
                 },
             },
         },
+        sgt_artist = {
+            temp = {
+                text = {
+                    "HuyTheKiller's Temp Art",
+                },
+            },
+            huycorn = {
+                text = {
+                    "HuyCorn",
+                },
+            },
+            amy = {
+                text = {
+                    "Amy",
+                },
+            },
+            kazumi = {
+                text = {
+                    "Kazumi",
+                },
+            },
+            huythekiller = {
+                text = {
+                    "HuyTheKiller",
+                },
+            },
+            dj = {
+                text = {
+                    "D.J.",
+                },
+            },
+        },
         Mod = {
             Sagatro = {
                 name = "Sagatro",
@@ -2923,7 +3399,7 @@ return {
                     "Nhạc được dùng không có bản quyền. Có thể live stream thoả thích!",
                     " ",
                     "Danh đề:",
-                    "{C:attention}Hình Ảnh Gốc{}: HuyCorn, Amy, TNhie, Kazumi",
+                    "{C:attention}Hình Ảnh Gốc{}: HuyCorn, Amy, TNhie, Kazumi, D.J.",
                     "{C:attention}Chỉnh Sửa Ảnh{}: HuyTheKiller",
                     "{C:attention}Ý Tưởng{}: HuyCorn",
                     "{C:attention}Cân Bằng{}: HuyTheKiller, HuyCorn",
@@ -2952,6 +3428,7 @@ return {
             sgt_protected = "Bảo Vệ",
             sgt_imminent_doom = "Sắp Hẹo",
             sgt_off_depth = "Lệch Độ Sâu",
+            sgt_easter_egg = "Easter Egg",
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Hansel Đỏ Đen",
@@ -3011,6 +3488,7 @@ return {
             b_sgt_up = "LÊN",
             b_sgt_down = "XUỐNG",
             b_sgt_ready = "S.SÀNG",
+            b_sgt_switch = "CHUYỂN",
             b_delete_ace = "Huỷ Át",
             b_dont_even_try = "Đừng cố nữa",
             k_in_a_hurry_ex = "Tranh thủ lên!",
@@ -3065,6 +3543,15 @@ return {
             k_depleted_ex = "Cạn Kiệt!",
             k_smeared_ex = "Nhoè!",
             k_enhanced_ex = "Cường Hoá!",
+            k_promoted_ex = "Phong Cấp!",
+            k_elegant_ex = "Thanh Lịch!",
+            k_baah_ex = "Beee!",
+            k_bzzz_ex = "Bzzz!",
+            k_castled_ex = "Nhập Thành!",
+            k_roar_ex = "Grào!",
+            k_shattered_ex = "Vỡ Tung!",
+            k_sheathe_ex = "Tra Vào Vỏ!",
+            k_bloodshed_ex = "Nhuốm Máu!",
             k_zzz = "ZZZ",
             k_charge = "Nạp",
             k_release = "Xả",
@@ -3088,6 +3575,7 @@ return {
             ph_alice_in_wond = "Alice ở Xứ Sở Diệu Kì",
             ph_misc_story = "Truyện Khác",
             ph_20k = "2 Vạn Dặm Dưới Biển",
+            ph_alice_in_mirr = "Alice ở Xứ Sở Trong Gương",
             ph_gods_miracle = "Được cứu bởi Phép Lạ Của Chúa",
             ph_depth_level = "Tầng độ sâu",
             ph_lovecraft = "Lovecraft",
@@ -3096,7 +3584,10 @@ return {
             ph_celestaverse = "Celestaverse",
             ph_blind_score_at_most = "Đạt tối đa",
             ph_up_ante_2_inverse = "Giảm toàn bộ Blind",
+            ph_overscored_hand = "Tay này sẽ ghi quá điểm",
             sgt_swap = "Tráo!",
+            sgt_art_credit = "Ảnh vẽ bởi ",
+            sgt_and = " và ",
             SGT_story_related_settings = "Cài đặt cốt truyện",
             SGT_misc_settings = "Cài đặt khác",
             SGT_disable_other_jokers = "Chế Độ Cốt Truyện",
@@ -3109,6 +3600,8 @@ return {
             SGT_sagatro_music_desc = {"Bật nhạc Sagatro trong trận"},
             SGT_ortagas = "Chuyển sang Ortagas",
             SGT_ortagas_desc = {"Vô dụng?"},
+            SGT_quick_restart = "Trận Mới Nhanh",
+            SGT_quick_restart_desc = {"Nhấn R để tạo trận mới tức thí"},
         },
         quips = {
             sgt_good_end1 = {

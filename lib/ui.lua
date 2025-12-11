@@ -49,6 +49,18 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
             local sub_engi_nodes = {background_colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.25)}
             localize{type = "descriptions", set = "Other", key = "sgt_sub_engineer", nodes = sub_engi_nodes, vars = {}}
             ui[Ortalab and "mythos" or "celestara"] = sub_engi_nodes
+        elseif _c.key == "j_sgt_mirror" and Sagatro.storyline_check("alice_in_wonderland") then
+            local mirror_nodes = {background_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.25)}
+            localize{type = "descriptions", set = "Other", key = "sgt_mirror", nodes = mirror_nodes, vars = {}}
+            ui[Ortalab and "mythos" or "celestara"] = mirror_nodes
+        elseif _c.mirrorworld and _c.discovered and not G.GAME.inversed_scaling and Sagatro.storyline_check("alice_in_mirrorworld") then
+            local mirrorworld_nodes = {background_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.25)}
+            localize{type = "descriptions", set = "Other", key = "sgt_mirrorworld", nodes = mirrorworld_nodes, vars = {}}
+            ui[Ortalab and "mythos" or "celestara"] = mirrorworld_nodes
+        elseif _c.set == "Joker" and not _c.mirrorworld and _c.discovered and G.GAME.inversed_scaling and Sagatro.storyline_check("alice_in_mirrorworld") then
+            local realworld_nodes = {background_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.25)}
+            localize{type = "descriptions", set = "Other", key = "sgt_realworld", nodes = realworld_nodes, vars = {}}
+            ui[Ortalab and "mythos" or "celestara"] = realworld_nodes
         elseif card.ability.immutable and Sagatro.config.ViewFishProperties then
             if card.ability.immutable.weight_level then
                 local fish_nodes = {background_colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.25)}
@@ -72,12 +84,64 @@ local chp = G.UIDEF.card_h_popup
 function G.UIDEF.card_h_popup(card)
     local ret_val = chp(card)
     local AUT = card.ability_UIBox_table
+    local obj = card.config.center or (card.config.tag and G.P_TAGS[card.config.tag.key])
     if AUT.celestara then
         table.insert(ret_val.nodes[1].nodes[1].nodes[1].nodes,
         #ret_val.nodes[1].nodes[1].nodes[1].nodes+(card.config.center.discovered and 0 or 1),
         desc_from_rows(AUT.celestara))
     end
+    if card.area and card.area.config.collection and not card.config.center.discovered then return ret_val end
+    if not Ortalab and obj and obj.artist_credits then
+        table.insert(ret_val.nodes[1].nodes[1].nodes[1].nodes, Sagatro.artist_node(obj.artist_credits, localize('sgt_art_credit')))
+    end
     return ret_val
+end
+
+function Sagatro.artist_node(artists, first_string)
+    local artist_node = {n=G.UIT.R, config = {align = 'tm'}, nodes = {
+        {n=G.UIT.T, config={
+            text = first_string,
+            shadow = true,
+            colour = G.C.UI.BACKGROUND_WHITE,
+            scale = 0.27}}
+    }}
+    local total_artists = #artists
+    for i, artist in ipairs(artists) do
+        if total_artists > 1 and i > 1 then
+            if i == total_artists then
+                table.insert(artist_node.nodes,
+                    {n=G.UIT.T, config={
+                    text = localize('sgt_and'),
+                    shadow = true,
+                    colour = G.C.WHITE,
+                    scale = 0.27}}
+                )
+            else
+                table.insert(artist_node.nodes,
+                    {n=G.UIT.T, config={
+                    text = ', ',
+                    shadow = true,
+                    colour = G.C.WHITE,
+                    scale = 0.27}}
+                )
+            end
+        end
+        table.insert(artist_node.nodes,
+            {n=G.UIT.O, config={
+                object = DynaText({string = localize{type = 'raw_descriptions', set = 'sgt_artist', key = artist},
+                colours = {G.ARGS.LOC_COLOURS[artist] or G.C.RARITY[4]},
+                bump = true,
+                silent = true,
+                pop_in = 0,
+                pop_in_rate = 4,
+                shadow = true,
+                y_offset = -0.6,
+                scale =  0.27
+                })
+            }}
+        )
+    end
+    return artist_node
 end
 
 local desctab_ref = buildModDescTab
@@ -114,6 +178,22 @@ function Card:highlight(is_higlighted)
             end
         end
     end
+    if Sagatro.storyline_check("alice_in_mirrorworld") then
+        if self.config.center_key == "j_sgt_mirror" and self.area == G.jokers then
+            if self.highlighted then
+                self.children.switch_button = UIBox{
+                    definition = G.UIDEF.switch_button(self),
+                    config = {
+                        align= "cl",
+                        offset = {x=0.4,y=0},
+                        parent = self}
+                }
+            elseif self.children.switch_button then
+                self.children.switch_button:remove()
+                self.children.switch_button = nil
+            end
+        end
+    end
 end
 
 function G.UIDEF.movement_buttons(card)
@@ -140,6 +220,34 @@ function G.UIDEF.movement_buttons(card)
         }},
         {n=G.UIT.R, config={align = 'cr'}, nodes={
             down
+        }},
+        }},
+    }}
+    return t
+end
+
+function G.UIDEF.switch_button(card)
+    local switch, ready = nil, nil
+    if Sagatro.storyline_check("alice_in_mirrorworld") and card.config.center_key == "j_sgt_mirror" then
+        switch = {n=G.UIT.C, config={align = "cl"}, nodes={
+        {n=G.UIT.C, config={ref_table = card, align = "cl",maxw = 1.25, padding = 0.1, r=0.08, minw = 1.25, minh = 0, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, one_press = true, button = 'mirror_switch', func = 'mirror_can_switch'}, nodes={
+            {n=G.UIT.T, config={text = localize('b_sgt_switch'),colour = G.C.UI.TEXT_LIGHT, scale = 0.55, shadow = true}},
+            {n=G.UIT.B, config = {w=0.1,h=0.6}},
+        }}}}
+        ready = {n=G.UIT.C, config={align = "cl"}, nodes={
+        {n=G.UIT.C, config={ref_table = card, align = "cl",maxw = 1.25, padding = 0.1, r=0.08, minw = 1.25, minh = 0, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, one_press = true, button = 'mirror_ready', func = 'mirror_can_ready'}, nodes={
+            {n=G.UIT.T, config={text = localize('b_sgt_ready'),colour = G.C.UI.TEXT_LIGHT, scale = 0.55, shadow = true}},
+            {n=G.UIT.B, config = {w=0.1,h=0.6}},
+        }}}}
+    end
+    local t = {
+    n=G.UIT.ROOT, config = {padding = 0, colour = G.C.CLEAR}, nodes={
+        {n=G.UIT.C, config={padding = 0.15, align = 'cr'}, nodes={
+        {n=G.UIT.R, config={align = 'cr'}, nodes={
+            switch
+        }},
+        {n=G.UIT.R, config={align = 'cr'}, nodes={
+            ready
         }},
         }},
     }}
@@ -203,6 +311,7 @@ G.FUNCS.submarine_down = function(e, force_go_down)
             G.from_boss_tag = true
             G.FUNCS.reroll_boss()
         end
+        G.GAME.saga_forced_boss = true
     else
         play_sound('timpani')
         submarine.ability.immutable.depth_level = math.min(submarine.ability.immutable.depth_level + 1, 5)
@@ -225,6 +334,102 @@ G.FUNCS.submarine_can_go_down = function(e)
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
     end
+end
+
+G.FUNCS.mirror_switch = function(e)
+    local mirror = e.config.ref_table
+    G.GAME.mirror_switch_cooldown = true
+    if G.STATE == G.STATES.SHOP and not G.GAME.free_reroll_first_time then
+        G.GAME.free_reroll_first_time = true
+        G.GAME.free_reroll_tooltip = true
+    end
+    G.E_MANAGER:add_event(Event({func = function()
+        play_sound('timpani')
+        mirror:juice_up()
+        Sagatro.inverse()
+        ease_dollars(G.GAME.switch_bonus)
+        G.GAME.switch_bonus = 0
+        ease_background_colour_blind(G.STATE)
+        if G.GAME.story_mode then
+            if G.GAME.inversed_scaling then
+                Sagatro.progress_storyline("mirrorworld", "force_add", "alice_in_wonderland", G.GAME.interwoven_storyline)
+                for _, alice in ipairs(SMODS.find_card("j_sgt_alice", true)) do
+                    alice:set_ability("j_sgt_ecila")
+                end
+            else
+                Sagatro.progress_storyline("mirrorworld", "remove", "alice_in_wonderland", G.GAME.interwoven_storyline)
+                for _, ecila in ipairs(SMODS.find_card("j_sgt_ecila", true)) do
+                    ecila:set_ability("j_sgt_alice")
+                end
+            end
+            Sagatro.update_inactive_state(true)
+        end
+        Sagatro.instant_reroll()
+    return true end }))
+end
+
+G.FUNCS.mirror_can_switch = function(e)
+    if not G.GAME.mirror_switch_cooldown and not G.GAME.saga_forced_boss
+    and (G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP) then
+        e.config.colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5)
+        e.config.button = 'mirror_switch'
+    else
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+end
+
+G.FUNCS.mirror_ready = function(e)
+    local mirror = e.config.ref_table
+    G.E_MANAGER:add_event(Event({func = function()
+        play_sound('timpani')
+        mirror:juice_up()
+        if G.GAME.story_mode then
+            for _, v in ipairs{"the_pawn", "the_rook", "the_knight", "the_bishop", "true_red_queen", "red_king"} do
+                if Sagatro.event_check(v, nil, true) then
+                    Sagatro.progress_storyline(v, "add", "alice_in_wonderland", G.GAME.interwoven_storyline)
+                    if G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
+                        G.from_boss_tag = true
+                        G.FUNCS.reroll_boss()
+                    end
+                    G.GAME.saga_forced_boss = true
+                    break
+                end
+            end
+        end
+    return true end }))
+end
+
+G.FUNCS.mirror_can_ready = function(e)
+    if G.GAME.inversed_scaling and not G.GAME.saga_forced_boss and not G.GAME.won and G.STATE == G.STATES.BLIND_SELECT
+    and (Sagatro.event_check("the_bishop", nil, true) or G.GAME.mirrorworld_showdown) then
+        e.config.colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5)
+        e.config.button = 'mirror_ready'
+    else
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+end
+
+G.FUNCS.cash_out_into_boss_blind = function()
+    G.GAME.facing_blind = true
+    G.E_MANAGER:add_event(Event({
+        trigger = 'immediate',
+        func = function()
+            ease_round(1)
+            inc_career_stat('c_rounds', 1)
+            G.GAME.round_resets.blind = G.P_BLINDS[G.GAME.round_resets.blind_choices["Boss"]]
+            G.GAME.round_resets.blind_states.Boss = 'Current'
+            delay(0.2)
+        return true
+    end}))
+    G.E_MANAGER:add_event(Event({
+        trigger = 'immediate',
+        func = function()
+            new_round()
+            return true
+        end
+    }))
 end
 
 -- Block boss reroll if it's some certain boss blinds in story mode (you would waste $10 just to roll into the same boss anyway)
@@ -272,6 +477,16 @@ G.FUNCS.can_reroll = function(e)
     end
 end
 
+G.FUNCS.openModUI_Sagatro_fromAlice = function(e)
+    G.ACTIVE_MOD_UI = Sagatro
+    if e and e.config and e.config.page then
+        SMODS.LAST_SELECTED_MOD_TAB = e.config.page
+    end
+    G.FUNCS.overlay_menu({
+        definition = create_UIBox_mods(e)
+    })
+end
+
 function Sagatro.update_HUD()
     if G.HUD and G.GAME.story_mode then
         local ante_box_children = G.HUD:get_UIE_by_ID("hud_ante").children[2].children
@@ -286,16 +501,20 @@ function Sagatro.update_HUD()
 end
 
 SMODS.DrawStep {
-    key = "submarine_buttons",
+    key = "extra_buttons",
     order = -31,
     func = function(self)
         if self.children.movement_buttons then
             self.children.movement_buttons.states.visible = self.ability.anim_transition_path == 0
             self.children.movement_buttons:draw()
         end
+        if self.children.switch_button then
+            self.children.switch_button:draw()
+        end
     end,
 }
 SMODS.draw_ignore_keys.movement_buttons = true
+SMODS.draw_ignore_keys.switch_button = true
 
 SMODS.DrawStep {
     key = 'eldritch_shine',
@@ -313,16 +532,14 @@ SMODS.DrawStep {
     order = 21,
     func = function(self, layer)
         if self.ability.name == "Submarine" and (self.config.center.discovered or self.bypass_discovery_center) then
-            local scale_mod = 0 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
-            local rotate_mod = 0 --0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
             self.children.extra_sprite:draw_shader(
                 "dissolve",
                 nil,
                 nil,
                 nil,
                 self.children.center,
-                scale_mod,
-                rotate_mod
+                0,
+                0
             )
             if self.edition and not self.delay_edition then
                 for k, v in pairs(G.P_CENTER_POOLS.Edition) do

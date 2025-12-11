@@ -2,7 +2,9 @@ SMODS.Booster:take_ownership_by_kind('Buffoon', {
     create_card = function(self, card, i)
         local _card = {set = "Joker", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "buf"}
         if G.GAME.story_mode then
-            if Sagatro.event_check("white_rabbit_house") and i == 1 then
+            if Sagatro.storyline_check("none") then
+                _card.set = "Story Starter"
+            elseif Sagatro.event_check("white_rabbit_house") and i == 1 then
                 _card.key = "j_sgt_unlabeled_bottle"
             elseif Sagatro.event_check("goodbye_frog") then
                 _card.set = "Goodbye Frog"

@@ -1,11 +1,52 @@
 local saga_deck = {
     key = "saga",
     name = "Saga Deck",
+    -- artist_credits = {"amy"},
     atlas = "decks",
     pos = { x = 0, y = 0 },
     config = {joker_slot = 3, extra = {win_ante_gain = 8}},
     apply = function(self, back)
 		G.GAME.win_ante = G.GAME.win_ante + self.config.extra.win_ante_gain
+        if Sagatro.config.DisableOtherJokers then
+            local result = pseudorandom("saga_deck_mc_aura")
+            if Sagatro.debug then
+                print(result)
+            end
+            G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd =
+            G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd or 0.997
+            if result > G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd then
+                if Sagatro.debug then
+                    print(G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd)
+                end
+                delay(0.4)
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        local card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, "c_soul", 'deck')
+                        card:add_sticker("sgt_easter_egg", true)
+                        card:set_edition("e_negative", true)
+                        card:add_to_deck()
+                        G.consumeables:emplace(card)
+                        if result > 0.997 then
+                            juice_card_until(card, function(_card) return not _card.states.hover.is end, true)
+                        end
+                        if not G.GAME.seeded then
+                            G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd = 0.997
+                        end
+                    return true
+                    end
+                }))
+            else
+                if Sagatro.debug then
+                    print(G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd)
+                end
+                if not G.GAME.seeded then
+                    G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd =
+                    G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd
+                    - pseudorandom("saga_deck_mc_aura_dec", 10, 50)*0.001
+                end
+            end
+            G:save_settings()
+        end
 	end,
     loc_vars = function(self)
         return {vars = {self.config.joker_slot, 8 + self.config.extra.win_ante_gain}}
@@ -15,6 +56,7 @@ local saga_deck = {
 local grimoire_deck = {
     key = "grimoire",
     name = "Grimoire Deck",
+    -- artist_credits = {"amy"},
     atlas = "decks",
     pos = { x = 1, y = 0 },
     config = {vouchers = {'v_sgt_oculus_divina', 'v_sgt_shadow_oath'}, consumables = {'c_sgt_rex_divinus'}, ante_scaling = 1.5},
@@ -31,6 +73,7 @@ local grimoire_deck = {
 local celestaverse_deck = {
     key = "celestaverse",
     name = "Celestaverse Deck",
+    -- artist_credits = {"amy"},
     atlas = "decks",
     pos = { x = 2, y = 0 },
     config = {vouchers = {'v_sgt_alien_life', 'v_sgt_civilization'}, consumable_slot = 1},
@@ -85,6 +128,7 @@ if CardSleeves then
     local saga_sleeve = {
 		key = "saga",
 		name = "Saga Sleeve",
+        -- artist_credits = {"amy"},
 		atlas = 'sleeves',
 		pos = { x = 0, y = 0 },
 		unlocked = false,
@@ -116,6 +160,7 @@ if CardSleeves then
     local grimoire_sleeve = {
         key = "grimoire",
 		name = "Grimoire Sleeve",
+        -- artist_credits = {"amy"},
 		atlas = 'sleeves',
 		pos = { x = 1, y = 0 },
 		unlocked = false,
@@ -151,6 +196,7 @@ if CardSleeves then
     local celestaverse_sleeve = {
         key = "celestaverse",
 		name = "Celestaverse Sleeve",
+        -- artist_credits = {"amy"},
 		atlas = 'sleeves',
 		pos = { x = 2, y = 0 },
 		unlocked = false,

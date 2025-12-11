@@ -48,7 +48,7 @@ end
 
 function Card:can_fuse_card()
 	for _, fusion in ipairs(G.GAME.fusion_table or {}) do
-		if to_number(G.GAME.dollars) >= fusion.cost then
+		if to_number(G.GAME.dollars) - G.GAME.bankrupt_at >= fusion.cost then
 			local found_me = false
 			local all_jokers = true
 			for _, joker in ipairs(fusion.jokers) do
@@ -296,6 +296,7 @@ function Game:start_run(args)
 			G.GAME.modifiers.sgt_disable_sagatro_items = true
 		end
 		G.GAME.perishable_already_active = G.GAME.modifiers.enable_perishables_in_shop -- used by Adam
+		G.GAME.no_boss_reward_already_active = (G.GAME.modifiers.no_blind_reward or {}).Boss -- used by Jubjub Bird
 		if Sagatro.debug then
 			G.GAME.dollars = to_big(250)
 			SMODS.change_free_rerolls(1e10)
@@ -309,6 +310,12 @@ function Game:start_run(args)
 	G.C.BLIND.Small = G.GAME.story_mode and Sagatro.badge_colour or HEX("50846e")
 	G.C.BLIND.Big = G.GAME.story_mode and Sagatro.badge_colour or HEX("50846e")
 	if Sagatro.debug then
-		sendInfoMessage("Welcome to Sagatro debug mode! Make sure you have DebugPlus installed! Type 'eval sgt_help()' for more info. ", "Sagatro")
+		sendInfoMessage("Welcome to Sagatro debug mode! Make sure you have DebugPlus installed! Type 'eval Sagatro.help()' for more info. ", "Sagatro")
 	end
+	ease_background_colour_blind(G.STATE)
+	G.E_MANAGER:add_event(Event({func = function()
+        if Sagatro.storyline_check("alice_in_mirrorworld") then
+            Sagatro.update_inactive_state()
+        end
+    return true end}))
 end

@@ -15,6 +15,13 @@ G.C.SUBMARINE_DEPTH = {
     HEX("091829"),
     HEX("060f1a"),
 }
+G.C.SAGA_DIFFICULTY = {
+    G.C.GREEN,
+    G.C.GREEN,
+    G.C.YELLOW,
+    G.C.YELLOW,
+    G.C.RED,
+}
 SMODS.Gradient{
     key = "sagadition",
     colours = {Sagatro.badge_colour, G.C.RARITY[4]},
@@ -50,6 +57,11 @@ function loc_colour(_c, _default)
             G.ARGS.LOC_COLOURS[k] = v.boss_colour
         end
     end
+    G.ARGS.LOC_COLOURS.huycorn = G.C.SGT_DIVINATIO
+    G.ARGS.LOC_COLOURS.huythekiller = G.C.GREEN
+    G.ARGS.LOC_COLOURS.amy = G.C.YELLOW
+    G.ARGS.LOC_COLOURS.temp = G.C.UI.BACKGROUND_WHITE
+    G.ARGS.LOC_COLOURS.dj = G.C.BLUE
     return lc(_c, _default)
 end
 
@@ -65,6 +77,7 @@ end
 Sagatro.story_mode_showdown = {
 	"bl_sgt_red_queen",
     "bl_sgt_nyx_abyss",
+    "bl_sgt_red_king",
 }
 
 Sagatro.story_mode_no_reroll = {
@@ -74,11 +87,18 @@ Sagatro.story_mode_no_reroll = {
     "bl_sgt_black_oil",
     "bl_sgt_shadow_seamine",
     "bl_sgt_nyx_abyss",
+    "bl_sgt_pawn",
+    "bl_sgt_rook",
+    "bl_sgt_knight",
+    "bl_sgt_bishop",
+    "bl_sgt_true_red_queen",
+    "bl_sgt_red_king",
 }
 
 Sagatro.main_storyline_list = {
     "alice_in_wonderland",
-    "20k_miles_under_the_sea"
+    "20k_miles_under_the_sea",
+    "alice_in_mirrorworld",
 }
 
 Sagatro.forced_buffoon_events = {
@@ -121,12 +141,48 @@ function Game:init_game_object()
                 "j_sgt_alice",
             },
         },
+        alice_in_mirrorworld = {
+            mirrorworld = {
+                "j_sgt_white_pawn",
+                "j_sgt_white_rook",
+                "j_sgt_white_knight",
+                "j_sgt_white_bishop",
+                "j_sgt_white_queen",
+                "j_sgt_white_king",
+                "j_sgt_live_flowers",
+                "j_sgt_ticket_checker",
+                "j_sgt_man_in_white",
+                "j_sgt_goat",
+                "j_sgt_beetle",
+                "j_sgt_dinah",
+                "j_sgt_tweedledum",
+                "j_sgt_tweedledee",
+                "j_sgt_sheep",
+                "j_sgt_rocking_horse_fly",
+                "j_sgt_bread_and_butter_fly",
+                "j_sgt_snap_dragon_fly",
+                "j_sgt_jabberwock",
+                "j_sgt_bandersnatch",
+                "j_sgt_jubjub_bird",
+                "j_sgt_humpty_dumpty",
+                "j_sgt_seal_and_carpenter",
+                "j_sgt_lion",
+                "j_sgt_unicorn",
+                "j_sgt_true_red_queen",
+                "j_sgt_red_king",
+                "j_sgt_vorpal_sword",
+                "j_sgt_ecila",
+            },
+        },
     }
     ret.fish_effect = {}
+    ret.current_round.dinah_card = {suit = "Spades", rank = "Ace"}
+    ret.current_round.humdum_card = {rank = "Ace"}
     ret.ante_cooldown = 0
     ret.alice_multiplier = 1
     ret.relief_factor = 1
     ret.orbis_fatum_odds = 4
+    ret.switch_bonus = 0
     ret.celestara_tooltip = true
 	return ret
 end
@@ -187,6 +243,31 @@ function Game:main_menu(change_context)
             return true
         end,
     }))
+
+    if newcard and (math.random() < 0.1 or Sagatro.debug) then
+        local card
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 4.04,
+            func = (function()
+                card = Card(G.title_top.T.x, G.title_top.T.y, G.CARD_W*1.1*1.2, G.CARD_H*1.1*1.2, G.P_CARDS.empty, G.P_CENTERS.j_sgt_ecila, { bypass_discovery_center = true })
+                card.no_ui = true
+                card.states.visible = false
+                card.sticker_run = "NONE" 
+                card.sagatro_target = true
+                newcard.parent = nil
+                newcard:start_dissolve({G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD})
+                return true
+        end)}))
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 1.04,
+            func = (function()
+                card:start_materialize()
+                G.title_top:emplace(card)
+                return true
+        end)}))
+    end
 end
 
 -- Mouse and Pufferfish's conditional debuff mechanic
@@ -449,6 +530,7 @@ function Card:update(dt)
                 end
             end
         end
+        if self.ability.inactive == false then self.ability.inactive = nil end
     end
 end
 
@@ -456,6 +538,7 @@ end
 cause_crash = false
 nemo_dt = 0
 alice_dt = 0
+ecila_dt = 0
 cosmic_dt = 0
 miracle_dt = 0
 miracle_animate = false
@@ -465,7 +548,20 @@ current_depth_dt = 0
 local upd = Game.update
 function Game:update(dt)
 	upd(self, dt)
-
+    if Sagatro.debug then
+        if not Sagatro.STATE then
+            Sagatro.STATE = G.STATE
+        end
+        if Sagatro.STATE ~= G.STATE then
+            Sagatro.STATE = G.STATE
+            for k, v in pairs(G.STATES) do
+                if Sagatro.STATE == v then
+                    print(k)
+                    break
+                end
+            end
+        end
+    end
     if G.STAGE == G.STAGES.RUN then
         Sagatro.debug_info["During a run"] = true
         Sagatro.debug_info["Story mode"] = G.GAME.story_mode
@@ -509,7 +605,17 @@ function Game:update(dt)
         end
         -- Adam's ability to enable perishable in shop (take Orange Stake effect into account)
         if not (Ortalab or G.GAME.perishable_already_active) then
-            G.GAME.modifiers.enable_perishables_in_shop = next(SMODS.find_card("j_sgt_adam")) and true or nil
+            G.GAME.modifiers.enable_perishables_in_shop = next(Sagatro.find_active_card("j_sgt_adam")) and true or nil
+        end
+        -- Jubjub Bird's ability to remove boss reward (take challenge modifier effect into account)
+        if not G.GAME.no_boss_reward_already_active then
+            G.GAME.modifiers.no_blind_reward = G.GAME.modifiers.no_blind_reward or {}
+            local prev = G.GAME.modifiers.no_blind_reward.Boss
+            G.GAME.modifiers.no_blind_reward.Boss = next(Sagatro.find_active_card("j_sgt_jubjub_bird")) and true or nil
+            if prev ~= G.GAME.modifiers.no_blind_reward.Boss then
+                prev = G.GAME.modifiers.no_blind_reward.Boss
+                Sagatro.update_blind_amounts(true)
+            end
         end
     elseif G.STAGE == G.STAGES.MAIN_MENU then
         Sagatro.debug_info["During a run"] = nil
@@ -625,6 +731,22 @@ function Game:update(dt)
         for _, card in pairs(G.I.CARD) do
             if card and card.config.center == alice then
                 card.children.floating_sprite:set_sprite_pos(alice.soul_pos)
+            end
+        end
+    end
+
+    ecila_dt = ecila_dt + dt
+    if G.P_CENTERS and G.P_CENTERS.j_sgt_ecila and ecila_dt > 0.125 then
+        ecila_dt = ecila_dt - 0.125
+        local ecila = G.P_CENTERS.j_sgt_ecila
+        if ecila.soul_pos.x == 39 then
+            ecila.soul_pos.x = 1
+        else
+            ecila.soul_pos.x = ecila.soul_pos.x + 1
+        end
+        for _, card in pairs(G.I.CARD) do
+            if card and card.config.center == ecila then
+                card.children.floating_sprite:set_sprite_pos(ecila.soul_pos)
             end
         end
     end
@@ -775,6 +897,33 @@ function Card:set_sprites(_center, _front)
 		self.children.floating_sprite2.states.hover.can = false
 		self.children.floating_sprite2.states.click.can = false
 	end
+end
+
+local can_calc_ref = Card.can_calculate
+function Card:can_calculate(ignore_debuff, ignore_sliced)
+    local is_available = can_calc_ref(self, ignore_debuff, ignore_sliced)
+    is_available = is_available and not self.ability.inactive
+    if G.GAME.blind then
+        if G.GAME.blind.config.blind.key == "bl_sgt_knight" and not G.GAME.blind.disabled then
+            if self.ability.set == "Default" or self.ability.set == "Enhanced" then
+                if self.area == G.play then
+                    is_available = is_available and (Sagatro.get_pos(self) == 1 or Sagatro.get_pos(self) == #G.play.cards)
+                end
+            end
+        end
+    end
+    return is_available
+end
+
+local calc_rental = Card.calculate_rental
+function Card:calculate_rental()
+    calc_rental(self)
+    if self.ability.rental then
+        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) - G.GAME.rental_rate
+        G.E_MANAGER:add_event(Event({func = function()
+            G.GAME.dollar_buffer = 0
+        return true end}))
+    end
 end
 
 -- Gravistone jank
@@ -963,11 +1112,6 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
     return card
 end
 
-function debug_boss_spawn(blind_key)
-    Sagatro.init_storyline("20k_miles_under_the_sea")
-    Sagatro.progress_storyline(blind_key, "force_add", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
-end
-
 -- Black Oil disable retriggers
 local insert_rep_ref = SMODS.insert_repetitions
 function SMODS.insert_repetitions(ret, eval, effect_card, _type)
@@ -985,41 +1129,104 @@ local gnb = get_new_boss
 function get_new_boss(...)
     local ret = gnb(...)
     local overridden = false
-    if not G.GAME.won then
+    if G.GAME.story_mode and not G.GAME.won then
         if Sagatro.event_check("final_showdown") and not next(SMODS.find_card("j_sgt_mad_hatter")) then
-            for _, v in ipairs(G.jokers.cards) do
-                if v.config.center_key == "j_sgt_red_queen" then
-                    local guilty_text = function()
-                        card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
-                    end
-                    Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
-                end
-            end
+            G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
             ret = 'bl_sgt_red_queen'
             overridden = true
         elseif Sagatro.event_check("turquoise_jellyfish") then
+            G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
             ret = 'bl_sgt_turquoise_jellyfish'
             overridden = true
         elseif Sagatro.event_check("aqua_eyeshard") then
+            G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
             ret = 'bl_sgt_aqua_eyeshard'
             overridden = true
         elseif Sagatro.event_check("black_oil") then
+            G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
             ret = 'bl_sgt_black_oil'
             overridden = true
         elseif Sagatro.event_check("shadow_seamine") then
+            G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
             ret = 'bl_sgt_shadow_seamine'
             overridden = true
         elseif Sagatro.event_check("nyx_abyss") then
+            G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
             ret = 'bl_sgt_nyx_abyss'
             overridden = true
+        elseif G.GAME.inversed_scaling then
+            if Sagatro.event_check("the_pawn", nil, true)
+            and not Sagatro.event_check("the_pawn", false) then
+                G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
+                ret = 'bl_sgt_pawn'
+                overridden = true
+            elseif Sagatro.event_check("the_rook", nil, true)
+            and not Sagatro.event_check("the_rook", false) then
+                G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
+                ret = 'bl_sgt_rook'
+                overridden = true
+            elseif Sagatro.event_check("the_knight", nil, true)
+            and not Sagatro.event_check("the_knight", false) then
+                G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
+                ret = 'bl_sgt_knight'
+                overridden = true
+            elseif Sagatro.event_check("the_bishop", nil, true)
+            and not Sagatro.event_check("the_bishop", false) then
+                G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
+                ret = 'bl_sgt_bishop'
+                overridden = true
+            elseif G.GAME.mirrorworld_showdown then
+                if Sagatro.event_check("true_red_queen", nil, true)
+                and not Sagatro.event_check("true_red_queen", false) then
+                    G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
+                    ret = 'bl_sgt_true_red_queen'
+                    overridden = true
+                elseif Sagatro.event_check("red_king", nil, true)
+                and not Sagatro.event_check("red_king", false) then
+                    G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
+                    ret = 'bl_sgt_red_king'
+                    overridden = true
+                end
+            end
         end
     end
-    if ret == 'bl_sgt_red_queen' then G.GAME.red_queen_blind = true end
+    if ret == 'bl_sgt_red_queen' then
+        G.GAME.red_queen_blind = true
+        for _, v in ipairs(SMODS.find_card("j_sgt_red_queen", true)) do
+            local guilty_text = function()
+                card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
+            end
+            Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
+        end
+        if Sagatro.storyline_check("alice_in_mirrorworld") then
+            G.GAME.paused_showdown = true
+        end
+    elseif ret == 'bl_sgt_true_red_queen' then
+        G.GAME.true_red_queen_blind = true
+        for _, v in ipairs(SMODS.find_card("j_sgt_true_red_queen", true)) do
+            local guilty_text = function()
+                card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
+            end
+            Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
+        end
+    elseif ret == 'bl_sgt_red_king' then
+        G.GAME.red_king_blind = true
+        for _, v in ipairs(SMODS.find_card("j_sgt_red_king", true)) do
+            local guilty_text = function()
+                card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
+            end
+            Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
+        end
+    end
     if Cartomancer then
         G.GAME.cartomancer_bosses_list = G.GAME.cartomancer_bosses_list or {}
         if overridden then
             G.GAME.cartomancer_bosses_list[#G.GAME.cartomancer_bosses_list] = ret
         end
+    end
+    if overridden then
+        G.GAME.saga_forced_boss = true
+        G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] + 1
     end
     return ret
 end
@@ -1093,10 +1300,22 @@ end
 
 local shortcut = SMODS.shortcut
 function SMODS.shortcut()
-    if next(SMODS.find_card('j_sgt_frog_prince')) then
+    if next(Sagatro.find_active_card('j_sgt_frog_prince')) or next(Sagatro.find_active_card('j_sgt_frog_white_knight')) then
         return true
     end
     return shortcut()
+end
+
+local four_fingers = SMODS.four_fingers
+function SMODS.four_fingers(hand_type)
+    if G.hand and next(Sagatro.find_active_card('j_sgt_white_rook')) then
+        for i = 1, #G.hand.cards do
+            if SMODS.has_no_rank(G.hand.cards[i]) then
+                return 4
+            end
+        end
+    end
+    return four_fingers(hand_type)
 end
 
 function table.extract_total_value(t)
@@ -1149,10 +1368,20 @@ table.size = table.size or function(table)
 end
 
 ---@param storyline_name string
-function Sagatro.init_storyline(storyline_name)
+---@param interwoven boolean|nil
+---@param override boolean|nil
+function Sagatro.init_storyline(storyline_name, interwoven, override)
     if not G.GAME.story_mode then return end
-    if G.GAME.current_storyline == "none" and table.contains(Sagatro.main_storyline_list, storyline_name) then
-        G.GAME.current_storyline = storyline_name
+    if table.contains(Sagatro.main_storyline_list, storyline_name) then
+        if interwoven then
+            if not G.GAME.interwoven_storyline or override then
+                G.GAME.interwoven_storyline = storyline_name
+            end
+        else
+            if G.GAME.current_storyline == "none" or override then
+                G.GAME.current_storyline = storyline_name
+            end
+        end
     end
 end
 
@@ -1275,8 +1504,9 @@ function Sagatro.reset_game_globals(run_start)
     end
     G.GAME.first_hand_played = nil
     G.GAME.submarine_movement_cooldown = nil
+    G.GAME.mirror_switch_cooldown = nil
     G.GAME.ante_reduction_tooltip = nil
-    G.GAME.submarine_hint_to_progress = nil
+    G.GAME.free_reroll_tooltip = nil
     if G.GAME.saved_by_gods_miracle then
         G.GAME.saved_by_gods_miracle = nil
     end
@@ -1285,6 +1515,37 @@ function Sagatro.reset_game_globals(run_start)
         G.jokers.config.highlighted_limit = 1
         G.consumeables.config.highlighted_limit = 1
     end
+    --#region reset_dinah_card()
+    G.GAME.current_round.dinah_card.rank = 'Ace'
+    G.GAME.current_round.dinah_card.suit = 'Spades'
+    G.GAME.current_round.dinah_card.id = 14
+    local valid_dinah_cards = {}
+    for k, v in ipairs(G.playing_cards) do
+        if not SMODS.has_no_suit(v) and not SMODS.has_no_rank(v) then
+            valid_dinah_cards[#valid_dinah_cards+1] = v
+        end
+    end
+    if valid_dinah_cards[1] then
+        local dinah_card = pseudorandom_element(valid_dinah_cards, pseudoseed('dinah'..G.GAME.round_resets.ante))
+        G.GAME.current_round.dinah_card.rank = dinah_card.base.value
+        G.GAME.current_round.dinah_card.suit = dinah_card.base.suit
+        G.GAME.current_round.dinah_card.id = dinah_card.base.id
+    end
+    --#endregion
+    --#region reset_humdum_rank()
+    G.GAME.current_round.humdum_card.rank = 'Ace'
+    local valid_humdum_cards = {}
+    for k, v in ipairs(G.playing_cards) do
+        if not SMODS.has_no_rank(v) then
+            valid_humdum_cards[#valid_humdum_cards+1] = v
+        end
+    end
+    if valid_humdum_cards[1] then
+        local humdum_card = pseudorandom_element(valid_humdum_cards, pseudoseed('humdum'..G.GAME.round_resets.ante))
+        G.GAME.current_round.humdum_card.rank = humdum_card.base.value
+        G.GAME.current_round.humdum_card.id = humdum_card.base.id
+    end
+    --#endregion
 end
 
 function Sagatro.get_submarine_depth_colour()
@@ -1502,7 +1763,7 @@ function Sagatro.set_debuff(card)
     end
 end
 
-function mabel_stall()
+function Sagatro.mabel_stall()
     if not G.jokers then return false end
     for i, v in ipairs(G.jokers.cards) do
         if v.config.center_key == "j_sgt_mabel" and i ~= 1 and i ~= #G.jokers.cards then
@@ -1515,7 +1776,11 @@ end
 -- Borrowing these from Ortalab (nope, the +JokerSlot animation is not necessary)
 function Sagatro.update_blind_amounts(instant)
     if G.GAME.blind then
-        G.GAME.blind.chips = get_blind_amount(G.GAME.round_resets.ante)*G.GAME.blind.mult*G.GAME.starting_params.ante_scaling
+        if G.GAME.inversed_scaling then
+            G.GAME.blind.chips = get_blind_amount(G.GAME.round_resets.ante)/math.max(G.GAME.blind.mult*((0.8+(0.05*math.log(G.GAME.blind.mult)))^G.GAME.blind.mult), 1)
+        else
+            G.GAME.blind.chips = get_blind_amount(G.GAME.round_resets.ante)*G.GAME.blind.mult*G.GAME.starting_params.ante_scaling
+        end
         G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
     end
     if G.STATE == G.STATES.BLIND_SELECT and G.blind_select then
@@ -1528,6 +1793,17 @@ function Sagatro.update_blind_amounts(instant)
             major = G.hand, bond = 'Weak'}
         }
         if not instant then G.blind_select.alignment.offset.y = 0.8-(G.hand.T.y - G.jokers.T.y) + G.blind_select.T.h end
+        if ColdBeans then
+            if G.GAME.round_resets.blind_states['Forced'] == "Select" then
+                G.blind_select.alignment.offset.x = 0
+            elseif G.GAME.round_resets.blind_states['Teeny'] == "Select" then
+                G.blind_select.alignment.offset.x = 5
+            elseif G.GAME.round_resets.blind_states['Small'] == "Select" then
+                G.blind_select.alignment.offset.x = 1
+            else
+                G.blind_select.alignment.offset.x = -4
+            end
+        end
     end
     local at_least_most = G.HUD_blind:get_UIE_by_ID("HUD_blind_score_at_least_most")
     at_least_most.config.text = G.GAME.inversed_scaling and localize('ph_blind_score_at_most') or localize('ph_blind_score_at_least')
@@ -1624,6 +1900,8 @@ function Sagatro.set_ability_reset_keys()
         "anim_transition_path",
         "in_transition",
         "buffed",
+        "debuffed_by_turquoise_jellyfish",
+        "inactive",
     }
 end
 
@@ -1635,7 +1913,7 @@ function Sagatro.quip_filter(quip, quip_type)
 end
 
 -- Fix a damn edge case where the mod object is passed as a joker card without ability to check for retriggers
-Sagatro.ability = {repetition_penalty = 1.1}
+Sagatro.ability = {switch_bonus = 5, repetition_penalty = 1.1}
 function Sagatro:calculate(context)
     if G.GAME.story_mode and not context.retrigger_joker then
         if context.end_of_round and context.main_eval then
@@ -1658,6 +1936,9 @@ function Sagatro:calculate(context)
                         end
                     end
                 end
+            end
+            if Sagatro.storyline_check("alice_in_wonderland") then
+                G.GAME.switch_bonus = G.GAME.switch_bonus + Sagatro.ability.switch_bonus
             end
         end
         if context.after then
@@ -1683,8 +1964,11 @@ function Sagatro:calculate(context)
             end
         end
         if context.ante_change and context.ante_end then
+            G.GAME.saga_forced_boss = nil
             G.GAME.fish_effect.no_reshuffle = nil
             G.GAME.supply_drop = nil
+            G.GAME.submarine_hint_to_progress = nil
+            G.GAME.mirror_hint_to_progress = nil
             G.GAME.ante_cooldown = math.max(G.GAME.ante_cooldown - 1, 0)
             if G.GAME.pending_fish_var_tooltip_removal == 1 then
                 G.GAME.fish_vars = nil
@@ -1702,8 +1986,17 @@ function Sagatro:calculate(context)
                 end
             end
         end
-        if context.check_eternal and context.other_card.config.center_key == "j_sgt_submarine" then
-            return {no_destroy = true}
+        if context.check_eternal then
+            if context.other_card.config.center_key == "j_sgt_submarine"
+            or context.other_card.config.center_key == "j_sgt_mirror" then
+                return {no_destroy = true}
+            end
+            if not context.other_card.config.center.mirrorworld and G.GAME.inversed_scaling then
+                return {no_destroy = true}
+            end
+            if context.other_card.config.center_key == "c_soul" then
+                return {no_destroy = {override_compat = true}}
+            end
         end
         if context.starting_shop and G.GAME.juice_up_booster then
             G.GAME.juice_up_booster = nil
@@ -1713,6 +2006,14 @@ function Sagatro:calculate(context)
                     juice_card_until(v, eval, true)
                 end
                 break
+            end
+        end
+        if context.setting_ability then
+            Sagatro.update_inactive_state()
+        end
+        if context.prevent_tag_trigger then
+            if G.GAME.saga_forced_boss and context.prevent_tag_trigger.name == 'Boss Tag' then
+                return {prevent_trigger = true}
             end
         end
     end
@@ -1733,6 +2034,9 @@ function Sagatro:calculate(context)
         for _, v in pairs(G.GAME.hands) do
             v.played_this_ante = 0
         end
+    end
+    if context.end_of_round and context.main_eval and not context.retrigger_joker then
+        G.GAME.jjb_cash_out = G.GAME.blind_on_deck == "Boss"
     end
 end
 
@@ -2247,13 +2551,7 @@ function Sagatro.process_edible_fish(card, context)
     if context.setting_blind and not card.getting_sliced and not context.forcetrigger
     and not context.blueprint and not context.retrigger_joker then
         if card.area == G.consumeables then return end
-        local pos = nil
-        for i = 1, #G.jokers.cards do
-            if G.jokers.cards[i] == card then
-                pos = i
-                break
-            end
-        end
+        local pos = Sagatro.get_pos(card)
         local jokers = {}
         if pos then
             if card.ability.immutable.target_offset then
@@ -2542,32 +2840,208 @@ function Card:set_cost()
     end
 end
 
+function Sagatro.instant_reroll()
+    if G.STATE == G.STATES.SHOP then
+        SMODS.change_free_rerolls(1)
+        Sagatro.reroll_no_save = true
+        G.FUNCS.reroll_shop()
+        Sagatro.reroll_no_save = nil
+        G.GAME.round_resets.free_rerolls = G.GAME.round_resets.free_rerolls - 1
+        calculate_reroll_cost(true)
+    end
+end
+
 function Sagatro.global_set_cost(from_event)
-    if from_event then
-        G.E_MANAGER:add_event(Event({func = function()
-            for _, v in pairs(G.I.CARD) do
-                if v.set_cost then v:set_cost() end
-            end
-        return true end }))
-    else
+    local set_cost = function()
         for _, v in pairs(G.I.CARD) do
             if v.set_cost then v:set_cost() end
         end
     end
+    if from_event then
+        G.E_MANAGER:add_event(Event({func = function()
+            set_cost()
+        return true end }))
+    else
+        set_cost()
+    end
 end
 
+function Sagatro.get_pos(card)
+    if card.area then
+        for i, v in ipairs(card.area.cards) do
+            if v == card then
+                return i
+            end
+        end
+    end
+end
+
+function Sagatro.update_inactive_state(update_slots_used)
+    if G.jokers and Sagatro.storyline_check("alice_in_mirrorworld") then
+        for i = 1, #G.jokers.cards do
+            local v = G.jokers.cards[i]
+            if v.config.center_key ~= "j_sgt_mirror" then
+                if v.config.center.mirrorworld then
+                    if update_slots_used then
+                        v.ability.extra_slots_used = G.GAME.inversed_scaling and 0 or -1
+                    end
+                    v.ability.inactive = not G.GAME.inversed_scaling
+                    if JokerDisplay then
+                        if (v.ability.inactive and not (v.joker_display_values or {}).disabled)
+                        or (not v.ability.inactive and (v.joker_display_values or {}).disabled) then
+                            Sagatro.jd_toggle_override = true
+                            v:joker_display_toggle()
+                            Sagatro.jd_toggle_override = nil
+                        end
+                    end
+                else
+                    if update_slots_used then
+                        v.ability.extra_slots_used = G.GAME.inversed_scaling and -1 or 0
+                    end
+                    v.ability.inactive = G.GAME.inversed_scaling
+                    if JokerDisplay then
+                        if (v.ability.inactive and not (v.joker_display_values or {}).disabled)
+                        or (not v.ability.inactive and (v.joker_display_values or {}).disabled) then
+                            Sagatro.jd_toggle_override = true
+                            v:joker_display_toggle()
+                            Sagatro.jd_toggle_override = nil
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+function Sagatro.get_edition_chips(card)
+    if not card.edition then return 0 end
+    local ret = card:calculate_edition({main_scoring = true, cardarea = G.play})
+    if not ret then return 0 end
+    if ret.chips then return ret.chips end
+    if ret.chip_mod then return ret.chip_mod end
+    return 0
+end
+
+function Sagatro.get_seal_chips(card)
+    if not card.seal then return 0 end
+    local ret = card:calculate_seal({main_scoring = true, cardarea = G.play})
+    if not ret then return 0 end
+    if ret.chips then return ret.chips end
+    if ret.chip_mod then return ret.chip_mod end
+    return 0
+end
+
+function Sagatro.find_active_card(key, count_debuffed, count_inactive)
+    local cards = {}
+    for _, v in ipairs(SMODS.find_card(key, count_debuffed)) do
+        if not v.ability.inactive or count_inactive then
+            cards[#cards+1] = v
+        end
+    end
+    return cards
+end
+
+function Sagatro.vorpal_jubjub()
+    for _, v in ipairs(Sagatro.find_active_card("j_sgt_vorpal_sword")) do
+        if v.ability.extra.sliced_beasts.jubjub_bird_sliced then
+            return true
+        end
+    end
+    return false
+end
+
+function Sagatro.stall_ante()
+    return next(Sagatro.find_active_card("j_sgt_mad_hatter")) or next(Sagatro.find_active_card("j_sgt_jubjub_bird")) or Sagatro.mabel_stall() or Sagatro.vorpal_jubjub()
+end
+
+-- Wizard of Oz sneak peek
+function Sagatro.handle_dissolve(card, dissolve, dissolve_time)
+    dissolve = dissolve or card.dissolve == 0
+    dissolve_time = dissolve_time or 10
+    card.dissolve = card.dissolve or not dissolve and 1 or 0
+    card.dissolve_colours =
+    dissolve and {G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD, G.C.JOKER_GREY} or
+    (card.ability.set == 'Joker' and {G.C.RARITY[card.config.center.rarity]}) or
+    (card.ability.set == 'Voucher' and {G.C.SECONDARY_SET.Voucher, G.C.CLEAR}) or
+    (card.ability.set == 'Booster' and {G.C.BOOSTER}) or
+    {G.C.SECONDARY_SET[card.ability.set] or G.C.GREEN}
+    G.E_MANAGER:add_event(Event({
+        trigger = 'ease',
+        blockable = false,
+        ref_table = card,
+        ref_value = 'dissolve',
+        ease_to = dissolve and 1 or 0,
+        delay =  1*dissolve_time*(G.STAGE == G.STAGES.RUN and G.SETTINGS.GAMESPEED or 1),
+        func = (function(t) return t end)
+    }))
+end
+
+-- Overriding this since it gives -$-0 at value 0 and I hate it
+function SMODS.signed_dollars(val)
+    return val and (val >= 0 and '$'..val or '-$'..-val) or '0'
+end
+
+function Sagatro.quick_restart()
+    if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
+        G.SETTINGS.paused = true
+        if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+            G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+        end
+        G:save_settings()
+        G.SETTINGS.current_setup = 'New Run'
+        G.GAME.viewed_back = nil
+        G.run_setup_seed = G.GAME.seeded
+        G.challenge_tab = G.GAME and G.GAME.challenge and G.GAME.challenge_tab or nil
+        G.forced_seed, G.setup_seed = nil, nil
+        if G.GAME.seeded then G.forced_seed = G.GAME.pseudorandom.seed end
+        G.forced_stake = G.GAME.stake
+        local _seed = G.run_setup_seed and G.setup_seed or G.forced_seed or nil
+        local _challenge = G.challenge_tab or nil
+        local _stake = G.forced_stake or G.PROFILES[G.SETTINGS.profile].MEMORY.stake or 1
+        G.E_MANAGER:clear_queue()
+        G.E_MANAGER:add_event(Event({
+            trigger = 'immediate',
+            no_delete = true,
+            func = function()
+            G:delete_run()
+            G:start_run{stake = _stake, seed = _seed, challenge = _challenge}
+            return true
+            end
+        }))
+        G.forced_stake = nil
+        G.challenge_tab = nil
+        G.forced_seed = nil
+    end
+end
+
+SMODS.Keybind {
+    key = "quick_restart",
+    key_pressed = 'r',
+    action = function(self)
+        if Sagatro.config.QuickRestart then
+            Sagatro.quick_restart()
+        end
+    end
+}
+
 ---@param mod number
----@param operator "+"|"X"|"^"|nil
+---@param operator "+"|"X"|"^"|"^^"|"^^^"|{hyper: number}|nil
 ---@param arbitrary boolean|nil
 function Sagatro.modify_score(mod, operator, arbitrary)
     if not G.GAME.facing_blind then return end
     operator = operator or "+"
     if operator == "+" then
         G.GAME.chips = to_big(G.GAME.chips + mod)
-    elseif operator == "X" then
+    elseif operator == "X" and mod ~= 1 then
         G.GAME.chips = to_big(G.GAME.chips * mod)
-    elseif operator == "^" then
+    elseif operator == "^" and mod ~= 1 then
         G.GAME.chips = to_big(G.GAME.chips ^ mod)
+    elseif operator == "^^" and Sagatro.mod_compat.talisman then
+        G.GAME.chips = to_big(G.GAME.chips):arrow(2, mod)
+    elseif operator == "^^^" and Sagatro.mod_compat.talisman then
+        G.GAME.chips = to_big(G.GAME.chips):arrow(3, mod)
+    elseif type(operator) == "table" and Sagatro.mod_compat.talisman then
+        G.GAME.chips = to_big(G.GAME.chips):arrow(operator.hyper, mod)
     end
     G.FUNCS.chip_UI_set(G.hand_text_area.game_chips)
     G.hand_text_area.game_chips:juice_up()
@@ -2695,6 +3169,60 @@ function SMODS.calculate_individual_effect(effect, scored_card, key, amount, fro
         end
         return true
     end
+    if (key == 'sgt_ee_score' or key == 'sgt_eescore' or key == 'sgt_EEscore_mod') and Sagatro.mod_compat.talisman then
+        if effect.card then juice_card(effect.card) end
+        G.E_MANAGER:add_event(Event({func = function()
+            Sagatro.modify_score(amount, "^^")
+        return true end}))
+        if not effect.remove_default_message then
+            if from_edition then
+                card_eval_status_text(scored_card, 'jokers', nil, percent, nil, {message = "^^"..amount.." "..localize("k_score"), colour =  G.C.EDITION, edition = true})
+            elseif key ~= 'sgt_EEscore_mod' then
+                if effect.eescore_message then
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'extra', nil, percent, nil, effect.eescore_message)
+                else
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'sgt_ee_score', amount, percent)
+                end
+            end
+        end
+        return true
+    end
+    if (key == 'sgt_eee_score' or key == 'sgt_eeescore' or key == 'sgt_EEEscore_mod') and Sagatro.mod_compat.talisman then
+        if effect.card then juice_card(effect.card) end
+        G.E_MANAGER:add_event(Event({func = function()
+            Sagatro.modify_score(amount, "^^^")
+        return true end}))
+        if not effect.remove_default_message then
+            if from_edition then
+                card_eval_status_text(scored_card, 'jokers', nil, percent, nil, {message = "^^^"..amount.." "..localize("k_score"), colour =  G.C.EDITION, edition = true})
+            elseif key ~= 'sgt_EEEscore_mod' then
+                if effect.eeescore_message then
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'extra', nil, percent, nil, effect.eeescore_message)
+                else
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'sgt_eee_score', amount, percent)
+                end
+            end
+        end
+        return true
+    end
+    if (key == 'sgt_hyper_score' or key == 'sgt_hyperscore' or key == 'sgt_hyperscore_mod') and Sagatro.mod_compat.talisman and type(amount) == "table" then
+        if effect.card then juice_card(effect.card) end
+        G.E_MANAGER:add_event(Event({func = function()
+            Sagatro.modify_score(amount[2], {hyper = amount[1]})
+        return true end}))
+        if not effect.remove_default_message then
+            if from_edition then
+                card_eval_status_text(scored_card, 'jokers', nil, percent, nil, {message = ((amount[1] > 5 and ('{' .. amount[1] .. '}') or string.rep('^', amount[1])) .. amount[2]).." "..localize("k_score"), colour =  G.C.EDITION, edition = true})
+            elseif key ~= 'sgt_hyperscore_mod' then
+                if effect.eeescore_message then
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'extra', nil, percent, nil, effect.eeescore_message)
+                else
+                    card_eval_status_text(scored_card or effect.card or effect.focus, 'sgt_hyper_score', amount, percent)
+                end
+            end
+        end
+        return true
+    end
 end
 
 for _, v in ipairs{'sgt_e_mult','sgt_emult','sgt_Emult_mod'} do
@@ -2702,7 +3230,10 @@ for _, v in ipairs{'sgt_e_mult','sgt_emult','sgt_Emult_mod'} do
 end
 for _, v in ipairs{'sgt_a_score', 'sgt_ascore', 'sgt_Ascore_mod',
                     'sgt_x_score', 'sgt_xscore', 'sgt_Xscore_mod',
-                    'sgt_e_score', 'sgt_escore', 'sgt_Escore_mod'} do
+                    'sgt_e_score', 'sgt_escore', 'sgt_Escore_mod',
+                    'sgt_ee_score', 'sgt_eescore', 'sgt_EEscore_mod',
+                    'sgt_eee_score', 'sgt_eeescore', 'sgt_EEEscore_mod',
+                    'sgt_hyper_score', 'sgt_hyperscore', 'sgt_hyperscore_mod'} do
     table.insert(SMODS.other_calculation_keys, v)
 end
 
@@ -2804,6 +3335,9 @@ Sagatro.config_tab = function()
         }},
         {n=G.UIT.R, config = {align = 'cm', padding = 0.2}, nodes = {
             {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
+                create_toggle({label = localize('SGT_quick_restart'), ref_table = Sagatro.config, ref_value = 'QuickRestart', info = localize('SGT_quick_restart_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
+            }},
+            {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
                 create_toggle({label = localize('SGT_ortagas'), ref_table = Sagatro.config, ref_value = 'Ortagas', info = localize('SGT_ortagas_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true, callback = function() if menu_refresh and G.title_top then menu_refresh() end end}),
             }},
         }},
@@ -2879,28 +3413,87 @@ if JokerDisplay then
         end
         return modifiers
     end
+
+    local jd_toggle_ref = Card.joker_display_toggle
+    function Card:joker_display_toggle()
+        if not Sagatro.jd_toggle_override and Sagatro.storyline_check("alice_in_mirrorworld")
+        and self.config.center_key ~= "j_sgt_mirror" then
+            if (self.config.center.mirrorworld and not G.GAME.inversed_scaling)
+            or (not self.config.center.mirrorworld and G.GAME.inversed_scaling) then
+                return
+            end
+        end
+        jd_toggle_ref(self)
+    end
+end
+
+local card_click = Card.click
+function Card:click()
+    card_click(self)
+    if self.sagatro_target then
+        G.FUNCS.openModUI_Sagatro_fromAlice{config = {page = "mod_desc"}, back_func = "exit_overlay_menu"}
+    end
+end
+
+local card_single_tap = Card.single_tap
+function Card:single_tap()
+    if card_single_tap then
+        card_single_tap(self)
+    end
+    if self.sagatro_target then
+        G.FUNCS.openModUI_Sagatro_fromAlice{config = {page = "mod_desc"}, back_func = "exit_overlay_menu"}
+    end
 end
 
 -- Debug territory
-function sgt_help()
+function Sagatro.help()
     if Sagatro.debug then
         print("Sagatro debug commands:")
-        print("sgt_help() or help(): show this help screen.")
-        print("sgt_print_rarity(): print out modifications of each rarity pool.")
-        print("sgt_change_joker(index, x, ...): change the numerical values inside 'ability.extra' table (or ability.extra itself if it's a number) of the joker at 'index' slot to 'x' and the following arguments (if applicable).")
-        print("sgt_event(): show event queue and list of finished events.")
-        print("sgt_story_mode(): check if a run has story mode enabled.")
-        print("sgt_final_hand(): set hand count to 1.")
-        print("sgt_no_discard(): set discard count to 0.")
-        print("sgt_crash() or crash(): manually cause a crash.")
-        return "Remember to always prepend 'eval' because that's how DebugPlus executes lua code directly."
+        print("Sagatro.help() or help(): show this help screen.")
+        print("Sagatro.DT_boss(blind_key): Reroll the boss to the specified one.")
+        print("Sagatro.DT_isl(storyline_name): Instantly initialize storyline_name.")
+        print("Sagatro.DT_rarity(): print out modifications of each rarity pool.")
+        print("Sagatro.DT_event(): show event queue and list of finished events.")
+        print("Sagatro.DT_i(): Prints debug info Sagatro will give in crash screen.")
+        print("Sagatro.DT_1h(): set hand count to 1.")
+        print("Sagatro.DT_0d(): set discard count to 0.")
+        print("Sagatro.crash() or crash(): manually cause a crash.")
+        return "Remember to always prepend 'eval' because that's how DebugPlus executes lua code directly. I don't really want to dwell with DebugPlus' built-in feature to execute commands."
     end
     return "Debug commands are unavailable."
 end
 
-help = help or sgt_help
+help = help or Sagatro.help
 
-function sgt_print_rarity()
+function Sagatro.DT_boss(blind_key)
+    if blind_key and G.P_BLINDS[blind_key]
+    and G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
+        G.FORCE_BOSS = blind_key
+        G.from_boss_tag = true
+        G.FUNCS.reroll_boss()
+        G.FORCE_BOSS = nil
+    end
+end
+
+function Sagatro.DT_isl(storyline_name)
+    if Sagatro.debug then
+        if Sagatro.storyline_check("none") then
+            if storyline_name == "alice_in_wonderland" then
+                SMODS.add_card{key = "j_sgt_white_rabbit"}
+            elseif storyline_name == "20k_miles_under_the_sea" then
+                SMODS.add_card{key = "j_sgt_lincoln_ship"}
+            elseif storyline_name == "alice_in_mirrorworld" then
+                SMODS.add_card{key = "j_sgt_white_rabbit"}
+                SMODS.add_card{key = "j_sgt_mirror"}
+            end
+            return "Initialized '"..storyline_name.."'"
+        end
+        return "Not in story mode or there's already an active storyline."
+    end
+    return "Debug commands are unavailable."
+end
+
+function Sagatro.DT_rarity()
     if Sagatro.debug then
         for k, v in pairs(G.GAME) do
             if string.len(k) > 4 and string.find(k, "_mod") and type(v) == "number" then
@@ -2912,35 +3505,7 @@ function sgt_print_rarity()
     return "Debug commands are unavailable."
 end
 
----@param index number
----@param x number
----@param ... number
-function sgt_change_joker(index, x, ...)
-    if not Sagatro.debug then return "Debug commands are unavailable." end
-    if G and not G.jokers then return "Failed: not in a live run." end
-    if G.jokers.cards[index] then
-        if type(G.jokers.cards[index].ability.extra) == "number" then
-            G.jokers.cards[1].ability.extra = x
-        elseif type(G.jokers.cards[index].ability.extra) == "table" then
-            local i = 0
-            for k, v in pairs(G.jokers.cards[index].ability.extra) do
-                if type(v) == "number" then
-                    if i > 0 and select(i, ...) then
-                        G.jokers.cards[index].ability.extra[k] = select(i, ...)
-                        i = i + 1
-                    else
-                        G.jokers.cards[index].ability.extra[k] = x
-                        i = i + 1
-                    end
-                end
-            end
-        end
-        return string.format("Successfully changed the value(s) to %q and the following argument(s).", x)
-    end
-    return "Failed: index out of range."
-end
-
-function sgt_event()
+function Sagatro.DT_event()
     if Sagatro.debug then
         local queue = next(G.GAME.saga_event_queue) and table.concat(G.GAME.saga_event_queue, ", ") or "empty"
         local finished = next(G.GAME.saga_finished_events) and table.concat(G.GAME.saga_finished_events, ", ") or "empty"
@@ -2953,22 +3518,14 @@ function sgt_event()
     return "Debug commands are unavailable."
 end
 
-function sgt_story_mode()
+function Sagatro.DT_i()
     if Sagatro.debug then
-        if G.STAGE == G.STAGES.RUN then
-            if G.GAME.story_mode then
-                return "This run is currently in story mode."
-            else
-                return "This run is currently not in story mode."
-            end
-        else
-            return "You're not in a live run."
-        end
+        return Sagatro.debug_info
     end
     return "Debug commands are unavailable."
 end
 
-function sgt_final_hand()
+function Sagatro.DT_1h()
     if Sagatro.debug then
         ease_hands_played(-G.GAME.current_round.hands_left + 1)
         return "Successfully set hand count to 1."
@@ -2976,7 +3533,7 @@ function sgt_final_hand()
     return "Debug commands are unavailable."
 end
 
-function sgt_no_discard()
+function Sagatro.DT_0d()
     if Sagatro.debug then
         ease_discards(-G.GAME.current_round.discards_left)
         return "Successfully set discard count to 0."
@@ -2984,16 +3541,16 @@ function sgt_no_discard()
     return "Debug commands are unavailable."
 end
 
-function sgt_debug()
+function Sagatro.DT()
     Sagatro.debug = not Sagatro.debug
     return Sagatro.debug and "Sagatro debug mode enabled." or "Sagatro debug mode disabled."
 end
 
-function sgt_crash()
+function Sagatro.crash()
     if Sagatro.debug then
         cause_crash = true
     end
     return not Sagatro.debug and "Are you sure you want to do this? Thankfully Sagatro debug mode is off. Turn it on before executing this command." or "Crashing game..."
 end
 
-crash = crash or sgt_crash
+crash = crash or Sagatro.crash
