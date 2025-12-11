@@ -5027,7 +5027,7 @@ local barracuda = {
                     end
                     card:juice_up(0.8, 0.8)
                     eaten_fish:start_dissolve({G.C.RED}, true, 1.6)
-                    play_sound('sgt_swallow', 0.96+math.random()*0.08)
+                    play_sound('sgt_swallow', 0.96+math.random()*0.08, 0.7)
                 return true end }))
                 if SMODS.scale_card then
                     SMODS.scale_card(card, {
@@ -8158,7 +8158,7 @@ local shark = {
                     for _, fish in ipairs(eaten_fish) do
                         fish:start_dissolve({G.C.RED}, true, 1.6)
                     end
-                    play_sound('sgt_swallow', 0.96+math.random()*0.08)
+                    play_sound('sgt_swallow', 0.96+math.random()*0.08, 0.7)
                 return true end }))
                 if SMODS.scale_card then
                     SMODS.scale_card(card, {
@@ -8965,7 +8965,7 @@ local narwhal = {
                     for _, impaled_joker in ipairs(impaled_jokers) do
                         impaled_joker:start_dissolve({G.C.RED}, true, 1.6)
                     end
-                    play_sound('sgt_narwhal_impale', 0.96+math.random()*0.08)
+                    play_sound('sgt_narwhal_impale', 0.96+math.random()*0.08, 0.7)
                 return true end }))
                 if SMODS.scale_card then
                     SMODS.scale_card(card, {
@@ -9213,7 +9213,7 @@ local goblin_shark = {
                     for _, fish in ipairs(eaten_fish) do
                         fish:start_dissolve({G.C.RED}, true, 1.6)
                     end
-                    play_sound('sgt_swallow', 0.96+math.random()*0.08)
+                    play_sound('sgt_swallow', 0.96+math.random()*0.08, 0.7)
                 return true end }))
                 if SMODS.scale_card then
                     SMODS.scale_card(card, {
@@ -9492,7 +9492,7 @@ local chimaera = {
                     for _, killed_joker in ipairs(killed_jokers) do
                         killed_joker:start_dissolve({G.C.RED}, true, 1.6)
                     end
-                    play_sound('sgt_narwhal_impale', 0.96+math.random()*0.08)
+                    play_sound('sgt_narwhal_impale', 0.96+math.random()*0.08, 0.7)
                 return true end }))
                 if SMODS.scale_card then
                     SMODS.scale_card(card, {

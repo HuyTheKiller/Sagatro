@@ -144,7 +144,7 @@ if eval_type == 'sgt_e_mult' then
 end
 if eval_type == 'sgt_a_score' then 
     sound = 'sgt_bell_score'
-    volume = 0.7
+    volume = 0.5
     amt = amt
     text = '+' .. amt .. " " .. localize("k_score")
     colour = G.C.DARK_EDITION
@@ -153,7 +153,7 @@ if eval_type == 'sgt_a_score' then
 end
 if eval_type == 'sgt_x_score' then 
     sound = 'sgt_bell_score'
-    volume = 0.7
+    volume = 0.5
     amt = amt
     text = 'X' .. amt .. " " .. localize("k_score")
     colour = G.C.DARK_EDITION
@@ -162,7 +162,7 @@ if eval_type == 'sgt_x_score' then
 end
 if eval_type == 'sgt_e_score' then 
     sound = 'sgt_bell_score'
-    volume = 0.7
+    volume = 0.5
     amt = amt
     text = '^' .. amt .. " " .. localize("k_score")
     colour = G.C.DARK_EDITION
@@ -171,7 +171,7 @@ if eval_type == 'sgt_e_score' then
 end
 if eval_type == 'sgt_ee_score' then 
     sound = 'sgt_bell_score'
-    volume = 0.7
+    volume = 0.5
     amt = amt
     text = '^^' .. amt .. " " .. localize("k_score")
     colour = G.C.DARK_EDITION
@@ -180,7 +180,7 @@ if eval_type == 'sgt_ee_score' then
 end
 if eval_type == 'sgt_eee_score' then 
     sound = 'sgt_bell_score'
-    volume = 0.7
+    volume = 0.5
     amt = amt
     text = '^^^' .. amt .. " " .. localize("k_score")
     colour = G.C.DARK_EDITION
@@ -189,7 +189,7 @@ if eval_type == 'sgt_eee_score' then
 end
 if eval_type == 'sgt_hyper_score' then 
     sound = 'sgt_bell_score'
-    volume = 0.7
+    volume = 0.5
     text = ((amt[1] > 5 and ('{' .. amt[1] .. '}') or string.rep('^', amt[1])) .. amt[2]) .. " " .. localize("k_score")
     amt = amt[2]
     colour = G.C.DARK_EDITION
