@@ -10,10 +10,10 @@ From whimsical Jokers to enchanting booster packs, this mod reimagines the game 
 ---
 
 🛠️ **Current Features**  
-- ✨ 104 New Jokers from various stories (+14 more with Talisman installed!).
+- ✨ 134 New Jokers from various stories (+14 more with Talisman installed!).
 - 📕 Story Mode: Enable the natural flow of a story - progress to get stronger, defeat the final boss to win regardless of win Ante. You can treat this mod as a simple content pack by turning it off.
-- 🔴 6 New Showdown Boss Blinds: these will pose as villains in Story Mode.
-- 🎲 60+ new consumable cards - level the playing field against cruel blinds. Also accommodated by 6 Vouchers and 3 Tags.
+- 🔴 12 New Boss Blinds: these will pose as minor and major villains in Story Mode.
+- 🎲 60+ new consumable cards - level the playing field against cruel blinds. Also accommodated by 6 Vouchers and 4 Tags.
 - 📘 3 New Decks (+Sleeves):
     * 🟪 Saga Deck - simple yet powerful effects, specifically designed for Story Mode.
     * 🟫 Grimoire Deck - Powerful deck fixing with Divinatio and Eldritch cards.
