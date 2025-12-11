@@ -1601,7 +1601,7 @@ local cheshire_cat = {
         card.ability.extra.odds = G.GAME.story_mode and 2 or 3
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and context.game_over == false and not context.repetition and not context.blueprint and not context.retrigger_joker then
+        if context.end_of_round and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
             if SMODS.pseudorandom_probability(card, 'cheshire_cat_vanish', 1, card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), "cheshire_cat") then
 				Sagatro.self_destruct(card)
                 if Sagatro.event_check("goodbye_frog") then
@@ -7849,7 +7849,7 @@ local sperm_whale = {
         end
         if context.before and not context.retrigger_joker
         and G.GAME.current_round.hands_played == 0 and context.scoring_name == card.ability.extra.poker_hand then
-            SMODS.smart_level_up_hand(card, card.ability.extra.poker_hand, nil, card.ability.extra.amount)
+            SMODS.smart_level_up_hand(context.blueprint_card or card, card.ability.extra.poker_hand, nil, card.ability.extra.amount)
             if not context.blueprint then
                 card.ability.extra.triggered = true
             end
@@ -12635,11 +12635,11 @@ local jubjub_bird = {
     rarity = "sgt_obscure",
     cost = 12,
     blueprint_compat = false,
-    demicoloncompat = true,
+    demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.sgt_jjb_reduction then
+        if context.sgt_jjb_reduction and not context.blueprint and not context.retrigger_joker then
             card.ability.extra_value = (card.ability.extra_value or 0) - card.ability.value_loss
             card:set_cost()
             return {
