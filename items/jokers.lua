@@ -12763,7 +12763,8 @@ local humpty_dumpty = {
                 local dollars = 0
                 local hand = G.hand.highlighted
                 for _, playing_card in pairs(hand) do
-                    if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff and playing_card:get_id() and playing_card:get_id() == G.GAME.current_round.humdum_card.id then
+                    if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff
+                    and playing_card:get_id() and playing_card:get_id() == G.GAME.current_round.humdum_card.id then
                         dollars = dollars + card.ability.extra.value_gain
                     end
                 end
@@ -12773,6 +12774,46 @@ local humpty_dumpty = {
             end,
         }
     end,
+}
+
+local seal_and_carpenter = {
+    key = "seal_and_carpenter",
+    name = "Seal And Carpenter",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 144,
+    pos = { x = 5, y = 3 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {},
+    rarity = 1,
+    cost = 4,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if (context.first_hand_drawn and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+            G.E_MANAGER:add_event(Event({func = function()
+                SMODS.destroy_cards(Sagatro.random_select("snc_destroy", G.hand, 1), nil, true)
+                if not context.forcetrigger then
+                    G.E_MANAGER:add_event(Event({triggger = "after", delay = 0.6, func = function()
+                        save_run()
+                    return true end}))
+                end
+            return true end}))
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
 }
 
 local ecila = {
@@ -15090,6 +15131,7 @@ local joker_table = {
     bandersnatch,
     jubjub_bird,
     humpty_dumpty,
+    seal_and_carpenter,
     ecila,
     hansels_cheat_dice,
     skoll_n_hati,

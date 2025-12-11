@@ -2638,6 +2638,13 @@ return {
                     "ở cuối ván"},
                 },
             },
+            j_sgt_seal_and_carpenter = {
+                name = "Hải Cẩu Và Thợ Mộc",
+                text = {
+                    "Khi ván bắt đầu, {C:attention}phá huỷ{} một",
+                    "{C:attention}lá bài thường{} ngẫu nhiên trên tay",
+                },
+            },
             j_sgt_ecila = {
                 name = "Ecila",
                 text = {

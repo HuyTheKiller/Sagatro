@@ -2642,6 +2642,13 @@ return {
                     "at end of round"},
                 },
             },
+            j_sgt_seal_and_carpenter = {
+                name = "Seal And Carpenter",
+                text = {
+                    "When round begins, {C:attention}destroy{} a",
+                    "random {C:attention}playing card{} in hand",
+                },
+            },
             j_sgt_ecila = {
                 name = "Ecila",
                 text = {

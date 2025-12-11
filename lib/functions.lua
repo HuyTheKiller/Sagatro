@@ -165,6 +165,7 @@ function Game:init_game_object()
                 "j_sgt_bandersnatch",
                 "j_sgt_jubjub_bird",
                 "j_sgt_humpty_dumpty",
+                "j_sgt_seal_and_carpenter",
                 "j_sgt_ecila",
             },
         },
