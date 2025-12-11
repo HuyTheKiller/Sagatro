@@ -164,12 +164,14 @@ function Game:init_game_object()
                 "j_sgt_jabberwock",
                 "j_sgt_bandersnatch",
                 "j_sgt_jubjub_bird",
+                "j_sgt_humpty_dumpty",
                 "j_sgt_ecila",
             },
         },
     }
     ret.fish_effect = {}
     ret.current_round.dinah_card = {suit = "Spades", rank = "Ace"}
+    ret.current_round.humdum_card = {rank = "Ace"}
     ret.ante_cooldown = 0
     ret.alice_multiplier = 1
     ret.relief_factor = 1
@@ -1512,6 +1514,20 @@ function Sagatro.reset_game_globals(run_start)
         G.GAME.current_round.dinah_card.rank = dinah_card.base.value
         G.GAME.current_round.dinah_card.suit = dinah_card.base.suit
         G.GAME.current_round.dinah_card.id = dinah_card.base.id
+    end
+    --#endregion
+    --#region reset_humdum_rank()
+    G.GAME.current_round.humdum_card.rank = 'Ace'
+    local valid_humdum_cards = {}
+    for k, v in ipairs(G.playing_cards) do
+        if not SMODS.has_no_rank(v) then
+            valid_humdum_cards[#valid_humdum_cards+1] = v
+        end
+    end
+    if valid_humdum_cards[1] then
+        local humdum_card = pseudorandom_element(valid_humdum_cards, pseudoseed('humdum'..G.GAME.round_resets.ante))
+        G.GAME.current_round.humdum_card.rank = humdum_card.base.value
+        G.GAME.current_round.humdum_card.id = humdum_card.base.id
     end
     --#endregion
 end

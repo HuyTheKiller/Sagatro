@@ -2631,6 +2631,17 @@ return {
                     "reducing sell cost by {C:money}#1#{}",
                 },
             },
+            j_sgt_humpty_dumpty = {
+                name = "Humpty Dumpty",
+                text = {
+                    {"Gain {C:money}$#1#{} of sell value",
+                    "for each discarded {C:attention}#2#{},",
+                    "rank changes every round"},
+                    {"{C:green}#3# in #4#{} chance this",
+                    "card is destroyed",
+                    "at end of round"},
+                },
+            },
             j_sgt_ecila = {
                 name = "Ecila",
                 text = {
@@ -3450,6 +3461,7 @@ return {
             k_bzzz_ex = "Bzzz!",
             k_castled_ex = "Castled!",
             k_roar_ex = "Roar!",
+            k_shattered_ex = "Shattered!",
             k_zzz = "ZZZ",
             k_charge = "Charge",
             k_release = "Release",

@@ -2627,6 +2627,17 @@ return {
                     "rồi giảm giá bán đi {C:money}#1#{}",
                 },
             },
+            j_sgt_humpty_dumpty = {
+                name = "Humpty Dumpty",
+                text = {
+                    {"Thêm {C:money}$#1#{} giá bán",
+                    "cho mỗi lá {C:attention}#2#{} bị bỏ,",
+                    "bậc thay đổi mỗi ván"},
+                    {"Xác suất {C:green}#3# trên #4#{}",
+                    "lá này bị phá huỷ",
+                    "ở cuối ván"},
+                },
+            },
             j_sgt_ecila = {
                 name = "Ecila",
                 text = {
@@ -3446,6 +3457,7 @@ return {
             k_bzzz_ex = "Bzzz!",
             k_castled_ex = "Nhập Thành!",
             k_roar_ex = "Grào!",
+            k_shattered_ex = "Vỡ Tung!",
             k_zzz = "ZZZ",
             k_charge = "Nạp",
             k_release = "Xả",

@@ -12675,6 +12675,106 @@ local jubjub_bird = {
     end,
 }
 
+local humpty_dumpty = {
+    key = "humpty_dumpty",
+    name = "Humpty Dumpty",
+    artist_credits = {"temp"},
+    atlas = "alice_in_mirrorworld",
+    saga_group = "alice_in_mirrorworld",
+    mirrorworld = true,
+    order = 143,
+    pos = { x = 4, y = 3 },
+    pools = { [SAGA_GROUP_POOL.alice_m] = true },
+    config = {extra = {value_gain = 3, odds = 6}},
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = false,
+    demicoloncompat = true,
+    eternal_compat = false,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.discard and not context.blueprint
+        and not context.other_card.debuff and context.other_card:get_id() == G.GAME.current_round.humdum_card.id then
+            SMODS.scale_card(card, {
+                ref_table = card.ability,
+                ref_value = "extra_value",
+                scalar_table = card.ability.extra,
+                scalar_value = "value_gain",
+                scaling_message = {
+                    message = localize('k_val_up'),
+                    colour = G.C.MONEY
+                }
+            })
+            card:set_cost()
+            return nil, true
+        end
+        if context.end_of_round and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
+            if SMODS.pseudorandom_probability(card, 'humdum_irreversible', 1, card.ability.extra.odds, "humpty_dumpty") then
+				Sagatro.self_destruct(card)
+				return {
+					message = localize("k_shattered_ex"),
+                    no_retrigger = true
+				}
+			else
+				return {
+					message = localize("k_safe_ex"),
+                    no_retrigger = true
+				}
+			end
+        end
+    end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check(self.saga_group) then
+            return G.GAME.inversed_scaling
+        end
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.value_gain, localize(G.GAME.current_round.humdum_card.rank, 'ranks'),
+        SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "humpty_dumpty")}}
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "$" },
+                { ref_table = "card", ref_value = "sell_cost" },
+                { text = "+$" },
+                { ref_table = "card.joker_display_values", ref_value = "dollars", retrigger_type = "mult" },
+            },
+            text_config = { colour = G.C.GOLD },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "humdum_card_rank", colour = G.C.ORANGE },
+                { text = ")" }
+            },
+            reminder_text_config = { scale = 0.35 },
+            extra = {
+                {
+                    { text = "(" },
+                    { ref_table = "card.joker_display_values", ref_value = "odds" },
+                    { text = ")" },
+                }
+            },
+            extra_config = { colour = G.C.GREEN, scale = 0.3 },
+            calc_function = function(card)
+                local dollars = 0
+                local hand = G.hand.highlighted
+                for _, playing_card in pairs(hand) do
+                    if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff and playing_card:get_id() and playing_card:get_id() == G.GAME.current_round.humdum_card.id then
+                        dollars = dollars + card.ability.extra.value_gain
+                    end
+                end
+                card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "humpty_dumpty") } }
+                card.joker_display_values.dollars = G.GAME.current_round.discards_left > 0 and dollars or 0
+                card.joker_display_values.humdum_card_rank = localize(G.GAME.current_round.humdum_card.rank, 'ranks')
+            end,
+        }
+    end,
+}
+
 local ecila = {
     key = "ecila",
     name = "Ecila",
@@ -14989,6 +15089,7 @@ local joker_table = {
     jabberwock,
     bandersnatch,
     jubjub_bird,
+    humpty_dumpty,
     ecila,
     hansels_cheat_dice,
     skoll_n_hati,
