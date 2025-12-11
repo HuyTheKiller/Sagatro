@@ -522,16 +522,14 @@ SMODS.DrawStep {
     order = 21,
     func = function(self, layer)
         if self.ability.name == "Submarine" and (self.config.center.discovered or self.bypass_discovery_center) then
-            local scale_mod = 0 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
-            local rotate_mod = 0 --0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
             self.children.extra_sprite:draw_shader(
                 "dissolve",
                 nil,
                 nil,
                 nil,
                 self.children.center,
-                scale_mod,
-                rotate_mod
+                0,
+                0
             )
             if self.edition and not self.delay_edition then
                 for k, v in pairs(G.P_CENTER_POOLS.Edition) do
