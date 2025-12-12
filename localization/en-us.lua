@@ -654,6 +654,25 @@ return {
                     "at beginning of every ante",
                 },
             },
+            sgt_mirrorworld_tooltip = {
+                name = "While in Mirrorworld",
+                text = {
+                    "All {C:attention}Blinds{} scale towards 0",
+                    "Stay {C:attention}below{} the theshold to win",
+                    "Use {C:attention}Division{} operator",
+                    "{X:chips,C:white}X1.05{} Chips every time the poker hand",
+                    "is played minus 1 this run",
+                    "Switch to earn {C:money}$#1#{}",
+                },
+            },
+            sgt_realworld_tooltip = {
+                name = "While in Real World",
+                text = {
+                    "Progress {C:sgt_sagadition}Alice in the{}",
+                    "{C:sgt_sagadition}Wonderland{} normally",
+                    "Switch to earn {C:money}$#1#{}",
+                },
+            },
             sgt_mirror = {
                 text = {
                     "{C:sgt_sagadition}Alice Through the Looking-Glass{}'",
@@ -3447,9 +3466,9 @@ return {
             ch_c_sgt_no_tags = { "Skipping is {C:attention}disabled{}" },
             ch_c_sgt_ragnarok_challenge_text = { "Required score scales very fast for each {C:attention}Ante" },
             ch_c_sgt_inversion_text1 = { "All {C:attention}Blinds{} scale towards 0" },
-            ch_c_sgt_inversion_text2 = { "Score {C:attention}below{} the theshold to win" },
+            ch_c_sgt_inversion_text2 = { "Stay {C:attention}below{} the score theshold to win" },
             ch_c_sgt_inversion_text3 = { "Use {C:attention}Division{} operator" },
-            ch_c_sgt_inversion_text4 = { "{X:chips,C:white}X1.1{} Chips every time that poker hand" },
+            ch_c_sgt_inversion_text4 = { "{X:chips,C:white}X1.1{} Chips every time the poker hand" },
             ch_c_sgt_inversion_text5 = { "is played minus 1 this run" },
         },
         poker_hands = {

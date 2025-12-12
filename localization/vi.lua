@@ -653,6 +653,25 @@ return {
                     "ở đầu mỗi ante",
                 },
             },
+            sgt_mirrorworld_tooltip = {
+                name = "Khi ở Thế Giới Gương",
+                text = {
+                    "Mọi {C:attention}Blind{} giảm điểm dần về 0",
+                    "Giữ điểm {C:attention}thấp hơn{} mức yêu cầu để thắng",
+                    "Dùng phép tính {C:attention}Chia{}",
+                    "{X:chips,C:white}X1.05{} Chip mỗi lần tay poker",
+                    "được chơi trừ đi 1 trong trận này",
+                    "Chuyển để nhận {C:money}$#1#{}",
+                },
+            },
+            sgt_realworld_tooltip = {
+                name = "Khi ở Thế Giới Thực",
+                text = {
+                    "Tiến triển {C:sgt_sagadition}Alice ở Xứ Sở{}",
+                    "{C:sgt_sagadition}Diệu Kì{} như bình thường",
+                    "Chuyển để nhận {C:money}$#1#{}",
+                },
+            },
             sgt_mirror = {
                 text = {
                     "Hiệu ứng {C:attention}đặc thù{} của",
@@ -3444,9 +3463,9 @@ return {
             ch_c_sgt_no_tags = { "Khả năng bỏ qua bị {C:attention}vô hiệu hóa{}" },
             ch_c_sgt_ragnarok_challenge_text = { "Điểm yêu cầu tăng rất nhanh sau mỗi {C:attention}Ante" },
             ch_c_sgt_inversion_text1 = { "Mọi {C:attention}Blind{} giảm điểm dần về 0" },
-            ch_c_sgt_inversion_text2 = { "Ghi điểm {C:attention}thấp hơn{} mức yêu cầu để thắng" },
+            ch_c_sgt_inversion_text2 = { "Giữ điểm {C:attention}thấp hơn{} mức yêu cầu để thắng" },
             ch_c_sgt_inversion_text3 = { "Dùng phép tính {C:attention}Chia{}" },
-            ch_c_sgt_inversion_text4 = { "{X:chips,C:white}X1.1{} Chip mỗi lần tay poker đó" },
+            ch_c_sgt_inversion_text4 = { "{X:chips,C:white}X1.1{} Chip mỗi lần tay poker" },
             ch_c_sgt_inversion_text5 = { "được chơi trừ đi 1 trong trận này" },
         },
         poker_hands = {

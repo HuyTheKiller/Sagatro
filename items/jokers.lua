@@ -10770,6 +10770,11 @@ local mirror = {
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "interwoven_storyline_start",
             specific_vars = {localize('ph_alice_in_mirr'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
         end
+        if Sagatro.storyline_check(self.saga_group) then
+            info_queue[#info_queue+1] = G.GAME.inversed_scaling
+            and {set = "Other", key = "sgt_mirrorworld_tooltip", specific_vars = {G.GAME.switch_bonus}}
+            or {set = "Other", key = "sgt_realworld_tooltip", specific_vars = {G.GAME.switch_bonus}}
+        end
         if G.GAME.mirror_switch_cooldown then
             info_queue[#info_queue+1] = {set = "Other", key = "sgt_switch_cooldown"}
         end

@@ -1918,7 +1918,7 @@ function Sagatro.quip_filter(quip, quip_type)
 end
 
 -- Fix a damn edge case where the mod object is passed as a joker card without ability to check for retriggers
-Sagatro.ability = {switch_bonus = 5, repetition_penalty = 1.1}
+Sagatro.ability = {switch_bonus = 10, ch_repetition_penalty = 1.1, mir_repetition_penalty = 1.05}
 function Sagatro:calculate(context)
     if G.GAME.story_mode and not context.retrigger_joker then
         if context.end_of_round and context.main_eval then
@@ -2025,9 +2025,10 @@ function Sagatro:calculate(context)
     end
     if context.final_scoring_step and not context.retrigger_joker and G.GAME.inversed_scaling then
         if G.GAME.hands[context.scoring_name].played - 1 > 0 then
+            local xchips_penalty = (Sagatro.storyline_check("alice_in_mirrorworld") and "mir" or "ch").."_repetition_penalty"
             return {
-                Xchip_mod = Sagatro.ability.repetition_penalty^(G.GAME.hands[context.scoring_name].played - 1),
-                message = localize{type='variable', key='a_xchips', vars={Sagatro.ability.repetition_penalty^(G.GAME.hands[context.scoring_name].played - 1)}}
+                Xchip_mod = Sagatro.ability[xchips_penalty]^(G.GAME.hands[context.scoring_name].played - 1),
+                message = localize{type='variable', key='a_xchips', vars={Sagatro.ability[xchips_penalty]^(G.GAME.hands[context.scoring_name].played - 1)}}
             }
         end
     end
