@@ -1987,11 +1987,12 @@ function Sagatro:calculate(context)
             end
         end
         if context.check_eternal then
-            if context.other_card.config.center_key == "j_sgt_submarine"
-            or context.other_card.config.center_key == "j_sgt_mirror" then
+            local card = context.other_card
+            if card.config.center_key == "j_sgt_submarine"
+            or card.config.center_key == "j_sgt_mirror" then
                 return {no_destroy = true}
             end
-            if not context.other_card.config.center.mirrorworld and G.GAME.inversed_scaling then
+            if card.ability.set == "Joker" and not card.config.center.mirrorworld and G.GAME.inversed_scaling then
                 return {no_destroy = {override_compat = true}}
             end
             if context.other_card.config.center_key == "c_soul" then
