@@ -1599,7 +1599,7 @@ local cheshire_cat = {
     eternal_compat = false,
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
-        card.ability.extra.odds = G.GAME.story_mode and 2 or 3
+        card.ability.extra.odds = Sagatro.event_check("goodbye_frog") and 1 or 3
     end,
     calculate = function(self, card, context)
         if context.end_of_round and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
