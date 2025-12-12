@@ -1603,7 +1603,7 @@ local cheshire_cat = {
     end,
     calculate = function(self, card, context)
         if context.end_of_round and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
-            if SMODS.pseudorandom_probability(card, 'cheshire_cat_vanish', 1, card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), "cheshire_cat") then
+            if SMODS.pseudorandom_probability(card, 'cheshire_cat_vanish', 1, card.ability.extra.odds*(Sagatro.event_check("goodbye_frog") and 1 or G.GAME.alice_multiplier), "cheshire_cat") then
 				Sagatro.self_destruct(card)
                 if Sagatro.event_check("goodbye_frog") then
                     Sagatro.progress_storyline("goodbye_frog", "finish", self.saga_group, G.GAME.interwoven_storyline)
@@ -1657,7 +1657,7 @@ local cheshire_cat = {
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "cheshire_cat"}
         end
-        local ret = {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), "cheshire_cat")}}
+        local ret = {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds*(Sagatro.event_check("goodbye_frog") and 1 or G.GAME.alice_multiplier), "cheshire_cat")}}
         if card.area and (card.area == G.jokers or card.area == G.consumeables) then
             local left_joker = nil
             for i = 1, #G.jokers.cards do
@@ -1717,7 +1717,7 @@ local cheshire_cat = {
             },
             text_config = { colour = G.C.UI.TEXT_INACTIVE },
             calc_function = function(card)
-                card.joker_display_values.cat_odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), "cheshire_cat") } }
+                card.joker_display_values.cat_odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds*(Sagatro.event_check("goodbye_frog") and 1 or G.GAME.alice_multiplier), "cheshire_cat") } }
                 local copied_joker, copied_debuff = JokerDisplay.calculate_blueprint_copy(card)
                 card.joker_display_values.blueprint_compat = localize('k_incompatible')
                 JokerDisplay.copy_display(card, copied_joker, copied_debuff)
