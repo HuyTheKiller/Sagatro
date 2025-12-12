@@ -1995,7 +1995,7 @@ function Sagatro:calculate(context)
             if card.ability.set == "Joker" and not card.config.center.mirrorworld and G.GAME.inversed_scaling then
                 return {no_destroy = {override_compat = true}}
             end
-            if context.other_card.config.center_key == "c_soul" then
+            if card.config.center_key == "c_soul" then
                 return {no_destroy = {override_compat = true}}
             end
         end
