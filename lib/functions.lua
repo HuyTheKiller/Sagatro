@@ -1305,7 +1305,7 @@ end
 
 local shortcut = SMODS.shortcut
 function SMODS.shortcut()
-    if next(Sagatro.find_active_card('j_sgt_frog_prince')) or next(Sagatro.find_active_card('j_sgt_frog_white_knight')) then
+    if next(Sagatro.find_active_card('j_sgt_frog_prince')) or next(Sagatro.find_active_card('j_sgt_white_knight')) then
         return true
     end
     return shortcut()
