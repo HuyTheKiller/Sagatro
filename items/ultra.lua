@@ -2921,6 +2921,11 @@ local crux_ansata = {
                 check = check and v.config.center_key ~= "j_sgt_submarine"
             end
         end
+        if Sagatro.storyline_check("alice_in_mirrorworld") then
+            for _, v in ipairs(G.jokers.highlighted) do
+                check = check and v.config.center_key ~= "j_sgt_mirror"
+            end
+        end
         return check
     end,
     use = function(self, card, area, copier)
