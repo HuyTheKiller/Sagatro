@@ -1992,7 +1992,7 @@ function Sagatro:calculate(context)
                 return {no_destroy = true}
             end
             if not context.other_card.config.center.mirrorworld and G.GAME.inversed_scaling then
-                return {no_destroy = true}
+                return {no_destroy = {override_compat = true}}
             end
             if context.other_card.config.center_key == "c_soul" then
                 return {no_destroy = {override_compat = true}}
