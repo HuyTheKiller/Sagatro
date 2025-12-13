@@ -2706,8 +2706,8 @@ return {
             j_sgt_unicorn = {
                 name = "Kì Lân",
                 text = {
-                    "Khi {C:attention}Blind{} bị bỏ qua,",
-                    "thêm {C:red}$#2#{} khả năng ghi nợ",
+                    "Thêm {C:red}$#2#{} khả năng ghi nợ cho",
+                    "mỗi {C:attention}Blind{} bị bỏ qua trận này",
                     "{C:inactive}(Hiện tại là {C:red}$#1#{C:inactive})",
                 },
             },

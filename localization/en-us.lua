@@ -2709,8 +2709,8 @@ return {
             j_sgt_unicorn = {
                 name = "Unicorn",
                 text = {
-                    "When {C:attention}Blind{} is skipped,",
-                    "gain {C:red}$#2#{} of allowed debt",
+                    "Gain {C:red}$#2#{} of allowed debt for",
+                    "every {C:attention}Blind{} skipped this run",
                     "{C:inactive}(Currently {C:red}$#1#{C:inactive})",
                 },
             },

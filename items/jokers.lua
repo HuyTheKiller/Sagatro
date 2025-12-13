@@ -12935,13 +12935,16 @@ local unicorn = {
     order = 52,
     pos = { x = 1, y = 4 },
     pools = { [SAGA_GROUP_POOL.alice_m] = true },
-    config = {extra = {debt_amount = 0, debt_mod = 20 }},
+    config = {extra = {debt_amount = 0, debt_mod = 25 }},
     rarity = 3,
     cost = 7,
     blueprint_compat = false,
     demicoloncompat = false,
     eternal_compat = true,
     perishable_compat = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        card.ability.extra.debt_amount = G.GAME.skips*card.ability.extra.debt_mod
+    end,
     calculate = function(self, card, context)
         if context.skip_blind and not context.blueprint and not context.retrigger_joker then
             SMODS.scale_card(card, {
