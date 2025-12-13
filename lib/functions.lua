@@ -196,6 +196,7 @@ end
 local gmm = Game.main_menu
 function Game:main_menu(change_context)
     gmm(self, change_context)
+    Sagatro.delayed_func()
 
     local selected_card = Ortalab and Ortalab.config.menu_toggle and "j_sgt_mabel" or "j_sgt_alice"
     local newcard = Card(
@@ -566,6 +567,9 @@ function Game:update(dt)
                 end
             end
         end
+    end
+    if G.OVERLAY_MENU then
+        G.OVERLAY_MENU:get_UIE_by_ID("overlay_menu_back_button").config.fromAlice = Sagatro.fromAlice
     end
     if G.STAGE == G.STAGES.RUN then
         Sagatro.debug_info["During a run"] = true
@@ -3438,7 +3442,7 @@ local card_click = Card.click
 function Card:click()
     card_click(self)
     if self.sagatro_target then
-        G.FUNCS.openModUI_Sagatro_fromAlice{config = {page = "mod_desc"}, back_func = "exit_overlay_menu"}
+        G.FUNCS.openModUI_Sagatro{config = {page = "mod_desc", fromAlice = true}}
     end
 end
 
@@ -3448,7 +3452,7 @@ function Card:single_tap()
         card_single_tap(self)
     end
     if self.sagatro_target then
-        G.FUNCS.openModUI_Sagatro_fromAlice{config = {page = "mod_desc"}, back_func = "exit_overlay_menu"}
+        G.FUNCS.openModUI_Sagatro{config = {page = "mod_desc", fromAlice = true}}
     end
 end
 

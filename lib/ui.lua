@@ -477,14 +477,127 @@ G.FUNCS.can_reroll = function(e)
     end
 end
 
-G.FUNCS.openModUI_Sagatro_fromAlice = function(e)
-    G.ACTIVE_MOD_UI = Sagatro
-    if e and e.config and e.config.page then
-        SMODS.LAST_SELECTED_MOD_TAB = e.config.page
+function Sagatro.delayed_func()
+    if not Sagatro.init_delayed_func then
+        Sagatro.init_delayed_func = true
+        G.FUNCS.openModUI_Sagatro = function(e)
+            if e and e.config then
+                Sagatro.fromAlice = e.config.fromAlice
+            end
+            G.ACTIVE_MOD_UI = Sagatro
+            if e and e.config and e.config.page then
+                SMODS.LAST_SELECTED_MOD_TAB = e.config.page
+            end
+            G.FUNCS.overlay_menu({
+                definition = create_UIBox_Sagatro(e)
+            })
+        end
     end
-    G.FUNCS.overlay_menu({
-        definition = create_UIBox_mods(e)
-    })
+end
+
+function create_UIBox_Sagatro(args)
+    local mod = G.ACTIVE_MOD_UI
+    if not SMODS.LAST_SELECTED_MOD_TAB then SMODS.LAST_SELECTED_MOD_TAB = "mod_desc" end
+
+    local mod_tabs = {}
+    table.insert(mod_tabs, buildModDescTab(mod))
+    local additions_tab = buildAdditionsTab(mod)
+    if additions_tab then table.insert(mod_tabs, additions_tab) end
+    local credits_func = mod.credits_tab
+    if credits_func and type(credits_func) == 'function' then
+        table.insert(mod_tabs, {
+            label = localize("b_credits"),
+            chosen = SMODS.LAST_SELECTED_MOD_TAB == "credits" or false,
+            tab_definition_function = function(...)
+                SMODS.LAST_SELECTED_MOD_TAB = "credits"
+                return credits_func(...)
+            end
+        })
+    end
+    local config_func = mod.config_tab
+    if config_func and type(config_func) == 'function' then 
+        table.insert(mod_tabs, {
+            label = localize("b_config"),
+            chosen = SMODS.LAST_SELECTED_MOD_TAB == "config" or false,
+            tab_definition_function = function()
+                SMODS.LAST_SELECTED_MOD_TAB = "config"
+                return config_func()
+            end
+        })
+    end
+
+    local mod_has_achievement
+    for _, v in pairs(SMODS.Achievements) do
+        if v.mod.id == mod.id then mod_has_achievement = true end
+    end
+    if mod_has_achievement then table.insert(mod_tabs, 
+        {
+            label = localize("b_achievements"),
+            chosen = SMODS.LAST_SELECTED_MOD_TAB == "achievements" or false,
+            tab_definition_function = function()
+                SMODS.LAST_SELECTED_MOD_TAB = "achievements"
+                return buildAchievementsTab(mod)
+            end
+        })
+    end
+
+    local custom_ui_func = mod.extra_tabs
+    if custom_ui_func and type(custom_ui_func) == 'function' then
+        local custom_tabs = custom_ui_func()
+        if next(custom_tabs) and #custom_tabs == 0 then custom_tabs = { custom_tabs } end
+        for i, v in ipairs(custom_tabs) do
+            local id = mod.id..'_'..i
+            v.chosen = (SMODS.LAST_SELECTED_MOD_TAB == id) or false
+            v.label = v.label or ''
+            local def = v.tab_definition_function
+            assert(def, ('Custom defined mod tab with label "%s" from mod with id %s is missing definition function'):format(v.label, mod.id))
+            v.tab_definition_function = function(...)
+                SMODS.LAST_SELECTED_MOD_TAB = id
+                return def(...)
+            end
+            table.insert(mod_tabs, v)
+        end
+    end
+
+    return (create_UIBox_generic_options({
+        colour = (mod.ui_config or {}).colour,
+        bg_colour = (mod.ui_config or {}).bg_colour,
+        back_colour = (mod.ui_config or {}).back_colour,
+        outline_colour = (mod.ui_config or {}).outline_colour,
+        back_func = Sagatro.fromAlice and "exit_overlay_menu_Sagatro" or "mods_button",
+        contents = {
+            {
+                n = G.UIT.R,
+                config = {
+                    padding = 0,
+                    align = "tm"
+                },
+                nodes = {
+                    create_tabs({
+                        snap_to_nav = true,
+                        colour = (mod.ui_config or {}).tab_button_colour or G.C.BOOSTER,
+                        tabs = mod_tabs
+                    })
+                }
+            }
+        }
+    }))
+end
+
+G.FUNCS.exit_overlay_menu_Sagatro = function()
+  if not G.OVERLAY_MENU then return end
+  G.CONTROLLER.locks.frame_set = true
+  G.CONTROLLER.locks.frame = true
+  G.CONTROLLER:mod_cursor_context_layer(-1000)
+  G.OVERLAY_MENU:remove()
+  G.OVERLAY_MENU = nil
+  G.VIEWING_DECK = nil
+  G.SETTINGS.paused = false
+  G.CONTROLLER.touch_control.clear_touch = true
+  G.ACTIVE_MOD_UI = nil
+  SMODS.LAST_SELECTED_MOD_TAB = nil
+  Sagatro.fromAlice = nil
+  G:save_settings()
 end
 
 function Sagatro.update_HUD()
