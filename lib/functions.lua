@@ -569,7 +569,10 @@ function Game:update(dt)
         end
     end
     if G.OVERLAY_MENU then
-        G.OVERLAY_MENU:get_UIE_by_ID("overlay_menu_back_button").config.fromAlice = Sagatro.fromAlice
+        local back_button = G.OVERLAY_MENU:get_UIE_by_ID("overlay_menu_back_button")
+        if back_button then
+            back_button.config.fromAlice = Sagatro.fromAlice
+        end
     end
     if G.STAGE == G.STAGES.RUN then
         Sagatro.debug_info["During a run"] = true
