@@ -15210,7 +15210,7 @@ local three_body = {
                 if to_big(G.GAME.hands[v].level) > to_big(1) then
                     local this_removed_levels = G.GAME.hands[v].level - 1
                     removed_levels = removed_levels + this_removed_levels
-                    level_up_hand(card, v, true, -this_removed_levels)
+                    level_up_hand(card, v, true, -to_number(this_removed_levels))
                 end
             end
             local safe_removed_levels = math.min(to_number(removed_levels), 1e25)
