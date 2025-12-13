@@ -2438,7 +2438,7 @@ local soltera = {
 		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             for k, v in pairs(G.GAME.hands) do
                 if to_big(v.level) > to_big(1) then
-                    level_up_hand(card, k, true, -to_number(v.level + 1))
+                    level_up_hand(card, k, true, -to_number(v.level) + 1)
                 end
             end
             play_sound('timpani')
