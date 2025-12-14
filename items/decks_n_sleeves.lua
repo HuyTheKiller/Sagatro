@@ -14,7 +14,7 @@ local saga_deck = {
             end
             G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd =
             G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd or 0.997
-            if result > G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd then
+            if result > (G.GAME.seeded and 0.997 or G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd) then
                 if Sagatro.debug then
                     print(G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd)
                 end
@@ -140,6 +140,46 @@ if CardSleeves then
                 SMODS.change_booster_limit(self.config.extra.bonus_slots)
             else
                 G.GAME.win_ante = G.GAME.win_ante + self.config.extra.win_ante_gain
+                if Sagatro.config.DisableOtherJokers then
+                    local result = pseudorandom("saga_sleeve_mc_aura")
+                    if Sagatro.debug then
+                        print(result)
+                    end
+                    G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd =
+                    G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd or 0.997
+                    if result > (G.GAME.seeded and 0.997 or G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd) then
+                        if Sagatro.debug then
+                            print(G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd)
+                        end
+                        delay(0.4)
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                local card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, "c_soul", 'deck')
+                                card:add_sticker("sgt_easter_egg", true)
+                                card:set_edition("e_negative", true)
+                                card:add_to_deck()
+                                G.consumeables:emplace(card)
+                                if result > 0.997 then
+                                    juice_card_until(card, function(_card) return not _card.states.hover.is end, true)
+                                end
+                                if not G.GAME.seeded then
+                                    G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd = 0.997
+                                end
+                            return true
+                            end
+                        }))
+                    else
+                        if Sagatro.debug then
+                            print(G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd)
+                        end
+                        if not G.GAME.seeded then
+                            G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd =
+                            G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd
+                            - pseudorandom("saga_sleeve_mc_aura_dec", 10, 50)*0.001
+                        end
+                    end
+                    G:save_settings()
+                end
             end
 		end,
 		loc_vars = function(self)
