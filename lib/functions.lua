@@ -1141,7 +1141,8 @@ local gnb = get_new_boss
 function get_new_boss(...)
     local ret = gnb(...)
     local overridden = false
-    if G.GAME.story_mode and not G.GAME.won then
+    local sgt_arg = select(1, ...)
+    if G.GAME.story_mode and not G.GAME.won and sgt_arg ~= "not_forced" then
         if Sagatro.event_check("final_showdown") and not next(SMODS.find_card("j_sgt_mad_hatter")) then
             G.GAME.bosses_used[ret] = G.GAME.bosses_used[ret] - 1
             ret = 'bl_sgt_red_queen'
@@ -1617,7 +1618,7 @@ end
 
 -- Darn, Ortalab has this whole function just to set up floating blind sprites for a voucher\
 -- Moving mine into Sagatro table Ig
-function Sagatro.get_new_showdown()
+function Sagatro.get_new_showdown(...)
     G.GAME.perscribed_showdown = G.GAME.perscribed_showdown or {}
     if G.GAME.perscribed_showdown and G.GAME.perscribed_showdown[G.GAME.round_resets.ante] then
         local ret_boss = G.GAME.perscribed_showdown[G.GAME.round_resets.ante]
@@ -1673,6 +1674,107 @@ function Sagatro.get_new_showdown()
         G.GAME.cartomancer_bosses_list[#G.GAME.cartomancer_bosses_list+1] = boss
     end
 
+    local overridden = false
+    local sgt_arg = select(1, ...)
+    if G.GAME.story_mode and not G.GAME.won and sgt_arg ~= "not_forced" then
+        if Sagatro.event_check("final_showdown") and not next(SMODS.find_card("j_sgt_mad_hatter")) then
+            G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] - 1
+            boss = 'bl_sgt_red_queen'
+            overridden = true
+        elseif Sagatro.event_check("turquoise_jellyfish") then
+            G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] - 1
+            boss = 'bl_sgt_turquoise_jellyfish'
+            overridden = true
+        elseif Sagatro.event_check("aqua_eyeshard") then
+            G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] - 1
+            boss = 'bl_sgt_aqua_eyeshard'
+            overridden = true
+        elseif Sagatro.event_check("black_oil") then
+            G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] - 1
+            boss = 'bl_sgt_black_oil'
+            overridden = true
+        elseif Sagatro.event_check("shadow_seamine") then
+            G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] - 1
+            boss = 'bl_sgt_shadow_seamine'
+            overridden = true
+        elseif Sagatro.event_check("nyx_abyss") then
+            G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] - 1
+            boss = 'bl_sgt_nyx_abyss'
+            overridden = true
+        elseif G.GAME.inversed_scaling then
+            if Sagatro.event_check("the_pawn", nil, true)
+            and not Sagatro.event_check("the_pawn", false) then
+                G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] - 1
+                boss = 'bl_sgt_pawn'
+                overridden = true
+            elseif Sagatro.event_check("the_rook", nil, true)
+            and not Sagatro.event_check("the_rook", false) then
+                G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] - 1
+                boss = 'bl_sgt_rook'
+                overridden = true
+            elseif Sagatro.event_check("the_knight", nil, true)
+            and not Sagatro.event_check("the_knight", false) then
+                G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] - 1
+                boss = 'bl_sgt_knight'
+                overridden = true
+            elseif Sagatro.event_check("the_bishop", nil, true)
+            and not Sagatro.event_check("the_bishop", false) then
+                G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] - 1
+                boss = 'bl_sgt_bishop'
+                overridden = true
+            elseif G.GAME.mirrorworld_showdown then
+                if Sagatro.event_check("true_red_queen", nil, true)
+                and not Sagatro.event_check("true_red_queen", false) then
+                    G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] - 1
+                    boss = 'bl_sgt_true_red_queen'
+                    overridden = true
+                elseif Sagatro.event_check("red_king", nil, true)
+                and not Sagatro.event_check("red_king", false) then
+                    G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] - 1
+                    boss = 'bl_sgt_red_king'
+                    overridden = true
+                end
+            end
+        end
+    end
+    if boss == 'bl_sgt_red_queen' then
+        G.GAME.red_queen_blind = true
+        for _, v in ipairs(SMODS.find_card("j_sgt_red_queen", true)) do
+            local guilty_text = function()
+                card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
+            end
+            Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
+        end
+        if Sagatro.storyline_check("alice_in_mirrorworld") then
+            G.GAME.paused_showdown = true
+        end
+    elseif boss == 'bl_sgt_true_red_queen' then
+        G.GAME.true_red_queen_blind = true
+        for _, v in ipairs(SMODS.find_card("j_sgt_true_red_queen", true)) do
+            local guilty_text = function()
+                card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
+            end
+            Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
+        end
+    elseif boss == 'bl_sgt_red_king' then
+        G.GAME.red_king_blind = true
+        for _, v in ipairs(SMODS.find_card("j_sgt_red_king", true)) do
+            local guilty_text = function()
+                card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
+            end
+            Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
+        end
+    end
+    if Cartomancer then
+        G.GAME.cartomancer_bosses_list = G.GAME.cartomancer_bosses_list or {}
+        if overridden then
+            G.GAME.cartomancer_bosses_list[#G.GAME.cartomancer_bosses_list] = boss
+        end
+    end
+    if overridden then
+        G.GAME.saga_forced_boss = true
+        G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] + 1
+    end
     return boss
 end
 
