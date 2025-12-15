@@ -696,14 +696,8 @@ pattern = '''G.GAME.round_resets.blind_choices.Boss = get_new_boss()'''
 position = "at"
 payload = '''
 if next(Sagatro.find_active_card("j_sgt_ragnarok")) then
-  local small_hide = G.GAME.round_resets.blind_states.Small == 'Hide'
-  local big_hide = G.GAME.round_resets.blind_states.Big == 'Hide'
-  G.GAME.round_resets.blind_choices.Small = not small_hide and get_new_boss('not_forced')
-  G.GAME.round_resets.blind_choices.Big = not big_hide and get_new_boss('not_forced')
   G.GAME.round_resets.blind_choices.Boss = Sagatro.get_new_showdown(not G.GAME.story_mode and 'not_forced')
 else
-  G.GAME.round_resets.blind_choices.Small = 'bl_small'
-  G.GAME.round_resets.blind_choices.Big = 'bl_big'
   G.GAME.round_resets.blind_choices.Boss = get_new_boss()
 end
 '''
