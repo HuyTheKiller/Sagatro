@@ -12095,10 +12095,10 @@ local rocking_horse_fly = {
                     end
                     local finalMult = temp_maxMult - temp_minMult
                     if highest_card and not highest_card.debuff and highest_card.facing ~= 'back' then
-                        mult = mult + finalMult*2
+                        mult = mult + finalMult*2*JokerDisplay.calculate_card_triggers(highest_card, nil, true)
                     end
                     if lowest_card and not lowest_card.debuff and lowest_card.facing ~= 'back' then
-                        mult = mult + finalMult*2
+                        mult = mult + finalMult*2*JokerDisplay.calculate_card_triggers(lowest_card, nil, true)
                     end
                 end
                 card.joker_display_values.mult = mult
