@@ -14590,7 +14590,7 @@ local shub = {
                         G.playing_card = (G.playing_card and G.playing_card + 1) or 1
                         local new_card = copy_card(context.full_hand[i], nil, nil, G.playing_card)
                         local _rank = pseudorandom_element(SMODS.Ranks, pseudoseed('shub_debaunched'))
-                        SMODS.change_base(new_card, nil, _rank.key)
+                        assert(SMODS.change_base(new_card, nil, _rank.key))
                         table.insert(new_cards, new_card)
                     end
                     for i, new_card in ipairs(new_cards) do
