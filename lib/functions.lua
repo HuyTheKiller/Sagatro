@@ -1677,7 +1677,7 @@ function Sagatro.get_new_showdown(...)
     local overridden = false
     local sgt_arg = select(1, ...)
     if G.GAME.story_mode and not G.GAME.won and sgt_arg ~= "not_forced" then
-        if Sagatro.event_check("final_showdown") and not next(SMODS.find_card("j_sgt_mad_hatter")) then
+        if Sagatro.event_check("final_showdown") and not next(Sagatro.find_active_card("j_sgt_mad_hatter")) then
             G.GAME.bosses_used[boss] = G.GAME.bosses_used[boss] - 1
             boss = 'bl_sgt_red_queen'
             overridden = true
