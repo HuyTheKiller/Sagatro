@@ -13545,7 +13545,7 @@ local skoll_n_hati = {
             if context.before and not context.blueprint and not context.retrigger_joker then
                 local upgrade = false
                 for _, v in ipairs(context.full_hand) do
-                    if v:is_suit("Hearts") or v:is_suit("Diamonds") then
+                    if v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
                         upgrade = true
                         if SMODS.scale_card then
                             SMODS.scale_card(card, {
@@ -13608,7 +13608,7 @@ local skoll_n_hati = {
             if context.before and not context.blueprint and not context.retrigger_joker then
                 local upgrade = false
                 for _, v in ipairs(G.hand.cards) do
-                    if v:is_suit("Spades") or v:is_suit("Clubs") then
+                    if v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
                         upgrade = true
                         if SMODS.scale_card then
                             SMODS.scale_card(card, {
