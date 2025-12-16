@@ -541,16 +541,18 @@ function Card:update(dt)
 end
 
 -- Pseudo-animation and manual crash
-cause_crash = false
-nemo_dt = 0
-alice_dt = 0
-ecila_dt = 0
-cosmic_dt = 0
-miracle_dt = 0
-miracle_animate = false
-nameless_dt = 0
-submarine_dt = 0
-current_depth_dt = 0
+Sagatro.cause_crash = false
+Sagatro.pseudo_animation = {
+    nemo_dt = 0,
+    alice_dt = 0,
+    ecila_dt = 0,
+    cosmic_dt = 0,
+    miracle_dt = 0,
+    miracle_animate = false,
+    nameless_dt = 0,
+    submarine_dt = 0,
+    current_depth_dt = 0,
+}
 local upd = Game.update
 function Game:update(dt)
 	upd(self, dt)
@@ -671,9 +673,9 @@ function Game:update(dt)
         end
     end
 
-    nameless_dt = nameless_dt + dt
-    if G.P_CENTERS and G.P_CENTERS.j_sgt_nameless and nameless_dt > 0.125 then
-        nameless_dt = nameless_dt - 0.125
+    Sagatro.pseudo_animation.nameless_dt = Sagatro.pseudo_animation.nameless_dt + dt
+    if G.P_CENTERS and G.P_CENTERS.j_sgt_nameless and Sagatro.pseudo_animation.nameless_dt > 0.125 then
+        Sagatro.pseudo_animation.nameless_dt = Sagatro.pseudo_animation.nameless_dt - 0.125
         local nameless = G.P_CENTERS.j_sgt_nameless
         if nameless.pos.x == 11 then
             nameless.pos.x = 0
@@ -692,9 +694,9 @@ function Game:update(dt)
         end
     end
 
-    submarine_dt = submarine_dt + dt
-    if G.P_CENTERS and G.P_CENTERS.j_sgt_submarine and submarine_dt > 0.125 then
-        submarine_dt = submarine_dt - 0.125
+    Sagatro.pseudo_animation.submarine_dt = Sagatro.pseudo_animation.submarine_dt + dt
+    if G.P_CENTERS and G.P_CENTERS.j_sgt_submarine and Sagatro.pseudo_animation.submarine_dt > 0.125 then
+        Sagatro.pseudo_animation.submarine_dt = Sagatro.pseudo_animation.submarine_dt - 0.125
         local submarine = G.P_CENTERS.j_sgt_submarine
         if submarine.extra_pos.x == 8 then
             submarine.extra_pos.x = 0
@@ -708,9 +710,9 @@ function Game:update(dt)
         end
     end
 
-    nemo_dt = nemo_dt + dt
-    if G.P_CENTERS and G.P_CENTERS.j_sgt_nemo and nemo_dt > 0.125 then
-        nemo_dt = nemo_dt - 0.125
+    Sagatro.pseudo_animation.nemo_dt = Sagatro.pseudo_animation.nemo_dt + dt
+    if G.P_CENTERS and G.P_CENTERS.j_sgt_nemo and Sagatro.pseudo_animation.nemo_dt > 0.125 then
+        Sagatro.pseudo_animation.nemo_dt = Sagatro.pseudo_animation.nemo_dt - 0.125
         local nemo = G.P_CENTERS.j_sgt_nemo
         if nemo.soul_pos.x == 24 then
             nemo.soul_pos.x = 1
@@ -724,9 +726,9 @@ function Game:update(dt)
         end
     end
 
-    alice_dt = alice_dt + dt
-    if G.P_CENTERS and G.P_CENTERS.j_sgt_alice and alice_dt > 0.125 then
-        alice_dt = alice_dt - 0.125
+    Sagatro.pseudo_animation.alice_dt = Sagatro.pseudo_animation.alice_dt + dt
+    if G.P_CENTERS and G.P_CENTERS.j_sgt_alice and Sagatro.pseudo_animation.alice_dt > 0.125 then
+        Sagatro.pseudo_animation.alice_dt = Sagatro.pseudo_animation.alice_dt - 0.125
         local alice = G.P_CENTERS.j_sgt_alice
         if alice.soul_pos.x == 35 then
             alice.soul_pos.x = 1
@@ -740,9 +742,9 @@ function Game:update(dt)
         end
     end
 
-    ecila_dt = ecila_dt + dt
-    if G.P_CENTERS and G.P_CENTERS.j_sgt_ecila and ecila_dt > 0.125 then
-        ecila_dt = ecila_dt - 0.125
+    Sagatro.pseudo_animation.ecila_dt = Sagatro.pseudo_animation.ecila_dt + dt
+    if G.P_CENTERS and G.P_CENTERS.j_sgt_ecila and Sagatro.pseudo_animation.ecila_dt > 0.125 then
+        Sagatro.pseudo_animation.ecila_dt = Sagatro.pseudo_animation.ecila_dt - 0.125
         local ecila = G.P_CENTERS.j_sgt_ecila
         if ecila.soul_pos.x == 39 then
             ecila.soul_pos.x = 1
@@ -756,9 +758,9 @@ function Game:update(dt)
         end
     end
 
-    cosmic_dt = cosmic_dt + dt
-    if G.shared_seals and G.shared_seals.sgt_cosmic_streak and cosmic_dt > 0.125 then
-        cosmic_dt = cosmic_dt - 0.125
+    Sagatro.pseudo_animation.cosmic_dt = Sagatro.pseudo_animation.cosmic_dt + dt
+    if G.shared_seals and G.shared_seals.sgt_cosmic_streak and Sagatro.pseudo_animation.cosmic_dt > 0.125 then
+        Sagatro.pseudo_animation.cosmic_dt = Sagatro.pseudo_animation.cosmic_dt - 0.125
         local cosmic = G.shared_seals.sgt_cosmic_streak
         if cosmic.sprite_pos.x == 14 then
             cosmic.sprite_pos.x = 0
@@ -768,33 +770,33 @@ function Game:update(dt)
         cosmic:set_sprite_pos(cosmic.sprite_pos)
     end
 
-    miracle_dt = miracle_dt + dt
-    if G.shared_seals and G.shared_seals.sgt_gods_miracle and miracle_dt > 0.1 then
-        miracle_dt = miracle_dt - 0.1
+    Sagatro.pseudo_animation.miracle_dt = Sagatro.pseudo_animation.miracle_dt + dt
+    if G.shared_seals and G.shared_seals.sgt_gods_miracle and Sagatro.pseudo_animation.miracle_dt > 0.1 then
+        Sagatro.pseudo_animation.miracle_dt = Sagatro.pseudo_animation.miracle_dt - 0.1
         local miracle = G.shared_seals.sgt_gods_miracle
         for _, card in pairs(G.I.CARD) do
             if card and card.seal and card.seal == "sgt_gods_miracle"
             and card.sprite_facing == "front" then
-                miracle_animate = true
+                Sagatro.pseudo_animation.miracle_animate = true
                 break
             end
         end
-        if miracle_animate then
+        if Sagatro.pseudo_animation.miracle_animate then
             if miracle.sprite_pos.x == 101 then
                 miracle.sprite_pos.x = 87
             else
                 miracle.sprite_pos.x = miracle.sprite_pos.x + 1
             end
             miracle:set_sprite_pos(miracle.sprite_pos)
-            miracle_animate = false
+            Sagatro.pseudo_animation.miracle_animate = false
         else
             miracle.sprite_pos.x = 0
         end
     end
 
-    current_depth_dt = current_depth_dt + dt
-    if G.shared_stickers and G.shared_stickers.sgt_current_depth and current_depth_dt > 0.125 then
-        current_depth_dt = current_depth_dt - 0.125
+    Sagatro.pseudo_animation.current_depth_dt = Sagatro.pseudo_animation.current_depth_dt + dt
+    if G.shared_stickers and G.shared_stickers.sgt_current_depth and Sagatro.pseudo_animation.current_depth_dt > 0.125 then
+        Sagatro.pseudo_animation.current_depth_dt = Sagatro.pseudo_animation.current_depth_dt - 0.125
         local current_depth = G.shared_stickers.sgt_current_depth
         if current_depth.sprite_pos.x == 7 then
             current_depth.sprite_pos.x = 0
@@ -805,7 +807,7 @@ function Game:update(dt)
         current_depth:set_sprite_pos(current_depth.sprite_pos)
     end
 
-    if cause_crash then error("A manual crash is called. Don't be grumpy, you did this on purpose.", 0) end
+    if Sagatro.cause_crash then error("A manual crash is called. Don't be grumpy, you did this on purpose.", 0) end
 end
 
 -- Esoteric jokers are Exotic equivalents in this mod
@@ -3657,7 +3659,7 @@ end
 
 function Sagatro.crash()
     if Sagatro.debug then
-        cause_crash = true
+        Sagatro.cause_crash = true
     end
     return not Sagatro.debug and "Are you sure you want to do this? Thankfully Sagatro debug mode is off. Turn it on before executing this command." or "Crashing game..."
 end
