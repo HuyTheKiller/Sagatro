@@ -554,17 +554,19 @@ current_depth_dt = 0
 local upd = Game.update
 function Game:update(dt)
 	upd(self, dt)
-    if Sagatro.debug then
-        if not Sagatro.STATE then
-            Sagatro.STATE = G.STATE
-        end
-        if Sagatro.STATE ~= G.STATE then
-            Sagatro.STATE = G.STATE
-            for k, v in pairs(G.STATES) do
-                if Sagatro.STATE == v then
+    if not Sagatro.STATE then
+        Sagatro.STATE = G.STATE
+        Sagatro.debug_info["Game state"] = "MENU"
+    end
+    if Sagatro.STATE ~= G.STATE then
+        Sagatro.STATE = G.STATE
+        for k, v in pairs(G.STATES) do
+            if Sagatro.STATE == v then
+                Sagatro.debug_info["Game state"] = k
+                if Sagatro.debug then
                     print(k)
-                    break
                 end
+                break
             end
         end
     end
@@ -577,13 +579,6 @@ function Game:update(dt)
     if G.STAGE == G.STAGES.RUN then
         Sagatro.debug_info["During a run"] = true
         Sagatro.debug_info["Story mode"] = G.GAME.story_mode
-        Sagatro.debug_info["In main menu"] = nil
-        for k, v in pairs(G.STATES) do
-            if G.STATE == v then
-                Sagatro.debug_info["Game state"] = k
-                break
-            end
-        end
         if not next(SMODS.find_card("j_sgt_submarine", true)) then
             G.P_CENTERS.j_sgt_seawater.pos.x = 0
         end
@@ -631,9 +626,7 @@ function Game:update(dt)
         end
     elseif G.STAGE == G.STAGES.MAIN_MENU then
         Sagatro.debug_info["During a run"] = nil
-        Sagatro.debug_info["Game state"] = nil
         Sagatro.debug_info["Story mode"] = nil
-        Sagatro.debug_info["In main menu"] = true
         G.P_CENTERS.j_sgt_seawater.pos.x = 0
     end
 
