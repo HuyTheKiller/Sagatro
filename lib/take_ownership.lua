@@ -78,6 +78,12 @@ SMODS.Booster:take_ownership_by_kind('Celestial', {
         return _card
     end,
     select_card = {Celestara = "consumeables"},
+    in_pool = function(self, args)
+        if Sagatro.storyline_check("alice_in_mirrorworld") then
+            return not G.GAME.inversed_scaling
+        end
+        return true
+    end,
 },
 true
 )
@@ -128,6 +134,23 @@ SMODS.Tag:take_ownership('boss',
             end
             if boss_tag_in_pool and type(boss_tag_in_pool) == "function" then
                 return boss_tag_in_pool(self, args)
+            end
+            return true
+        end,
+    },
+    true
+)
+
+-- Make High Priestess not spawn in Mirrorworld
+local high_priestess_in_pool = G.P_CENTERS.c_high_priestess.in_pool
+SMODS.Consumable:take_ownership('high_priestess',
+    {
+        in_pool = function(self, args)
+            if Sagatro.storyline_check("alice_in_mirrorworld") and G.GAME.inversed_scaling then
+                return false
+            end
+            if high_priestess_in_pool and type(high_priestess_in_pool) == "function" then
+                return high_priestess_in_pool(self, args)
             end
             return true
         end,

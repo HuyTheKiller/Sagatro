@@ -360,10 +360,27 @@ G.FUNCS.mirror_switch = function(e)
                 for _, alice in ipairs(SMODS.find_card("j_sgt_alice", true)) do
                     alice:set_ability("j_sgt_ecila")
                 end
+                if G.shop_booster then
+                    for _, booster in ipairs(G.shop_booster.cards) do
+                        if booster.config.center.kind == "Celestial" or booster.config.center.kind == "Celestara" then
+                            booster:set_ability(get_pack("mirrorworld"))
+                            Sagatro.resize(booster)
+                            booster:set_cost()
+                        end
+                    end
+                end
+                G.GAME.planet_rate = G.GAME.planet_rate/1e18
+                if G.GAME.used_vouchers.v_sgt_civilization then
+                    G.GAME.celestara_rate = G.GAME.celestara_rate/1e18
+                end
             else
                 Sagatro.progress_storyline("mirrorworld", "remove", "alice_in_wonderland", G.GAME.interwoven_storyline)
                 for _, ecila in ipairs(SMODS.find_card("j_sgt_ecila", true)) do
                     ecila:set_ability("j_sgt_alice")
+                end
+                G.GAME.planet_rate = G.GAME.planet_rate*1e18
+                if G.GAME.used_vouchers.v_sgt_civilization then
+                    G.GAME.celestara_rate = G.GAME.celestara_rate*1e18
                 end
             end
             Sagatro.update_inactive_state(true)

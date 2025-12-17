@@ -1479,6 +1479,13 @@ function get_pack(_key, _type)
     return gp(_key, _type)
 end
 
+function Sagatro.resize(card)
+    if card.ability.set == "Booster" and card.T.w ~= G.CARD_W*1.27 then
+        card.T.w = G.CARD_W*1.27
+        card.T.h = G.CARD_H*1.27
+    end
+end
+
 -- Reset debuff positions of all Mouses outside their own code (because they can't do that if debuffed)\
 -- Also replenish first-slot buffoon pack if said events are yet to progress
 function Sagatro.reset_game_globals(run_start)
@@ -2110,6 +2117,10 @@ function Sagatro:calculate(context)
         end
         if context.prevent_tag_trigger then
             if G.GAME.saga_forced_boss and context.prevent_tag_trigger.name == 'Boss Tag' then
+                return {prevent_trigger = true}
+            elseif Sagatro.storyline_check("alice_in_mirrorworld") and G.GAME.inversed_scaling
+            and (context.prevent_tag_trigger.name == 'Meteor Tag'
+            or context.prevent_tag_trigger.name == 'Alien Tag') then
                 return {prevent_trigger = true}
             end
         end

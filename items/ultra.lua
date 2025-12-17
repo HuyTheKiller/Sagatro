@@ -164,6 +164,12 @@ local sacra_sapientia = {
         end
         delay(0.6)
     end,
+    in_pool = function(self, args)
+        if Sagatro.storyline_check("alice_in_mirrorworld") then
+            return not G.GAME.inversed_scaling
+        end
+        return true
+    end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.planets}}
     end,
@@ -4251,6 +4257,9 @@ local civilization = {
             func = function()
                 if not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.celestara_rate == 0 then
                     G.GAME.celestara_rate = card.ability.extra.rate
+                    if Sagatro.storyline_check("alice_in_mirrorworld") and G.GAME.inversed_scaling then
+                        G.GAME.celestara_rate = G.GAME.celestara_rate/1e18
+                    end
                 end
                 return true
             end

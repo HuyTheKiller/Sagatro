@@ -300,7 +300,11 @@ local celestara_normal_1 = {
         return {set = "Celestara", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ce1"}
     end,
     in_pool = function(self, args)
-        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_civilization
+        local is_in_pool = not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_civilization
+        if Sagatro.storyline_check("alice_in_mirrorworld") then
+            is_in_pool = is_in_pool and not G.GAME.inversed_scaling
+        end
+        return is_in_pool
     end,
     loc_vars = function(self, info_queue, card)
         return {key = "p_sgt_celestara_normal", vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
@@ -349,7 +353,11 @@ local celestara_normal_2 = {
         return {set = "Celestara", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ce1"}
     end,
     in_pool = function(self, args)
-        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_civilization
+        local is_in_pool = not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_civilization
+        if Sagatro.storyline_check("alice_in_mirrorworld") then
+            is_in_pool = is_in_pool and not G.GAME.inversed_scaling
+        end
+        return is_in_pool
     end,
     loc_vars = function(self, info_queue, card)
         return {key = "p_sgt_celestara_normal", vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
@@ -398,7 +406,11 @@ local celestara_jumbo = {
         return {set = "Celestara", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ce1"}
     end,
     in_pool = function(self, args)
-        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_civilization
+        local is_in_pool = not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_civilization
+        if Sagatro.storyline_check("alice_in_mirrorworld") then
+            is_in_pool = is_in_pool and not G.GAME.inversed_scaling
+        end
+        return is_in_pool
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
@@ -447,7 +459,11 @@ local celestara_mega = {
         return {set = "Celestara", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ce1"}
     end,
     in_pool = function(self, args)
-        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_civilization
+        local is_in_pool = not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_civilization
+        if Sagatro.storyline_check("alice_in_mirrorworld") then
+            is_in_pool = is_in_pool and not G.GAME.inversed_scaling
+        end
+        return is_in_pool
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
