@@ -360,11 +360,13 @@ G.FUNCS.mirror_switch = function(e)
                 for _, alice in ipairs(SMODS.find_card("j_sgt_alice", true)) do
                     alice:set_ability("j_sgt_ecila")
                 end
-                for _, booster in ipairs(G.shop_booster.cards or {}) do
-                    if booster.config.center.kind == "Celestial" or booster.config.center.kind == "Celestara" then
-                        booster:set_ability(get_pack("mirrorworld"))
-                        Sagatro.resize(booster)
-                        booster:set_cost()
+                if G.shop_booster then
+                    for _, booster in ipairs(G.shop_booster.cards or {}) do
+                        if booster.config.center.kind == "Celestial" or booster.config.center.kind == "Celestara" then
+                            booster:set_ability(get_pack("mirrorworld"))
+                            Sagatro.resize(booster)
+                            booster:set_cost()
+                        end
                     end
                 end
                 G.GAME.planet_rate = G.GAME.planet_rate/1e18
