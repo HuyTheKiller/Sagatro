@@ -1078,7 +1078,7 @@ return {
                 name = "Anima",
                 text = {
                     "Create a random {C:sgt_esoteric,E:1}Esoteric",
-                    "{C:sgt_sagadition,E:1}Mythology {C:attention}Joker{}, set {C:attention}Eternal",
+                    "{C:sgt_sagadition,E:1}Mythology {C:attention}Joker{}, apply {C:attention}Eternal",
                     "to all other jokers",
                 }
             },
@@ -1446,7 +1446,7 @@ return {
                 name = "The Sinister",
                 text = {
                     "Create a random {C:sgt_esoteric,E:1}Esoteric",
-                    "{C:sgt_sagadition,E:1}Lovecraft {C:attention}Joker{}, set {C:attention}Perishable",
+                    "{C:sgt_sagadition,E:1}Lovecraft {C:attention}Joker{}, apply {C:attention}Perishable",
                     "to all other jokers",
                 }
             },

@@ -749,6 +749,7 @@ local anima = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items and Sagatro.mod_compat.talisman
     end,
     loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {key = 'eternal', set = 'Other'}
         local ret = {}
         if not Sagatro.mod_compat.talisman then
             ret.main_end = {}
@@ -3244,6 +3245,7 @@ local sinister = {
         return not G.GAME.modifiers.sgt_disable_sagatro_items and Sagatro.mod_compat.talisman
     end,
     loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {key = 'perishable', set = 'Other', vars = {G.GAME.perishable_rounds, G.GAME.perishable_rounds}}
         local ret = {}
         if not Sagatro.mod_compat.talisman then
             ret.main_end = {}
