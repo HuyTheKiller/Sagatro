@@ -688,6 +688,15 @@ return {
                     "{C:sgt_sagadition}Mirrorworld{} and the {C:sgt_sagadition}Real World",
                 },
             },
+            sgt_humdum = {
+                text = {
+                    "{C:sgt_sagadition}Alice Through the Looking-Glass{}'",
+                    "{C:attention}exclusive{} effect:",
+                    "On {C:red,E:2}self destruct{}, remove all",
+                    "other {C:attention}Mirrored{} stickers, then apply",
+                    "it to a random {C:sgt_sagadition}Real World{} joker",
+                },
+            },
             sgt_mirrorworld = {
                 text = {
                     "Inactive outside the {C:sgt_sagadition}Mirrorworld{},",
@@ -2693,9 +2702,8 @@ return {
                     {"Gain {C:money}$#1#{} of sell value",
                     "for each discarded {C:attention}#2#{},",
                     "rank changes every round"},
-                    {"{C:green}#3# in #4#{} chance this",
-                    "card is destroyed",
-                    "at end of round"},
+                    {"{C:green}#3# in #4#{} chance to",
+                    "{C:red,E:2}self destruct{} at end of round"},
                 },
             },
             j_sgt_seal_and_carpenter = {

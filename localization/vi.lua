@@ -687,6 +687,15 @@ return {
                     "{C:sgt_sagadition}Thế Giới Gương{} và {C:sgt_sagadition}Thế Giới Thực",
                 },
             },
+            sgt_humdum = {
+                text = {
+                    "Hiệu ứng {C:attention}đặc thù{} của",
+                    "{C:sgt_sagadition}Alice ở Xứ Sở Trong Gương{}:",
+                    "Khi {C:red,E:2}tự huỷ{}, loại bỏ mọi",
+                    "nhãn {C:attention}Hình Chiếu{}, rồi áp nó lên",
+                    "một joker {C:sgt_sagadition}Thế Giới Thực{} ngẫu nhiên",
+                },
+            },
             sgt_mirrorworld = {
                 text = {
                     "Bất hoạt ngoài {C:sgt_sagadition}Thế Giới Gương{},",
@@ -2690,9 +2699,8 @@ return {
                     {"Thêm {C:money}$#1#{} giá bán",
                     "cho mỗi lá {C:attention}#2#{} bị bỏ,",
                     "bậc thay đổi mỗi ván"},
-                    {"Xác suất {C:green}#3# trên #4#{}",
-                    "lá này bị phá huỷ",
-                    "ở cuối ván"},
+                    {"Xác suất {C:green}#3# trên #4#{} để",
+                    "{C:red,E:2}tự huỷ{} ở cuối ván"},
                 },
             },
             j_sgt_seal_and_carpenter = {

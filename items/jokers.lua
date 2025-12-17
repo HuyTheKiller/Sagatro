@@ -12725,6 +12725,19 @@ local humpty_dumpty = {
         end
         if context.end_of_round and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
             if SMODS.pseudorandom_probability(card, 'humdum_irreversible', 1, card.ability.extra.odds, "humpty_dumpty") then
+                if Sagatro.storyline_check(self.saga_group) then
+                    local eligible_jokers = {}
+                    for _, v in ipairs(G.jokers.cards) do
+                        if v.ability.set == "Joker" and not v.config.center.mirrorworld then
+                            if v.ability.sgt_mirrored then
+                                v:remove_sticker("sgt_mirrored")
+                            else
+                                table.insert(eligible_jokers, v)
+                            end
+                        end
+                    end
+                    pseudorandom_element(eligible_jokers, pseudoseed("humpty_magic")):add_sticker("sgt_mirrored", true)
+                end
 				Sagatro.self_destruct(card)
 				return {
 					message = localize("k_shattered_ex"),
@@ -12745,6 +12758,9 @@ local humpty_dumpty = {
         return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
+        if Sagatro.storyline_check(self.saga_group) then
+            info_queue[#info_queue+1] = {key = "sgt_mirrored", set = "Other"}
+        end
         return {vars = {card.ability.extra.value_gain, localize(G.GAME.current_round.humdum_card.rank, 'ranks'),
         SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "humpty_dumpty")}}
     end,
