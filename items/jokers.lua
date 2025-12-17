@@ -12779,7 +12779,7 @@ local humpty_dumpty = {
         return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self.saga_group) and G.GAME.inversed_scaling then
             info_queue[#info_queue+1] = {key = "sgt_mirrored", set = "Other"}
         end
         return {vars = {card.ability.extra.value_gain, localize(G.GAME.current_round.humdum_card.rank, 'ranks'),
