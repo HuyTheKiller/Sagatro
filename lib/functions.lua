@@ -2976,7 +2976,7 @@ function Sagatro.update_inactive_state(update_slots_used)
     if G.jokers and Sagatro.storyline_check("alice_in_mirrorworld") then
         for i = 1, #G.jokers.cards do
             local v = G.jokers.cards[i]
-            if v.config.center_key ~= "j_sgt_mirror" then
+            if v.ability.set == "Joker" and v.config.center_key ~= "j_sgt_mirror" then
                 if v.config.center.mirrorworld then
                     if update_slots_used then
                         v.ability.extra_slots_used = G.GAME.inversed_scaling and 0 or -1
@@ -2994,7 +2994,7 @@ function Sagatro.update_inactive_state(update_slots_used)
                     if update_slots_used then
                         v.ability.extra_slots_used = G.GAME.inversed_scaling and -1 or 0
                     end
-                    v.ability.inactive = G.GAME.inversed_scaling
+                    v.ability.inactive = G.GAME.inversed_scaling and not v.ability.sgt_mirrored
                     if JokerDisplay then
                         if (v.ability.inactive and not (v.joker_display_values or {}).disabled)
                         or (not v.ability.inactive and (v.joker_display_values or {}).disabled) then
@@ -3515,7 +3515,7 @@ if JokerDisplay then
         if not Sagatro.jd_toggle_override and Sagatro.storyline_check("alice_in_mirrorworld")
         and self.config.center_key ~= "j_sgt_mirror" then
             if (self.config.center.mirrorworld and not G.GAME.inversed_scaling)
-            or (not self.config.center.mirrorworld and G.GAME.inversed_scaling) then
+            or (not self.config.center.mirrorworld and G.GAME.inversed_scaling and not self.ability.sgt_mirrored) then
                 return
             end
         end

@@ -569,6 +569,13 @@ return {
                     "Enjoy!",
                 },
             },
+            sgt_mirrored = {
+                name = "Mirrored",
+                text = {
+                    "Allows this {C:sgt_sagadition}Real World{} joker",
+                    "to work in {C:sgt_sagadition}Mirrorworld",
+                },
+            },
             sgt_low_fuel = {
                 name = "Low Fuel",
                 text = {
@@ -3451,6 +3458,7 @@ return {
             sgt_imminent_doom = "Imminent Doom",
             sgt_off_depth = "Off Depth",
             sgt_easter_egg = "Easter Egg",
+            sgt_mirrored = "Mirrored",
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Gambling Hansel",

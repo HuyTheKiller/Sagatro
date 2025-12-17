@@ -744,6 +744,23 @@ local easter_egg = {
     should_apply = false,
 }
 
+local mirrored = {
+    key = "sgt_mirrored",
+    name = "Mirrored",
+    atlas = "misc",
+    pos = {x = 1, y = 4},
+    badge_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.25),
+    prefix_config = { key = false },
+    sets = { Joker = true },
+    no_collection = true,
+    no_sticker_sheet = true,
+    should_apply = false,
+    apply = function(self, card, val)
+        card.ability[self.key] = val
+        Sagatro.update_inactive_state()
+    end,
+}
+
 local sticker_table = {
     protected,
     edible,
@@ -753,6 +770,7 @@ local sticker_table = {
     off_depth,
     imminent_doom,
     easter_egg,
+    mirrored,
 }
 
 for _, v in ipairs(sticker_table) do

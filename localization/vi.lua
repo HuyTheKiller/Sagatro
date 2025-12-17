@@ -568,6 +568,13 @@ return {
                     "Hãy tận hưởng!",
                 },
             },
+            sgt_mirrored = {
+                name = "Hình Chiếu",
+                text = {
+                    "Cho phép joker {C:sgt_sagadition}Thế Giới Thực{} này",
+                    "hoạt động ở {C:sgt_sagadition}Thế Giới Gương",
+                },
+            },
             sgt_low_fuel = {
                 name = "Cạn Nhiên Liệu",
                 text = {
@@ -3448,6 +3455,7 @@ return {
             sgt_imminent_doom = "Sắp Hẹo",
             sgt_off_depth = "Lệch Độ Sâu",
             sgt_easter_egg = "Easter Egg",
+            sgt_mirrored = "Hình Chiếu",
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Hansel Đỏ Đen",
