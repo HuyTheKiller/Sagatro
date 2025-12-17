@@ -692,7 +692,7 @@ return {
                 text = {
                     "{C:sgt_sagadition}Alice Through the Looking-Glass{}'",
                     "{C:attention}exclusive{} effect:",
-                    "On {C:red,E:2}self destruct{}, remove all",
+                    "On {C:red,E:2}self destruct{} or sell, remove all",
                     "other {C:attention}Mirrored{} stickers, then apply",
                     "it to a random {C:sgt_sagadition}Real World{} joker",
                 },

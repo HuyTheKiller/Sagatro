@@ -12708,8 +12708,8 @@ local humpty_dumpty = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.discard and not context.blueprint
-        and not context.other_card.debuff and context.other_card:get_id() == G.GAME.current_round.humdum_card.id then
+        if (context.discard and not context.blueprint and not context.other_card.debuff
+        and context.other_card:get_id() == G.GAME.current_round.humdum_card.id) or context.forcetrigger then
             SMODS.scale_card(card, {
                 ref_table = card.ability,
                 ref_value = "extra_value",
@@ -12752,6 +12752,24 @@ local humpty_dumpty = {
                     no_retrigger = true
 				}
 			end
+        end
+        if context.selling_self and not context.blueprint and not context.retrigger_joker then
+            if Sagatro.storyline_check(self.saga_group) then
+                local eligible_jokers = {}
+                for _, v in ipairs(G.jokers.cards) do
+                    if v.ability.set == "Joker" and not v.config.center.mirrorworld then
+                        if v.ability.sgt_mirrored then
+                            v:remove_sticker("sgt_mirrored")
+                        else
+                            table.insert(eligible_jokers, v)
+                        end
+                    end
+                end
+                local target = pseudorandom_element(eligible_jokers, pseudoseed("humpty_magic"))
+                if target then
+                    target:add_sticker("sgt_mirrored", true)
+                end
+            end
         end
     end,
     in_pool = function(self, args)

@@ -691,7 +691,7 @@ return {
                 text = {
                     "Hiệu ứng {C:attention}đặc thù{} của",
                     "{C:sgt_sagadition}Alice ở Xứ Sở Trong Gương{}:",
-                    "Khi {C:red,E:2}tự huỷ{}, loại bỏ mọi",
+                    "Khi {C:red,E:2}tự huỷ{} hoặc bán, loại bỏ mọi",
                     "nhãn {C:attention}Hình Chiếu{}, rồi áp nó lên",
                     "một joker {C:sgt_sagadition}Thế Giới Thực{} ngẫu nhiên",
                 },
