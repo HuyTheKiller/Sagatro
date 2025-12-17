@@ -12736,7 +12736,10 @@ local humpty_dumpty = {
                             end
                         end
                     end
-                    pseudorandom_element(eligible_jokers, pseudoseed("humpty_magic")):add_sticker("sgt_mirrored", true)
+                    local target = pseudorandom_element(eligible_jokers, pseudoseed("humpty_magic"))
+                    if target then
+                        target:add_sticker("sgt_mirrored", true)
+                    end
                 end
 				Sagatro.self_destruct(card)
 				return {
