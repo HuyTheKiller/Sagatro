@@ -1899,8 +1899,10 @@ function Sagatro.update_blind_amounts(instant)
             end
         end
     end
-    local at_least_most = G.HUD_blind:get_UIE_by_ID("HUD_blind_score_at_least_most")
-    at_least_most.config.text = G.GAME.inversed_scaling and localize('ph_blind_score_at_most') or localize('ph_blind_score_at_least')
+    local at_least_most = G.HUD_blind and G.HUD_blind:get_UIE_by_ID("HUD_blind_score_at_least_most")
+    if at_least_most then
+        at_least_most.config.text = G.GAME.inversed_scaling and localize('ph_blind_score_at_most') or localize('ph_blind_score_at_least')
+    end
 end
 
 function Sagatro.ease_ante(mod)
