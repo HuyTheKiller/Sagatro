@@ -988,7 +988,7 @@ end
 local cc = create_card
 function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
     -- Forcing joker pools also happens here
-    if next(SMODS.find_card("j_sgt_yggdrasil")) and _type == "Joker" then
+    if next(Sagatro.find_active_card("j_sgt_yggdrasil")) and _type == "Joker" then
         if pseudorandom("yggdrasil") > 0.95 then
             _type = "Norse Gods"
         end
@@ -1103,7 +1103,7 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
             end
         end
     end
-    if next(SMODS.find_card("j_sgt_darkness")) and _type == "Joker" then
+    if next(Sagatro.find_active_card("j_sgt_darkness")) and _type == "Joker" then
         if pseudorandom("darkness_negative_joker") > 0.5 then
             card:set_edition("e_negative")
         end
@@ -1254,14 +1254,7 @@ end
 -- Ah yes, Nameless' secret ability is to slowly flood your shop voucher with Antimatter
 local avts = SMODS.add_voucher_to_shop
 function SMODS.add_voucher_to_shop(key, dont_save)
-    local found = false
-    for _, v in ipairs(G.jokers.cards or {}) do
-        if v.config.center_key == "j_sgt_nameless" then
-            found = true
-            break
-        end
-    end
-    if found and pseudorandom("nameless_antimatter") < (G.GAME.antimatter_overload or 0.2) then
+    if next(Sagatro.find_active_card("j_sgt_nameless")) and pseudorandom("nameless_antimatter") < (G.GAME.antimatter_overload or 0.2) then
         key = "v_antimatter"
         G.GAME.antimatter_overload = (G.GAME.antimatter_overload or 0.2) + 0.1
         if G.GAME.antimatter_overload > 1 then
@@ -1926,7 +1919,7 @@ function get_blind_amount(ante)
         amount = 1500*(amount^-0.5)
         return amount
     end
-    for _, card in ipairs(SMODS.find_card('j_sgt_three_winters')) do
+    for _, card in ipairs(Sagatro.find_active_card('j_sgt_three_winters')) do
         amount = amount * card.ability.extra.xblind_amount
     end
     return amount

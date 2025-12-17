@@ -3761,7 +3761,7 @@ local lamp_genie = {
     update = function(self, card, dt)
         if card.loaded then
             card.loaded = nil
-            if not card.ability.from_wish_card then
+            if not (card.ability.from_wish_card or card.ability.inactive) then
                 if card.ability.collected_wish == 0 then
                     card.ability.init = true
                     if #SMODS.find_card("j_sgt_lamp_genie", true) > 1 then
@@ -3781,7 +3781,7 @@ local lamp_genie = {
                 end
             end
         end
-        if not (card.ability.from_wish_card or G.SETTINGS.paused) then
+        if not (card.ability.from_wish_card or card.ability.inactive or G.SETTINGS.paused) then
             if G.STATE == G.STATES.BLIND_SELECT and card.ability.init then
                 local paused_for_tags = false
                 for i = 1, #G.GAME.tags do
@@ -15392,13 +15392,13 @@ local nameless = {
         end
     end,
     add_to_deck = function(self, card, from_debuff)
-        if not (from_debuff or next(SMODS.find_card("j_sgt_nameless"))) then
+        if not (from_debuff or next(Sagatro.find_active_card("j_sgt_nameless"))) then
             G.GAME.antimatter_overload = 0.2
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
-            G.GAME.antimatter_overload = next(SMODS.find_card("j_sgt_nameless")) and G.GAME.antimatter_overload or nil
+            G.GAME.antimatter_overload = next(Sagatro.find_active_card("j_sgt_nameless")) and G.GAME.antimatter_overload or nil
         end
     end,
     loc_vars = function(self, info_queue, card)
