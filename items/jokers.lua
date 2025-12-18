@@ -4290,6 +4290,9 @@ local sub_engineer = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
+        if G.GAME.story_mode or G.your_collection then
+            info_queue[#info_queue+1] = G.P_CENTERS.p_sgt_supply
+        end
         return {vars = {card.ability.amount}}
     end,
     set_badges = function(self, card, badges)
