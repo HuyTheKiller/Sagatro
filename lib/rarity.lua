@@ -4,6 +4,9 @@ local trivial = {
 	pools = { ["Joker"] = true },
 	default_weight = 0.01,
 	get_weight = function(self, weight, object_type)
+		if G.GAME.story_mode then
+			return next(Sagatro.find_active_card("j_sgt_mad_hatter")) and weight or 0
+		end
 		return G.GAME.modifiers.sgt_disable_sagatro_items and 0 or weight
 	end,
 }
