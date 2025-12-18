@@ -39,7 +39,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         end
         ui[Ortalab and "mythos" or "celestara"] = celestara_nodes
     end
-    if (G.GAME.story_mode or G.your_collection) and card then
+    if (G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers)) and card then
         if _c.key == "j_sgt_submarine" then
             local submarine_nodes = {background_colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.25)}
             local vars = card.config.center:loc_vars({}, card).vars

@@ -4290,7 +4290,7 @@ local sub_engineer = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        if G.GAME.story_mode or G.your_collection then
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
             info_queue[#info_queue+1] = G.P_CENTERS.p_sgt_supply
         end
         return {vars = {card.ability.amount}}
@@ -12810,7 +12810,8 @@ local humpty_dumpty = {
         return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
-        if Sagatro.storyline_check(self.saga_group) and G.GAME.inversed_scaling then
+        if (Sagatro.storyline_check(self.saga_group) and G.GAME.inversed_scaling)
+        or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
             info_queue[#info_queue+1] = {key = "sgt_mirrored", set = "Other"}
         end
         return {vars = {card.ability.extra.value_gain, localize(G.GAME.current_round.humdum_card.rank, 'ranks'),
