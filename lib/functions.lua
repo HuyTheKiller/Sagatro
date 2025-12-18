@@ -2189,6 +2189,7 @@ function Sagatro:calculate(context)
     if ((context.ante_change and context.ante_change < 0) or context.sgt_ante_interrupt)
     and G.GAME.modifiers.sgt_ante_increased_cost and not context.retrigger_joker then
         G.GAME.modifiers.sgt_ante_increased_cost = G.GAME.modifiers.sgt_ante_increased_cost + 1
+        Sagatro.global_set_cost(true)
     end
     if context.reroll_shop and not context.retrigger_joker then
         G.GAME.current_round.reroll_count = G.GAME.current_round.reroll_count + 1
