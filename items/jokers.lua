@@ -106,7 +106,7 @@ local white_rabbit = {
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "white_rabbit"}
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "fusion_hint", title = localize("saga_fusion_tooltip")}
         end
-        if Sagatro.storyline_check("none") and G.STAGE == G.STAGES.RUN then
+        if Sagatro.storyline_check("none") or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
             specific_vars = {localize('ph_alice_in_wond'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
         end
@@ -3975,7 +3975,7 @@ local lincoln_ship = {
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS["j_splash"]
-        if Sagatro.storyline_check("none") and G.STAGE == G.STAGES.RUN then
+        if Sagatro.storyline_check("none") or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
             specific_vars = {localize('ph_20k'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
         end
@@ -10794,7 +10794,8 @@ local mirror = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        if G.GAME.story_mode and not Sagatro.storyline_check(self.saga_group) and G.STAGE == G.STAGES.RUN then
+        if (Sagatro.storyline_check("alice_in_wonderland") and not Sagatro.storyline_check(self.saga_group))
+        or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "interwoven_storyline_start",
             specific_vars = {localize('ph_alice_in_mirr'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
         end
