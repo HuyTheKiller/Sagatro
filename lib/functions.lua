@@ -3085,6 +3085,29 @@ function SMODS.signed_dollars(val)
     return val and (val >= 0 and '$'..val or '-$'..-val) or '0'
 end
 
+function Sagatro.delayed_func()
+    if not Sagatro.init_delayed_func then
+        Sagatro.init_delayed_func = true
+        G.FUNCS.openModUI_Sagatro = function(e)
+            if e and e.config then
+                Sagatro.fromAlice = e.config.fromAlice
+            end
+            G.ACTIVE_MOD_UI = Sagatro
+            if e and e.config and e.config.page then
+                SMODS.LAST_SELECTED_MOD_TAB = e.config.page
+            end
+            G.FUNCS.overlay_menu({
+                definition = create_UIBox_Sagatro(e)
+            })
+        end
+        for _, rarity in ipairs(Sagatro.mad_hatter_whitelist) do
+            if not rarity:find("_mod") then
+                rarity = rarity.."_mod"
+            end
+        end
+    end
+end
+
 function Sagatro.quick_restart()
     if G.STAGE == G.STAGES.RUN and not G.SETTINGS.paused then
         G.SETTINGS.paused = true
