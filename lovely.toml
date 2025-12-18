@@ -1108,3 +1108,31 @@ end
 
 '''
 match_indent = true
+
+# Alternative Purple Stake shows rerolls remaining
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+{n=G.UIT.T, config={text = localize('k_reroll'), scale = 0.4, colour = G.C.WHITE, shadow = true}},
+'''
+position = "after"
+payload = '''
+G.GAME.modifiers.sgt_reroll_limit and {n=G.UIT.T, config={text = ' (', scale = 0.4, colour = G.C.WHITE, shadow = true}} or nil,
+G.GAME.modifiers.sgt_reroll_limit and {n=G.UIT.T, config={ref_table = G.GAME.current_round, ref_value = 'rerolls_left', scale = 0.4, colour = G.C.WHITE, shadow = true}} or nil,
+G.GAME.modifiers.sgt_reroll_limit and {n=G.UIT.T, config={text = ')', scale = 0.4, colour = G.C.WHITE, shadow = true}} or nil,
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "calculate_reroll_cost(final_free)"
+position = "before"
+payload = '''
+G.GAME.current_round.reroll_count = G.GAME.current_round.reroll_count + 1
+if G.GAME.modifiers.sgt_reroll_limit then
+    G.GAME.current_round.rerolls_left = G.GAME.current_round.rerolls_left - 1
+end
+'''
+match_indent = true

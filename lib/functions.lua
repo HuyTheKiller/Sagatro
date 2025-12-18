@@ -1516,6 +1516,7 @@ end
 -- Also replenish first-slot buffoon pack if said events are yet to progress
 function Sagatro.reset_game_globals(run_start)
     G.GAME.current_round.reroll_count = 0
+    G.GAME.current_round.rerolls_left = G.GAME.modifiers.sgt_reroll_limit
     for _, v in ipairs(G.jokers.cards) do
         if v.config.center_key == "j_sgt_mouse" then
             if G.GAME.modifiers.sgt_joker_selling_rounds and v.debuff then
@@ -2190,9 +2191,6 @@ function Sagatro:calculate(context)
     and G.GAME.modifiers.sgt_ante_increased_cost and not context.retrigger_joker then
         G.GAME.modifiers.sgt_ante_increased_cost = G.GAME.modifiers.sgt_ante_increased_cost + 1
         Sagatro.global_set_cost(true)
-    end
-    if context.reroll_shop and not context.retrigger_joker then
-        G.GAME.current_round.reroll_count = G.GAME.current_round.reroll_count + 1
     end
     if context.end_of_round and context.main_eval and not context.retrigger_joker then
         G.GAME.jjb_cash_out = G.GAME.blind_on_deck == "Boss"
