@@ -168,7 +168,7 @@ function Card:fuse_card()
 						-- 		j_fusion.ability[k] = true
 						-- 	end
 						-- else
-							j_fusion.ability[k] = true
+							j_fusion:add_sticker(k, true)
 						--end
 					end
 				end
