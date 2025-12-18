@@ -489,10 +489,16 @@ G.FUNCS.can_skip_booster = function(e)
 end
 
 -- Block shop reroll if Submarine is at low fuel
+-- Also Story Mode Purple Stake
 local can_reroll_ref = G.FUNCS.can_reroll
 G.FUNCS.can_reroll = function(e)
     can_reroll_ref(e)
     if G.GAME.submarine_low_fuel then
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+    if G.GAME.modifiers.sgt_reroll_limit
+    and G.GAME.current_round.reroll_count >= G.GAME.modifiers.sgt_reroll_limit then
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
     end

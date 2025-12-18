@@ -65,6 +65,14 @@ function loc_colour(_c, _default)
     return lc(_c, _default)
 end
 
+local badge_ref = get_badge_colour
+function get_badge_colour(key)
+    local ret = badge_ref(key)
+    G.BADGE_COL.delayed_selling = G.C.RENTAL
+    ret = G.BADGE_COL[key] or {1, 0, 0, 1}
+    return ret
+end
+
 -- Talisman compat
 to_big = to_big or function(x)
     return x
@@ -184,6 +192,7 @@ function Game:init_game_object()
     ret.orbis_fatum_odds = 4
     ret.switch_bonus = 0
     ret.celestara_tooltip = true
+    ret.current_round.reroll_count = 0
 	return ret
 end
 
@@ -330,6 +339,9 @@ function CardArea:update(dt)
         for _, v in ipairs(G.consumeables.cards) do
             if v.config.center_key == "j_sgt_mouse" then
                 SMODS.debuff_card(v, true, "j_sgt_mouse")
+                if G.GAME.modifiers.sgt_joker_selling_rounds then
+                    v.ability.sgt_selling_tally = 4
+                end
             end
         end
     end
@@ -917,6 +929,25 @@ function Card:can_calculate(ignore_debuff, ignore_sliced)
     return is_available
 end
 
+local add_to_deck_ref = Card.add_to_deck
+function Card:add_to_deck(from_debuff)
+    add_to_deck_ref(self, from_debuff)
+    if not from_debuff and self.ability.set == "Joker"
+    and G.GAME.modifiers.sgt_joker_selling_rounds then
+        self.ability.sgt_selling_tally = 0
+    end
+end
+
+local can_sell_ref = Card.can_sell_card
+function Card:can_sell_card(context)
+    local can_sell = can_sell_ref(self, context)
+    if self.ability.set == "Joker" and self.ability.sgt_selling_tally
+    and G.GAME.modifiers.sgt_joker_selling_rounds then
+        can_sell = can_sell and self.ability.sgt_selling_tally >= G.GAME.modifiers.sgt_joker_selling_rounds
+    end
+    return can_sell
+end
+
 local calc_rental = Card.calculate_rental
 function Card:calculate_rental()
     calc_rental(self)
@@ -1484,8 +1515,12 @@ end
 -- Reset debuff positions of all Mouses outside their own code (because they can't do that if debuffed)\
 -- Also replenish first-slot buffoon pack if said events are yet to progress
 function Sagatro.reset_game_globals(run_start)
+    G.GAME.current_round.reroll_count = 0
     for _, v in ipairs(G.jokers.cards) do
         if v.config.center_key == "j_sgt_mouse" then
+            if G.GAME.modifiers.sgt_joker_selling_rounds and v.debuff then
+                v.ability.sgt_selling_tally = (v.ability.sgt_selling_tally or 0) + 1
+            end
             for i = #v.ability.extra.debuff_position, 1, -1 do
                 table.remove(v.ability.extra.debuff_position, i)
             end
@@ -1932,8 +1967,20 @@ end
 local set_blind_ref = Blind.set_blind
 function Blind:set_blind(blind, reset, silent)
     set_blind_ref(self, blind, reset, silent)
-    if G.GAME.inversed_scaling then
-        self.chips = get_blind_amount(G.GAME.round_resets.ante)/math.max(self.mult*((0.8+(0.05*math.log(self.mult)))^self.mult), 1)
+    local obj = self.config.blind
+    if obj and next(obj) then
+        local final_mult = obj.mult or 0
+        for k, v in pairs(G.GAME.modifiers.sgt_blind_mult_mod or {}) do
+            if G.GAME.round_resets.blind_choices[k]
+            and G.GAME.round_resets.blind_choices[k] == obj.key then
+                final_mult = final_mult * v
+                break
+            end
+        end
+        self.chips = get_blind_amount(G.GAME.round_resets.blind_ante)*final_mult*G.GAME.starting_params.ante_scaling
+        if G.GAME.inversed_scaling then
+            self.chips = get_blind_amount(G.GAME.round_resets.ante)/math.max(final_mult*((0.8+(0.05*math.log(final_mult)))^final_mult), 1)
+        end
         self.chip_text = number_format(self.chips)
     end
 end
@@ -2139,8 +2186,22 @@ function Sagatro:calculate(context)
             v.played_this_ante = 0
         end
     end
+    if ((context.ante_change and context.ante_change < 0) or context.sgt_ante_interrupt)
+    and G.GAME.modifiers.sgt_ante_increased_cost and not context.retrigger_joker then
+        G.GAME.modifiers.sgt_ante_increased_cost = G.GAME.modifiers.sgt_ante_increased_cost + 1
+    end
+    if context.reroll_shop and not context.retrigger_joker then
+        G.GAME.current_round.reroll_count = G.GAME.current_round.reroll_count + 1
+    end
     if context.end_of_round and context.main_eval and not context.retrigger_joker then
         G.GAME.jjb_cash_out = G.GAME.blind_on_deck == "Boss"
+        if G.GAME.modifiers.sgt_joker_selling_rounds then
+            for _, area in ipairs(SMODS.get_card_areas('jokers')) do
+                for _, v in ipairs(area.cards) do
+                    v.ability.sgt_selling_tally = (v.ability.sgt_selling_tally or 0) + 1
+                end
+            end
+        end
     end
 end
 
@@ -2930,20 +2991,6 @@ function Sagatro.resolve_hunger(mod)
     end
 end
 
-local set_cost_ref = Card.set_cost
-function Card:set_cost()
-    set_cost_ref(self)
-    if self.ability.immutable and self.ability.immutable.weight_level and not self.ability.couponed then
-        if G.GAME.submarine_high_fuel and not self.ability.immutable.cost_reduced then
-            self.ability.immutable.cost_reduced = true
-            self.cost = self.cost - 1
-        elseif not G.GAME.submarine_high_fuel and self.ability.immutable.cost_reduced then
-            self.ability.immutable.cost_reduced = nil
-            self.cost = self.cost + 1
-        end
-    end
-end
-
 function Sagatro.instant_reroll()
     if G.STATE == G.STATES.SHOP then
         SMODS.change_free_rerolls(1)
@@ -3103,6 +3150,34 @@ function Sagatro.delayed_func()
         for _, rarity in ipairs(Sagatro.mad_hatter_whitelist) do
             if not rarity:find("_mod") then
                 rarity = rarity.."_mod"
+            end
+        end
+        local set_cost_ref = Card.set_cost
+        function Card:set_cost()
+            set_cost_ref(self)
+            if self.ability.set == "Joker" then
+                if G.GAME.modifiers.sgt_reduced_sell_cost and not self.ability.sgt_reduced_sell_cost then
+                    self.ability.sgt_reduced_sell_cost = true
+                    self.ability.extra_value = (self.ability.extra_value or 0) - G.GAME.modifiers.sgt_reduced_sell_cost
+                    self.sell_cost = math.max(1, math.floor(self.cost/2)) + (self.ability.extra_value or 0)
+                end
+                if G.GAME.modifiers.sgt_ante_increased_cost then
+                    self.ability.sgt_extra_cost = 0
+                    if self.ability.sgt_extra_cost ~= G.GAME.modifiers.sgt_ante_increased_cost then
+                        self.ability.sgt_extra_cost = G.GAME.modifiers.sgt_ante_increased_cost
+                        self.cost = math.max(1, math.floor((self.base_cost + self.extra_cost + self.ability.sgt_extra_cost + 0.5)*(100-G.GAME.discount_percent)/100))
+                        self.sell_cost = math.max(1, math.floor(self.cost/2)) + (self.ability.extra_value or 0)
+                    end
+                end
+                if self.ability.immutable and self.ability.immutable.weight_level and not self.ability.couponed then
+                    if G.GAME.submarine_high_fuel and not self.ability.immutable.cost_reduced then
+                        self.ability.immutable.cost_reduced = true
+                        self.cost = self.cost - 1
+                    elseif not G.GAME.submarine_high_fuel and self.ability.immutable.cost_reduced then
+                        self.ability.immutable.cost_reduced = nil
+                        self.cost = self.cost + 1
+                    end
+                end
             end
         end
     end

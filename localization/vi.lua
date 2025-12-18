@@ -216,6 +216,64 @@ return {
                 },
             },
         },
+        Stake = {
+            stake_red_story_mode = {
+                name = "Cược Đỏ",
+                text = {
+                    "Điểm yêu cầu của",
+                    "{C:attention}Small Blind{} cao hơn {C:attention}20%{}",
+                    "{s:0.8}Áp dụng các loại Cược trước đó"
+                },
+            },
+            stake_green_story_mode = {
+                name = "Cược Lục",
+                text = {
+                    "{C:attention}Giảm{} giá bán của",
+                    "mọi joker đi {C:money}$1{}",
+                    "{s:0.8}Áp dụng các loại Cược trước đó",
+                },
+            },
+            stake_black_story_mode = {
+                name = "Cược Đen",
+                text = {
+                    "Nếu {C:attention}Ante{} không tăng, vĩnh viễn",
+                    "thêm {C:money}$1{} vào giá mua của mọi joker",
+                    "{s:0.8}Áp dụng các loại Cược trước đó",
+                },
+            },
+            stake_blue_story_mode = {
+                name = "Cược Lam",
+                text = {
+                    "Khi {C:attention}Boss Blind{} được chọn,",
+                    "{C:red}-1{} lượt bỏ bài",
+                    "{s:0.8}Áp dụng các loại Cược trước đó",
+                },
+            },
+            stake_purple_story_mode = {
+                name = "Cược Tím",
+                text = {
+                    "Lượt {C:green}gieo lại{} bị {C:attention}giới hạn{}",
+                    "ở mức {C:attention}20{} lần mỗi shop",
+                    "{s:0.8}Áp dụng các loại Cược trước đó",
+                },
+            },
+            stake_orange_story_mode = {
+                name = "Cược Cam",
+                text = {
+                    "Điểm yêu cầu tăng",
+                    "nhanh hơn sau mỗi {C:attention}Ante",
+                    "{s:0.8}Áp dụng các loại Cược trước đó",
+                },
+            },
+            stake_gold_story_mode = {
+                name = "Cược Vàng",
+                text = {
+                    "Joker phải được giữ trong {C:attention}3{} ván",
+                    "để {C:attention}có thể bán được{}",
+                    "{s:0.8}Áp dụng các loại Cược trước đó",
+                },
+            },
+        },
         Other = {
             p_sgt_wish_primary = {
                 name = "Gói Điều Ước",
@@ -767,6 +825,14 @@ return {
                     "đánh bại sau khi nhận tiền",
                     "Xác suất {C:green}#1# trên #2#{} để {C:red,E:2}tự huỷ{},",
                     "giảm mẫu số đi {C:attention}1{} nếu trật",
+                },
+            },
+            sgt_joker_selling_rounds = {
+                name = "Bán Chậm",
+                text = {
+                    "Joker này không thể bị bán",
+                    "cho đến khi {C:attention}#1#{} ván đã trôi qua",
+                    "{C:inactive}({C:attention}#2#{C:inactive}/#1#)",
                 },
             },
         },
@@ -3464,6 +3530,7 @@ return {
             sgt_off_depth = "Lệch Độ Sâu",
             sgt_easter_egg = "Easter Egg",
             sgt_mirrored = "Hình Chiếu",
+            delayed_selling = "Bán Chậm",
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Hansel Đỏ Đen",

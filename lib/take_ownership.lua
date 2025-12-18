@@ -157,3 +157,141 @@ SMODS.Consumable:take_ownership('high_priestess',
     },
     true
 )
+
+-- Story mode stakes
+SMODS.Stake:take_ownership("red",
+    {
+        modifiers = function()
+            if Sagatro.config.DisableOtherJokers then
+                G.GAME.modifiers.sgt_blind_mult_mod = G.GAME.modifiers.sgt_blind_mult_mod or {}
+                G.GAME.modifiers.sgt_blind_mult_mod.Small = 1.2
+            else
+                G.GAME.modifiers.no_blind_reward = G.GAME.modifiers.no_blind_reward or {}
+                G.GAME.modifiers.no_blind_reward.Small = true
+            end
+        end,
+        loc_vars = function()
+            if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+                return {key = "stake_red_story_mode"}
+            end
+        end
+    },
+    true
+)
+
+SMODS.Stake:take_ownership("green",
+    {
+        modifiers = function()
+            if Sagatro.config.DisableOtherJokers then
+                G.GAME.modifiers.sgt_reduced_sell_cost = 1
+            else
+                G.GAME.modifiers.scaling = (G.GAME.modifiers.scaling or 1) + 1
+            end
+        end,
+        loc_vars = function()
+            if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+                return {key = "stake_green_story_mode"}
+            end
+        end
+    },
+    true
+)
+
+SMODS.Stake:take_ownership("black",
+    {
+        modifiers = function()
+            if Sagatro.config.DisableOtherJokers then
+                G.GAME.modifiers.sgt_ante_increased_cost = 0
+            else
+                G.GAME.modifiers.scaling = (G.GAME.modifiers.scaling or 1) + 1
+            end
+        end,
+        loc_vars = function()
+            if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+                return {key = "stake_black_story_mode"}
+            end
+        end
+    },
+    true
+)
+
+SMODS.Stake:take_ownership("blue",
+    {
+        calculate = function(self, context)
+            if G.GAME.story_mode and context.setting_blind and context.blind.boss then
+                G.E_MANAGER:add_event(Event({func = function()
+                    if G.GAME.current_round.discards_left > 0 then
+                        ease_discard(-1, nil, true)
+                    end
+                return true end }))
+                return {no_retrigger = true}
+            end
+        end,
+        modifiers = function()
+            if Sagatro.config.DisableOtherJokers then
+            else
+                G.GAME.starting_params.discards = G.GAME.starting_params.discards - 1
+            end
+        end,
+        loc_vars = function()
+            if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+                return {key = "stake_blue_story_mode"}
+            end
+        end
+    },
+    true
+)
+
+SMODS.Stake:take_ownership("purple",
+    {
+        modifiers = function()
+            if Sagatro.config.DisableOtherJokers then
+                G.GAME.modifiers.sgt_reroll_limit = 20
+            else
+                G.GAME.modifiers.scaling = (G.GAME.modifiers.scaling or 1) + 1
+            end
+        end,
+        loc_vars = function()
+            if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+                return {key = "stake_purple_story_mode"}
+            end
+        end
+    },
+    true
+)
+
+SMODS.Stake:take_ownership("orange",
+    {
+        modifiers = function()
+            if Sagatro.config.DisableOtherJokers then
+                G.GAME.modifiers.scaling = (G.GAME.modifiers.scaling or 1) + 1
+            else
+                G.GAME.modifiers.enable_perishables_in_shop = true
+            end
+        end,
+        loc_vars = function()
+            if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+                return {key = "stake_orange_story_mode"}
+            end
+        end
+    },
+    true
+)
+
+SMODS.Stake:take_ownership("gold",
+    {
+        modifiers = function()
+            if Sagatro.config.DisableOtherJokers then
+                G.GAME.modifiers.sgt_joker_selling_rounds = 3
+            else
+                G.GAME.modifiers.enable_rentals_in_shop = true
+            end
+        end,
+        loc_vars = function()
+            if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+                return {key = "stake_gold_story_mode"}
+            end
+        end
+    },
+    true
+)

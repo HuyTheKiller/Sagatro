@@ -246,7 +246,7 @@ payload = '''if not Sagatro.stall_ante() then '''
 target = 'functions/state_events.lua'
 pattern = '''G\.GAME\.round_resets\.ante \+ 1}\)'''
 position = 'after'
-payload = ''' end'''
+payload = '''else SMODS.calculate_context({sgt_ante_interrupt = true}) end'''
 
 [[patches]]
 [patches.regex]
@@ -347,8 +347,17 @@ pattern = '''local blind_amt = get_blind_amount(G.GAME.round_resets.blind_ante)*
 position = 'after'
 match_indent = true
 payload = '''
+local final_mult = blind_choice.config.mult or 0
+for k, v in pairs(G.GAME.modifiers.sgt_blind_mult_mod or {}) do
+    if G.GAME.round_resets.blind_choices[k]
+    and G.GAME.round_resets.blind_choices[k] == blind_choice.config.key then
+        final_mult = final_mult * v
+        break
+    end
+end
+blind_amt = get_blind_amount(G.GAME.round_resets.blind_ante)*final_mult*G.GAME.starting_params.ante_scaling
 if G.GAME.inversed_scaling then
-    blind_amt = get_blind_amount(G.GAME.round_resets.blind_ante)/math.max(blind_choice.config.mult*((0.8+(0.05*math.log(blind_choice.config.mult)))^blind_choice.config.mult), 1)
+    blind_amt = get_blind_amount(G.GAME.round_resets.ante)/math.max(final_mult*((0.8+(0.05*math.log(final_mult)))^final_mult), 1)
 end
 '''
 
@@ -1068,3 +1077,34 @@ if not CardSleeves then
     self.GAME.pseudorandom.hashed_seed = pseudohash(self.GAME.pseudorandom.seed)
 end
 '''
+
+# Card UI patch (this cannot be a hook and I hate it)
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "return generate_card_ui(self.config.center, nil, loc_vars, card_type, badges, hide_desc, main_start, main_end, self)"
+position = "before"
+payload = '''
+if G.GAME.modifiers.sgt_joker_selling_rounds and self.ability.sgt_selling_tally
+and self.ability.sgt_selling_tally < G.GAME.modifiers.sgt_joker_selling_rounds
+and not SMODS.is_eternal(self) then
+    loc_vars = loc_vars or {}; loc_vars.sgt_selling_tally = self.ability.sgt_selling_tally
+    badges[#badges+1] = 'delayed_selling'
+end
+
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if v == 'eternal' then info_queue[#info_queue+1] = {key = 'eternal', set = 'Other'} end"
+position = "before"
+payload = '''
+if v == 'delayed_selling' then
+    info_queue[#info_queue+1] = {set = "Other", key = "sgt_joker_selling_rounds",
+    vars = {G.GAME.modifiers.sgt_joker_selling_rounds, specific_vars.sgt_selling_tally or 0}}
+end
+
+'''
+match_indent = true

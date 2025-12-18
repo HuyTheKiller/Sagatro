@@ -216,6 +216,64 @@ return {
                 },
             },
         },
+        Stake = {
+            stake_red_story_mode = {
+                name = "Red Stake",
+                text = {
+                    "{C:attention}Small Blind{} score",
+                    "requirement is {C:attention}20%{} higher",
+                    "{s:0.8}Applies all previous Stakes",
+                },
+            },
+            stake_green_story_mode = {
+                name = "Green Stake",
+                text = {
+                    "{C:attention}Reduce{} all joker's",
+                    "sell value by {C:money}$1{}",
+                    "{s:0.8}Applies all previous Stakes",
+                },
+            },
+            stake_black_story_mode = {
+                name = "Black Stake",
+                text = {
+                    "If {C:attention}Ante{} doesn't increase, permanent",
+                    "{C:money}+$1{} to all joker's buy value",
+                    "{s:0.8}Applies all previous Stakes",
+                },
+            },
+            stake_blue_story_mode = {
+                name = "Blue Stake",
+                text = {
+                    "When {C:attention}Boss Blind{} is selected,",
+                    "{C:red}-1{} discard",
+                    "{s:0.8}Applies all previous Stakes",
+                },
+            },
+            stake_purple_story_mode = {
+                name = "Purple Stake",
+                text = {
+                    "{C:green}Reroll{} count is {C:attention}limited{}",
+                    "to {C:attention}20{} per shop",
+                    "{s:0.8}Applies all previous Stakes",
+                },
+            },
+            stake_orange_story_mode = {
+                name = "Orange Stake",
+                text = {
+                    "Required score scales",
+                    "faster for each {C:attention}Ante",
+                    "{s:0.8}Applies all previous Stakes",
+                },
+            },
+            stake_gold_story_mode = {
+                name = "Gold Stake",
+                text = {
+                    "Jokers must last {C:attention}3{} rounds",
+                    "to be {C:attention}sellable{}",
+                    "{s:0.8}Applies all previous Stakes",
+                },
+            },
+        },
         Other = {
             p_sgt_wish_primary = {
                 name = "Wish Pack",
@@ -768,6 +826,14 @@ return {
                     "{C:attention}Boss Blind{} after cashing out",
                     "{C:green}#1# in #2#{} chance to {C:red,E:2}self destruct{},",
                     "otherwise reduce denominator by {C:attention}1{}",
+                },
+            },
+            sgt_joker_selling_rounds = {
+                name = "Delayed Selling",
+                text = {
+                    "This joker cannot be sold",
+                    "until {C:attention}#1#{} rounds have passed",
+                    "{C:inactive}({C:attention}#2#{C:inactive}/#1#)",
                 },
             },
         },
@@ -3467,6 +3533,7 @@ return {
             sgt_off_depth = "Off Depth",
             sgt_easter_egg = "Easter Egg",
             sgt_mirrored = "Mirrored",
+            delayed_selling = "Delayed Selling",
         },
         challenge_names = {
             c_sgt_gambling_hansel = "Gambling Hansel",
