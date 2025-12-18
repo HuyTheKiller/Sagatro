@@ -3031,7 +3031,7 @@ return {
                     "Equip this joker to",
                     "begin the storyline:",
                     "{C:sgt_sagadition}#1#{}",
-                    "Difficulty: {V:1}#2#{}/10",
+                    "Difficulty: {V:1}#2#{}/5",
                 },
             },
             interwoven_storyline_start = {
@@ -3039,7 +3039,7 @@ return {
                     "Equip this joker to interweave",
                     "the current storyline with:",
                     "{C:sgt_sagadition}#1#{}",
-                    "Difficulty: {V:1}#2#{}/10",
+                    "Difficulty: {V:1}#2#{}/5",
                 },
             },
             white_rabbit = {

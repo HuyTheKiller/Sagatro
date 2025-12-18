@@ -18,13 +18,8 @@ G.C.SUBMARINE_DEPTH = {
 G.C.SAGA_DIFFICULTY = {
     G.C.GREEN,
     G.C.GREEN,
-    G.C.GREEN,
-    G.C.GREEN,
     G.C.YELLOW,
     G.C.YELLOW,
-    G.C.YELLOW,
-    G.C.RED,
-    G.C.RED,
     G.C.RED,
 }
 SMODS.Gradient{
