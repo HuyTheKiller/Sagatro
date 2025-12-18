@@ -4191,7 +4191,7 @@ local submarine = {
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "submarine"}
         end
         local ret = {}
-        if G.GAME.story_mode then
+        if G.GAME.story_mode or G.your_collection then
             ret.key = "j_sgt_submarine_storymode"
             ret.vars = {
                 card.ability.immutable.states.fuel_left,
