@@ -39,6 +39,12 @@ Sagatro.necronomicon = {
 	seal_weight = {generic = 3},
 }
 
+Sagatro.mad_hatter_whitelist = {
+	"legendary",
+	"cry_exotic",
+	"entr_entropic",
+}
+
 Sagatro.optional_features = {
 	retrigger_joker = true,
 }

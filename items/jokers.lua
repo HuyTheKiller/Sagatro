@@ -2067,6 +2067,39 @@ local mad_hatter = {
     demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
+    update = function(self, card, dt)
+        if G.STAGE == G.STAGES.RUN then
+            if card.ability then
+                if card.ability.inactive and not card.ability.extra.trivial_off then
+                    card.ability.extra.trivial_off = true
+                    Sagatro.update_blind_amounts()
+                    for k, v in pairs(G.GAME) do
+                        if string.len(k) > 4 and string.find(k, "_mod")
+                        and type(v) == "number" and k ~= "sgt_trivial_mod" then
+                            if (k ~= "uncommon_mod" or not G.GAME.story_mode)
+                            and not table.contains(Sagatro.mad_hatter_whitelist, k)
+                            then
+                                G.GAME[k] = G.GAME[k]*1e18
+                            end
+                        end
+                    end
+                elseif not card.ability.inactive and card.ability.extra.trivial_off then
+                    card.ability.extra.trivial_off = nil
+                    Sagatro.update_blind_amounts()
+                    for k, v in pairs(G.GAME) do
+                        if string.len(k) > 4 and string.find(k, "_mod")
+                        and type(v) == "number" and k ~= "sgt_trivial_mod" then
+                            if (k ~= "uncommon_mod" or not G.GAME.story_mode)
+                            and not table.contains(Sagatro.mad_hatter_whitelist, k)
+                            then
+                                G.GAME[k] = G.GAME[k]/1e18
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
             Sagatro.progress_storyline("mad_hatter", "force_add", self.saga_group, G.GAME.interwoven_storyline)
@@ -2076,11 +2109,7 @@ local mad_hatter = {
             if string.len(k) > 4 and string.find(k, "_mod")
             and type(v) == "number" and k ~= "sgt_trivial_mod" then
                 if (k ~= "uncommon_mod" or not G.GAME.story_mode)
-                and k ~= "legendary_mod"
-                -- TARGET: exclude rarity that require specific conditions to spawn here
-                -- (e.g. Cryptid's Exotic, Entropy's Entropic)
-                and k ~= "cry_exotic_mod"
-                and k ~= "entr_entropic_mod"
+                and not table.contains(Sagatro.mad_hatter_whitelist, k)
                 then
                     -- consider this infinitesimal, I can't find another way that wouldn't break with multiple Mad Hatters
                     G.GAME[k] = G.GAME[k]/1e18
@@ -2100,11 +2129,7 @@ local mad_hatter = {
             if string.len(k) > 4 and string.find(k, "_mod")
             and type(v) == "number" and k ~= "sgt_trivial_mod" then
                 if (k ~= "uncommon_mod" or not G.GAME.story_mode)
-                and k ~= "legendary_mod"
-                -- TARGET: exclude rarity that require specific conditions to spawn here
-                -- (e.g. Cryptid's Exotic, Entropy's Entropic)
-                and k ~= "cry_exotic_mod"
-                and k ~= "entr_entropic_mod"
+                and not table.contains(Sagatro.mad_hatter_whitelist, k)
                 then
                     G.GAME[k] = G.GAME[k]*1e18
                 end

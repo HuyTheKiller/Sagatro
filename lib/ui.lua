@@ -513,6 +513,11 @@ function Sagatro.delayed_func()
                 definition = create_UIBox_Sagatro(e)
             })
         end
+        for _, rarity in ipairs(Sagatro.mad_hatter_whitelist) do
+            if not rarity:find("_mod") then
+                rarity = rarity.."_mod"
+            end
+        end
     end
 end
 
