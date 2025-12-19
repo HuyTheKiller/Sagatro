@@ -1272,6 +1272,7 @@ end
 local dft = Blind.defeat
 function Blind:defeat(s)
 	dft(self, s)
+    G.GAME.saga_forced_boss = nil
     if self.config.blind.key and table.contains(Sagatro.story_mode_showdown, self.config.blind.key) then
         G.GAME.story_ended = true
     end
@@ -2110,7 +2111,6 @@ function Sagatro:calculate(context)
             end
         end
         if context.ante_change and context.ante_end then
-            G.GAME.saga_forced_boss = nil
             G.GAME.fish_effect.no_reshuffle = nil
             G.GAME.supply_drop = nil
             G.GAME.submarine_hint_to_progress = nil
