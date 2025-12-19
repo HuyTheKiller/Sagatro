@@ -1087,7 +1087,7 @@ position = "before"
 payload = '''
 if G.GAME.modifiers.sgt_joker_selling_rounds and self.ability.sgt_selling_tally
 and self.ability.sgt_selling_tally < G.GAME.modifiers.sgt_joker_selling_rounds
-and not SMODS.is_eternal(self) then
+and not SMODS.is_eternal(self) and self.ability.set == "Joker" then
     loc_vars = loc_vars or {}; loc_vars.sgt_selling_tally = self.ability.sgt_selling_tally
     badges[#badges+1] = 'delayed_selling'
 end
