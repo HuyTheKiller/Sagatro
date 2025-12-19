@@ -94,7 +94,7 @@ target = "functions/common_events.lua"
 pattern = '''if _pool_size == 0 then'''
 position = "before"
 payload = '''
-if _type == "Joker" and Sagatro.debug then print(_pool_size.."/"..#_starting_pool, _pool_key) end
+if _type == "Joker" and Sagatro.debug and _append then print(_pool_size.."/"..#_starting_pool, _pool_key) end
 '''
 match_indent = true
 
