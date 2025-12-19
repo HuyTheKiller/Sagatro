@@ -2780,13 +2780,13 @@ function Sagatro.process_edible_fish(card, context)
                 end
                 play_sound('sgt_swallow', 0.96+math.random()*0.08)
                 Sagatro.process_edible_weight(card, weight_tally)
+                if dolphin_high then
+                    dolphin_high = nil
+                    card.ability.dolphin_high = true
+                    card.ability.extra.xmult = card.ability.extra.xmult * 2
+                    card.ability.extra.xmult_mod = card.ability.extra.xmult_mod * 2
+                end
             return true end }))
-        end
-        if dolphin_high then
-            dolphin_high = nil
-            card.ability.dolphin_high = true
-            card.ability.extra.xmult = card.ability.extra.xmult * 2
-            card.ability.extra.xmult_mod = card.ability.extra.xmult_mod * 2
         end
     end
 end
