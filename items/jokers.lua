@@ -2214,7 +2214,7 @@ local tea = {
         card.ability.taken = true
     end,
     in_pool = function(self, args)
-        return true, {allow_duplicates = true}
+        return next(Sagatro.find_active_card("j_sgt_mad_hatter")) or not G.GAME.story_mode, {allow_duplicates = true}
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier*(G.GAME.story_mode and 1 or 24)}}
@@ -2292,7 +2292,7 @@ local bread = {
         card.ability.taken = true
     end,
     in_pool = function(self, args)
-        return true, {allow_duplicates = true}
+        return next(Sagatro.find_active_card("j_sgt_mad_hatter")) or not G.GAME.story_mode, {allow_duplicates = true}
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier*(G.GAME.story_mode and 1 or 24)}}
@@ -2370,7 +2370,7 @@ local butter = {
         card.ability.taken = true
     end,
     in_pool = function(self, args)
-        return true, {allow_duplicates = true}
+        return next(Sagatro.find_active_card("j_sgt_mad_hatter")) or not G.GAME.story_mode, {allow_duplicates = true}
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier*(G.GAME.story_mode and 1 or 24)}}
