@@ -1272,7 +1272,9 @@ end
 local dft = Blind.defeat
 function Blind:defeat(s)
 	dft(self, s)
-    G.GAME.saga_forced_boss = nil
+    if self.config.blind.key and table.contains(Sagatro.story_mode_no_reroll, self.config.blind.key) then
+        G.GAME.saga_forced_boss = nil
+    end
     if self.config.blind.key and table.contains(Sagatro.story_mode_showdown, self.config.blind.key) then
         G.GAME.story_ended = true
     end
