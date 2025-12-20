@@ -403,7 +403,6 @@ local the_bishop = {
     defeat = function(self)
         if G.GAME.story_mode then
             Sagatro.progress_storyline("the_bishop", "force_finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
-            G.GAME.mirrorworld_showdown = true
 		end
     end,
     in_pool = function(self)
