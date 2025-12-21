@@ -196,6 +196,11 @@ end
 local gmm = Game.main_menu
 function Game:main_menu(change_context)
     gmm(self, change_context)
+    for _, v in ipairs(G.title_top.cards) do
+        if v.config.card_key and Sagatro.mod_compat.talisman then
+            v:set_seal("sgt_gods_miracle", true, true)
+        end
+    end
     Sagatro.delayed_func()
 
     local selected_card = Ortalab and Ortalab.config.menu_toggle and "j_sgt_mabel" or "j_sgt_alice"
