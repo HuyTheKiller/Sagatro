@@ -1270,14 +1270,16 @@ end
 
 -- Track if Queen Of Hearts is defeated to enable endless-like experience before reaching win Ante
 local dft = Blind.defeat
-function Blind:defeat(s)
-	dft(self, s)
-    if self.config.blind.key and table.contains(Sagatro.story_mode_no_reroll, self.config.blind.key) then
-        G.GAME.saga_forced_boss = nil
+function Blind:defeat(silent)
+    if G.GAME.story_mode then
+        if self.config.blind.key and table.contains(Sagatro.story_mode_no_reroll, self.config.blind.key) then
+            G.GAME.saga_forced_boss = nil
+        end
+        if self.config.blind.key and table.contains(Sagatro.story_mode_showdown, self.config.blind.key) then
+            G.GAME.story_ended = G.GAME.won
+        end
     end
-    if self.config.blind.key and table.contains(Sagatro.story_mode_showdown, self.config.blind.key) then
-        G.GAME.story_ended = true
-    end
+	dft(self, silent)
 end
 
 -- Ah yes, Nameless' secret ability is to slowly flood your shop voucher with Antimatter
