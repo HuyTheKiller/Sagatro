@@ -1148,7 +1148,7 @@ function SMODS.insert_repetitions(ret, eval, effect_card, _type)
     insert_rep_ref(ret, eval, effect_card, _type)
 end
 
--- If you own Queen Of Hearts in story mode, triggering Final Showdown event "turns" her into Showdown Blind
+-- If you own certain jokers, removes them when their respective Showdown Blind variants appear
 -- Also general blind handling in story mode
 local gnb = get_new_boss
 function get_new_boss(...)
@@ -1268,7 +1268,7 @@ function Blind:disable(...)
     end
 end
 
--- Track if Queen Of Hearts is defeated to enable endless-like experience before reaching win Ante
+-- Track if Story mode Showdown Blind is defeated to enable endless-like experience before reaching win Ante
 local dft = Blind.defeat
 function Blind:defeat(silent)
     if G.GAME.story_mode then
