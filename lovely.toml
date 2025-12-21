@@ -910,17 +910,6 @@ else
     G.FUNCS.draw_from_discard_to_deck()
 end
 '''
-# Increment played_this_ante for poker hands
-# TODO: REMOVE this patch in next SMODS release
-[[patches]]
-[patches.pattern]
-target = 'functions/state_events.lua'
-pattern = '''G.GAME.hands[text].played_this_round = G.GAME.hands[text].played_this_round + 1'''
-position = 'after'
-match_indent = true
-payload = '''
-G.GAME.hands[text].played_this_ante = G.GAME.hands[text].played_this_ante + 1
-'''
 
 # Imminent doom
 [[patches]]

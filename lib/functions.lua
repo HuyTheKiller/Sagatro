@@ -122,10 +122,6 @@ Sagatro.forced_buffoon_events = {
 local igo = Game.init_game_object
 function Game:init_game_object()
 	local ret = igo(self)
-    -- Add played_this_ante field to poker hands
-    for _, v in pairs(ret.hands) do
-        v.played_this_ante = 0
-    end
     -- Current storyline
     ret.current_storyline = "none"
     -- Event queue
@@ -2185,11 +2181,6 @@ function Sagatro:calculate(context)
         G.E_MANAGER:add_event(Event({func = function()
             G.GAME.first_hand_played = true
         return true end}))
-    end
-    if context.ante_change and context.ante_end and not context.retrigger_joker then
-        for _, v in pairs(G.GAME.hands) do
-            v.played_this_ante = 0
-        end
     end
     if ((context.ante_change and context.ante_change < 0) or context.sgt_ante_interrupt)
     and G.GAME.modifiers.sgt_ante_increased_cost and not context.retrigger_joker then
