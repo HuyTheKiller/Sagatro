@@ -774,9 +774,15 @@ function Game:update(dt)
     end
 
     Sagatro.pseudo_animation.miracle_dt = Sagatro.pseudo_animation.miracle_dt + dt
-    if G.shared_seals and G.shared_seals.sgt_gods_miracle and Sagatro.pseudo_animation.miracle_dt > 0.1 then
-        Sagatro.pseudo_animation.miracle_dt = Sagatro.pseudo_animation.miracle_dt - 0.1
+    if G.shared_seals and G.shared_seals.sgt_gods_miracle and Sagatro.pseudo_animation.miracle_dt > 0.125 then
+        Sagatro.pseudo_animation.miracle_dt = Sagatro.pseudo_animation.miracle_dt - 0.125
         local miracle = G.shared_seals.sgt_gods_miracle
+        if miracle.sprite_pos.x == 19 then
+            miracle.sprite_pos.x = 0
+        else
+            miracle.sprite_pos.x = miracle.sprite_pos.x + 1
+        end
+        miracle:set_sprite_pos(miracle.sprite_pos)
         for _, card in pairs(G.I.CARD) do
             if card and card.seal and card.seal == "sgt_gods_miracle"
             and card.sprite_facing == "front" then
@@ -784,17 +790,17 @@ function Game:update(dt)
                 break
             end
         end
-        if Sagatro.pseudo_animation.miracle_animate then
-            if miracle.sprite_pos.x == 101 then
-                miracle.sprite_pos.x = 87
-            else
-                miracle.sprite_pos.x = miracle.sprite_pos.x + 1
-            end
-            miracle:set_sprite_pos(miracle.sprite_pos)
-            Sagatro.pseudo_animation.miracle_animate = false
-        else
-            miracle.sprite_pos.x = 0
-        end
+        -- if Sagatro.pseudo_animation.miracle_animate then
+        --     if miracle.sprite_pos.x == 101 then
+        --         miracle.sprite_pos.x = 87
+        --     else
+        --         miracle.sprite_pos.x = miracle.sprite_pos.x + 1
+        --     end
+        --     miracle:set_sprite_pos(miracle.sprite_pos)
+        --     Sagatro.pseudo_animation.miracle_animate = false
+        -- else
+        --     miracle.sprite_pos.x = 0
+        -- end
     end
 
     Sagatro.pseudo_animation.current_depth_dt = Sagatro.pseudo_animation.current_depth_dt + dt

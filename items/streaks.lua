@@ -210,6 +210,13 @@ local gods_miracle = {
             }
         end
     end,
+    draw = function(self, card, layer)
+        if card.seal and card.seal == self.key then
+            G.shared_seals[card.seal].role.draw_major = card
+            G.shared_seals[card.seal]:draw_shader('dissolve', nil, nil, nil, card.children.center)
+            G.shared_seals[card.seal]:draw_shader('voucher', nil, card.ARGS.send_to_shader, nil, card.children.center)
+        end
+    end,
     loc_vars = function(self, info_queue, card)
         return {vars = {card and card.ability.seal.eeemult or self.config.eeemult}}
     end,

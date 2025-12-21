@@ -142,7 +142,7 @@ SMODS.Atlas{
 
 SMODS.Atlas{
     key = "gods_miracle",
-    path = "God's_miracle.png",
+    path = "God's_miracle2.0.png",
     px = 71,
     py = 95,
 }
