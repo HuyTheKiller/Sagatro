@@ -1970,7 +1970,7 @@ local pepper_caster = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-		if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.config.center_key ~= "j_sgt_pepper_caster" then
+		if context.retrigger_joker_check and not context.retrigger_joker then
             return {
                 message = localize("k_again_ex"),
                 repetitions = card.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
@@ -2044,8 +2044,7 @@ local pepper_caster = {
                 if not retrigger_joker:can_calculate() then
                     return 0
                 end
-                return card.config.center_key ~= "j_sgt_pepper_caster" and
-                    retrigger_joker.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier) or 0
+                return retrigger_joker.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)
             end,
         }
     end,
@@ -13964,7 +13963,7 @@ local adam = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.config.center_key ~= "j_sgt_adam" then
+        if context.retrigger_joker_check and not context.retrigger_joker then
             if (Ortalab and context.other_card.curse)
             or (not Ortalab and context.other_card.ability.perishable) then
                 return {
@@ -13994,8 +13993,7 @@ local adam = {
                 if not retrigger_joker:can_calculate() then
                     return 0
                 end
-                return card.config.center_key ~= "j_sgt_adam" and ((Ortalab and card.curse)
-                or (not Ortalab and card.ability.perishable)) and 1 or 0
+                return ((Ortalab and card.curse) or (not Ortalab and card.ability.perishable)) and 1 or 0
             end,
         }
     end,
