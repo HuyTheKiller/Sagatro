@@ -850,7 +850,7 @@ local little_bill = {
                 and card.ability.extra*G.GAME.alice_multiplier or 0
             end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
-                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                if not joker_card:can_calculate() then
                     return 0
                 end
                 if held_in_hand then return 0 end
@@ -958,7 +958,7 @@ local huge_dog = {
                 card.joker_display_values.localized_text_ace = localize("Ace", "ranks")
             end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
-                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                if not joker_card:can_calculate() then
                     return 0
                 end
                 if held_in_hand then return 0 end
@@ -1942,7 +1942,7 @@ local the_baby = {
                 return false
             end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
-                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                if not joker_card:can_calculate() then
                     return 0
                 end
                 if held_in_hand then return 0 end
@@ -2041,7 +2041,7 @@ local pepper_caster = {
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                if not retrigger_joker:can_calculate() then
                     return 0
                 end
                 return card.config.center_key ~= "j_sgt_pepper_caster" and
@@ -3903,7 +3903,7 @@ local lamp_genie = {
                 and card.ability.extra.e_mult or ""
             end,
             retrigger_joker_function = function(card, retrigger_joker)
-                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                if not retrigger_joker:can_calculate() then
                     return 0
                 end
                 return retrigger_joker.ability.wishlist.c_sgt_love
@@ -13991,7 +13991,7 @@ local adam = {
     joker_display_def = function(JokerDisplay)
         return {
             retrigger_joker_function = function(card, retrigger_joker)
-                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                if not retrigger_joker:can_calculate() then
                     return 0
                 end
                 return card.config.center_key ~= "j_sgt_adam" and ((Ortalab and card.curse)
@@ -14991,7 +14991,7 @@ local thor = {
                 card.joker_display_values.e_mult = emult^count
             end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
-                if G.GAME.story_mode and G.GAME.inversed_scaling then
+                if not joker_card:can_calculate() then
                     return 0
                 end
                 if held_in_hand then
