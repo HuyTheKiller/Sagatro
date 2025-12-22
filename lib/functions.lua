@@ -941,7 +941,7 @@ function Card:add_to_deck(from_debuff)
     add_to_deck_ref(self, from_debuff)
     if not from_debuff and self.ability.set == "Joker"
     and G.GAME.modifiers.sgt_joker_selling_rounds then
-        self.ability.sgt_selling_tally = 0
+        self.ability.sgt_selling_tally = self.ability.sgt_selling_tally or 0
     end
 end
 
