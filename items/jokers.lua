@@ -532,7 +532,7 @@ local kid_gloves_and_fan = {
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "kid_gloves_and_fan"}
         end
         local ret = {vars = {card.ability.extra.rank_drop*G.GAME.alice_multiplier}}
-        if Sagatro.storyline_check(self.saga_group) then
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
             ret.key = "j_sgt_kid_gloves_and_fan_story_mode"
             ret.vars[#ret.vars+1] = card.ability.extra.chips*G.GAME.alice_multiplier
         end
@@ -4204,7 +4204,7 @@ local submarine = {
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "submarine"}
         end
         local ret = {}
-        if G.GAME.story_mode or G.your_collection then
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
             ret.key = "j_sgt_submarine_storymode"
             ret.vars = {
                 card.ability.immutable.states.fuel_left,
