@@ -370,17 +370,17 @@ local card_update_ref = Card.update
 function Card:update(dt)
     card_update_ref(self, dt)
     if G.STAGE == G.STAGES.RUN then
-        if self:get_card_fusion() ~= nil then
-            self.ability.fusion = self.ability.fusion or {}
-            local my_fusion = self:get_card_fusion()
-            self.fusion_cost = my_fusion and my_fusion.cost or 0
-            if self:can_fuse_card() and not self.ability.fusion.jiggle then
-                juice_card_until(self, function(card) return (card:can_fuse_card()) end, true)
+        if self:get_saga_fusion() ~= nil then
+            self.ability.saga_fusion = self.ability.saga_fusion or {}
+            local my_fusion = self:get_saga_fusion()
+            self.saga_fusion_cost = my_fusion and my_fusion.cost or 0
+            if self:can_fuse_saga() and not self.ability.saga_fusion.jiggle then
+                juice_card_until(self, function(card) return (card:can_fuse_saga()) end, true)
 
-                self.ability.fusion.jiggle = true
+                self.ability.saga_fusion.jiggle = true
             end
-            if not self:can_fuse_card() and self.ability.fusion.jiggle then
-                self.ability.fusion.jiggle = false
+            if not self:can_fuse_saga() and self.ability.saga_fusion.jiggle then
+                self.ability.saga_fusion.jiggle = false
             end
         end
 		if self.ability.gravistone_triggered and not SMODS.has_enhancement(self, "m_sgt_gravistone") then

@@ -46,9 +46,9 @@ local function has_joker(val, start_pos)
 	return -1
 end
 
-function Card:can_fuse_card()
+function Card:can_fuse_saga()
 	for _, fusion in ipairs(G.GAME.fusion_table or {}) do
-		if to_number(G.GAME.dollars) - G.GAME.bankrupt_at >= fusion.cost then
+		if G.GAME.dollars - G.GAME.bankrupt_at >= to_big(fusion.cost) then
 			local found_me = false
 			local all_jokers = true
 			for _, joker in ipairs(fusion.jokers) do
@@ -74,7 +74,7 @@ function Card:can_fuse_card()
   return false
 end
 
-function Card:get_card_fusion()
+function Card:get_saga_fusion()
 	for _, fusion in ipairs(G.GAME.fusion_table or {}) do
 		for _, joker in ipairs(fusion.jokers) do
 			if joker.name == self.config.center_key then
@@ -86,7 +86,7 @@ function Card:get_card_fusion()
 end
 
 
-function Card:fuse_card()
+function Card:fuse_saga()
 	G.CONTROLLER.locks.selling_card = true
     stop_use()
     local area = self.area
@@ -228,15 +228,15 @@ function Card:fuse_card()
 	G.CONTROLLER:recall_cardarea_focus('jokers')
 end
 
-G.FUNCS.fuse_card = function(e)
+G.FUNCS.fuse_saga = function(e)
     local card = e.config.ref_table
-    card:fuse_card()
+    card:fuse_saga()
 end
 
-G.FUNCS.can_fuse_card = function(e)
-    if e.config.ref_table:can_fuse_card() then
+G.FUNCS.can_fuse_saga = function(e)
+    if e.config.ref_table:can_fuse_saga() then
         e.config.colour = G.C.RARITY[4]
-        e.config.button = 'fuse_card'
+        e.config.button = 'fuse_saga'
     else
       	e.config.colour = G.C.UI.BACKGROUND_INACTIVE
       	e.config.button = nil
@@ -247,11 +247,11 @@ local use_and_sell_buttonsref = G.UIDEF.use_and_sell_buttons
 function G.UIDEF.use_and_sell_buttons(card)
 	local retval = use_and_sell_buttonsref(card)
 
-	if card.area and card.area.config.type == 'joker' and card.ability.set == 'Joker' and card.ability.fusion then
+	if card.area and card.area.config.type == 'joker' and card.ability.set == 'Joker' and card.ability.saga_fusion then
 		local fuse =
 		{n=G.UIT.C, config={align = "cr"}, nodes={
 
-		  {n=G.UIT.C, config={ref_table = card, align = "cr",maxw = 1.25, padding = 0.1, r=0.08, minw = 1.25, hover = true, shadow = true, colour = G.C.GOLD, one_press = true, button = 'sell_card', func = 'can_fuse_card'}, nodes={
+		  {n=G.UIT.C, config={ref_table = card, align = "cr",maxw = 1.25, padding = 0.1, r=0.08, minw = 1.25, hover = true, shadow = true, colour = G.C.GOLD, one_press = true, button = 'sell_card', func = 'can_fuse_saga'}, nodes={
 			{n=G.UIT.B, config = {w=0.1,h=0.6}},
 			{n=G.UIT.C, config={align = "tm"}, nodes={
 				{n=G.UIT.R, config={align = "cm", maxw = 1.25}, nodes={
@@ -259,7 +259,7 @@ function G.UIDEF.use_and_sell_buttons(card)
 				}},
 				{n=G.UIT.R, config={align = "cm"}, nodes={
 					{n=G.UIT.T, config={text = localize('$'),colour = G.C.WHITE, scale = 0.4, shadow = true}},
-					{n=G.UIT.T, config={ref_table = card, ref_value = 'fusion_cost',colour = G.C.WHITE, scale = 0.55, shadow = true}}
+					{n=G.UIT.T, config={ref_table = card, ref_value = 'saga_fusion_cost',colour = G.C.WHITE, scale = 0.55, shadow = true}}
 				}}
 			}}
 		  }}
