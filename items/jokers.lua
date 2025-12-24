@@ -470,7 +470,7 @@ local kid_gloves_and_fan = {
     order = 5,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 0 },
-    config = {extra = 1},
+    config = {extra = {rank_drop = 1, chips = 0}},
 	rarity = 2,
     cost = 8,
     blueprint_compat = false,
@@ -478,6 +478,12 @@ local kid_gloves_and_fan = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
+        if context.joker_main and to_big(card.ability.extra.chips) > to_big(0) then
+			return {
+				chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
+				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
+			}
+		end
         if G and G.jokers and G.jokers.cards and G.jokers.cards[1]
         and G.jokers.cards[1] == card and not context.blueprint then
             if context.individual and context.cardarea == G.play then
@@ -488,7 +494,7 @@ local kid_gloves_and_fan = {
                             func = function()
                                 for _ = 1, G.GAME.alice_multiplier do
                                     if temp:get_id() == 2 then break end
-                                    assert(SMODS.modify_rank(temp, -1))
+                                    assert(SMODS.modify_rank(temp, -card.ability.extra.rank_drop))
                                 end
 
                                 return true
@@ -525,7 +531,11 @@ local kid_gloves_and_fan = {
         or Sagatro.debug then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "kid_gloves_and_fan"}
         end
-        local ret = {vars = {card.ability.extra*G.GAME.alice_multiplier}}
+        local ret = {vars = {card.ability.extra.rank_drop*G.GAME.alice_multiplier}}
+        if Sagatro.storyline_check(self.saga_group) then
+            ret.key = "j_sgt_kid_gloves_and_fan_story_mode"
+            ret.vars[#ret.vars+1] = card.ability.extra.chips*G.GAME.alice_multiplier
+        end
         if Ortalab then
             ret.main_end = {}
             localize{type = "other", key = "sgt_only_joker_area", nodes = ret.main_end, vars = {}}
@@ -542,6 +552,8 @@ local kid_gloves_and_fan = {
                 { text = "(" },
                 { ref_table = "card.joker_display_values", ref_value = "active" },
                 { text = ")" },
+                { ref_table = "card.joker_display_values", ref_value = "plus", colour = G.C.CHIPS },
+                { ref_table = "card.joker_display_values", ref_value = "chips", retrigger_type = "mult", colour = G.C.CHIPS }
             },
             text_config = { colour = G.C.UI.TEXT_INACTIVE },
             reminder_text = {
@@ -553,7 +565,9 @@ local kid_gloves_and_fan = {
             calc_function = function(card)
                 card.joker_display_values.active = G.jokers.cards[1] == card
                 and localize("jdis_active") or localize("jdis_inactive")
-                card.joker_display_values.ranks_per_decrease = card.ability.extra*G.GAME.alice_multiplier
+                card.joker_display_values.ranks_per_decrease = card.ability.extra.rank_drop*G.GAME.alice_multiplier
+                card.joker_display_values.plus = G.GAME.story_mode and "+" or ""
+                card.joker_display_values.chips = G.GAME.story_mode and card.ability.extra.chips*G.GAME.alice_multiplier or ""
             end,
         }
     end,
@@ -12756,7 +12770,7 @@ local humpty_dumpty = {
                 if Sagatro.storyline_check(self.saga_group) then
                     local eligible_jokers = {}
                     for _, v in ipairs(G.jokers.cards) do
-                        if v.ability.set == "Joker" and not v.config.center.mirrorworld then
+                        if v.ability.set == "Joker" and not v.config.center.mirrorworld and v.config.center_key ~= "j_sgt_mirror" then
                             if v.ability.sgt_mirrored then
                                 v:remove_sticker("sgt_mirrored")
                             else

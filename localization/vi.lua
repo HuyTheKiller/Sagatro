@@ -1585,6 +1585,15 @@ return {
                     "Lá 2 bị {C:attention}phá huỷ{} sau khi ghi điểm",
                 },
             },
+            j_sgt_kid_gloves_and_fan_story_mode = {
+                name = "Găng Tay Và Chiếc Quạt",
+                text = {
+                    "{C:chips}+#2#{} Chip",
+                    "Nếu lá này ở {C:attention}tít bên trái{}:",
+                    "Lá đã chơi {C:attention}giảm đi{} #1# bậc khi ghi điểm",
+                    "Lá 2 bị {C:attention}phá huỷ{} sau khi ghi điểm",
+                },
+            },
             j_sgt_dodo_bird = {
                 name = "Chim Dodo",
                 text = {

@@ -2,7 +2,7 @@
 SagaFusion = {}
 SagaFusion.fusions = {
 	{ jokers = {
-		{ name = "j_sgt_white_rabbit", carry_stat = nil, extra_stat = false },
+		{ name = "j_sgt_white_rabbit", carry_stat = "chips", extra_stat = true },
 		{ name = "j_sgt_eat_me", carry_stat = nil, extra_stat = false }
 	}, result_joker = "j_sgt_kid_gloves_and_fan", cost = 8 },
 	{ jokers = {

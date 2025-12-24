@@ -1590,6 +1590,15 @@ return {
                     "Played 2s are {C:attention}destroyed{} after scoring",
                 },
             },
+            j_sgt_kid_gloves_and_fan_story_mode = {
+                name = "Kid-gloves And The Fan",
+                text = {
+                    "{C:chips}+#2#{} Chips",
+                    "If this is the {C:attention}leftmost{} joker:",
+                    "Played cards {C:attention}lose{} #1# rank(s) when scored",
+                    "Played 2s are {C:attention}destroyed{} after scoring",
+                },
+            },
             j_sgt_dodo_bird = {
                 name = "Dodo Bird",
                 text = {
