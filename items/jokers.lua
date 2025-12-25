@@ -1037,6 +1037,9 @@ local caterpillar = {
                             set = "Joker",
                             skip_materialize = true,
                             key = "j_sgt_mushroom",
+                            edition = card.edition and card.edition.key or nil,
+                            stickers = card.ability.sgt_mirrored and {"sgt_mirrored"} or nil,
+                            force_stickers = card.ability.sgt_mirrored and true or nil,
                         }))
                         return true
                     end
@@ -3632,6 +3635,8 @@ local magic_lamp = {
                                     skip_materialize = true,
                                     key = "j_sgt_lamp_genie",
                                     edition = card.edition and card.edition.key or nil,
+                                    stickers = card.ability.sgt_mirrored and {"sgt_mirrored"} or nil,
+                                    force_stickers = card.ability.sgt_mirrored and true or nil,
                                 }))
                                 return true
                             end
@@ -5738,6 +5743,9 @@ local turtle_egg = {
                             set = "Joker",
                             skip_materialize = true,
                             key = "j_sgt_baby_turtle",
+                            edition = card.edition and card.edition.key or nil,
+                            stickers = card.ability.sgt_mirrored and {"sgt_mirrored"} or nil,
+                            force_stickers = card.ability.sgt_mirrored and true or nil,
                         }))
                         G.GAME.turtle_egg_hatched = true
                         return true
@@ -5784,6 +5792,9 @@ local turtle_egg = {
                             set = "Joker",
                             skip_materialize = true,
                             key = "j_sgt_baby_turtle",
+                            edition = card.edition and card.edition.key or nil,
+                            stickers = card.ability.sgt_mirrored and {"sgt_mirrored"} or nil,
+                            force_stickers = card.ability.sgt_mirrored and true or nil,
                         }))
                         G.GAME.turtle_egg_hatched = true
                         return true
@@ -13905,6 +13916,8 @@ local three_winters = {
                             skip_materialize = true,
                             key = "j_sgt_ragnarok",
                             edition = card.edition and card.edition.key or nil,
+                            stickers = card.ability.sgt_mirrored and {"sgt_mirrored"} or nil,
+                            force_stickers = card.ability.sgt_mirrored and true or nil,
                         }))
                         return true
                     end
