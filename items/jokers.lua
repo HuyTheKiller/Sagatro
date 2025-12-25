@@ -13504,7 +13504,8 @@ local hansels_cheat_dice = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.ending_shop and not context.blueprint and not context.retrigger_joker then
+        if context.ending_shop and not context.blueprint and not context.retrigger_joker
+        and not card.ability.immutable.debug_guaranteed then
             card.ability.immutable.current_roll = pseudorandom("cheat_dice_roll", 1, 6)
             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_roll_ex')})
             if card.ability.immutable.current_roll == 1 then

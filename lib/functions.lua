@@ -3662,6 +3662,7 @@ function Sagatro.help()
         print("Sagatro.DT_rarity(): print out modifications of each rarity pool.")
         print("Sagatro.DT_event(): show event queue and list of finished events.")
         print("Sagatro.DT_i(): Prints debug info Sagatro will give in crash screen.")
+        print("Sagatro.DT_guaranteed(): Spawns Hansel's Cheat Dice at roll number six.")
         print("Sagatro.DT_1h(): set hand count to 1.")
         print("Sagatro.DT_0d(): set discard count to 0.")
         print("Sagatro.crash() or crash(): manually cause a crash.")
@@ -3728,6 +3729,25 @@ end
 function Sagatro.DT_i()
     if Sagatro.debug then
         return Sagatro.debug_info
+    end
+    return "Debug commands are unavailable."
+end
+
+function Sagatro.DT_guaranteed()
+    if Sagatro.debug then
+        if G.STAGE == G.STAGES.RUN then
+            if not next(Sagatro.find_active_card("j_sgt_hansels_cheat_dice")) then
+                local dice = SMODS.add_card{key = "j_sgt_hansels_cheat_dice", edition = "e_negative"}
+                dice.ability.immutable.current_roll = 6
+                dice.ability.immutable.debug_guaranteed = true
+            else
+                for _, dice in ipairs(Sagatro.find_active_card("j_sgt_hansels_cheat_dice")) do
+                    dice.ability.immutable.current_roll = 6
+                    dice.ability.immutable.debug_guaranteed = true
+                end
+            end
+            return "Enabled guaranteed probability."
+        end
     end
     return "Debug commands are unavailable."
 end
