@@ -5,7 +5,7 @@
 
 🎮 **About**  
 **Sagatro** brings classic fairy tale elements into the world of **Balatro**!  
-From whimsical Jokers to enchanting booster packs, this mod reimagines the game with storybook charm.
+Immerse yourself with **Story Mode** - a unique twist to gameplay that allows you to traverse the world full of storybook characters and one-of-a-kind mechanics.
 
 ---
 
