@@ -911,6 +911,19 @@ else
 end
 '''
 
+# Increment played_this_ante for poker hands, only when necessary
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''G.GAME.hands[text].played_this_round = G.GAME.hands[text].played_this_round + 1'''
+position = 'after'
+match_indent = true
+payload = '''
+if Sagatro.played_this_ante_compat() then
+    G.GAME.hands[text].played_this_ante = G.GAME.hands[text].played_this_ante + 1
+end
+'''
+
 # Imminent doom
 [[patches]]
 [patches.pattern]

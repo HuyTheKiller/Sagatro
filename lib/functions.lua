@@ -122,6 +122,12 @@ Sagatro.forced_buffoon_events = {
 local igo = Game.init_game_object
 function Game:init_game_object()
 	local ret = igo(self)
+    -- Add played_this_ante field to poker hands, only when necessary
+    if Sagatro.played_this_ante_compat() then
+        for _, v in pairs(ret.hands) do
+            v.played_this_ante = 0
+        end
+    end
     -- Current storyline
     ret.current_storyline = "none"
     -- Event queue
@@ -2199,6 +2205,12 @@ function Sagatro:calculate(context)
             G.GAME.first_hand_played = true
         return true end}))
     end
+    if context.ante_change and context.ante_end and not context.retrigger_joker
+    and Sagatro.played_this_ante_compat() then
+        for _, v in pairs(G.GAME.hands) do
+            v.played_this_ante = 0
+        end
+    end
     if ((context.ante_change and context.ante_change < 0) or context.sgt_ante_interrupt)
     and G.GAME.modifiers.sgt_ante_increased_cost and not context.retrigger_joker then
         G.GAME.modifiers.sgt_ante_increased_cost = G.GAME.modifiers.sgt_ante_increased_cost + 1
@@ -3114,6 +3126,16 @@ end
 
 function Sagatro.stall_ante()
     return next(Sagatro.find_active_card("j_sgt_mad_hatter")) or next(Sagatro.find_active_card("j_sgt_jubjub_bird")) or Sagatro.mabel_stall() or Sagatro.vorpal_jubjub()
+end
+
+-- `played_this_ante` backward compat for 1016c
+function Sagatro.played_this_ante_compat()
+    local _, i = SMODS.version:find("1.0.0~BETA")
+    if i then
+        -- the exact dev version that introduces `played_this_ante`
+        return SMODS.version:sub(i + 1) < "1122a"
+    end
+    return false
 end
 
 -- Wizard of Oz sneak peek
