@@ -802,6 +802,13 @@ return {
                     "Lorem Ipsum",
                 },
             },
+            sgt_fallback_joker = {
+                name = "Fallback Joker",
+                text = {
+                    "This joker is a {C:attention}fallback{} option",
+                    "and won't initialize a storyline",
+                },
+            },
             jabberwock_sliced = {
                 name = "Jabberwock",
                 text = {

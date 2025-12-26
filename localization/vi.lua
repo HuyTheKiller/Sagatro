@@ -801,6 +801,13 @@ return {
                     "Lorem Ipsum",
                 },
             },
+            sgt_fallback_joker = {
+                name = "Joker Giữ Ô",
+                text = {
+                    "Joker này là lựa chọn {C:attention}giữ ô{} và",
+                    "sẽ không bắt đầu mạch truyện nào",
+                },
+            },
             jabberwock_sliced = {
                 name = "Jabberwock",
                 text = {

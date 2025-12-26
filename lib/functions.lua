@@ -2156,12 +2156,19 @@ function Sagatro:calculate(context)
                 return {no_destroy = {override_compat = true}}
             end
         end
-        if context.starting_shop and G.GAME.juice_up_booster then
+        if context.starting_shop and (G.GAME.juice_up_booster or G.GAME.round == 1) then
             G.GAME.juice_up_booster = nil
             for _, v in ipairs(G.shop_booster.cards) do
                 if v.ability.booster_pos == 1 then
-                    local eval = function(card) return not card.states.hover.is end
-                    juice_card_until(v, eval, true)
+                    if G.GAME.round == 1 then
+                        v:set_ability("p_buffoon_jumbo_1")
+                        Sagatro.resize(v)
+                        v.ability.couponed = true
+                        v:set_cost()
+                    else
+                        local eval = function(card) return not card.states.hover.is end
+                        juice_card_until(v, eval, true)
+                    end
                 end
                 break
             end

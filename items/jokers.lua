@@ -95,7 +95,7 @@ local white_rabbit = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.storyline_check("none") or Sagatro.storyline_check(self.saga_group)
+            return (Sagatro.storyline_check("none") and args.source == "buf") or Sagatro.storyline_check(self.saga_group)
         end
         return true
     end,
@@ -3987,7 +3987,7 @@ local lincoln_ship = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.storyline_check("none") or Sagatro.storyline_check(self.saga_group)
+            return (Sagatro.storyline_check("none") and args.source == "buf") or Sagatro.storyline_check(self.saga_group)
         end
         return true
     end,
@@ -14528,6 +14528,9 @@ local abducted_cow = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
+        if Sagatro.storyline_check("none") and G.pack_cards then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_fallback_joker"}
+        end
         local text = card.ability.extra.held_card
         and localize{type = 'variable', key = 'sgt_rank_of_suit',
         vars = {localize(card.ability.extra.held_card.rank, "ranks"),
