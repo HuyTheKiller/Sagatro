@@ -2165,10 +2165,9 @@ function Sagatro:calculate(context)
                         Sagatro.resize(v)
                         v.ability.couponed = true
                         v:set_cost()
-                    else
-                        local eval = function(card) return not card.states.hover.is end
-                        juice_card_until(v, eval, true)
                     end
+                    local eval = function(card) return not card.states.hover.is end
+                    juice_card_until(v, eval, true)
                 end
                 break
             end
