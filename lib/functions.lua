@@ -3265,6 +3265,22 @@ function Sagatro.modify_score(mod, operator, arbitrary)
     end
 end
 
+local mod_mult_ref = mod_mult
+function mod_mult(_mult)
+    if G.GAME.inversed_scaling then
+        _mult = math.max(_mult, 1)
+    end
+    return mod_mult_ref(_mult)
+end
+
+local mod_chips_ref = mod_chips
+function mod_chips(_chips)
+    if G.GAME.inversed_scaling then
+        _chips = math.max(_chips, 0)
+    end
+    return mod_chips_ref(_chips)
+end
+
 local tag_zodiac_align = {2, 2, 3, 4, 4, 5, 5, 6}
 
 local at = add_tag
