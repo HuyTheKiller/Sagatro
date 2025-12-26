@@ -12811,7 +12811,7 @@ local humpty_dumpty = {
             if Sagatro.storyline_check(self.saga_group) then
                 local eligible_jokers = {}
                 for _, v in ipairs(G.jokers.cards) do
-                    if v.ability.set == "Joker" and not v.config.center.mirrorworld then
+                    if v.ability.set == "Joker" and not v.config.center.mirrorworld and v.config.center_key ~= "j_sgt_mirror" then
                         if v.ability.sgt_mirrored then
                             v:remove_sticker("sgt_mirrored")
                         else
