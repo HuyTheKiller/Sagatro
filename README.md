@@ -18,6 +18,15 @@ From whimsical Jokers to enchanting booster packs, this mod reimagines the game 
     * 🟪 Saga Deck - simple yet powerful effects, specifically designed for Story Mode.
     * 🟫 Grimoire Deck - Powerful deck fixing with Divinatio and Eldritch cards.
     * 🟦 Celestaverse Deck - Explore various ways to upgrade your poker hands with Celestara cards.
+- ↗️ Revamped stake effects for Story Mode:
+    * ⚪ White Stake: unchanged
+    * 🔴 Red Stake: Small Blind score requirement is 20% higher
+    * 🟢 Green Stake: Reduce all joker's sell value by $1
+    * ⚫ Black Stake: If Ante doesn't increase, permanent +$1 to all joker's buy value
+    * 🔵 Blue Stake: When Boss Blind is selected, -1 discard
+    * 🟣 Purple Stake: Reroll count is limited to 20 per shop
+    * 🟠 Orange Stake: Required score scales faster for each Ante
+    * 🟡 Gold Stake: Jokers must last 3 rounds to be sellable
 - 🗻 Boost your Cryptid addiction with this mod's own Exponential Mult - an extremely powerful operation used for deep endless runs.
 - 🎨 Custom artwork: Many of them are pulled from Black Souls' twisted farity tales.
 - 🎵 Custom music: Ease your stress with a lofi-themed version of the original soundtrack. It's not copyrighted so feel free to stream!
