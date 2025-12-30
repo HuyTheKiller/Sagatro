@@ -3982,7 +3982,7 @@ local lincoln_ship = {
             end
             Sagatro.init_storyline(self.saga_group)
             Sagatro.progress_storyline("finding_the_submarine", "add", self.saga_group, G.GAME.interwoven_storyline)
-            G.GAME.submarine_hint_to_progress = true
+            G.GAME.submarine_hint_to_progress = Sagatro.storyline_check(self.saga_group) or nil
         end
     end,
     in_pool = function(self, args)
