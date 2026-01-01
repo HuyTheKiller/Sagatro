@@ -11698,7 +11698,7 @@ local dinah = {
     order = 53,
     pos = { x = 1, y = 1 },
     pools = { [SAGA_GROUP_POOL.alice_m] = true },
-    config = {extra = {e_mult = 1, e_mult_mod = 0.1}},
+    config = {extra = {e_mult = 1, e_mult_mod = 0.05}},
     rarity = "sgt_obscure",
     cost = 14,
     blueprint_compat = true,
