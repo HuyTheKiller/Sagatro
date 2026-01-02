@@ -4240,18 +4240,25 @@ local submarine = {
  		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
  	end,
     joker_display_def = function(JokerDisplay)
-        if not G.GAME.story_mode then return {} end
         return {
             text = {
-                { ref_table = "card.ability.immutable.states", ref_value = "fuel_left", colour = G.C.FILTER },
-                { text = "/" },
-                { ref_table = "card.ability.immutable.states", ref_value = "max_fuel" },
-                { text = ", " },
-                { ref_table = "card.ability.immutable.states", ref_value = "hunger_left", colour = G.C.FILTER },
-                { text = "/" },
-                { ref_table = "card.ability.immutable.states", ref_value = "max_hunger" },
+                { ref_table = "card.joker_display_values", ref_value = "fuel_left", colour = G.C.FILTER },
+                { ref_table = "card.joker_display_values", ref_value = "slash" },
+                { ref_table = "card.joker_display_values", ref_value = "max_fuel" },
+                { ref_table = "card.joker_display_values", ref_value = "comma" },
+                { ref_table = "card.joker_display_values", ref_value = "hunger_left", colour = G.C.FILTER },
+                { ref_table = "card.joker_display_values", ref_value = "slash" },
+                { ref_table = "card.joker_display_values", ref_value = "max_hunger" },
             },
             text_config = { colour = G.C.UI.TEXT_INACTIVE },
+            calc_function = function(card)
+                card.joker_display_values.fuel_left = G.GAME.story_mode and card.ability.immutable.states.fuel_left or ""
+                card.joker_display_values.max_fuel = G.GAME.story_mode and card.ability.immutable.states.max_fuel or ""
+                card.joker_display_values.hunger_left = G.GAME.story_mode and card.ability.immutable.states.hunger_left or ""
+                card.joker_display_values.max_hunger = G.GAME.story_mode and card.ability.immutable.states.max_hunger or ""
+                card.joker_display_values.slash = G.GAME.story_mode and "/" or ""
+                card.joker_display_values.comma = G.GAME.story_mode and ", " or ""
+            end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[1] then
                     text.children[1].config.colour = card.ability.immutable.states.low_fuel and G.C.RED
