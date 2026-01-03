@@ -5,4 +5,5 @@ return {
     ViewFishProperties = true,
     Ortagas = false,
     QuickRestart = false,
+    LenientScore = false,
 }

@@ -1971,6 +1971,18 @@ end
 local gba = get_blind_amount
 function get_blind_amount(ante)
     local amount = gba(ante)
+    if G.GAME.sgt_lenient_score then
+        -- 110000, 560000/2=280000, 7.2e6/10=720000, 3e8/150=2e6, 4.7e10/1e4=4.7e6, 2.9e13/2e6=1.45e7
+        -- 7.7e16/1e9=7.7e7, 8.6e20/2e12=4.3e8, 4.2e25/1e16=4.2e9, 9.2e30/1e20=9.2e10, 9.2e36/1e24=9.2e12
+        -- 4.3e43/1e28=4.3e15, etc.
+        local limiter = {1, 2, 10, 150, 1e4, 2e6, 1e9, 2e12, 1e16}
+        if not limiter[math.max(ante-8, 1)] then
+            for _ = #limiter+1, ante-8 do
+                limiter[#limiter+1] = limiter[#limiter]*1e4
+            end
+        end
+        amount = amount/(limiter[math.max(ante-8, 1)] or 1)
+    end
     if G.GAME.inversed_scaling then
         -- local i, s = ante, G.GAME.modifiers.scaling or 1
         -- amount = amount/((1+0.2*(s-1))^math.max(i-1, 0))/(math.max((i-4)*(2^math.max(i-8, 0)), 4)^math.max(i, 0))
@@ -1981,6 +1993,18 @@ function get_blind_amount(ante)
         amount = amount * card.ability.extra.xblind_amount
     end
     return amount
+end
+
+-- quick debug func
+function Sagatro.get_blind_amounts(ante_ceil, nerfed)
+    local temp = G.GAME.sgt_lenient_score
+    G.GAME.sgt_lenient_score = nerfed and true or nil
+    local t = {}
+    for i = 1, ante_ceil do
+        t[#t+1] = get_blind_amount(i)
+    end
+    G.GAME.sgt_lenient_score = temp
+    return t
 end
 
 local set_blind_ref = Blind.set_blind
@@ -2215,6 +2239,22 @@ function Sagatro:calculate(context)
     and G.GAME.modifiers.sgt_ante_increased_cost and not context.retrigger_joker then
         G.GAME.modifiers.sgt_ante_increased_cost = G.GAME.modifiers.sgt_ante_increased_cost + 1
         Sagatro.global_set_cost(true)
+    end
+    if G.GAME.sgt_lenient_score then
+        if context.sgt_ante_interrupt then
+            G.GAME.sgt_ante_interrupt_count = (G.GAME.sgt_ante_interrupt_count or 0) + 1
+            if G.GAME.sgt_ante_interrupt_count > 2 then
+                G.GAME.sgt_ante_interrupt_count = nil
+                G.GAME.sgt_lenient_score = nil
+                SMODS.calculate_effect({message = localize("SGT_lenient_score_disabled")}, G.jokers.cards[1] or G.deck.cards[1] or G.deck)
+            end
+        end
+        if context.end_of_round and context.main_eval
+        and ((not G.GAME.inversed_scaling and to_big(G.GAME.chips/G.GAME.blind.chips) > to_big(1000))
+        or (G.GAME.inversed_scaling and to_big(G.GAME.blind.chips/G.GAME.chips) > to_big(1000))) then
+            G.GAME.sgt_lenient_score = nil
+            SMODS.calculate_effect({message = localize("SGT_lenient_score_disabled")}, G.jokers.cards[1] or G.deck.cards[1] or G.deck)
+        end
     end
     if context.end_of_round and context.main_eval and not context.retrigger_joker then
         G.GAME.jjb_cash_out = G.GAME.blind_on_deck == "Boss"
@@ -3570,6 +3610,9 @@ Sagatro.config_tab = function()
             }},
             {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
                 create_toggle({label = localize('SGT_view_fish_properties'), ref_table = Sagatro.config, ref_value = 'ViewFishProperties', info = localize('SGT_view_fish_properties_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
+            }},
+            {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
+                create_toggle({label = localize('SGT_lenient_score'), ref_table = Sagatro.config, ref_value = 'LenientScore', info = localize('SGT_lenient_score_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
             }},
 		}},
         {n=G.UIT.R, config = {minh = 0.04, minw = 4, colour = Sagatro.badge_colour}},

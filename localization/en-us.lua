@@ -3723,6 +3723,16 @@ return {
             SGT_ortagas_desc = {"Does nothing?"},
             SGT_quick_restart = "Quick Restart",
             SGT_quick_restart_desc = {"Press R to instantly restart the run"},
+            SGT_lenient_score = "Lenient Score",
+            SGT_lenient_score_desc = {"Reduce endless scaling intensity","in story mode"},
+            SGT_lenient_score_enabled = "Lenient Score Enabled",
+            SGT_lenient_score_disabled = "Lenient Score Disabled",
+            SGT_lenient_score_full_desc = {
+                "Endless scaling intensity in this run is reduced.",
+                "However, certain actions will remove this limiter,",
+                "including stalling Ante more than 2 times and earned",
+                "score is very high compared to required score.",
+            },
         },
         quips = {
             sgt_good_end1 = {

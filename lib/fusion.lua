@@ -305,6 +305,7 @@ function Game:start_run(args)
 	end
 	if G.GAME.story_mode then
 		Sagatro.update_HUD()
+		G.GAME.sgt_lenient_score = Sagatro.config.LenientScore
 	end
 	G.GAME.fusion_table = G.GAME.story_mode and SagaFusion.fusions or {}
 	-- Change colour in story mode, but the hook is over here, I just want to save space
@@ -318,5 +319,8 @@ function Game:start_run(args)
         if Sagatro.storyline_check("alice_in_mirrorworld") then
             Sagatro.update_inactive_state()
         end
+		if G.GAME.sgt_lenient_score and G.GAME.round == 0 then
+			G.FUNCS.lenient_score_tooltip()
+		end
     return true end}))
 end

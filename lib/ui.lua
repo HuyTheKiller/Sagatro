@@ -453,6 +453,28 @@ G.FUNCS.cash_out_into_boss_blind = function()
     }))
 end
 
+G.FUNCS.lenient_score_tooltip = function(e)
+  G.SETTINGS.paused = true
+  G.FUNCS.overlay_menu{
+    definition = create_UIBox_lenient_score(),
+  }
+end
+
+function create_UIBox_lenient_score(args)
+    local t = {n=G.UIT.R, config = {align = 'cm', padding = 0.2}, nodes = {
+        {n=G.UIT.R, config = {align = 'cm', padding = 0.2}, nodes = {
+            {n=G.UIT.T, config = {scale = 0.6, text = localize('SGT_lenient_score_enabled'), colour = G.C.WHITE}}
+        }},
+        {n=G.UIT.R, config = {align = 'cm'}, nodes={}}
+    }}
+    for _, v in ipairs(localize("SGT_lenient_score_full_desc")) do
+      t.nodes[2].nodes[#t.nodes[2].nodes+1] = {n=G.UIT.R, config={align = "cm"}, nodes={
+        {n=G.UIT.T, config={text = v,colour = G.C.UI.TEXT_LIGHT, scale = 0.35, juice = true, shadow = true}}
+      }}
+    end
+    return create_UIBox_generic_options({contents = {t}})
+end
+
 -- Block boss reroll if it's some certain boss blinds in story mode (you would waste $10 just to roll into the same boss anyway)
 local rbb = G.FUNCS.reroll_boss_button
 G.FUNCS.reroll_boss_button = function(e)
