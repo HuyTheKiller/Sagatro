@@ -1972,7 +1972,7 @@ local gba = get_blind_amount
 function get_blind_amount(ante)
     local amount = gba(ante)
     if G.GAME.inversed_scaling then
-        local i, s = ante, G.GAME.modifiers.scaling or 1
+        -- local i, s = ante, G.GAME.modifiers.scaling or 1
         -- amount = amount/((1+0.2*(s-1))^math.max(i-1, 0))/(math.max((i-4)*(2^math.max(i-8, 0)), 4)^math.max(i, 0))
         amount = 1500*(amount^-0.5)
         return amount
