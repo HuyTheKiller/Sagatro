@@ -203,7 +203,7 @@ SMODS.Stake:take_ownership("black",
             if Sagatro.config.DisableOtherJokers then
                 G.GAME.modifiers.sgt_ante_increased_cost = 0
             else
-                G.GAME.modifiers.scaling = (G.GAME.modifiers.scaling or 1) + 1
+                G.GAME.modifiers.enable_eternals_in_shop = true
             end
         end,
         loc_vars = function()
