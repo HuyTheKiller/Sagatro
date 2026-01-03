@@ -427,6 +427,12 @@ if num < 0.01 then
     end
     if e_pos > 5 then
       remaining1, remaining2 = formatted:sub(1, 4), formatted:sub(e_pos, #formatted)
+      local is_neg, is_tiny = sign == "-", num <= 1e-100
+      if is_neg and is_tiny then
+        remaining1 = remaining1:sub(1, 1)
+      elseif is_neg or is_tiny then
+        remaining1 = remaining1:sub(1, -2)
+      end
       formatted = remaining1..remaining2
     end
     if formatted:sub(-2, -2) == "0" and formatted:sub(-3, -3) == "-" then
