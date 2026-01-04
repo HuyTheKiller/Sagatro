@@ -2246,14 +2246,14 @@ function Sagatro:calculate(context)
             if G.GAME.sgt_ante_interrupt_count > 2 then
                 G.GAME.sgt_ante_interrupt_count = nil
                 G.GAME.sgt_lenient_score = nil
-                SMODS.calculate_effect({message = localize("SGT_lenient_score_disabled")}, G.jokers.cards[1] or G.deck.cards[1] or G.deck)
+                SMODS.calculate_effect({message = localize("SGT_lenient_score_disabled")}, G.deck.cards[1] or G.deck)
             end
         end
         if context.end_of_round and context.main_eval
         and ((not G.GAME.inversed_scaling and to_big(G.GAME.chips/G.GAME.blind.chips) > to_big(1000))
         or (G.GAME.inversed_scaling and to_big(G.GAME.blind.chips/G.GAME.chips) > to_big(1000))) then
             G.GAME.sgt_lenient_score = nil
-            SMODS.calculate_effect({message = localize("SGT_lenient_score_disabled")}, G.jokers.cards[1] or G.deck.cards[1] or G.deck)
+            SMODS.calculate_effect({message = localize("SGT_lenient_score_disabled")}, G.deck.cards[1] or G.deck)
         end
     end
     if context.end_of_round and context.main_eval and not context.retrigger_joker then
