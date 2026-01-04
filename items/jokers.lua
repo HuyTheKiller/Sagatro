@@ -4203,7 +4203,7 @@ local submarine = {
             info_queue[#info_queue+1] = {set = "Other", key = "sgt_movement_cooldown"}
         end
         if G.GAME.ante_reduction_tooltip then
-            info_queue[#info_queue+1] = {set = "Other", key = "ante_reduction_tooltip"}
+            info_queue[#info_queue+1] = {set = "Other", key = "ante_reduction_tooltip", specific_vars = {G.GAME.sgt_lenient_score and 4 or 2}}
         end
         if G.GAME.submarine_hint_to_progress then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "submarine"}

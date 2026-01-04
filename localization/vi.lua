@@ -705,7 +705,7 @@ return {
                 text = {
                     "Đi lên 1 tầng độ sâu sẽ {C:attention}giảm{} Ante,",
                     "nhưng sẽ có {C:attention}hồi chiêu{} là phải",
-                    "vượt qua {C:attention}2{} Ante",
+                    "vượt qua {C:attention}#1#{} Ante",
                 },
             },
             sgt_sub_engineer = {

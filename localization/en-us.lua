@@ -706,7 +706,7 @@ return {
                 text = {
                     "Going up a depth level {C:attention}reduces{} Ante,",
                     "but there will be a {C:attention}cooldown{}",
-                    "of passing {C:attention}2{} regular Antes",
+                    "of passing {C:attention}#1#{} regular Antes",
                 },
             },
             sgt_sub_engineer = {
