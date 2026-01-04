@@ -3724,7 +3724,7 @@ return {
             SGT_quick_restart = "Quick Restart",
             SGT_quick_restart_desc = {"Press R to instantly restart the run"},
             SGT_lenient_score = "Lenient Score",
-            SGT_lenient_score_desc = {"Reduce endless scaling intensity","in story mode"},
+            SGT_lenient_score_desc = {"Reduce endless scaling intensity","in story mode (Requires run restart)"},
             SGT_lenient_score_enabled = "Lenient Score Enabled",
             SGT_lenient_score_disabled = "Lenient Score Disabled",
             SGT_lenient_score_full_desc = {

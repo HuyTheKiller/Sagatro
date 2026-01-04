@@ -3721,7 +3721,7 @@ return {
             SGT_quick_restart = "Trận Mới Nhanh",
             SGT_quick_restart_desc = {"Nhấn R để tạo trận mới tức thí"},
             SGT_lenient_score = "Điểm Nhẹ Nhàng",
-            SGT_lenient_score_desc = {"Giảm độ dữ dội của tăng điểm vô hạn","trong chế độ cốt truyện"},
+            SGT_lenient_score_desc = {"Giảm độ dữ dội của tăng điểm vô hạn","trong chế độ cốt truyện (Yêu cầu tạo trận mới)"},
             SGT_lenient_score_enabled = "Điểm Nhẹ Nhàng Đã Bật",
             SGT_lenient_score_disabled = "Điểm Nhẹ Nhàng Đã Tắt",
             SGT_lenient_score_full_desc = {
