@@ -2007,6 +2007,14 @@ function Sagatro.get_blind_amounts(ante_ceil, nerfed)
     return t
 end
 
+function Sagatro.get_quotient_amounts(ante_ceil)
+    local t = {}
+    for i = 1, ante_ceil do
+        t[#t+1] = to_big(10^math.max(i-13, 3))
+    end
+    return t
+end
+
 local set_blind_ref = Blind.set_blind
 function Blind:set_blind(blind, reset, silent)
     set_blind_ref(self, blind, reset, silent)
@@ -2249,11 +2257,13 @@ function Sagatro:calculate(context)
                 SMODS.calculate_effect({message = localize("SGT_lenient_score_disabled")}, G.deck.cards[1] or G.deck)
             end
         end
-        if context.end_of_round and context.main_eval
-        and ((not G.GAME.inversed_scaling and to_big(G.GAME.chips/G.GAME.blind.chips) > to_big(1000))
-        or (G.GAME.inversed_scaling and to_big(G.GAME.blind.chips/G.GAME.chips) > to_big(1000))) then
-            G.GAME.sgt_lenient_score = nil
-            SMODS.calculate_effect({message = localize("SGT_lenient_score_disabled")}, G.deck.cards[1] or G.deck)
+        if context.end_of_round and context.main_eval then
+            local quotient = to_big(10^math.max(G.GAME.round_resets.ante-13, 3))
+            if ((not G.GAME.inversed_scaling and to_big(G.GAME.chips/G.GAME.blind.chips) > quotient)
+            or (G.GAME.inversed_scaling and to_big(G.GAME.blind.chips/G.GAME.chips) > quotient)) then
+                G.GAME.sgt_lenient_score = nil
+                SMODS.calculate_effect({message = localize("SGT_lenient_score_disabled")}, G.deck.cards[1] or G.deck)
+            end
         end
     end
     if context.end_of_round and context.main_eval and not context.retrigger_joker then
