@@ -1144,3 +1144,18 @@ if G.GAME.modifiers.sgt_reroll_limit then
 end
 '''
 match_indent = true
+
+# Patch to make inversion not spew out flames at 0/0
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = "G.ARGS.score_intensity.required_score = G.GAME.blind and G.GAME.blind.chips or 0"
+position = "before"
+payload = '''
+-- cool trick to check for nan: it never equals itself
+-- also I'm using 1 instead of true because my Talisman fork regexs into this crap
+if SMODS.calculate_round_score(1) ~= SMODS.calculate_round_score(1) then
+  G.ARGS.score_intensity.earned_score = 0
+end
+'''
+match_indent = true
