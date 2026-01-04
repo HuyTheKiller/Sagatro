@@ -2015,6 +2015,11 @@ function Sagatro.get_quotient_amounts(ante_ceil)
     return t
 end
 
+-- cool trick to check for nan: it never equals itself
+function Sagatro.is_nan()
+    return SMODS.calculate_round_score(true) ~= SMODS.calculate_round_score(true)
+end
+
 local set_blind_ref = Blind.set_blind
 function Blind:set_blind(blind, reset, silent)
     set_blind_ref(self, blind, reset, silent)
