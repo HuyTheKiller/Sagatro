@@ -1149,13 +1149,14 @@ match_indent = true
 [[patches]]
 [patches.regex]
 target = "functions/misc_functions.lua"
-pattern = '''G\.ARGS\.score_intensity\.earned_score = all_numbers and .*SMODS\.calculate_round_score\(true\).* or 0\n'''
+pattern = '''(?<indent>[\t ]*)G\.ARGS\.score_intensity\.earned_score =.*SMODS\.calculate_round_score\(true\).*\n'''
 position = "after"
+line_prepend = "$indent"
 payload = '''
-    -- cool trick to check for nan: it never equals itself
-    -- also I'm using 1 instead of true because my Talisman fork regexs into this crap
-    if SMODS.calculate_round_score(1) ~= SMODS.calculate_round_score(1) then
-      G.ARGS.score_intensity.earned_score = 0
-    end
+-- cool trick to check for nan: it never equals itself
+-- also I'm using 1 instead of true because my Talisman fork regexs into this crap
+if SMODS.calculate_round_score(1) ~= SMODS.calculate_round_score(1) then
+  G.ARGS.score_intensity.earned_score = 0
+end
 '''
 match_indent = true
