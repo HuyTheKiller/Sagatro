@@ -2048,7 +2048,7 @@ SMODS.Scoring_Calculation {
     text = '/',
 }
 
----@param card any must be a card object
+---@param card table|Card must be a card object
 ---@param args table|nil configurable arguments, supports `no_destruction_context`, `no_sound`, `sound`, `pitch` and `volume`
 ---@param extra_func function|nil extra function to execute
 function Sagatro.self_destruct(card, args, extra_func)
