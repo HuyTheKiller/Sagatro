@@ -3733,6 +3733,15 @@ return {
                 "including stalling Ante more than 2 times and earned",
                 "score is very high compared to required score.",
             },
+            sgt_welcome = "Welcome to Sagatro!",
+            sgt_welcome_text1 = "This is a mod that brings fairy tales, mythology, and",
+            sgt_welcome_text2 = "surreal elements into the game we - and you - all love.",
+            sgt_welcome_text3 = "The mod introduces a completely different gameplay style, with the main feature being Story Mode",
+            sgt_welcome_text4 = "(available as a toggle in the mod's config). In this mode, you must both play and solve puzzles;",
+            sgt_welcome_text5 = "Jokers only appear under certain conditions, and the game ends only after you defeat the final boss.",
+            sgt_welcome_text6 = "Please note that winning ante becomes meaningless in this mode.",
+            sgt_welcome_text7 = "Good luck - and enjoy the journey!",
+            b_sgt_understood = "Understood",
         },
         quips = {
             sgt_good_end1 = {

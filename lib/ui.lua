@@ -630,6 +630,78 @@ G.FUNCS.exit_overlay_menu_Sagatro = function()
   Sagatro.fromAlice = nil
   G:save_settings()
 end
+local template_node = {n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {}}
+function create_UIBox_Sagatro_welcome()
+    local args = {
+        colour = (Sagatro.ui_config or {}).colour,
+        bg_colour = (Sagatro.ui_config or {}).bg_colour,
+        back_colour = (Sagatro.ui_config or {}).back_colour,
+        outline_colour = (Sagatro.ui_config or {}).outline_colour,
+        back_label = localize("b_sgt_understood"),
+        contents = {
+            {n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {
+                {n = G.UIT.R, config = {padding = 0.1, align = "cm"}, nodes = {
+                    {n = G.UIT.R, config = {padding = 0.1, align = "cm"}, nodes = {
+                        {n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {
+                            {n = G.UIT.O, config = {object = DynaText({
+                                string = {localize("sgt_welcome")}, colours = { G.C.RARITY[4] },
+								shadow = true, rotate = true, bump = true, pop_in = 0.3, pop_in_rate = 2, scale = 1.2,
+                            })}}
+                        }}
+                    }},
+                    {n = G.UIT.R, config = {padding = 0.2, align = "cm"}, nodes = {
+                        {n = G.UIT.C, config = {padding = 0.2, emboss = 0.05, align = "cm", colour = Sagatro.secondary_colour, r = 0.1}, nodes = {
+                            {n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {
+                                {n = G.UIT.T, config = {text = localize("sgt_welcome_text1"), scale = 0.5, colour = G.C.WHITE}}
+                            }},
+                            {n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {
+                                {n = G.UIT.T, config = {text = localize("sgt_welcome_text2"), scale = 0.5, colour = G.C.WHITE}}
+                            }},
+                            {n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {
+                                {n = G.UIT.T, config = {text = "", scale = 0.5, colour = G.C.WHITE}}
+                            }},
+                            {n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {
+                                {n = G.UIT.T, config = {text = localize("sgt_welcome_text3"), scale = 0.5, colour = G.C.WHITE}}
+                            }},
+                            {n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {
+                                {n = G.UIT.T, config = {text = localize("sgt_welcome_text4"), scale = 0.5, colour = G.C.WHITE}}
+                            }},
+                            {n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {
+                                {n = G.UIT.T, config = {text = localize("sgt_welcome_text5"), scale = 0.5, colour = G.C.WHITE}}
+                            }},
+                            {n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {
+                                {n = G.UIT.T, config = {text = "", scale = 0.5, colour = G.C.WHITE}}
+                            }},
+                            {n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {
+                                {n = G.UIT.T, config = {text = localize("sgt_welcome_text6"), scale = 0.5, colour = G.C.WHITE}}
+                            }},
+                            {n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {
+                                {n = G.UIT.T, config = {text = "", scale = 0.5, colour = G.C.WHITE}}
+                            }},
+                            {n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {
+                                {n = G.UIT.T, config = {text = localize("sgt_welcome_text7"), scale = 0.5, colour = G.C.WHITE}}
+                            }},
+                            {n=G.UIT.R, config = {padding = 0.2, align = 'cm'}, nodes = {
+                                create_toggle({label = localize('SGT_disable_other_jokers'), ref_table = Sagatro.config, ref_value = 'DisableOtherJokers', active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, left = true}),
+                            }},
+                        }}
+                    }}
+                }}
+            }}
+        }
+    }
+    return create_UIBox_generic_options(args)
+end
+
+function Sagatro_welcome_text()
+    local t = {
+        {n = G.UIT.R, config = {align = "cm", colour = G.C.CLEAR, r = 0.1, padding = 0.04, minw = 2, minh = 0.8, filler = true}, nodes = {
+            {n = G.UIT.R, config = {padding = 0.03, align = "cm"}, nodes = {}}
+        }}
+    }
+
+    return t
+end
 
 function Sagatro.update_HUD()
     if G.HUD and G.GAME.story_mode then

@@ -3730,6 +3730,15 @@ return {
                 "bao gồm đứng Ante quá 2 lần và điểm số đạt được rất lớn",
                 "so với điểm yêu cầu.",
             },
+            sgt_welcome = "Chào mừng đến với Sagatro!",
+            sgt_welcome_text1 = "Đây là một bản mod mang những câu chuyện cổ tích, thần thoại và yếu tố",
+            sgt_welcome_text2 = "siêu thực vào tựa game mà chúng tôi - cũng như các bạn - yêu thích.",
+            sgt_welcome_text3 = "Bản mod mang đến một lối chơi hoàn toàn khác biệt, với tính năng chính là Chế Độ Cốt Truyện",
+            sgt_welcome_text4 = "(là một công tắc trong mục tuỳ chọn mod). ở chế độ này, bạn sẽ vừa chơi vừa phải giải đố;",
+            sgt_welcome_text5 = "Joker chỉ xuất hiện khi đủ điều kiện, và trò chơi chỉ kết thúc khi bạn đánh bại trùm cuối.",
+            sgt_welcome_text6 = "Lưu ý rằng ante để thắng sẽ không còn ý nghĩa trong chế độ này.",
+            sgt_welcome_text7 = "Chúc bạn may mắn - và tận hưởng hành trình của mình!",
+            b_sgt_understood = "Đã hiểu",
         },
         quips = {
             sgt_good_end1 = {
