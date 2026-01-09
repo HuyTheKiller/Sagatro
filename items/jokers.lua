@@ -8178,7 +8178,7 @@ local shark = {
     pos = { x = 5, y = 5 },
     config = {immutable = {depth_level = 1, weight_level = 4, depth_range = {1, 3}, target_range = {-2, -1}}, extra = {chips = 0, eat_add = 25, eor_sub = 25}},
     rarity = 2,
-    cost = 4,
+    cost = 6,
     blueprint_compat = true,
     demicoloncompat = true,
     eternal_compat = false,
