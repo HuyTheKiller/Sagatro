@@ -1293,6 +1293,7 @@ function Blind:defeat(silent)
     if G.GAME.story_mode then
         if self.config.blind.key and table.contains(Sagatro.story_mode_no_reroll, self.config.blind.key) then
             G.GAME.saga_forced_boss = nil
+            G.GAME.mirror_ready = nil
         end
         if self.config.blind.key and table.contains(Sagatro.story_mode_showdown, self.config.blind.key) then
             G.GAME.story_ended = G.GAME.won

@@ -314,8 +314,11 @@ G.FUNCS.submarine_down = function(e, force_go_down)
         if G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
             G.from_boss_tag = true
             G.FUNCS.reroll_boss()
+        elseif G.GAME.blind_on_deck ~= "Boss" then
+            add_tag(Tag("tag_boss"))
+            play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+            play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
         end
-        G.GAME.saga_forced_boss = true
     else
         play_sound('timpani')
         submarine.ability.immutable.depth_level = math.min(submarine.ability.immutable.depth_level + 1, 5)
@@ -412,8 +415,12 @@ G.FUNCS.mirror_ready = function(e)
                     if G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
                         G.from_boss_tag = true
                         G.FUNCS.reroll_boss()
+                    elseif G.GAME.blind_on_deck ~= "Boss" then
+                        add_tag(Tag("tag_boss"))
+                        play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                        play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
                     end
-                    G.GAME.saga_forced_boss = true
+                    G.GAME.mirror_ready = true
                     break
                 end
             end
@@ -422,7 +429,7 @@ G.FUNCS.mirror_ready = function(e)
 end
 
 G.FUNCS.mirror_can_ready = function(e)
-    if G.GAME.inversed_scaling and not G.GAME.saga_forced_boss and not G.GAME.won and G.STATE == G.STATES.BLIND_SELECT
+    if G.GAME.inversed_scaling and not (G.GAME.saga_forced_boss or G.GAME.mirror_ready) and not G.GAME.won
     and (Sagatro.event_check("the_bishop", nil, true) or G.GAME.mirrorworld_showdown) then
         e.config.colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5)
         e.config.button = 'mirror_ready'
@@ -630,7 +637,8 @@ G.FUNCS.exit_overlay_menu_Sagatro = function()
   Sagatro.fromAlice = nil
   G:save_settings()
 end
-local template_node = {n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {}}
+
+-- template node: `{n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {}}`
 function create_UIBox_Sagatro_welcome()
     local args = {
         colour = (Sagatro.ui_config or {}).colour,
