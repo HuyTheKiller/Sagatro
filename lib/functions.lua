@@ -3879,7 +3879,7 @@ end
 
 function Sagatro.DT_0d()
     if Sagatro.debug then
-        ease_discards(-G.GAME.current_round.discards_left)
+        ease_discard(-G.GAME.current_round.discards_left)
         return "Successfully set discard count to 0."
     end
     return "Debug commands are unavailable."
