@@ -327,14 +327,22 @@ function CardArea:update(dt)
                 if (unpoisoned[1] and unpoisoned[2])
                 or G.STATE == G.STATES.SHOP
                 or G.STATE == G.STATES.SMODS_REDEEM_VOUCHER
-                or G.STATE == G.STATES.SMODS_BOOSTER_OPENED then
+                or G.STATE == G.STATES.SMODS_BOOSTER_OPENED
+                or (G.TAROT_INTERRUPT
+                and G.TAROT_INTERRUPT ~= G.STATES.BLIND_SELECT
+                and G.TAROT_INTERRUPT ~= G.STATES.SELECTING_HAND
+                and G.TAROT_INTERRUPT ~= G.STATES.ROUND_EVAL) then
                     SMODS.debuff_card(v, false, "j_sgt_pufferfish")
                 end
             end
             if v.config.center_key == "j_sgt_pufferfish"
             and G.STATE ~= G.STATES.SHOP
             and G.STATE ~= G.STATES.SMODS_REDEEM_VOUCHER
-            and G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED then
+            and G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED
+            and (not G.TAROT_INTERRUPT
+            or G.TAROT_INTERRUPT == G.STATES.BLIND_SELECT
+            or G.TAROT_INTERRUPT == G.STATES.SELECTING_HAND
+            or G.TAROT_INTERRUPT == G.STATES.ROUND_EVAL) then
                 if G.jokers.cards[i-1] and G.jokers.cards[i-1].config.center_key ~= "j_sgt_pufferfish"
                 and G.jokers.cards[i-1].config.center_key ~= "j_sgt_dolphin" then
                     SMODS.debuff_card(G.jokers.cards[i-1], true, "j_sgt_pufferfish")
