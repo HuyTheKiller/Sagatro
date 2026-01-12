@@ -10,6 +10,6 @@
 	"badge_colour": "6131ac",
 	"display_name": "Sagatro",
 	"dependencies": ["Steamodded (>=1.0.0~BETA-1016c)"],
-	"conflicts": ["incantation"],
+	"conflicts": [],
 	"version": "0.2.2-pre"
 }
