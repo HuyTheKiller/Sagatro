@@ -1275,7 +1275,7 @@ local pigeon = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if (context.end_of_round and context.main_eval and not context.blueprint) or context.forcetrigger then
+        if (context.end_of_round and not context.game_over and context.main_eval and not context.blueprint) or context.forcetrigger then
             for _, v in ipairs(G.jokers.cards) do
                 if v.config.center_key == "j_egg" then
                     card.ability.triggered = true
@@ -1539,7 +1539,7 @@ local the_cook = {
                 Xmult_mod = card.ability.extra.xmult*G.GAME.alice_multiplier
             }
         end
-        if context.end_of_round and context.main_eval
+        if context.end_of_round and not context.game_over and context.main_eval
         and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             -- My attempt to make The Cook unique from a Bunco's joker called Vandalism
             local value_shift_list = {}
@@ -1619,7 +1619,7 @@ local cheshire_cat = {
         card.ability.extra.odds = Sagatro.event_check("goodbye_frog") and 1 or 3
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
+        if context.end_of_round and not context.game_over and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
             if SMODS.pseudorandom_probability(card, 'cheshire_cat_vanish', 1, card.ability.extra.odds*(Sagatro.event_check("goodbye_frog") and 1 or G.GAME.alice_multiplier), "cheshire_cat") then
 				Sagatro.self_destruct(card)
                 if Sagatro.event_check("goodbye_frog") then
@@ -1994,7 +1994,7 @@ local pepper_caster = {
                 card = card,
             }
 		end
-        if context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker then
+        if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and not context.retrigger_joker then
             if card.ability.extra.uses - 1 <= 0 then
                 Sagatro.self_destruct(card)
                 return {
@@ -3488,7 +3488,7 @@ local aladdin = {
     perishable_compat = false,
     calculate = function(self, card, context)
         if not card.ability.buffed then
-            if (context.end_of_round and context.main_eval
+            if (context.end_of_round and not context.game_over and context.main_eval
             and not context.blueprint and not context.retrigger_joker) and G.GAME.dollars > to_big(0) then
                 ease_dollars(-math.floor(to_number(G.GAME.dollars)*card.ability.extra.tax))
                 if SMODS.scale_card then
@@ -3620,7 +3620,7 @@ local magic_lamp = {
                 Xmult_mod = card.ability.extra.xmult
 			}
         end
-        if (context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+        if (context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
             card.ability.magic_lamp_rounds = card.ability.magic_lamp_rounds + 1
             if (card.ability.magic_lamp_rounds >= card.ability.extra.rounds_goal) or context.forcetrigger then
                 local has_aladdin = false
@@ -5741,7 +5741,7 @@ local turtle_egg = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker then
+        if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and not context.retrigger_joker then
             if SMODS.pseudorandom_probability(card, "turtle_egg_hatched", 1, card.ability.extra.odds, "turtle_egg_hatch") and not G.GAME.turtle_egg_hatched then
                 G.E_MANAGER:add_event(Event({
                     trigger = "immediate",
@@ -6444,7 +6444,7 @@ local blobfish = {
 				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
             }
         end
-        if context.end_of_round and context.main_eval and not context.blueprint then
+        if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint then
             if SMODS.scale_card then
                 SMODS.scale_card(card, {
                     ref_table = card.ability.extra,
@@ -7237,7 +7237,7 @@ local swordfish = {
 				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
             }
         end
-        if context.end_of_round and context.main_eval and not context.blueprint then
+        if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint then
             if SMODS.scale_card then
                 SMODS.scale_card(card, {
                     ref_table = card.ability.extra,
@@ -7922,7 +7922,7 @@ local sperm_whale = {
                 card.ability.extra.triggered = nil
             return true end }))
         end
-        if context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker then
+        if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and not context.retrigger_joker then
             local _poker_hands = {}
             for k, v in pairs(G.GAME.hands) do
                 if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
@@ -8258,7 +8258,7 @@ local shark = {
 				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
 			}
         end
-        if context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker then
+        if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and not context.retrigger_joker then
             if SMODS.scale_card then
                 SMODS.scale_card(card, {
                     ref_table = card.ability.extra,
@@ -8578,7 +8578,7 @@ local stomiidae = {
                 Xmult_mod = card.ability.extra.xmult
             }
         end
-        if context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker then
+        if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and not context.retrigger_joker then
             local hungry = to_big(card.ability.extra.xmult - card.ability.extra.eor_sub) < to_big(1)
             if SMODS.scale_card then
                 SMODS.scale_card(card, {
@@ -9574,7 +9574,7 @@ local chimaera = {
                 end
             end
         end
-        if (context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker
+        if (context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and not context.retrigger_joker
         and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit) or context.forcetrigger then
             local count = 0
             for _ = 1, card.ability.extra.spectral_count do
@@ -12189,7 +12189,7 @@ local bread_and_butter_fly = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if (context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+        if (context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
             if to_big(card.ability.extra.min_money) > G.GAME.dollars + (G.GAME.dollar_buffer or 0) or context.forcetrigger then
                 ease_dollars(card.ability.extra.min_money - (to_number(G.GAME.dollars) + (G.GAME.dollar_buffer or 0)))
                 card_eval_status_text(card, 'dollars', card.ability.extra.min_money)
@@ -12783,7 +12783,7 @@ local humpty_dumpty = {
             card:set_cost()
             return nil, true
         end
-        if context.end_of_round and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
+        if context.end_of_round and not context.game_over and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
             if SMODS.pseudorandom_probability(card, 'humdum_irreversible', 1, card.ability.extra.odds, "humpty_dumpty") then
                 if Sagatro.storyline_check(self.saga_group) then
                     local eligible_jokers = {}
@@ -13769,7 +13769,7 @@ local skoll_n_hati = {
                 }
             end
         end
-        if context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker then
+        if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and not context.retrigger_joker then
             local eval = function()
                 local count_table, triggered = {}, true
                 for _, v in ipairs(G.playing_cards) do
@@ -13912,7 +13912,7 @@ local three_winters = {
     eternal_compat = false,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if (context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+        if (context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
             card.ability.three_winters_rounds = card.ability.three_winters_rounds + 1
             if (card.ability.three_winters_rounds >= card.ability.extra.rounds_goal) or context.forcetrigger then
                 G.E_MANAGER:add_event(Event({
@@ -14508,7 +14508,7 @@ local abducted_cow = {
                 card.ability.extra.triggered = nil
             return true end }))
         end
-        if context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker
+        if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and not context.retrigger_joker
         and card.ability.extra.held_card then
             G.E_MANAGER:add_event(Event({
             trigger = "immediate",
@@ -14781,7 +14781,7 @@ local ragnarok = {
     eternal_compat = true,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if context.end_of_round and context.main_eval and not context.blueprint and G.GAME.blind.boss then
+        if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and G.GAME.blind.boss then
             if G.GAME.blind.config.blind.boss.showdown then
                 if SMODS.scale_card then
                     SMODS.scale_card(card, {
@@ -15485,7 +15485,7 @@ local nameless = {
         end
     end,
     calculate = function(self, card, context)
-        if (context.end_of_round and context.main_eval and not context.blueprint) or context.forcetrigger then
+        if (context.end_of_round and not context.game_over and context.main_eval and not context.blueprint) or context.forcetrigger then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     if G.jokers then
