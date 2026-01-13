@@ -1667,6 +1667,38 @@ function Sagatro.necronomicon_get_rarity(weight, override)
     return "Common"
 end
 
+local scu = set_consumeable_usage
+function set_consumeable_usage(card)
+    scu(card)
+    if card.config.center_key and card.ability.consumeable then
+        G.GAME.consumeable_usage_total.tarot_planet_divinatio_celestara =
+        G.GAME.consumeable_usage_total.tarot_planet_divinatio_celestara or 0
+        local set, key = card.config.center.set, card.config.center_key
+        if set == 'Tarot' or set == 'Planet' or set == 'Divinatio' or set == 'Celestara' then
+            G.GAME.consumeable_usage_total.tarot_planet_divinatio_celestara =
+            G.GAME.consumeable_usage_total.tarot_planet_divinatio_celestara + 1
+        end
+        if set == 'Tarot' or set == 'Planet'
+        or (set == 'Divinatio' and key ~= 'c_sgt_anima')
+        or (set == 'Celestara' and key ~= 'c_sgt_soltera') then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'immediate',
+                func = function()
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'immediate',
+                        func = function()
+                            G.GAME.last_tarot_planet_divinatio_celestara = key
+                            return true
+                        end
+                    }))
+                    return true
+                end
+            }))
+        end
+    end
+    G:save_settings()
+end
+
 -- Darn, Ortalab has this whole function just to set up floating blind sprites for a voucher\
 -- Moving mine into Sagatro table Ig
 function Sagatro.get_new_showdown(...)

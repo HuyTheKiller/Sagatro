@@ -815,39 +815,6 @@ pattern = "'m_gold'"
 position = "at"
 payload = "{'m_gold', 'm_sgt_platinum'}"
 
-# Damn you Incantation for completely overriding set_consumeable_usage, I'm moving to Overflow
-[[patches]]
-[patches.pattern]
-target = "functions/misc_functions.lua"
-pattern = "G.GAME.consumeable_usage_total = G.GAME.consumeable_usage_total or {tarot = 0, planet = 0, spectral = 0, tarot_planet = 0, all = 0}"
-position = "after"
-payload = '''
--- G.GAME.consumeable_usage_total.tarot_planet_divinatio_celestara = G.GAME.consumeable_usage_total.tarot_planet_divinatio_celestara or 0
--- if card.config.center.set == 'Tarot' or card.config.center.set == 'Planet'
--- or card.config.center.set == 'Divinatio' or card.config.center.set == 'Celestara' then
---   G.GAME.consumeable_usage_total.tarot_planet_divinatio_celestara = G.GAME.consumeable_usage_total.tarot_planet_divinatio_celestara + 1
--- end
-if card.config.center.set == 'Tarot' or card.config.center.set == 'Planet'
-or (card.config.center.set == 'Divinatio' and card.config.center_key ~= 'c_sgt_anima')
-or (card.config.center.set == 'Celestara' and card.config.center_key ~= 'c_sgt_soltera') then
-  G.E_MANAGER:add_event(Event({
-    trigger = 'immediate',
-    func = function()
-    G.E_MANAGER:add_event(Event({
-      trigger = 'immediate',
-      func = function()
-        G.GAME.last_tarot_planet_divinatio_celestara = card.config.center_key
-      return true
-      end
-    }))
-    return true
-    end
-  }))
-end
-
-'''
-match_indent = true
-
 # Ortalab collab... Ig?
 [[patches]]
 [patches.pattern]
