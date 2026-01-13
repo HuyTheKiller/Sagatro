@@ -159,12 +159,15 @@ SMODS.Consumable:take_ownership('high_priestess',
 )
 
 -- Story mode stakes
+local red_modifiers = G.P_STAKES.stake_red.modifiers
 SMODS.Stake:take_ownership("red",
     {
         modifiers = function()
             if Sagatro.config.DisableOtherJokers then
                 G.GAME.modifiers.sgt_blind_mult_mod = G.GAME.modifiers.sgt_blind_mult_mod or {}
                 G.GAME.modifiers.sgt_blind_mult_mod.Small = 1.2
+            elseif red_modifiers and type(red_modifiers) == "function" then
+                red_modifiers()
             else
                 G.GAME.modifiers.no_blind_reward = G.GAME.modifiers.no_blind_reward or {}
                 G.GAME.modifiers.no_blind_reward.Small = true
@@ -179,11 +182,14 @@ SMODS.Stake:take_ownership("red",
     true
 )
 
+local green_modifiers = G.P_STAKES.stake_green.modifiers
 SMODS.Stake:take_ownership("green",
     {
         modifiers = function()
             if Sagatro.config.DisableOtherJokers then
                 G.GAME.modifiers.sgt_reduced_sell_cost = 1
+            elseif green_modifiers and type(green_modifiers) == "function" then
+                green_modifiers()
             else
                 G.GAME.modifiers.scaling = (G.GAME.modifiers.scaling or 1) + 1
             end
@@ -197,11 +203,14 @@ SMODS.Stake:take_ownership("green",
     true
 )
 
+local black_modifiers = G.P_STAKES.stake_black.modifiers
 SMODS.Stake:take_ownership("black",
     {
         modifiers = function()
             if Sagatro.config.DisableOtherJokers then
                 G.GAME.modifiers.sgt_ante_increased_cost = 0
+            elseif black_modifiers and type(black_modifiers) == "function" then
+                black_modifiers()
             else
                 G.GAME.modifiers.enable_eternals_in_shop = true
             end
@@ -215,6 +224,7 @@ SMODS.Stake:take_ownership("black",
     true
 )
 
+local blue_modifiers = G.P_STAKES.stake_blue.modifiers
 SMODS.Stake:take_ownership("blue",
     {
         calculate = function(self, context)
@@ -229,6 +239,8 @@ SMODS.Stake:take_ownership("blue",
         end,
         modifiers = function()
             if Sagatro.config.DisableOtherJokers then
+            elseif blue_modifiers and type(blue_modifiers) == "function" then
+                blue_modifiers()
             else
                 G.GAME.starting_params.discards = G.GAME.starting_params.discards - 1
             end
@@ -242,11 +254,14 @@ SMODS.Stake:take_ownership("blue",
     true
 )
 
+local purple_modifiers = G.P_STAKES.stake_purple.modifiers
 SMODS.Stake:take_ownership("purple",
     {
         modifiers = function()
             if Sagatro.config.DisableOtherJokers then
                 G.GAME.modifiers.sgt_reroll_limit = 20
+            elseif purple_modifiers and type(purple_modifiers) == "function" then
+                purple_modifiers()
             else
                 G.GAME.modifiers.scaling = (G.GAME.modifiers.scaling or 1) + 1
             end
@@ -260,11 +275,14 @@ SMODS.Stake:take_ownership("purple",
     true
 )
 
+local orange_modifiers = G.P_STAKES.stake_orange.modifiers
 SMODS.Stake:take_ownership("orange",
     {
         modifiers = function()
             if Sagatro.config.DisableOtherJokers then
                 G.GAME.modifiers.scaling = (G.GAME.modifiers.scaling or 1) + 1
+            elseif orange_modifiers and type(orange_modifiers) == "function" then
+                orange_modifiers()
             else
                 G.GAME.modifiers.enable_perishables_in_shop = true
             end
@@ -278,11 +296,14 @@ SMODS.Stake:take_ownership("orange",
     true
 )
 
+local gold_modifiers = G.P_STAKES.stake_gold.modifiers
 SMODS.Stake:take_ownership("gold",
     {
         modifiers = function()
             if Sagatro.config.DisableOtherJokers then
                 G.GAME.modifiers.sgt_joker_selling_rounds = 3
+            elseif gold_modifiers and type(gold_modifiers) == "function" then
+                gold_modifiers()
             else
                 G.GAME.modifiers.enable_rentals_in_shop = true
             end
