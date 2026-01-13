@@ -5056,7 +5056,7 @@ local barracuda = {
     eternal_compat = false,
     perishable_compat = false,
     set_ability = function(self, card, initial, delay_sprites)
-        if not G.GAME.story_mode then
+        if not G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and not Sagatro.config.DisableOtherJokers) then
             card.ability.extra.mult = 10
         end
     end,
@@ -8184,7 +8184,7 @@ local shark = {
     eternal_compat = false,
     perishable_compat = false,
     set_ability = function(self, card, initial, delay_sprites)
-        if not G.GAME.story_mode then
+        if not G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and not Sagatro.config.DisableOtherJokers) then
             card.ability.extra.chips = 125
         end
     end,
@@ -9239,7 +9239,7 @@ local goblin_shark = {
     eternal_compat = false,
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
-        if not G.GAME.story_mode then
+        if not G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and not Sagatro.config.DisableOtherJokers) then
             card.ability.extra.dollars = 15
         end
     end,
