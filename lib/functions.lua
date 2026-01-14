@@ -3239,11 +3239,11 @@ function Sagatro.backward_compat(beta_vercode)
     return false
 end
 
--- Wizard of Oz sneak peek
 function Sagatro.played_this_ante_compat()
     return Sagatro.backward_compat "1122a"
 end
 
+-- Wizard of Oz sneak peek (postponed)
 function Sagatro.handle_dissolve(card, dissolve, dissolve_time)
     dissolve = dissolve or card.dissolve == 0
     dissolve_time = dissolve_time or 10
