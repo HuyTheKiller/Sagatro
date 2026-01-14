@@ -3265,6 +3265,24 @@ function Sagatro.handle_dissolve(card, dissolve, dissolve_time)
     }))
 end
 
+---@param card table|Card
+---@param dir "left"|"right"|nil
+function Sagatro.swap(card, dir)
+    dir = dir or "right"
+    if not card.area then return end
+    if dir == "left" and card.rank > 1 then
+        card.rank = card.rank - 1
+        card.area.cards[card.rank].rank = card.rank + 1
+        table.sort(card.area.cards, function (a, b) return a.rank < b.rank end)
+        card.area:align_cards()
+    elseif dir == "right" and card.rank < #card.area.cards then
+        card.rank = card.rank + 1
+        card.area.cards[card.rank].rank = card.rank - 1
+        table.sort(card.area.cards, function (a, b) return a.rank < b.rank end)
+        card.area:align_cards()
+    end
+end
+
 -- Overriding this since it gives -$-0 at value 0 and I hate it
 function SMODS.signed_dollars(val)
     return val and (val >= 0 and '$'..val or '-$'..-val) or '0'
