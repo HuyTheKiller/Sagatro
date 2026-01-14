@@ -3230,17 +3230,20 @@ function Sagatro.stall_ante()
     return next(Sagatro.find_active_card("j_sgt_mad_hatter")) or next(Sagatro.find_active_card("j_sgt_jubjub_bird")) or Sagatro.mabel_stall() or Sagatro.vorpal_jubjub()
 end
 
--- `played_this_ante` backward compat for 1016c
-function Sagatro.played_this_ante_compat()
+---@param beta_vercode string
+function Sagatro.backward_compat(beta_vercode)
     local _, i = SMODS.version:find("1.0.0~BETA")
     if i then
-        -- the exact dev version that introduces `played_this_ante`
-        return SMODS.version:sub(i + 1) < "1122a"
+        return SMODS.version:sub(i + 1) < beta_vercode
     end
     return false
 end
 
 -- Wizard of Oz sneak peek
+function Sagatro.played_this_ante_compat()
+    return Sagatro.backward_compat "1122a"
+end
+
 function Sagatro.handle_dissolve(card, dissolve, dissolve_time)
     dissolve = dissolve or card.dissolve == 0
     dissolve_time = dissolve_time or 10
