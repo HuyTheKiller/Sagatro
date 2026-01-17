@@ -3270,12 +3270,14 @@ end
 function Sagatro.swap(card, dir)
     dir = dir or "right"
     if not card.area then return end
-    if dir == "left" and card.rank > 1 then
+    if dir == "left" and card.rank > 1
+    and card.area.cards[card.rank - 1] then
         card.rank = card.rank - 1
         card.area.cards[card.rank].rank = card.rank + 1
         table.sort(card.area.cards, function (a, b) return a.rank < b.rank end)
         card.area:align_cards()
-    elseif dir == "right" and card.rank < #card.area.cards then
+    elseif dir == "right" and card.rank < #card.area.cards
+    and card.area.cards[card.rank + 1] then
         card.rank = card.rank + 1
         card.area.cards[card.rank].rank = card.rank - 1
         table.sort(card.area.cards, function (a, b) return a.rank < b.rank end)
