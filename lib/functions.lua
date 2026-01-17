@@ -3283,6 +3283,23 @@ function Sagatro.swap(card, dir)
     end
 end
 
+---@param cls SMODS.GameObject
+---@param key string
+---@param obj table
+---@param silent boolean?
+---@param from_mod Mod|table?
+---@return string?
+function Sagatro.runtime_ownership(cls, key, obj, silent, from_mod)
+    assert(not obj.inject, 'Overriding "inject" field is not allowed.')
+    SMODS.current_mod = from_mod or Sagatro
+    local result = cls:take_ownership(key, obj, silent)
+    local success = ("Successfully taken ownership of %s%s by mod with id %s."):format(cls.class_prefix and (cls.class_prefix.."_") or "", key, SMODS.current_mod.id)
+    SMODS.current_mod = nil
+    if result then return success end
+end
+
+-- Sagatro.runtime_ownership(SMODS.Joker, "splash", {name = "SagaSplash"}, true)
+
 -- Overriding this since it gives -$-0 at value 0 and I hate it
 function SMODS.signed_dollars(val)
     return val and (val >= 0 and '$'..val or '-$'..-val) or '0'
