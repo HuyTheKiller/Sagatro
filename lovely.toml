@@ -492,6 +492,17 @@ if (not G.GAME.story_mode and G.GAME.round_resets.ante >= G.GAME.win_ante and G.
 or (G.GAME.story_mode and table.contains(Sagatro.story_mode_showdown, G.GAME.blind.config.blind.key) and not G.GAME.paused_showdown) then
 '''
 
+[[patches]] # Same patch but for dev version of SMODS
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''if not G.GAME.won and G.GAME.round_resets.ante >= G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss' then'''
+position = 'at'
+match_indent = true
+payload = '''
+if (not G.GAME.story_mode and G.GAME.round_resets.ante >= G.GAME.win_ante and G.GAME.blind_on_deck == 'Boss')
+or (G.GAME.story_mode and table.contains(Sagatro.story_mode_showdown, G.GAME.blind.config.blind.key) and not G.GAME.paused_showdown) then
+'''
+
 # Make losing after a certain showdown blind but before win Ante a valid endless run
 [[patches]]
 [patches.pattern]
