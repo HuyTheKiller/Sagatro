@@ -3413,7 +3413,7 @@ return {
             weight4_type5 = {
                 text = {
                     "Each card held in hand gives",
-                    "{X:daark_edition}^1.1{} Mult, lasts 3 rounds",
+                    "{X:dark_edition}^1.1{} Mult, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
                 },
             },
