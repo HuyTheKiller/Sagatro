@@ -11,7 +11,7 @@ SagaFusion.fusions = {
 	}, result_joker = "j_sgt_dodo_bird", cost = 9 },
 }
 
-function add_fusion(joker1, carry_stat1, extra1, joker2, carry_stat2, extra2, result_joker, cost, merged_stat, merge_stat1, merge_stat2, merge_extra)
+function add_saga_fusion(joker1, carry_stat1, extra1, joker2, carry_stat2, extra2, result_joker, cost, merged_stat, merge_stat1, merge_stat2, merge_extra)
 	for _, v in ipairs(SagaFusion.fusions) do
 		if v.jokers[1].name == joker1
 		or v.jokers[2].name == joker2
@@ -26,7 +26,7 @@ function add_fusion(joker1, carry_stat1, extra1, joker2, carry_stat2, extra2, re
 		}, result_joker = result_joker, cost = cost, merged_stat = merged_stat, merge_extra = merge_extra })
 end
 
-function remove_fusion(result_joker)
+function remove_saga_fusion(result_joker)
 	for i, v in ipairs(SagaFusion.fusions) do
 		if v.result_joker == result_joker then
 			table.remove(SagaFusion.fusions, i)
