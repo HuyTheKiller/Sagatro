@@ -3410,7 +3410,7 @@ return {
             weight4_type5 = {
                 text = {
                     "Mỗi lá giữ trên tay cho",
-                    "{X:dark_edition}^1.1{} Nhân, kéo dài 3 ván",
+                    "{X:dark_edition,C:white}^1.1{} Nhân, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
                 },
             },
