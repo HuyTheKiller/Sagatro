@@ -2815,13 +2815,13 @@ function Sagatro.calculate_fish_joker(card, context)
                     colour = G.C.MONEY,
                 }
             end
-        elseif context.eaten_type == 4 and not context.blueprint then
+        elseif context.eaten_type == 4 then
             if context.after then
                 return {
                     sgt_e_score = 1.05,
                 }
             end
-        elseif context.eaten_type == 5 and not context.blueprint then
+        elseif context.eaten_type == 5 then
             if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
                 return {
                     sgt_e_mult = 1.1,
