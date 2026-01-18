@@ -2266,8 +2266,8 @@ function Sagatro:calculate(context)
             Sagatro.update_inactive_state()
         end
         if context.prevent_tag_trigger then
-            if G.GAME.saga_forced_boss and context.prevent_tag_trigger.name == 'Boss Tag' then
-                return {prevent_trigger = true}
+            if context.prevent_tag_trigger.name == 'Boss Tag' then
+                return {prevent_trigger = G.GAME.saga_forced_boss or G.STATE ~= G.STATES.BLIND_SELECT}
             elseif Sagatro.storyline_check("alice_in_mirrorworld") and G.GAME.inversed_scaling
             and (context.prevent_tag_trigger.name == 'Meteor Tag'
             or context.prevent_tag_trigger.name == 'Alien Tag') then
