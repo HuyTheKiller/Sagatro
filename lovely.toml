@@ -237,16 +237,16 @@ end
 [[patches]]
 [patches.regex]
 target = 'functions/state_events.lua'
-pattern = '''delay\(0\.4\);.* ease_ante\('''
-position = 'before'
-payload = '''if not Sagatro.stall_ante() then '''
-
-[[patches]]
-[patches.regex]
-target = 'functions/state_events.lua'
-pattern = '''G\.GAME\.round_resets\.ante \+ 1}\)'''
-position = 'after'
-payload = '''else SMODS.calculate_context({sgt_ante_interrupt = true}) end'''
+pattern = '''(?<indent>[\t ]*)(?<cont>delay\(0\.4\);.* ease_ante\(.*G\.GAME\.round_resets\.ante \+ 1}\))'''
+position = 'at'
+line_prepend = "$indent"
+payload = '''
+if not Sagatro.stall_ante() then
+    $cont
+else
+    SMODS.calculate_context({sgt_ante_interrupt = true})
+end
+'''
 
 [[patches]]
 [patches.regex]
