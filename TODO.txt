@@ -1,0 +1,33 @@
+TO-DO:
+[] Implement story mode snapshot feature:
+    [X] (1/1) Patch engine/save_manager.lua
+    [X] (2/2) Patch game.lua
+    [] (0/1) Patch functions/button_callbacks.lua (around "save_with_action" function call)
+    [] (0/0) Patch more stuff...
+[] Update Goldia:
+    [] Add Goldia's effect outside story mode
+    [] Add Goldia's effect inside story mode
+    [] Hook Goldia's effects to story events
+[] Add Fleta:
+    [] Add base Fleta (legendary)
+    [] Add Fleta's effect outside story mode
+    [] Add Fleta's effect inside story mode
+    [] Hook Fleta's effects to story events
+[] Add Harpae:
+    [] Add base Harpae (legendary)
+    [] Add Harpae's effect outside story mode
+    [] Add Harpae's effect inside story mode
+    [] Hook Harpae's effects to story events
+[] Add Lisette:
+    [] Add base Lisette (legendary)
+    [] Add Lisette's effect outside story mode
+    [] Add Lisette's effect inside story mode
+    [] Hook Lisette's effects to story events
+    [] Replace Lisette's placeholder with final visual
+[] Add Enjel:
+    [] Add Enjel's visual
+    [] Add base Enjel (legendary)
+    [] Add Lisette's effect outside story mode
+    [] Add Lisette's effect inside story mode
+    [] Hook Lisette's effects to story events
+[] Add Strange Boy and Platinum (stale)
