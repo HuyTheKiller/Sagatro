@@ -971,7 +971,6 @@ target = "game.lua"
 pattern = '''localize\('ph_unscored_hand'\)'''
 position = "at"
 payload = '''G.GAME.inversed_scaling and localize('ph_overscored_hand') or localize('ph_unscored_hand')'''
-match_indent = true
 
 # Jubjub bird effect
 [[patches]]
@@ -1135,4 +1134,3 @@ if Sagatro.is_nan() then
   G.ARGS.score_intensity.earned_score = 0
 end
 '''
-match_indent = true
