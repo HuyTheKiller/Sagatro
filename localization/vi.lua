@@ -2854,6 +2854,12 @@ return {
                     "cho {X:mult,C:white}X#1#{} Nhân",
                 },
             },
+            j_sgt_goldia = {
+                name = "Goldia",
+                text = {
+                    "Thử {C:attention}DrawStep{}, chưa có hiệu ứng",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -3700,6 +3706,7 @@ return {
             ph_norse = "Thần Thoại Bắc Âu",
             ph_black_soul = "Black Soul",
             ph_celestaverse = "Celestaverse",
+            ph_pmirror = "Pocket Mirror",
             ph_blind_score_at_most = "Đạt tối đa",
             ph_up_ante_2_inverse = "Giảm toàn bộ Blind",
             ph_overscored_hand = "Tay này sẽ ghi quá điểm",

@@ -57,6 +57,13 @@ SMODS.Atlas{
 }
 
 SMODS.Atlas{
+    key = "pocket_mirror",
+    path = "Pocket_mirror.png",
+    px = 71,
+    py = 95,
+}
+
+SMODS.Atlas{
     key = "20k_miles_under_the_sea",
     path = "20k_miles_under_the_sea.png",
     px = 71,

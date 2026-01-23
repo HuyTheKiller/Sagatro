@@ -13506,6 +13506,41 @@ local ecila = {
     end,
 }
 
+local goldia = {
+    key = "goldia",
+    name = "Goldia",
+    artist_credits = {"huycorn", "amy"},
+    atlas = "pocket_mirror",
+    saga_group = "pocket_mirror",
+    order = 121,
+    pools = { [SAGA_GROUP_POOL.legend] = true },
+    pos = { x = 0, y = 4 },
+    soul_pos = { x = 2, y = 4, extra = { x = 1, y = 4, no_scale = true }, name_tag = { x = 3, y = 4 } },
+    config = {extra = {}},
+    rarity = 4,
+    cost = 20,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+    end,
+    add_to_deck = function(self, card, from_debuff)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode then
+            return Sagatro.storyline_check("none")
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
 local hansels_cheat_dice = {
     key = "hansels_cheat_dice",
     name = "Hansel's Cheat Dice",
@@ -15776,6 +15811,7 @@ local joker_table = {
     red_king,
     vorpal_sword,
     ecila,
+    goldia,
     hansels_cheat_dice,
     skoll_n_hati,
     three_winters,

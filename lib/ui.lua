@@ -920,6 +920,45 @@ SMODS.DrawStep {
 }
 SMODS.draw_ignore_keys.sgt_floating_sprite2 = true
 
+SMODS.DrawStep {
+    key = "floating_name_tag",
+    order = 62,
+    func = function(self)
+        if
+            self.config.center.soul_pos
+            and self.config.center.soul_pos.name_tag
+            and (self.config.center.discovered or self.bypass_discovery_center)
+        then
+            local scale_mod = 0 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
+            local rotate_mod = 0 --0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
+            self.children.floating_name_tag:draw_shader(
+                "dissolve",
+                0,
+                nil,
+                nil,
+                self.children.center,
+                scale_mod,
+                rotate_mod,
+                nil,
+                0.1 --[[ + 0.03*math.cos(1.8*G.TIMERS.REAL)--]],
+                nil,
+                0.6
+            )
+            self.children.floating_name_tag:draw_shader(
+                "dissolve",
+                nil,
+                nil,
+                nil,
+                self.children.center,
+                scale_mod,
+                rotate_mod
+            )
+        end
+    end,
+    conditions = { vortex = false, facing = "front" },
+}
+SMODS.draw_ignore_keys.floating_name_tag = true
+
 G.FUNCS.delete_ace_in_menu = function(e)
     if G.title_top then
         for _, card in ipairs(G.title_top.cards) do

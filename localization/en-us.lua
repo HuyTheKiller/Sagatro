@@ -2857,6 +2857,12 @@ return {
                     "gives {X:mult,C:white}X#1#{} Mult",
                 },
             },
+            j_sgt_goldia = {
+                name = "Goldia",
+                text = {
+                    "{C:attention}DrawStep{} test, no effect yet",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -3703,6 +3709,7 @@ return {
             ph_norse = "Norse Mythology",
             ph_black_soul = "Black Soul",
             ph_celestaverse = "Celestaverse",
+            ph_pmirror = "Pocket Mirror",
             ph_blind_score_at_most = "Score at most",
             ph_up_ante_2_inverse = "Lower all Blinds",
             ph_overscored_hand = "Hand will overscore",

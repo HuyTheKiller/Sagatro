@@ -938,6 +938,19 @@ function Card:set_sprites(_center, _front)
 		self.children.sgt_floating_sprite2.states.hover.can = false
 		self.children.sgt_floating_sprite2.states.click.can = false
 	end
+    if _center and _center.soul_pos and _center.soul_pos.name_tag then
+		self.children.floating_name_tag = Sprite(
+			self.T.x,
+			self.T.y,
+			self.T.w,
+			self.T.h,
+			G.ASSET_ATLAS[_center.atlas or _center.set],
+			_center.soul_pos.name_tag
+		)
+		self.children.floating_name_tag.role.draw_major = self
+		self.children.floating_name_tag.states.hover.can = false
+		self.children.floating_name_tag.states.click.can = false
+	end
 end
 
 local can_calc_ref = Card.can_calculate
