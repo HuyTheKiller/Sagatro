@@ -27,7 +27,7 @@ TO-DO:
 [] Add Enjel:
     [] Add Enjel's visual
     [] Add base Enjel (legendary)
-    [] Add Lisette's effect outside story mode
-    [] Add Lisette's effect inside story mode
-    [] Hook Lisette's effects to story events
+    [] Add Enjel's effect outside story mode
+    [] Add Enjel's effect inside story mode
+    [] Hook Enjel's effects to story events
 [] Add Strange Boy and Platinum (stale)
