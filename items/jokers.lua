@@ -8503,7 +8503,7 @@ local stomiidae = {
         if context.before and not context.blueprint then
             local count = 0
             for _, v in ipairs(context.scoring_hand) do
-                if v:is_suit("Spades") then
+                if v:is_suit("Spades", nil, true) then
                     count = count + 1
                     G.E_MANAGER:add_event(Event({
                         func = function()
