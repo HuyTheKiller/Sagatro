@@ -789,13 +789,13 @@ SMODS.DrawStep {
 SMODS.draw_ignore_keys.sgt_extra_sprite = true
 
 SMODS.DrawStep {
-    key = "floating_sprite2",
+    key = "floating_mid_sprite",
     order = 58,
     func = function(self)
         if self.ability.name == "The Magic Lamp" and (self.config.center.discovered or self.bypass_discovery_center) then
             local scale_mod2 = 0.07 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
             local rotate_mod2 = 0 --0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
-            self.children.sgt_floating_sprite2:draw_shader(
+            self.children.floating_mid_sprite:draw_shader(
                 "dissolve",
                 0,
                 nil,
@@ -808,7 +808,7 @@ SMODS.DrawStep {
                 nil,
                 0.6
             )
-            self.children.sgt_floating_sprite2:draw_shader(
+            self.children.floating_mid_sprite:draw_shader(
                 "dissolve",
                 nil,
                 nil,
@@ -887,12 +887,12 @@ SMODS.DrawStep {
             )
         elseif
             self.config.center.soul_pos
-            and self.config.center.soul_pos.extra
+            and self.config.center.soul_pos.sgt_extra
             and (self.config.center.discovered or self.bypass_discovery_center)
         then
-            local scale_mod = self.config.center.soul_pos.extra.no_scale and 0 or 0.07 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
+            local scale_mod = self.config.center.soul_pos.sgt_extra.no_scale and 0 or 0.07 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
             local rotate_mod = 0 --0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
-            self.children.sgt_floating_sprite2:draw_shader(
+            self.children.floating_mid_sprite:draw_shader(
                 "dissolve",
                 0,
                 nil,
@@ -905,7 +905,7 @@ SMODS.DrawStep {
                 nil,
                 0.6
             )
-            self.children.sgt_floating_sprite2:draw_shader(
+            self.children.floating_mid_sprite:draw_shader(
                 "dissolve",
                 nil,
                 nil,
@@ -918,7 +918,7 @@ SMODS.DrawStep {
     end,
     conditions = { vortex = false, facing = "front" },
 }
-SMODS.draw_ignore_keys.sgt_floating_sprite2 = true
+SMODS.draw_ignore_keys.floating_mid_sprite = true
 
 SMODS.DrawStep {
     key = "floating_name_tag",

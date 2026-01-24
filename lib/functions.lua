@@ -708,16 +708,16 @@ function Game:update(dt)
         if nameless.pos.x == 11 then
             nameless.pos.x = 0
             nameless.soul_pos.x = 0
-            nameless.soul_pos.extra.x = 0
+            nameless.soul_pos.sgt_extra.x = 0
         else
             nameless.pos.x = nameless.pos.x + 1
             nameless.soul_pos.x = nameless.soul_pos.x + 1
-            nameless.soul_pos.extra.x = nameless.soul_pos.extra.x + 1
+            nameless.soul_pos.sgt_extra.x = nameless.soul_pos.sgt_extra.x + 1
         end
         for _, card in pairs(G.I.CARD) do
             if card and card.config.center == nameless then
                 card.children.floating_sprite:set_sprite_pos(nameless.soul_pos)
-                card.children.sgt_floating_sprite2:set_sprite_pos(nameless.soul_pos.extra)
+                card.children.floating_mid_sprite:set_sprite_pos(nameless.soul_pos.sgt_extra)
             end
         end
     end
@@ -874,7 +874,7 @@ function Card:set_sprites(_center, _front)
 		self.children.floating_sprite.role.draw_major = self
 		self.children.floating_sprite.states.hover.can = false
 		self.children.floating_sprite.states.click.can = false
-		self.children.sgt_floating_sprite2 = Sprite(
+		self.children.floating_mid_sprite = Sprite(
 			self.T.x,
 			self.T.y,
 			self.T.w,
@@ -882,9 +882,9 @@ function Card:set_sprites(_center, _front)
 			G.ASSET_ATLAS[_center.atlas or _center.set],
 			{ x = 1, y = 1 }
 		)
-		self.children.sgt_floating_sprite2.role.draw_major = self
-		self.children.sgt_floating_sprite2.states.hover.can = false
-		self.children.sgt_floating_sprite2.states.click.can = false
+		self.children.floating_mid_sprite.role.draw_major = self
+		self.children.floating_mid_sprite.states.hover.can = false
+		self.children.floating_mid_sprite.states.click.can = false
 	end
     if _center and _center.name == "The Sinister" then
 		self.children.floating_sprite = Sprite(
@@ -926,7 +926,7 @@ function Card:set_sprites(_center, _front)
 		self.children.floating_sprite.states.click.can = false
 	end
 	if _center and _center.soul_pos and _center.soul_pos.sgt_extra then
-		self.children.sgt_floating_sprite2 = Sprite(
+		self.children.floating_mid_sprite = Sprite(
 			self.T.x,
 			self.T.y,
 			self.T.w,
@@ -934,9 +934,9 @@ function Card:set_sprites(_center, _front)
 			G.ASSET_ATLAS[_center.atlas or _center.set],
 			_center.soul_pos.sgt_extra
 		)
-		self.children.sgt_floating_sprite2.role.draw_major = self
-		self.children.sgt_floating_sprite2.states.hover.can = false
-		self.children.sgt_floating_sprite2.states.click.can = false
+		self.children.floating_mid_sprite.role.draw_major = self
+		self.children.floating_mid_sprite.states.hover.can = false
+		self.children.floating_mid_sprite.states.click.can = false
 	end
     if _center and _center.soul_pos and _center.soul_pos.name_tag then
 		self.children.floating_name_tag = Sprite(
