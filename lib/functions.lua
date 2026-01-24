@@ -733,7 +733,7 @@ function Game:update(dt)
         end
         for _, card in pairs(G.I.CARD) do
             if card and card.config.center == submarine then
-                card.children.extra_sprite:set_sprite_pos(submarine.extra_pos)
+                card.children.sgt_extra_sprite:set_sprite_pos(submarine.extra_pos)
             end
         end
     end
@@ -849,7 +849,7 @@ local set_spritesref = Card.set_sprites
 function Card:set_sprites(_center, _front)
 	set_spritesref(self, _center, _front)
     if _center and _center.name == "Submarine" then
-		self.children.extra_sprite = Sprite(
+		self.children.sgt_extra_sprite = Sprite(
 			self.T.x,
 			self.T.y,
 			self.T.w,
@@ -857,10 +857,10 @@ function Card:set_sprites(_center, _front)
 			G.ASSET_ATLAS[_center.atlas or _center.set],
 			_center.extra_pos
 		)
-		self.children.extra_sprite.role.draw_major = self
-		self.children.extra_sprite.states.hover.can = false
-		self.children.extra_sprite.states.click.can = false
-        self.children.extra_sprite.custom_draw = true
+		self.children.sgt_extra_sprite.role.draw_major = self
+		self.children.sgt_extra_sprite.states.hover.can = false
+		self.children.sgt_extra_sprite.states.click.can = false
+        self.children.sgt_extra_sprite.custom_draw = true
 	end
     if _center and _center.name == "The Magic Lamp" then
 		self.children.floating_sprite = Sprite(

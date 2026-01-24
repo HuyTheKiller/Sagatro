@@ -752,11 +752,11 @@ SMODS.DrawStep {
 }
 
 SMODS.DrawStep {
-    key = "extra_sprite",
+    key = "sgt_extra_sprite",
     order = 21,
     func = function(self, layer)
         if self.ability.name == "Submarine" and (self.config.center.discovered or self.bypass_discovery_center) then
-            self.children.extra_sprite:draw_shader(
+            self.children.sgt_extra_sprite:draw_shader(
                 "dissolve",
                 nil,
                 nil,
@@ -771,22 +771,22 @@ SMODS.DrawStep {
                         if type(v.draw) == 'function' then
                             v:draw(self, layer)
                         else
-                            self.children.extra_sprite:draw_shader(v.shader, nil, self.ARGS.send_to_shader, nil, self.children.center)
+                            self.children.sgt_extra_sprite:draw_shader(v.shader, nil, self.ARGS.send_to_shader, nil, self.children.center)
                         end
                     end
                 end
             end
             if self.edition and self.edition.negative then
-                self.children.extra_sprite:draw_shader('negative_shine', nil, self.ARGS.send_to_shader, nil, self.children.center)
+                self.children.sgt_extra_sprite:draw_shader('negative_shine', nil, self.ARGS.send_to_shader, nil, self.children.center)
             end
             if self.debuff then
-                self.children.extra_sprite:draw_shader('debuff', nil, self.ARGS.send_to_shader, nil, self.children.center)
+                self.children.sgt_extra_sprite:draw_shader('debuff', nil, self.ARGS.send_to_shader, nil, self.children.center)
             end
         end
     end,
     conditions = { vortex = false, facing = "front" },
 }
-SMODS.draw_ignore_keys.extra_sprite = true
+SMODS.draw_ignore_keys.sgt_extra_sprite = true
 
 SMODS.DrawStep {
     key = "sgt_floating_sprite2",
