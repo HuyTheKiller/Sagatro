@@ -1,7 +1,12 @@
 TO-DO:
 [] Implement story mode snapshot feature:
     [X] (1/1) Copy DebugPlus' load-and-save game state feature
-    [] Design user-friendly UI for saving and loading story mode runs
+    [] Design user-friendly UI for saving and loading story mode runs:
+        [] Copy and modify G.UIDEF.challenge_list
+        [] Copy and modify G.UIDEF.challenge_list_page
+        [] Copy and modify G.UIDEF.challenge_description
+        [] Copy and modify G.FUNCS.challenge_list
+        [] Copy and modify G.FUNCS.change_challenge_list_page
 [] Update Goldia:
     [] Add Goldia's effect outside story mode
     [] Add Goldia's effect inside story mode
