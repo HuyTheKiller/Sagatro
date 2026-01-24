@@ -925,14 +925,14 @@ function Card:set_sprites(_center, _front)
 		self.children.floating_sprite.states.hover.can = false
 		self.children.floating_sprite.states.click.can = false
 	end
-	if _center and _center.soul_pos and _center.soul_pos.extra and not Cryptid then
+	if _center and _center.soul_pos and _center.soul_pos.sgt_extra then
 		self.children.sgt_floating_sprite2 = Sprite(
 			self.T.x,
 			self.T.y,
 			self.T.w,
 			self.T.h,
 			G.ASSET_ATLAS[_center.atlas or _center.set],
-			_center.soul_pos.extra
+			_center.soul_pos.sgt_extra
 		)
 		self.children.sgt_floating_sprite2.role.draw_major = self
 		self.children.sgt_floating_sprite2.states.hover.can = false
