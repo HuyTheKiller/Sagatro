@@ -1,9 +1,7 @@
 TO-DO:
 [] Implement story mode snapshot feature:
-    [X] (1/1) Patch engine/save_manager.lua
-    [X] (2/2) Patch game.lua
-    [] (0/1) Patch functions/button_callbacks.lua (around "save_with_action" function call)
-    [] (0/0) Patch more stuff...
+    [X] (1/1) Copy DebugPlus' load-and-save game state feature
+    [] Design user-friendly UI for saving and loading story mode runs
 [] Update Goldia:
     [] Add Goldia's effect outside story mode
     [] Add Goldia's effect inside story mode

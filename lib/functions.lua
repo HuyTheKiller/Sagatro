@@ -3414,6 +3414,57 @@ SMODS.Keybind {
     end
 }
 
+---@param action "save"|"load"
+---@param index integer
+function Sagatro.handle_save(action, index)
+    if action == "save" and G.GAME.story_mode then
+        if G.STAGE == G.STAGES.RUN then
+            if not (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.PLANET_PACK or G.STATE ==
+                G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.STANDARD_PACK or G.STATE == G.STATES.BUFFOON_PACK or
+                G.STATE == G.STATES.SMODS_BOOSTER_OPENED) then
+                save_run()
+            end
+            compress_and_save(G.SETTINGS.profile.."/".."storymodesave"..index..".jkr", G.ARGS.save_run)
+        end
+    elseif action == "load" then
+        if Sagatro.config.QuickRestart or Sagatro.debug then
+            G:delete_run()
+            G.SAVED_GAME = get_compressed(G.SETTINGS.profile.."/".."storymodesave"..index..".jkr")
+            if G.SAVED_GAME ~= nil then
+                G.SAVED_GAME = STR_UNPACK(G.SAVED_GAME)
+            end
+            G:start_run({
+                savetext = G.SAVED_GAME
+            })
+        else
+            G.E_MANAGER:clear_queue()
+            G.FUNCS.wipe_on()
+            G.E_MANAGER:add_event(Event({
+                no_delete = true,
+                func = function()
+                G:delete_run()
+                return true
+                end
+            }))
+            G.E_MANAGER:add_event(Event({
+                trigger = 'immediate',
+                no_delete = true,
+                func = function()
+                    G.SAVED_GAME = get_compressed(G.SETTINGS.profile.."/".."storymodesave"..index..".jkr")
+                    if G.SAVED_GAME ~= nil then
+                        G.SAVED_GAME = STR_UNPACK(G.SAVED_GAME)
+                    end
+                    G:start_run({
+                        savetext = G.SAVED_GAME
+                    })
+                return true
+                end
+            }))
+            G.FUNCS.wipe_off()
+        end
+    end
+end
+
 ---@param mod number
 ---@param operator "+"|"X"|"^"|"^^"|"^^^"|{hyper: number}|nil
 ---@param arbitrary boolean|nil
