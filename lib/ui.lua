@@ -752,7 +752,7 @@ SMODS.DrawStep {
 }
 
 SMODS.DrawStep {
-    key = "sgt_extra_sprite",
+    key = "extra_sprite",
     order = 21,
     func = function(self, layer)
         if self.ability.name == "Submarine" and (self.config.center.discovered or self.bypass_discovery_center) then
@@ -789,7 +789,7 @@ SMODS.DrawStep {
 SMODS.draw_ignore_keys.sgt_extra_sprite = true
 
 SMODS.DrawStep {
-    key = "sgt_floating_sprite2",
+    key = "floating_sprite2",
     order = 58,
     func = function(self)
         if self.ability.name == "The Magic Lamp" and (self.config.center.discovered or self.bypass_discovery_center) then
