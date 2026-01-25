@@ -6,6 +6,7 @@ TO-DO:
         [] Copy and modify G.UIDEF.challenge_list_page
         [] Copy and modify G.UIDEF.challenge_description
         [] Copy and modify G.FUNCS.challenge_list
+        [] Copy and modify G.FUNCS.change_challenge_description
         [] Copy and modify G.FUNCS.change_challenge_list_page
 [] Update Goldia:
     [] Add Goldia's effect outside story mode

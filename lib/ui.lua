@@ -724,6 +724,16 @@ function Sagatro.update_HUD()
     end
 end
 
+-- Convenient shortcut table for me to access functions I need to copy and modify
+Sagatro.challenge_shortcut = {
+    G.UIDEF.challenge_list,
+    G.UIDEF.challenge_list_page,
+    G.UIDEF.challenge_description,
+    G.FUNCS.challenge_list,
+    G.FUNCS.change_challenge_description,
+    G.FUNCS.change_challenge_list_page
+}
+
 SMODS.DrawStep {
     key = "extra_buttons",
     order = -31,
