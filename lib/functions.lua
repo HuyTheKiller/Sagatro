@@ -107,6 +107,15 @@ Sagatro.main_storyline_list = {
     "alice_in_wonderland",
     "20k_miles_under_the_sea",
     "alice_in_mirrorworld",
+    "pocket_mirror",
+}
+
+Sagatro.storyline_locmap = {
+    ["alice_in_wonderland"] = "ph_alice_in_wond",
+    ["20k_miles_under_the_sea"] = "ph_20k",
+    ["alice_in_mirrorworld"] = "ph_alice_in_mirr",
+    ["pocket_mirror"] = "ph_pmirror",
+    ["none"] = "saga_storyline_start",
 }
 
 Sagatro.forced_buffoon_events = {
@@ -384,6 +393,48 @@ function CardArea:update(dt)
     end
 end
 
+function CardArea:temp_load(cardAreaTable, joker_size)
+
+    if self.cards then remove_all(self.cards) end
+    self.cards = {}
+    if self.children then remove_all(self.children) end
+    self.children = {}
+
+    self.config = setmetatable(cardAreaTable.config, {
+        __index = function(t, key)
+            if key == "card_limit" then
+                return (t.card_limits.total_slots or 0) - (t.card_limits.extra_slots_used or 0)
+            end
+        end,
+        __newindex = function(t, key, value)
+            if key == 'card_limit' then
+                if not t.card_limits.base then rawset(t.card_limits, 'base', value) end
+                rawset(t.card_limits, 'mod', value - t.card_limits.base - (t.card_limits.extra_slots or 0))
+            else
+                rawset(t, key, value)
+            end
+        end
+    })
+
+
+    for i = 1, #cardAreaTable.cards do
+        local card = Card(0, 0, G.CARD_W, G.CARD_H, G.P_CENTERS.j_joker, G.P_CENTERS.c_base)
+        card:load(cardAreaTable.cards[i])
+        card.T.h = card.T.h*joker_size
+        card.T.w = card.T.w*joker_size
+        card:set_sprites(card.config.center)
+        card.displaying_save = true
+        self.cards[#self.cards + 1] = card
+        if card.highlighted then
+            self.highlighted[#self.highlighted + 1] = card
+        end
+        card:set_card_area(self)
+    end
+    self:set_ranks()
+    self:align_cards()
+    self:hard_set_cards()
+end
+
 -- Handle edible state of target fish - courtesy of stickers
 -- Also handle fusion buttons
 local card_update_ref = Card.update
@@ -605,6 +656,9 @@ function Game:update(dt)
         if back_button then
             back_button.config.fromAlice = Sagatro.fromAlice
         end
+    end
+    if not G.SETTINGS.paused then
+        Sagatro.allow_save = nil
     end
     if G.STAGE == G.STAGES.RUN then
         Sagatro.debug_info["During a run"] = true
@@ -3414,8 +3468,23 @@ SMODS.Keybind {
     end
 }
 
+local sr = save_run
+function save_run()
+    if G.GAME.story_mode and G.GAME.sgt_no_saving then
+        return
+    end
+    return sr()
+end
+
 function Sagatro.can_save()
     return G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.SHOP
+end
+
+function Sagatro.save_exclusion()
+    return G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.PLANET_PACK or G.STATE ==
+        G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.STANDARD_PACK or G.STATE == G.STATES.BUFFOON_PACK or
+        G.STATE == G.STATES.SMODS_BOOSTER_OPENED or G.STATE == G.STATES.SMODS_REDEEM_VOUCHER or
+        G.STATE == G.STATES.DRAW_TO_HAND or G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.ROUND_EVAL
 end
 
 ---@param action "save"|"load"|"delete"
@@ -3427,14 +3496,15 @@ function Sagatro.handle_save(action, index)
                 save_run()
             end
             if G.ARGS.save_run then
-                compress_and_save(G.SETTINGS.profile.."/".."storymodesave"..index..".jkr", G.ARGS.save_run)
+                G.ARGS.save_run.GAME.story_save_date = os.date("%d/%m/%Y %H:%M:%S")
+                compress_and_save(G.SETTINGS.profile.."/"..Sagatro.save_name..index..".jkr", G.ARGS.save_run)
             end
         end
     elseif action == "load" then
         if G.OVERLAY_MENU then G.FUNCS.exit_overlay_menu() end
         if Sagatro.config.QuickRestart or Sagatro.debug then
             G:delete_run()
-            G.SAVED_GAME = get_compressed(G.SETTINGS.profile.."/".."storymodesave"..index..".jkr")
+            G.SAVED_GAME = get_compressed(G.SETTINGS.profile.."/"..Sagatro.save_name..index..".jkr")
             if G.SAVED_GAME ~= nil then
                 G.SAVED_GAME = STR_UNPACK(G.SAVED_GAME)
             end
@@ -3455,7 +3525,7 @@ function Sagatro.handle_save(action, index)
                 trigger = 'immediate',
                 no_delete = true,
                 func = function()
-                    G.SAVED_GAME = get_compressed(G.SETTINGS.profile.."/".."storymodesave"..index..".jkr")
+                    G.SAVED_GAME = get_compressed(G.SETTINGS.profile.."/"..Sagatro.save_name..index..".jkr")
                     if G.SAVED_GAME ~= nil then
                         G.SAVED_GAME = STR_UNPACK(G.SAVED_GAME)
                     end
@@ -3468,7 +3538,7 @@ function Sagatro.handle_save(action, index)
             G.FUNCS.wipe_off()
         end
     elseif action == "delete" then
-        love.filesystem.remove(G.SETTINGS.profile.."/".."storymodesave"..index..".jkr")
+        love.filesystem.remove(G.SETTINGS.profile.."/"..Sagatro.save_name..index..".jkr")
     end
 end
 

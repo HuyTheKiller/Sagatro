@@ -1134,3 +1134,53 @@ if Sagatro.is_nan() then
   G.ARGS.score_intensity.earned_score = 0
 end
 '''
+
+# Savebox-related patches
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+G.STAGE == G.STAGES.MAIN_MENU and {
+    label = localize('b_continue'),
+'''
+position = "before"
+payload = '''
+{
+    label = localize('b_from_save'),
+    tab_definition_function = G.UIDEF.saveload_tab,
+    tab_definition_function_args = from_game_over,
+},
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''restart,'''
+position = "after"
+payload = '''savebox,'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+if G.STAGE == G.STAGES.RUN then
+  restart = UIBox_button{id = 'restart_button', label = {localize('b_start_new_run')}, button = "setup_run", minw = 5}
+'''
+position = "at"
+payload = '''
+local savebox = nil
+
+if G.STAGE == G.STAGES.RUN then
+  restart = UIBox_button{id = 'restart_button', label = {localize('b_start_new_run')}, button = "setup_run", minw = 5}
+  savebox = UIBox_button{id = 'savebox_button', label = {localize('b_savebox')}, button = "saveload_list", minw = 5}
+'''
+match_indent = true
+
+[[patches]]
+[patches.regex]
+target = "card.lua"
+pattern = '''G\.in_delete_run'''
+position = "at"
+payload = '''G.in_delete_run or self.displaying_save'''

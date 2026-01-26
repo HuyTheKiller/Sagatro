@@ -724,6 +724,396 @@ function Sagatro.update_HUD()
     end
 end
 
+function Sagatro.get_save_count()
+    local _slots_used = 0
+    for i = 1, Sagatro.save_slots do
+        local save_slot = love.filesystem.getInfo(G.SETTINGS.profile.."/"..Sagatro.save_name..i..".jkr")
+        if save_slot ~= nil then
+            _slots_used = _slots_used + 1
+        end
+    end
+    return _slots_used, Sagatro.save_slots
+end
+
+function G.UIDEF.saveload_list(from_game_over, from_options)
+  G.SAVELOAD_PAGE_SIZE = 10
+  local saveload_pages = {}
+  for i = 1, math.ceil(Sagatro.save_slots/G.SAVELOAD_PAGE_SIZE) do
+    table.insert(saveload_pages, localize('k_page')..' '..tostring(i)..'/'..tostring(math.ceil(Sagatro.save_slots/G.SAVELOAD_PAGE_SIZE)))
+  end
+  G.E_MANAGER:add_event(Event({func = (function()
+    G.FUNCS.change_saveload_page{cycle_config = {current_option = 1}}
+  return true end)}))
+
+  Sagatro.save_count = localize{type = 'variable', key = 'sgt_save_slots_used', vars = {Sagatro.get_save_count()}}
+  Sagatro.allow_save = G.GAME.story_mode and from_options
+  local t = create_UIBox_generic_options({ back_id = from_game_over and 'from_game_over' or 'saveload_list', back_func = from_options and 'options' or 'setup_run', contents = {
+    {n=G.UIT.C, config={align = "cm", padding = 0.0}, nodes={
+      {n=G.UIT.R, config={align = "cm", padding = 0.1, minh = 7, minw = 4.2}, nodes={
+        {n=G.UIT.O, config={id = 'saveload_list', object = Moveable()}},
+      }},
+      {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+        create_option_cycle({id = 'saveload_page',scale = 0.9, h = 0.3, w = 3.5, options = saveload_pages, cycle_shoulders = true, opt_callback = 'change_saveload_page', current_option = 1, colour = Sagatro.badge_colour, no_pips = true, focus_args = {snap_to = true}})
+      }},
+      {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+        {n=G.UIT.T, config={ref_table = Sagatro, ref_value = "save_count", scale = 0.4, colour = G.C.WHITE}},
+      }},
+
+    }},
+    {n=G.UIT.C, config={align = "cm", minh = 9, minw = 11.5}, nodes={
+      {n=G.UIT.O, config={id = 'saveload_area', object = Moveable()}},
+    }},
+  }})
+  return t
+end
+
+function G.UIDEF.saveload_list_page(_page)
+  local snapped = false
+  local saveload_list = {}
+  for i = 1, Sagatro.save_slots do
+    if i > G.SAVELOAD_PAGE_SIZE*(_page or 0) and i <= G.SAVELOAD_PAGE_SIZE*((_page or 0) + 1) then
+      if G.CONTROLLER.focused.target and G.CONTROLLER.focused.target.config.id == 'saveload_page' then snapped = true end
+      local saved_snapshot = get_compressed(G.SETTINGS.profile.."/"..Sagatro.save_name..i..".jkr")
+      local storyline_name
+      if saved_snapshot ~= nil then
+        saved_snapshot = STR_UNPACK(saved_snapshot)
+        storyline_name = saved_snapshot.GAME.interwoven_storyline or saved_snapshot.GAME.current_storyline
+      end
+      storyline_name = localize(Sagatro.storyline_locmap[storyline_name or "EMPTY"] or "k_empty")
+      Sagatro.save_name_list[i] = storyline_name
+      local is_empty = storyline_name == localize("k_empty")
+
+      saveload_list[#saveload_list+1] =
+      {n=G.UIT.R, config={align = "cm"}, nodes={
+        {n=G.UIT.C, config={align = 'cl', minw = 0.8}, nodes = {
+          {n=G.UIT.T, config={text = i..'', scale = 0.4, colour = G.C.WHITE}},
+        }},
+        UIBox_button({id = i, col = true, dynamic_label = {text = Sagatro.save_name_list[i]}, label = {}, button = 'change_save_description', colour = Sagatro.badge_colour, text_colour = is_empty and G.C.GREY or G.C.UI.TEXT_LIGHT, minw = 4, scale = 0.4, minh = 0.6, focus_args = {snap_to = not snapped}}),
+      }}
+      snapped = true
+    end
+  end
+
+  return {n=G.UIT.ROOT, config={align = "cm", padding = 0.1, colour = G.C.CLEAR}, nodes=saveload_list}
+end
+
+function G.UIDEF.save_description(_id)
+  local joker_size = 0.6
+  if _id == "nil" then
+    return {n=G.UIT.ROOT, config={align = "cm", colour = G.C.BLACK, minh = 8.82, minw = 11.5, r = 0.1}, nodes={
+      {n=G.UIT.T, config={text = localize('ph_select_save'), scale = 0.3, colour = G.C.UI.TEXT_LIGHT}}
+    }}
+  end
+  local saved_snapshot = get_compressed(G.SETTINGS.profile.."/"..Sagatro.save_name.._id..".jkr")
+  if saved_snapshot == nil then
+    return {n=G.UIT.ROOT, config={align = "cm", colour = G.C.BLACK, minh = 8.82, minw = 11.5, r = 0.1}, nodes={
+      {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+        {n=G.UIT.C, config={align = "cm", padding = 0.05, colour = G.C.L_BLACK, r = 0.1, maxh = 5}, nodes={
+          {n=G.UIT.T, config={text = localize('k_jokers_cap'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT, vert = true, shadow = true}},
+          {n=G.UIT.C, config={align = "cm", minh = 0.6*G.CARD_H, minw = 10*0.6, r = 0.1, colour = G.C.UI.TRANSPARENT_DARK}, nodes={
+            {n=G.UIT.T, config={text = localize('k_none'), scale = 0.4, colour = G.C.GREY}},
+          }}
+        }},
+        {n=G.UIT.C, config={align = "cm", padding = 0.05, colour = G.C.L_BLACK, r = 0.1, maxh = 5}, nodes={
+          {n=G.UIT.T, config={text = localize('k_cap_consumables'), scale = 0.3, colour = G.C.UI.TEXT_LIGHT, vert = true, shadow = true}},
+          {n=G.UIT.C, config={align = "cm", minh = 0.6*G.CARD_H, minw = 3*0.6, r = 0.1, colour = G.C.UI.TRANSPARENT_DARK}, nodes={
+            {n=G.UIT.T, config={text = localize('k_none'), scale = 0.4, colour = G.C.GREY}},
+          }}
+        }},
+        {n=G.UIT.C, config={align = "cm", padding = 0.05, colour = G.C.L_BLACK, r = 0.1, maxh = 5}, nodes={
+          {n=G.UIT.T, config={text = localize('k_most_recent_voucher_cap1'), scale = 0.33, colour = G.C.UI.TEXT_LIGHT, vert = true, shadow = true}},
+          {n=G.UIT.T, config={text = localize('k_most_recent_voucher_cap2'), scale = 0.33, colour = G.C.UI.TEXT_LIGHT, vert = true, shadow = true}},
+          {n=G.UIT.C, config={align = "cm", minh = 0.6*G.CARD_H, minw = 3*0.6, r = 0.1, colour = G.C.UI.TRANSPARENT_DARK}, nodes={
+            {n=G.UIT.T, config={text = localize('k_none'), scale = 0.4, colour = G.C.GREY}},
+          }}
+        }},
+      }},
+      {n=G.UIT.R, config={align = "cm", minh = 6}, nodes={
+        {n=G.UIT.T, config={text = localize('ph_no_data'), scale = 0.3, colour = G.C.UI.TEXT_LIGHT}},
+      }},
+      {n=G.UIT.R, config={align = "cm", minh = 0.9}, nodes={
+        {n=G.UIT.C, config={align = "cm", padding = 0.1, minh = 0.7, minw = 2.5, r = 0.1, hover = true, colour = Sagatro.badge_colour, button = "save_snapshot", func = "can_save_snapshot", shadow = true, id = _id}, nodes={
+          {n=G.UIT.T, config={text = localize('b_save'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT,func = 'set_button_pip', focus_args = {button = 'x',set_button_pip = true}}}
+        }},
+        {n=G.UIT.C, config={align = "cm", padding = 0.1, minh = 0.7, minw = 2.5, r = 0.1, hover = true, colour = Sagatro.badge_colour, button = "load_snapshot", func = "can_load_snapshot", shadow = true, id = _id}, nodes={
+          {n=G.UIT.T, config={text = localize('b_load'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT,func = 'set_button_pip', focus_args = {button = 'x',set_button_pip = true}}}
+        }},
+        {n=G.UIT.C, config={align = "cm", padding = 0.1, minh = 0.7, minw = 2.5, r = 0.1, hover = true, colour = Sagatro.badge_colour, button = "delete_snapshot", func = "can_delete_snapshot", shadow = true, id = _id}, nodes={
+          {n=G.UIT.T, config={text = localize('b_delete'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT,func = 'set_button_pip', focus_args = {button = 'x',set_button_pip = true}}}
+        }},
+      }},
+  }}
+  end
+  saved_snapshot = STR_UNPACK(saved_snapshot)
+  local cardAreas = saved_snapshot.cardAreas
+
+  local jokers = CardArea(0,0,
+    10*joker_size,
+    0.6*G.CARD_H,
+    {card_limit = cardAreas.jokers.config.card_limit or 5,
+    negative_info = 'joker',
+    card_w = joker_size*G.CARD_W, type = 'title_2', highlight_limit = 0})
+
+  jokers:temp_load(cardAreas.jokers, joker_size)
+  jokers.config.type = 'title_2'
+
+  local joker_col = {n=G.UIT.C, config={align = "cm", padding = 0.05, colour = G.C.L_BLACK, r = 0.1, maxh = 5}, nodes={
+    {n=G.UIT.T, config={text = localize('k_jokers_cap'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT, vert = true, shadow = true}},
+    {n=G.UIT.C, config={align = "cm", minh = 0.6*G.CARD_H, minw = 5, r = 0.1, colour = G.C.UI.TRANSPARENT_DARK}, nodes={
+      jokers and {n=G.UIT.O, config={object = jokers}} or {n=G.UIT.T, config={text = localize('k_none'), scale = 0.4, colour = G.C.GREY}},
+    }}
+  }}
+
+  local consumeables = CardArea(0,0,
+    3*joker_size,
+    0.6*G.CARD_H,
+    {card_limit = cardAreas.consumeables.config.card_limit or 2,
+    negative_info = 'consumable',
+    card_w = joker_size*G.CARD_W, type = 'title_2', spread = true, highlight_limit = 0})
+
+  consumeables:temp_load(cardAreas.consumeables, joker_size)
+  consumeables.config.type = 'title_2'
+
+  local consumable_col = {n=G.UIT.C, config={align = "cm", padding = 0.05, colour = G.C.L_BLACK, r = 0.1, maxh = 5}, nodes={
+    {n=G.UIT.T, config={text = localize('k_cap_consumables'), scale = 0.3, colour = G.C.UI.TEXT_LIGHT, vert = true, shadow = true}},
+    {n=G.UIT.C, config={align = "cm", minh = 0.6*G.CARD_H, r = 0.1, colour = G.C.UI.TRANSPARENT_DARK}, nodes={
+      consumeables and {n=G.UIT.O, config={object = consumeables}} or {n=G.UIT.T, config={text = localize('k_none'), scale = 0.4, colour = G.C.GREY}},
+    }}
+  }}
+
+  local vouchers = CardArea(0,0,
+    3*joker_size,
+    0.6*G.CARD_H,
+    {card_limit = nil,
+    negative_info = 'consumable',
+    card_w = joker_size*G.CARD_W, type = 'title_2', spread = true, highlight_limit = 0})
+
+  if cardAreas.vouchers.cards and next(cardAreas.vouchers.cards) then
+    local card = Card(0, 0, G.CARD_W*joker_size, G.CARD_H*joker_size, G.P_CENTERS.j_joker, G.P_CENTERS.c_base)
+    card:load(cardAreas.vouchers.cards[#cardAreas.vouchers.cards])
+    card.T.h = card.T.h*joker_size
+    card.T.w = card.T.w*joker_size
+    card:set_sprites(card.config.center)
+    card.displaying_save = true
+    vouchers:emplace(card)
+  end
+
+  local voucher_col = {n=G.UIT.C, config={align = "cm", padding = 0.05, colour = G.C.L_BLACK, r = 0.1, maxh = 5}, nodes={
+    {n=G.UIT.T, config={text = localize('k_most_recent_voucher_cap1'), scale = 0.33, colour = G.C.UI.TEXT_LIGHT, vert = true, shadow = true}},
+    {n=G.UIT.T, config={text = localize('k_most_recent_voucher_cap2'), scale = 0.33, colour = G.C.UI.TEXT_LIGHT, vert = true, shadow = true}},
+    {n=G.UIT.C, config={align = "cm", minh = 0.6*G.CARD_H, r = 0.1, colour = G.C.UI.TRANSPARENT_DARK}, nodes={
+      vouchers and {n=G.UIT.O, config={object = vouchers}} or {n=G.UIT.T, config={text = localize('k_none'), scale = 0.4, colour = G.C.GREY}},
+    }}
+  }}
+
+
+
+  return {n=G.UIT.ROOT, config={align = "cm", colour = G.C.BLACK, minh = 8.82, minw = 11.5, r = 0.1}, nodes={
+    {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+      joker_col, consumable_col, voucher_col
+    }},
+    {n=G.UIT.R, config={align = "cm", minh = 6}, nodes={
+      {n=G.UIT.R, config={align = "cm"}, nodes={
+        {n = G.UIT.O, config = {object = DynaText({
+          string = {localize{type = "name_text", set = "Back", key = saved_snapshot.BACK.key}}, colours = { G.C.UI.TEXT_LIGHT },
+          shadow = true, rotate = true, bump = true, scale = 0.8,
+        })}}
+      }},
+      {n = G.UIT.R, config = {minh = 0.6}, nodes = {}},
+      {n=G.UIT.R, config={align = "cm", colour = G.C.WHITE,padding = 0.03, minh = 1.75, r = 0.1}, nodes={
+        {n=G.UIT.R, config={align = "cm"}, nodes={
+          {n=G.UIT.C, config={align = "cm", minw = 4, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize('k_round'),colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
+          {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
+          {n=G.UIT.C, config={align = "cl", minw = 5, maxw = 4}, nodes={{n=G.UIT.T, config={text = tostring(saved_snapshot.GAME.round),colour = G.C.RED, scale = 0.6}}}}
+        }},
+        {n=G.UIT.R, config={align = "cm"}, nodes={
+          {n=G.UIT.C, config={align = "cm", minw = 4, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize('k_ante'),colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
+          {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
+          {n=G.UIT.C, config={align = "cl", minw = 5, maxw = 4}, nodes={{n=G.UIT.T, config={text = tostring(saved_snapshot.GAME.round_resets.ante),colour = G.C.BLUE, scale = 0.6}}}}
+        }},
+        {n=G.UIT.R, config={align = "cm"}, nodes={
+          {n=G.UIT.C, config={align = "cm", minw = 4, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize('k_money'),colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
+          {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
+          {n=G.UIT.C, config={align = "cl", minw = 5, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize('$')..format_ui_value(saved_snapshot.GAME.dollars),colour = G.C.ORANGE, scale = 0.6}}}}
+        }},
+        {n=G.UIT.R, config={align = "cm"}, nodes={
+          {n=G.UIT.C, config={align = "cm", minw = 4, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize('k_best_hand'),colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
+          {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
+          {n=G.UIT.C, config={align = "cl", minw = 5, maxw = 4}, nodes={{n=G.UIT.T, config={text = number_format(saved_snapshot.GAME.round_scores.hand.amt),colour = G.C.RED, scale = scale_number(saved_snapshot.GAME.round_scores.hand.amt, 0.6, 100000000000)}}}}
+        }},
+        {n=G.UIT.R, config={align = "cm"}, nodes={
+          {n=G.UIT.C, config={align = "cm", minw = 4, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize('k_save_date'),colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
+          {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
+          {n=G.UIT.C, config={align = "cl", minw = 5, maxw = 4}, nodes={{n=G.UIT.T, config={text = saved_snapshot.GAME.story_save_date or localize("b_unknown"),colour = G.C.RED, scale = 0.6}}}}
+        }},
+        CardSleeves and saved_snapshot.GAME.selected_sleeve and {n=G.UIT.R, config={align = "cm"}, nodes={
+          {n=G.UIT.C, config={align = "cm", minw = 4, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize('k_sleeve'),colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
+          {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
+          {n=G.UIT.C, config={align = "cl", minw = 5, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize{type = "name_text", set = "Sleeve", key = saved_snapshot.GAME.selected_sleeve},colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
+        }} or nil,
+      }},
+    }},
+    {n=G.UIT.R, config={align = "cm", minh = 0.9}, nodes={
+      {n=G.UIT.C, config={align = "cm", padding = 0.1, minh = 0.7, minw = 2.5, r = 0.1, hover = true, colour = Sagatro.badge_colour, button = "save_snapshot", func = "can_save_snapshot", shadow = true, id = _id}, nodes={
+        {n=G.UIT.T, config={text = localize('b_save'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT,func = 'set_button_pip', focus_args = {button = 'x',set_button_pip = true}}}
+      }},
+      {n=G.UIT.C, config={align = "cm", padding = 0.1, minh = 0.7, minw = 2.5, r = 0.1, hover = true, colour = Sagatro.badge_colour, button = "load_snapshot", func = "can_load_snapshot", shadow = true, id = _id}, nodes={
+        {n=G.UIT.T, config={text = localize('b_load'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT,func = 'set_button_pip', focus_args = {button = 'x',set_button_pip = true}}}
+      }},
+      {n=G.UIT.C, config={align = "cm", padding = 0.1, minh = 0.7, minw = 2.5, r = 0.1, hover = true, colour = Sagatro.badge_colour, button = "delete_snapshot", func = "can_delete_snapshot", shadow = true, id = _id}, nodes={
+        {n=G.UIT.T, config={text = localize('b_delete'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT,func = 'set_button_pip', focus_args = {button = 'x',set_button_pip = true}}}
+      }},
+    }},
+  }}
+end
+
+function G.UIDEF.saveload_tab(from_game_over)
+  return {n=G.UIT.ROOT, config={align = "cm", padding = 0.1, colour = G.C.CLEAR, minh = 8, minw = 7}, nodes={
+    {n=G.UIT.R, config={align = "cm", padding = 0.1, r = 0.1 ,colour = G.C.BLACK}, nodes={
+      {n = G.UIT.C, config = {padding = 0.1, emboss = 0.05, align = "cm",r = 0.1}, nodes={
+        {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+          {n=G.UIT.T, config={text = localize('k_saveload_runs'), scale = 0.6, colour = G.C.UI.TEXT_LIGHT, shadow = true}},
+        }},
+        {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+          {n=G.UIT.T, config={text = "", scale = 0.4, colour = G.C.UI.TEXT_LIGHT, shadow = true}},
+        }},
+        {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+          {n=G.UIT.T, config={text = localize("sgt_savebox_text1"), scale = 0.4, colour = G.C.UI.TEXT_LIGHT, shadow = true}},
+        }},
+        {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+          {n=G.UIT.T, config={text = localize("sgt_savebox_text2"), scale = 0.4, colour = G.C.UI.TEXT_LIGHT, shadow = true}},
+        }},
+        {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+          {n=G.UIT.T, config={text = localize("sgt_savebox_text3"), scale = 0.4, colour = G.C.UI.TEXT_LIGHT, shadow = true}},
+        }},
+        {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+          {n=G.UIT.T, config={text = localize("sgt_savebox_text4"), scale = 0.4, colour = G.C.UI.TEXT_LIGHT, shadow = true}},
+        }},
+        {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+          {n=G.UIT.T, config={text = "", scale = 0.4, colour = G.C.UI.TEXT_LIGHT, shadow = true}},
+        }},
+        {n=G.UIT.R, config={align = "cm", minw = 8.5, minh = 0.5, padding = 0.2}, nodes={
+          UIBox_button({id = from_game_over and 'from_game_over' or nil, label = {localize('b_saveload_list')}, button = 'saveload_list', minw = 4, scale = 0.4, minh = 0.6}),
+        }},
+        {n=G.UIT.R, config={align = "cm", minw = 8.5, minh = 0.5, padding = 0.2}, nodes={
+          UIBox_button({label = {localize('b_wipe_all_saves')}, button = 'delete_all_snapshots', minw = 4, scale = 0.4, minh = 0.6}),
+        }},
+      }},
+    }},
+  }}
+end
+
+G.FUNCS.saveload_list = function(e)
+  G.SETTINGS.paused = true
+  G.FUNCS.overlay_menu{
+    definition = G.UIDEF.saveload_list(e.config.id == 'from_game_over', e.config.id == "savebox_button"),
+  }
+  if (e.config.id == 'from_game_over') then G.OVERLAY_MENU.config.no_esc =true end
+end
+
+G.FUNCS.change_save_description = function(e)
+  if G.OVERLAY_MENU then
+    local desc_area = G.OVERLAY_MENU:get_UIE_by_ID('saveload_area')
+    if desc_area and (desc_area.config.oid ~= e.config.id or Sagatro.from_save_button) then
+      Sagatro.from_save_button = nil
+      if desc_area.config.old_chosen then desc_area.config.old_chosen.config.chosen = nil end
+      e.config.chosen = 'vert'
+      if desc_area.config.object then
+        desc_area.config.object:remove()
+      end
+      desc_area.config.object = UIBox{
+        definition =  G.UIDEF.save_description(e.config.id),
+        config = {offset = {x=0,y=0}, align = 'cm', parent = desc_area}
+      }
+      desc_area.config.oid = e.config.id
+      desc_area.config.old_chosen = e
+    end
+  end
+end
+
+G.FUNCS.change_saveload_page = function(args)
+  if not args or not args.cycle_config then return end
+  if G.OVERLAY_MENU then
+    local sl_list = G.OVERLAY_MENU:get_UIE_by_ID('saveload_list')
+    if sl_list then
+      Sagatro.save_list_cycle_option = args.cycle_config.current_option
+      if sl_list.config.object then
+        sl_list.config.object:remove()
+      end
+      sl_list.config.object = UIBox{
+        definition = G.UIDEF.saveload_list_page(args.cycle_config.current_option-1),
+        config = {offset = {x=0,y=0}, align = 'cm', parent = sl_list}
+      }
+      G.FUNCS.change_save_description{config = {id = 'nil'}}
+    end
+  end
+end
+
+G.FUNCS.save_snapshot = function(e)
+    local storyline_name = G.GAME.interwoven_storyline or G.GAME.current_storyline
+    storyline_name = localize(Sagatro.storyline_locmap[storyline_name or "EMPTY"] or "k_empty")
+    Sagatro.save_name_list[e.config.id] = storyline_name
+    Sagatro.handle_save("save", e.config.id)
+    Sagatro.save_count = localize{type = 'variable', key = 'sgt_save_slots_used', vars = {Sagatro.get_save_count()}}
+    play_sound("sgt_page_scratch", 1, 1.25)
+    Sagatro.from_save_button = true
+    G.FUNCS.change_saveload_page{cycle_config = {current_option = Sagatro.save_list_cycle_option}}
+    G.FUNCS.change_save_description{config = {id = e.config.id}}
+end
+
+G.FUNCS.can_save_snapshot = function(e)
+    if Sagatro.allow_save and G.ARGS.save_run then
+        e.config.colour = Sagatro.badge_colour
+        e.config.button = "save_snapshot"
+    else
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+end
+
+G.FUNCS.load_snapshot = function(e)
+    Sagatro.handle_save("load", e.config.id)
+end
+
+G.FUNCS.can_load_snapshot = function(e)
+    local save_slot = love.filesystem.getInfo(G.SETTINGS.profile.."/"..Sagatro.save_name..(e.config.id or 1)..".jkr")
+    if save_slot ~= nil then
+        e.config.colour = Sagatro.badge_colour
+        e.config.button = "load_snapshot"
+    else
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+end
+
+G.FUNCS.delete_snapshot = function(e)
+    Sagatro.save_name_list[e.config.id] = localize("k_empty")
+    Sagatro.handle_save("delete", e.config.id)
+    Sagatro.save_count = localize{type = 'variable', key = 'sgt_save_slots_used', vars = {Sagatro.get_save_count()}}
+    play_sound("sgt_page_flip", 1, 1.25)
+    Sagatro.from_save_button = true
+    G.FUNCS.change_saveload_page{cycle_config = {current_option = Sagatro.save_list_cycle_option}}
+    G.FUNCS.change_save_description{config = {id = e.config.id}}
+end
+
+G.FUNCS.can_delete_snapshot = function(e)
+    local save_slot = love.filesystem.getInfo(G.SETTINGS.profile.."/"..Sagatro.save_name..(e.config.id or 1)..".jkr")
+    if save_slot ~= nil then
+        e.config.colour = Sagatro.badge_colour
+        e.config.button = "delete_snapshot"
+    else
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+end
+
+G.FUNCS.delete_all_snapshots = function(e)
+    for i = 1, Sagatro.save_slots do
+        love.filesystem.remove(G.SETTINGS.profile.."/".."storymodesave"..i..".jkr")
+        love.filesystem.remove(G.SETTINGS.profile.."/".."storymodesave_talisman"..i..".jkr")
+    end
+end
+
 -- Convenient shortcut table for me to access functions I need to copy and modify
 Sagatro.challenge_shortcut = {
     G.UIDEF.challenge_list,
