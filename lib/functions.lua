@@ -3414,19 +3414,24 @@ SMODS.Keybind {
     end
 }
 
----@param action "save"|"load"
+function Sagatro.can_save()
+    return G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.SHOP
+end
+
+---@param action "save"|"load"|"delete"
 ---@param index integer
 function Sagatro.handle_save(action, index)
     if action == "save" and G.GAME.story_mode then
         if G.STAGE == G.STAGES.RUN then
-            if not (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.PLANET_PACK or G.STATE ==
-                G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.STANDARD_PACK or G.STATE == G.STATES.BUFFOON_PACK or
-                G.STATE == G.STATES.SMODS_BOOSTER_OPENED) then
+            if Sagatro.can_save() then
                 save_run()
             end
-            compress_and_save(G.SETTINGS.profile.."/".."storymodesave"..index..".jkr", G.ARGS.save_run)
+            if G.ARGS.save_run then
+                compress_and_save(G.SETTINGS.profile.."/".."storymodesave"..index..".jkr", G.ARGS.save_run)
+            end
         end
     elseif action == "load" then
+        if G.OVERLAY_MENU then G.FUNCS.exit_overlay_menu() end
         if Sagatro.config.QuickRestart or Sagatro.debug then
             G:delete_run()
             G.SAVED_GAME = get_compressed(G.SETTINGS.profile.."/".."storymodesave"..index..".jkr")
@@ -3462,6 +3467,8 @@ function Sagatro.handle_save(action, index)
             }))
             G.FUNCS.wipe_off()
         end
+    elseif action == "delete" then
+        love.filesystem.remove(G.SETTINGS.profile.."/".."storymodesave"..index..".jkr")
     end
 end
 
