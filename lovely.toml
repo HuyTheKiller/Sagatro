@@ -324,7 +324,7 @@ if (not G.GAME.inversed_scaling and to_big(G.GAME.chips) >= to_big(G.GAME.blind.
 or (G.GAME.inversed_scaling and to_big(G.GAME.chips) <= to_big(G.GAME.blind.chips)) then
 '''
 
-# Double blind rewards in inverse mode
+# Earn money on remaining discards in inverse mode
 [[patches]]
 [patches.pattern]
 target = 'functions/state_events.lua'
