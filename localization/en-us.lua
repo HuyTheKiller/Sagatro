@@ -2877,11 +2877,12 @@ return {
             j_sgt_goldia = {
                 name = "Goldia",
                 text = {
-                    "No effect yet",
-                    "outside story mode",
+                    "{C:mult}+#1#{} Mult",
+                    "{C:attention}X#2#{} Mult value",
+                    "at end of Ante",
                 },
             },
-            j_sgt_goldia_stage0 = {
+            j_sgt_goldia_stage_0 = {
                 name = "??????",
                 text = {
                     "{C:mult}+#1#{} Mult",
@@ -2889,12 +2890,22 @@ return {
                     "at end of Ante",
                 },
             },
-            j_sgt_goldia_stage1 = {
-                name = "G?????",
+            j_sgt_goldia_stage_dawn = {
+                name = "Goldia",
                 text = {
                     "{C:mult}+#1#{} Mult",
                     "{C:attention}X#2#{} Mult value",
                     "at end of Ante",
+                },
+            },
+            j_sgt_goldia_stage_name_recalled = {
+                name = "Goldia",
+                text = {
+                    "Retrigger all played {C:attention}Queens{}",
+                    "Each played {C:attention}Queen{} of {C:hearts}Hearts{}",
+                    "give {X:mult,C:white}X#1#{} Mult when scored",
+                    "Played {C:attention}Glass{} cards give",
+                    "{X:mult,C:white}X#2#{} Mult when scored",
                 },
             },
             j_sgt_pocket_mirror = {

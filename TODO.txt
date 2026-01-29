@@ -9,10 +9,10 @@ TO-DO:
         [X] Copy and modify G.FUNCS.change_challenge_description
         [X] Copy and modify G.FUNCS.change_challenge_list_page
         [X] Add remaining buttons and their handler functions (Save/load/delete)
-[] Update Goldia:
+[X] Update Goldia:
     [X] Add Goldia's effect inside story mode
     [X] Hook Goldia's effects to story events
-    [] Add Goldia's effect outside story mode
+    [X] Add Goldia's effect outside story mode
 [] Add Regalias:
     [] Add Messer and Gabel (Knife and Fork)
     [] Add Rosen Glöckchen (Rose Bells)

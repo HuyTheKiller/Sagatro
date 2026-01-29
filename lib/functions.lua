@@ -752,6 +752,9 @@ function Game:update(dt)
                             + (v.ability.in_transition and 5 or 0)
                             v.children.center:set_sprite_pos(v.ability.anim_pos)
                         end
+                    elseif v.config.center_key == "j_sgt_goldia" and v.config.center.discovered then
+                        v.ability.hide_name_tag = v.ability.immutable.stage ~= "name_recalled" and v.ability.immutable.stage ~= "dawn"
+                        and (G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers))
                     end
                 end
             end
@@ -3567,8 +3570,8 @@ function Sagatro.handle_save(action, index)
     end
 end
 
----@param from integer
----@param to integer
+---@param from integer|string
+---@param to integer|string
 function Sagatro.set_goldia_stage(from, to)
     for _, goldia in ipairs(SMODS.find_card("j_sgt_goldia", true)) do
         if goldia.ability.immutable.stage == from then
@@ -3578,7 +3581,7 @@ function Sagatro.set_goldia_stage(from, to)
 end
 
 function Sagatro.game_over()
-    if not G.GAME.game_over then
+    if G.STAGE == G.STAGES.RUN and not G.GAME.game_over then
         G.GAME.game_over = true
         G.RESET_BLIND_STATES = true
         G.RESET_JIGGLES = true

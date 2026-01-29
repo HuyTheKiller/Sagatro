@@ -13518,7 +13518,8 @@ local goldia = {
     pos = { x = 0, y = 4 },
     soul_pos = { x = 2, y = 4, sgt_extra = { x = 1, y = 4, no_scale = true }, name_tag = { x = 3, y = 4 } },
     config = {immutable = {stage = 0}, extra = {
-        stage1_mult = 2, stage1_mult_xmod = 2,
+        stage0_mult = 2, stage0_mult_xmod = 2,
+        full_queen_xmult = 2, full_glass_xmult = 2,
     }, shatters_on_destroy = true},
     rarity = 4,
     cost = 20,
@@ -13527,35 +13528,51 @@ local goldia = {
     eternal_compat = true,
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
-        if not G.GAME.story_mode then
-            card.ability.immutable.stage = 6
-        end
-        card.ability.extra.stage1_mult =
-        card.ability.extra.stage1_mult*math.floor(2^(G.GAME.round_resets.ante + (G.GAME.ante_reduced or 0)))
+        card.ability.extra.stage0_mult =
+        card.ability.extra.stage0_mult*math.floor(2^(G.GAME.round_resets.ante + (G.GAME.ante_reduced or 0)))
     end,
     calculate = function(self, card, context)
-        if card.ability.immutable.stage == 0 or card.ability.immutable.stage == 1 then
+        if card.ability.immutable.stage == 0 or card.ability.immutable.stage == "dawn" then
             if context.joker_main then
                 return {
-                    mult = card.ability.extra.stage1_mult,
+                    mult = card.ability.extra.stage0_mult,
                 }
             end
             if context.ante_change and context.ante_end then
                 SMODS.scale_card(card, {
                     ref_table = card.ability.extra,
-                    ref_value = "stage1_mult",
-                    scalar_value = "stage1_mult_xmod",
+                    ref_value = "stage0_mult",
+                    scalar_value = "stage0_mult_xmod",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = initial * scaling
                     end,
                     no_message = true
                 })
             end
-        elseif card.ability.immutable.stage == 2 then
-        elseif card.ability.immutable.stage == 3 then
-        elseif card.ability.immutable.stage == 4 then
-        elseif card.ability.immutable.stage == 5 then
-        elseif card.ability.immutable.stage == 6 then
+        elseif card.ability.immutable.stage == "name_recalled" then
+            if context.repetition and context.cardarea == G.play then
+                if context.other_card:get_id() == 12 then
+                    return {
+                        message = localize("k_again_ex"),
+                        repetitions = 1,
+                        card = card,
+                    }
+                end
+            end
+            if context.individual and context.cardarea == G.play then
+                if context.other_card:get_id() == 12 and context.other_card:is_suit("Hearts") then
+                    return {
+                        xmult = card.ability.extra.full_queen_xmult,
+                        extra = Sagatro.omniscient(context.other_card, {"m_glass", "m_sgt_nyx_glass"}) and
+                        {xmult = card.ability.extra.full_glass_xmult} or nil,
+                    }
+                end
+                if Sagatro.omniscient(context.other_card, {"m_glass", "m_sgt_nyx_glass"}) then
+                    return {
+                        xmult = card.ability.extra.full_glass_xmult,
+                    }
+                end
+            end
         end
     end,
     add_to_deck = function(self, card, from_debuff)
@@ -13566,16 +13583,14 @@ local goldia = {
     end,
     remove_from_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
-            for _, pmirror in ipairs(SMODS.find_card("j_sgt_pocket_mirror", true)) do
-                pmirror:shatter()
-            end
             G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
                 Sagatro.game_over()
             return true end}))
         end
     end,
     update = function(self, card, dt)
-        card.ability.hide_name_tag = not (card.ability.immutable.stage == 6 or not (G.GAME.story_mode or card.displaying_save))
+        card.ability.hide_name_tag = card.ability.immutable.stage ~= "name_recalled"
+        and card.ability.immutable.stage ~= "dawn" and (G.GAME.story_mode or card.displaying_save)
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
@@ -13588,16 +13603,14 @@ local goldia = {
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
             specific_vars = {localize('ph_pmirror'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
         end
-        local ret = {vars = {}}
+        local ret = {vars = {card.ability.extra.stage0_mult, card.ability.extra.stage0_mult_xmod}}
         if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
-            ret.key = "j_sgt_goldia_stage"..card.ability.immutable.stage
-            if card.ability.immutable.stage == 0 or card.ability.immutable.stage == 1 then
-                ret.vars = {card.ability.extra.stage1_mult, card.ability.extra.stage1_mult_xmod}
-            elseif card.ability.immutable.stage == 2 then
-            elseif card.ability.immutable.stage == 3 then
-            elseif card.ability.immutable.stage == 4 then
-            elseif card.ability.immutable.stage == 5 then
-            elseif card.ability.immutable.stage == 6 then
+            ret.key = "j_sgt_goldia_stage_"..card.ability.immutable.stage
+            if card.ability.immutable.stage == 0 or card.ability.immutable.stage == "dawn" then
+                ret.vars = {card.ability.extra.stage0_mult, card.ability.extra.stage0_mult_xmod}
+            elseif card.ability.immutable.stage == "name_recalled" then
+                ret.vars = {card.ability.extra.full_queen_xmult, card.ability.extra.full_glass_xmult}
+                info_queue[#info_queue+1] = G.P_CENTERS.m_glass
             end
         end
         return ret
@@ -13652,7 +13665,6 @@ local pocket_mirror = {
     end,
     add_to_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
-            Sagatro.set_goldia_stage(0, 1)
             Sagatro.progress_storyline("the_pocket_mirror", "finish", self.saga_group, G.GAME.interwoven_storyline)
         end
     end,
@@ -13660,7 +13672,9 @@ local pocket_mirror = {
         if G.GAME.story_mode and not from_debuff then
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if goldia then
-                goldia:shatter()
+                G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
+                    goldia:shatter()
+                return true end}))
             end
         end
     end,
@@ -13685,7 +13699,7 @@ local pocket_mirror = {
             end
             info_queue[#info_queue+1] = {set = "Other", key = "sgt_pocket_mirror", specific_vars = {
                 localize{type = "name_text", set = "Joker",
-                key = "j_sgt_goldia_stage"..(goldia or {ability = {immutable = {stage = 0}}}).ability.immutable.stage}
+                key = "j_sgt_goldia_stage_"..(goldia or {ability = {immutable = {stage = 0}}}).ability.immutable.stage}
             }}
         end
         return ret
