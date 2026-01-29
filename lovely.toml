@@ -784,7 +784,7 @@ target = "card.lua"
 pattern = "-- TARGET: get_chip_mult"
 position = "after"
 payload = '''
-if self.ability.effect == "Omnicient" then
+if self.ability.effect == "Omniscient" then
     self.lucky_trigger = true
 end
 '''
