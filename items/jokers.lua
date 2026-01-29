@@ -3116,7 +3116,7 @@ local alice = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return (Sagatro.storyline_check("none") or Sagatro.storyline_check(self.saga_group)) and not G.GAME.invsersed_scaling
+            return Sagatro.storyline_check(self.saga_group) and not G.GAME.invsersed_scaling
         end
         return true
     end,
@@ -10731,7 +10731,7 @@ local nemo = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.storyline_check("none") or Sagatro.storyline_check(self.saga_group)
+            return Sagatro.storyline_check(self.saga_group)
         end
         return true
     end,
