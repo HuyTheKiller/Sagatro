@@ -278,9 +278,6 @@ function Game:start_run(args)
 	gsr(self, args)
 	if not args.savetext then
 		G.GAME.story_mode = Sagatro.config.DisableOtherJokers
-		if G.GAME.story_mode then
-			G.GAME.sgt_lenient_score = Sagatro.config.LenientScore
-		end
 		if G.GAME.modifiers.ortalab_only then
 			G.GAME.story_mode = false
 		end
@@ -307,6 +304,9 @@ function Game:start_run(args)
 		end
 	end
 	if G.GAME.story_mode then
+		if not args.savetext then
+			G.GAME.sgt_lenient_score = Sagatro.config.LenientScore
+		end
 		Sagatro.update_HUD()
 	end
 	G.GAME.fusion_table = G.GAME.story_mode and SagaFusion.fusions or {}
