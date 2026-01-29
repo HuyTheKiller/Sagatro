@@ -781,7 +781,8 @@ return {
                     "Must be by",
                     "{C:attention}#1#{}'s side",
                     "When {C:attention}Blind{}",
-                    "is selected",
+                    "is selected and",
+                    "at end of round",
                 },
             },
             sgt_switch_cooldown = {

@@ -780,7 +780,8 @@ return {
                     "Phải ở bên",
                     "cạnh {C:attention}#1#{}",
                     "Khi {C:attention}Blind{}",
-                    "được chọn",
+                    "được chọn và",
+                    "ở cuối ván",
                 },
             },
             sgt_switch_cooldown = {
