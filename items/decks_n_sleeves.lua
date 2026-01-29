@@ -22,7 +22,7 @@ local saga_deck = {
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         local card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, "c_soul", 'deck')
-                        card:add_sticker("sgt_easter_egg", true)
+                        -- card:add_sticker("sgt_easter_egg", true)
                         card:set_edition("e_negative", true)
                         card:add_to_deck()
                         G.consumeables:emplace(card)
@@ -155,7 +155,7 @@ if CardSleeves then
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 local card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, "c_soul", 'deck')
-                                card:add_sticker("sgt_easter_egg", true)
+                                -- card:add_sticker("sgt_easter_egg", true)
                                 card:set_edition("e_negative", true)
                                 card:add_to_deck()
                                 G.consumeables:emplace(card)
