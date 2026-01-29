@@ -9,9 +9,23 @@ TO-DO:
         [X] Copy and modify G.FUNCS.change_challenge_description
         [X] Copy and modify G.FUNCS.change_challenge_list_page
         [X] Add remaining buttons and their handler functions (Save/load/delete)
-[X] Update Goldia:
+[] Update Goldia:
     [X] Add Goldia's effect inside story mode
     [X] Hook Goldia's effects to story events
+    [] Add Goldia's effect outside story mode
+[] Add Regalias:
+    [] Add Messer and Gabel (Knife and Fork)
+    [] Add Rosen Glöckchen (Rose Bells)
+    [] Add Haarbürste des Mondes (Hairbrush of the Moon)
+    [] Add Schnee Schere (Snow Scissors)
+    [] Add Engelssense (Angel Scythe)
+[] Add Egliette, expand Goldia:
+    [] Add base Egliette (obscure)
+    [] Add Egliette's effect inside story mode
+    [] Hook Egliette's effects to story events
+    [] Update Goldia's effect inside story mode to include Egliette
+    [] Hook Goldia's effects to story events
+    [] Add Egliette's effect outside story mode
 [] Add Fleta, expand Goldia:
     [] Add base Fleta (legendary)
     [] Add Fleta's effect inside story mode
@@ -41,6 +55,13 @@ TO-DO:
     [] Hook Enjel's effects to story events
     [] Update Goldia's effect inside story mode to include Enjel
     [] Hook Goldia's effects to story events
+    [] Replace Enjel's placeholder with final visual
     [] Add Enjel's effect outside story mode
-[] Add Strange Boy and Platinum, expand Goldia (stale)
-[] Add Goldia's effect outside story mode
+[] Add Platinum:
+    [] Add base Platinum (legendary)
+    [] Add Platinum's effect
+    [] Replace Platinum's placeholder with final visual
+[] Add Strange Boy:
+    [] Add base Strange Boy (legendary)
+    [] Add Strange Boy's effect
+    [] Replace Strange Boy's placeholder with final visual
