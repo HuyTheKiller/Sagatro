@@ -24,6 +24,8 @@ SMODS.Booster:take_ownership_by_kind('Buffoon', {
                 _card.key = "j_sgt_submarine"
             elseif Sagatro.event_check("the_sub_engineer") and i == 1 then
                 _card.key = "j_sgt_sub_engineer"
+            elseif Sagatro.event_check("the_pocket_mirror") and i == 1 then
+                _card.key = "j_sgt_pocket_mirror"
             end
         end
         return _card

@@ -1327,6 +1327,7 @@ SMODS.DrawStep {
         if
             self.config.center.soul_pos
             and self.config.center.soul_pos.name_tag
+            and not self.ability.hide_name_tag
             and (self.config.center.discovered or self.bypass_discovery_center)
         then
             local scale_mod = 0 -- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3

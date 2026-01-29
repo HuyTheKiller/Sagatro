@@ -13512,20 +13512,69 @@ local goldia = {
     artist_credits = {"huycorn", "amy"},
     atlas = "pocket_mirror",
     saga_group = "pocket_mirror",
+    saga_difficulty = 5,
     order = 121,
     pools = { [SAGA_GROUP_POOL.legend] = true },
     pos = { x = 0, y = 4 },
     soul_pos = { x = 2, y = 4, sgt_extra = { x = 1, y = 4, no_scale = true }, name_tag = { x = 3, y = 4 } },
-    config = {extra = {}},
+    config = {immutable = {stage = 0}, extra = {
+        stage1_mult = 2, stage1_mult_xmod = 2,
+    }, shatters_on_destroy = true},
     rarity = 4,
     cost = 20,
     blueprint_compat = true,
     demicoloncompat = true,
     eternal_compat = true,
     perishable_compat = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        if not G.GAME.story_mode then
+            card.ability.immutable.stage = 6
+        end
+        card.ability.extra.stage1_mult = card.ability.extra.stage1_mult*math.floor(2^G.GAME.round_resets.ante)
+    end,
     calculate = function(self, card, context)
+        if card.ability.immutable.stage == 0 or card.ability.immutable.stage == 1 then
+            if context.joker_main then
+                return {
+                    mult = card.ability.extra.stage1_mult,
+                }
+            end
+            if context.ante_change and context.ante_end then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "stage1_mult",
+                    scalar_value = "stage1_mult_xmod",
+                    operation = function(ref_table, ref_value, initial, scaling)
+                        ref_table[ref_value] = initial * scaling
+                    end,
+                    no_message = true
+                })
+            end
+        elseif card.ability.immutable.stage == 2 then
+        elseif card.ability.immutable.stage == 3 then
+        elseif card.ability.immutable.stage == 4 then
+        elseif card.ability.immutable.stage == 5 then
+        elseif card.ability.immutable.stage == 6 then
+        end
     end,
     add_to_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            Sagatro.init_storyline(self.saga_group)
+            Sagatro.progress_storyline("the_pocket_mirror", "add", self.saga_group, G.GAME.interwoven_storyline)
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff then
+            for _, pmirror in ipairs(SMODS.find_card("j_sgt_pocket_mirror", true)) do
+                pmirror:shatter()
+            end
+            G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
+                Sagatro.game_over()
+            return true end}))
+        end
+    end,
+    update = function(self, card, dt)
+        card.ability.hide_name_tag = not (card.ability.immutable.stage == 6 or not (G.GAME.story_mode or card.displaying_save))
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
@@ -13534,7 +13583,96 @@ local goldia = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {}}
+        if Sagatro.storyline_check("none") or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
+            specific_vars = {localize('ph_pmirror'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
+        end
+        local ret = {vars = {}}
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            ret.key = "j_sgt_goldia_stage"..card.ability.immutable.stage
+            if card.ability.immutable.stage == 0 or card.ability.immutable.stage == 1 then
+                ret.vars = {card.ability.extra.stage1_mult, card.ability.extra.stage1_mult_xmod}
+            elseif card.ability.immutable.stage == 2 then
+            elseif card.ability.immutable.stage == 3 then
+            elseif card.ability.immutable.stage == 4 then
+            elseif card.ability.immutable.stage == 5 then
+            elseif card.ability.immutable.stage == 6 then
+            end
+        end
+        return ret
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
+local pocket_mirror = {
+    key = "pocket_mirror",
+    name = "Pocket Mirror",
+    artist_credits = {"temp"},
+    atlas = "pocket_mirror",
+    saga_group = "pocket_mirror",
+    order = 122,
+    pos = { x = 4, y = 4 },
+    soul_pos = { x = 5, y = 4 },
+    config = {shatters_on_destroy = true},
+    rarity = "sgt_obscure",
+    cost = 16,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.retrigger_joker_check and not context.retrigger_joker then
+            if card.area and card.area == context.other_card.area then
+                local pos, other_pos = Sagatro.get_pos(card), Sagatro.get_pos(context.other_card)
+                if math.abs(pos - other_pos) == 1 then
+                    return {
+                        message = localize("k_again_ex"),
+                        repetitions = 1,
+                        card = card,
+                    }
+                end
+            end
+		end
+        if context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker then
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if goldia then
+                local pos, other_pos = Sagatro.get_pos(card), Sagatro.get_pos(goldia)
+                if math.abs(pos - other_pos) ~= 1 then
+                    G.E_MANAGER:add_event(Event({func = function()
+                        card:shatter()
+                    return true end}))
+                end
+            end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff then
+            Sagatro.set_goldia_stage(0, 1)
+            Sagatro.progress_storyline("the_pocket_mirror", "finish", self.saga_group, G.GAME.interwoven_storyline)
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff then
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if goldia then
+                goldia:shatter()
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode then
+            return Sagatro.storyline_check(self.saga_group)
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {vars = {colours = {G.C.GOLD}}}
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            ret.key = "j_sgt_pocket_mirror_storymode"
+        end
+        return ret
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -15812,6 +15950,7 @@ local joker_table = {
     vorpal_sword,
     ecila,
     goldia,
+    pocket_mirror,
     hansels_cheat_dice,
     skoll_n_hati,
     three_winters,

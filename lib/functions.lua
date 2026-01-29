@@ -2217,6 +2217,8 @@ function Sagatro.set_ability_reset_keys()
         "buffed",
         "debuffed_by_turquoise_jellyfish",
         "inactive",
+        "shatters_on_destroy",
+        "hide_name_tag",
     }
 end
 
@@ -2303,7 +2305,8 @@ function Sagatro:calculate(context)
         if context.check_eternal then
             local card = context.other_card
             if card.config.center_key == "j_sgt_submarine"
-            or card.config.center_key == "j_sgt_mirror" then
+            or card.config.center_key == "j_sgt_mirror"
+            or card.config.center_key == "j_sgt_goldia" then
                 return {no_destroy = true}
             end
             if card.ability.set == "Joker" and not card.config.center.mirrorworld and G.GAME.inversed_scaling then
@@ -3209,6 +3212,7 @@ function Sagatro.global_set_cost(from_event)
     end
 end
 
+---@param card table|Card
 function Sagatro.get_pos(card)
     if card.area then
         for i, v in ipairs(card.area.cards) do
@@ -3502,7 +3506,7 @@ function Sagatro.handle_save(action, index)
         end
     elseif action == "load" then
         if G.OVERLAY_MENU then G.FUNCS.exit_overlay_menu() end
-        if Sagatro.config.QuickRestart or Sagatro.debug then
+        if Sagatro.config.QuickRestart or Sagatro.debug or (Handy and Handy.animation_skip.should_skip_everything()) then
             G:delete_run()
             G.SAVED_GAME = get_compressed(G.SETTINGS.profile.."/"..Sagatro.save_name..index..".jkr")
             if G.SAVED_GAME ~= nil then
@@ -3539,6 +3543,31 @@ function Sagatro.handle_save(action, index)
         end
     elseif action == "delete" then
         love.filesystem.remove(G.SETTINGS.profile.."/"..Sagatro.save_name..index..".jkr")
+    end
+end
+
+---@param from integer
+---@param to integer
+function Sagatro.set_goldia_stage(from, to)
+    for _, goldia in ipairs(SMODS.find_card("j_sgt_goldia", true)) do
+        if goldia.ability.immutable.stage == from then
+            goldia.ability.immutable.stage = to
+        end
+    end
+end
+
+function Sagatro.game_over()
+    if not G.GAME.game_over then
+        G.GAME.game_over = true
+        G.RESET_BLIND_STATES = true
+        G.RESET_JIGGLES = true
+        G.STATE = G.STATES.GAME_OVER
+        if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+            G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+        end
+        G:save_settings()
+        G.FILE_HANDLER.force = true
+        G.STATE_COMPLETE = false
     end
 end
 

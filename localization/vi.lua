@@ -2857,7 +2857,41 @@ return {
             j_sgt_goldia = {
                 name = "Goldia",
                 text = {
-                    "Thử {C:attention}DrawStep{}, chưa có hiệu ứng",
+                    "Chưa có hiệu ứng ngoài",
+                    "chế độ cốt truyện",
+                },
+            },
+            j_sgt_goldia_stage0 = {
+                name = "??????",
+                text = {
+                    "{C:mult}+#1#{} Nhân",
+                    "{C:attention}X#2#{} giá trị Nhân",
+                    "ở cuối Ante",
+                },
+            },
+            j_sgt_goldia_stage1 = {
+                name = "G?????",
+                text = {
+                    "{C:mult}+#1#{} Nhân",
+                    "{C:attention}X#2#{} giá trị Nhân",
+                    "ở cuối Ante",
+                },
+            },
+            j_sgt_pocket_mirror = {
+                name = "Gương Bỏ Túi",
+                text = {
+                    "{B:1,C:white}Ấn Vương{}",
+                    "{C:attention}Tái kích{}",
+                    "joker liền kề",
+                },
+            },
+            j_sgt_pocket_mirror_storymode = {
+                name = "Gương Bỏ Túi",
+                text = {
+                    {"{B:1,C:white}Ấn Vương{} {B:1,C:white}G{}",
+                    "{C:attention}Tái kích{}",
+                    "joker liền kề"},
+                    {"{C:inactive}Đừng để đánh mất nó nhé."},
                 },
             },
             j_sgt_shub = {

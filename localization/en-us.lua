@@ -2860,7 +2860,41 @@ return {
             j_sgt_goldia = {
                 name = "Goldia",
                 text = {
-                    "{C:attention}DrawStep{} test, no effect yet",
+                    "No effect yet",
+                    "outside story mode",
+                },
+            },
+            j_sgt_goldia_stage0 = {
+                name = "??????",
+                text = {
+                    "{C:mult}+#1#{} Mult",
+                    "{C:attention}X#2#{} Mult value",
+                    "at end of Ante",
+                },
+            },
+            j_sgt_goldia_stage1 = {
+                name = "G?????",
+                text = {
+                    "{C:mult}+#1#{} Mult",
+                    "{C:attention}X#2#{} Mult value",
+                    "at end of Ante",
+                },
+            },
+            j_sgt_pocket_mirror = {
+                name = "Pocket Mirror",
+                text = {
+                    "{B:1,C:white}Regalia{}",
+                    "{C:attention}Retrigger{}",
+                    "adjacent jokers",
+                },
+            },
+            j_sgt_pocket_mirror_storymode = {
+                name = "Pocket Mirror",
+                text = {
+                    {"{B:1,C:white}Regalia{} {B:1,C:white}G{}",
+                    "{C:attention}Retrigger{}",
+                    "adjacent jokers"},
+                    {"{C:inactive}Don't ever let it go."},
                 },
             },
             j_sgt_shub = {

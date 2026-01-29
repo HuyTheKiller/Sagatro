@@ -1184,3 +1184,16 @@ target = "card.lua"
 pattern = '''G\.in_delete_run'''
 position = "at"
 payload = '''G.in_delete_run or self.displaying_save'''
+
+# Patch to allow shattering effect on any card destroyed, not just glass-like enhancements
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''dissolve_colours = dissolve_colours or (type(self.destroyed) == 'table' and self.destroyed.colours) or nil'''
+position = "before"
+payload = '''
+if self.ability.shatters_on_destroy then
+    return self:shatter()
+end
+'''
+match_indent = true
