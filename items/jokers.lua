@@ -13530,7 +13530,8 @@ local goldia = {
         if not G.GAME.story_mode then
             card.ability.immutable.stage = 6
         end
-        card.ability.extra.stage1_mult = card.ability.extra.stage1_mult*math.floor(2^G.GAME.round_resets.ante)
+        card.ability.extra.stage1_mult =
+        card.ability.extra.stage1_mult*math.floor(2^(G.GAME.round_resets.ante + (G.GAME.ante_reduced or 0)))
     end,
     calculate = function(self, card, context)
         if card.ability.immutable.stage == 0 or card.ability.immutable.stage == 1 then

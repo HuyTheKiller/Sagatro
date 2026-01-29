@@ -2376,10 +2376,14 @@ function Sagatro:calculate(context)
             G.GAME.first_hand_played = true
         return true end}))
     end
-    if context.ante_change and context.ante_end and not context.retrigger_joker
-    and Sagatro.played_this_ante_compat() then
-        for _, v in pairs(G.GAME.hands) do
-            v.played_this_ante = 0
+    if context.ante_change and not context.retrigger_joker then
+        if context.ante_end and Sagatro.played_this_ante_compat() then
+            for _, v in pairs(G.GAME.hands) do
+                v.played_this_ante = 0
+            end
+        end
+        if context.ante_change < 0 then
+            G.GAME.ante_reduced = (G.GAME.ante_reduced or 0) - context.ante_change
         end
     end
     if ((context.ante_change and context.ante_change < 0) or context.sgt_ante_interrupt)
