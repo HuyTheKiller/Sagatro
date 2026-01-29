@@ -61,6 +61,10 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
             local realworld_nodes = {background_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.25)}
             localize{type = "descriptions", set = "Other", key = "sgt_realworld", nodes = realworld_nodes, vars = {}}
             ui[Ortalab and "mythos" or "celestara"] = realworld_nodes
+        elseif _c.key == "c_soul" and Sagatro.storyline_check("none") then
+            local soul_nodes = {background_colour = mix_colours(G.C.RARITY[4], G.C.WHITE, 0.25)}
+            localize{type = "descriptions", set = "Other", key = "sgt_soul_storyline", nodes = soul_nodes, vars = {}}
+            ui[Ortalab and "mythos" or "celestara"] = soul_nodes
         elseif _c.key == "j_sgt_humpty_dumpty" then
             local humdum_nodes = {background_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.25)}
             localize{type = "descriptions", set = "Other", key = "sgt_humdum", nodes = humdum_nodes, vars = {}}

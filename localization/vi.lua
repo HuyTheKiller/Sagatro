@@ -767,6 +767,13 @@ return {
                     "không thể bán hoặc bị phá huỷ",
                 },
             },
+            sgt_soul_storyline = {
+                text = {
+                    "Dùng lá này ngay để",
+                    "{C:attention}bắt đầu{} một mạch truyện",
+                    "{C:legendary,E:1}Huyền Thoại{} ngẫu nhiên",
+                },
+            },
             sgt_switch_cooldown = {
                 name = "Hồi Chiêu Chuyển Đổi",
                 text = {

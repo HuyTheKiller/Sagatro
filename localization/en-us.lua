@@ -768,6 +768,13 @@ return {
                     "can't be sold or destroyed",
                 },
             },
+            sgt_soul_storyline = {
+                text = {
+                    "Use this card now",
+                    "to {C:attention}initialize{} a random",
+                    "{C:legendary,E:1}Legendary{} storyline",
+                },
+            },
             sgt_switch_cooldown = {
                 name = "Switch Cooldown",
                 text = {
