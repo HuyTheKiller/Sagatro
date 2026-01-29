@@ -13635,7 +13635,8 @@ local pocket_mirror = {
                 end
             end
 		end
-        if context.end_of_round and context.main_eval and not context.blueprint and not context.retrigger_joker then
+        if context.setting_blind and not card.getting_sliced
+        and not context.blueprint and not context.retrigger_joker then
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if goldia then
                 local pos, other_pos = Sagatro.get_pos(card), Sagatro.get_pos(goldia)
