@@ -271,7 +271,7 @@ G.FUNCS.submarine_up = function(e)
     Sagatro.resolve_fuel(-1)
     submarine:juice_up()
     if G.GAME.ante_cooldown == 0 then
-        G.GAME.ante_cooldown = G.GAME.ante_cooldown + (G.GAME.sgt_lenient_score and 4 or 2)
+        G.GAME.ante_cooldown = G.GAME.ante_cooldown + (G.GAME.sgt_lenient_score and 8 or 4)
         if not G.GAME.ante_first_time then
             G.GAME.ante_first_time = true
             G.GAME.ante_reduction_tooltip = true
