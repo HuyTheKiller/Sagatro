@@ -306,6 +306,11 @@ function Game:start_run(args)
 	if G.GAME.story_mode then
 		if not args.savetext then
 			G.GAME.sgt_lenient_score = Sagatro.config.LenientScore
+			G.GAME.delayed_joker_slot = 3
+			if G.GAME.selected_back.effect.center.key == "b_sgt_saga"
+			or (CardSleeves and G.GAME.selected_sleeve == "sleeve_sgt_saga") then
+				G.GAME.delayed_joker_slot = nil
+			end
 		end
 		Sagatro.update_HUD()
 	end

@@ -3604,6 +3604,8 @@ return {
             sgt_rank_of_suit = "#1# #2#",
             sgt_plus_spectrals = "+#1# Siêu Linh",
             sgt_save_slots_used = "Ô đã dùng: #1#/#2#",
+            sgt_plus_joker_slot = "+#1# ô Joker",
+            sgt_plus_joker_slots = "+#1# ô Joker",
         },
         v_text = {
             ch_c_sgt_disable_sagatro_items = { "Vật phẩm của {C:sgt_sagadition}Sagatro{} không còn xuất hiện trong {C:attention}shop" },

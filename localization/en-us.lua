@@ -3607,6 +3607,8 @@ return {
             sgt_rank_of_suit = "#1# of #2#",
             sgt_plus_spectrals = "+#1# Spectral",
             sgt_save_slots_used = "Slots used: #1#/#2#",
+            sgt_plus_joker_slot = "+#1# Joker slot",
+            sgt_plus_joker_slots = "+#1# Joker slots",
         },
         v_text = {
             ch_c_sgt_disable_sagatro_items = { "{C:sgt_sagadition}Sagatro{} items no longer appear in the {C:attention}shop" },

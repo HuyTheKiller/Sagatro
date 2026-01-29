@@ -2257,6 +2257,20 @@ function Sagatro:calculate(context)
             if Sagatro.storyline_check("alice_in_wonderland") then
                 G.GAME.switch_bonus = G.GAME.switch_bonus + Sagatro.ability.switch_bonus
             end
+            if G.GAME.delayed_joker_slot then
+                G.GAME.rounds_per_joker_slot = G.GAME.rounds_per_joker_slot or 15
+                for i = 3, 1, -1 do
+                    if G.GAME.round >= i*G.GAME.rounds_per_joker_slot then
+                        if G.GAME.delayed_joker_slot == 4 - i then
+                            G.jokers:change_size(1)
+                            G.GAME.delayed_joker_slot = G.GAME.delayed_joker_slot - 1
+                            return {
+                                message = localize{type='variable',key='sgt_plus_joker_slot',vars={1}},
+                            }
+                        end
+                    end
+                end
+            end
         end
         if context.after then
             for _, v in pairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
