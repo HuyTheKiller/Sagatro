@@ -2258,7 +2258,7 @@ function Sagatro:calculate(context)
                 G.GAME.switch_bonus = G.GAME.switch_bonus + Sagatro.ability.switch_bonus
             end
             if G.GAME.delayed_joker_slot then
-                G.GAME.rounds_per_joker_slot = G.GAME.rounds_per_joker_slot or 15
+                G.GAME.rounds_per_joker_slot = G.GAME.rounds_per_joker_slot or (G.GAME.sgt_lenient_score and 18 or 15)
                 for i = 3, 1, -1 do
                     if G.GAME.round >= i*G.GAME.rounds_per_joker_slot then
                         if G.GAME.delayed_joker_slot == 4 - i then
