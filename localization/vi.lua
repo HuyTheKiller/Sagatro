@@ -2907,7 +2907,8 @@ return {
                     {"{B:1,C:white}Ấn Vương{} {B:1,C:white}G{}",
                     "{C:attention}Tái kích{}",
                     "joker liền kề"},
-                    {"{C:inactive}Đừng để đánh mất nó nhé."},
+                    {"{C:inactive}Đừng bao giờ buông rời",
+                    "{C:inactive}nó, con nhé?"},
                 },
             },
             j_sgt_shub = {

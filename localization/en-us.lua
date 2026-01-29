@@ -2910,7 +2910,8 @@ return {
                     {"{B:1,C:white}Regalia{} {B:1,C:white}G{}",
                     "{C:attention}Retrigger{}",
                     "adjacent jokers"},
-                    {"{C:inactive}Don't ever let it go."},
+                    {"{C:inactive}Do not ever let it go.",
+                    "{C:inactive}Do you understand?"},
                 },
             },
             j_sgt_shub = {
