@@ -659,6 +659,9 @@ function Game:update(dt)
     end
     if not G.SETTINGS.paused then
         Sagatro.allow_save = nil
+        if Sagatro.temp_areas.jokers then
+            Sagatro.remove_temp_areas()
+        end
     end
     if G.STAGE == G.STAGES.RUN then
         Sagatro.debug_info["During a run"] = true
@@ -3582,6 +3585,13 @@ function Sagatro.game_over()
         G:save_settings()
         G.FILE_HANDLER.force = true
         G.STATE_COMPLETE = false
+    end
+end
+
+function Sagatro.remove_temp_areas()
+    for area, _ in pairs(Sagatro.temp_areas) do
+        Sagatro.temp_areas[area]:remove()
+        Sagatro.temp_areas[area] = nil
     end
 end
 

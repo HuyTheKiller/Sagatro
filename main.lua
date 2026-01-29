@@ -49,6 +49,8 @@ Sagatro.optional_features = {
 	retrigger_joker = true,
 }
 
+Sagatro.temp_areas = {}
+
 Sagatro.save_slots = 20
 Sagatro.save_name_list = {}
 Sagatro.save_name = "storymodesave"

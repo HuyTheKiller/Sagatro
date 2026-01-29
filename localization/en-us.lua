@@ -775,6 +775,15 @@ return {
                     "{C:legendary,E:1}Legendary{} storyline",
                 },
             },
+            sgt_pocket_mirror = {
+                name = "Important Note",
+                text = {
+                    "Must be by",
+                    "{C:attention}#1#{}'s side",
+                    "When {C:attention}Blind{}",
+                    "is selected",
+                },
+            },
             sgt_switch_cooldown = {
                 name = "Switch Cooldown",
                 text = {

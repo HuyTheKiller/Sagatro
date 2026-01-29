@@ -774,6 +774,15 @@ return {
                     "{C:legendary,E:1}Huyền Thoại{} ngẫu nhiên",
                 },
             },
+            sgt_pocket_mirror = {
+                name = "Ghi Chú Quan Trọng",
+                text = {
+                    "Phải ở bên",
+                    "cạnh {C:attention}#1#{}",
+                    "Khi {C:attention}Blind{}",
+                    "được chọn",
+                },
+            },
             sgt_switch_cooldown = {
                 name = "Hồi Chiêu Chuyển Đổi",
                 text = {

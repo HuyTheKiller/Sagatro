@@ -851,41 +851,41 @@ function G.UIDEF.save_description(_id)
   saved_snapshot = STR_UNPACK(saved_snapshot)
   local cardAreas = saved_snapshot.cardAreas
 
-  local jokers = CardArea(0,0,
+  Sagatro.temp_areas.jokers = CardArea(0,0,
     10*joker_size,
     0.6*G.CARD_H,
     {card_limit = cardAreas.jokers.config.card_limit or 5,
     negative_info = 'joker',
     card_w = joker_size*G.CARD_W, type = 'title_2', highlight_limit = 0})
 
-  jokers:temp_load(cardAreas.jokers, joker_size)
-  jokers.config.type = 'title_2'
+  Sagatro.temp_areas.jokers:temp_load(cardAreas.jokers, joker_size)
+  Sagatro.temp_areas.jokers.config.type = 'title_2'
 
   local joker_col = {n=G.UIT.C, config={align = "cm", padding = 0.05, colour = G.C.L_BLACK, r = 0.1, maxh = 5}, nodes={
     {n=G.UIT.T, config={text = localize('k_jokers_cap'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT, vert = true, shadow = true}},
     {n=G.UIT.C, config={align = "cm", minh = 0.6*G.CARD_H, minw = 5, r = 0.1, colour = G.C.UI.TRANSPARENT_DARK}, nodes={
-      jokers and {n=G.UIT.O, config={object = jokers}} or {n=G.UIT.T, config={text = localize('k_none'), scale = 0.4, colour = G.C.GREY}},
+      Sagatro.temp_areas.jokers and {n=G.UIT.O, config={object = Sagatro.temp_areas.jokers}} or {n=G.UIT.T, config={text = localize('k_none'), scale = 0.4, colour = G.C.GREY}},
     }}
   }}
 
-  local consumeables = CardArea(0,0,
+  Sagatro.temp_areas.consumeables = CardArea(0,0,
     3*joker_size,
     0.6*G.CARD_H,
     {card_limit = cardAreas.consumeables.config.card_limit or 2,
     negative_info = 'consumable',
     card_w = joker_size*G.CARD_W, type = 'title_2', spread = true, highlight_limit = 0})
 
-  consumeables:temp_load(cardAreas.consumeables, joker_size)
-  consumeables.config.type = 'title_2'
+  Sagatro.temp_areas.consumeables:temp_load(cardAreas.consumeables, joker_size)
+  Sagatro.temp_areas.consumeables.config.type = 'title_2'
 
   local consumable_col = {n=G.UIT.C, config={align = "cm", padding = 0.05, colour = G.C.L_BLACK, r = 0.1, maxh = 5}, nodes={
     {n=G.UIT.T, config={text = localize('k_cap_consumables'), scale = 0.3, colour = G.C.UI.TEXT_LIGHT, vert = true, shadow = true}},
     {n=G.UIT.C, config={align = "cm", minh = 0.6*G.CARD_H, r = 0.1, colour = G.C.UI.TRANSPARENT_DARK}, nodes={
-      consumeables and {n=G.UIT.O, config={object = consumeables}} or {n=G.UIT.T, config={text = localize('k_none'), scale = 0.4, colour = G.C.GREY}},
+      Sagatro.temp_areas.consumeables and {n=G.UIT.O, config={object = Sagatro.temp_areas.consumeables}} or {n=G.UIT.T, config={text = localize('k_none'), scale = 0.4, colour = G.C.GREY}},
     }}
   }}
 
-  local vouchers = CardArea(0,0,
+  Sagatro.temp_areas.vouchers = CardArea(0,0,
     3*joker_size,
     0.6*G.CARD_H,
     {card_limit = nil,
@@ -899,14 +899,14 @@ function G.UIDEF.save_description(_id)
     card.T.w = card.T.w*joker_size
     card:set_sprites(card.config.center)
     card.displaying_save = true
-    vouchers:emplace(card)
+    Sagatro.temp_areas.vouchers:emplace(card)
   end
 
   local voucher_col = {n=G.UIT.C, config={align = "cm", padding = 0.05, colour = G.C.L_BLACK, r = 0.1, maxh = 5}, nodes={
     {n=G.UIT.T, config={text = localize('k_most_recent_voucher_cap1'), scale = 0.33, colour = G.C.UI.TEXT_LIGHT, vert = true, shadow = true}},
     {n=G.UIT.T, config={text = localize('k_most_recent_voucher_cap2'), scale = 0.33, colour = G.C.UI.TEXT_LIGHT, vert = true, shadow = true}},
     {n=G.UIT.C, config={align = "cm", minh = 0.6*G.CARD_H, r = 0.1, colour = G.C.UI.TRANSPARENT_DARK}, nodes={
-      vouchers and {n=G.UIT.O, config={object = vouchers}} or {n=G.UIT.T, config={text = localize('k_none'), scale = 0.4, colour = G.C.GREY}},
+      Sagatro.temp_areas.vouchers and {n=G.UIT.O, config={object = Sagatro.temp_areas.vouchers}} or {n=G.UIT.T, config={text = localize('k_none'), scale = 0.4, colour = G.C.GREY}},
     }}
   }}
 

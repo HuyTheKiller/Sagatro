@@ -13672,6 +13672,19 @@ local pocket_mirror = {
         local ret = {vars = {colours = {G.C.GOLD}}}
         if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
             ret.key = "j_sgt_pocket_mirror_storymode"
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if card.displaying_save then
+                for _, v in ipairs((Sagatro.temp_areas or {jokers = {}}).jokers.cards or {}) do
+                    if v.config.center_key == "j_sgt_goldia" then
+                        goldia = v
+                        break
+                    end
+                end
+            end
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_pocket_mirror", specific_vars = {
+                localize{type = "name_text", set = "Joker",
+                key = "j_sgt_goldia_stage"..(goldia or {ability = {immutable = {stage = 0}}}).ability.immutable.stage}
+            }}
         end
         return ret
     end,
