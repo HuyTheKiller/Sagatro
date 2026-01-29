@@ -9,30 +9,38 @@ TO-DO:
         [X] Copy and modify G.FUNCS.change_challenge_description
         [X] Copy and modify G.FUNCS.change_challenge_list_page
         [X] Add remaining buttons and their handler functions (Save/load/delete)
-[] Update Goldia:
-    [] Add Goldia's effect outside story mode
-    [] Add Goldia's effect inside story mode
-    [] Hook Goldia's effects to story events
-[] Add Fleta:
+[X] Update Goldia:
+    [X] Add Goldia's effect inside story mode
+    [X] Hook Goldia's effects to story events
+[] Add Fleta, expand Goldia:
     [] Add base Fleta (legendary)
-    [] Add Fleta's effect outside story mode
     [] Add Fleta's effect inside story mode
     [] Hook Fleta's effects to story events
-[] Add Harpae:
+    [] Update Goldia's effect inside story mode to include Fleta
+    [] Hook Goldia's effects to story events
+    [] Add Fleta's effect outside story mode
+[] Add Harpae, expand Goldia:
     [] Add base Harpae (legendary)
-    [] Add Harpae's effect outside story mode
     [] Add Harpae's effect inside story mode
     [] Hook Harpae's effects to story events
-[] Add Lisette:
+    [] Update Goldia's effect inside story mode to include Harpae
+    [] Hook Goldia's effects to story events
+    [] Add Harpae's effect outside story mode
+[] Add Lisette, expand Goldia:
     [] Add base Lisette (legendary)
-    [] Add Lisette's effect outside story mode
     [] Add Lisette's effect inside story mode
     [] Hook Lisette's effects to story events
+    [] Update Goldia's effect inside story mode to include Lisette
+    [] Hook Goldia's effects to story events
     [] Replace Lisette's placeholder with final visual
-[] Add Enjel:
+    [] Add Lisette's effect outside story mode
+[] Add Enjel, expand Goldia:
     [] Add Enjel's visual
     [] Add base Enjel (legendary)
-    [] Add Enjel's effect outside story mode
     [] Add Enjel's effect inside story mode
     [] Hook Enjel's effects to story events
-[] Add Strange Boy and Platinum (stale)
+    [] Update Goldia's effect inside story mode to include Enjel
+    [] Hook Goldia's effects to story events
+    [] Add Enjel's effect outside story mode
+[] Add Strange Boy and Platinum, expand Goldia (stale)
+[] Add Goldia's effect outside story mode
