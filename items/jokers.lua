@@ -13533,12 +13533,8 @@ local goldia = {
     end,
     calculate = function(self, card, context)
         if card.ability.immutable.stage == 0 or card.ability.immutable.stage == "dawn" then
-            if context.joker_main then
-                return {
-                    mult = card.ability.extra.stage0_mult,
-                }
-            end
-            if context.ante_change and context.ante_end then
+            if (context.ante_change and context.ante_end
+            and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
                 SMODS.scale_card(card, {
                     ref_table = card.ability.extra,
                     ref_value = "stage0_mult",
@@ -13548,6 +13544,11 @@ local goldia = {
                     end,
                     no_message = true
                 })
+            end
+            if context.joker_main or context.forcetrigger then
+                return {
+                    mult = card.ability.extra.stage0_mult,
+                }
             end
         elseif card.ability.immutable.stage == "name_recalled" then
             if context.repetition and context.cardarea == G.play then
@@ -13572,6 +13573,12 @@ local goldia = {
                         xmult = card.ability.extra.full_glass_xmult,
                     }
                 end
+            end
+            if context.forcetrigger then
+                return {
+                    xmult = card.ability.extra.full_queen_xmult,
+                    extra = {xmult = card.ability.extra.full_glass_xmult},
+                }
             end
         end
     end,
