@@ -2923,6 +2923,40 @@ return {
                     "{C:inactive}nó, con nhé?"},
                 },
             },
+            j_sgt_knife_fork = {
+                name = "Dao Và Nĩa",
+                text = {
+                    "{B:1,C:white}Ấn Vương{}",
+                    "Tái kích mọi lá {C:attention}Đầm",
+                    "đã chơi {C:attention}#1#{} lần",
+                },
+            },
+            j_sgt_knife_fork_storymode = {
+                name = "Dao Và Nĩa",
+                text = {
+                    "{B:1,C:white}Ấn Vương{} {B:1,C:white}I{}",
+                    "Tái kích mọi lá {C:attention}Đầm",
+                    "đã chơi {C:attention}#1#{} lần",
+                },
+            },
+            j_sgt_rose_bell = {
+                name = "Chuông Hồng",
+                text = {
+                    "{B:1,C:white}Ấn Vương{}",
+                    "Thêm {X:mult,C:white}X#2#{} Nhân mỗi lần",
+                    "lá {C:attention}Đầm {C:hearts}Cơ{} ghi điểm",
+                    "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_rose_bell_storymode = {
+                name = "Chuông Hồng",
+                text = {
+                    "{B:1,C:white}Ấn Vương{} {B:1,C:white}A{}",
+                    "Thêm {X:mult,C:white}X#2#{} Nhân mỗi lần",
+                    "lá {C:attention}Đầm {C:hearts}Cơ{} ghi điểm",
+                    "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {

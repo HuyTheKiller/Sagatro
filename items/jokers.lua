@@ -13633,14 +13633,14 @@ local pocket_mirror = {
     artist_credits = {"temp"},
     atlas = "pocket_mirror",
     saga_group = "pocket_mirror",
-    order = 122,
+    order = 126,
     pos = { x = 4, y = 4 },
     soul_pos = { x = 5, y = 4 },
     config = {shatters_on_destroy = true},
     rarity = "sgt_obscure",
     cost = 16,
     blueprint_compat = true,
-    demicoloncompat = true,
+    demicoloncompat = false,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
@@ -13662,7 +13662,7 @@ local pocket_mirror = {
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if goldia then
                 local pos, other_pos = Sagatro.get_pos(card), Sagatro.get_pos(goldia)
-                if math.abs(pos - other_pos) ~= 1 then
+                if math.abs(pos - other_pos) ~= 1 and not card.shattered then
                     G.E_MANAGER:add_event(Event({func = function()
                         card:shatter()
                     return true end}))
@@ -13678,7 +13678,7 @@ local pocket_mirror = {
     remove_from_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
-            if goldia then
+            if goldia and not goldia.shattered then
                 G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
                     goldia:shatter()
                 return true end}))
@@ -13708,6 +13708,147 @@ local pocket_mirror = {
                 localize{type = "name_text", set = "Joker",
                 key = "j_sgt_goldia_stage_"..(goldia or {ability = {immutable = {stage = 0}}}).ability.immutable.stage}
             }}
+        end
+        return ret
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
+local knife_fork = {
+    key = "knife_fork",
+    name = "Messer And Gabel",
+    artist_credits = {"temp"},
+    atlas = "pocket_mirror",
+    saga_group = "pocket_mirror",
+    order = 132,
+    pos = { x = 4, y = 6 },
+    soul_pos = { x = 5, y = 6 },
+    config = {extra = {retriggers = 2}, shatters_on_destroy = true},
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = true,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:get_id() == 12 then
+                return {
+                    message = localize("k_again_ex"),
+                    repetitions = card.ability.extra.retriggers,
+                    card = card,
+                }
+            end
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff then
+            local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
+            if pmirror and not pmirror.shattered then
+                G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
+                    for _, regalia in ipairs{"j_sgt_knife_fork", "j_sgt_rose_bell", "j_sgt_moon_hairbrush", "j_sgt_snow_scissors", "j_sgt_angel_scythe"} do
+                        regalia = SMODS.find_card(regalia, true)[1]
+                        if regalia and not regalia.shattered then
+                            regalia:shatter()
+                        end
+                    end
+                    pmirror:shatter()
+                return true end}))
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode then
+            return Sagatro.storyline_check(self.saga_group)
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {vars = {card.ability.extra.retriggers, colours = {G.C.GOLD}}}
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            ret.key = "j_sgt_knife_fork_storymode"
+        end
+        return ret
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
+local rose_bell = {
+    key = "rose_bell",
+    name = "Rosen Glöckchen",
+    artist_credits = {"temp"},
+    atlas = "pocket_mirror",
+    saga_group = "pocket_mirror",
+    order = 127,
+    pos = { x = 4, y = 0 },
+    soul_pos = { x = 5, y = 0 },
+    config = {extra = {xmult = 1, xmult_mod = 0.5}, shatters_on_destroy = true},
+    rarity = 3,
+    cost = 8,
+    blueprint_compat = true,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play and not context.blueprint then
+            if context.other_card:get_id() == 12 and context.other_card:is_suit("Hearts") then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "xmult",
+                    scalar_value = "xmult_mod",
+                    scaling_message = {
+                        focus = card,
+                        message = localize('k_upgrade_ex'),
+                        colour = G.C.RED,
+                    }
+                })
+                return nil, true
+            end
+        end
+        if (context.joker_main and to_big(card.ability.extra.xmult) > to_big(1)) or context.forcetrigger then
+            if context.forcetrigger then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "xmult",
+                    scalar_value = "xmult_mod",
+                    no_message = true
+                })
+            end
+            return {
+                xmult = card.ability.extra.xmult,
+            }
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff then
+            local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
+            if pmirror and not pmirror.shattered then
+                G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
+                    for _, regalia in ipairs{"j_sgt_knife_fork", "j_sgt_rose_bell", "j_sgt_moon_hairbrush", "j_sgt_snow_scissors", "j_sgt_angel_scythe"} do
+                        regalia = SMODS.find_card(regalia, true)[1]
+                        if regalia and not regalia.shattered then
+                            regalia:shatter()
+                        end
+                    end
+                    pmirror:shatter()
+                return true end}))
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode then
+            return Sagatro.storyline_check(self.saga_group)
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod, colours = {G.C.GOLD}}}
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            ret.key = "j_sgt_rose_bell_storymode"
         end
         return ret
     end,
@@ -15988,6 +16129,8 @@ local joker_table = {
     ecila,
     goldia,
     pocket_mirror,
+    rose_bell,
+    knife_fork,
     hansels_cheat_dice,
     skoll_n_hati,
     three_winters,

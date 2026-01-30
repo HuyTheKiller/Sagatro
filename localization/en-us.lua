@@ -2926,6 +2926,40 @@ return {
                     "{C:inactive}Do you understand?"},
                 },
             },
+            j_sgt_knife_fork = {
+                name = "Messer And Gabel",
+                text = {
+                    "{B:1,C:white}Regalia{}",
+                    "Retrigger all played",
+                    "{C:attention}Queens{} {C:attention}#1#{} times",
+                },
+            },
+            j_sgt_knife_fork_storymode = {
+                name = "Messer And Gabel",
+                text = {
+                    "{B:1,C:white}Regalia{} {B:1,C:white}I{}",
+                    "Retrigger all played",
+                    "{C:attention}Queens{} {C:attention}#1#{} times",
+                },
+            },
+            j_sgt_rose_bell = {
+                name = "Rosen Glöckchen",
+                text = {
+                    "{B:1,C:white}Regalia{}",
+                    "Gain {X:mult,C:white}X#2#{} Mult every time",
+                    "{C:attention}Queen{} of {C:hearts}Hearts{} scores",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_rose_bell_storymode = {
+                name = "Rosen Glöckchen",
+                text = {
+                    "{B:1,C:white}Regalia{} {B:1,C:white}A{}",
+                    "Gain {X:mult,C:white}X#2#{} Mult every time",
+                    "{C:attention}Queen{} of {C:hearts}Hearts{} scores",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
