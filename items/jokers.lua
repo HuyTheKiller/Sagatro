@@ -11359,7 +11359,7 @@ local ticket_checker = {
 
 local man_in_white = {
     key = "man_in_white",
-    name = "Man In White",
+    name = "Aged Man",
     artist_credits = {"amy"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",

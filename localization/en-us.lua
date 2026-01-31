@@ -2638,7 +2638,7 @@ return {
                 },
             },
             j_sgt_man_in_white = {
-                name = "Man In White",
+                name = "Aged Man",
                 text = {
                     {"Gain {C:mult}+#2#{} Mult if played hand",
                     "contains a {C:attention}Straight{} and an {C:attention}Ace",
