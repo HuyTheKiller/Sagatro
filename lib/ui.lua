@@ -635,7 +635,9 @@ G.FUNCS.exit_overlay_menu_Sagatro = function()
   G.OVERLAY_MENU = nil
   G.VIEWING_DECK = nil
   G.SETTINGS.paused = false
-  G.CONTROLLER.touch_control.clear_touch = true
+  if G.CONTROLLER.touch_control then
+    G.CONTROLLER.touch_control.clear_touch = true
+  end
   G.ACTIVE_MOD_UI = nil
   SMODS.LAST_SELECTED_MOD_TAB = nil
   Sagatro.fromAlice = nil
