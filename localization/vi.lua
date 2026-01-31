@@ -1609,7 +1609,7 @@ return {
                     "Lá 2 bị {C:attention}phá huỷ{} sau khi ghi điểm",
                 },
             },
-            j_sgt_kid_gloves_and_fan_story_mode = {
+            j_sgt_kid_gloves_and_fan_storymode = {
                 name = "Găng Tay Và Chiếc Quạt",
                 text = {
                     "{C:chips}+#2#{} Chip",

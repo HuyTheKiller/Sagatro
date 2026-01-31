@@ -533,7 +533,7 @@ local kid_gloves_and_fan = {
         end
         local ret = {vars = {card.ability.extra.rank_drop*G.GAME.alice_multiplier}}
         if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
-            ret.key = "j_sgt_kid_gloves_and_fan_story_mode"
+            ret.key = self.key.."_storymode"
             ret.vars[#ret.vars+1] = card.ability.extra.chips*G.GAME.alice_multiplier
         end
         if Ortalab then
@@ -4210,7 +4210,7 @@ local submarine = {
         end
         local ret = {}
         if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
-            ret.key = "j_sgt_submarine_storymode"
+            ret.key = self.key.."_storymode"
             ret.vars = {
                 card.ability.immutable.states.fuel_left,
                 card.ability.immutable.states.max_fuel,
@@ -13694,7 +13694,7 @@ local pocket_mirror = {
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {colours = {G.C.GOLD}}}
         if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
-            ret.key = "j_sgt_pocket_mirror_storymode"
+            ret.key = self.key.."_storymode"
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if card.displaying_save then
                 for _, v in ipairs((Sagatro.temp_areas or {jokers = {}}).jokers.cards or {}) do
@@ -13768,7 +13768,7 @@ local knife_fork = {
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.retriggers, colours = {G.C.GOLD}}}
         if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
-            ret.key = "j_sgt_knife_fork_storymode"
+            ret.key = self.key.."_storymode"
         end
         return ret
     end,
@@ -13848,7 +13848,7 @@ local rose_bell = {
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod, colours = {G.C.GOLD}}}
         if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
-            ret.key = "j_sgt_rose_bell_storymode"
+            ret.key = self.key.."_storymode"
         end
         return ret
     end,

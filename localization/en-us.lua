@@ -1614,7 +1614,7 @@ return {
                     "Played 2s are {C:attention}destroyed{} after scoring",
                 },
             },
-            j_sgt_kid_gloves_and_fan_story_mode = {
+            j_sgt_kid_gloves_and_fan_storymode = {
                 name = "Kid-gloves And The Fan",
                 text = {
                     "{C:chips}+#2#{} Chips",
