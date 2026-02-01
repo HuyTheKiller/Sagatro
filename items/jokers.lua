@@ -13680,6 +13680,7 @@ local pocket_mirror = {
             if goldia then
                 local pos, other_pos = Sagatro.get_pos(card), Sagatro.get_pos(goldia)
                 if math.abs(pos - other_pos) ~= 1 and not card.shattered then
+                    card.shattered = true
                     G.E_MANAGER:add_event(Event({func = function()
                         card:shatter()
                     return true end}))
@@ -13696,6 +13697,7 @@ local pocket_mirror = {
         if G.GAME.story_mode and not from_debuff then
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if goldia and not goldia.shattered then
+                goldia.shattered = true
                 G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
                     goldia:shatter()
                 return true end}))
@@ -13764,6 +13766,7 @@ local knife_fork = {
         if G.GAME.story_mode and not from_debuff then
             local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
             if pmirror and not pmirror.shattered then
+                pmirror.shattered = true
                 G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
                     for _, regalia in ipairs{"j_sgt_knife_fork", "j_sgt_rose_bell", "j_sgt_moon_hairbrush", "j_sgt_snow_scissors", "j_sgt_angel_scythe"} do
                         regalia = SMODS.find_card(regalia, true)[1]
@@ -13844,6 +13847,7 @@ local rose_bell = {
         if G.GAME.story_mode and not from_debuff then
             local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
             if pmirror and not pmirror.shattered then
+                pmirror.shattered = true
                 G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
                     for _, regalia in ipairs{"j_sgt_knife_fork", "j_sgt_rose_bell", "j_sgt_moon_hairbrush", "j_sgt_snow_scissors", "j_sgt_angel_scythe"} do
                         regalia = SMODS.find_card(regalia, true)[1]
