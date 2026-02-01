@@ -1179,6 +1179,18 @@ if G.STAGE == G.STAGES.RUN then
 match_indent = true
 
 [[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+love.filesystem.remove(G.focused_profile..'/'..'unlock_notify.jkr')
+'''
+position = "after"
+payload = '''
+G.FUNCS.delete_all_snapshots()
+'''
+match_indent = true
+
+[[patches]]
 [patches.regex]
 target = "card.lua"
 pattern = '''G\.in_delete_run'''
