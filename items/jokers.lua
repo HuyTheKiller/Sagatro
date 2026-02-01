@@ -13543,8 +13543,6 @@ local goldia = {
     eternal_compat = true,
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
-        card.ability.hide_name_tag = card.ability.immutable.stage ~= "name_recalled"
-        and card.ability.immutable.stage ~= "dawn" and (G.GAME.story_mode or card.displaying_save)
         card.ability.extra.stage0_mult =
         card.ability.extra.stage0_mult*math.floor(2^(G.GAME.round_resets.ante + (G.GAME.ante_reduced or 0)))
     end,
