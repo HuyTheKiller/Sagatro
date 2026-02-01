@@ -2591,7 +2591,7 @@ return {
                 },
             },
             j_sgt_white_pawn = {
-                name = "Tốt Trắng",
+                name = "Con Hàu",
                 text = {
                     {"Nếu tay bài đã chơi chứa {C:attention}#1#{}",
                     "và chỉ một lá có chất {C:hearts}Cơ{} hoặc",
@@ -2620,7 +2620,7 @@ return {
                 },
             },
             j_sgt_live_flowers = {
-                name = "Chùm Hoa Biết Nói",
+                name = "Hoa Loa Kèn Vằn",
                 text = {
                     "{C:mult}+#1#{} Nhân",
                     "{C:mult}-#2#{} Nhân mỗi tay bài đã chơi",
@@ -2677,26 +2677,26 @@ return {
             j_sgt_tweedledum = {
                 name = "Ò E Anh",
                 text = {
-                    {"Lá đã chơi với",
-                    "bậc {C:attention}chẵn{} ghi thêm",
-                    "{X:chips,C:white}X#2#{} Chip khi ghi điểm",
+                    {"Nếu {C:attention}Vua Trắng{} sắp bị",
+                    "phá huỷ, {C:red,E:2}tự huỷ{} thay cho nó"},
+                    {"Lá đã chơi với bậc {C:attention}chẵn{} ghi",
+                    "thêm {X:chips,C:white}X#2#{} Chip khi ghi điểm",
                     "{C:inactive}(10, 8, 6, 4, 2)"},
-                    {"Lá đã chơi với",
-                    "bậc {C:attention}lẻ{} ghi thêm",
-                    "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                    {"Lá đã chơi với bậc {C:attention}lẻ{} ghi",
+                    "thêm {X:mult,C:white}X#1#{} Nhân khi ghi điểm",
                     "{C:inactive}(A, 9, 7, 5, 3)"},
                 },
             },
             j_sgt_tweedledee = {
                 name = "Ò E Em",
                 text = {
-                    {"Lá đã chơi với",
-                    "bậc {C:attention}lẻ{} ghi thêm",
-                    "{X:chips,C:white}X#2#{} Chip khi ghi điểm",
+                    {"Nếu {C:attention}Vua Trắng{} sắp bị",
+                    "phá huỷ, {C:red,E:2}tự huỷ{} thay cho nó"},
+                    {"Lá đã chơi với bậc {C:attention}lẻ{} ghi",
+                    "thêm {X:chips,C:white}X#2#{} Chip khi ghi điểm",
                     "{C:inactive}(A, 9, 7, 5, 3)"},
-                    {"Lá đã chơi với",
-                    "bậc {C:attention}chẵn{} ghi thêm",
-                    "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                    {"Lá đã chơi với bậc {C:attention}chẵn{} ghi",
+                    "thêm {X:mult,C:white}X#1#{} Nhân khi ghi điểm",
                     "{C:inactive}(10, 8, 6, 4, 2)"},
                 },
             },
@@ -2734,11 +2734,9 @@ return {
                 },
             },
             j_sgt_white_rook = {
-                name = "Xe Trắng",
+                name = "Nai Con",
                 text = {
-                    {"Nếu {C:attention}Vua Trắng{} sắp bị",
-                    "phá huỷ, {C:red,E:2}tự huỷ{} thay cho nó",
-                    "Áp dụng {C:attention}Bốn Ngón Tay{} nếu có",
+                    {"Áp dụng {C:attention}Bốn Ngón Tay{} nếu có",
                     "một lá {C:attention}không bậc{} giữ trên tay"},
                     {"{C:mult}+#1#*A{} Nhân, với A bằng hiệu của",
                     "tổng lá {C:spades}Bích{} và {C:clubs}Tép{} trên tay",
@@ -2755,7 +2753,7 @@ return {
                 },
             },
             j_sgt_white_bishop = {
-                name = "Tượng Trắng",
+                name = "Hoa Cúc",
                 text = {
                     "{X:mult,C:white}X#1#{} Nhân nếu tay bài",
                     "ghi điểm chỉ chứa {C:spades}Bích{} hoặc {C:clubs}Tép{}",
@@ -2803,7 +2801,7 @@ return {
                 },
             },
             j_sgt_seal_and_carpenter = {
-                name = "Hải Cẩu Và Thợ Mộc",
+                name = "Thợ Mộc",
                 text = {
                     "Khi ván bắt đầu, {C:attention}phá huỷ{} một",
                     "{C:attention}lá bài thường{} ngẫu nhiên trên tay",

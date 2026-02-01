@@ -2595,7 +2595,7 @@ return {
                 },
             },
             j_sgt_white_pawn = {
-                name = "White Pawn",
+                name = "Oyster",
                 text = {
                     {"If played hand contains a {C:attention}#1#{}",
                     "and only one card with {C:hearts}Hearts{} or",
@@ -2624,7 +2624,7 @@ return {
                 },
             },
             j_sgt_live_flowers = {
-                name = "Live Flowers",
+                name = "Tiger Lily",
                 text = {
                     "{C:mult}+#1#{} Mult",
                     "{C:mult}-#2#{} Mult per hand played",
@@ -2681,26 +2681,26 @@ return {
             j_sgt_tweedledum = {
                 name = "Tweedledum",
                 text = {
-                    {"Played cards with",
-                    "{C:attention}even{} rank give",
-                    "{X:chips,C:white}X#2#{} Chips when scored",
+                    {"If {C:attention}White King{} is about to be",
+                    "destroyed, {C:red,E:2}self destructs{} instead"},
+                    {"Played cards with {C:attention}even{} rank",
+                    "give {X:chips,C:white}X#2#{} Chips when scored",
                     "{C:inactive}(10, 8, 6, 4, 2)"},
-                    {"Played cards with",
-                    "{C:attention}odd{} rank give",
-                    "{X:mult,C:white}X#1#{} Mult when scored",
+                    {"Played cards with {C:attention}odd{} rank",
+                    "give {X:mult,C:white}X#1#{} Mult when scored",
                     "{C:inactive}(A, 9, 7, 5, 3)"},
                 },
             },
             j_sgt_tweedledee = {
                 name = "Tweedledee",
                 text = {
-                    {"Played cards with",
-                    "{C:attention}odd{} rank give",
-                    "{X:chips,C:white}X#2#{} Chips when scored",
+                    {"If {C:attention}White King{} is about to be",
+                    "destroyed, {C:red,E:2}self destructs{} instead"},
+                    {"Played cards with {C:attention}odd{} rank",
+                    "give {X:chips,C:white}X#2#{} Chips when scored",
                     "{C:inactive}(A, 9, 7, 5, 3)"},
-                    {"Played cards with",
-                    "{C:attention}even{} rank give",
-                    "{X:mult,C:white}X#1#{} Mult when scored",
+                    {"Played cards with {C:attention}even{} rank",
+                    "give {X:mult,C:white}X#1#{} Mult when scored",
                     "{C:inactive}(10, 8, 6, 4, 2)"},
                 },
             },
@@ -2738,11 +2738,9 @@ return {
                 },
             },
             j_sgt_white_rook = {
-                name = "White Rook",
+                name = "Fawn",
                 text = {
-                    {"If {C:attention}White King{} is about to be",
-                    "destroyed, {C:red,E:2}self destructs{} instead",
-                    "Apply {C:attention}Four Fingers{} if there is",
+                    {"Apply {C:attention}Four Fingers{} if there is",
                     "a {C:attention}rankless{} card held in hand"},
                     {"{C:mult}+#1#*A{} Mult, where A is the difference between",
                     "total {C:spades}Spades{} and {C:clubs}Clubs{} in hand and",
@@ -2759,7 +2757,7 @@ return {
                 },
             },
             j_sgt_white_bishop = {
-                name = "White Bishop",
+                name = "Daisy",
                 text = {
                     "{X:mult,C:white}X#1#{} Mult if scoring hand",
                     "only contains {C:spades}Spades{} or {C:clubs}Clubs{}",
@@ -2806,7 +2804,7 @@ return {
                 },
             },
             j_sgt_seal_and_carpenter = {
-                name = "Seal And Carpenter",
+                name = "Carpenter",
                 text = {
                     "When round begins, {C:attention}destroy{} a",
                     "random {C:attention}playing card{} in hand",

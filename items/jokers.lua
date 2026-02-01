@@ -10868,8 +10868,8 @@ local mirror = {
 
 local white_pawn = {
     key = "white_pawn",
-    name = "White Pawn",
-    artist_credits = {"temp"},
+    name = "Oyster",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -11234,8 +11234,8 @@ local white_king = {
 
 local live_flowers = {
     key = "live_flowers",
-    name = "Live Flowers",
-    artist_credits = {"amy"},
+    name = "Tiger Lily",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -11815,6 +11815,16 @@ local tweedledum = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
+        if context.joker_type_destroyed and not card.getting_sliced
+        and context.card.config.center_key == "j_sgt_white_king" then
+            Sagatro.self_destruct(card)
+            return {
+                message = localize('k_castled_ex'),
+                colour = G.C.FILTER,
+                no_retrigger = true,
+                no_destroy = true,
+            }
+        end
         if context.individual and context.cardarea == G.play then
             if (context.other_card:get_id() <= 10 and context.other_card:get_id() >= 0)
             or context.other_card:get_id() == 14 then
@@ -11845,6 +11855,9 @@ local tweedledum = {
         return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
+        if not card.fake_card then
+            info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_king
+        end
         return {vars = {card.ability.extra.xmult, card.ability.extra.xchips}}
     end,
     set_badges = function(self, card, badges)
@@ -11912,6 +11925,16 @@ local tweedledee = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
+        if context.joker_type_destroyed and not card.getting_sliced
+        and context.card.config.center_key == "j_sgt_white_king" then
+            Sagatro.self_destruct(card)
+            return {
+                message = localize('k_castled_ex'),
+                colour = G.C.FILTER,
+                no_retrigger = true,
+                no_destroy = true,
+            }
+        end
         if context.individual and context.cardarea == G.play then
             if (context.other_card:get_id() <= 10 and context.other_card:get_id() >= 0)
             or context.other_card:get_id() == 14 then
@@ -11942,6 +11965,9 @@ local tweedledee = {
         return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
+        if not card.fake_card then
+            info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_king
+        end
         return {vars = {card.ability.extra.xmult, card.ability.extra.xchips}}
     end,
     set_badges = function(self, card, badges)
@@ -11994,7 +12020,7 @@ local tweedledee = {
 local sheep = {
     key = "sheep",
     name = "Sheep",
-    artist_credits = {"temp"},
+    artist_credits = {"huycorn"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -12304,8 +12330,8 @@ local snap_dragon_fly = {
 
 local white_rook = {
     key = "white_rook",
-    name = "White Rook",
-    artist_credits = {"temp"},
+    name = "Fawn",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -12320,16 +12346,6 @@ local white_rook = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.joker_type_destroyed and not card.getting_sliced
-        and context.card.config.center_key == "j_sgt_white_king" then
-            Sagatro.self_destruct(card)
-            return {
-                message = localize('k_castled_ex'),
-                colour = G.C.FILTER,
-                no_retrigger = true,
-                no_destroy = true,
-            }
-        end
         if context.joker_main then
             local hearts_diamonds, spades_clubs = 0, 0
             for _, v in ipairs(G.hand.cards) do
@@ -12360,7 +12376,6 @@ local white_rook = {
     end,
     loc_vars = function(self, info_queue, card)
         if not card.fake_card then
-            info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_king
             info_queue[#info_queue+1] = G.P_CENTERS.j_four_fingers
         end
         return {vars = {card.ability.extra.mult}}
@@ -12406,7 +12421,7 @@ local white_rook = {
 local white_knight = {
     key = "white_knight",
     name = "White Knight",
-    artist_credits = {"temp"},
+    artist_credits = {"huycorn"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -12495,8 +12510,8 @@ local white_knight = {
 
 local white_bishop = {
     key = "white_bishop",
-    name = "White Bishop",
-    artist_credits = {"temp"},
+    name = "Daisy",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
@@ -12893,8 +12908,8 @@ local humpty_dumpty = {
 
 local seal_and_carpenter = {
     key = "seal_and_carpenter",
-    name = "Seal And Carpenter",
-    artist_credits = {"temp"},
+    name = "Carpenter",
+    artist_credits = {"huycorn"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
     mirrorworld = true,
