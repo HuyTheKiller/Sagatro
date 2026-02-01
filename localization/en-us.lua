@@ -2990,6 +2990,22 @@ return {
                     "{X:mult,C:white}X#1#{} Mult when scored",
                 },
             },
+            j_sgt_angel_scythe = {
+                name = "Engelssense",
+                text = {
+                    "{B:1,C:white}Regalia{}",
+                    "Gain {X:chips,C:white}X#2#{} Chips at end of round",
+                    "{C:inactive}(Currently {X:chips,C:white}X#1#{C:inactive} Chips)",
+                },
+            },
+            j_sgt_angel_scythe_storymode = {
+                name = "Engelssense",
+                text = {
+                    "{B:1,C:white}Regalia{} {B:1,C:white}D{}",
+                    "Gain {X:chips,C:white}X#2#{} Chips at end of round",
+                    "{C:inactive}(Currently {X:chips,C:white}X#1#{C:inactive} Chips)",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {

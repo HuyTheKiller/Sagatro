@@ -14031,6 +14031,85 @@ local snow_scissors = {
  	end,
 }
 
+local angel_scythe = {
+    key = "angel_scythe",
+    name = "Schnee Schere",
+    artist_credits = {"temp"},
+    atlas = "pocket_mirror",
+    saga_group = "pocket_mirror",
+    order = 130,
+    pos = { x = 4, y = 3 },
+    soul_pos = { x = 5, y = 3 },
+    config = {extra = {xchip = 1.5, xchip_mod = 0.25}, shatters_on_destroy = true},
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.end_of_round and not context.game_over and context.main_eval then
+            SMODS.scale_card(card, {
+                ref_table = card.ability.extra,
+                ref_value = "xchip",
+                scalar_value = "xchip_mod",
+                scaling_message = {
+                    message = localize('k_upgrade_ex'),
+                    colour = G.C.FILTER,
+                    card = card,
+                }
+            })
+            return nil, true
+        end
+        if context.joker_main or context.forcetrigger then
+            if context.forcetrigger then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "xchip",
+                    scalar_value = "xchip_mod",
+                    no_message = true
+                })
+            end
+            return {
+                xchips = card.ability.extra.xchips,
+            }
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff then
+            local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
+            if pmirror and not pmirror.shattered then
+                pmirror.shattered = true
+                G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
+                    for _, regalia in ipairs{"j_sgt_knife_fork", "j_sgt_rose_bell", "j_sgt_moon_hairbrush", "j_sgt_snow_scissors", "j_sgt_angel_scythe"} do
+                        regalia = SMODS.find_card(regalia, true)[1]
+                        if regalia and not regalia.shattered then
+                            regalia:shatter()
+                        end
+                    end
+                    pmirror:shatter()
+                return true end}))
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode then
+            return Sagatro.storyline_check(self.saga_group)
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {vars = {card.ability.extra.xchip, card.ability.extra.xchip_mod, colours = {G.C.GOLD}}}
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            ret.key = self.key.."_storymode"
+        end
+        return ret
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
 local hansels_cheat_dice = {
     key = "hansels_cheat_dice",
     name = "Hansel's Cheat Dice",
@@ -16306,6 +16385,7 @@ local joker_table = {
     rose_bell,
     moon_hairbrush,
     snow_scissors,
+    angel_scythe,
     knife_fork,
     hansels_cheat_dice,
     skoll_n_hati,

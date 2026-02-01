@@ -2987,6 +2987,22 @@ return {
                     "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
                 },
             },
+            j_sgt_angel_scythe = {
+                name = "Liềm Thiên Sứ",
+                text = {
+                    "{B:1,C:white}Ấn Vươong{}",
+                    "Thêm {X:chips,C:white}X#2#{} Chip ở cuối ván",
+                    "{C:inactive}(Hiện tại là {X:chips,C:white}X#1#{C:inactive} Chip)",
+                },
+            },
+            j_sgt_angel_scythe_storymode = {
+                name = "Liềm Thiên Sứ",
+                text = {
+                    "{B:1,C:white}Ấn Vươong{} {B:1,C:white}D{}",
+                    "Thêm {X:chips,C:white}X#2#{} Chip ở cuối ván",
+                    "{C:inactive}(Hiện tại là {X:chips,C:white}X#1#{C:inactive} Chip)",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {

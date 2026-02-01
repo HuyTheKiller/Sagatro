@@ -18,7 +18,7 @@ TO-DO:
     [X] Add Rosen Glöckchen (Rose Bells)
     [X] Add Haarbürste des Mondes (Hairbrush of the Moon)
     [X] Add Schnee Schere (Snow Scissors)
-    [] Add Engelssense (Angel Scythe)
+    [X] Add Engelssense (Angel Scythe)
     [] Hook all Regalias to a button on Goldia, allowing transformation:
         [] Add transformation to "dawn" (for Dawn ending)
         [] Add transformation to "name_recalled" (for Little Goody Two Shoes ending)
