@@ -2974,6 +2974,22 @@ return {
                     "{C:attention}#2#{}, changes every hand played",
                 },
             },
+            j_sgt_snow_scissors = {
+                name = "Schnee Schere",
+                text = {
+                    "{B:1,C:white}Regalia{}",
+                    "Played {C:attention}Glass{} cards give",
+                    "{X:mult,C:white}X#1#{} Mult when scored",
+                },
+            },
+            j_sgt_snow_scissors_storymode = {
+                name = "Schnee Schere",
+                text = {
+                    "{B:1,C:white}Regalia{} {B:1,C:white}L{}",
+                    "Played {C:attention}Glass{} cards give",
+                    "{X:mult,C:white}X#1#{} Mult when scored",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {

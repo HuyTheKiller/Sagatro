@@ -2971,6 +2971,22 @@ return {
                     "{C:attention}#2#{}, thay đổi sau mỗi tay bài",
                 },
             },
+            j_sgt_snow_scissors = {
+                name = "Kéo Tuyết",
+                text = {
+                    "{B:1,C:white}Ấn Vương{}",
+                    "Lá {C:attention}Kính{} đã chơi ghi thêm",
+                    "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                },
+            },
+            j_sgt_snow_scissors_storymode = {
+                name = "Kéo Tuyết",
+                text = {
+                    "{B:1,C:white}Ấn Vương{} {B:1,C:white}L{}",
+                    "Lá {C:attention}Kính{} đã chơi ghi thêm",
+                    "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
