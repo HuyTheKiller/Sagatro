@@ -2958,6 +2958,22 @@ return {
                     "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
                 },
             },
+            j_sgt_moon_hairbrush = {
+                name = "Haarbürste des Mondes",
+                text = {
+                    "{B:1,C:white}Regalia{}",
+                    "{X:mult,C:white}X#1#{} Mult if played hand is a",
+                    "{C:attention}#2#{}, changes every hand played",
+                },
+            },
+            j_sgt_moon_hairbrush_storymode = {
+                name = "Haarbürste des Mondes",
+                text = {
+                    "{B:1,C:white}Regalia{} {B:1,C:white}O{}",
+                    "{X:mult,C:white}X#1#{} Mult if played hand is a",
+                    "{C:attention}#2#{}, changes every hand played",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {

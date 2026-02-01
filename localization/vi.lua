@@ -2955,6 +2955,22 @@ return {
                     "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
                 },
             },
+            j_sgt_moon_hairbrush = {
+                name = "Chiếc Lược Mặt Trăng",
+                text = {
+                    "{B:1,C:white}Ấn Vương{}",
+                    "{X:mult,C:white}X#1#{} Nhân nếu tay bài đã chơi là",
+                    "{C:attention}#2#{}, thay đổi sau mỗi tay bài",
+                },
+            },
+            j_sgt_moon_hairbrush_storymode = {
+                name = "Chiếc Lược Mặt Trăng",
+                text = {
+                    "{B:1,C:white}Ấn Vương{} {B:1,C:white}O{}",
+                    "{X:mult,C:white}X#1#{} Nhân nếu tay bài đã chơi là",
+                    "{C:attention}#2#{}, thay đổi sau mỗi tay bài",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {

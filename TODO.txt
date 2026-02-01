@@ -16,7 +16,7 @@ TO-DO:
 [] Add Regalias:
     [X] Add Messer and Gabel (Knife and Fork)
     [X] Add Rosen Glöckchen (Rose Bells)
-    [] Add Haarbürste des Mondes (Hairbrush of the Moon)
+    [X] Add Haarbürste des Mondes (Hairbrush of the Moon)
     [] Add Schnee Schere (Snow Scissors)
     [] Add Engelssense (Angel Scythe)
     [] Hook all Regalias to a button on Goldia, allowing transformation:

@@ -13878,6 +13878,93 @@ local rose_bell = {
  	end,
 }
 
+local moon_hairbrush = {
+    key = "moon_hairbrush",
+    name = "Haarbürste des Mondes",
+    artist_credits = {"temp"},
+    atlas = "pocket_mirror",
+    saga_group = "pocket_mirror",
+    order = 128,
+    pos = { x = 4, y = 1 },
+    soul_pos = { x = 5, y = 1 },
+    config = {extra = {poker_hand = "High Card", xmult = 4}, shatters_on_destroy = true},
+    rarity = 2,
+    cost = 7,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        local _poker_hands = {}
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            -- Fixed list so that modded poker hands won't interfere with story mode\
+            -- Also exclude harder hands for ease of access
+            _poker_hands = {"Full House", "Flush", "Straight", "Three of a Kind", "Two Pair", "Pair", "High Card"}
+        else
+            for k, v in pairs(G.GAME.hands) do
+                if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
+            end
+        end
+        card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((self.area and self.area.config.type == 'title') and 'false_moon_hairbrush' or 'moon_hairbrush'))
+    end,
+    calculate = function(self, card, context)
+        if (context.joker_main and context.scoring_name == card.ability.extra.poker_hand) or context.forcetrigger then
+            return {
+                xmult = card.ability.extra.xmult,
+            }
+        end
+        if context.after and not context.blueprint and not context.retrigger_joker then
+            local _poker_hands = {}
+            if G.GAME.story_mode then
+                _poker_hands = {"Full House", "Flush", "Straight", "Three of a Kind", "Two Pair", "Pair", "High Card"}
+            else
+                for k, v in pairs(G.GAME.hands) do
+                    if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
+                end
+            end
+            card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed('moon_hairbrush'))
+            return {
+                message = localize(card.ability.extra.poker_hand, "poker_hands"),
+                colour = G.C.FILTER,
+                card = card,
+            }
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff then
+            local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
+            if pmirror and not pmirror.shattered then
+                pmirror.shattered = true
+                G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
+                    for _, regalia in ipairs{"j_sgt_knife_fork", "j_sgt_rose_bell", "j_sgt_moon_hairbrush", "j_sgt_snow_scissors", "j_sgt_angel_scythe"} do
+                        regalia = SMODS.find_card(regalia, true)[1]
+                        if regalia and not regalia.shattered then
+                            regalia:shatter()
+                        end
+                    end
+                    pmirror:shatter()
+                return true end}))
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode then
+            return Sagatro.storyline_check(self.saga_group)
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {vars = {card.ability.extra.xmult, localize(card.ability.extra.poker_hand, 'poker_hands'), colours = {G.C.GOLD}}}
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            ret.key = self.key.."_storymode"
+        end
+        return ret
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
 local hansels_cheat_dice = {
     key = "hansels_cheat_dice",
     name = "Hansel's Cheat Dice",
@@ -16151,6 +16238,7 @@ local joker_table = {
     goldia,
     pocket_mirror,
     rose_bell,
+    moon_hairbrush,
     knife_fork,
     hansels_cheat_dice,
     skoll_n_hati,
