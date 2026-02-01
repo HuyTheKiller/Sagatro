@@ -99,7 +99,7 @@ function G.UIDEF.card_h_popup(card)
         desc_from_rows(AUT.celestara))
     end
     if card.area and card.area.config.collection and not card.config.center.discovered then return ret_val end
-    if not Ortalab and obj and obj.artist_credits then
+    if not Ortalab and obj and obj.artist_credits and obj.discovered then
         table.insert(ret_val.nodes[1].nodes[1].nodes[1].nodes, Sagatro.artist_node(obj.artist_credits, localize('sgt_art_credit')))
     end
     return ret_val
@@ -1150,7 +1150,10 @@ SMODS.DrawStep {
     key = 'eldritch_shine',
     order = 10,
     func = function(self)
-        if self.ability.set == "Eldritch" or self.config.center.group_key == "sgt_eldritch_pack" or self.ability.name == "Anima" or self.ability.name == "Soltera" then
+        if self.ability.set == "Eldritch" or self.config.center.group_key == "sgt_eldritch_pack" then
+            self.children.center:draw_shader("booster", nil, self.ARGS.send_to_shader)
+        end
+        if self.ability.name == "Anima" or self.ability.name == "Soltera" and self.config.center.discovered then
             self.children.center:draw_shader("booster", nil, self.ARGS.send_to_shader)
         end
     end,
