@@ -752,9 +752,6 @@ function Game:update(dt)
                             + (v.ability.in_transition and 5 or 0)
                             v.children.center:set_sprite_pos(v.ability.anim_pos)
                         end
-                    elseif v.config.center_key == "j_sgt_goldia" and v.config.center.discovered then
-                        v.ability.hide_name_tag = v.ability.immutable.stage ~= "name_recalled" and v.ability.immutable.stage ~= "dawn"
-                        and (G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers))
                     end
                 end
             end
