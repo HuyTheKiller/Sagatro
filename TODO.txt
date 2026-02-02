@@ -28,11 +28,11 @@ TO-DO:
     [X] Add Egliette's effect inside story mode
     [X] Add Egliette's effect outside story mode
     [X] Hook Egliette's effects to story events
-[] Add Fleta:
-    [] Add base Fleta (legendary)
-    [] Add Fleta's effect inside story mode
-    [] Hook Fleta's effects to story events
-    [] Add Fleta's effect outside story mode
+[X] Add Fleta:
+    [X] Add base Fleta (legendary)
+    [X] Add Fleta's effect inside story mode
+    [X] Hook Fleta's effects to story events
+    [X] Add Fleta's effect outside story mode
 [] Add Harpae:
     [] Add base Harpae (legendary)
     [] Add Harpae's effect inside story mode
