@@ -13899,10 +13899,7 @@ local rose_bell = {
         end
     end,
     in_pool = function(self, args)
-        if G.GAME.story_mode then
-            return Sagatro.storyline_check(self.saga_group)
-        end
-        return true
+        return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod, colours = {G.C.GOLD}}}
@@ -13991,10 +13988,7 @@ local moon_hairbrush = {
         end
     end,
     in_pool = function(self, args)
-        if G.GAME.story_mode then
-            return Sagatro.storyline_check(self.saga_group)
-        end
-        return true
+        return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.xmult, localize(card.ability.extra.poker_hand, 'poker_hands'), colours = {G.C.GOLD}}}
@@ -14061,10 +14055,7 @@ local snow_scissors = {
         end
     end,
     in_pool = function(self, args)
-        if G.GAME.story_mode then
-            return Sagatro.storyline_check(self.saga_group)
-        end
-        return true
+        return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.m_glass
@@ -14146,10 +14137,7 @@ local angel_scythe = {
         end
     end,
     in_pool = function(self, args)
-        if G.GAME.story_mode then
-            return Sagatro.storyline_check(self.saga_group)
-        end
-        return true
+        return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.xchip, card.ability.extra.xchip_mod, colours = {G.C.GOLD}}}
