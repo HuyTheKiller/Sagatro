@@ -259,6 +259,12 @@ SMODS.Sound{
     path = "explosion.ogg",
 }
 
+-- Borrowing from Pocket Mirror: GoldenerTraum
+SMODS.Sound{
+    key = "fleta_tantrum",
+    path = "VA_Fleta_tantrum_noise_2_RM.ogg",
+}
+
 SMODS.Sound{
     key = "bell_score",
     path = "bell_score.wav",
