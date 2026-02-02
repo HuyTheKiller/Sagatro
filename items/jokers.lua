@@ -10815,7 +10815,6 @@ local mirror = {
         if G.GAME.story_mode and not from_debuff then
             Sagatro.init_storyline(self.saga_group, true)
             G.GAME.mirror_hint_to_progress = true
-            SMODS.debuff_card(card, "prevent_debuff", "j_sgt_mirror")
         end
     end,
     in_pool = function(self, args)
