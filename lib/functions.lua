@@ -405,6 +405,21 @@ function CardArea:update(dt)
     end
 end
 
+local parse_highlighted_ref = CardArea.parse_highlighted
+function CardArea:parse_highlighted()
+    parse_highlighted_ref(self)
+    G.fleta_throw_hand = nil
+    local text,disp_text,poker_hands = G.FUNCS.get_poker_hand_info(self.highlighted)
+    if text ~= "NULL" then
+        local fleta = SMODS.find_card("j_sgt_fleta", true)[1]
+        if fleta and Sagatro.storyline_check("pocket_mirror") then
+            if fleta.ability.immutable.hands[text] then
+                G.fleta_throw_hand = true
+            end
+        end
+    end
+end
+
 function CardArea:temp_load(cardAreaTable, joker_size)
 
     if self.cards then remove_all(self.cards) end
@@ -706,6 +721,41 @@ function Game:update(dt)
                             G.CONTROLLER.locks.utima_vox = nil
                         return true end }))
                     return true end }))
+                end
+            end
+        end
+        if G.STATE == G.STATES.SELECTING_HAND then
+            if G.fleta_throw_hand then
+                if not G.fleta_warning_text then
+                    G.fleta_warning_text = UIBox{
+                        definition =
+                        {n=G.UIT.ROOT, config = {align = 'cm', colour = G.C.CLEAR, padding = 0.2}, nodes={
+                            {n=G.UIT.R, config = {align = 'cm', maxw = 1}, nodes={
+                                {n=G.UIT.O, config={object = DynaText({scale = 0.7, string = localize('ph_losing_hand'), maxw = 9, colours = {G.C.WHITE},float = true, shadow = true, silent = true, pop_in = 0, pop_in_rate = 6})}},
+                            }},
+                            {n=G.UIT.R, config = {align = 'cm', maxw = 1}, nodes={
+                                {n=G.UIT.O, config={object = DynaText({scale = 0.6, string = localize("ph_fleta_musical_chair"), maxw = 9, colours = {G.C.WHITE},float = true, shadow = true, silent = true, pop_in = 0, pop_in_rate = 6})}},
+                            }}
+                        }},
+                        config = {
+                            align = 'cm',
+                            offset ={x=0,y=G.boss_warning_text and 0 or -3.1},
+                            major = G.play,
+                        }
+                    }
+                    G.fleta_warning_text.attention_text = true
+                    G.fleta_warning_text.states.collide.can = false
+                    local fleta = SMODS.find_card("j_sgt_fleta", true)[1]
+                    if fleta then
+                        fleta:juice_up(0.05, 0.1)
+                    end
+                    play_sound('chips1', math.random()*0.1 + 0.55, 0.12)
+                end
+            else
+                G.fleta_throw_hand = nil
+                if G.fleta_warning_text then
+                    G.fleta_warning_text:remove()
+                    G.fleta_warning_text = nil
                 end
             end
         end
@@ -2338,7 +2388,11 @@ function Sagatro:calculate(context)
             local card = context.other_card
             if card.config.center_key == "j_sgt_submarine"
             or card.config.center_key == "j_sgt_mirror"
-            or card.config.center_key == "j_sgt_goldia" then
+            or card.config.center_key == "j_sgt_goldia"
+            or card.config.center_key == "j_sgt_fleta"
+            or card.config.center_key == "j_sgt_harpae"
+            or card.config.center_key == "j_sgt_lisette"
+            or card.config.center_key == "j_sgt_enjel" then
                 return {no_destroy = true}
             end
             if card.ability.set == "Joker" and not card.config.center.mirrorworld and G.GAME.inversed_scaling then
@@ -3594,6 +3648,7 @@ end
 
 function Sagatro.game_over()
     if G.STAGE == G.STAGES.RUN and not G.GAME.game_over then
+        print("game over")
         G.GAME.game_over = true
         G.RESET_BLIND_STATES = true
         G.RESET_JIGGLES = true

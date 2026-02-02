@@ -3027,6 +3027,52 @@ return {
                     "tại nơi này!",
                 },
             },
+            j_sgt_fleta = {
+                name = "Fleta",
+                text = {
+                    "Mỗi lá {C:attention}Đầm {C:hearts}Cơ{} đã chơi ghi",
+                    "thêm {X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                },
+            },
+            j_sgt_fleta_stage_0 = {
+                name = "Fleta",
+                text = {
+                    {"Đối mặt với một {C:attention}thử thách",
+                    "mỗi Ante trong {C:attention}3{} Ante",
+                    "{C:inactive}(Bắt đầu từ Ante tiếp)"},
+                    {"Chỉ {C:attention}yêu cầu{} chiến thắng",
+                    "thử thách thứ ba"},
+                },
+            },
+            j_sgt_fleta_stage_1 = {
+                name = "Fleta",
+                text = {
+                    "Thử thách: Trò {C:attention}trí nhớ",
+                    "Chơi {C:attention}Đôi{} 3 lần",
+                    "trong một ván",
+                    "{C:inactive}({V:1}#1#{C:inactive}/3)",
+                },
+            },
+            j_sgt_fleta_stage_2 = {
+                name = "Fleta",
+                text = {
+                    "Thử thách: Thu thập {C:attention}bướm",
+                    "20 lá ngẫu nhiên trong bộ bài",
+                    "được áp nhãn {C:attention}Bướm",
+                    "Ghi điểm lá bài để thu thập chúng",
+                    "Fleta cũng sẽ cố thu thập lá không",
+                    "ghi điểm mỗi tay bài đã chơi",
+                    "{C:inactive}({C:sgt_goldiattention}#1#{C:inactive}/{C:green}#2#{C:inactive})",
+                },
+            },
+            j_sgt_fleta_stage_3 = {
+                name = "Fleta",
+                text = {
+                    "Thử thách: Ghế {C:attention}âm nhạc{}",
+                    "Không chơi lại tay poker đã chơi",
+                    "ở ván này trong {C:attention}3{} ván",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -3881,6 +3927,7 @@ return {
             k_consumed_ex = "Tiêu Thụ!",
             k_kaboom_ex = "Bùm!",
             k_incoming_ex = "Sắp Đến!",
+            k_caught_ex = "Bắt Được!",
             k_plus_divinatio = "+1 Chiêm Mộng",
             k_plus_celestara = "+1 Huyền Thể",
             k_empty = "Trống",
@@ -3913,6 +3960,8 @@ return {
             ph_overscored_hand = "Tay này sẽ ghi quá điểm",
             ph_select_save = "Chọn ô lưu trữ",
             ph_no_data = "Không có dữ liệu",
+            ph_losing_hand = "Tay bài sẽ gây thua trận",
+            ph_fleta_musical_chair = "Không chơi lại tay poker đã chơi ở ván này",
             sgt_swap = "Tráo!",
             sgt_art_credit = "Ảnh vẽ bởi ",
             sgt_and = " và ",

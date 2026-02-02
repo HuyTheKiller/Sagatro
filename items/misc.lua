@@ -761,6 +761,23 @@ local mirrored = {
     end,
 }
 
+local butterfly = {
+    key = "sgt_butterfly",
+    name = "Butterfly",
+    atlas = "misc",
+    pos = {x = 0, y = 4},
+    hide_badge = true,
+    prefix_config = { key = false },
+    sets = { Default = true, Enhanced = true },
+    no_collection = true,
+    no_sticker_sheet = true,
+    should_apply = false,
+    draw = function(self, card, layer)
+        G.shared_stickers[self.key].role.draw_major = card
+        G.shared_stickers[self.key]:draw_shader('dissolve', nil, nil, nil, card.children.center)
+    end,
+}
+
 local sticker_table = {
     protected,
     edible,
@@ -771,6 +788,7 @@ local sticker_table = {
     imminent_doom,
     easter_egg,
     mirrored,
+    butterfly,
 }
 
 for _, v in ipairs(sticker_table) do

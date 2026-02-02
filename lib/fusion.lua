@@ -329,5 +329,6 @@ function Game:start_run(args)
 		if G.GAME.sgt_lenient_score and G.GAME.round == 0 then
 			G.FUNCS.lenient_score_tooltip()
 		end
+		G.hand:parse_highlighted()
     return true end}))
 end

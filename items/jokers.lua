@@ -13648,7 +13648,7 @@ local goldia = {
         end
         local ret = {vars = {card.ability.extra.stage0_mult, card.ability.extra.stage0_mult_xmod}}
         if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
-            ret.key = "j_sgt_goldia_stage_"..card.ability.immutable.stage
+            ret.key = self.key.."_stage_"..card.ability.immutable.stage
             if card.ability.immutable.stage == 0 or card.ability.immutable.stage == "dawn" then
                 ret.vars = {card.ability.extra.stage0_mult, card.ability.extra.stage0_mult_xmod}
             elseif card.ability.immutable.stage == "name_recalled" then
@@ -14198,6 +14198,189 @@ local egliette = {
         local ret = {vars = {card.ability.extra.retriggers}}
         if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
             ret.key = self.key.."_storymode"
+        end
+        return ret
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
+local fleta = {
+    key = "fleta",
+    name = "Fleta",
+    artist_credits = {"amy", "huycorn"},
+    atlas = "pocket_mirror",
+    saga_group = "pocket_mirror",
+    order = 122,
+    pools = { [SAGA_GROUP_POOL.legend] = true },
+    pos = { x = 0, y = 0 },
+    soul_pos = { x = 2, y = 0, sgt_extra = { x = 1, y = 0, no_scale = true }, name_tag = { x = 3, y = 0 } },
+    config = {immutable = {stage = 0, butterfly_collected = {goldia = 0, fleta = 0}, hands = {}, completed = {}}, extra = {xmult = 5}, shatters_on_destroy = true},
+    rarity = 4,
+    cost = 20,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
+            if context.setting_blind and not card.getting_sliced
+            and G.GAME.blind_on_deck == "Boss" and card.ability.immutable.stage == 3 then
+                G.GAME.shelved_chain = "sgt_fleta_crashout"
+            end
+            if context.ante_change and context.ante_end then
+                if not card.ability.immutable.ready then
+                    card.ability.immutable.ready = true
+                    G.GAME.modifiers.sgt_no_tags = true
+                    card.ability.immutable.stage = 1
+                elseif card.ability.immutable.stage < 3 then
+                    card.ability.immutable.stage = card.ability.immutable.stage + 1
+                end
+            end
+            if card.ability.immutable.stage == 1 then
+                if (context.ante_change and context.ante_end)
+                or (context.end_of_round and not context.game_over and context.main_eval) then
+                    card.ability.immutable.pairs_played = card.ability.immutable.pairs_played or 0
+                    if card.ability.immutable.pairs_played >= 3 then
+                        card.ability.immutable.completed.memory = true
+                    else
+                        card.ability.immutable.pairs_played = 0
+                    end
+                end
+                if context.before and context.scoring_name == "Pair" then
+                    card.ability.immutable.pairs_played = card.ability.immutable.pairs_played + 1
+                end
+            elseif card.ability.immutable.stage == 2 then
+                if context.setting_blind and not card.getting_sliced
+                and not card.ability.immutable.butterfly_uncaged then
+                    card.ability.immutable.butterfly_uncaged = true
+                    local i = 0
+                    while i < 20 do -- yikes, this is not the optimal way to mass-assign stickers
+                        for _, v in ipairs(G.playing_cards) do
+                            if not v.ability.sgt_butterfly and i < 20 then
+                                if pseudorandom("uncaged_butterfly") > 0.67 then
+                                    v:add_sticker("sgt_butterfly", true)
+                                    i = i + 1
+                                end
+                            end
+                        end
+                    end
+                end
+                if context.before then
+                    local goldia_collected, fleta_collected = false, false
+                    for _, v in ipairs(context.scoring_hand) do
+                        if v.ability.sgt_butterfly then
+                            goldia_collected = true
+                            card.ability.immutable.butterfly_collected.goldia =
+                            card.ability.immutable.butterfly_collected.goldia + 1
+                            G.E_MANAGER:add_event(Event({
+                                func = function()
+                                    v:remove_sticker("sgt_butterfly")
+                                    v:juice_up()
+                                    return true
+                                end
+                            }))
+                        end
+                    end
+                    if goldia_collected then
+                        local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+                        if goldia then
+                            SMODS.calculate_effect({message = localize('k_caught_ex'), colour = G.C.FILTER}, goldia)
+                        end
+                    end
+                    local eligible_cards, chosen_cards = {}, {}
+                    for _, v in ipairs(G.playing_cards) do
+                        if v.ability.sgt_butterfly and not table.contains(context.scoring_hand, v) then
+                            table.insert(eligible_cards, v)
+                        end
+                    end
+                    if next(eligible_cards) then
+                        local times = pseudorandom("fleta_catches", 0, 2)
+                        for _ = 1, math.min(times, #eligible_cards) do
+                            local chosen_card = pseudorandom_element(eligible_cards, pseudoseed("fleta_target"))
+                            local i = 1
+                            while table.contains(chosen_cards, chosen_card) do
+                                chosen_card = pseudorandom_element(eligible_cards, pseudoseed("fleta_target_resample"..i))
+                                i = i + 1
+                            end
+                            table.insert(chosen_cards, chosen_card)
+                        end
+                        for _, v in ipairs(chosen_cards) do
+                            fleta_collected = true
+                            card.ability.immutable.butterfly_collected.fleta =
+                            card.ability.immutable.butterfly_collected.fleta + 1
+                            G.E_MANAGER:add_event(Event({
+                                func = function()
+                                    v:remove_sticker("sgt_butterfly")
+                                    v:juice_up()
+                                    return true
+                                end
+                            }))
+                        end
+                    end
+                    if fleta_collected then
+                        return {
+                            message = localize('k_caught_ex'),
+                            colour = G.C.FILTER,
+                            card = card,
+                        }
+                    end
+                end
+                if context.end_of_round and not context.game_over and context.main_eval then
+                    if G.GAME.blind_on_deck == "Boss"
+                    and card.ability.immutable.butterfly_collected.goldia
+                    > card.ability.immutable.butterfly_collected.fleta then
+                        card.ability.immutable.completed.butterflies = true
+                    end
+                end
+            elseif card.ability.immutable.stage == 3 then
+                if context.setting_blind and not card.getting_sliced then
+                    for _, v in ipairs(G.playing_cards) do
+                        v:remove_sticker("sgt_butterfly")
+                    end
+                end
+                if context.before then
+                    G.E_MANAGER:add_event(Event({func = function()
+                        if card.ability.immutable.hands[context.scoring_name] then
+                            check_for_unlock{type = "pm_bad_end_1"}
+                            Sagatro.game_over()
+                        end
+                    return true end}))
+                end
+                if context.after then
+                    G.E_MANAGER:add_event(Event({func = function()
+                        card.ability.immutable.hands[context.scoring_name] = true
+                    return true end}))
+                end
+                if context.end_of_round and not context.game_over and context.main_eval then
+                    card.ability.immutable.hands = {}
+                end
+            end
+        else
+            if context.individual and context.cardarea == G.play then
+                if context.other_card:get_id() == 12 and context.other_card:is_suit("Hearts") then
+                    return {
+                        xmult = card.ability.extra.xmult,
+                    }
+                end
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {vars = {card.ability.extra.xmult}}
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            ret.key = self.key.."_stage_"..card.ability.immutable.stage
+            if card.ability.immutable.stage == 1 then
+                ret.vars = {card.ability.immutable.pairs_played, colours = {card.ability.immutable.completed.memory and G.C.GREEN or G.C.FILTER}}
+            elseif card.ability.immutable.stage == 2 then
+                ret.vars = {card.ability.immutable.butterfly_collected.goldia,
+                card.ability.immutable.butterfly_collected.fleta}
+            elseif card.ability.immutable.stage == 3 then
+            end
         end
         return ret
     end,
@@ -16483,6 +16666,7 @@ local joker_table = {
     snow_scissors,
     angel_scythe,
     egliette,
+    fleta,
     knife_fork,
     hansels_cheat_dice,
     skoll_n_hati,

@@ -3030,6 +3030,52 @@ return {
                     "than this very room!",
                 },
             },
+            j_sgt_fleta = {
+                name = "Fleta",
+                text = {
+                    "Each played {C:attention}Queen{} of {C:hearts}Hearts{}",
+                    "gives {X:mult,C:white}X#1#{} Mult when scored",
+                },
+            },
+            j_sgt_fleta_stage_0 = {
+                name = "Fleta",
+                text = {
+                    {"Encounter a {C:attention}challenge",
+                    "every Ante for {C:attention}3{} Antes",
+                    "{C:inactive}(Starting from the next Ante)"},
+                    {"Only winning the third",
+                    "challenge is {C:attention}required"},
+                },
+            },
+            j_sgt_fleta_stage_1 = {
+                name = "Fleta",
+                text = {
+                    "Challenge: {C:attention}Memory{} game",
+                    "Play {C:attention}Pair{} 3 times",
+                    "in one round",
+                    "{C:inactive}({V:1}#1#{C:inactive}/3)",
+                },
+            },
+            j_sgt_fleta_stage_2 = {
+                name = "Fleta",
+                text = {
+                    "Challenge: Collect {C:attention}butterflies",
+                    "20 random cards in deck gain",
+                    "the {C:attention}Butterfly{} sticker",
+                    "Score the card to collect them",
+                    "Fleta will also try to collect",
+                    "unscored ones every hand played",
+                    "{C:inactive}({C:sgt_goldiattention}#1#{C:inactive}/{C:green}#2#{C:inactive})",
+                },
+            },
+            j_sgt_fleta_stage_3 = {
+                name = "Fleta",
+                text = {
+                    "Challenge: {C:attention}Musical{} chair",
+                    "No repeat hand types",
+                    "this round for {C:attention}3{} rounds",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -3884,6 +3930,7 @@ return {
             k_consumed_ex = "Consumed!",
             k_kaboom_ex = "Kaboom!",
             k_incoming_ex = "Incoming!",
+            k_caught_ex = "Caught!",
             k_plus_divinatio = "+1 Divinatio",
             k_plus_celestara = "+1 Celestara",
             k_empty = "Empty",
@@ -3916,6 +3963,8 @@ return {
             ph_overscored_hand = "Hand will overscore",
             ph_select_save = "Select a save slot",
             ph_no_data = "No data",
+            ph_losing_hand = "Hand will cause game over",
+            ph_fleta_musical_chair = "No repeat hand types this round",
             sgt_swap = "Swap!",
             sgt_art_credit = "Art by ",
             sgt_and = " and ",

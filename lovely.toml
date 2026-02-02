@@ -1216,3 +1216,17 @@ if self.ability.shatters_on_destroy then
 end
 '''
 match_indent = true
+
+# Sagatro.EventChain patch
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''G.STATE = G.STATES.NEW_ROUND'''
+position = "after"
+payload = '''
+if G.GAME.shelved_chain then
+    Sagatro.execute_chain(G.GAME.shelved_chain)
+    G.GAME.shelved_chain = nil
+end
+'''
+match_indent = true

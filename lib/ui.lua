@@ -419,7 +419,7 @@ G.FUNCS.mirror_switch = function(e)
                         end
                     end
                     SMODS.destroy_cards(cards, true, true)
-                    -- SMODS.add_card{key = "j_sgt_fleta"}
+                    SMODS.add_card{key = "j_sgt_fleta"}
                     G.GAME.interwoven_storyline = nil
                 end
             else
