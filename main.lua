@@ -51,6 +51,15 @@ Sagatro.optional_features = {
 
 Sagatro.temp_areas = {}
 
+Sagatro.regalia_list = {
+	"j_sgt_pocket_mirror",
+	"j_sgt_knife_fork",
+	"j_sgt_rose_bell",
+	"j_sgt_moon_hairbrush",
+	"j_sgt_snow_scissors",
+	"j_sgt_angel_scythe",
+}
+
 Sagatro.save_slots = 20
 Sagatro.save_name_list = {}
 Sagatro.save_name = "storymodesave"

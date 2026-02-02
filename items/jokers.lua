@@ -13602,6 +13602,9 @@ local goldia = {
         if not from_debuff then
             Sagatro.init_storyline(self.saga_group)
             Sagatro.progress_storyline("the_pocket_mirror", "add", self.saga_group, G.GAME.interwoven_storyline)
+            if G.GAME.story_mode then
+                G.GAME.regalia_list = G.GAME.regalia_list or {}
+            end
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
@@ -13690,10 +13693,11 @@ local pocket_mirror = {
     add_to_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
             Sagatro.progress_storyline("the_pocket_mirror", "finish", self.saga_group, G.GAME.interwoven_storyline)
+            table.insert(G.GAME.regalia_list, card.config.center_key)
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
-        if G.GAME.story_mode and not from_debuff then
+        if G.GAME.story_mode and not from_debuff and not Sagatro.event_check("goldia_transformation") then
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if goldia and not goldia.shattered then
                 goldia.shattered = true
@@ -13761,8 +13765,13 @@ local knife_fork = {
             end
         end
     end,
-    remove_from_deck = function(self, card, from_debuff)
+    add_to_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
+            table.insert(G.GAME.regalia_list, card.config.center_key)
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff and not Sagatro.event_check("goldia_transformation") then
             local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
             if pmirror and not pmirror.shattered then
                 pmirror.shattered = true
@@ -13842,8 +13851,13 @@ local rose_bell = {
             }
         end
     end,
-    remove_from_deck = function(self, card, from_debuff)
+    add_to_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
+            table.insert(G.GAME.regalia_list, card.config.center_key)
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff and not Sagatro.event_check("goldia_transformation") then
             local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
             if pmirror and not pmirror.shattered then
                 pmirror.shattered = true
@@ -13929,8 +13943,13 @@ local moon_hairbrush = {
             }
         end
     end,
-    remove_from_deck = function(self, card, from_debuff)
+    add_to_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
+            table.insert(G.GAME.regalia_list, card.config.center_key)
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff and not Sagatro.event_check("goldia_transformation") then
             local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
             if pmirror and not pmirror.shattered then
                 pmirror.shattered = true
@@ -13994,8 +14013,13 @@ local snow_scissors = {
             }
         end
     end,
-    remove_from_deck = function(self, card, from_debuff)
+    add_to_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
+            table.insert(G.GAME.regalia_list, card.config.center_key)
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff and not Sagatro.event_check("goldia_transformation") then
             local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
             if pmirror and not pmirror.shattered then
                 pmirror.shattered = true
@@ -14074,8 +14098,13 @@ local angel_scythe = {
             }
         end
     end,
-    remove_from_deck = function(self, card, from_debuff)
+    add_to_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
+            table.insert(G.GAME.regalia_list, card.config.center_key)
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff and not Sagatro.event_check("goldia_transformation") then
             local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
             if pmirror and not pmirror.shattered then
                 pmirror.shattered = true

@@ -2888,6 +2888,14 @@ return {
                     "at end of Ante",
                 },
             },
+            j_sgt_goldia_stage_platinum = {
+                name = "Platinum",
+                text = {
+                    "This is supposed to be",
+                    "a separate Joker, but",
+                    "it's still WIP",
+                },
+            },
             j_sgt_goldia_stage_dawn = {
                 name = "Goldia",
                 text = {
@@ -3762,6 +3770,7 @@ return {
             b_sgt_down = "DOWN",
             b_sgt_ready = "READY",
             b_sgt_switch = "SWITCH",
+            b_sgt_transform = "TRANSFORM",
             b_delete_ace = "Delete Ace",
             b_dont_even_try = "Don't even try",
             b_from_save = "From Save",

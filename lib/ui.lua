@@ -202,6 +202,22 @@ function Card:highlight(is_higlighted)
             end
         end
     end
+    if Sagatro.storyline_check("pocket_mirror") then
+        if self.config.center_key == "j_sgt_goldia" and self.area == G.jokers then
+            if self.highlighted then
+                self.children.transform_button = UIBox{
+                    definition = G.UIDEF.transform_button(self),
+                    config = {
+                        align= "cl",
+                        offset = {x=0.4,y=0},
+                        parent = self}
+                }
+            elseif self.children.transform_button then
+                self.children.transform_button:remove()
+                self.children.transform_button = nil
+            end
+        end
+    end
 end
 
 function G.UIDEF.movement_buttons(card)
@@ -256,6 +272,26 @@ function G.UIDEF.switch_button(card)
         }},
         {n=G.UIT.R, config={align = 'cr'}, nodes={
             ready
+        }},
+        }},
+    }}
+    return t
+end
+
+function G.UIDEF.transform_button(card)
+    local transform = nil
+    if Sagatro.storyline_check("pocket_mirror") and card.config.center_key == "j_sgt_goldia" then
+        transform = {n=G.UIT.C, config={align = "cl"}, nodes={
+        {n=G.UIT.C, config={ref_table = card, align = "cl",maxw = 1.25, padding = 0.1, r=0.08, minw = 1.25, minh = 0, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, one_press = true, button = 'goldia_transform', func = 'goldia_can_transform'}, nodes={
+            {n=G.UIT.T, config={text = localize('b_sgt_transform'),colour = G.C.UI.TEXT_LIGHT, scale = 0.55, shadow = true}},
+            {n=G.UIT.B, config = {w=0.1,h=0.6}},
+        }}}}
+    end
+    local t = {
+    n=G.UIT.ROOT, config = {padding = 0, colour = G.C.CLEAR}, nodes={
+        {n=G.UIT.C, config={padding = 0.15, align = 'cr'}, nodes={
+        {n=G.UIT.R, config={align = 'cr'}, nodes={
+            transform
         }},
         }},
     }}
@@ -437,6 +473,54 @@ G.FUNCS.mirror_can_ready = function(e)
     and (Sagatro.event_check("the_bishop", nil, true) or G.GAME.mirrorworld_showdown) and not G.CONTROLLER.locked then
         e.config.colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5)
         e.config.button = 'mirror_ready'
+    else
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+end
+
+G.FUNCS.goldia_transform = function(e)
+    local regalia_list = {}
+    local regalia_checklist = {
+        j_sgt_pocket_mirror = false,
+        j_sgt_knife_fork = false,
+    }
+    for i = #G.jokers.cards, 1, -1 do
+        local regalia = G.jokers.cards[i]
+        if table.contains(Sagatro.regalia_list, regalia.config.center_key) then
+            if regalia.config.center_key == "j_sgt_pocket_mirror"
+            or regalia.config.center_key == "j_sgt_knife_fork" then
+                regalia_checklist[regalia.config.center_key] = true
+            end
+            table.insert(regalia_list, regalia)
+        end
+    end
+    if #regalia_list >= 4
+    and regalia_checklist.j_sgt_pocket_mirror
+    and regalia_checklist.j_sgt_knife_fork then
+        for i = 1, #regalia_list do
+            regalia_list[i]:remove()
+        end
+        G.GAME.regalia_list = {}
+        if #regalia_list == 4 then
+            Sagatro.set_goldia_stage(0, "platinum")
+        elseif #regalia_list == 5 then
+            Sagatro.set_goldia_stage(0, "dawn")
+        elseif #regalia_list == 6 then
+            Sagatro.set_goldia_stage(0, "name_recalled")
+        else
+            print("Wtf, how did you even get more than 6 regalias?")
+        end
+        G.jokers:unhighlight_all()
+    else
+        print("Missing required regalias (Pocket Mirror, Messer And Gabel).")
+    end
+end
+
+G.FUNCS.goldia_can_transform = function(e)
+    if #G.GAME.regalia_list >= 4 and Sagatro.event_check("goldia_transformation") and not G.CONTROLLER.locked then
+        e.config.colour = G.C.SGT_GOLDIATTENTION
+        e.config.button = 'goldia_transform'
     else
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
@@ -1141,10 +1225,14 @@ SMODS.DrawStep {
         if self.children.switch_button then
             self.children.switch_button:draw()
         end
+        if self.children.transform_button then
+            self.children.transform_button:draw()
+        end
     end,
 }
 SMODS.draw_ignore_keys.movement_buttons = true
 SMODS.draw_ignore_keys.switch_button = true
+SMODS.draw_ignore_keys.transform_button = true
 
 SMODS.DrawStep {
     key = 'eldritch_shine',

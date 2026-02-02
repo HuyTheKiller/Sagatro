@@ -35,6 +35,12 @@ SMODS.Gradient{
 }
 G.C.SGT_SAGATTENTION = SMODS.Gradients["sgt_sagattention"]
 SMODS.Gradient{
+    key = "goldiattention",
+    colours = {HEX("b4417b"), HEX("631e41")},
+    cycle = 1,
+}
+G.C.SGT_GOLDIATTENTION = SMODS.Gradients["sgt_goldiattention"]
+SMODS.Gradient{
     key = "miracle",
     colours = {HEX('E7A73D'), HEX('FFEE00')},
     cycle = 2,
@@ -4048,7 +4054,7 @@ function Sagatro.help()
         print("Sagatro debug commands:")
         print("Sagatro.help() or help(): show this help screen.")
         print("Sagatro.DT_boss(blind_key): Reroll the boss to the specified one.")
-        print("Sagatro.DT_isl(storyline_name): Instantly initialize storyline_name.")
+        print("Sagatro.DT_isl(storyline_name, options): Instantly initialize storyline_name. Pass a table to options for finer control over storyline state.")
         print("Sagatro.DT_rarity(): print out modifications of each rarity pool.")
         print("Sagatro.DT_event(): show event queue and list of finished events.")
         print("Sagatro.DT_i(): Prints debug info Sagatro will give in crash screen.")
@@ -4073,8 +4079,9 @@ function Sagatro.DT_boss(blind_key)
     end
 end
 
-function Sagatro.DT_isl(storyline_name)
+function Sagatro.DT_isl(storyline_name, options)
     if Sagatro.debug then
+        options = options or {}
         if Sagatro.storyline_check("none") then
             if storyline_name == "alice_in_wonderland" then
                 SMODS.add_card{key = "j_sgt_white_rabbit"}
@@ -4083,6 +4090,17 @@ function Sagatro.DT_isl(storyline_name)
             elseif storyline_name == "alice_in_mirrorworld" then
                 SMODS.add_card{key = "j_sgt_white_rabbit"}
                 SMODS.add_card{key = "j_sgt_mirror"}
+            elseif storyline_name == "pocket_mirror" then
+                SMODS.add_card{key = "j_sgt_goldia"}
+                if options.transform then
+                    Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                    SMODS.add_card{key = "j_sgt_pocket_mirror"}
+                    SMODS.add_card{key = "j_sgt_knife_fork"}
+                    SMODS.add_card{key = "j_sgt_rose_bell"}
+                    SMODS.add_card{key = "j_sgt_moon_hairbrush"}
+                    SMODS.add_card{key = "j_sgt_snow_scissors"}
+                    SMODS.add_card{key = "j_sgt_angel_scythe"}
+                end
             end
             return "Initialized '"..storyline_name.."'"
         end

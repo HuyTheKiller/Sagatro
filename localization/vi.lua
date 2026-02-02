@@ -2885,6 +2885,14 @@ return {
                     "ở cuối Ante",
                 },
             },
+            j_sgt_goldia_stage_platinum = {
+                name = "Platinum",
+                text = {
+                    "Đây đúng ra phải là",
+                    "một Joker khác, nhưng",
+                    "mà nó vẫn là WIP",
+                },
+            },
             j_sgt_goldia_stage_dawn = {
                 name = "Goldia",
                 text = {
@@ -3759,6 +3767,7 @@ return {
             b_sgt_down = "XUỐNG",
             b_sgt_ready = "S.SÀNG",
             b_sgt_switch = "CHUYỂN",
+            b_sgt_transform = "BIẾN ĐỔI",
             b_delete_ace = "Huỷ Át",
             b_dont_even_try = "Đừng cố nữa",
             b_from_save = "Từ Bản Lưu",

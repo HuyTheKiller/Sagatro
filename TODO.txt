@@ -13,16 +13,16 @@ TO-DO:
     [X] Add Goldia's effect inside story mode
     [X] Hook Goldia's effects to story events
     [X] Add Goldia's effect outside story mode
-[] Add Regalias:
+[X] Add Regalias:
     [X] Add Messer and Gabel (Knife and Fork)
     [X] Add Rosen Glöckchen (Rose Bells)
     [X] Add Haarbürste des Mondes (Hairbrush of the Moon)
     [X] Add Schnee Schere (Snow Scissors)
     [X] Add Engelssense (Angel Scythe)
-    [] Hook all Regalias to a button on Goldia, allowing transformation:
-        [] Add transformation to "dawn" (for Dawn ending)
-        [] Add transformation to "name_recalled" (for Little Goody Two Shoes ending)
-        [] Add placeholder transformation to Platinum (has no effect)
+    [X] Hook all Regalias to a button on Goldia, allowing transformation:
+        [X] Add transformation to "dawn" (for Dawn ending)
+        [X] Add transformation to "name_recalled" (for Little Goody Two Shoes ending)
+        [X] Add placeholder transformation to Platinum (has no effect)
 [] Add Egliette, expand Goldia:
     [] Add base Egliette (obscure)
     [] Add Egliette's effect inside story mode
