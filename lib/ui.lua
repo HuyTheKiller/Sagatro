@@ -294,7 +294,7 @@ end
 G.FUNCS.submarine_can_go_up = function(e)
     local submarine = e.config.ref_table
     if submarine.ability.immutable.depth_level > 1 and not G.GAME.submarine_movement_cooldown
-    and not submarine.ability.immutable.pending_go_down then
+    and not submarine.ability.immutable.pending_go_down and not G.CONTROLLER.locked then
         e.config.colour = G.GAME.first_submarine_up and G.C.SUBMARINE_DEPTH[1] or G.C.SGT_SAGATTENTION
         e.config.button = 'submarine_up'
     else
@@ -338,7 +338,7 @@ G.FUNCS.submarine_can_go_down = function(e)
     local submarine = e.config.ref_table
     if (submarine.ability.immutable.depth_level < submarine.ability.immutable.armor_level
     or G.GAME.nyx_abyss_incoming) and not submarine.ability.immutable.pending_go_down
-    and not G.GAME.submarine_movement_cooldown then
+    and not G.GAME.submarine_movement_cooldown and not G.CONTROLLER.locked then
         e.config.colour = G.C.SUBMARINE_DEPTH[1]
         e.config.button = 'submarine_down'
     else
@@ -398,7 +398,7 @@ end
 
 G.FUNCS.mirror_can_switch = function(e)
     if not G.GAME.mirror_switch_cooldown and not G.GAME.saga_forced_boss
-    and (G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP) then
+    and (G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP) and not G.CONTROLLER.locked then
         e.config.colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5)
         e.config.button = 'mirror_switch'
     else
@@ -434,7 +434,7 @@ end
 
 G.FUNCS.mirror_can_ready = function(e)
     if G.GAME.inversed_scaling and not (G.GAME.saga_forced_boss or G.GAME.mirror_ready) and not G.GAME.won
-    and (Sagatro.event_check("the_bishop", nil, true) or G.GAME.mirrorworld_showdown) then
+    and (Sagatro.event_check("the_bishop", nil, true) or G.GAME.mirrorworld_showdown) and not G.CONTROLLER.locked then
         e.config.colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5)
         e.config.button = 'mirror_ready'
     else
