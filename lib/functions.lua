@@ -739,7 +739,7 @@ function Game:update(dt)
                         }},
                         config = {
                             align = 'cm',
-                            offset ={x=0,y=G.boss_warning_text and 0 or -3.1},
+                            offset ={x=0,y=-1.7},
                             major = G.play,
                         }
                     }
