@@ -2901,7 +2901,7 @@ return {
                 text = {
                     "Retrigger all played {C:attention}Queens{}",
                     "Each played {C:attention}Queen{} of {C:hearts}Hearts{}",
-                    "give {X:mult,C:white}X#1#{} Mult when scored",
+                    "gives {X:mult,C:white}X#1#{} Mult when scored",
                     "Played {C:attention}Glass{} cards give",
                     "{X:mult,C:white}X#2#{} Mult when scored",
                 },
