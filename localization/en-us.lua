@@ -3700,6 +3700,24 @@ return {
         },
     },
     misc = {
+        achievement_names = {
+            ach_sgt_pm_bad_end_1 = "Porcelain",
+            ach_sgt_pm_bad_end_2 = "Blindness",
+            ach_sgt_pm_normal_end_1 = "Platinum",
+            ach_sgt_pm_normal_end_2 = "Dawn",
+            ach_sgt_pm_normal_end_3 = "Little Goody Two Shoes",
+            ach_sgt_pm_unknown_end_1 = "Witching Hour",
+            ach_sgt_pm_unknown_end_2 = "Shattered Delusion",
+        },
+        achievement_descriptions = {
+            ach_sgt_pm_bad_end_1 = "Lose Fleta's third challenge",
+            ach_sgt_pm_bad_end_2 = "Play perfectly as Harpae said",
+            ach_sgt_pm_normal_end_1 = "Transform Goldia using 4 regalias",
+            ach_sgt_pm_normal_end_2 = "Transform Goldia using 5 regalias",
+            ach_sgt_pm_normal_end_3 = "Transform Goldia using 6 regalias",
+            ach_sgt_pm_unknown_end_1 = "Fail to get more than 2 regalias",
+            ach_sgt_pm_unknown_end_2 = "Fail to get more than 3 regalias",
+        },
         labels = {
             k_sgt_trivial = "Trivial",
             k_sgt_obscure = "Obscure",

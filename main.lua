@@ -12,6 +12,7 @@ Sagatro.load_table = {
 	boosters = true,
 	deckskin = true,
 	challenges = true,
+	achievements = true,
 }
 
 Sagatro.secondary_colour = darken(Sagatro.badge_colour, 0.4)

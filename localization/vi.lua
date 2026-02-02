@@ -3697,6 +3697,24 @@ return {
         },
     },
     misc = {
+        achievement_names = {
+            ach_sgt_pm_bad_end_1 = "Búp Bê Sứ",
+            ach_sgt_pm_bad_end_2 = "Mù Loà",
+            ach_sgt_pm_normal_end_1 = "Platinum",
+            ach_sgt_pm_normal_end_2 = "Bình Minh",
+            ach_sgt_pm_normal_end_3 = "Little Goody Two Shoes",
+            ach_sgt_pm_unknown_end_1 = "Giờ Ma Quỷ",
+            ach_sgt_pm_unknown_end_2 = "Ảo Mộng Tan Vỡ",
+        },
+        achievement_descriptions = {
+            ach_sgt_pm_bad_end_1 = "Thua thử thách thứ ba của Fleta",
+            ach_sgt_pm_bad_end_2 = "Chơi hoàn hảo như yêu cầu của Harpae",
+            ach_sgt_pm_normal_end_1 = "Dùng 4 ấn vương để Biến đổi Goldia",
+            ach_sgt_pm_normal_end_2 = "Dùng 5 ấn vương để Biến đổi Goldia",
+            ach_sgt_pm_normal_end_3 = "Dùng 6 ấn vương để Biến đổi Goldia",
+            ach_sgt_pm_unknown_end_1 = "Không lấy được nhiều hơn 2 ấn vương",
+            ach_sgt_pm_unknown_end_2 = "Không lấy được nhiều hơn 3 ấn vương",
+        },
         labels = {
             k_sgt_trivial = "Tầm Thường",
             k_sgt_obscure = "Mờ Mịt",
