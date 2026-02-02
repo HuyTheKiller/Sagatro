@@ -3011,6 +3011,13 @@ return {
                     "{C:inactive}(Hiện tại là {X:chips,C:white}X#1#{C:inactive} Chip)",
                 },
             },
+            j_sgt_egliette = {
+                name = "Egliette",
+                text = {
+                    "Tái kích mọi lá {C:attention}Đầm",
+                    "đã chơi {C:attention}#1#{} lần",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {

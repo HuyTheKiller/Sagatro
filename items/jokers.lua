@@ -14138,6 +14138,46 @@ local angel_scythe = {
  	end,
 }
 
+local egliette = {
+    key = "egliette",
+    name = "Egliette",
+    artist_credits = {"temp"},
+    atlas = "pocket_mirror",
+    saga_group = "pocket_mirror",
+    order = 131,
+    pos = { x = 5, y = 5 },
+    config = {extra = {retriggers = 6}},
+    rarity = "sgt_obscure",
+    cost = 12,
+    blueprint_compat = true,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:get_id() == 12 then
+                return {
+                    message = localize("k_again_ex"),
+                    repetitions = card.ability.extra.retriggers,
+                    card = card,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode then
+            return Sagatro.storyline_check(self.saga_group)
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.retriggers}}
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
 local hansels_cheat_dice = {
     key = "hansels_cheat_dice",
     name = "Hansel's Cheat Dice",
@@ -16414,6 +16454,7 @@ local joker_table = {
     moon_hairbrush,
     snow_scissors,
     angel_scythe,
+    egliette,
     knife_fork,
     hansels_cheat_dice,
     skoll_n_hati,

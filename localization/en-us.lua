@@ -3014,6 +3014,13 @@ return {
                     "{C:inactive}(Currently {X:chips,C:white}X#1#{C:inactive} Chips)",
                 },
             },
+            j_sgt_egliette = {
+                name = "Egliette",
+                text = {
+                    "Retrigger all played",
+                    "{C:attention}Queens{} {C:attention}#1#{} times",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
