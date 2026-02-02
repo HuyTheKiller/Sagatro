@@ -2877,7 +2877,7 @@ return {
                     "ở cuối Ante",
                 },
             },
-            j_sgt_goldia_stage0 = {
+            j_sgt_goldia_stage_0 = {
                 name = "??????",
                 text = {
                     "{C:mult}+#1#{} Nhân",
