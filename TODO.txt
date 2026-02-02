@@ -32,19 +32,16 @@ TO-DO:
     [] Add base Fleta (legendary)
     [] Add Fleta's effect inside story mode
     [] Hook Fleta's effects to story events
-    [] Update Goldia's effect inside story mode to include Fleta
     [] Add Fleta's effect outside story mode
 [] Add Harpae:
     [] Add base Harpae (legendary)
     [] Add Harpae's effect inside story mode
     [] Hook Harpae's effects to story events
-    [] Update Goldia's effect inside story mode to include Harpae
     [] Add Harpae's effect outside story mode
 [] Add Lisette:
     [] Add base Lisette (legendary)
     [] Add Lisette's effect inside story mode
     [] Hook Lisette's effects to story events
-    [] Update Goldia's effect inside story mode to include Lisette
     [] Replace Lisette's placeholder with final visual
     [] Add Lisette's effect outside story mode
 [] Add Enjel:
@@ -52,7 +49,6 @@ TO-DO:
     [] Add base Enjel (legendary)
     [] Add Enjel's effect inside story mode
     [] Hook Enjel's effects to story events
-    [] Update Goldia's effect inside story mode to include Enjel
     [] Replace Enjel's placeholder with final visual
     [] Add Enjel's effect outside story mode
 [] Add Platinum:
