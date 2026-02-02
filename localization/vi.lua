@@ -3018,6 +3018,15 @@ return {
                     "đã chơi {C:attention}#1#{} lần",
                 },
             },
+            j_sgt_egliette_storymode = {
+                name = "Egliette",
+                text = {
+                    "Ta không thể để ngươi",
+                    "tiến xa hơn nữa, có nghĩa",
+                    "là ngươi sẽ phải {C:attention}kết thúc",
+                    "tại nơi này!",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {

@@ -194,6 +194,9 @@ local drink_me = {
         card.ability.taken = true
     end,
     in_pool = function(self, args)
+        if Sagatro.storyline_check("pocket_mirror") then
+            return Sagatro.event_check("facing_egliette")
+        end
         if G.GAME.story_mode then
             return next(SMODS.find_card("j_sgt_white_rabbit", true))
         end
@@ -288,7 +291,9 @@ local eat_me = {
                 end
                 if card.ability.extra - 1 <= 0 then
                     Sagatro.self_destruct(card)
-                    if Sagatro.event_check("little_bill") and Sagatro.event_check("huge_dog", nil, true) then
+                    if Sagatro.storyline_check("pocket_mirror") then
+                        Sagatro.progress_storyline("conditional_game_over", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+                    elseif Sagatro.event_check("little_bill") and Sagatro.event_check("huge_dog", nil, true) then
                         Sagatro.progress_storyline("little_bill", "finish", self.saga_group, G.GAME.interwoven_storyline)
                         Sagatro.progress_storyline("huge_dog", "add", self.saga_group, G.GAME.interwoven_storyline)
                     end
@@ -315,6 +320,9 @@ local eat_me = {
         card.ability.taken = true
     end,
     in_pool = function(self, args)
+        if Sagatro.storyline_check("pocket_mirror") then
+            return Sagatro.event_check("facing_egliette")
+        end
         if G.GAME.story_mode then
             return (next(SMODS.find_card("j_sgt_white_rabbit", true)) or next(SMODS.find_card("j_sgt_little_bill", true)))
         end
@@ -10814,10 +10822,17 @@ local mirror = {
     add_to_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
             Sagatro.init_storyline(self.saga_group, true)
-            G.GAME.mirror_hint_to_progress = true
+            if Sagatro.storyline_check("alice_in_wonderland") then
+                G.GAME.mirror_hint_to_progress = true
+            elseif Sagatro.storyline_check("pocket_mirror") then
+                G.GAME.show_main_storyline = true
+            end
         end
     end,
     in_pool = function(self, args)
+        if Sagatro.storyline_check("pocket_mirror") then
+            return Sagatro.event_check("facing_egliette")
+        end
         if G.GAME.story_mode then
             return Sagatro.storyline_check("alice_in_wonderland")
         end
@@ -10829,7 +10844,7 @@ local mirror = {
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "interwoven_storyline_start",
             specific_vars = {localize('ph_alice_in_mirr'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
         end
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self.saga_group) and not Sagatro.storyline_check("pocket_mirror") then
             info_queue[#info_queue+1] = G.GAME.inversed_scaling
             and {set = "Other", key = "sgt_mirrorworld_tooltip", specific_vars = {G.GAME.switch_bonus}}
             or {set = "Other", key = "sgt_realworld_tooltip", specific_vars = {G.GAME.switch_bonus}}
@@ -13603,6 +13618,9 @@ local goldia = {
             Sagatro.progress_storyline("the_pocket_mirror", "add", self.saga_group, G.GAME.interwoven_storyline)
             if G.GAME.story_mode then
                 G.GAME.regalia_list = G.GAME.regalia_list or {}
+                G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
+                    ease_background_colour_blind(G.STATE)
+                return true end }))
             end
         end
     end,
@@ -13692,6 +13710,7 @@ local pocket_mirror = {
     add_to_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
             Sagatro.progress_storyline("the_pocket_mirror", "finish", self.saga_group, G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("knife_and_fork", "add", self.saga_group, G.GAME.interwoven_storyline)
             table.insert(G.GAME.regalia_list, card.config.center_key)
         end
     end,
@@ -13763,9 +13782,16 @@ local knife_fork = {
                 }
             end
         end
+        if context.setting_blind and not card.getting_sliced
+        and not context.blueprint and not context.retrigger_joker and G.GAME.pm_mirrorworld
+        and Sagatro.event_check("conditional_game_over", false) then
+            Sagatro.progress_storyline("conditional_game_over", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
+        end
     end,
     add_to_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
+            Sagatro.progress_storyline("knife_and_fork", "finish", self.saga_group, G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("facing_egliette", "add", self.saga_group, G.GAME.interwoven_storyline)
             table.insert(G.GAME.regalia_list, card.config.center_key)
         end
     end,
@@ -13788,7 +13814,7 @@ local knife_fork = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.storyline_check(self.saga_group)
+            return Sagatro.storyline_check(self.saga_group) and Sagatro.event_check("knife_and_fork")
         end
         return true
     end,
@@ -14153,13 +14179,24 @@ local egliette = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if context.repetition and context.cardarea == G.play then
-            if context.other_card:get_id() == 12 then
+        if G.GAME.story_mode then
+            if context.end_of_round and not context.game_over and context.main_eval
+            and not context.blueprint and not context.retrigger_joker then
+                Sagatro.self_destruct(card)
                 return {
-                    message = localize("k_again_ex"),
-                    repetitions = card.ability.extra.retriggers,
-                    card = card,
+                    message = localize("k_poof_ex"),
+                    colour = G.C.FILTER
                 }
+            end
+        else
+            if context.repetition and context.cardarea == G.play then
+                if context.other_card:get_id() == 12 then
+                    return {
+                        message = localize("k_again_ex"),
+                        repetitions = card.ability.extra.retriggers,
+                        card = card,
+                    }
+                end
             end
         end
     end,
@@ -14170,7 +14207,11 @@ local egliette = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.retriggers}}
+        local ret = {vars = {card.ability.extra.retriggers}}
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            ret.key = self.key.."_storymode"
+        end
+        return ret
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )

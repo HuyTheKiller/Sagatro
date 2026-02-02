@@ -3021,6 +3021,15 @@ return {
                     "{C:attention}Queens{} {C:attention}#1#{} times",
                 },
             },
+            j_sgt_egliette_storymode = {
+                name = "Egliette",
+                text = {
+                    "I am hereby announcing",
+                    "your {C:attention}demise{}, for you",
+                    "will not be advancing further",
+                    "than this very room!",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {

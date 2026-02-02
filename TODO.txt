@@ -23,41 +23,36 @@ TO-DO:
         [X] Add transformation to "dawn" (for Dawn ending)
         [X] Add transformation to "name_recalled" (for Little Goody Two Shoes ending)
         [X] Add placeholder transformation to Platinum (has no effect)
-[] Add Egliette, expand Goldia:
+[X] Add Egliette:
     [X] Add base Egliette (obscure)
     [X] Add Egliette's effect inside story mode
     [X] Add Egliette's effect outside story mode
-    [] Hook Egliette's effects to story events
-    [] Hook Goldia's effects to story events
-[] Add Fleta, expand Goldia:
+    [X] Hook Egliette's effects to story events
+[] Add Fleta:
     [] Add base Fleta (legendary)
     [] Add Fleta's effect inside story mode
     [] Hook Fleta's effects to story events
     [] Update Goldia's effect inside story mode to include Fleta
-    [] Hook Goldia's effects to story events
     [] Add Fleta's effect outside story mode
-[] Add Harpae, expand Goldia:
+[] Add Harpae:
     [] Add base Harpae (legendary)
     [] Add Harpae's effect inside story mode
     [] Hook Harpae's effects to story events
     [] Update Goldia's effect inside story mode to include Harpae
-    [] Hook Goldia's effects to story events
     [] Add Harpae's effect outside story mode
-[] Add Lisette, expand Goldia:
+[] Add Lisette:
     [] Add base Lisette (legendary)
     [] Add Lisette's effect inside story mode
     [] Hook Lisette's effects to story events
     [] Update Goldia's effect inside story mode to include Lisette
-    [] Hook Goldia's effects to story events
     [] Replace Lisette's placeholder with final visual
     [] Add Lisette's effect outside story mode
-[] Add Enjel, expand Goldia:
+[] Add Enjel:
     [] Add Enjel's visual
     [] Add base Enjel (legendary)
     [] Add Enjel's effect inside story mode
     [] Hook Enjel's effects to story events
     [] Update Goldia's effect inside story mode to include Enjel
-    [] Hook Goldia's effects to story events
     [] Replace Enjel's placeholder with final visual
     [] Add Enjel's effect outside story mode
 [] Add Platinum:
@@ -69,3 +64,4 @@ TO-DO:
     [] Add base Strange Boy (legendary)
     [] Add Strange Boy's effect
     [] Replace Strange Boy's placeholder with final visual
+[] Add hints to progress Pocket Mirror (not as riddles like Alice in Wonderland, should be straightforward)

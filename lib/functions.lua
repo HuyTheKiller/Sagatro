@@ -8,6 +8,7 @@ G.C.SGT_CELESTARA = HEX("717beb")
 G.C.SGT_ELDRITCH = HEX("3f0c57")
 G.C.SGT_SUPPLY = HEX("485267")
 G.C.SGT_BADGE = HEX("6131ac")
+G.C.GOLDIA_PINK = HEX("b4417b")
 G.C.SUBMARINE_DEPTH = {
     HEX("3a86e1"),
     HEX("265792"),
@@ -197,6 +198,11 @@ function Game:init_game_object()
                 "j_sgt_red_king",
                 "j_sgt_vorpal_sword",
                 "j_sgt_ecila",
+            },
+        },
+        pocket_mirror = {
+            pm_mirrorworld = {
+                "j_sgt_eat_me",
             },
         },
     }

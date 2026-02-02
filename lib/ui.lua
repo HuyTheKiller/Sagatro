@@ -258,11 +258,13 @@ function G.UIDEF.switch_button(card)
             {n=G.UIT.T, config={text = localize('b_sgt_switch'),colour = G.C.UI.TEXT_LIGHT, scale = 0.55, shadow = true}},
             {n=G.UIT.B, config = {w=0.1,h=0.6}},
         }}}}
-        ready = {n=G.UIT.C, config={align = "cl"}, nodes={
-        {n=G.UIT.C, config={ref_table = card, align = "cl",maxw = 1.25, padding = 0.1, r=0.08, minw = 1.25, minh = 0, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, one_press = true, button = 'mirror_ready', func = 'mirror_can_ready'}, nodes={
-            {n=G.UIT.T, config={text = localize('b_sgt_ready'),colour = G.C.UI.TEXT_LIGHT, scale = 0.55, shadow = true}},
-            {n=G.UIT.B, config = {w=0.1,h=0.6}},
-        }}}}
+        if not Sagatro.storyline_check("pocket_mirror") then
+            ready = {n=G.UIT.C, config={align = "cl"}, nodes={
+            {n=G.UIT.C, config={ref_table = card, align = "cl",maxw = 1.25, padding = 0.1, r=0.08, minw = 1.25, minh = 0, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, one_press = true, button = 'mirror_ready', func = 'mirror_can_ready'}, nodes={
+                {n=G.UIT.T, config={text = localize('b_sgt_ready'),colour = G.C.UI.TEXT_LIGHT, scale = 0.55, shadow = true}},
+                {n=G.UIT.B, config = {w=0.1,h=0.6}},
+            }}}}
+        end
     end
     local t = {
     n=G.UIT.ROOT, config = {padding = 0, colour = G.C.CLEAR}, nodes={
@@ -385,48 +387,72 @@ end
 
 G.FUNCS.mirror_switch = function(e)
     local mirror = e.config.ref_table
-    G.GAME.mirror_switch_cooldown = true
-    if G.STATE == G.STATES.SHOP and not G.GAME.free_reroll_first_time then
-        G.GAME.free_reroll_first_time = true
-        G.GAME.free_reroll_tooltip = true
-    end
     G.E_MANAGER:add_event(Event({func = function()
         play_sound('timpani')
         mirror:juice_up()
-        Sagatro.inverse()
-        ease_dollars(G.GAME.switch_bonus)
-        G.GAME.switch_bonus = 0
+        G.GAME.mirror_switch_cooldown = true
+        if not Sagatro.storyline_check("pocket_mirror") then
+            if G.STATE == G.STATES.SHOP and not G.GAME.free_reroll_first_time then
+                G.GAME.free_reroll_first_time = true
+                G.GAME.free_reroll_tooltip = true
+            end
+            Sagatro.inverse()
+            ease_dollars(G.GAME.switch_bonus)
+            G.GAME.switch_bonus = 0
+        else
+            G.GAME.pm_mirrorworld = not G.GAME.pm_mirrorworld
+        end
         ease_background_colour_blind(G.STATE)
         if G.GAME.story_mode then
-            if G.GAME.inversed_scaling then
-                Sagatro.progress_storyline("mirrorworld", "force_add", "alice_in_wonderland", G.GAME.interwoven_storyline)
-                for _, alice in ipairs(SMODS.find_card("j_sgt_alice", true)) do
-                    alice:set_ability("j_sgt_ecila")
-                end
-                if G.shop_booster then
-                    for _, booster in ipairs(G.shop_booster.cards or {}) do
-                        if booster.config.center.kind == "Celestial" or booster.config.center.kind == "Celestara" then
-                            booster:set_ability(get_pack("mirrorworld"))
-                            Sagatro.resize(booster)
-                            booster:set_cost()
+            if Sagatro.storyline_check("pocket_mirror") then
+                if G.GAME.pm_mirrorworld then
+                    Sagatro.progress_storyline("pm_mirrorworld", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
+                    SMODS.add_card{key = "j_sgt_egliette"}
+                else
+                    Sagatro.progress_storyline("pm_mirrorworld", "force_finish", "pocket_mirror", G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline("facing_egliette", "force_finish", "pocket_mirror", G.GAME.interwoven_storyline)
+                    local cards = {}
+                    for _, v in ipairs(G.jokers.cards) do
+                        if v.config.center.saga_group == "alice_in_wonderland"
+                        or v.config.center.saga_group == "alice_in_mirrorworld" then
+                            table.insert(cards, v)
                         end
                     end
-                end
-                G.GAME.planet_rate = G.GAME.planet_rate/1e18
-                if G.GAME.used_vouchers.v_sgt_civilization then
-                    G.GAME.celestara_rate = G.GAME.celestara_rate/1e18
+                    SMODS.destroy_cards(cards, true, true)
+                    -- SMODS.add_card{key = "j_sgt_fleta"}
+                    G.GAME.interwoven_storyline = nil
                 end
             else
-                Sagatro.progress_storyline("mirrorworld", "remove", "alice_in_wonderland", G.GAME.interwoven_storyline)
-                for _, ecila in ipairs(SMODS.find_card("j_sgt_ecila", true)) do
-                    ecila:set_ability("j_sgt_alice")
+                if G.GAME.inversed_scaling then
+                    Sagatro.progress_storyline("mirrorworld", "force_add", "alice_in_wonderland", G.GAME.interwoven_storyline)
+                    for _, alice in ipairs(SMODS.find_card("j_sgt_alice", true)) do
+                        alice:set_ability("j_sgt_ecila")
+                    end
+                    if G.shop_booster then
+                        for _, booster in ipairs(G.shop_booster.cards or {}) do
+                            if booster.config.center.kind == "Celestial" or booster.config.center.kind == "Celestara" then
+                                booster:set_ability(get_pack("mirrorworld"))
+                                Sagatro.resize(booster)
+                                booster:set_cost()
+                            end
+                        end
+                    end
+                    G.GAME.planet_rate = G.GAME.planet_rate/1e18
+                    if G.GAME.used_vouchers.v_sgt_civilization then
+                        G.GAME.celestara_rate = G.GAME.celestara_rate/1e18
+                    end
+                else
+                    Sagatro.progress_storyline("mirrorworld", "remove", "alice_in_wonderland", G.GAME.interwoven_storyline)
+                    for _, ecila in ipairs(SMODS.find_card("j_sgt_ecila", true)) do
+                        ecila:set_ability("j_sgt_alice")
+                    end
+                    G.GAME.planet_rate = G.GAME.planet_rate*1e18
+                    if G.GAME.used_vouchers.v_sgt_civilization then
+                        G.GAME.celestara_rate = G.GAME.celestara_rate*1e18
+                    end
                 end
-                G.GAME.planet_rate = G.GAME.planet_rate*1e18
-                if G.GAME.used_vouchers.v_sgt_civilization then
-                    G.GAME.celestara_rate = G.GAME.celestara_rate*1e18
-                end
+                Sagatro.update_inactive_state(true)
             end
-            Sagatro.update_inactive_state(true)
         end
         Sagatro.instant_reroll()
     return true end }))
@@ -437,6 +463,12 @@ G.FUNCS.mirror_can_switch = function(e)
     and (G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP) and not G.CONTROLLER.locked then
         e.config.colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5)
         e.config.button = 'mirror_switch'
+        if Sagatro.storyline_check("pocket_mirror") then
+            if not (next(SMODS.find_card("j_sgt_eat_me")) or G.GAME.pm_mirrorworld) then
+                e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+                e.config.button = nil
+            end
+        end
     else
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
@@ -868,6 +900,9 @@ function G.UIDEF.saveload_list_page(_page)
       if saved_snapshot ~= nil then
         saved_snapshot = STR_UNPACK(saved_snapshot)
         storyline_name = saved_snapshot.GAME.interwoven_storyline or saved_snapshot.GAME.current_storyline
+        if saved_snapshot.GAME.show_main_storyline then
+            storyline_name = saved_snapshot.GAME.current_storyline
+        end
       end
       storyline_name = localize(Sagatro.storyline_locmap[storyline_name or "EMPTY"] or "k_empty")
       Sagatro.save_name_list[i] = storyline_name
