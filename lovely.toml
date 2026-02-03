@@ -928,7 +928,7 @@ or Sagatro.event_check("game_over") or Sagatro.event_check("conditional_game_ove
 end
 '''
 
-# Make sure Ankh won't copy Submarine/Mirror
+# Make sure Ankh won't copy Eternal jokers trollface
 [[patches]]
 [patches.pattern]
 target = 'card.lua'
@@ -936,8 +936,7 @@ pattern = '''local chosen_joker = pseudorandom_element(G.jokers.cards, pseudosee
 position = 'after'
 match_indent = true
 payload = '''
-while G.GAME.story_mode and (chosen_joker.config.center_key == "j_sgt_submarine"
-or chosen_joker.config.center_key == "j_sgt_mirror") do
+while G.GAME.story_mode and SMODS.is_eternal(chosen_joker) do
     chosen_joker = pseudorandom_element(G.jokers.cards, pseudoseed('ankh_choice_reroll'))
 end
 '''
