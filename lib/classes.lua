@@ -1,3 +1,8 @@
+---@param func_list function[] An array of functions.
+---@param delay number Delay between each function.
+---@param index? integer Internal counter to traverse the array, as well as controlling the recursion.
+--- Recursive helper function to execute functions one by one, utilizing events.
+--- Direct invocation is not recommended.
 function Sagatro.recursive_chain(func_list, delay, index)
     index = index or 1
     if index == 1 then
@@ -30,6 +35,11 @@ function Sagatro.recursive_chain(func_list, delay, index)
     }))
 end
 
+---@param key string
+--- Execute a registered event chain.
+--- Invoke directly to perform at an arbitrary time.
+--- Otherwise, set `G.GAME.shelved_chain` to `key` to automatically
+--- invoke at end of round, before all other calculations.
 function Sagatro.execute_chain(key)
     local event_chain = Sagatro.EventChains[key]
     if not event_chain then
@@ -39,7 +49,11 @@ function Sagatro.execute_chain(key)
     Sagatro.recursive_chain(event_chain.func_list, event_chain.delay)
 end
 
+---@type table<string, Sagatro.EventChain|table>
 Sagatro.EventChains = {}
+
+---@class Sagatro.EventChain: SMODS.GameObject 
+---@field delay? number Delay between events in the chain.
 Sagatro.EventChain = SMODS.GameObject:extend{
     obj_table = Sagatro.EventChains,
     obj_buffer = {},
