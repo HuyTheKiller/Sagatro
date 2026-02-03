@@ -2448,6 +2448,7 @@ function Sagatro:calculate(context)
             or card.config.center_key == "j_sgt_fleta"
             or card.config.center_key == "j_sgt_harpae"
             or card.config.center_key == "j_sgt_lisette"
+            or card.config.center_key == "m_sgt_mirror"
             or card.config.center_key == "j_sgt_enjel" then
                 return {no_destroy = true}
             end

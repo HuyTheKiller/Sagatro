@@ -569,11 +569,20 @@ local mirror = {
         x_mult = 1.5,
     },
     no_collection = true, -- Current no plan on letting it appear outside Pocket Mirror
+    eternal_compat = true, -- for eternal check
     replace_base_card = true,
     override_base_rank = true,
     no_rank = true,
     no_suit = true,
     always_scores = true,
+    calculate = function(self, card, context)
+        -- Yes, I'm intending for this enhancement to also work like a joker
+        if context.joker_main and context.cardarea == G.jokers then
+            return {
+                xmult = card.ability.x_mult
+            }
+        end
+    end,
     in_pool = function(self, args)
         return false
     end,
