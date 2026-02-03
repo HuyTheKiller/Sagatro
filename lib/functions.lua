@@ -699,11 +699,14 @@ function Game:update(dt)
         if not next(SMODS.find_card("j_sgt_submarine", true)) then
             G.P_CENTERS.j_sgt_seawater.pos.x = 0
         end
-        if Sagatro.event_check("lisette_chase") and G.STATE ~= G.STATES.ROUND_EVAL then
+        if Sagatro.event_check("lisette_chase") and G.STATE ~= G.STATES.ROUND_EVAL
+        and G.STATE ~= G.STATES.GAME_OVER then
             Sagatro.timer.lisette_dt = Sagatro.timer.lisette_dt + dt
             if Sagatro.timer.lisette_dt > (5/6)*8 then
                 Sagatro.timer.lisette_dt = Sagatro.timer.lisette_dt - (5/6)*8
-                SMODS.add_card{key = "j_sgt_lisette"}
+                if G.jokers then
+                    SMODS.add_card{key = "j_sgt_lisette"}
+                end
             end
         else
             Sagatro.timer.lisette_dt = (5/6)*8
