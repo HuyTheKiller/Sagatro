@@ -45,32 +45,32 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
             local vars = card.config.center:loc_vars({}, card).vars
             localize{type = "descriptions", set = "Other", key = "sgt_submarine_states", nodes = submarine_nodes, vars = vars}
             ui[Ortalab and "mythos" or "celestara"] = submarine_nodes
-        elseif _c.key == "j_sgt_sub_engineer" and _c.discovered then
+        elseif _c.key == "j_sgt_sub_engineer" and (_c.discovered or card.bypass_discovery_ui) then
             local sub_engi_nodes = {background_colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.25)}
             localize{type = "descriptions", set = "Other", key = "sgt_sub_engineer", nodes = sub_engi_nodes, vars = {}}
             ui[Ortalab and "mythos" or "celestara"] = sub_engi_nodes
-        elseif _c.key == "j_sgt_mirror" and _c.discovered then
+        elseif _c.key == "j_sgt_mirror" and (_c.discovered or card.bypass_discovery_ui) then
             local mirror_nodes = {background_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.25)}
             localize{type = "descriptions", set = "Other", key = "sgt_mirror", nodes = mirror_nodes, vars = {}}
             ui[Ortalab and "mythos" or "celestara"] = mirror_nodes
-        elseif _c.mirrorworld and _c.discovered and not G.GAME.inversed_scaling and Sagatro.storyline_check("alice_in_mirrorworld") then
+        elseif _c.mirrorworld and (_c.discovered or card.bypass_discovery_ui) and not G.GAME.inversed_scaling and Sagatro.storyline_check("alice_in_mirrorworld") then
             local mirrorworld_nodes = {background_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.25)}
             localize{type = "descriptions", set = "Other", key = "sgt_mirrorworld", nodes = mirrorworld_nodes, vars = {}}
             ui[Ortalab and "mythos" or "celestara"] = mirrorworld_nodes
-        elseif _c.set == "Joker" and not _c.mirrorworld and _c.discovered and G.GAME.inversed_scaling and Sagatro.storyline_check("alice_in_mirrorworld") then
+        elseif _c.set == "Joker" and not _c.mirrorworld and (_c.discovered or card.bypass_discovery_ui) and G.GAME.inversed_scaling and Sagatro.storyline_check("alice_in_mirrorworld") then
             local realworld_nodes = {background_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.25)}
             localize{type = "descriptions", set = "Other", key = "sgt_realworld", nodes = realworld_nodes, vars = {}}
             ui[Ortalab and "mythos" or "celestara"] = realworld_nodes
-        elseif _c.key == "c_soul" and _c.discovered and Sagatro.storyline_check("none") then
+        elseif _c.key == "c_soul" and (_c.discovered or card.bypass_discovery_ui) and Sagatro.storyline_check("none") then
             local soul_nodes = {background_colour = mix_colours(G.C.RARITY[4], G.C.WHITE, 0.25)}
             localize{type = "descriptions", set = "Other", key = "sgt_soul_storyline", nodes = soul_nodes, vars = {}}
             ui[Ortalab and "mythos" or "celestara"] = soul_nodes
-        elseif _c.key == "j_sgt_humpty_dumpty" and _c.discovered then
+        elseif _c.key == "j_sgt_humpty_dumpty" and (_c.discovered or card.bypass_discovery_ui) then
             local humdum_nodes = {background_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.25)}
             localize{type = "descriptions", set = "Other", key = "sgt_humdum", nodes = humdum_nodes, vars = {}}
             ui[Ortalab and "mythos" or "celestara"] = humdum_nodes
         elseif card.ability.immutable and Sagatro.config.ViewFishProperties then
-            if card.ability.immutable.weight_level and _c.discovered then
+            if card.ability.immutable.weight_level and (_c.discovered or card.bypass_discovery_ui) then
                 local fish_nodes = {background_colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.25)}
                 local vars = card.config.center:loc_vars({}, card).fish_vars
                 vars[2] = type(vars[2]) == "number"
