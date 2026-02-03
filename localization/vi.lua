@@ -3088,7 +3088,7 @@ return {
                     "nếu có thể: {C:attention}#2#{}",
                     "Thay đổi sau mỗi tay bài",
                     "{C:inactive}({V:1}#1#{C:inactive}/10)"},
-                    {"{C:inactive}Khi cô ấy gục ngã, cứ làm",
+                    {"{C:inactive}Khi cô ấy {V:2}gục{C:inactive} ngã, cứ làm",
                     "{C:inactive}theo những gì cô ấy bảo."},
                 },
             },

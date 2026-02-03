@@ -3091,7 +3091,7 @@ return {
                     "if possible: {C:attention}#2#{}",
                     "Changes every hand played",
                     "{C:inactive}({V:1}#1#{C:inactive}/10)"},
-                    {"{C:inactive}When she's down, simply do",
+                    {"{C:inactive}When she's {V:2}down{C:inactive}, simply do",
                     "{C:inactive}what she tells you to."},
                 },
             },

@@ -14532,7 +14532,8 @@ local harpae = {
         if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
             ret.key = self.key.."_storymode"
             ret.vars[1] = card.ability.immutable.obedience_count
-            ret.vars.colours = {card.ability.immutable.obedience_count >= 10 and G.C.GREEN or G.C.FILTER}
+            ret.vars.colours = {card.ability.immutable.obedience_count >= 10 and G.C.GREEN or G.C.FILTER,
+            card.ability.immutable.down and G.C.RED or G.C.UI.TEXT_INACTIVE}
         end
         return ret
     end,
