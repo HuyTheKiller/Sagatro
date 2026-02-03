@@ -1492,6 +1492,7 @@ function Blind:defeat(silent)
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if goldia then
                 goldia:remove_sticker("pinned")
+                goldia.pinned = nil
             end
             SMODS.add_card{key = "j_sgt_harpae"}
         end
