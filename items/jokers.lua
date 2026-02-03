@@ -292,7 +292,7 @@ local eat_me = {
                 if card.ability.extra - 1 <= 0 then
                     Sagatro.self_destruct(card)
                     if Sagatro.storyline_check("pocket_mirror") then
-                        Sagatro.progress_storyline("conditional_game_over", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+                        Sagatro.progress_storyline("conditional_game_over", "remove", "pocket_mirror", G.GAME.interwoven_storyline)
                     elseif Sagatro.event_check("little_bill") and Sagatro.event_check("huge_dog", nil, true) then
                         Sagatro.progress_storyline("little_bill", "finish", self.saga_group, G.GAME.interwoven_storyline)
                         Sagatro.progress_storyline("huge_dog", "add", self.saga_group, G.GAME.interwoven_storyline)
