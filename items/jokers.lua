@@ -7903,7 +7903,7 @@ local sperm_whale = {
         for k, v in pairs(G.GAME.hands) do
             if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
         end
-        card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((self.area and self.area.config.type == 'title') and 'false_sperm_whale' or 'sperm_whale'))
+        card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_sperm_whale' or 'sperm_whale'))
     end,
     calculate = function(self, card, context)
         if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
@@ -13973,7 +13973,7 @@ local moon_hairbrush = {
                 if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
             end
         end
-        card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((self.area and self.area.config.type == 'title') and 'false_moon_hairbrush' or 'moon_hairbrush'))
+        card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_moon_hairbrush' or 'moon_hairbrush'))
     end,
     calculate = function(self, card, context)
         if (context.joker_main and context.scoring_name == card.ability.extra.poker_hand) or context.forcetrigger then
@@ -14456,7 +14456,7 @@ local harpae = {
                 if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
             end
         end
-        card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((self.area and self.area.config.type == 'title') and 'false_moon_hairbrush' or 'moon_hairbrush'))
+        card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_moon_hairbrush' or 'moon_hairbrush'))
     end,
     calculate = function(self, card, context)
         if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
