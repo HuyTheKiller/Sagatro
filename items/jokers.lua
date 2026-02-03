@@ -14447,6 +14447,7 @@ local harpae = {
     set_ability = function(self, card, initial, delay_sprites)
         local _poker_hands = {}
         if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            card.ability.immutable.appeared = true
             -- Fixed list so that modded poker hands won't interfere with story mode\
             -- Also exclude harder hands for ease of access
             _poker_hands = {"Full House", "Flush", "Straight", "Three of a Kind", "Two Pair", "Pair", "High Card"}
@@ -14459,6 +14460,9 @@ local harpae = {
     end,
     calculate = function(self, card, context)
         if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
+            if context.entering_shop then
+                card.ability.immutable.appeared = nil
+            end
             if context.before then
                 if context.scoring_name == card.ability.extra.poker_hand then
                     card.ability.immutable.obedience_count = card.ability.immutable.obedience_count + 1
@@ -14513,6 +14517,11 @@ local harpae = {
                     card = card,
                 }
             end
+        end
+    end,
+    update = function(self, card, dt)
+        if G.GAME.story_mode and G.STAGE == G.STAGES.RUN then
+            G.GAME.no_savebox = card.ability.immutable.appeared
         end
     end,
     in_pool = function(self, args)

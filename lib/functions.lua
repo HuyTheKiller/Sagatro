@@ -708,6 +708,9 @@ function Game:update(dt)
         else
             Sagatro.timer.lisette_dt = (5/6)*8
         end
+        if G.GAME.no_savebox then
+            Sagatro.allow_save = nil
+        end
         if G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP then
             -- Handle opening Mega Buffoon Pack spawned by Utima Vox (restricted to during shop and blind select)
             if G.GAME.pending_mega_buffoon then
