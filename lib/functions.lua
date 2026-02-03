@@ -1495,6 +1495,7 @@ function Blind:defeat(silent)
                 goldia.pinned = nil
             end
             SMODS.add_card{key = "j_sgt_harpae"}
+            Sagatro.progress_storyline("harpae_patience", "add", "pocket_mirror", G.GAME.interwoven_storyline)
         end
     end
 	dft(self, silent)
