@@ -333,3 +333,27 @@ SMODS.Sound{
 		return G.STATE and G.STATE == G.STATES.SMODS_BOOSTER_OPENED and SMODS.OPENED_BOOSTER.label:find("wish")
 	end,
 }
+
+-- Spare me from the copyright issue, Pocket Mirror Team
+-- Pocket Mirror content in this mod is our show of gratitude towards the original game
+SMODS.Sound{
+    key = "music_chimerical_presence",
+    path = "music_chimerical_presence_loopable.ogg",
+    sync = false,
+    pitch = 1,
+    volume = 0.5,
+    select_music_track = function()
+		return Sagatro.event_check("mirror_maze") and (Sagatro.config.SagatroMusic) and 1000
+	end,
+}
+
+SMODS.Sound{
+    key = "music_evening_stroll",
+    path = "music_evening_stroll_loopable.ogg",
+    sync = false,
+    pitch = 1,
+    volume = 0.5,
+    select_music_track = function()
+		return Sagatro.event_check("lisette_chase") and (Sagatro.config.SagatroMusic) and 1000
+	end,
+}
