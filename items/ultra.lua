@@ -373,7 +373,7 @@ local iustitia_sacra = {
     atlas = "ultra",
     pos = { x = 1, y = 1 },
     cost = 4,
-    config = {uses = 5, max_highlighted = 2},
+    config = {mod_conv = 'up_down_rank', uses = 5, max_highlighted = 2},
     keep_on_use = function(self, card)
         return card.ability.uses > 1
     end,
@@ -489,7 +489,7 @@ local trasitus = {
     atlas = "ultra",
     pos = {x = 3, y = 1},
     cost = 4,
-    config = {max_highlighted = 3, min_highlighted = 2},
+    config = {mod_conv = 'card', max_highlighted = 3, min_highlighted = 2},
     use = function(self, card, area, copier)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',

@@ -13561,6 +13561,39 @@ local goldia = {
         card.ability.extra.stage0_mult*math.floor(2^(G.GAME.round_resets.ante + (G.GAME.ante_reduced or 0)))
     end,
     calculate = function(self, card, context)
+        if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
+            if context.setting_blind and not card.getting_sliced then
+                if Sagatro.event_check("entering_mirror_maze") and not G.GAME.entering_mirror_maze then
+                    G.GAME.entering_mirror_maze = true
+                    Sagatro.progress_storyline("entering_mirror_maze", "finish", "pocket_mirror", G.GAME.inverwoven_storyline)
+                    Sagatro.progress_storyline("mirror_maze", "add", "pocket_mirror", G.GAME.inverwoven_storyline)
+                    for _, v in ipairs(G.playing_cards) do
+                        v.ability.old_enh = v.config.center_key
+                        v.ability.old_edition = v.edition and v.edition.key or nil
+                        v.ability.old_seal = v.seal
+                        v:set_ability("m_sgt_mirror")
+                        v:set_edition(nil, nil, true)
+                        v:set_seal(nil, true)
+                    end
+                end
+            end
+            if context.first_hand_drawn and Sagatro.event_check("mirror_maze")
+            and not (G.GAME.entering_mirror_maze or G.GAME.leaving_mirror_maze) then
+                G.GAME.leaving_mirror_maze = true
+                G.GAME.sgt_no_saving = true
+                Sagatro.progress_storyline("mirror_maze", "finish", "pocket_mirror", G.GAME.inverwoven_storyline)
+                Sagatro.progress_storyline("lisette_chase", "add", "pocket_mirror", G.GAME.inverwoven_storyline)
+                card:add_sticker("pinned", true)
+            end
+            if context.end_of_round and not context.individual and not context.repetition
+            and context.game_over then
+                if card.ability.immutable.plot_armor then
+                    return {
+                        saved = "ph_plot_armor",
+                    }
+                end
+            end
+        end
         if card.ability.immutable.stage == 0 or card.ability.immutable.stage == "dawn" then
             if (context.ante_change and context.ante_end
             and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
@@ -14365,6 +14398,11 @@ local fleta = {
                     }
                 end
             end
+            if context.forcetrigger then
+                return {
+                    xmult = card.ability.extra.xmult,
+                }
+            end
         end
     end,
     in_pool = function(self, args)
@@ -14381,6 +14419,217 @@ local fleta = {
                 card.ability.immutable.butterfly_collected.fleta}
             elseif card.ability.immutable.stage == 3 then
             end
+        end
+        return ret
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
+local harpae = {
+    key = "harpae",
+    name = "Harpae",
+    artist_credits = {"amy", "huycorn"},
+    atlas = "pocket_mirror",
+    saga_group = "pocket_mirror",
+    order = 123,
+    pools = { [SAGA_GROUP_POOL.legend] = true },
+    pos = { x = 0, y = 1 },
+    soul_pos = { x = 2, y = 1, sgt_extra = { x = 1, y = 1, no_scale = true }, name_tag = { x = 3, y = 1 } },
+    config = {immutable = {blindness = true, obedience_count = 0}, extra = {poker_hand = "High Card", xmult = 4}, shatters_on_destroy = true},
+    rarity = 4,
+    cost = 20,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        local _poker_hands = {}
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            -- Fixed list so that modded poker hands won't interfere with story mode\
+            -- Also exclude harder hands for ease of access
+            _poker_hands = {"Full House", "Flush", "Straight", "Three of a Kind", "Two Pair", "Pair", "High Card"}
+        else
+            for k, v in pairs(G.GAME.hands) do
+                if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
+            end
+        end
+        card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((self.area and self.area.config.type == 'title') and 'false_moon_hairbrush' or 'moon_hairbrush'))
+    end,
+    calculate = function(self, card, context)
+        if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
+            if context.before then
+                if context.scoring_name == card.ability.extra.poker_hand then
+                    card.ability.immutable.obedience_count = card.ability.immutable.obedience_count + 1
+                    return {
+                        message = localize("k_good_ex"),
+                        colour = G.C.FILTER,
+                        card = card,
+                    }
+                else
+                    card.ability.immutable.blindness = nil
+                    if card.ability.immutable.down then
+                        card.ability.immutable.bad_end = true
+                    end
+                end
+            end
+            if context.after then
+                local _poker_hands = {"Full House", "Flush", "Straight", "Three of a Kind", "Two Pair", "Pair", "High Card"}
+                card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed('moon_hairbrush'))
+                card.ability.immutable.down = pseudorandom("harpae_down") < 0.25
+                return {
+                    message = localize(card.ability.extra.poker_hand, "poker_hands"),
+                    colour = G.C.FILTER,
+                    card = card,
+                    extra = card.ability.immutable.down and {
+                        message = localize("k_down_ex"),
+                        colour = G.C.FILTER,
+                    } or nil,
+                }
+            end
+        else
+            if context.individual and context.cardarea == G.play then
+                if context.scoring_name == card.ability.extra.poker_hand then
+                    return {
+                        xmult = card.ability.extra.xmult,
+                    }
+                end
+            end
+            if context.forcetrigger then
+                return {
+                    xmult = card.ability.extra.xmult,
+                }
+            end
+            if context.after and not context.blueprint and not context.retrigger_joker then
+                local _poker_hands = {}
+                for k, v in pairs(G.GAME.hands) do
+                    if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
+                end
+                card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed('moon_hairbrush'))
+                return {
+                    message = localize(card.ability.extra.poker_hand, "poker_hands"),
+                    colour = G.C.FILTER,
+                    card = card,
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {vars = {card.ability.extra.xmult, localize(card.ability.extra.poker_hand, 'poker_hands')}}
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            ret.key = self.key.."_storymode"
+            ret.vars[1] = card.ability.immutable.obedience_count
+            ret.vars.colours = {card.ability.immutable.obedience_count >= 10 and G.C.GREEN or G.C.FILTER}
+        end
+        return ret
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
+local lisette = {
+    key = "lisette",
+    name = "Lisette",
+    artist_credits = {"amy"},
+    atlas = "pocket_mirror",
+    saga_group = "pocket_mirror",
+    order = 124,
+    pools = { [SAGA_GROUP_POOL.legend] = true },
+    pos = { x = 0, y = 2 },
+    soul_pos = { x = 2, y = 2, sgt_extra = { x = 1, y = 2, no_scale = true }, name_tag = { x = 3, y = 2 } },
+    config = {immutable = {dt = 0}, extra = {xmult = 2.5, glass_odds_mod = 2}, shatters_on_destroy = true},
+    rarity = 4,
+    cost = 20,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    calculate = function(self, card, context)
+        if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
+        else
+            if context.mod_probability and not context.blueprint then
+                if context.trigger_obj and Sagatro.omniscient(context.trigger_obj, {"m_glass", "m_sgt_nyx_glass"}) then
+                    return { denominator = context.denominator*card.ability.extra.glass_odds_mod }
+                end
+            end
+            if context.individual and context.cardarea == G.play then
+                if Sagatro.omniscient(context.other_card, {"m_glass", "m_sgt_nyx_glass"}) then
+                    return {
+                        xmult = card.ability.extra.xmult,
+                    }
+                end
+            end
+            if context.forcetrigger then
+                return {
+                    xmult = card.ability.extra.xmult,
+                }
+            end
+        end
+    end,
+    update = function(self, card, dt)
+        if G.STAGE == G.STAGES.RUN then
+            if card.area and card.area == G.jokers then
+                if Sagatro.event_check("lisette_chase") then
+                    card.ability.immutable.dt = card.ability.immutable.dt + dt
+                    if card.ability.immutable.dt > (5/6)*G.SETTINGS.GAMESPEED then
+                        card.ability.immutable.dt = card.ability.immutable.dt - (5/6)*G.SETTINGS.GAMESPEED
+                        if not card.states.drag.is then
+                            if G.STATE == G.STATES.HAND_PLAYED then
+                                if Sagatro.get_pos(card) > 4 then
+                                    if G.jokers.cards[Sagatro.get_pos(card)-1]
+                                    and not G.jokers.cards[Sagatro.get_pos(card)-1].states.drag.is
+                                    and G.jokers.cards[Sagatro.get_pos(card)-1].config.center_key ~= "j_sgt_lisette" then
+                                        Sagatro.swap(card, "left")
+                                    end
+                                else
+                                    if G.jokers.cards[Sagatro.get_pos(card)+1]
+                                    and not G.jokers.cards[Sagatro.get_pos(card)+1].states.drag.is
+                                    and G.jokers.cards[Sagatro.get_pos(card)+1].config.center_key ~= "j_sgt_lisette" then
+                                        Sagatro.swap(card)
+                                    end
+                                end
+                            elseif Sagatro.get_pos(card) > 2 then
+                                if G.STATE ~= G.STATES.ROUND_EVAL then
+                                    if G.jokers.cards[Sagatro.get_pos(card)-1]
+                                    and not G.jokers.cards[Sagatro.get_pos(card)-1].states.drag.is
+                                    and G.jokers.cards[Sagatro.get_pos(card)-1].config.center_key ~= "j_sgt_lisette" then
+                                        Sagatro.swap(card, "left")
+                                    end
+                                end
+                            else
+                                Sagatro.game_over()
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.m_glass
+        local ret = {vars = {card.ability.extra.xmult}}
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            ret.key = self.key.."_storymode"
+            info_queue[#info_queue] = nil
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if card.displaying_save then
+                for _, v in ipairs((Sagatro.temp_areas or {jokers = {}}).jokers.cards or {}) do
+                    if v.config.center_key == "j_sgt_goldia" then
+                        goldia = v
+                        break
+                    end
+                end
+            end
+            ret.vars = {localize{type = "name_text", set = "Joker",
+            key = "j_sgt_goldia_stage_"..(goldia or {ability = {immutable = {stage = 0}}}).ability.immutable.stage}}
         end
         return ret
     end,
@@ -16667,6 +16916,8 @@ local joker_table = {
     angel_scythe,
     egliette,
     fleta,
+    harpae,
+    lisette,
     knife_fork,
     hansels_cheat_dice,
     skoll_n_hati,

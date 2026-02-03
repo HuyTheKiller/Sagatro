@@ -95,6 +95,11 @@ Sagatro.EventChain{
                 fleta:shatter()
             end
             G.GAME.modifiers.sgt_no_tags = nil
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if goldia then
+                goldia.ability.immutable.plot_armor = true
+            end
+            Sagatro.progress_storyline("entering_mirror_maze", "add", "pocket_mirror", G.GAME.inverwoven_storyline)
         end,
     },
 }

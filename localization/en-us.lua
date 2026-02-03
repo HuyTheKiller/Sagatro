@@ -3076,6 +3076,41 @@ return {
                     "this round for {C:attention}3{} rounds",
                 },
             },
+            j_sgt_harpae = {
+                name = "Harpae",
+                text = {
+                    "Each played card gives {X:mult,C:white}X#1#{} Mult",
+                    "when scored if played hand is a",
+                    "{C:attention}#2#{}, changes every hand played",
+                },
+            },
+            j_sgt_harpae_storymode = {
+                name = "Harpae",
+                text = {
+                    {"Play the specified poker hand",
+                    "if possible: {C:attention}#2#{}",
+                    "Changes every hand played",
+                    "{C:inactive}({V:1}#1#{C:inactive}/10)"},
+                    {"{C:inactive}When she's down, simply do",
+                    "{C:inactive}what she tells you to."},
+                },
+            },
+            j_sgt_lisette = {
+                name = "Lisette",
+                text = {
+                    "Played {C:attention}Glass{} cards give",
+                    "{X:mult,C:white}X#1#{} Mult when scored",
+                    "{C:attention}Glass{} cards are less",
+                    "likely to break",
+                },
+            },
+            j_sgt_lisette_storymode = {
+                name = "Lisette",
+                text = {
+                    "*Hurls scissors",
+                    "at {C:attention}#1#{}*",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -3938,6 +3973,8 @@ return {
             k_kaboom_ex = "Kaboom!",
             k_incoming_ex = "Incoming!",
             k_caught_ex = "Caught!",
+            k_good_ex = "Good!",
+            k_down_ex = "Down!",
             k_plus_divinatio = "+1 Divinatio",
             k_plus_celestara = "+1 Celestara",
             k_empty = "Empty",
@@ -3959,6 +3996,7 @@ return {
             ph_20k = "20k Miles Under The Sea",
             ph_alice_in_mirr = "Alice Through the Looking-Glass",
             ph_gods_miracle = "Saved by God's Miracle",
+            ph_plot_armor = "Saved by Plot Armor",
             ph_depth_level = "Depth level",
             ph_lovecraft = "Lovecraft",
             ph_norse = "Norse Mythology",

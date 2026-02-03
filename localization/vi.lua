@@ -3073,6 +3073,40 @@ return {
                     "ở ván này trong {C:attention}3{} ván",
                 },
             },
+            j_sgt_harpae = {
+                name = "Harpae",
+                text = {
+                    "Mỗi lá đã chơi ghi thêm {X:mult,C:white}X#1#{} Nhân",
+                    "khi ghi điểm nếu tay bài đã chơi là",
+                    "{C:attention}#2#{}, thay đổi sau mỗi tay bài",
+                },
+            },
+            j_sgt_harpae_storymode = {
+                name = "Harpae",
+                text = {
+                    {"Chơi tay poker được chỉ định",
+                    "nếu có thể: {C:attention}#2#{}",
+                    "Thay đổi sau mỗi tay bài",
+                    "{C:inactive}({V:1}#1#{C:inactive}/10)"},
+                    {"{C:inactive}Khi cô ấy gục ngã, cứ làm",
+                    "{C:inactive}theo những gì cô ấy bảo."},
+                },
+            },
+            j_sgt_lisette = {
+                name = "Lisette",
+                text = {
+                    "Lá {C:attention}Kính{} đã chơi ghi thêm",
+                    "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                    "Lá {C:attention}Kính{} khó bị vỡ hơn",
+                },
+            },
+            j_sgt_lisette_storymode = {
+                name = "Lisette",
+                text = {
+                    "*Ném kéo về",
+                    "phía {C:attention}#1#{}*",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -3935,6 +3969,8 @@ return {
             k_kaboom_ex = "Bùm!",
             k_incoming_ex = "Sắp Đến!",
             k_caught_ex = "Bắt Được!",
+            k_good_ex = "Tốt Lắm!",
+            k_down_ex = "Gục!",
             k_plus_divinatio = "+1 Chiêm Mộng",
             k_plus_celestara = "+1 Huyền Thể",
             k_empty = "Trống",
@@ -3956,6 +3992,7 @@ return {
             ph_20k = "2 Vạn Dặm Dưới Biển",
             ph_alice_in_mirr = "Alice ở Xứ Sở Trong Gương",
             ph_gods_miracle = "Được cứu bởi Phép Lạ Của Chúa",
+            ph_plot_armor = "Được cứu bởi Cốt Truyện",
             ph_depth_level = "Tầng độ sâu",
             ph_lovecraft = "Lovecraft",
             ph_norse = "Thần Thoại Bắc Âu",

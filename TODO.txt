@@ -34,16 +34,16 @@ TO-DO:
     [X] Hook Fleta's effects to story events
     [X] Add Fleta's effect outside story mode
 [] Add Harpae:
-    [] Add base Harpae (legendary)
-    [] Add Harpae's effect inside story mode
+    [X] Add base Harpae (legendary)
+    [X] Add Harpae's effect inside story mode
     [] Hook Harpae's effects to story events
-    [] Add Harpae's effect outside story mode
+    [X] Add Harpae's effect outside story mode
 [] Add Lisette:
-    [] Add base Lisette (legendary)
-    [] Add Lisette's effect inside story mode
+    [X] Add base Lisette (legendary)
+    [X] Add Lisette's effect inside story mode
     [] Hook Lisette's effects to story events
     [] Replace Lisette's placeholder with final visual
-    [] Add Lisette's effect outside story mode
+    [X] Add Lisette's effect outside story mode
 [] Add Enjel:
     [] Add Enjel's visual
     [] Add base Enjel (legendary)

@@ -659,6 +659,9 @@ Sagatro.pseudo_animation = {
     submarine_dt = 0,
     current_depth_dt = 0,
 }
+Sagatro.timer = {
+    lisette_dt = 8,
+}
 local upd = Game.update
 function Game:update(dt)
 	upd(self, dt)
@@ -695,6 +698,15 @@ function Game:update(dt)
         Sagatro.debug_info["Story mode"] = G.GAME.story_mode
         if not next(SMODS.find_card("j_sgt_submarine", true)) then
             G.P_CENTERS.j_sgt_seawater.pos.x = 0
+        end
+        if Sagatro.event_check("lisette_chase") and G.STATE ~= G.STATES.ROUND_EVAL then
+            Sagatro.timer.lisette_dt = Sagatro.timer.lisette_dt + dt
+            if Sagatro.timer.lisette_dt > (5/6)*8 then
+                Sagatro.timer.lisette_dt = Sagatro.timer.lisette_dt - (5/6)*8
+                SMODS.add_card{key = "j_sgt_lisette"}
+            end
+        else
+            Sagatro.timer.lisette_dt = (5/6)*8
         end
         if G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP then
             -- Handle opening Mega Buffoon Pack spawned by Utima Vox (restricted to during shop and blind select)
@@ -1121,6 +1133,15 @@ function Card:calculate_rental()
     end
 end
 
+local can_use_consumeable_ref = Card.can_use_consumeable
+function Card:can_use_consumeable(any_state, skip_check)
+    if (Sagatro.event_check("mirror_maze") or Sagatro.event_check("lisette_chase"))
+    and (self.ability.consumeable.mod_conv or self.ability.consumeable.suit_conv) then
+        return false
+    end
+    return can_use_consumeable_ref(self, any_state, skip_check)
+end
+
 -- Gravistone jank
 local copy_cardref = copy_card
 function copy_card(other, new_card, card_scale, playing_card, strip_edition)
@@ -1440,6 +1461,36 @@ function Blind:defeat(silent)
         end
         if self.config.blind.key and table.contains(Sagatro.story_mode_showdown, self.config.blind.key) then
             G.GAME.story_ended = G.GAME.won
+        end
+        if G.GAME.entering_mirror_maze then
+            G.GAME.entering_mirror_maze = nil
+        end
+        if G.GAME.leaving_mirror_maze then
+            G.GAME.leaving_mirror_maze = nil
+            G.GAME.sgt_no_saving = nil
+            Sagatro.progress_storyline("lisette_chase", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            for _, v in ipairs(G.playing_cards) do
+                if v.ability.old_enh then
+                    v:set_ability(v.ability.old_enh)
+                    v.ability.old_enh = nil
+                end
+                if v.ability.old_edition then
+                    v:set_edition(v.ability.old_edition, nil, true)
+                    v.ability.old_edition = nil
+                end
+                if v.ability.old_seal then
+                    v:set_seal(v.ability.old_seal, true)
+                    v.ability.old_seal = nil
+                end
+            end
+            for _, v in ipairs(SMODS.find_card("j_sgt_lisette", true)) do
+                v:remove()
+            end
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if goldia then
+                goldia:remove_sticker("pinned")
+            end
+            SMODS.add_card{key = "j_sgt_harpae"}
         end
     end
 	dft(self, silent)
@@ -3648,7 +3699,6 @@ end
 
 function Sagatro.game_over()
     if G.STAGE == G.STAGES.RUN and not G.GAME.game_over then
-        print("game over")
         G.GAME.game_over = true
         G.RESET_BLIND_STATES = true
         G.RESET_JIGGLES = true
