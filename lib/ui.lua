@@ -166,6 +166,55 @@ function buildModDescTab(mod)
     return ret
 end
 
+local round_scores_row_ref = create_UIBox_round_scores_row
+function create_UIBox_round_scores_row(score, text_colour)
+    local ret = round_scores_row_ref(score, text_colour)
+    if score == "defeated_by" then
+        local obj_node = ret.nodes[2].nodes[1].nodes[1].nodes
+        if G.GAME.defeating_agent then
+            local texts = localize(G.GAME.defeating_agent)
+            if texts ~= "ERROR" or type(texts) == "table" then
+                if type(texts) == "table" then
+                    obj_node = EMPTY(obj_node)
+                    ret.nodes[2].nodes[1].config.minh = 2.35
+                    for _, text in ipairs(texts) do
+                        table.insert(obj_node,
+                        {n=G.UIT.R, config={align = "cm", minh = 0.6}, nodes={
+                            {n=G.UIT.O, config={object = DynaText({string = text,
+                            colours = {G.C.WHITE}, shadow = true, float = true, maxw = 2.2, scale = 0.45})}}
+                        }})
+                    end
+                elseif type(texts) == "string" then
+                    obj_node[1] = {n=G.UIT.R, config={align = "cm", minh = 0.6}, nodes={
+                        {n=G.UIT.O, config={object = DynaText({string = texts,
+                        colours = {G.C.WHITE}, shadow = true, float = true, maxw = 2.2, scale = 0.45})}}
+                    }}
+                    obj_node[2] = nil
+                end
+            else
+                if G.P_CENTERS[G.GAME.defeating_agent] then
+                    local card = Card(0,0, 0.7*G.CARD_W, 0.7*G.CARD_H, nil, G.P_CENTERS[G.GAME.defeating_agent])
+                    card.ambient_tilt = 0.8
+                    card.sticker_run = "NONE"
+                    local cardarea = CardArea(0,0,
+                        G.CARD_W*0.7,
+                        G.CARD_H*0.7,
+                        {card_limit = 1, type = 'title_2', highlight_limit = 0})
+                    cardarea:emplace(card)
+                    card.states.drag.can = false
+                    obj_node[1] = {n=G.UIT.R, config={align = "cm", minh = 0.6}, nodes={
+                        {n=G.UIT.O, config={object = DynaText({string = localize{type ='name_text', key = G.GAME.defeating_agent, set = G.P_CENTERS[G.GAME.defeating_agent].set}, colours = {G.C.WHITE},shadow = true, float = true,maxw = 2.2, scale = 0.45})}}
+                    }}
+                    obj_node[2] = {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+                        {n=G.UIT.O, config={object = cardarea}}
+                    }}
+                end
+            end
+        end
+    end
+    return ret
+end
+
 -- Submarine's UP and DOWN movements
 local highlight_ref = Card.highlight
 function Card:highlight(is_higlighted)

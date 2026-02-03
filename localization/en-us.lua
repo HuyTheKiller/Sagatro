@@ -4010,6 +4010,8 @@ return {
             ph_no_data = "No data",
             ph_losing_hand = "Hand will cause game over",
             ph_fleta_musical_chair = "No repeat hand types this round",
+            ph_losing_musical_chair = {"Losing to", "musical chair"},
+            ph_shattered_pm = {"Shattered", "Pocket Mirror"},
             sgt_swap = "Swap!",
             sgt_art_credit = "Art by ",
             sgt_and = " and ",

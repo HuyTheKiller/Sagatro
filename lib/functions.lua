@@ -3706,8 +3706,10 @@ function Sagatro.set_goldia_stage(from, to)
     end
 end
 
-function Sagatro.game_over()
+---@param defeating_agent string?
+function Sagatro.game_over(defeating_agent)
     if G.STAGE == G.STAGES.RUN and not G.GAME.game_over then
+        G.GAME.defeating_agent = defeating_agent
         G.GAME.game_over = true
         G.RESET_BLIND_STATES = true
         G.RESET_JIGGLES = true

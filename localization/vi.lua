@@ -4006,6 +4006,8 @@ return {
             ph_no_data = "Không có dữ liệu",
             ph_losing_hand = "Tay bài sẽ gây thua trận",
             ph_fleta_musical_chair = "Không chơi lại tay poker đã chơi ở ván này",
+            ph_losing_musical_chair = {"Thua ở trò", "ghế âm nhạc"},
+            ph_shattered_pm = {"Gương Bỏ Túi", "bị vỡ tan"},
             sgt_swap = "Tráo!",
             sgt_art_credit = "Ảnh vẽ bởi ",
             sgt_and = " và ",

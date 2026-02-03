@@ -13660,7 +13660,7 @@ local goldia = {
     remove_from_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
             G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
-                Sagatro.game_over()
+                Sagatro.game_over("ph_shattered_pm")
             return true end}))
         end
     end,
@@ -14377,7 +14377,7 @@ local fleta = {
                     G.E_MANAGER:add_event(Event({func = function()
                         if card.ability.immutable.hands[context.scoring_name] then
                             check_for_unlock{type = "pm_bad_end_1"}
-                            Sagatro.game_over()
+                            Sagatro.game_over("ph_losing_musical_chair")
                         end
                     return true end}))
                 end
@@ -14612,7 +14612,7 @@ local lisette = {
                                     end
                                 end
                             else
-                                Sagatro.game_over()
+                                Sagatro.game_over("j_sgt_lisette")
                             end
                         end
                     end
