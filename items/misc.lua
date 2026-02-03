@@ -559,8 +559,32 @@ local omniscient = {
     end,
 }
 
+local mirror = {
+    key = "mirror",
+    name = "Mirror Card",
+    effect = "Mirror",
+    atlas = "misc",
+    pos = {x = 4, y = 2},
+    config = {
+        x_mult = 1.5,
+    },
+    no_collection = true, -- Current no plan on letting it appear outside Pocket Mirror
+    replace_base_card = true,
+    override_base_rank = true,
+    no_rank = true,
+    no_suit = true,
+    always_scores = true,
+    in_pool = function(self, args)
+        return false
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.x_mult}}
+    end,
+}
+
 local enhancement_table = {
     omniscient,
+    mirror,
 }
 
 for _, v in ipairs(enhancement_table) do

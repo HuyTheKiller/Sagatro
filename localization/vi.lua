@@ -3315,6 +3315,13 @@ return {
                     "{C:attention}+1{} số lá có thể chọn",
                 },
             },
+            m_sgt_mirror = {
+                name = "Lá Gương",
+                text = {
+                    "{X:mult,C:white}X#1#{} Nhân",
+                    "Không có bậc hay chất",
+                },
+            },
         },
         ["Saga Tooltip"] = {
             fusion_hint = {

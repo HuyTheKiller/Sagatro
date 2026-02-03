@@ -3318,6 +3318,13 @@ return {
                     "{C:attention}+1{} card selection limit",
                 },
             },
+            m_sgt_mirror = {
+                name = "Mirror Card",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult",
+                    "No rank or suit",
+                },
+            },
         },
         ["Saga Tooltip"] = {
             fusion_hint = {
