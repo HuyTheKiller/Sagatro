@@ -1,9 +1,10 @@
----@param func_list function[] An array of functions.
+---@param func_list (fun(): number?)[] An array of functions that may return the delay value.
 ---@param delay number Delay between each function.
+---@param first_delay boolean Boolean flag to decide if the first function in chain has a delay.
 ---@param index? integer Internal counter to traverse the array, as well as controlling the recursion.
 --- Recursive helper function to execute functions one by one, utilizing events.
 --- Direct invocation is not recommended.
-function Sagatro.recursive_chain(func_list, delay, index)
+function Sagatro.recursive_chain(func_list, delay, first_delay, index)
     index = index or 1
     if index == 1 then
         G.CONTROLLER.locks.executing_chain = true
@@ -26,10 +27,10 @@ function Sagatro.recursive_chain(func_list, delay, index)
     end
     G.E_MANAGER:add_event(Event({
         trigger = "after",
-        delay = delay*G.SETTINGS.GAMESPEED,
+        delay = first_delay and delay*G.SETTINGS.GAMESPEED or 0,
         func = function()
-            func_list[index]()
-            Sagatro.recursive_chain(func_list, delay, index+1)
+            local new_delay = func_list[index]()
+            Sagatro.recursive_chain(func_list, new_delay or delay, false, index+1)
             return true
         end
     }))
@@ -39,14 +40,14 @@ end
 --- Execute a registered event chain.
 --- Invoke directly to perform at an arbitrary time.
 --- Otherwise, set `G.GAME.shelved_chain` to `key` to automatically
---- invoke at end of round, before all other calculations.
+--- invoke at end of round, before all other end-of-round calculations.
 function Sagatro.execute_chain(key)
     local event_chain = Sagatro.EventChains[key]
     if not event_chain then
         sendWarnMessage(("Cannot execute %s: Does not exist."):format(key), Sagatro.EventChain.set)
         return
     end
-    Sagatro.recursive_chain(event_chain.func_list, event_chain.delay)
+    Sagatro.recursive_chain(event_chain.func_list, event_chain.delay, event_chain.first_delay)
 end
 
 ---@type table<string, Sagatro.EventChain|table>
@@ -54,6 +55,8 @@ Sagatro.EventChains = {}
 
 ---@class Sagatro.EventChain: SMODS.GameObject 
 ---@field delay? number Delay between events in the chain.
+---@field first_delay? boolean Boolean flag to decide if the first function in chain has a delay.
+---@field func_list (fun(): number?)[] An array of functions that may return the delay value.
 Sagatro.EventChain = SMODS.GameObject:extend{
     obj_table = Sagatro.EventChains,
     obj_buffer = {},
@@ -63,6 +66,7 @@ Sagatro.EventChain = SMODS.GameObject:extend{
         "func_list",
     },
     delay = 0.8,
+    first_delay = false,
     inject = function(self)
         assert(type(self.func_list) == "table", ("Field \"func_list\" must be a table."))
         for i, func in ipairs(self.func_list) do
@@ -80,6 +84,7 @@ Sagatro.EventChain{
             if fleta then
                 play_sound('sgt_fleta_tantrum', 1, 0.4)
                 fleta:juice_up()
+                return table.size(fleta.ability.immutable.completed) >= 2 and 1.6 or 0.8
             end
         end,
         function()
