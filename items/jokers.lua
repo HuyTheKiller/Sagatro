@@ -13572,8 +13572,8 @@ local goldia = {
                         v.ability.old_edition = v.edition and v.edition.key or nil
                         v.ability.old_seal = v.seal
                         v:set_ability("m_sgt_mirror")
-                        v:set_edition(nil, nil, true)
-                        v:set_seal(nil, true)
+                        if v.ability.old_edition then v:set_edition(nil, nil, true) end
+                        if v.ability.old_seal then v:set_seal(nil, true) end
                     end
                     G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
                         ease_background_colour_blind(G.STATE)
