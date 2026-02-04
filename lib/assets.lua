@@ -349,6 +349,50 @@ SMODS.Sound{
 -- Spare me from the copyright issue, Pocket Mirror Team
 -- Pocket Mirror content in this mod is our show of gratitude towards the original game
 SMODS.Sound{
+    key = "music_promise",
+    path = "music_promise_loopable.ogg",
+    sync = false,
+    pitch = 1,
+    volume = 0.5,
+    select_music_track = function()
+		return (G.GAME.story_mode and next(SMODS.find_card("j_sgt_goldia", true))) and (Sagatro.config.SagatroMusic) and 250
+	end,
+}
+
+SMODS.Sound{
+    key = "music_the_queen_shall_be_saved",
+    path = "music_the_queen_shall_be_saved.ogg",
+    sync = false,
+    pitch = 1,
+    volume = 0.5,
+    select_music_track = function()
+		return (Sagatro.event_check("pm_mirrorworld") or Sagatro.event_check("conditional_game_over")) and (Sagatro.config.SagatroMusic) and 1000
+	end,
+}
+
+SMODS.Sound{
+    key = "music_kleine_beere",
+    path = "music_kleine_beere_loopable.ogg",
+    sync = false,
+    pitch = 1,
+    volume = 0.5,
+    select_music_track = function()
+		return (Sagatro.event_check("fleta_challenges")) and (Sagatro.config.SagatroMusic) and 1000
+	end,
+}
+
+SMODS.Sound{
+    key = "music_embellishment_the_moon_as_seen_from_vienna",
+    path = "music_embellishment_the_moon_as_seen_from_vienna_loopable.ogg",
+    sync = false,
+    pitch = 1,
+    volume = 0.5,
+    select_music_track = function()
+		return (Sagatro.event_check("harpae_patience")) and (Sagatro.config.SagatroMusic) and 1000
+	end,
+}
+
+SMODS.Sound{
     key = "music_chimerical_presence",
     path = "music_chimerical_presence_loopable.ogg",
     sync = false,
