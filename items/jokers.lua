@@ -13594,7 +13594,7 @@ local goldia = {
                     local lisette = SMODS.add_card{key = "j_sgt_lisette"}
                     if Sagatro.get_pos(card) > math.floor(#G.jokers.cards/2) then
                         G.E_MANAGER:add_event(Event({func = function()
-                            Sagatro.move_to_leftmost(lisette)
+                            Sagatro.swap(lisette, "leftmost")
                         return true end}))
                     end
                     if not next(SMODS.find_card("m_sgt_mirror", true)) then
@@ -13707,7 +13707,7 @@ local goldia = {
                         card.ability.immutable.dt = card.ability.immutable.dt - (120*48/135)
                         local lisette = SMODS.add_card{key = "j_sgt_lisette"}
                         if Sagatro.get_pos(card) > math.floor(#G.jokers.cards/2) then
-                            Sagatro.move_to_leftmost(lisette)
+                            Sagatro.swap(lisette, "leftmost")
                         end
                     end
                 end

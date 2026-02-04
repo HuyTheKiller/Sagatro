@@ -3504,8 +3504,8 @@ function Sagatro.handle_dissolve(card, dissolve, dissolve_time)
 end
 
 ---@param card table|Card
----@param dir "left"|"right"?
---- Move a card one space to the left or right in its area.
+---@param dir "left"|"right"|"leftmost"|"rightmost"?
+--- Move a card one space to the left or right or to leftmost/rightmost in its area.
 function Sagatro.swap(card, dir)
     dir = dir or "right"
     if not card.area then return end
@@ -3521,22 +3521,27 @@ function Sagatro.swap(card, dir)
         card.area.cards[card.rank].rank = card.rank - 1
         table.sort(card.area.cards, function (a, b) return a.rank < b.rank end)
         card.area:align_cards()
-    end
-end
-
----@param card table|Card
---- Move a card to leftmost position in its area. Useful for newly created cards.
-function Sagatro.move_to_leftmost(card)
-    if not card.area then return end
-    for _, v in ipairs(card.area.cards) do
-        if v == card then
-            v.rank = 1
-        else
-            v.rank = v.rank + 1
+    elseif dir == "leftmost" and card.rank > 1 then
+        for _, v in ipairs(card.area.cards) do
+            if v == card then
+                v.rank = #card.area.cards
+            else
+                v.rank = v.rank - 1
+            end
         end
+        table.sort(card.area.cards, function (a, b) return a.rank < b.rank end)
+        card.area:align_cards()
+    elseif dir == "rightmost" and card.rank < #card.area.cards then
+        for _, v in ipairs(card.area.cards) do
+            if v == card then
+                v.rank = 1
+            else
+                v.rank = v.rank + 1
+            end
+        end
+        table.sort(card.area.cards, function (a, b) return a.rank < b.rank end)
+        card.area:align_cards()
     end
-    table.sort(card.area.cards, function (a, b) return a.rank < b.rank end)
-    card.area:align_cards()
 end
 
 ---@param cls SMODS.GameObject The class to invoke `take_ownership` from.
