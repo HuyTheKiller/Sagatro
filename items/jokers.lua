@@ -13543,7 +13543,6 @@ local goldia = {
     saga_group = "pocket_mirror",
     saga_difficulty = 5,
     order = 121,
-    pools = { [SAGA_GROUP_POOL.legend] = true },
     pools = { [SAGA_GROUP_POOL.pmirror] = true, [SAGA_GROUP_POOL.legend] = true },
     pos = { x = 0, y = 4 },
     soul_pos = { x = 2, y = 4, sgt_extra = { x = 1, y = 4, no_scale = true }, name_tag = { x = 3, y = 4 } },
@@ -13578,20 +13577,52 @@ local goldia = {
                     end
                 end
             end
-            if context.first_hand_drawn and Sagatro.event_check("mirror_maze")
-            and not (G.GAME.entering_mirror_maze or G.GAME.leaving_mirror_maze) then
-                G.GAME.leaving_mirror_maze = true
-                G.GAME.sgt_no_saving = true
-                Sagatro.progress_storyline("mirror_maze", "finish", "pocket_mirror", G.GAME.inverwoven_storyline)
-                Sagatro.progress_storyline("lisette_chase", "add", "pocket_mirror", G.GAME.inverwoven_storyline)
-                card:add_sticker("pinned", true)
+            if context.first_hand_drawn then
+                if Sagatro.event_check("mirror_maze")
+                and not (G.GAME.entering_mirror_maze or G.GAME.leaving_mirror_maze) then
+                    G.GAME.leaving_mirror_maze = true
+                    G.GAME.sgt_no_saving = true
+                    Sagatro.progress_storyline("mirror_maze", "finish", "pocket_mirror", G.GAME.inverwoven_storyline)
+                    Sagatro.progress_storyline("lisette_chase", "add", "pocket_mirror", G.GAME.inverwoven_storyline)
+                    card:add_sticker("pinned", true)
+                end
+                if Sagatro.event_check("harpae_patience", nil, {contain = true})
+                and not Sagatro.event_check("dull_glass") then
+                    Sagatro.progress_storyline("dull_glass", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                end
+                if Sagatro.event_check("dull_glass") then
+                    local lisette = SMODS.add_card{key = "j_sgt_lisette"}
+                    if Sagatro.get_pos(card) > math.floor(#G.jokers.cards/2) then
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.move_to_leftmost(lisette)
+                        return true end}))
+                    end
+                    if not next(SMODS.find_card("m_sgt_mirror", true)) then
+                        SMODS.add_card{key = "m_sgt_mirror", area = G.jokers}
+                    end
+                end
             end
-            if context.end_of_round and not context.individual and not context.repetition
-            and context.game_over then
-                if card.ability.immutable.plot_armor then
-                    return {
-                        saved = "ph_plot_armor",
-                    }
+            if context.end_of_round then
+                if not context.game_over and context.main_eval then
+                    card.ability.immutable.tolerance_index = card.ability.immutable.tolerance_index or 0
+                    local lisette_pos = {}
+                    for _, lisette in ipairs(SMODS.find_card("j_sgt_lisette", true)) do
+                        table.insert(lisette_pos, Sagatro.get_pos(lisette))
+                    end
+                    for _, pos in ipairs(lisette_pos) do
+                        if math.abs(Sagatro.get_pos(card) - pos) == 2 then
+                            card.ability.immutable.tolerance_index = card.ability.immutable.tolerance_index + 1
+                            break
+                        end
+                    end
+                end
+                if not context.individual and not context.repetition
+                and context.game_over then
+                    if card.ability.immutable.plot_armor then
+                        return {
+                            saved = "ph_plot_armor",
+                        }
+                    end
                 end
             end
         end
@@ -13668,6 +13699,20 @@ local goldia = {
     update = function(self, card, dt)
         card.ability.hide_name_tag = card.ability.immutable.stage ~= "name_recalled"
         and card.ability.immutable.stage ~= "dawn" and (G.GAME.story_mode or card.displaying_save)
+        if G.STAGE == G.STAGES.RUN then
+            if card.area and card.area == G.jokers then
+                if G.STATE == G.STATES.SELECTING_HAND and Sagatro.event_check("dull_glass") then
+                    card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SETTINGS.GAMESPEED
+                    if card.ability.immutable.dt > (120*48/135) then
+                        card.ability.immutable.dt = card.ability.immutable.dt - (120*48/135)
+                        local lisette = SMODS.add_card{key = "j_sgt_lisette"}
+                        if Sagatro.get_pos(card) > math.floor(#G.jokers.cards/2) then
+                            Sagatro.move_to_leftmost(lisette)
+                        end
+                    end
+                end
+            end
+        end
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
@@ -14563,7 +14608,7 @@ local lisette = {
     pools = { [SAGA_GROUP_POOL.pmirror] = true, [SAGA_GROUP_POOL.legend] = true },
     pos = { x = 0, y = 2 },
     soul_pos = { x = 2, y = 2, sgt_extra = { x = 1, y = 2, no_scale = true }, name_tag = { x = 3, y = 2 } },
-    config = {immutable = {dt = 0}, extra = {xmult = 2.5, glass_odds_mod = 2}, shatters_on_destroy = true},
+    config = {immutable = {dt = 0, random_interval = (120*3/135)}, extra = {xmult = 2.5, glass_odds_mod = 2}, shatters_on_destroy = true},
     rarity = 4,
     cost = 20,
     blueprint_compat = true,
@@ -14627,6 +14672,35 @@ local lisette = {
                             end
                         end
                     end
+                elseif Sagatro.event_check("dull_glass") and not card.executing_ending then
+                    card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SETTINGS.GAMESPEED
+                    if card.ability.immutable.dt > card.ability.immutable.random_interval then
+                        card.ability.immutable.dt = card.ability.immutable.dt - card.ability.immutable.random_interval
+                        card.ability.immutable.random_interval = (120*3*pseudorandom("lisette_interval", 1, 2)/135)
+                        if not card.states.drag.is then
+                            if G.STATE ~= G.STATES.ROUND_EVAL then
+                                if math.abs(Sagatro.get_pos(card) - (Sagatro.get_pos(SMODS.find_card("j_sgt_goldia", true)[1] or {}) or 1)) > 1 then
+                                    if Sagatro.get_pos(card) - (Sagatro.get_pos(SMODS.find_card("j_sgt_goldia", true)[1] or {}) or 1) > 0 then
+                                        if G.jokers.cards[Sagatro.get_pos(card)-1]
+                                        and not G.jokers.cards[Sagatro.get_pos(card)-1].states.drag.is
+                                        and G.jokers.cards[Sagatro.get_pos(card)-1].config.center_key ~= "j_sgt_lisette" then
+                                            Sagatro.swap(card, "left")
+                                        end
+                                    else
+                                        if G.jokers.cards[Sagatro.get_pos(card)+1]
+                                        and not G.jokers.cards[Sagatro.get_pos(card)+1].states.drag.is
+                                        and G.jokers.cards[Sagatro.get_pos(card)+1].config.center_key ~= "j_sgt_lisette" then
+                                            Sagatro.swap(card)
+                                        end
+                                    end
+                                else
+                                    Sagatro.game_over("j_sgt_lisette")
+                                end
+                            end
+                        end
+                    end
+                else
+                    card.ability.immutable.dt = 0
                 end
             end
         end
@@ -14651,6 +14725,93 @@ local lisette = {
             end
             ret.vars = {localize{type = "name_text", set = "Joker",
             key = "j_sgt_goldia_stage_"..(goldia or {ability = {immutable = {stage = 0}}}).ability.immutable.stage}}
+        end
+        return ret
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
+local rusty_scissors = {
+    key = "rusty_scissors",
+    name = "Rusty Scissors",
+    artist_credits = {"temp"},
+    atlas = "pocket_mirror",
+    saga_group = "pocket_mirror",
+    order = 133,
+    pools = { [SAGA_GROUP_POOL.pmirror] = true },
+    pos = { x = 4, y = 5 },
+    config = {},
+    rarity = 1,
+    cost = 3,
+    blueprint_compat = false,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    can_use = function(self, card) -- evil joker trying to be a consumable trollface
+        return card.area == G.jokers and G.jokers.cards[Sagatro.get_pos(card)+1]
+        and G.jokers.cards[Sagatro.get_pos(card)+1].config.center_key == "m_sgt_mirror"
+        and G.STATE == G.STATES.SELECTING_HAND
+    end,
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('timpani')
+                local mirror = SMODS.find_card("m_sgt_mirror", true)[1]
+                if mirror then
+                    mirror:shatter()
+                    G.GAME.shelved_chain = "sgt_lisette_ending"
+                    for _, scissors in ipairs(SMODS.find_card("j_sgt_rusty_scissors", true)) do
+                        scissors:start_dissolve({G.C.GOLD})
+                    end
+                end
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+        delay(0.6)
+    end,
+    calculate = function(self, card, context)
+        if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
+        else
+            if context.fix_probability then
+                if context.trigger_obj and Sagatro.omniscient(context.trigger_obj, {"m_glass", "m_sgt_nyx_glass"}) then
+                    return { numerator = context.denominator }
+                end
+            end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and #SMODS.find_card("j_sgt_rusty_scissors", true) >= 2 then
+            local func = function()
+                ease_dollars(card.cost)
+            end
+            Sagatro.self_destruct(card, {no_destruction_context = true, no_sound = true}, func)
+        end
+    end,
+    update = function(self, card, dt)
+        if G.STAGE == G.STAGES.RUN then
+            if G.GAME.story_mode and card.area
+            and card.area == G.jokers and not card.ability.consumeable then
+                card.ability.consumeable = {}
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.story_mode then
+            return Sagatro.event_check("dull_glass"), {allow_duplicates = #SMODS.find_card("j_sgt_rusty_scissors", true) < 2}
+        end
+        return true
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {vars = {}}
+        info_queue[#info_queue+1] = G.P_CENTERS.m_glass
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            ret.key = self.key.."_storymode"
+            info_queue[#info_queue] = G.P_CENTERS.m_sgt_mirror
         end
         return ret
     end,
@@ -16940,6 +17101,7 @@ local joker_table = {
     harpae,
     lisette,
     knife_fork,
+    rusty_scissors,
     hansels_cheat_dice,
     skoll_n_hati,
     three_winters,

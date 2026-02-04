@@ -270,6 +270,11 @@ SMODS.Sound{
     path = "VA_Harpae_Cry_3_RM.ogg",
 }
 
+SMODS.Sound{
+    key = "lisette_laughcrying",
+    path = "VA_Lisette_Laughcrying_2_RM.ogg",
+}
+
 --#endregion
 
 SMODS.Sound{
@@ -350,7 +355,7 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return Sagatro.event_check("mirror_maze") and (Sagatro.config.SagatroMusic) and 1000
+		return (Sagatro.event_check("mirror_maze") or Sagatro.event_check("dull_glass")) and (Sagatro.config.SagatroMusic) and 1000
 	end,
 }
 

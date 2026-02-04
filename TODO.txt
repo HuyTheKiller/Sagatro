@@ -41,7 +41,7 @@ TO-DO:
 [] Add Lisette:
     [X] Add base Lisette (legendary)
     [X] Add Lisette's effect inside story mode
-    [] Hook Lisette's effects to story events
+    [X] Hook Lisette's effects to story events
     [] Replace Lisette's placeholder with final visual
     [X] Add Lisette's effect outside story mode
 [] Add Enjel:

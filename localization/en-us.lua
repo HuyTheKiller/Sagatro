@@ -3111,6 +3111,21 @@ return {
                     "at {C:attention}#1#{}*",
                 },
             },
+            j_sgt_rusty_scissors = {
+                name = "Rusty Scissors",
+                text = {
+                    "{C:attention}Glass{} cards are",
+                    "{C:green}guaranteed{} to break",
+                },
+            },
+            j_sgt_rusty_scissors_storymode = {
+                name = "Rusty Scissors",
+                text = {
+                    "Use like a consumable to",
+                    "break the {C:attention}Mirror{} card",
+                    "to the right",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {

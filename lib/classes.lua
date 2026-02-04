@@ -132,3 +132,64 @@ Sagatro.EventChain{
         end,
     },
 }
+
+Sagatro.EventChain{
+    key = "lisette_ending",
+    func_list = {
+        function()
+            Sagatro.temp_music_volume = G.SETTINGS.SOUND.music_volume
+            G.E_MANAGER:add_event(Event({
+                trigger = 'ease',
+                blockable = false,
+                ref_table = G.SETTINGS.SOUND,
+                ref_value = 'music_volume',
+                ease_to = 0,
+                delay = 1*(G.STAGE == G.STAGES.RUN and G.SETTINGS.GAMESPEED or 1),
+                func = (function(t) return t end)
+            }))
+            for i, lisette in ipairs(SMODS.find_card("j_sgt_lisette", true)) do
+                if i ~= 1 then
+                    lisette:remove()
+                end
+            end
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            local lisette = SMODS.find_card("j_sgt_lisette", true)[1]
+            if lisette then
+                play_sound("sgt_lisette_laughcrying", 1, 0.5)
+                lisette.executing_ending = true
+                lisette:juice_up()
+                return goldia and goldia.ability.immutable.tolerance_index < 5 and 0.8 or 18.7
+            end
+        end,
+        function()
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            local lisette = SMODS.find_card("j_sgt_lisette", true)[1]
+            if lisette then
+                if goldia and goldia.ability.immutable.tolerance_index >= 5 then
+                    play_sound('timpani')
+                    SMODS.add_card{key = "j_sgt_snow_scissors"}
+                    return 0.8
+                end
+                return 18.7
+            end
+        end,
+        function()
+            local lisette = SMODS.find_card("j_sgt_lisette", true)[1]
+            if lisette then
+                lisette:shatter()
+                Sagatro.progress_storyline("dull_glass", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'ease',
+                    blockable = false,
+                    ref_table = G.SETTINGS.SOUND,
+                    ref_value = 'music_volume',
+                    ease_to = Sagatro.temp_music_volume,
+                    delay = 1*(G.STAGE == G.STAGES.RUN and G.SETTINGS.GAMESPEED or 1),
+                    func = (function(t) return t end)
+                }))
+                Sagatro.temp_music_volume = nil
+                return 0
+            end
+        end,
+    },
+}

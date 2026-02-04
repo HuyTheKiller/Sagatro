@@ -1500,6 +1500,11 @@ function Blind:defeat(silent)
             SMODS.add_card{key = "j_sgt_harpae"}
             Sagatro.progress_storyline("harpae_patience", "add", "pocket_mirror", G.GAME.interwoven_storyline)
         end
+        if Sagatro.event_check("dull_glass") then
+            for _, v in ipairs(SMODS.find_card("j_sgt_lisette", true)) do
+                v:remove()
+            end
+        end
     end
 	dft(self, silent)
 end
@@ -3517,6 +3522,21 @@ function Sagatro.swap(card, dir)
         table.sort(card.area.cards, function (a, b) return a.rank < b.rank end)
         card.area:align_cards()
     end
+end
+
+---@param card table|Card
+--- Move a card to leftmost position in its area. Useful for newly created cards.
+function Sagatro.move_to_leftmost(card)
+    if not card.area then return end
+    for _, v in ipairs(card.area.cards) do
+        if v == card then
+            v.rank = 1
+        else
+            v.rank = v.rank + 1
+        end
+    end
+    table.sort(card.area.cards, function (a, b) return a.rank < b.rank end)
+    card.area:align_cards()
 end
 
 ---@param cls SMODS.GameObject The class to invoke `take_ownership` from.

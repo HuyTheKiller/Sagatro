@@ -3107,6 +3107,21 @@ return {
                     "phía {C:attention}#1#{}*",
                 },
             },
+            j_sgt_rusty_scissors = {
+                name = "Kéo Rỉ Sét",
+                text = {
+                    "Lá {C:attention}Kính{C:green} chắc chắn",
+                    "sẽ bị vỡ",
+                },
+            },
+            j_sgt_rusty_scissors_storymode = {
+                name = "Kéo Rỉ Sét",
+                text = {
+                    "Dùng như lá tiêu thụ",
+                    "để phá huỷ lá {C:attention}Gương{}",
+                    "liền phải",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
