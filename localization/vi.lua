@@ -4024,6 +4024,8 @@ return {
             ph_losing_musical_chair = {"Thua ở trò", "ghế âm nhạc"},
             ph_shattered_pm = {"Gương Bỏ Túi", "bị vỡ tan"},
             ph_eternal_blindness = {"Mù loà", "vĩnh viễn"},
+            ph_out_of_fuel = {"Hết sạch", "nhiên liệu"},
+            ph_out_of_food = {"Hết sạch", "lương thực"},
             sgt_swap = "Tráo!",
             sgt_art_credit = "Ảnh vẽ bởi ",
             sgt_and = " và ",

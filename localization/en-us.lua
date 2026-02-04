@@ -4028,6 +4028,8 @@ return {
             ph_losing_musical_chair = {"Losing to", "musical chair"},
             ph_shattered_pm = {"Shattered", "Pocket Mirror"},
             ph_eternal_blindness = {"Eternal", "blindness"},
+            ph_out_of_fuel = {"Running out", "of fuel"},
+            ph_out_of_food = {"Running out", "of food"},
             sgt_swap = "Swap!",
             sgt_art_credit = "Art by ",
             sgt_and = " and ",

@@ -3287,10 +3287,12 @@ function Sagatro.resolve_fuel(mod)
             card.ability.immutable.states.fuel_left = 0
             card:add_sticker("sgt_imminent_doom", true)
             G.GAME.imminent_doom = true
+            G.GAME.defeating_agent = "ph_out_of_fuel"
         else
             if card.ability.immutable.states.hunger_left > 0 then
                 card:remove_sticker("sgt_imminent_doom")
                 G.GAME.imminent_doom = nil
+                G.GAME.defeating_agent = nil
             end
             if card.ability.immutable.states.fuel_left <= 1.5 and not card.ability.immutable.states.low_fuel then
                 card.ability.immutable.states.low_fuel = true
@@ -3335,10 +3337,12 @@ function Sagatro.resolve_hunger(mod)
             card.ability.immutable.states.hunger_left = 0
             card:add_sticker("sgt_imminent_doom", true)
             G.GAME.imminent_doom = true
+            G.GAME.defeating_agent = "ph_out_of_food"
         else
             if card.ability.immutable.states.fuel_left > 0 then
                 card:remove_sticker("sgt_imminent_doom")
                 G.GAME.imminent_doom = nil
+                G.GAME.defeating_agent = nil
             end
             if card.ability.immutable.states.hunger_left <= 1.5 and not card.ability.immutable.states.starvation then
                 card.ability.immutable.states.starvation = true
