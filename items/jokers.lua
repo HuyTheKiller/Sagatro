@@ -4146,10 +4146,10 @@ local submarine = {
             ease_background_colour_blind(G.STATE)
         end
         if card.ability and self.discovered then
-            card.ability.anim_dt = card.ability.anim_dt + dt
+            card.ability.anim_dt = card.ability.anim_dt + dt/G.SETTINGS.GAMESPEED/(Handy and Handy.speed_multiplier.value or 1)
             card.ability.anim_transition_path = card.ability.immutable.old_depth_level - card.ability.immutable.depth_level
-            if card.ability.anim_dt > 0.125*G.SETTINGS.GAMESPEED*(Handy and Handy.speed_multiplier.value or 1) then
-                card.ability.anim_dt = card.ability.anim_dt - 0.125*G.SETTINGS.GAMESPEED*(Handy and Handy.speed_multiplier.value or 1)
+            if card.ability.anim_dt > 0.125 then
+                card.ability.anim_dt = card.ability.anim_dt - 0.125
                 if card.ability.anim_pos.x == 11 and card.ability.anim_transition_path ~= 0 and not card.ability.in_transition then
                     if card.ability.anim_transition_path > 0 then
                         card.ability.anim_pos.x = 6
@@ -14588,9 +14588,9 @@ local lisette = {
         if G.STAGE == G.STAGES.RUN then
             if card.area and card.area == G.jokers then
                 if Sagatro.event_check("lisette_chase") then
-                    card.ability.immutable.dt = card.ability.immutable.dt + dt
-                    if card.ability.immutable.dt > (5/6)*G.SETTINGS.GAMESPEED then
-                        card.ability.immutable.dt = card.ability.immutable.dt - (5/6)*G.SETTINGS.GAMESPEED
+                    card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SETTINGS.GAMESPEED
+                    if card.ability.immutable.dt > (5/6) then
+                        card.ability.immutable.dt = card.ability.immutable.dt - (5/6)
                         if not card.states.drag.is then
                             if G.STATE == G.STATES.HAND_PLAYED then
                                 if Sagatro.get_pos(card) > 4 then
