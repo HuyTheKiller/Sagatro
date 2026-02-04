@@ -695,6 +695,12 @@ elseif G.GAME.story_mode and next(Sagatro.find_active_card("j_sgt_submarine", tr
     ease_background_colour{new_colour = G.C.SUBMARINE_DEPTH[Sagatro.get_submarine_depth_colour()], contrast = 1}
 elseif G.GAME.story_mode and G.GAME.inversed_scaling or G.GAME.pm_mirrorworld then
     ease_background_colour{new_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5), contrast = 1}
+elseif G.GAME.story_mode and (Sagatro.event_check("mirror_maze") or Sagatro.event_check("lisette_chase") or Sagatro.event_check("dull_glass")) then
+    ease_background_colour{new_colour = G.C.LISETTE_PURPLE, contrast = 1}
+elseif G.GAME.story_mode and Sagatro.event_check("harpae_patience") then
+    ease_background_colour{new_colour = G.C.HARPAE_BLUE, contrast = 1}
+elseif G.GAME.story_mode and Sagatro.event_check("fleta_challenges") then
+    ease_background_colour{new_colour = G.C.FLETA_RED, contrast = 1}
 elseif G.GAME.story_mode and next(Sagatro.find_active_card("j_sgt_goldia", true)) then
     ease_background_colour{new_colour = G.C.GOLDIA_PINK, contrast = 1}
 '''

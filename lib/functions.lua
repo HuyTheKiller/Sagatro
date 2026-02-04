@@ -9,6 +9,10 @@ G.C.SGT_ELDRITCH = HEX("3f0c57")
 G.C.SGT_SUPPLY = HEX("485267")
 G.C.SGT_BADGE = HEX("6131ac")
 G.C.GOLDIA_PINK = HEX("b4417b")
+G.C.FLETA_RED = HEX("721d16")
+G.C.HARPAE_BLUE = HEX("2b3c87")
+G.C.LISETTE_PURPLE = HEX("61277e")
+G.C.ENJEL_MIDNIGHT = HEX("241a34")
 G.C.SUBMARINE_DEPTH = {
     HEX("3a86e1"),
     HEX("265792"),
@@ -1502,8 +1506,8 @@ function Blind:defeat(silent)
                 goldia:remove_sticker("pinned")
                 goldia.pinned = nil
             end
-            SMODS.add_card{key = "j_sgt_harpae"}
             Sagatro.progress_storyline("harpae_patience", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+            SMODS.add_card{key = "j_sgt_harpae"}
         end
         if Sagatro.event_check("dull_glass") then
             for _, v in ipairs(SMODS.find_card("j_sgt_lisette", true)) do

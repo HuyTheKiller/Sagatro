@@ -63,6 +63,16 @@ Sagatro.EventChain{
     key = "fleta_crashout",
     func_list = {
         function()
+            Sagatro.temp_music_volume = G.SETTINGS.SOUND.music_volume
+            G.E_MANAGER:add_event(Event({
+                trigger = 'ease',
+                blockable = false,
+                ref_table = G.SETTINGS.SOUND,
+                ref_value = 'music_volume',
+                ease_to = 0,
+                delay = 1*(G.STAGE == G.STAGES.RUN and G.SETTINGS.GAMESPEED or 1),
+                func = (function(t) return t end)
+            }))
             local fleta = SMODS.find_card("j_sgt_fleta", true)[1]
             if fleta then
                 play_sound('sgt_fleta_tantrum', 1, 0.4)
@@ -81,13 +91,25 @@ Sagatro.EventChain{
             local fleta = SMODS.find_card("j_sgt_fleta", true)[1]
             if fleta then
                 fleta:shatter()
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'ease',
+                    blockable = false,
+                    ref_table = G.SETTINGS.SOUND,
+                    ref_value = 'music_volume',
+                    ease_to = Sagatro.temp_music_volume,
+                    delay = 1*(G.STAGE == G.STAGES.RUN and G.SETTINGS.GAMESPEED or 1),
+                    func = (function(t) return t end)
+                }))
+                Sagatro.temp_music_volume = nil
             end
             G.GAME.modifiers.sgt_no_tags = nil
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if goldia then
                 goldia.ability.immutable.plot_armor = true
             end
+            Sagatro.progress_storyline("fleta_challenges", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
             Sagatro.progress_storyline("entering_mirror_maze", "add", "pocket_mirror", G.GAME.inverwoven_storyline)
+            return 0
         end,
     },
 }
@@ -96,6 +118,16 @@ Sagatro.EventChain{
     key = "harpae_ending",
     func_list = {
         function()
+            Sagatro.temp_music_volume = G.SETTINGS.SOUND.music_volume
+            G.E_MANAGER:add_event(Event({
+                trigger = 'ease',
+                blockable = false,
+                ref_table = G.SETTINGS.SOUND,
+                ref_value = 'music_volume',
+                ease_to = 0,
+                delay = 1*(G.STAGE == G.STAGES.RUN and G.SETTINGS.GAMESPEED or 1),
+                func = (function(t) return t end)
+            }))
             local harpae = SMODS.find_card("j_sgt_harpae", true)[1]
             if harpae then
                 if not harpae.ability.immutable.blindness then
@@ -118,11 +150,24 @@ Sagatro.EventChain{
             local harpae = SMODS.find_card("j_sgt_harpae", true)[1]
             if harpae then
                 if harpae.ability.immutable.blindness then
+                    G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume or 50
+                    Sagatro.temp_music_volume = nil
+                    G:save_settings()
                     check_for_unlock{type = "pm_bad_end_2"}
                     Sagatro.game_over("ph_eternal_blindness")
                     return 0
                 end
                 harpae:shatter()
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'ease',
+                    blockable = false,
+                    ref_table = G.SETTINGS.SOUND,
+                    ref_value = 'music_volume',
+                    ease_to = Sagatro.temp_music_volume,
+                    delay = 1*(G.STAGE == G.STAGES.RUN and G.SETTINGS.GAMESPEED or 1),
+                    func = (function(t) return t end)
+                }))
+                Sagatro.temp_music_volume = nil
             end
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if goldia then

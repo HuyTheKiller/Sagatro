@@ -458,8 +458,8 @@ G.FUNCS.mirror_switch = function(e)
                     Sagatro.progress_storyline("pm_mirrorworld", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
                     SMODS.add_card{key = "j_sgt_egliette"}
                 else
-                    Sagatro.progress_storyline("pm_mirrorworld", "force_finish", "pocket_mirror", G.GAME.interwoven_storyline)
                     Sagatro.progress_storyline("facing_egliette", "force_finish", "pocket_mirror", G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline("fleta_challenges", "add", "pocket_mirror", G.GAME.interwoven_storyline)
                     local cards = {}
                     for _, v in ipairs(G.jokers.cards) do
                         if v.config.center.saga_group == "alice_in_wonderland"

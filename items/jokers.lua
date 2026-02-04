@@ -13575,6 +13575,9 @@ local goldia = {
                         v:set_edition(nil, nil, true)
                         v:set_seal(nil, true)
                     end
+                    G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
+                        ease_background_colour_blind(G.STATE)
+                    return true end }))
                 end
             end
             if context.first_hand_drawn then
@@ -13589,6 +13592,9 @@ local goldia = {
                 if Sagatro.event_check("harpae_patience", nil, {contain = true})
                 and not Sagatro.event_check("dull_glass") then
                     Sagatro.progress_storyline("dull_glass", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                    G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
+                        ease_background_colour_blind(G.STATE)
+                    return true end }))
                 end
                 if Sagatro.event_check("dull_glass") then
                     local lisette = SMODS.add_card{key = "j_sgt_lisette"}
@@ -14256,6 +14262,7 @@ local egliette = {
         if G.GAME.story_mode then
             if context.end_of_round and not context.game_over and context.main_eval
             and not context.blueprint and not context.retrigger_joker then
+                Sagatro.progress_storyline("pm_mirrorworld", "force_finish", self.saga_group, G.GAME.interwoven_storyline)
                 Sagatro.self_destruct(card)
                 return {
                     message = localize("k_poof_ex"),
@@ -14275,10 +14282,7 @@ local egliette = {
         end
     end,
     in_pool = function(self, args)
-        if G.GAME.story_mode then
-            return Sagatro.storyline_check(self.saga_group)
-        end
-        return true
+        return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.retriggers}}
@@ -14458,6 +14462,20 @@ local fleta = {
             end
         end
     end,
+    add_to_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff then
+            G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
+                ease_background_colour_blind(G.STATE)
+            return true end }))
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff then
+            G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
+                ease_background_colour_blind(G.STATE)
+            return true end }))
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.story_mode
     end,
@@ -14573,6 +14591,20 @@ local harpae = {
                     card = card,
                 }
             end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff then
+            G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
+                ease_background_colour_blind(G.STATE)
+            return true end }))
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff then
+            G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
+                ease_background_colour_blind(G.STATE)
+            return true end }))
         end
     end,
     update = function(self, card, dt)
@@ -14703,6 +14735,20 @@ local lisette = {
                     card.ability.immutable.dt = 0
                 end
             end
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff then
+            G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
+                ease_background_colour_blind(G.STATE)
+            return true end }))
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff then
+            G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
+                ease_background_colour_blind(G.STATE)
+            return true end }))
         end
     end,
     in_pool = function(self, args)
