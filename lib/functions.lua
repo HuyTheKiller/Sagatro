@@ -795,6 +795,11 @@ function Game:update(dt)
         Sagatro.debug_info["During a run"] = nil
         Sagatro.debug_info["Story mode"] = nil
         G.P_CENTERS.j_sgt_seawater.pos.x = 0
+        if Sagatro.temp_music_volume then
+            G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume or 50
+            Sagatro.temp_music_volume = nil
+            G:save_settings()
+        end
     end
 
     if G.your_collection and type(G.your_collection) == "table" then
