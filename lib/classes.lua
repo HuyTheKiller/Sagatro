@@ -144,6 +144,21 @@ Sagatro.EventChain{
                 SMODS.add_card{key = "j_sgt_moon_hairbrush"}
                 return 0.8
             end
+            if harpae and harpae.ability.immutable.blindness then
+                local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+                if goldia then
+                    local harpae_pos, goldia_pos = Sagatro.get_pos(harpae), Sagatro.get_pos(goldia)
+                    if harpae_pos > goldia_pos then
+                        for _ = harpae_pos, goldia_pos + 2, -1 do
+                            Sagatro.swap(harpae, "left")
+                        end
+                    else
+                        for _ = harpae_pos, goldia_pos - 2 do
+                            Sagatro.swap(harpae)
+                        end
+                    end
+                end
+            end
             return 1.7
         end,
         function()
