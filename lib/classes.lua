@@ -24,7 +24,7 @@ function Sagatro.recursive_chain(func_list, delay, first_delay, index)
         delay = first_delay and delay*G.SETTINGS.GAMESPEED or 0,
         func = function()
             local new_delay = func_list[index]()
-            Sagatro.recursive_chain(func_list, new_delay or delay, false, index+1)
+            Sagatro.recursive_chain(func_list, new_delay or delay, true, index+1)
             return true
         end
     }))
