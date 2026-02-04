@@ -14466,6 +14466,9 @@ local harpae = {
             if context.before then
                 if context.scoring_name == card.ability.extra.poker_hand then
                     card.ability.immutable.obedience_count = card.ability.immutable.obedience_count + 1
+                    if card.ability.immutable.obedience_count >= 10 then
+                        G.GAME.shelved_chain = "sgt_harpae_ending"
+                    end
                     return {
                         message = localize("k_good_ex"),
                         colour = G.C.FILTER,

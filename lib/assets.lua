@@ -258,12 +258,19 @@ SMODS.Sound{
     key = "explosion",
     path = "explosion.ogg",
 }
+--#region Borrowed sfx from Pocket Mirror: GoldenerTraum
 
--- Borrowing from Pocket Mirror: GoldenerTraum
 SMODS.Sound{
     key = "fleta_tantrum",
     path = "VA_Fleta_tantrum_noise_2_RM.ogg",
 }
+
+SMODS.Sound{
+    key = "harpae_crying",
+    path = "VA_Harpae_Cry_3_RM.ogg",
+}
+
+--#endregion
 
 SMODS.Sound{
     key = "bell_score",

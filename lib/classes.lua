@@ -91,3 +91,44 @@ Sagatro.EventChain{
         end,
     },
 }
+
+Sagatro.EventChain{
+    key = "harpae_ending",
+    func_list = {
+        function()
+            local harpae = SMODS.find_card("j_sgt_harpae", true)[1]
+            if harpae then
+                if not harpae.ability.immutable.blindness then
+                    play_sound("sgt_harpae_crying", 1, 0.5)
+                    harpae:juice_up()
+                end
+                return (harpae.ability.immutable.bad_end or harpae.ability.immutable.blindness) and 0.8 or 2.5
+            end
+        end,
+        function()
+            local harpae = SMODS.find_card("j_sgt_harpae", true)[1]
+            if harpae and not (harpae.ability.immutable.bad_end or harpae.ability.immutable.blindness) then
+                play_sound('timpani')
+                SMODS.add_card{key = "j_sgt_moon_hairbrush"}
+                return 0.8
+            end
+            return 1.7
+        end,
+        function()
+            local harpae = SMODS.find_card("j_sgt_harpae", true)[1]
+            if harpae then
+                if harpae.ability.immutable.blindness then
+                    check_for_unlock{type = "pm_bad_end_2"}
+                    Sagatro.game_over("ph_eternal_blindness")
+                    return 0
+                end
+                harpae:shatter()
+            end
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if goldia then
+                goldia.ability.immutable.plot_armor = nil
+            end
+            Sagatro.progress_storyline("harpae_patience", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+        end,
+    },
+}

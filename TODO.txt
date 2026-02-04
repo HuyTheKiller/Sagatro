@@ -33,10 +33,10 @@ TO-DO:
     [X] Add Fleta's effect inside story mode
     [X] Hook Fleta's effects to story events
     [X] Add Fleta's effect outside story mode
-[] Add Harpae:
+[X] Add Harpae:
     [X] Add base Harpae (legendary)
     [X] Add Harpae's effect inside story mode
-    [] Hook Harpae's effects to story events
+    [X] Hook Harpae's effects to story events
     [X] Add Harpae's effect outside story mode
 [] Add Lisette:
     [X] Add base Lisette (legendary)
