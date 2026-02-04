@@ -1,4 +1,4 @@
-function Sagatro.recursive_chain(func_list, delay, first_delay, index)
+function Sagatro.recursive_chain(func_list, delay, use_delay, index)
     index = index or 1
     if index == 1 then
         G.CONTROLLER.locks.executing_chain = true
@@ -21,7 +21,7 @@ function Sagatro.recursive_chain(func_list, delay, first_delay, index)
     end
     G.E_MANAGER:add_event(Event({
         trigger = "after",
-        delay = first_delay and delay*G.SETTINGS.GAMESPEED or 0,
+        delay = use_delay and delay*G.SETTINGS.GAMESPEED or 0,
         func = function()
             local new_delay = func_list[index]()
             Sagatro.recursive_chain(func_list, new_delay or delay, true, index+1)
