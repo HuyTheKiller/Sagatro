@@ -564,6 +564,7 @@ local mirror = {
     name = "Mirror Card",
     effect = "Mirror",
     atlas = "misc",
+    artist_credits = {"huythekiller"},
     pos = {x = 4, y = 2},
     config = {
         x_mult = 1.5,
