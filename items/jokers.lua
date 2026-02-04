@@ -14513,7 +14513,7 @@ local harpae = {
     end,
     calculate = function(self, card, context)
         if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
-            if context.entering_shop then
+            if context.starting_shop then
                 card.ability.immutable.appeared = nil
             end
             if context.before then
