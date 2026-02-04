@@ -11,6 +11,7 @@ SAGA_GROUP_POOL = {
     celestaverse = "Celestaverse",
     alice_m = "Alice Through the Looking Glass",
     story_starter = "Story Starter",
+    pmirror = "Pocket Mirror",
 }
 
 for _, v in pairs(SAGA_GROUP_POOL) do
