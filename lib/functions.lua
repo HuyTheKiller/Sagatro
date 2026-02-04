@@ -1613,9 +1613,10 @@ table.size = table.size or function(table)
     return size
 end
 
----@param storyline_name string
----@param interwoven boolean|nil
----@param override boolean|nil
+---@param storyline_name string The storyline key. Must exist in `Sagatro.main_storyline_list`.
+---@param interwoven boolean? `true` if the storyline will be an interwoven one.
+---@param override boolean? Set to `true` to override the current storyline.
+--- Initialize a storyline, interwoven or not.
 function Sagatro.init_storyline(storyline_name, interwoven, override)
     if not G.GAME.story_mode then return end
     if table.contains(Sagatro.main_storyline_list, storyline_name) then
@@ -1631,10 +1632,11 @@ function Sagatro.init_storyline(storyline_name, interwoven, override)
     end
 end
 
----@param event_name string
----@param queue_mode "add"|"finish"|"force_add"|"force_finish"|"remove"
----@param storyline_name string
----@param interwoven string|nil
+---@param event_name string The event key.
+---@param queue_mode "add"|"finish"|"force_add"|"force_finish"|"remove" Which mode to use.
+---@param storyline_name string The storyline key, used to validate the event.
+---@param interwoven string? The interwoven storyline key, used to validate the event. It's recommended to simply pass `G.GAME.interwoven_storyline`.
+--- Progress a certain event, validated by current storyline.
 function Sagatro.progress_storyline(event_name, queue_mode, storyline_name, interwoven)
     if not G.GAME.story_mode then return end
     if storyline_name == G.GAME.current_storyline or storyline_name == interwoven then
@@ -1673,7 +1675,8 @@ function Sagatro.progress_storyline(event_name, queue_mode, storyline_name, inte
     end
 end
 
----@param storyline_name string
+---@param storyline_name string The storyline key.
+--- Check for the current storyline.
 function Sagatro.storyline_check(storyline_name)
     if not G.GAME.story_mode then return false end
     local table = {G.GAME.current_storyline, G.GAME.interwoven_storyline}
@@ -1683,10 +1686,10 @@ function Sagatro.storyline_check(storyline_name)
     return false
 end
 
----@param event_table string|table string or table of strings
----@param flag boolean|nil if `true` or `nil` (left empty), check if first element in queue matches string
----if `false`, check if queue doesn't contain string
----@param only_finished boolean|{contain: boolean}|nil only check for finished events
+---@param event_table string|string[] The event key or array of event keys.
+---@param flag boolean? If `true` or `nil` (left empty), check if first element in queue matches string. If `false`, check if queue doesn't contain string.
+---@param only_finished boolean|{contain: boolean}? Only check for finished events.
+--- Check for the current event in various ways.
 function Sagatro.event_check(event_table, flag, only_finished)
     if not G.GAME.story_mode then return false end
     if flag == nil then flag = true end
@@ -1846,8 +1849,9 @@ function Sagatro.necronomicon_get_weight(card)
     return weight
 end
 
----@param weight number|nil weight number to generate rarity from
----@param override string|nil forced rarity
+---@param weight number?
+---@param override string?
+--- Necronomicon's helper function to decide the rarity to be created based on weight.
 function Sagatro.necronomicon_get_rarity(weight, override)
     if not override then
         for _, v in ipairs(Sagatro.necronomicon.rarity_order) do
@@ -2096,8 +2100,10 @@ function Sagatro.random_destroy(used_tarot)
     return destroyed_cards
 end
 
----@param seed string
----@param count integer
+---@param seed string A unique string.
+---@param area table|CardArea The area to select from.
+---@param count integer Number of elements to be selected.
+--- Select a certain amount of random cards in an area.
 function Sagatro.random_select(seed, area, count)
     local temp_hand = {}
     local selected_cards = {}
@@ -2115,6 +2121,7 @@ end
 
 ---@param table table
 ---@param suit string
+--- Comb Jellyfish's helper function to scan suit keys from its table, taking wild cards into effect.
 function Sagatro.suit_scan(table, suit)
     local empty_original_suit = false
     for k, v in pairs(table) do
@@ -2138,6 +2145,7 @@ end
 ---@param amount integer
 ---@return boolean
 ---@return integer
+--- Comb Jellyfish's helper function to check for suit records in its table.
 function Sagatro.check_suit_record(table, amount)
     local count = 0
     for _, v in pairs(table) do
@@ -2302,9 +2310,10 @@ SMODS.Scoring_Calculation {
     text = '/',
 }
 
----@param card table|Card must be a card object
----@param args table|nil configurable arguments, supports `no_destruction_context`, `no_sound`, `sound`, `pitch` and `volume`
----@param extra_func function|nil extra function to execute
+---@param card table|Card The card to self-destruct.
+---@param args table? Configurable arguments, supports `no_destruction_context`, `no_sound`, `sound`, `pitch` and `volume`.
+---@param extra_func function? Extra function to execute.
+--- A customizable Gros-Michel-like self-destruct function.
 function Sagatro.self_destruct(card, args, extra_func)
     args = args or {}
     if not args.no_destruction_context then
@@ -3138,6 +3147,7 @@ function Sagatro.process_edible_fish(card, context)
 end
 
 ---@param weight_level 1|2|3|4
+--- Fish joker's helper function to decide the result weight based on eaten weight.
 function Sagatro.process_edible_weight(card, weight_level)
     local roll = pseudorandom("fish_eating_weight")
     local chosen_weight, chosen_type, options = nil, nil, {}
@@ -3363,6 +3373,7 @@ function Sagatro.global_set_cost(from_event)
 end
 
 ---@param card table|Card
+--- Retrieve the position of a card in its area.
 function Sagatro.get_pos(card)
     if card.area then
         for i, v in ipairs(card.area.cards) do
@@ -3452,6 +3463,7 @@ function Sagatro.stall_ante()
 end
 
 ---@param beta_vercode string
+--- Helper function to decide compatibility based on SMODS version.
 function Sagatro.backward_compat(beta_vercode)
     local _, i = SMODS.version:find("1.0.0~BETA")
     if i then
@@ -3487,7 +3499,8 @@ function Sagatro.handle_dissolve(card, dissolve, dissolve_time)
 end
 
 ---@param card table|Card
----@param dir "left"|"right"|nil
+---@param dir "left"|"right"?
+--- Move a card one space to the left or right in its area.
 function Sagatro.swap(card, dir)
     dir = dir or "right"
     if not card.area then return end
@@ -3506,12 +3519,13 @@ function Sagatro.swap(card, dir)
     end
 end
 
----@param cls SMODS.GameObject
----@param key string
----@param obj table
----@param silent boolean?
----@param from_mod Mod|table?
+---@param cls SMODS.GameObject The class to invoke `take_ownership` from.
+---@param key string Object key. Ignores class prefix (e.g. "splash" instead of "j_splash").
+---@param obj table Table of contents to modify the object with.
+---@param silent boolean? Set to `true` to remove mod badge.
+---@param from_mod Mod|table? The mod performing `take_ownership`. Defaults to this mod.
 ---@return string?
+--- Take control of a registered object at runtime. Proof-of-concept function.
 function Sagatro.runtime_ownership(cls, key, obj, silent, from_mod)
     assert(not obj.inject, 'Overriding "inject" field is not allowed.')
     SMODS.current_mod = from_mod or Sagatro
@@ -3643,6 +3657,7 @@ end
 
 ---@param action "save"|"load"|"delete"
 ---@param index integer
+--- Handle saving/loading from separate files.
 function Sagatro.handle_save(action, index)
     if action == "save" and G.GAME.story_mode then
         if G.STAGE == G.STAGES.RUN then
@@ -3707,6 +3722,7 @@ function Sagatro.set_goldia_stage(from, to)
 end
 
 ---@param defeating_agent string?
+--- Cause game over at an arbitrary time. Can specify a valid `localize`able string or a center key.
 function Sagatro.game_over(defeating_agent)
     if G.STAGE == G.STAGES.RUN and not G.GAME.game_over then
         G.GAME.defeating_agent = defeating_agent
@@ -3730,9 +3746,9 @@ function Sagatro.remove_temp_areas()
     end
 end
 
----@param mod number
----@param operator "+"|"X"|"^"|"^^"|"^^^"|{hyper: number}|nil
----@param arbitrary boolean|nil
+---@param mod number The modify amount.
+---@param operator "+"|"X"|"^"|"^^"|"^^^"|{hyper: number}? The operator to use. SUpports Talisman hyperoperations.
+---@param arbitrary boolean? Set to `true` to automatically end round when invoked at an arbitrary time.
 function Sagatro.modify_score(mod, operator, arbitrary)
     if not G.GAME.facing_blind then return end
     operator = operator or "+"
