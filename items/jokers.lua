@@ -4146,7 +4146,7 @@ local submarine = {
             ease_background_colour_blind(G.STATE)
         end
         if card.ability and self.discovered then
-            card.ability.anim_dt = card.ability.anim_dt + dt/G.SETTINGS.GAMESPEED/(Handy and Handy.speed_multiplier.value or 1)
+            card.ability.anim_dt = card.ability.anim_dt + dt/G.SPEEDFACTOR
             card.ability.anim_transition_path = card.ability.immutable.old_depth_level - card.ability.immutable.depth_level
             if card.ability.anim_dt > 0.125 then
                 card.ability.anim_dt = card.ability.anim_dt - 0.125
@@ -13708,7 +13708,7 @@ local goldia = {
         if G.STAGE == G.STAGES.RUN then
             if card.area and card.area == G.jokers then
                 if G.STATE == G.STATES.SELECTING_HAND and Sagatro.event_check("dull_glass") then
-                    card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SETTINGS.GAMESPEED
+                    card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
                     if card.ability.immutable.dt > (120*48/135) then
                         card.ability.immutable.dt = card.ability.immutable.dt - (120*48/135)
                         local lisette = SMODS.add_card{key = "j_sgt_lisette"}
@@ -14673,7 +14673,7 @@ local lisette = {
         if G.STAGE == G.STAGES.RUN then
             if card.area and card.area == G.jokers then
                 if Sagatro.event_check("lisette_chase") then
-                    card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SETTINGS.GAMESPEED
+                    card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
                     if card.ability.immutable.dt > (5/6) then
                         card.ability.immutable.dt = card.ability.immutable.dt - (5/6)
                         if not card.states.drag.is then
@@ -14705,7 +14705,7 @@ local lisette = {
                         end
                     end
                 elseif Sagatro.event_check("dull_glass") and not card.executing_ending then
-                    card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SETTINGS.GAMESPEED
+                    card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
                     if card.ability.immutable.dt > card.ability.immutable.random_interval then
                         card.ability.immutable.dt = card.ability.immutable.dt - card.ability.immutable.random_interval
                         card.ability.immutable.random_interval = (120*3*pseudorandom("lisette_interval", 1, 2)/135)
