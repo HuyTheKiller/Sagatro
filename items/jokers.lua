@@ -13633,7 +13633,9 @@ local goldia = {
                     for _, pos in ipairs(lisette_pos) do
                         if math.abs(Sagatro.get_pos(card) - pos) == 2 then
                             card.ability.immutable.tolerance_index = card.ability.immutable.tolerance_index + 1
-                            break
+                            return {
+                                message = localize("k_calm_down_ex"),
+                            }
                         end
                     end
                 end

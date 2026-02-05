@@ -4006,6 +4006,7 @@ return {
             k_caught_ex = "Caught!",
             k_good_ex = "Good!",
             k_down_ex = "Down!",
+            k_calm_down_ex = "Calm Down!",
             k_plus_divinatio = "+1 Divinatio",
             k_plus_celestara = "+1 Celestara",
             k_empty = "Empty",

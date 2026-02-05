@@ -4002,6 +4002,7 @@ return {
             k_caught_ex = "Bắt Được!",
             k_good_ex = "Tốt Lắm!",
             k_down_ex = "Gục!",
+            k_calm_down_ex = "Bình Tĩnh!",
             k_plus_divinatio = "+1 Chiêm Mộng",
             k_plus_celestara = "+1 Huyền Thể",
             k_empty = "Trống",
