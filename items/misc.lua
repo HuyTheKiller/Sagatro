@@ -575,6 +575,7 @@ local mirror = {
     override_base_rank = true,
     no_rank = true,
     no_suit = true,
+    shatters = true,
     always_scores = true,
     calculate = function(self, card, context)
         -- Yes, I'm intending for this enhancement to also work like a joker
