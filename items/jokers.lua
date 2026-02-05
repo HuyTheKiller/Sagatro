@@ -13640,8 +13640,8 @@ local goldia = {
             end
         end
         if card.ability.immutable.stage == 0 or card.ability.immutable.stage == "dawn" then
-            if (context.ante_change and context.ante_end
-            and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+            if context.ante_change and context.ante_end
+            and not context.blueprint and not context.retrigger_joker then
                 SMODS.scale_card(card, {
                     ref_table = card.ability.extra,
                     ref_value = "stage0_mult",
@@ -13654,6 +13654,17 @@ local goldia = {
                 return nil, true
             end
             if context.joker_main or context.forcetrigger then
+                if context.forcetrigger then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "stage0_mult",
+                        scalar_value = "stage0_mult_xmod",
+                        operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = initial * scaling
+                        end,
+                        no_message = true
+                    })
+                end
                 return {
                     mult = card.ability.extra.stage0_mult,
                 }
