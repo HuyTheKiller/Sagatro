@@ -13588,6 +13588,13 @@ local goldia = {
                     Sagatro.progress_storyline("mirror_maze", "finish", "pocket_mirror", G.GAME.inverwoven_storyline)
                     Sagatro.progress_storyline("lisette_chase", "add", "pocket_mirror", G.GAME.inverwoven_storyline)
                     card:add_sticker("pinned", true)
+                    local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
+                    if pmirror then
+                        pmirror:add_sticker("pinned", true)
+                        G.E_MANAGER:add_event(Event({func = function()
+                            pmirror.pinned = nil
+                        return true end }))
+                    end
                 end
                 if Sagatro.event_check("harpae_patience", nil, {contain = true})
                 and not Sagatro.event_check("dull_glass") then
