@@ -3107,6 +3107,21 @@ return {
                     "phía {C:attention}#1#{}*",
                 },
             },
+            j_sgt_enjel = {
+                name = "Enjel",
+                text = {
+                    "{C:chips}+#1#{} Chip",
+                    "{C:attention}X#2#{} giá trị Chip",
+                    "ở cuối Ante",
+                },
+            },
+            j_sgt_enjel_storymode = {
+                name = "Enjel",
+                text = {
+                    "Hiệu ứng chế độ",
+                    "cốt truyện WIP",
+                },
+            },
             j_sgt_rusty_scissors = {
                 name = "Kéo Rỉ Sét",
                 text = {

@@ -14797,6 +14797,77 @@ local lisette = {
  	end,
 }
 
+local enjel = {
+    key = "enjel",
+    name = "Enjel",
+    artist_credits = {"huycorn", "amy"},
+    atlas = "pocket_mirror",
+    saga_group = "pocket_mirror",
+    order = 125,
+    pools = { [SAGA_GROUP_POOL.pmirror] = true, [SAGA_GROUP_POOL.legend] = true },
+    pos = { x = 0, y = 3 },
+    soul_pos = { x = 2, y = 3, sgt_extra = { x = 1, y = 3, no_scale = true }, name_tag = { x = 3, y = 3 } },
+    config = {immutable = {}, extra = {chips = 50, chip_xmod = 2}, shatters_on_destroy = true},
+    rarity = 4,
+    cost = 20,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        card.ability.extra.chips =
+        card.ability.extra.chips*math.floor(2^(G.GAME.round_resets.ante + (G.GAME.ante_reduced or 0)))
+    end,
+    calculate = function(self, card, context)
+        if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
+        else
+            if context.ante_change and context.ante_end
+            and not context.blueprint and not context.retrigger_joker then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "chips",
+                    scalar_value = "chip_xmod",
+                    operation = function(ref_table, ref_value, initial, scaling)
+                        ref_table[ref_value] = initial * scaling
+                    end,
+                    no_message = true
+                })
+                return nil, true
+            end
+            if context.joker_main or context.forcetrigger then
+                if context.forcetrigger then
+                    SMODS.scale_card(card, {
+                        ref_table = card.ability.extra,
+                        ref_value = "chips",
+                        scalar_value = "chip_xmod",
+                        operation = function(ref_table, ref_value, initial, scaling)
+                            ref_table[ref_value] = initial * scaling
+                        end,
+                        no_message = true
+                    })
+                end
+                return {
+                    chip_mod = card.ability.extra.chips,
+				    message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
+                }
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {vars = {card.ability.extra.chips, card.ability.extra.chip_xmod}}
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            ret.key = self.key.."_storymode"
+        end
+        return ret
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
 local rusty_scissors = {
     key = "rusty_scissors",
     name = "Rusty Scissors",
@@ -17170,6 +17241,7 @@ local joker_table = {
     fleta,
     harpae,
     lisette,
+    enjel,
     knife_fork,
     rusty_scissors,
     hansels_cheat_dice,

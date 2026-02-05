@@ -3111,6 +3111,21 @@ return {
                     "at {C:attention}#1#{}*",
                 },
             },
+            j_sgt_enjel = {
+                name = "Enjel",
+                text = {
+                    "{C:chips}+#1#{} Chips",
+                    "{C:attention}X#2#{} Chip value",
+                    "at end of Ante",
+                },
+            },
+            j_sgt_enjel_storymode = {
+                name = "Enjel",
+                text = {
+                    "Story mode",
+                    "effect WIP",
+                },
+            },
             j_sgt_rusty_scissors = {
                 name = "Rusty Scissors",
                 text = {
