@@ -13619,7 +13619,7 @@ local goldia = {
                         return true end}))
                     end
                     if card.ability.immutable.tolerance_index >= 2 and not next(SMODS.find_card("m_sgt_mirror", true)) then
-                        SMODS.add_card{key = "m_sgt_mirror", area = G.jokers}
+                        SMODS.add_card{key = "m_sgt_mirror", area = G.jokers, edition = "e_holo"}
                     end
                 end
             end
