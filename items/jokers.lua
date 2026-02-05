@@ -13610,7 +13610,7 @@ local goldia = {
                             Sagatro.swap(lisette, "leftmost")
                         return true end}))
                     end
-                    if card.ability.immutable.tolerance_index > 0 and not next(SMODS.find_card("m_sgt_mirror", true)) then
+                    if card.ability.immutable.tolerance_index >= 2 and not next(SMODS.find_card("m_sgt_mirror", true)) then
                         SMODS.add_card{key = "m_sgt_mirror", area = G.jokers}
                     end
                 end
@@ -14939,7 +14939,7 @@ local rusty_scissors = {
         if G.GAME.story_mode then
             local goldia, is_tolerating, options = SMODS.find_card("j_sgt_goldia", true)[1], false, nil
             if goldia then
-                is_tolerating = goldia.ability.immutable.tolerance_index > 1
+                is_tolerating = goldia.ability.immutable.tolerance_index >= 4
                 options = {allow_duplicates = #SMODS.find_card("j_sgt_rusty_scissors", true) < 2}
             end
             return Sagatro.event_check("dull_glass") and is_tolerating, options
