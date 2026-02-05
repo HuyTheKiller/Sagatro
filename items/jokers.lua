@@ -14848,7 +14848,12 @@ local rusty_scissors = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.event_check("dull_glass"), {allow_duplicates = #SMODS.find_card("j_sgt_rusty_scissors", true) < 2}
+            local goldia, is_tolerating, options = SMODS.find_card("j_sgt_goldia", true)[1], false, nil
+            if goldia then
+                is_tolerating = goldia.ability.immutable.tolerance_index > 1
+                options = {allow_duplicates = #SMODS.find_card("j_sgt_rusty_scissors", true) < 2}
+            end
+            return Sagatro.event_check("dull_glass") and is_tolerating, options
         end
         return true
     end,
