@@ -3123,7 +3123,8 @@ return {
                 text = {
                     "Use like a consumable to",
                     "break the {C:attention}Mirror{} card",
-                    "to the right",
+                    "to the right when facing",
+                    "against {C:attention}Lisette{}",
                 },
             },
             j_sgt_shub = {

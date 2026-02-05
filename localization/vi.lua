@@ -3119,7 +3119,8 @@ return {
                 text = {
                     "Dùng như lá tiêu thụ",
                     "để phá huỷ lá {C:attention}Gương{}",
-                    "liền phải",
+                    "liền phải khi đối mặt",
+                    "với {C:attention}Lisette{}",
                 },
             },
             j_sgt_shub = {
