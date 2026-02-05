@@ -238,6 +238,7 @@ Sagatro.EventChain{
             if lisette then
                 lisette:shatter()
                 Sagatro.progress_storyline("dull_glass", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+                G.GAME.cleaning_up_mirror = true
                 G.E_MANAGER:add_event(Event({
                     trigger = 'ease',
                     blockable = false,

@@ -13579,6 +13579,21 @@ local goldia = {
                         ease_background_colour_blind(G.STATE)
                     return true end }))
                 end
+                if Sagatro.event_check("harpae_patience", nil, {contain = true})
+                and not Sagatro.event_check("dull_glass") then
+                    Sagatro.progress_storyline("dull_glass", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                    for _, v in ipairs(G.playing_cards) do
+                        v.ability.old_enh = v.config.center_key
+                        v.ability.old_edition = v.edition and v.edition.key or nil
+                        v.ability.old_seal = v.seal
+                        v:set_ability("m_sgt_mirror")
+                        if v.ability.old_edition then v:set_edition(nil, nil, true) end
+                        if v.ability.old_seal then v:set_seal(nil, true) end
+                    end
+                    G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
+                        ease_background_colour_blind(G.STATE)
+                    return true end }))
+                end
             end
             if context.first_hand_drawn then
                 if Sagatro.event_check("mirror_maze")
@@ -13595,13 +13610,6 @@ local goldia = {
                             pmirror.pinned = nil
                         return true end }))
                     end
-                end
-                if Sagatro.event_check("harpae_patience", nil, {contain = true})
-                and not Sagatro.event_check("dull_glass") then
-                    Sagatro.progress_storyline("dull_glass", "add", "pocket_mirror", G.GAME.interwoven_storyline)
-                    G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
-                        ease_background_colour_blind(G.STATE)
-                    return true end }))
                 end
                 if Sagatro.event_check("dull_glass") then
                     local lisette = SMODS.add_card{key = "j_sgt_lisette"}
@@ -14666,7 +14674,18 @@ local lisette = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
+        if G.GAME.story_mode then
+            if Sagatro.event_check("dull_glass") then
+                if context.repetition and context.cardarea == G.play then
+                    if SMODS.has_enhancement(context.other_card, "m_sgt_mirror") then
+                        return {
+                            message = localize("k_again_ex"),
+                            repetitions = 1,
+                            card = card,
+                        }
+                    end
+                end
+            end
         else
             if context.mod_probability and not context.blueprint then
                 if context.trigger_obj and Sagatro.omniscient(context.trigger_obj, {"m_glass", "m_sgt_nyx_glass"}) then

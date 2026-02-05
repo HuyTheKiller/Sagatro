@@ -670,18 +670,23 @@ local csb = G.FUNCS.can_skip_booster
 G.FUNCS.can_skip_booster = function(e)
     csb(e)
     if G.pack_cards and (not (G.GAME.STOP_USE and G.GAME.STOP_USE > 0)) and
-    (G.STATE == G.STATES.SMODS_BOOSTER_OPENED and SMODS.OPENED_BOOSTER.label:find("wish_primary")) then
-        if next(SMODS.find_card("j_sgt_lamp_genie", true)) then
-            local max_collected_wish = 0
-            for _, card in ipairs(G.jokers.cards) do
-                if card.config.center_key == "j_sgt_lamp_genie" and card.ability.collected_wish > max_collected_wish then
-                    max_collected_wish = card.ability.collected_wish
+    (G.STATE == G.STATES.SMODS_BOOSTER_OPENED) then
+        if SMODS.OPENED_BOOSTER.label:find("wish_primary") then
+            if next(SMODS.find_card("j_sgt_lamp_genie", true)) then
+                local max_collected_wish = 0
+                for _, card in ipairs(G.jokers.cards) do
+                    if card.config.center_key == "j_sgt_lamp_genie" and card.ability.collected_wish > max_collected_wish then
+                        max_collected_wish = card.ability.collected_wish
+                    end
+                end
+                if max_collected_wish < 2 then
+                    e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+                    e.config.button = nil
                 end
             end
-            if max_collected_wish < 2 then
-                e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-                e.config.button = nil
-            end
+        elseif SMODS.OPENED_BOOSTER.contains_pocket_mirror then
+            e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+            e.config.button = nil
         end
     end
 end

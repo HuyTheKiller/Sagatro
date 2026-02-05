@@ -1514,6 +1514,23 @@ function Blind:defeat(silent)
                 v:remove()
             end
         end
+        if G.GAME.cleaning_up_mirror then
+            G.GAME.cleaning_up_mirror = nil
+            for _, v in ipairs(G.playing_cards) do
+                if v.ability.old_enh then
+                    v:set_ability(v.ability.old_enh)
+                    v.ability.old_enh = nil
+                end
+                if v.ability.old_edition then
+                    v:set_edition(v.ability.old_edition, nil, true)
+                    v.ability.old_edition = nil
+                end
+                if v.ability.old_seal then
+                    v:set_seal(v.ability.old_seal, true)
+                    v.ability.old_seal = nil
+                end
+            end
+        end
     end
 	dft(self, silent)
 end
@@ -2490,8 +2507,11 @@ function Sagatro:calculate(context)
             for _, v in ipairs(G.shop_booster.cards) do
                 if v.ability.booster_pos == 1 then
                     if G.GAME.round == 1 then
-                        v:set_ability("p_buffoon_jumbo_1")
-                        Sagatro.resize(v)
+                        v.ability.extra = #G.P_CENTER_POOLS["Story Starter"]
+                        if Sagatro.storyline_check("pocket_mirror") then
+                            v.ability.extra = 1
+                            v.contains_pocket_mirror = true
+                        end
                         v.ability.couponed = true
                         v:set_cost()
                     end
