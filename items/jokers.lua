@@ -13603,7 +13603,7 @@ local goldia = {
                             Sagatro.swap(lisette, "leftmost")
                         return true end}))
                     end
-                    if not next(SMODS.find_card("m_sgt_mirror", true)) then
+                    if card.ability.immutable.tolerance_index > 0 and not next(SMODS.find_card("m_sgt_mirror", true)) then
                         SMODS.add_card{key = "m_sgt_mirror", area = G.jokers}
                     end
                 end
