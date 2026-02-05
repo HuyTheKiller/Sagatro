@@ -14870,6 +14870,7 @@ local rusty_scissors = {
         if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
             ret.key = self.key.."_storymode"
             info_queue[#info_queue] = G.P_CENTERS.m_sgt_mirror
+            info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_lisette
         end
         return ret
     end,
