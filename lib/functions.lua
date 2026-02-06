@@ -2530,6 +2530,17 @@ function Sagatro:calculate(context)
                 break
             end
         end
+        if context.ending_shop then
+            if Sagatro.event_check("the_pocket_mirror") then
+                return {
+                    func = function()
+                        play_sound('timpani')
+                        SMODS.add_card{key = "j_sgt_pocket_mirror"}
+                        return true
+                    end
+                }
+            end
+        end
         if context.setting_ability then
             Sagatro.update_inactive_state()
         end
