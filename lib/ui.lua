@@ -707,6 +707,25 @@ G.FUNCS.can_reroll = function(e)
     end
 end
 
+local shop_ui = G.UIDEF.shop
+function G.UIDEF.shop()
+    local ret = shop_ui()
+    local next_round_button = ret.nodes[1].nodes[1].nodes[1].nodes[1].nodes[1].nodes[1].nodes[1]
+    next_round_button.config.func = "can_toggle_shop"
+    return ret
+end
+
+G.FUNCS.can_toggle_shop = function(e)
+    -- might do something with this later
+    -- if block_condition then
+    --     e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+    --     e.config.button = nil
+    -- else
+    --     e.config.colour = G.C.RED
+    --     e.config.button = 'toggle_shop'
+    -- end
+end
+
 function create_UIBox_Sagatro(args)
     local mod = G.ACTIVE_MOD_UI
     if not SMODS.LAST_SELECTED_MOD_TAB then SMODS.LAST_SELECTED_MOD_TAB = "mod_desc" end
