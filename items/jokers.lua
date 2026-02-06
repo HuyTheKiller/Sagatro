@@ -14716,7 +14716,7 @@ local lisette = {
                                     and G.jokers.cards[Sagatro.get_pos(card)-1].config.center_key ~= "j_sgt_lisette" then
                                         Sagatro.swap(card, "left")
                                     end
-                                else
+                                elseif Sagatro.get_pos(card) < 4 then
                                     if G.jokers.cards[Sagatro.get_pos(card)+1]
                                     and not G.jokers.cards[Sagatro.get_pos(card)+1].states.drag.is
                                     and G.jokers.cards[Sagatro.get_pos(card)+1].config.center_key ~= "j_sgt_lisette" then
