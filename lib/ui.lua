@@ -585,10 +585,13 @@ G.FUNCS.goldia_transform = function(e)
         G.GAME.regalia_list = {}
         if #regalia_list == 4 then
             Sagatro.set_goldia_stage(0, "platinum")
+            check_for_unlock{type = "pm_normal_end_1"}
         elseif #regalia_list == 5 then
             Sagatro.set_goldia_stage(0, "dawn")
+            check_for_unlock{type = "pm_normal_end_2"}
         elseif #regalia_list == 6 then
             Sagatro.set_goldia_stage(0, "name_recalled")
+            check_for_unlock{type = "pm_normal_end_3"}
         else
             print("Wtf, how did you even get more than 6 regalias?")
         end
