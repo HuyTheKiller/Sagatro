@@ -14454,6 +14454,9 @@ local fleta = {
                 if context.before then
                     G.E_MANAGER:add_event(Event({func = function()
                         if card.ability.immutable.hands[context.scoring_name] then
+                            -- game over screen blocks the Notification box from appearing for some reason
+                            -- this notify_alert call serves as a scapegoat, allowing the real one to be on a proper queue
+                            notify_alert("ach_sgt_pm_bad_end_1")
                             check_for_unlock{type = "pm_bad_end_1"}
                             Sagatro.game_over("ph_losing_musical_chair")
                         end

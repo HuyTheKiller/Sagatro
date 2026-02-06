@@ -168,6 +168,9 @@ Sagatro.EventChain{
                     G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume or 50
                     Sagatro.temp_music_volume = nil
                     G:save_settings()
+                    -- game over screen blocks the Notification box from appearing for some reason
+                    -- this notify_alert call serves as a scapegoat, allowing the real one to be on a proper queue
+                    notify_alert("ach_sgt_pm_bad_end_2")
                     check_for_unlock{type = "pm_bad_end_2"}
                     Sagatro.game_over("ph_eternal_blindness")
                     return 0
