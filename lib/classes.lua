@@ -157,6 +157,7 @@ Sagatro.EventChain{
                             Sagatro.swap(harpae)
                         end
                     end
+                    ease_background_colour{new_colour = G.C.SUBMARINE_DEPTH[5], contrast = 1}
                 end
             end
             return 1.7
