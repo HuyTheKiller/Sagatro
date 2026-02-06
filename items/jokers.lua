@@ -14731,7 +14731,7 @@ local lisette = {
                                     end
                                 end
                             elseif Sagatro.get_pos(card) > 2 then
-                                if G.STATE ~= G.STATES.ROUND_EVAL then
+                                if G.STATE ~= G.STATES.ROUND_EVAL and G.STATE ~= G.STATES.NEW_ROUND then
                                     if G.jokers.cards[Sagatro.get_pos(card)-1]
                                     and not G.jokers.cards[Sagatro.get_pos(card)-1].states.drag.is
                                     and G.jokers.cards[Sagatro.get_pos(card)-1].config.center_key ~= "j_sgt_lisette" then
@@ -14749,7 +14749,7 @@ local lisette = {
                         card.ability.immutable.dt = card.ability.immutable.dt - card.ability.immutable.random_interval
                         card.ability.immutable.random_interval = (120*3*pseudorandom("lisette_interval", 1, 2)/135)
                         if not card.states.drag.is then
-                            if G.STATE ~= G.STATES.ROUND_EVAL then
+                            if G.STATE ~= G.STATES.ROUND_EVAL and G.STATE ~= G.STATES.NEW_ROUND then
                                 if math.abs(Sagatro.get_pos(card) - (Sagatro.get_pos(SMODS.find_card("j_sgt_goldia", true)[1] or {}) or 1)) > 1 then
                                     if Sagatro.get_pos(card) - (Sagatro.get_pos(SMODS.find_card("j_sgt_goldia", true)[1] or {}) or 1) > 0 then
                                         if G.jokers.cards[Sagatro.get_pos(card)-1]
