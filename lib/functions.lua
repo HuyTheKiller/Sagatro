@@ -2495,6 +2495,15 @@ function Sagatro:calculate(context)
             or card.config.center_key == "j_sgt_enjel" then
                 return {no_destroy = true}
             end
+            if Sagatro.event_check("goldia_transformation")
+            and (card.config.center_key == "j_sgt_pocket_mirror"
+            or card.config.center_key == "j_sgt_knife_fork"
+            or card.config.center_key == "j_sgt_rose_bell"
+            or card.config.center_key == "j_sgt_moon_hairbrush"
+            or card.config.center_key == "j_sgt_snow_scissors"
+            or card.config.center_key == "j_sgt_angel_scythe") then
+                return {no_destroy = true}
+            end
             if card.ability.set == "Joker" and not card.config.center.mirrorworld and G.GAME.inversed_scaling then
                 return {no_destroy = {override_compat = true}}
             end
