@@ -1150,7 +1150,7 @@ end
 
 local can_use_consumeable_ref = Card.can_use_consumeable
 function Card:can_use_consumeable(any_state, skip_check)
-    if (Sagatro.event_check("mirror_maze") or Sagatro.event_check("lisette_chase"))
+    if (Sagatro.event_check("mirror_maze") or Sagatro.event_check("lisette_chase") or Sagatro.event_check("dull_glass"))
     and (self.ability.consumeable.mod_conv or self.ability.consumeable.suit_conv) then
         return false
     end
