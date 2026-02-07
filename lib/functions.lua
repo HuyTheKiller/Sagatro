@@ -310,12 +310,12 @@ function Game:main_menu(change_context)
                 return true
         end)}))
     end
-    if not G.PROFILES[G.SETTINGS.profile].sgt_welcome or Sagatro.debug then
-        G.PROFILES[G.SETTINGS.profile].sgt_welcome = true
-        G.FUNCS.overlay_menu{
-            definition = create_UIBox_Sagatro_welcome(),
-        }
-    end
+    -- if not G.PROFILES[G.SETTINGS.profile].sgt_welcome --[[or Sagatro.debug]] then
+    --     G.PROFILES[G.SETTINGS.profile].sgt_welcome = true
+    --     G.FUNCS.overlay_menu{
+    --         definition = create_UIBox_Sagatro_welcome(),
+    --     }
+    -- end
 end
 
 -- Mouse and Pufferfish's conditional debuff mechanic
