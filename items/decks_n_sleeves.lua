@@ -7,7 +7,7 @@ local saga_deck = {
     config = {joker_slot = 3, extra = {win_ante_gain = 8}},
     apply = function(self, back)
 		G.GAME.win_ante = G.GAME.win_ante + self.config.extra.win_ante_gain
-        if Sagatro.config.DisableOtherJokers then
+        if Sagatro.config.DisableOtherJokers and G.SETTINGS.saga_tutorial_complete then
             local result = pseudorandom("saga_deck_mc_aura")
             if Sagatro.debug then
                 print(result)
@@ -140,7 +140,7 @@ if CardSleeves then
                 SMODS.change_booster_limit(self.config.extra.bonus_slots)
             else
                 G.GAME.win_ante = G.GAME.win_ante + self.config.extra.win_ante_gain
-                if Sagatro.config.DisableOtherJokers then
+                if Sagatro.config.DisableOtherJokers and G.SETTINGS.saga_tutorial_complete then
                     local result = pseudorandom("saga_sleeve_mc_aura")
                     if Sagatro.debug then
                         print(result)

@@ -3525,6 +3525,14 @@ return {
                     "{s:0.8}Lên lưng tôi nhé, tôi đưa cô mau.",
                 },
             },
+            lincoln_ship = {
+                text = {
+                    "Cuộc hành trình đẫm nước đã bắt đầu!",
+                    "Ra ngoài khơi chỉ là bước đầu thôi,",
+                    "chúng ta cần phải tìm một {C:sgt_sagadition}phương tiện",
+                    "thích hợp để xuống sâu hơn!",
+                },
+            },
             submarine = {
                 text = {
                     "Sinh Tồn Rougelike đến từ {C:sgt_sagadition}Sagatro{}!",
@@ -4155,6 +4163,80 @@ return {
                 "Chỉ một tiếng nổ,",
                 "mọi thứ đã thành",
                 "tro bụi.",
+            },
+        },
+        tutorial = {
+            sgt_sb_1 = {
+                "Chào anh/chị! Tên bé là {C:attention}Alice{},",
+                "bé ở đây để hướng dẫn",
+                "anh/chị những điều {C:attention}cơ bản{} về",
+                "trận {C:sgt_sagadition}Chế Độ Cốt Truyện{}!",
+            },
+            sgt_sb_2 = {
+                "Lúc này đây, anh/chị cũng đã quá",
+                "quen thuộc với {C:attention}Balatro{} rồi, nên",
+                "vào {C:blue}Small Blind{} luôn nhé!",
+            },
+            sgt_fh_1 = {
+                "Anh/chị có thấy gì khác biệt không?",
+            },
+            sgt_fh_2 = {
+                "Đúng rồi! Không còn Ante để thắng nữa!",
+                "Các trận {C:sgt_sagadition}Chế Độ Cốt Truyện{} yêu cầu",
+                "điều kiện cụ thể để chiến thắng.",
+            },
+            sgt_fh_3 = {
+                "Hãy đi mà đánh thắng ván này",
+                "như mọi khi, bé sẽ giải thích",
+                "thêm ở trong shop.",
+            },
+            sgt_s_1 = {
+                "Ờm, cái gì đây? Một",
+                "{C:attention}Gói Hề{} miễn phí à?",
+            },
+            sgt_s_2 = {
+                "Cũng không mất gì đâu nên",
+                "bé nghĩ là cứ mở đi nhỉ?",
+            },
+            sgt_s_3 = {
+                "Tuyệt vời! Vì anh/chị đã khởi động mạch",
+                "{C:sgt_sagadition}#1#{} rồi, các Joker",
+                "liên quan đến mạch đó có thể xuất hiện.",
+            },
+            sgt_s_4 = {
+                "Joker mạch truyện có thể có",
+                "{C:sgt_sagadition}gợi ý tiến triển{} được",
+                "đính kèm! Lia chuột lên để xem nhé!",
+            },
+            sgt_s_5 = {
+                "Ngoài nó ra thì Joker không thuộc",
+                "về mạch truyện cụ thể nào cũng có thể",
+                "giúp đỡ anh/chị khi cần thiết.",
+            },
+            sgt_s_6 = {
+                "À, còn có một tính năng mới bắt nguồn từ",
+                "một {C:sgt_sagadition}mạch truyện{} ẩn mà bé ít nhất cũng",
+                "muốn anh/chị biết. Mở Tuỳ Chọn để xem nó nhé!",
+            },
+            sgt_bp_1 = {
+                "Đây được gọi là các",
+                "Joker {C:attention}khởi đâu{}.",
+                "{s:0.8}(Cảm ơn {s:0.8,C:attention}Exattox{s:0.8} vì đã",
+                "{s:0.8}nghĩ ra thuật ngữ này)",
+            },
+            sgt_bp_2 = {
+                "Chọn một trong số chúng sẽ khởi động",
+                "một {C:sgt_sagadition}mạch truyện{}, sau đó anh/chị sẽ",
+                "phải bám theo {C:attention}cơ chế{} mạch truyện đó.",
+            },
+            sgt_bp_3 = {
+                "Giờ thì, anh/chị hãy chọn đi.",
+            },
+            sgt_bb_1 = {
+                "Làm tốt lắm thưa anh/chị! Đó là",
+                "toàn bộ những thứ cơ bản của trận",
+                "{C:sgt_sagadition}Chế Độ Cốt Truyện{}. Anh/chị giờ",
+                "có thể bắt đầu chuyến hành trình.",
             },
         },
     },

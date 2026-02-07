@@ -1235,3 +1235,45 @@ if G.GAME.shelved_chain then
 end
 '''
 match_indent = true
+
+# Tutorial patches
+[[patches]]
+[patches.regex]
+target = "functions/UI_definitions.lua"
+pattern = '''button = "options", '''
+position = "after"
+payload = '''id = "options_button", '''
+
+[[patches]]
+[patches.regex]
+target = "functions/UI_definitions.lua"
+pattern = '''not G.SETTINGS.tutorial_complete'''
+position = "at"
+payload = '''(not G.SETTINGS.tutorial_complete or (Sagatro.config.DisableOtherJokers and G.SETTINGS.tutorial_complete and not G.SETTINGS.saga_tutorial_complete))'''
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''self.GAME.selected_back_key = selected_back'''
+position = "after"
+payload = '''
+if Sagatro.config.DisableOtherJokers and G.SETTINGS.tutorial_complete and not G.SETTINGS.saga_tutorial_complete then
+    self.GAME.selected_back = Back(G.P_CENTERS.b_sgt_saga)
+    self.GAME.selected_back_key = "b_sgt_saga"
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "engine/ui.lua"
+pattern = '''G.FUNCS.tut_next()'''
+position = "at"
+payload = '''
+if G.GAME.story_mode and G.SETTINGS.tutorial_complete and not G.SETTINGS.saga_tutorial_complete then
+    G.FUNCS.saga_tut_next()
+else
+    G.FUNCS.tut_next()
+end
+'''
+match_indent = true

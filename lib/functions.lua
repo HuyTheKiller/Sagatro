@@ -466,6 +466,14 @@ function CardArea:temp_load(cardAreaTable, joker_size)
     self:hard_set_cards()
 end
 
+local add_to_highlighted_ref = CardArea.add_to_highlighted
+function CardArea:add_to_highlighted(card, silent)
+    if SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.story_starter and G.OVERLAY_TUTORIAL then
+        return
+    end
+    return add_to_highlighted_ref(self, card, silent)
+end
+
 -- Handle edible state of target fish - courtesy of stickers
 -- Also handle fusion buttons
 local card_update_ref = Card.update
@@ -669,6 +677,12 @@ Sagatro.timer = {
 local upd = Game.update
 function Game:update(dt)
 	upd(self, dt)
+    if not G.SETTINGS.tutorial_complete then
+        Sagatro.config.DisableOtherJokers = false
+    end
+    if G.SETTINGS.tutorial_complete and not G.SETTINGS.saga_tutorial_complete then
+        G.FUNCS.saga_tutorial_controller()
+    end
     if not Sagatro.STATE then
         Sagatro.STATE = G.STATE
         Sagatro.debug_info["Game state"] = "MENU"
@@ -2516,6 +2530,7 @@ function Sagatro:calculate(context)
             for _, v in ipairs(G.shop_booster.cards) do
                 if v.ability.booster_pos == 1 then
                     if G.GAME.round == 1 then
+                        v.story_starter = true
                         v.ability.extra = #G.P_CENTER_POOLS["Story Starter"]
                         if Sagatro.storyline_check("pocket_mirror") then
                             v.ability.extra = 1

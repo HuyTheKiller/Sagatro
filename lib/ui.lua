@@ -687,11 +687,37 @@ G.FUNCS.can_skip_booster = function(e)
                     e.config.button = nil
                 end
             end
-        elseif SMODS.OPENED_BOOSTER.contains_pocket_mirror then
+        elseif SMODS.OPENED_BOOSTER.contains_pocket_mirror
+        or (SMODS.OPENED_BOOSTER.story_starter and G.SETTINGS.saga_tutorial_progress
+        and G.SETTINGS.saga_tutorial_progress.section == "booster") then
             e.config.colour = G.C.UI.BACKGROUND_INACTIVE
             e.config.button = nil
         end
     end
+end
+
+local can_select_from_booster_ref = G.FUNCS.can_select_from_booster
+G.FUNCS.can_select_from_booster = function(e)
+    can_select_from_booster_ref(e)
+    if SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.story_starter and G.SETTINGS.saga_tutorial_progress
+    and G.SETTINGS.saga_tutorial_progress.section == "booster" then
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+end
+
+local ccfs = create_card_for_shop
+function create_card_for_shop(area)
+    if area == G.shop_jokers and G.SETTINGS.saga_tutorial_progress and G.SETTINGS.saga_tutorial_progress.forced_shop and G.SETTINGS.saga_tutorial_progress.forced_shop[#G.SETTINGS.saga_tutorial_progress.forced_shop] then
+        local t = G.SETTINGS.saga_tutorial_progress.forced_shop
+        local _center = G.P_CENTERS[t[#t]] or G.P_CENTERS.c_empress
+        local card = Card(area.T.x + area.T.w/2, area.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, _center, {bypass_discovery_center = true, bypass_discovery_ui = true})
+        t[#t] = nil
+        if not t[1] then G.SETTINGS.saga_tutorial_progress.forced_shop = nil end    
+        create_shop_card_ui(card)
+        return card
+    end
+    return ccfs(area)
 end
 
 -- Block shop reroll if Submarine is at low fuel
@@ -719,14 +745,14 @@ function G.UIDEF.shop()
 end
 
 G.FUNCS.can_toggle_shop = function(e)
-    -- might do something with this later
-    -- if block_condition then
-    --     e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-    --     e.config.button = nil
-    -- else
-    --     e.config.colour = G.C.RED
-    --     e.config.button = 'toggle_shop'
-    -- end
+    if not G.SETTINGS.saga_tutorial_complete and G.SETTINGS.saga_tutorial_progress
+    and not G.SETTINGS.saga_tutorial_progress.completed_parts['shop_2'] then
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    else
+        e.config.colour = G.C.RED
+        e.config.button = 'toggle_shop'
+    end
 end
 
 function create_UIBox_Sagatro(args)

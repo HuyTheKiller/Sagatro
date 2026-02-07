@@ -3529,6 +3529,14 @@ return {
                     "{s:0.8}Hop on my back - I'll give you a ride.\"",
                 },
             },
+            lincoln_ship = {
+                text = {
+                    "The water journey has begun!",
+                    "Going off-shore is only the",
+                    "first part, we must find the",
+                    "suitable {C:sgt_sagadition}vehicle{} to go deeper!",
+                },
+            },
             submarine = {
                 text = {
                     "Survival Rougelike from {C:sgt_sagadition}Sagatro{}!",
@@ -4159,6 +4167,79 @@ return {
                 "With just one explosion,",
                 "everything was reduced",
                 "to ashes.",
+            },
+        },
+        tutorial = {
+            sgt_sb_1 = {
+                "Hello there! My name is",
+                "{C:attention}Alice{}, I'm here to guide",
+                "you through the {C:attention}basics",
+                "of a {C:sgt_sagadition}Story Mode{} run!",
+            },
+            sgt_sb_2 = {
+                "At this point, you have already",
+                "been familiar with {C:attention}Balatro{}, so",
+                "let's jump into {C:blue}Small Blind{}!",
+            },
+            sgt_fh_1 = {
+                "Notice anything different?",
+            },
+            sgt_fh_2 = {
+                "That right! Win Ante is no more!",
+                "{C:sgt_sagadition}Story Mode{} runs require",
+                "specific conditions to win instead.",
+            },
+            sgt_fh_3 = {
+                "Just go and win this round as",
+                "you normally do, I'll explain",
+                "more in the shop.",
+            },
+            sgt_s_1 = {
+                "Uh, what's this? A",
+                "free {C:attention}Buffoon Pack{}?",
+            },
+            sgt_s_2 = {
+                "It wouldn't hurt to",
+                "open it anyway, right?",
+            },
+            sgt_s_3 = {
+                "Great! Now that you have started",
+                "{C:sgt_sagadition}#1#{}, Jokers",
+                "related to it may now appear.",
+            },
+            sgt_s_4 = {
+                "Storyline Jokers can have a",
+                "{C:sgt_sagadition}hint to progress{} attached",
+                "to it! Hover over to see!",
+            },
+            sgt_s_5 = {
+                "In addition to that, Jokers not",
+                "belonging to a particular storyline",
+                "can also aid you when needed.",
+            },
+            sgt_s_6 = {
+                "Oh, and there's a new feature derived",
+                "from a secret {C:sgt_sagadition}storyline{} that I at least",
+                "want you to know. Open Options to see it!",
+            },
+            sgt_bp_1 = {
+                "These are called",
+                "{C:attention}starter{} Jokers.",
+                "{s:0.8}(Thank you {s:0.8,C:attention}Exattox{s:0.8} for",
+                "{s:0.8}making up that term)",
+            },
+            sgt_bp_2 = {
+                "Picking one of them up initializes",
+                "a {C:sgt_sagadition}storyline{}, after which you're bound",
+                "to follow that storyline's {C:attention}mechanic{}.",
+            },
+            sgt_bp_3 = {
+                "Now, choose your path.",
+            },
+            sgt_bb_1 = {
+                "Good job! That's all the basics",
+                "of a {C:sgt_sagadition}Story Mode{} run.",
+                "You may now begin your journey.",
             },
         },
     },

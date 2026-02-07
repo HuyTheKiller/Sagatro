@@ -4001,6 +4001,9 @@ local lincoln_ship = {
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS["j_splash"]
+        if Sagatro.storyline_check(self.saga_group) and not next(SMODS.find_card("j_sgt_submarine", true)) then
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "lincoln_ship"}
+        end
         if Sagatro.storyline_check("none") or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
             specific_vars = {localize('ph_20k'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
