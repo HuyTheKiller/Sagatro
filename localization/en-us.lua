@@ -4185,7 +4185,7 @@ return {
                 "Notice anything different?",
             },
             sgt_fh_2 = {
-                "That right! Win Ante is no more!",
+                "That's right! Win Ante is no more!",
                 "{C:sgt_sagadition}Story Mode{} runs require",
                 "specific conditions to win instead.",
             },
