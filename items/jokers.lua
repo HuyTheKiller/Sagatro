@@ -13621,17 +13621,19 @@ local goldia = {
             end
             if context.end_of_round then
                 if not context.game_over and context.main_eval then
-                    card.ability.immutable.tolerance_index = card.ability.immutable.tolerance_index or 0
-                    local lisette_pos = {}
-                    for _, lisette in ipairs(SMODS.find_card("j_sgt_lisette", true)) do
-                        table.insert(lisette_pos, Sagatro.get_pos(lisette))
-                    end
-                    for _, pos in ipairs(lisette_pos) do
-                        if math.abs(Sagatro.get_pos(card) - pos) == 2 then
-                            card.ability.immutable.tolerance_index = card.ability.immutable.tolerance_index + 1
-                            return {
-                                message = localize("k_calm_down_ex"),
-                            }
+                    if Sagatro.event_check("dull_glass") then
+                        card.ability.immutable.tolerance_index = card.ability.immutable.tolerance_index or 0
+                        local lisette_pos = {}
+                        for _, lisette in ipairs(SMODS.find_card("j_sgt_lisette", true)) do
+                            table.insert(lisette_pos, Sagatro.get_pos(lisette))
+                        end
+                        for _, pos in ipairs(lisette_pos) do
+                            if math.abs(Sagatro.get_pos(card) - pos) == 2 then
+                                card.ability.immutable.tolerance_index = card.ability.immutable.tolerance_index + 1
+                                return {
+                                    message = localize("k_calm_down_ex"),
+                                }
+                            end
                         end
                     end
                 end
