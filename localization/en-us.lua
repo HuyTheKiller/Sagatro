@@ -3851,9 +3851,9 @@ return {
         achievement_descriptions = {
             ach_sgt_pm_bad_end_1 = "Lose Fleta's third challenge",
             ach_sgt_pm_bad_end_2 = "Play perfectly as Harpae said",
-            ach_sgt_pm_normal_end_1 = "Transform Goldia using 4 regalias",
-            ach_sgt_pm_normal_end_2 = "Transform Goldia using 5 regalias",
-            ach_sgt_pm_normal_end_3 = "Transform Goldia using 6 regalias",
+            ach_sgt_pm_normal_end_1 = "Transform ?????? using 4 regalias",
+            ach_sgt_pm_normal_end_2 = "Transform ?????? using 5 regalias",
+            ach_sgt_pm_normal_end_3 = "Transform ?????? using 6 regalias",
             ach_sgt_pm_unknown_end_1 = "Fail to get more than 2 regalias",
             ach_sgt_pm_unknown_end_2 = "Fail to get more than 3 regalias",
         },
