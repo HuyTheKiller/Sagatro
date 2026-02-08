@@ -860,6 +860,16 @@ return {
                     "{C:inactive}({C:attention}#2#{C:inactive}/#1#)",
                 },
             },
+            sgt_play_pocket_mirror = {
+                name = "Pocket Mirror",
+                text = {
+                    "This secret storyline is",
+                    "how we show respect towards",
+                    "{C:attention}Pocket Mirror ~ GoldenerTraum{}",
+                    "Play the game on Steam:",
+                    "{s:0.8,C:blue,u:blue}store.steampowered.com/app/1899060/",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {

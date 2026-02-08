@@ -13758,6 +13758,9 @@ local goldia = {
             specific_vars = {localize('ph_pmirror'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
         end
         local ret = {vars = {card.ability.extra.stage0_mult, card.ability.extra.stage0_mult_xmod}}
+        if card.area and card.area ~= Sagatro.temp_areas.jokers and card.area.config.type == "title" then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_play_pocket_mirror"}
+        end
         if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
             ret.key = self.key.."_stage_"..card.ability.immutable.stage
             if card.ability.immutable.stage == 0 or card.ability.immutable.stage == "dawn" then

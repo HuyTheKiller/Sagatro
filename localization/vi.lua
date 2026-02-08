@@ -859,6 +859,16 @@ return {
                     "{C:inactive}({C:attention}#2#{C:inactive}/#1#)",
                 },
             },
+            sgt_play_pocket_mirror = {
+                name = "Pocket Mirror",
+                text = {
+                    "Mạch truyện ẩn này là cách",
+                    "chúng tôi tôn trọng nguyên tác",
+                    "{C:attention}Pocket Mirror ~ GoldenerTraum{}",
+                    "Chơi game này trên Steam:",
+                    "{s:0.8,C:blue,u:blue}store.steampowered.com/app/1899060/",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
