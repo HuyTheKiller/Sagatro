@@ -258,7 +258,7 @@ SMODS.Sound{
     key = "explosion",
     path = "explosion.ogg",
 }
---#region Borrowed sfx from Pocket Mirror: GoldenerTraum
+--#region Borrowed sfx from Pocket Mirror ~ GoldenerTraum
 
 SMODS.Sound{
     key = "fleta_tantrum",
@@ -302,7 +302,7 @@ SMODS.Sound{
     key = "music_sagatro_story_mode_boss",
     path = "music_sagatro_story_mode_boss.ogg",
     select_music_track = function()
-        return G.GAME.blind and G.GAME.blind.boss and (Sagatro.config.SagatroMusic) and 10
+        return G.GAME.blind and G.GAME.blind.boss and (Sagatro.config.SagatroMusicOption < 3) and 10
 	end,
 }
 
@@ -310,7 +310,7 @@ SMODS.Sound{
     key = "music_sagatro_story_mode_shop",
     path = "music_sagatro_story_mode_shop.ogg",
     select_music_track = function()
-        return G.shop and not G.shop.REMOVED and (Sagatro.config.SagatroMusic) and 10
+        return G.shop and not G.shop.REMOVED and (Sagatro.config.SagatroMusicOption < 3) and 10
 	end,
 }
 
@@ -318,7 +318,7 @@ SMODS.Sound{
     key = "music_sagatro_story_mode_meteor",
     path = "music_sagatro_story_mode_meteor.ogg",
     select_music_track = function()
-        return G.booster_pack_meteors and not G.booster_pack_meteors.REMOVED and (Sagatro.config.SagatroMusic) and 100
+        return G.booster_pack_meteors and not G.booster_pack_meteors.REMOVED and (Sagatro.config.SagatroMusicOption < 3) and 100
 	end,
 }
 
@@ -326,7 +326,7 @@ SMODS.Sound{
     key = "music_sagatro_story_mode_sparkle",
     path = "music_sagatro_story_mode_sparkle.ogg",
     select_music_track = function()
-        return G.booster_pack and not G.booster_pack.REMOVED and (Sagatro.config.SagatroMusic) and 100
+        return G.booster_pack and not G.booster_pack.REMOVED and (Sagatro.config.SagatroMusicOption < 3) and 100
 	end,
 }
 
@@ -334,7 +334,7 @@ SMODS.Sound{
     key = "music_sagatro_story_mode",
     path = "music_sagatro_story_mode.ogg",
     select_music_track = function()
-        return G.STATE ~= G.STATES.MENU and (Sagatro.config.SagatroMusic)
+        return G.STATE ~= G.STATES.MENU and (Sagatro.config.SagatroMusicOption < 3)
 	end,
 }
 
@@ -355,7 +355,7 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return (G.GAME.story_mode and next(SMODS.find_card("j_sgt_goldia", true))) and (Sagatro.config.SagatroMusic) and 250
+		return (G.GAME.story_mode and next(SMODS.find_card("j_sgt_goldia", true))) and (Sagatro.config.SagatroMusicOption < 2) and 250
 	end,
 }
 
@@ -366,7 +366,7 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return (Sagatro.event_check("pm_mirrorworld") or Sagatro.event_check("conditional_game_over")) and (Sagatro.config.SagatroMusic) and 1000
+		return Sagatro.storyline_check("pocket_mirror") and (Sagatro.event_check("pm_mirrorworld") or Sagatro.event_check("conditional_game_over")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
 	end,
 }
 
@@ -377,7 +377,7 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return (Sagatro.event_check("fleta_challenges")) and (Sagatro.config.SagatroMusic) and 1000
+		return (Sagatro.event_check("fleta_challenges")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
 	end,
 }
 
@@ -388,7 +388,7 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return (Sagatro.event_check("harpae_patience")) and (Sagatro.config.SagatroMusic) and 1000
+		return (Sagatro.event_check("harpae_patience")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
 	end,
 }
 
@@ -399,7 +399,7 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return (Sagatro.event_check("mirror_maze") or Sagatro.event_check("dull_glass")) and (Sagatro.config.SagatroMusic) and 1000
+		return (Sagatro.event_check("mirror_maze") or Sagatro.event_check("dull_glass")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
 	end,
 }
 
@@ -410,6 +410,6 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return Sagatro.event_check("lisette_chase") and (Sagatro.config.SagatroMusic) and 1000
+		return Sagatro.event_check("lisette_chase") and (Sagatro.config.SagatroMusicOption < 2) and 1000
 	end,
 }
