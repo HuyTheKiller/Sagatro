@@ -1229,12 +1229,20 @@ target = "game.lua"
 pattern = '''G.STATE = G.STATES.NEW_ROUND'''
 position = "after"
 payload = '''
+G.GAME.current_round.force_end_round = nil
 if G.GAME.shelved_chain then
     Sagatro.execute_chain(G.GAME.shelved_chain)
     G.GAME.shelved_chain = nil
 end
 '''
 match_indent = true
+
+[[patches]]
+[patches.regex]
+target = "game.lua"
+pattern = '''G\.GAME\.current_round\.hands_left < 1 '''
+position = "after"
+payload = '''or G.GAME.current_round.force_end_round '''
 
 # Tutorial patches
 [[patches]]
