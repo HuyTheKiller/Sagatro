@@ -713,7 +713,7 @@ function create_card_for_shop(area)
         local _center = G.P_CENTERS[t[#t]] or G.P_CENTERS.c_empress
         local card = Card(area.T.x + area.T.w/2, area.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, _center, {bypass_discovery_center = true, bypass_discovery_ui = true})
         t[#t] = nil
-        if not t[1] then G.SETTINGS.saga_tutorial_progress.forced_shop = nil end    
+        if not t[1] then G.SETTINGS.saga_tutorial_progress.forced_shop = nil end
         create_shop_card_ui(card)
         return card
     end
