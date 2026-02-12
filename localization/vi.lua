@@ -779,7 +779,7 @@ return {
                 text = {
                     "Phải ở bên",
                     "cạnh {C:attention}#1#{}",
-                    "Khi {C:attention}Blind{}",
+                    "khi {C:attention}Blind{}",
                     "được chọn và",
                     "ở cuối ván",
                 },

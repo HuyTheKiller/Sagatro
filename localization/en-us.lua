@@ -780,7 +780,7 @@ return {
                 text = {
                     "Must be by",
                     "{C:attention}#1#{}'s side",
-                    "When {C:attention}Blind{}",
+                    "when {C:attention}Blind{}",
                     "is selected and",
                     "at end of round",
                 },
