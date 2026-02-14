@@ -1186,7 +1186,7 @@ local savebox = nil
 
 if G.STAGE == G.STAGES.RUN then
   restart = UIBox_button{id = 'restart_button', label = {localize('b_start_new_run')}, button = "setup_run", minw = 5}
-  savebox = UIBox_button{id = 'savebox_button', label = {localize('b_savebox')}, button = "saveload_list", minw = 5}
+  savebox = UIBox_button{id = 'savebox_button', label = {localize('b_savebox')}, button = "saveload_list", minw = 5, colour = Sagatro.badge_colour}
 '''
 match_indent = true
 
