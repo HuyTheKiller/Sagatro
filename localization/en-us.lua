@@ -3401,6 +3401,21 @@ return {
                     "No rank or suit",
                 },
             },
+            m_sgt_pm_door = {
+                name = "Mystery Door",
+                text = {
+                    "Play one door at a time,",
+                    "in the correct order to",
+                    "solve the puzzle",
+                },
+            },
+            m_sgt_pm_door_not_cool = {
+                name = "Mystery Door",
+                text = {
+                    "HEY! What are you doing here?",
+                    "This door isn't initialized properly.",
+                },
+            },
         },
         ["Saga Tooltip"] = {
             fusion_hint = {

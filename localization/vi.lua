@@ -3397,6 +3397,21 @@ return {
                     "Không có bậc hay chất",
                 },
             },
+            m_sgt_pm_door = {
+                name = "Cửa Bí Ẩn",
+                text = {
+                    "Chơi một cửa mỗi lần",
+                    "theo đúng thứ tự để",
+                    "giải câu đố",
+                },
+            },
+            m_sgt_pm_door_not_cool = {
+                name = "Cửa Bí Ẩn",
+                text = {
+                    "Ê! Đang làm quái gì ở đây thế?",
+                    "Cửa này chưa được khởi tạo đúng cách.",
+                },
+            },
         },
         ["Saga Tooltip"] = {
             fusion_hint = {

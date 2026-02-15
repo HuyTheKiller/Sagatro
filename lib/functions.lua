@@ -2400,6 +2400,7 @@ function Sagatro.set_ability_reset_keys()
         "inactive",
         "shatters_on_destroy",
         "hide_name_tag",
+        "door_colour",
     }
 end
 

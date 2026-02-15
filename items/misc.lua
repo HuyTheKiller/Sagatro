@@ -593,9 +593,50 @@ local mirror = {
     end,
 }
 
+local door = {
+    key = "pm_door",
+    name = "Mystery Door",
+    effect = "PM Puzzle",
+    atlas = "misc",
+    artist_credits = {"huycorn"},
+    pos = {x = 0, y = 2},
+    no_collection = true,
+    replace_base_card = true,
+    override_base_rank = true,
+    no_rank = true,
+    no_suit = true,
+    always_scores = true,
+    update = function(self, card, dt)
+        if card.ability and self.discovered then
+            if card.ability.door_colour == "yellow" then
+                card.children.center:set_sprite_pos{x = 0, y = 2}
+            elseif card.ability.door_colour == "red" then
+                card.children.center:set_sprite_pos{x = 1, y = 2}
+            elseif card.ability.door_colour == "green" then
+                card.children.center:set_sprite_pos{x = 2, y = 2}
+            elseif card.ability.door_colour == "blue" then
+                card.children.center:set_sprite_pos{x = 3, y = 2}
+            else
+                card.children.center:set_sprite_pos{x = 0, y = 2}
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return false
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {}
+        if not card.ability.door_colour then
+            ret.key = "m_sgt_pm_door_not_cool"
+        end
+        return ret
+    end,
+}
+
 local enhancement_table = {
     omniscient,
     mirror,
+    door,
 }
 
 for _, v in ipairs(enhancement_table) do
