@@ -15,10 +15,12 @@ Sagatro.EventChain = setmetatable({}, {
 Sagatro.EventChains = {}
 
 ---@param key string
---- Execute a registered event chain.
+--- Execute a registered event chain.\
 --- Invoke directly to perform at an arbitrary time.
 --- Otherwise, set `G.GAME.shelved_chain` to `key` to automatically
 --- invoke at end of round, before all other end-of-round calculations.
+--- Or, set `G.GAME.shelved_chain_hdrawn` to `key` to automatically
+--- invoke after hand is drawn during a blind.
 function Sagatro.execute_chain(key) end
 
 ---@param func_list (fun(): number?)[] An array of functions that may return the delay value.

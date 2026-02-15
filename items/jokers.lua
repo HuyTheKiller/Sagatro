@@ -13597,6 +13597,10 @@ local goldia = {
                         ease_background_colour_blind(G.STATE)
                     return true end }))
                 end
+                if Sagatro.event_check("door_puzzle") and not G.GAME.door_puzzle_active then
+                    G.GAME.door_puzzle_active = true
+                    G.GAME.shelved_chain_hdrawn = "sgt_door_puzzle_prep"
+                end
             end
             if context.first_hand_drawn then
                 if Sagatro.event_check("mirror_maze")
@@ -13616,6 +13620,29 @@ local goldia = {
                     end
                     if card.ability.immutable.tolerance_index >= 2 and not next(SMODS.find_card("m_sgt_mirror", true)) then
                         SMODS.add_card{key = "m_sgt_mirror", area = G.jokers, edition = "e_holo"}
+                    end
+                end
+            end
+            if context.sgt_draw_from_play and Sagatro.event_check("door_puzzle") and G.GAME.door_puzzle_active then
+                if SMODS.has_enhancement(context.other_card, "m_sgt_pm_door") then
+                    return {
+                        sgt_draw_card = {
+                            to = G.hand,
+                            dir = "up",
+                        }
+                    }
+                end
+            end
+            if context.before then
+                if Sagatro.event_check("door_puzzle") and G.GAME.door_puzzle_active then
+                    local i = G.GAME.current_round.hands_played + 1
+                    G.GAME.door_completed[i] = context.scoring_hand[1].ability.door_colour
+                    if G.GAME.door_order[i] ~= G.GAME.door_completed[i] then
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.game_over("ph_dead_end_door")
+                        return true end}))
+                    elseif G.GAME.current_round.hands_left == 0 then
+                        card.ability.immutable.plot_armor = true
                     end
                 end
             end
@@ -13640,6 +13667,15 @@ local goldia = {
                 if not context.individual and not context.repetition
                 and context.game_over then
                     if card.ability.immutable.plot_armor then
+                        if Sagatro.event_check("door_puzzle") and G.GAME.door_puzzle_active then
+                            G.GAME.door_puzzle_active = nil
+                            Sagatro.progress_storyline("door_puzzle", "finish", self.saga_group, G.GAME.interwoven_storyline)
+                            SMODS.destroy_cards(G.hand.cards, nil, true)
+                            SMODS.change_play_limit((G.GAME.old_play_limit or 5) - 1)
+                            card.ability.immutable.plot_armor = nil
+                            G.GAME.solving_door_puzzle = nil
+                            G.GAME.old_play_limit = nil
+                        end
                         return {
                             saved = "ph_plot_armor",
                         }
@@ -13673,9 +13709,9 @@ local goldia = {
                         no_message = true
                     })
                 end
-                return {
+                return not G.GAME.door_puzzle_active and {
                     mult = card.ability.extra.stage0_mult,
-                }
+                } or nil
             end
         elseif card.ability.immutable.stage == "name_recalled" then
             if context.repetition and context.cardarea == G.play then

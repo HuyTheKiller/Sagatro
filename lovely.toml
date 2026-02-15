@@ -1238,6 +1238,19 @@ end
 match_indent = true
 
 [[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''G.STATE = G.STATES.SELECTING_HAND'''
+position = "after"
+payload = '''
+if G.GAME.shelved_chain_hdrawn then
+    Sagatro.execute_chain(G.GAME.shelved_chain_hdrawn)
+    G.GAME.shelved_chain_hdrawn = nil
+end
+'''
+match_indent = true
+
+[[patches]]
 [patches.regex]
 target = "game.lua"
 pattern = '''G\.GAME\.current_round\.hands_left < 1 '''

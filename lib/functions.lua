@@ -1129,6 +1129,10 @@ function Card:can_calculate(ignore_debuff, ignore_sliced)
             end
         end
     end
+    if Sagatro.event_check("door_puzzle") and G.GAME.door_puzzle_active
+    and self.ability.set == "Joker" and self.config.center_key ~= "j_sgt_goldia" then
+        return false
+    end
     return is_available
 end
 
@@ -3572,6 +3576,27 @@ function Sagatro.handle_dissolve(card, dissolve, dissolve_time)
     }))
 end
 
+---@param e? table
+function Sagatro.process_draw_from_play(e)
+    local play_count = #G.play.cards
+    local it = 1
+    for _, v in ipairs(G.play.cards) do
+        if (not v.shattered) and (not v.destroyed) then
+            local flags = SMODS.calculate_context({sgt_draw_from_play = true, other_card = v})
+            flags.to = flags.to or G.discard
+            flags.dir = flags.dir or "down"
+            draw_card(G.play, v.debuff and G.discard or flags.to, it*100/play_count,
+            v.debuff and "down" or flags.dir, flags.to == G.hand, v)
+            it = it + 1
+        end
+    end
+end
+
+-- Overriding this for now. TODO: move to SMODS method on dependency bump
+G.FUNCS.draw_from_play_to_discard = function(e)
+    Sagatro.process_draw_from_play(e)
+end
+
 ---@param card table|Card
 ---@param dir "left"|"right"|"leftmost"|"rightmost"?
 --- Move a card one space to the left or right or to leftmost/rightmost in its area.
@@ -4055,6 +4080,9 @@ function SMODS.calculate_individual_effect(effect, scored_card, key, amount, fro
         end
         return true
     end
+    if key == 'sgt_draw_card' then
+        return amount
+    end
 end
 
 for _, v in ipairs{'sgt_e_mult','sgt_emult','sgt_Emult_mod'} do
@@ -4065,7 +4093,8 @@ for _, v in ipairs{'sgt_a_score', 'sgt_ascore', 'sgt_Ascore_mod',
                     'sgt_e_score', 'sgt_escore', 'sgt_Escore_mod',
                     'sgt_ee_score', 'sgt_eescore', 'sgt_EEscore_mod',
                     'sgt_eee_score', 'sgt_eeescore', 'sgt_EEEscore_mod',
-                    'sgt_hyper_score', 'sgt_hyperscore', 'sgt_hyperscore_mod'} do
+                    'sgt_hyper_score', 'sgt_hyperscore', 'sgt_hyperscore_mod',
+                    'sgt_draw_card'} do
     table.insert(SMODS.other_calculation_keys, v)
 end
 

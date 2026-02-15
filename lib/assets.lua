@@ -413,3 +413,14 @@ SMODS.Sound{
 		return Sagatro.event_check("lisette_chase") and (Sagatro.config.SagatroMusicOption < 2) and 1000
 	end,
 }
+
+SMODS.Sound{
+    key = "music_minuten_sekundar",
+    path = "music_minuten_sekundar_loopable.ogg",
+    sync = false,
+    pitch = 1,
+    volume = 0.5,
+    select_music_track = function()
+		return G.GAME.solving_door_puzzle and (Sagatro.config.SagatroMusicOption < 2) and 1000
+	end,
+}

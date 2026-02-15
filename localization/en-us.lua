@@ -4080,6 +4080,7 @@ return {
             ph_losing_musical_chair = {"Losing to", "musical chair"},
             ph_shattered_pm = {"Shattered", "Pocket Mirror"},
             ph_eternal_blindness = {"Eternal", "blindness"},
+            ph_dead_end_door = {"Picking the", "dead end door"},
             ph_out_of_fuel = {"Running out", "of fuel"},
             ph_out_of_food = {"Running out", "of food"},
             sgt_swap = "Swap!",

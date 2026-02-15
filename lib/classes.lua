@@ -242,7 +242,7 @@ Sagatro.EventChain{
             if lisette then
                 lisette:shatter()
                 Sagatro.progress_storyline("dull_glass", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
-                Sagatro.progress_storyline("colored_door_riddle", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("door_puzzle", "add", "pocket_mirror", G.GAME.interwoven_storyline)
                 G.GAME.cleaning_up_mirror = true
                 G.E_MANAGER:add_event(Event({
                     trigger = 'ease',
@@ -256,6 +256,141 @@ Sagatro.EventChain{
                 Sagatro.temp_music_volume = nil
                 return 0
             end
+        end,
+    },
+}
+
+Sagatro.EventChain{
+    key = "door_puzzle_prep",
+    delay = 0,
+    func_list = {
+        function()
+            G.FUNCS.draw_from_hand_to_discard()
+            return 0
+        end,
+        function()
+            G.FUNCS.draw_from_discard_to_deck()
+            return 0
+        end,
+        function()
+            Sagatro.temp_music_volume = G.SETTINGS.SOUND.music_volume
+            G.E_MANAGER:add_event(Event({
+                trigger = 'ease',
+                blockable = false,
+                ref_table = G.SETTINGS.SOUND,
+                ref_value = 'music_volume',
+                ease_to = 0,
+                delay = 1*(G.STAGE == G.STAGES.RUN and G.SETTINGS.GAMESPEED or 1),
+                func = (function(t) return t end)
+            }))
+            G.GAME.round_resets.temp_handsize = (G.GAME.round_resets.temp_handsize or 0) - G.hand.config.card_limit
+            G.hand:change_size(-G.hand.config.card_limit)
+            ease_background_colour{new_colour = G.C.SUBMARINE_DEPTH[5], contrast = 1}
+            return 1
+        end,
+        function()
+            G.GAME.door_order = {"red", "blue", "green", "green", "yellow", "blue", "red"}
+            G.GAME.door_completed = {}
+            for _, colour in ipairs(G.GAME.door_order) do
+                local card = create_playing_card({
+                front = pseudorandom_element(G.P_CARDS, pseudoseed('predoorpuz')),
+                center = G.P_CENTERS.m_sgt_pm_door}, G.play, nil, nil, {G.C.SECONDARY_SET.Enhanced})
+                card:flip()
+                card.ability.door_colour = colour
+            end
+            return 1
+        end,
+        function()
+            local i = 1
+            local v = G.play.cards[i]
+            local percent = 0.85 + (i-0.999)/(#G.play.cards-0.998)*0.3
+            if v.facing == "back" then
+                v:flip()
+                play_sound('tarot2', percent, 0.6)
+            end
+            return 0.5
+        end,
+        function()
+            local i = 2
+            local v = G.play.cards[i]
+            local percent = 0.85 + (i-0.999)/(#G.play.cards-0.998)*0.3
+            if v.facing == "back" then
+                v:flip()
+                play_sound('tarot2', percent, 0.6)
+            end
+            return 0.5
+        end,
+        function()
+            local i = 3
+            local v = G.play.cards[i]
+            local percent = 0.85 + (i-0.999)/(#G.play.cards-0.998)*0.3
+            if v.facing == "back" then
+                v:flip()
+                play_sound('tarot2', percent, 0.6)
+            end
+            return 0.5
+        end,
+        function()
+            local i = 4
+            local v = G.play.cards[i]
+            local percent = 0.85 + (i-0.999)/(#G.play.cards-0.998)*0.3
+            if v.facing == "back" then
+                v:flip()
+                play_sound('tarot2', percent, 0.6)
+            end
+            return 0.5
+        end,
+        function()
+            local i = 5
+            local v = G.play.cards[i]
+            local percent = 0.85 + (i-0.999)/(#G.play.cards-0.998)*0.3
+            if v.facing == "back" then
+                v:flip()
+                play_sound('tarot2', percent, 0.6)
+            end
+            return 0.5
+        end,
+        function()
+            local i = 6
+            local v = G.play.cards[i]
+            local percent = 0.85 + (i-0.999)/(#G.play.cards-0.998)*0.3
+            if v.facing == "back" then
+                v:flip()
+                play_sound('tarot2', percent, 0.6)
+            end
+            return 0.5
+        end,
+        function()
+            local i = 7
+            local v = G.play.cards[i]
+            local percent = 0.85 + (i-0.999)/(#G.play.cards-0.998)*0.3
+            if v.facing == "back" then
+                v:flip()
+                play_sound('tarot2', percent, 0.6)
+            end
+            return 5
+        end,
+        function()
+            SMODS.destroy_cards(G.play.cards, nil, true)
+            return 0.2
+        end,
+        function()
+            local colours = {"yellow", "red", "green", "blue"}
+            for i = 1, 4 do
+                local card = create_playing_card({
+                front = pseudorandom_element(G.P_CARDS, pseudoseed('doorpuz')),
+                center = G.P_CENTERS.m_sgt_pm_door}, G.hand, nil, nil, {G.C.SECONDARY_SET.Enhanced})
+                card.ability.door_colour = colours[i]
+            end
+            G.GAME.old_play_limit = G.hand.config.highlighted_limit
+            SMODS.change_play_limit(1 - G.hand.config.highlighted_limit)
+            ease_hands_played(7 - G.GAME.round_resets.hands, true)
+            ease_discard(-G.GAME.round_resets.discards, true, true)
+            ease_background_colour_blind(G.STATE)
+            G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume or 50
+            Sagatro.temp_music_volume = nil
+            G.GAME.solving_door_puzzle = true
+            return 0
         end,
     },
 }
