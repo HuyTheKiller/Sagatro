@@ -14341,7 +14341,7 @@ local fleta = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
-            if context.setting_blind and not card.getting_sliced
+            if context.before and not G.GAME.shelved_chain
             and G.GAME.blind_on_deck == "Boss" and card.ability.immutable.stage == 3 then
                 G.GAME.shelved_chain = "sgt_fleta_crashout"
             end
@@ -14364,7 +14364,8 @@ local fleta = {
                         card.ability.immutable.pairs_played = 0
                     end
                 end
-                if context.before and context.scoring_name == "Pair" then
+                if context.before and context.scoring_name == "Pair"
+                and not card.ability.immutable.completed.memory then
                     card.ability.immutable.pairs_played = card.ability.immutable.pairs_played + 1
                 end
             elseif card.ability.immutable.stage == 2 then
