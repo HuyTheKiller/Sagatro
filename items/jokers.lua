@@ -13568,8 +13568,8 @@ local goldia = {
             if context.setting_blind and not card.getting_sliced then
                 if Sagatro.event_check("entering_mirror_maze") and not G.GAME.entering_mirror_maze then
                     G.GAME.entering_mirror_maze = true
-                    Sagatro.progress_storyline("entering_mirror_maze", "finish", "pocket_mirror", G.GAME.inverwoven_storyline)
-                    Sagatro.progress_storyline("mirror_maze", "add", "pocket_mirror", G.GAME.inverwoven_storyline)
+                    Sagatro.progress_storyline("entering_mirror_maze", "finish", self.saga_group, G.GAME.inverwoven_storyline)
+                    Sagatro.progress_storyline("mirror_maze", "add", self.saga_group, G.GAME.inverwoven_storyline)
                     for _, v in ipairs(G.playing_cards) do
                         v.ability.old_enh = v.config.center_key
                         v.ability.old_edition = v.edition and v.edition.key or nil
@@ -13583,8 +13583,8 @@ local goldia = {
                     return true end }))
                 end
                 if Sagatro.event_check("harpae_patience", nil, {contain = true})
-                and not Sagatro.event_check("dull_glass") then
-                    Sagatro.progress_storyline("dull_glass", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                and not (Sagatro.event_check("dull_glass") or Sagatro.event_check("dull_glass", nil, {contain = true})) then
+                    Sagatro.progress_storyline("dull_glass", "add", self.saga_group, G.GAME.interwoven_storyline)
                     for _, v in ipairs(G.playing_cards) do
                         v.ability.old_enh = v.config.center_key
                         v.ability.old_edition = v.edition and v.edition.key or nil
@@ -13603,8 +13603,8 @@ local goldia = {
                 and not (G.GAME.entering_mirror_maze or G.GAME.leaving_mirror_maze) then
                     G.GAME.leaving_mirror_maze = true
                     G.GAME.sgt_no_saving = true
-                    Sagatro.progress_storyline("mirror_maze", "finish", "pocket_mirror", G.GAME.inverwoven_storyline)
-                    Sagatro.progress_storyline("lisette_chase", "add", "pocket_mirror", G.GAME.inverwoven_storyline)
+                    Sagatro.progress_storyline("mirror_maze", "finish", self.saga_group, G.GAME.inverwoven_storyline)
+                    Sagatro.progress_storyline("lisette_chase", "add", self.saga_group, G.GAME.inverwoven_storyline)
                     card:add_sticker("pinned", true)
                 end
                 if Sagatro.event_check("dull_glass") then
