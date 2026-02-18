@@ -13,20 +13,3 @@ Sagatro.EventChain = setmetatable({}, {
 
 ---@type table<string, Sagatro.EventChain|table>
 Sagatro.EventChains = {}
-
----@param key string
---- Execute a registered event chain.\
---- Invoke directly to perform at an arbitrary time.
---- Otherwise, set `G.GAME.shelved_chain` to `key` to automatically
---- invoke at end of round, before all other end-of-round calculations.
---- Or, set `G.GAME.shelved_chain_hdrawn` to `key` to automatically
---- invoke after hand is drawn during a blind.
-function Sagatro.execute_chain(key) end
-
----@param func_list (fun(): number?)[] An array of functions that may return the delay value.
----@param delay number Delay between each function.
----@param use_delay boolean Set to `true` to allow `delay` to be used.
----@param index? integer Internal counter to traverse the array, as well as controlling the recursion.
---- Recursive helper function to execute functions one by one, utilizing events.
---- Direct invocation is not recommended.
-function Sagatro.recursive_chain(func_list, delay, use_delay, index) end

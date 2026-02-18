@@ -1,7 +1,15 @@
+---@param func_list (fun(): (number?, (fun(): boolean)?))[] An array of functions that may return the delay value and/or a function that returns boolean.
+---@param delay number Delay between each function.
+---@param use_delay boolean Set to `true` to allow `delay` to be used.
+---@param index? integer Internal counter to traverse the array, as well as controlling the recursion.
+--- Recursive helper function to execute functions one by one, utilizing events.
+--- Direct invocation is not recommended.
 function Sagatro.recursive_chain(func_list, delay, use_delay, index)
     index = index or 1
+    Sagatro.EventChainUtils.new_chain_delay = nil
+    Sagatro.EventChainUtils.chain_block = nil
+    G.CONTROLLER.locks.executing_chain = true
     if index == 1 then
-        G.CONTROLLER.locks.executing_chain = true
         G.EVENT_CHAIN_INTERRUPT = G.STATE
         G.STATE = G.STATES.PLAY_TAROT
         G.GAME.sgt_no_saving = true
@@ -11,6 +19,7 @@ function Sagatro.recursive_chain(func_list, delay, use_delay, index)
             delay = delay*G.SETTINGS.GAMESPEED,
             func = function()
                 G.CONTROLLER.locks.executing_chain = nil
+                Sagatro.EventChainUtils.chain_key = nil
                 G.STATE = G.EVENT_CHAIN_INTERRUPT
                 G.EVENT_CHAIN_INTERRUPT = nil
                 G.GAME.sgt_no_saving = nil
@@ -23,23 +32,48 @@ function Sagatro.recursive_chain(func_list, delay, use_delay, index)
         trigger = "after",
         delay = use_delay and delay*G.SETTINGS.GAMESPEED or 0,
         func = function()
-            local new_delay = func_list[index]()
-            Sagatro.recursive_chain(func_list, new_delay or delay, true, index+1)
-            return true
+            local new_delay, check
+            if not Sagatro.EventChainUtils.chain_block then
+                new_delay, check = func_list[index]()
+                if check then
+                    Sagatro.EventChainUtils.new_chain_delay = new_delay
+                    Sagatro.EventChainUtils.chain_block = check
+                    G.CONTROLLER.locks.executing_chain = nil
+                end
+            end
+            if not Sagatro.EventChainUtils.chain_block
+            or (Sagatro.EventChainUtils.chain_block
+            and Sagatro.EventChainUtils.chain_block()) then
+                Sagatro.recursive_chain(func_list, Sagatro.EventChainUtils.new_chain_delay or new_delay or delay, true, index+1)
+                return true
+            end
         end
     }))
 end
 
+---@param key string
+--- Execute a registered event chain.\
+--- Invoke directly to perform at an arbitrary time.
+--- Otherwise, set `G.GAME.shelved_chain` to `key` to automatically
+--- invoke at end of round, before all other end-of-round calculations.
+--- Or, set `G.GAME.shelved_chain_hdrawn` to `key` to automatically
+--- invoke after hand is drawn during a blind.
 function Sagatro.execute_chain(key)
     local event_chain = Sagatro.EventChains[key]
     if not event_chain then
         sendWarnMessage(("Cannot execute %s: Does not exist."):format(key), Sagatro.EventChain.set)
         return
     end
+    if Sagatro.EventChainUtils.chain_key then
+        sendWarnMessage(("Cannot execute %s: Another chain (%s) is ongoing."):format(key, Sagatro.EventChainUtils.chain_key), Sagatro.EventChain.set)
+        return
+    end
+    Sagatro.EventChainUtils.chain_key = event_chain.key
     Sagatro.recursive_chain(event_chain.func_list, event_chain.delay, event_chain.first_delay)
 end
 
 Sagatro.EventChains = {}
+Sagatro.EventChainUtils = {}
 Sagatro.EventChain = SMODS.GameObject:extend{
     obj_table = Sagatro.EventChains,
     obj_buffer = {},
