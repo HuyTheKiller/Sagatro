@@ -13778,6 +13778,8 @@ local goldia = {
                             Sagatro.swap(lisette, "leftmost")
                         end
                     end
+                else
+                    card.ability.immutable.dt = 120*48/135
                 end
             end
         end
