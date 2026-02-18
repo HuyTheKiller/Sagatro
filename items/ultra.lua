@@ -4222,7 +4222,7 @@ local oculus_omniscientis = {
         G.E_MANAGER:add_event(Event({
             func = function()
                 if not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.divinatio_rate == 0 then
-                    G.GAME.divinatio_rate = card.ability.extra.rate
+                    G.GAME.divinatio_rate = card.ability.extra.rate/(1e18^#SMODS.find_card("j_sgt_ozzy"))
                 end
                 return true
             end
@@ -4256,7 +4256,7 @@ local civilization = {
         G.E_MANAGER:add_event(Event({
             func = function()
                 if not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.celestara_rate == 0 then
-                    G.GAME.celestara_rate = card.ability.extra.rate
+                    G.GAME.celestara_rate = card.ability.extra.rate/(1e18^#SMODS.find_card("j_sgt_ozzy"))
                     if Sagatro.storyline_check("alice_in_mirrorworld") and G.GAME.inversed_scaling then
                         G.GAME.celestara_rate = G.GAME.celestara_rate/1e18
                     end
@@ -4294,6 +4294,9 @@ local abyss_pact = {
             func = function()
                 if not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.eldritch_rate == 0 then
                     G.GAME.eldritch_rate = card.ability.extra.rate
+                    if next(SMODS.find_card("j_sgt_ozzy")) then
+                        G.GAME.eldritch_rate = 8
+                    end
                 end
                 return true
             end

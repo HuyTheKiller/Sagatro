@@ -2895,14 +2895,6 @@ return {
                     "ở cuối Ante",
                 },
             },
-            j_sgt_goldia_stage_platinum = {
-                name = "Platinum",
-                text = {
-                    "Đây đúng ra phải là",
-                    "một Joker khác, nhưng",
-                    "mà nó vẫn là WIP",
-                },
-            },
             j_sgt_goldia_stage_dawn = {
                 name = "Goldia",
                 text = {
@@ -3128,8 +3120,7 @@ return {
             j_sgt_enjel_storymode = {
                 name = "Enjel",
                 text = {
-                    "Hiệu ứng chế độ",
-                    "cốt truyện WIP",
+                    "?????",
                 },
             },
             j_sgt_rusty_scissors = {
@@ -3146,6 +3137,33 @@ return {
                     "để phá huỷ lá {C:attention}Gương{}",
                     "liền phải khi đối mặt",
                     "với {C:attention}Lisette{}",
+                },
+            },
+            j_sgt_platinum = {
+                name = "Platinum",
+                text = {
+                    {"Tạo ra {V:1}Fleta{}, {V:2}Harpae{},",
+                    "{V:3}Lisette{} và {V:4}Enjel{}"},
+                    {"Những joker này chỉ",
+                    "hoạt động khi {V:5}Platinum{}",
+                    "ở ngay liền phải chúng"},
+                },
+            },
+            j_sgt_platinum_ending = {
+                name = "Platinum",
+                text = {
+                    {"Tạo ra {V:1}Fleta{}, {V:2}Harpae{}",
+                    "và {V:3}Lisette{}"},
+                    {"Đồng hoá {V:4}Enjel{}"},
+                },
+            },
+            j_sgt_ozzy = {
+                name = "Ozzy",
+                text = {
+                    "{C:attention}+#1#{} ô shop",
+                    "Ép lá {C:spectral}Siêu Linh{} thành",
+                    "loại lá tiêu thụ duy nhất",
+                    "ở trong shop",
                 },
             },
             j_sgt_shub = {
@@ -4072,6 +4090,9 @@ return {
             ph_select_save = "Chọn ô lưu trữ",
             ph_no_data = "Không có dữ liệu",
             ph_losing_hand = "Tay bài sẽ gây thua trận",
+            ph_solve_the = "Hãy giải",
+            ph_door_puzzle = "Câu Đố Cửa",
+            ph_door_solved = "Đã giải Câu Đố Cửa",
             ph_fleta_musical_chair = "Không chơi lại tay poker đã chơi ở ván này",
             ph_losing_musical_chair = {"Thua ở trò", "ghế âm nhạc"},
             ph_shattered_pm = {"Gương Bỏ Túi", "bị vỡ tan"},

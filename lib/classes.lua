@@ -420,6 +420,7 @@ Sagatro.EventChain{
             SMODS.change_play_limit(1 - G.hand.config.highlighted_limit)
             ease_hands_played(7 - G.GAME.round_resets.hands, true)
             ease_discard(-G.GAME.round_resets.discards, true, true)
+            G.GAME.delay_door_puzzle_colour = nil
             ease_background_colour_blind(G.STATE)
             G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume or 50
             Sagatro.temp_music_volume = nil
@@ -427,4 +428,70 @@ Sagatro.EventChain{
             return 0
         end,
     },
+}
+
+Sagatro.EventChain{
+    key = "platinum_ending",
+    func_list = {
+        function()
+            Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.temp_music_volume = G.SETTINGS.SOUND.music_volume
+            G.E_MANAGER:add_event(Event({
+                trigger = 'ease',
+                blockable = false,
+                ref_table = G.SETTINGS.SOUND,
+                ref_value = 'music_volume',
+                ease_to = 0,
+                delay = 1*(G.STAGE == G.STAGES.RUN and G.SETTINGS.GAMESPEED or 1),
+                func = (function(t) return t end)
+            }))
+        end,
+        function()
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if goldia then
+                Sagatro.unhighlight_all()
+                goldia.area:add_to_highlighted(goldia)
+            end
+            return 1, function()
+                if G.GAME.goldia_transformation_complete then
+                    G.GAME.goldia_transformation_complete = nil
+                    return true
+                end
+            end
+        end,
+        function()
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                local enjel_pos = Sagatro.get_pos(enjel)
+                for _ = enjel_pos, #G.jokers.cards - 1 do
+                    Sagatro.swap(enjel)
+                end
+            end
+            return 1.5
+        end,
+        function()
+            local platinum, enjel = SMODS.find_card("j_sgt_platinum", true)[1], SMODS.find_card("j_sgt_enjel", true)[1]
+            if platinum and enjel then
+                local platinum_pos, enjel_pos = Sagatro.get_pos(platinum), Sagatro.get_pos(enjel)
+                if platinum_pos > enjel_pos then
+                    for _ = platinum_pos, enjel_pos + 2, -1 do
+                        Sagatro.swap(platinum, "left")
+                    end
+                else
+                    for _ = platinum_pos, enjel_pos - 2 do
+                        Sagatro.swap(platinum)
+                    end
+                end
+            end
+            return 2
+        end,
+        function()
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                enjel.ability.platinum_reflection = true
+                play_sound('timpani')
+                enjel:juice_up()
+            end
+        end,
+    }
 }

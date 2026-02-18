@@ -492,8 +492,8 @@ pattern = '''if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get
 position = 'at'
 match_indent = true
 payload = '''
-if (not G.GAME.story_mode and G.GAME.round_resets.ante >= G.GAME.win_ante and G.GAME.blind_on_deck == 'Boss')
-or (G.GAME.story_mode and table.contains(Sagatro.story_mode_showdown, G.GAME.blind.config.blind.key) and not G.GAME.paused_showdown) then
+if not G.GAME.won and ((not G.GAME.story_mode and G.GAME.round_resets.ante >= G.GAME.win_ante and G.GAME.blind_on_deck == 'Boss')
+or (G.GAME.story_mode and Sagatro.can_win_story_mode() and not G.GAME.paused_showdown)) then
 '''
 
 [[patches]] # Same patch but for dev version of SMODS
@@ -503,8 +503,8 @@ pattern = '''if not G.GAME.won and G.GAME.round_resets.ante >= G.GAME.win_ante a
 position = 'at'
 match_indent = true
 payload = '''
-if (not G.GAME.story_mode and G.GAME.round_resets.ante >= G.GAME.win_ante and G.GAME.blind_on_deck == 'Boss')
-or (G.GAME.story_mode and table.contains(Sagatro.story_mode_showdown, G.GAME.blind.config.blind.key) and not G.GAME.paused_showdown) then
+if not G.GAME.won and ((not G.GAME.story_mode and G.GAME.round_resets.ante >= G.GAME.win_ante and G.GAME.blind_on_deck == 'Boss')
+or (G.GAME.story_mode and Sagatro.can_win_story_mode() and not G.GAME.paused_showdown)) then
 '''
 
 # Make losing after a certain showdown blind but before win Ante a valid endless run
@@ -550,7 +550,7 @@ pattern = '''{n=G.UIT.O, config={object = DynaText({string = {localize('ph_you_w
 position = 'at'
 match_indent = true
 payload = '''
-{n=G.UIT.O, config={object = DynaText({string = {G.GAME.story_mode and table.contains(Sagatro.story_mode_showdown, G.GAME.blind.config.blind.key) and localize('ph_story_ended') or localize('ph_you_win')}, colours = {G.C.EDITION},shadow = true, float = true, spacing = 10, rotate = true, scale = 1.5, pop_in = 0.4, maxw = 6.5})}},
+{n=G.UIT.O, config={object = DynaText({string = {G.GAME.story_mode and Sagatro.can_win_story_mode() and localize('ph_story_ended') or localize('ph_you_win')}, colours = {G.C.EDITION},shadow = true, float = true, spacing = 10, rotate = true, scale = 1.5, pop_in = 0.4, maxw = 6.5})}},
 '''
 
 # Replace Jimbo with Alice (still allowing Joseph if Cryptid is also installed)
@@ -695,12 +695,18 @@ elseif G.GAME.story_mode and next(Sagatro.find_active_card("j_sgt_submarine", tr
     ease_background_colour{new_colour = G.C.SUBMARINE_DEPTH[Sagatro.get_submarine_depth_colour()], contrast = 1}
 elseif G.GAME.story_mode and G.GAME.inversed_scaling or G.GAME.pm_mirrorworld then
     ease_background_colour{new_colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5), contrast = 1}
+elseif G.GAME.story_mode and G.GAME.door_puzzle_active and not G.GAME.delay_door_puzzle_colour then
+    ease_background_colour{new_colour = mix_colours(G.C.GOLD, G.C.BLACK, 0.3), contrast = 1}
 elseif G.GAME.story_mode and (Sagatro.event_check("mirror_maze") or Sagatro.event_check("lisette_chase") or Sagatro.event_check("dull_glass")) then
     ease_background_colour{new_colour = G.C.LISETTE_PURPLE, contrast = 1}
 elseif G.GAME.story_mode and Sagatro.event_check("harpae_patience") then
     ease_background_colour{new_colour = G.C.HARPAE_BLUE, contrast = 1}
 elseif G.GAME.story_mode and Sagatro.event_check("fleta_challenges") then
     ease_background_colour{new_colour = G.C.FLETA_RED, contrast = 1}
+elseif G.GAME.story_mode and next(Sagatro.find_active_card("j_sgt_platinum", true)) then
+    ease_background_colour{new_colour = mix_colours(G.C.GOLDIA_PINK, G.C.PLATINUM_PINK, 0.5), contrast = 1}
+elseif G.GAME.story_mode and next(Sagatro.find_active_card("j_sgt_enjel", true)) then
+    ease_background_colour{new_colour = G.C.ENJEL_MIDNIGHT, contrast = 1}
 elseif G.GAME.story_mode and next(Sagatro.find_active_card("j_sgt_goldia", true)) then
     ease_background_colour{new_colour = G.C.GOLDIA_PINK, contrast = 1}
 '''

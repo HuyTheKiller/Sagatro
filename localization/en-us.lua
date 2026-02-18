@@ -2898,14 +2898,6 @@ return {
                     "at end of Ante",
                 },
             },
-            j_sgt_goldia_stage_platinum = {
-                name = "Platinum",
-                text = {
-                    "This is supposed to be",
-                    "a separate Joker, but",
-                    "it's still WIP",
-                },
-            },
             j_sgt_goldia_stage_dawn = {
                 name = "Goldia",
                 text = {
@@ -3132,8 +3124,7 @@ return {
             j_sgt_enjel_storymode = {
                 name = "Enjel",
                 text = {
-                    "Story mode",
-                    "effect WIP",
+                    "?????",
                 },
             },
             j_sgt_rusty_scissors = {
@@ -3150,6 +3141,34 @@ return {
                     "break the {C:attention}Mirror{} card",
                     "to the right when facing",
                     "against {C:attention}Lisette{}",
+                },
+            },
+            j_sgt_platinum = {
+                name = "Platinum",
+                text = {
+                    {"Create {V:1}Fleta{}, {V:2}Harpae{},",
+                    "{V:3}Lisette{} and {V:4}Enjel{}"},
+                    {"These jokers only",
+                    "work if {V:5}Platinum{}",
+                    "is directly to",
+                    "the right of them"},
+                },
+            },
+            j_sgt_platinum_ending = {
+                name = "Platinum",
+                text = {
+                    {"Create {V:1}Fleta{}, {V:2}Harpae{},",
+                    "and {V:3}Lisette{}"},
+                    {"Assimilate {V:4}Enjel{}"},
+                },
+            },
+            j_sgt_ozzy = {
+                name = "Ozzy",
+                text = {
+                    "{C:attention}+#1#{} shop slot",
+                    "Force {C:spectral}Spectral{} cards to be",
+                    "the only consumable type",
+                    "in the shop",
                 },
             },
             j_sgt_shub = {
@@ -4076,6 +4095,9 @@ return {
             ph_select_save = "Select a save slot",
             ph_no_data = "No data",
             ph_losing_hand = "Hand will cause game over",
+            ph_solve_the = "Solve the",
+            ph_door_puzzle = "Door Puzzle",
+            ph_door_solved = "Door Puzzle solved",
             ph_fleta_musical_chair = "No repeat hand types this round",
             ph_losing_musical_chair = {"Losing to", "musical chair"},
             ph_shattered_pm = {"Shattered", "Pocket Mirror"},

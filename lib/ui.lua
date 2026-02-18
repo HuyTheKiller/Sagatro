@@ -252,7 +252,7 @@ function Card:highlight(is_higlighted)
         end
     end
     if Sagatro.storyline_check("pocket_mirror") then
-        if self.config.center_key == "j_sgt_goldia" and self.area == G.jokers then
+        if (self.config.center_key == "j_sgt_goldia" or self.config.center_key == "j_sgt_platinum") and self.area == G.jokers then
             if self.highlighted then
                 self.children.transform_button = UIBox{
                     definition = G.UIDEF.transform_button(self),
@@ -584,18 +584,33 @@ G.FUNCS.goldia_transform = function(e)
         end
         G.GAME.regalia_list = {}
         if #regalia_list == 4 then
-            Sagatro.set_goldia_stage(0, "platinum")
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if goldia then
+                goldia:set_ability("j_sgt_platinum")
+            end
+            Sagatro.progress_storyline("goldia_transformation", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("platinum_ending", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+            G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume or 50
+            Sagatro.temp_music_volume = nil
             check_for_unlock{type = "pm_normal_end_1"}
         elseif #regalia_list == 5 then
             Sagatro.set_goldia_stage(0, "dawn")
+            Sagatro.progress_storyline("goldia_transformation", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("dawn_ending", "add", "pocket_mirror", G.GAME.interwoven_storyline)
             check_for_unlock{type = "pm_normal_end_2"}
         elseif #regalia_list == 6 then
             Sagatro.set_goldia_stage(0, "name_recalled")
+            Sagatro.progress_storyline("goldia_transformation", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("little_goody_2_shoes_ending", "add", "pocket_mirror", G.GAME.interwoven_storyline)
             check_for_unlock{type = "pm_normal_end_3"}
         else
             print("Wtf, how did you even get more than 6 regalias?")
         end
+        play_sound('timpani')
         G.jokers:unhighlight_all()
+        G.GAME.goldia_transformation_complete = true
+        Sagatro.progress_storyline("ending_reached", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
+        Sagatro.progress_storyline("ending_reached", "force_finish", "pocket_mirror", G.GAME.interwoven_storyline)
     else
         print("Missing required regalias (Pocket Mirror, Messer And Gabel).")
     end
@@ -1341,15 +1356,14 @@ G.FUNCS.delete_all_snapshots = function(e)
     end
 end
 
--- Convenient shortcut table for me to access functions I need to copy and modify
-Sagatro.challenge_shortcut = {
-    G.UIDEF.challenge_list,
-    G.UIDEF.challenge_list_page,
-    G.UIDEF.challenge_description,
-    G.FUNCS.challenge_list,
-    G.FUNCS.change_challenge_description,
-    G.FUNCS.change_challenge_list_page
-}
+local sn = scale_number
+function scale_number(number, scale, max, e_switch_point)
+    local ret = sn(number, scale, max, e_switch_point)
+    if G.GAME.blind and number == G.GAME.blind.chips and G.GAME.door_puzzle_active then
+        return 0.45 -- I can't bother to handle unicode characters so have fun with a fixed scale
+    end
+    return ret
+end
 
 SMODS.DrawStep {
     key = "extra_buttons",

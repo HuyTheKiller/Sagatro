@@ -13599,7 +13599,13 @@ local goldia = {
                 end
                 if Sagatro.event_check("door_puzzle") and not G.GAME.door_puzzle_active then
                     G.GAME.door_puzzle_active = true
+                    G.GAME.delay_door_puzzle_colour = true
                     G.GAME.shelved_chain_hdrawn = "sgt_door_puzzle_prep"
+                    if context.blind.boss then
+                        G.E_MANAGER:add_event(Event({func = function()
+                            G.GAME.blind:disable()
+                        return true end }))
+                    end
                 end
             end
             if context.first_hand_drawn then
@@ -13616,6 +13622,7 @@ local goldia = {
                     if Sagatro.get_pos(card) > math.floor(#G.jokers.cards/2) then
                         G.E_MANAGER:add_event(Event({func = function()
                             Sagatro.swap(lisette, "leftmost")
+                            save_run()
                         return true end}))
                     end
                     if card.ability.immutable.tolerance_index >= 2 and not next(SMODS.find_card("m_sgt_mirror", true)) then
@@ -13668,8 +13675,6 @@ local goldia = {
                 and context.game_over then
                     if card.ability.immutable.plot_armor then
                         if Sagatro.event_check("door_puzzle") and G.GAME.door_puzzle_active then
-                            G.GAME.door_puzzle_active = nil
-                            Sagatro.progress_storyline("door_puzzle", "finish", self.saga_group, G.GAME.interwoven_storyline)
                             SMODS.destroy_cards(G.hand.cards, nil, true)
                             SMODS.change_play_limit((G.GAME.old_play_limit or 5) - 1)
                             card.ability.immutable.plot_armor = nil
@@ -13677,7 +13682,7 @@ local goldia = {
                             G.GAME.old_play_limit = nil
                         end
                         return {
-                            saved = "ph_plot_armor",
+                            saved = G.GAME.door_puzzle_active and "ph_door_solved" or "ph_plot_armor",
                         }
                     end
                 end
@@ -13758,7 +13763,7 @@ local goldia = {
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
-        if G.GAME.story_mode and not from_debuff then
+        if G.GAME.story_mode and not from_debuff and not Sagatro.event_check("goldia_transformation") then
             G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
                 Sagatro.game_over("ph_shattered_pm")
             return true end}))
@@ -13896,7 +13901,7 @@ local pocket_mirror = {
             end
             info_queue[#info_queue+1] = {set = "Other", key = "sgt_pocket_mirror", specific_vars = {
                 localize{type = "name_text", set = "Joker",
-                key = "j_sgt_goldia_stage_"..(goldia or {ability = {immutable = {stage = 0}}}).ability.immutable.stage}
+                key = "j_sgt_goldia_stage_"..(goldia and goldia.ability.immutable.stage or 0)}
             }}
         end
         return ret
@@ -14378,7 +14383,8 @@ local fleta = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
+        if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker
+        and not card.ability.platinum_reflection then
             if context.before and not G.GAME.shelved_chain
             and G.GAME.blind_on_deck == "Boss" and card.ability.immutable.stage == 3 then
                 G.GAME.shelved_chain = "sgt_fleta_crashout"
@@ -14515,7 +14521,8 @@ local fleta = {
                     card.ability.immutable.hands = {}
                 end
             end
-        else
+        elseif not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
+        and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum") then
             if context.individual and context.cardarea == G.play then
                 if context.other_card:get_id() == 12 and context.other_card:is_suit("Hearts") then
                     return {
@@ -14598,7 +14605,8 @@ local harpae = {
         card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_moon_hairbrush' or 'moon_hairbrush'))
     end,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
+        if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker
+        and not card.ability.platinum_reflection then
             if context.starting_shop then
                 card.ability.immutable.appeared = nil
             end
@@ -14634,7 +14642,8 @@ local harpae = {
                     } or nil,
                 }
             end
-        else
+        elseif not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
+        and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum") then
             if context.individual and context.cardarea == G.play then
                 if context.scoring_name == card.ability.extra.poker_hand then
                     return {
@@ -14716,7 +14725,7 @@ local lisette = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.story_mode then
+        if G.GAME.story_mode and not card.ability.platinum_reflection then
             if Sagatro.event_check("dull_glass") then
                 if context.repetition and context.cardarea == G.play then
                     if SMODS.has_enhancement(context.other_card, "m_sgt_mirror") then
@@ -14728,7 +14737,8 @@ local lisette = {
                     end
                 end
             end
-        else
+        elseif not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
+        and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum") then
             if context.mod_probability and not context.blueprint then
                 if context.trigger_obj and Sagatro.omniscient(context.trigger_obj, {"m_glass", "m_sgt_nyx_glass"}) then
                     return { denominator = context.denominator*card.ability.extra.glass_odds_mod }
@@ -14880,8 +14890,10 @@ local enjel = {
         card.ability.extra.chips*math.floor(2^(G.GAME.round_resets.ante + (G.GAME.ante_reduced or 0)))
     end,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
-        else
+        if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker
+        and not card.ability.platinum_reflection then
+        elseif not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
+        and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum") then
             if context.ante_change and context.ante_end
             and not context.blueprint and not context.retrigger_joker then
                 SMODS.scale_card(card, {
@@ -14914,12 +14926,19 @@ local enjel = {
             end
         end
     end,
+    add_to_deck = function(self, card, from_debuff)
+        if G.GAME.story_mode and not from_debuff then
+            G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
+                ease_background_colour_blind(G.STATE)
+            return true end }))
+        end
+    end,
     in_pool = function(self, args)
         return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.chips, card.ability.extra.chip_xmod}}
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+        if (G.GAME.story_mode and not card.ability.platinum_reflection) or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_storymode"
         end
         return ret
@@ -15010,12 +15029,138 @@ local rusty_scissors = {
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {}}
         info_queue[#info_queue+1] = G.P_CENTERS.m_glass
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_storymode"
             info_queue[#info_queue] = G.P_CENTERS.m_sgt_mirror
             info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_lisette
         end
         return ret
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
+local platinum = {
+    key = "platinum",
+    name = "Platinum",
+    artist_credits = {"temp"},
+    atlas = "pocket_mirror",
+    saga_group = "pocket_mirror",
+    order = 134,
+    pools = { [SAGA_GROUP_POOL.pmirror] = true, [SAGA_GROUP_POOL.legend] = true },
+    pos = { x = 0, y = 5 },
+    soul_pos = { x = 2, y = 5, sgt_extra = { x = 1, y = 5, no_scale = true }, name_tag = { x = 3, y = 5 } },
+    config = {shatters_on_destroy = true},
+    rarity = 4,
+    cost = 20,
+    blueprint_compat = false,
+    demicoloncompat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            local reflections = {"j_sgt_fleta", "j_sgt_harpae", "j_sgt_lisette"}
+            if not G.GAME.story_mode then
+                table.insert(reflections, "j_sgt_enjel")
+            end
+            for _, v in ipairs(reflections) do
+                local reflection = SMODS.add_card{key = v}
+                if not G.GAME.story_mode then
+                    reflection.ability.extra_slots_used = -1
+                end
+                reflection.ability.platinum_reflection = true
+            end
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            for i = #G.jokers.cards, 1, -1 do
+                if G.jokers.cards[i].ability.platinum_reflection then
+                    G.jokers.cards[i]:remove()
+                end
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        local ret = {vars = {colours = {G.C.FLETA_RED, G.C.HARPAE_BLUE, G.C.LISETTE_PURPLE, G.C.ENJEL_MIDNIGHT, mix_colours(G.C.GOLDIA_PINK, G.C.PLATINUM_PINK, 0.5)}}}
+        if Sagatro.event_check("ending_reached", nil, {contain = true}) then
+            ret.key = "j_sgt_platinum_ending"
+        end
+        return ret
+    end,
+    set_badges = function(self, card, badges)
+ 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+ 	end,
+}
+
+local ozzy = {
+    key = "ozzy",
+    name = "Ozzy",
+    artist_credits = {"temp"},
+    atlas = "pocket_mirror",
+    saga_group = "pocket_mirror",
+    order = 135,
+    pools = { [SAGA_GROUP_POOL.pmirror] = true, [SAGA_GROUP_POOL.legend] = true },
+    pos = { x = 0, y = 6 },
+    soul_pos = { x = 2, y = 6, sgt_extra = { x = 1, y = 6, no_scale = true }, name_tag = { x = 3, y = 6 } },
+    config = {extra = {shop_slots = 1, spectral_rate = 20}},
+    rarity = 4,
+    cost = 20,
+    blueprint_compat = true,
+    demicoloncompat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    add_to_deck = function(self, card, from_debuff)
+        change_shop_size(card.ability.extra.shop_slots)
+        for k, v in pairs(G.GAME) do
+            if string.len(k) > 5 and string.find(k, "_rate")
+            and type(v) == "number" and k ~= "joker_rate" and k ~= "edition_rate"
+            and k ~= "spectral_rate" and k ~= "eldritch_rate" then
+                if v ~= 0 then
+                    G.GAME[k] = G.GAME[k]/1e18
+                end
+            end
+        end
+        if G.GAME.spectral_rate ~= 0 then
+            G.GAME.old_spectral_rate = G.GAME.spectral_rate
+        end
+        G.GAME.spectral_rate = card.ability.extra.spectral_rate
+        if G.GAME.used_vouchers.v_sgt_abyss_pact then
+            G.GAME.eldritch_rate = 8
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        change_shop_size(-card.ability.extra.shop_slots)
+        for k, v in pairs(G.GAME) do
+            if string.len(k) > 5 and string.find(k, "_rate")
+            and type(v) == "number" and k ~= "joker_rate" and k ~= "edition_rate"
+            and k ~= "spectral_rate" and k ~= "eldritch_rate" then
+                if v ~= 0 then
+                    G.GAME[k] = G.GAME[k]*1e18
+                end
+            end
+        end
+        if not next(SMODS.find_card("j_sgt_ozzy")) then
+            if G.GAME.old_spectral_rate then
+                G.GAME.spectral_rate = G.GAME.old_spectral_rate
+                G.GAME.old_spectral_rate = nil
+            else
+                G.GAME.spectral_rate = 0
+            end
+            if G.GAME.used_vouchers.v_sgt_abyss_pact then
+                G.GAME.eldritch_rate = 1
+            end
+        end
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.story_mode
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.shop_slots}}
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -17305,6 +17450,8 @@ local joker_table = {
     enjel,
     knife_fork,
     rusty_scissors,
+    platinum,
+    ozzy,
     hansels_cheat_dice,
     skoll_n_hati,
     three_winters,

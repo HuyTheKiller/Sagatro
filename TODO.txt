@@ -47,18 +47,18 @@ TO-DO:
 [] Add Enjel:
     [X] Add Enjel's visual
     [X] Add base Enjel (legendary)
-    [] Add Enjel's effect inside story mode
-    [] Hook Enjel's effects to story events
+    [X] Add Enjel's effect inside story mode
+    [X] Hook Enjel's effects to story events
     [] Replace Enjel's placeholder with final visual
     [X] Add Enjel's effect outside story mode
 [] Add Platinum:
-    [] Add base Platinum (legendary)
-    [] Add Platinum's effect
+    [X] Add base Platinum (legendary)
+    [X] Add Platinum's effect
     [] Replace Platinum's placeholder with final visual
-    [] Update Goldia's placeholder transformation (Goldia:set_ability("j_sgt_platinum"))
+    [X] Update Goldia's placeholder transformation (Goldia:set_ability("j_sgt_platinum"))
 [] Add Strange Boy:
-    [] Add base Strange Boy (legendary)
-    [] Add Strange Boy's effect
+    [X] Add base Strange Boy (legendary)
+    [X] Add Strange Boy's effect
     [] Replace Strange Boy's placeholder with final visual
 [] Add hints to progress Pocket Mirror (not as riddles like Alice in Wonderland, should be straightforward)
 

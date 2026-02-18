@@ -9,6 +9,7 @@ G.C.SGT_ELDRITCH = HEX("3f0c57")
 G.C.SGT_SUPPLY = HEX("485267")
 G.C.SGT_BADGE = HEX("6131ac")
 G.C.GOLDIA_PINK = HEX("b4417b")
+G.C.PLATINUM_PINK = HEX("fdd2e3")
 G.C.FLETA_RED = HEX("721d16")
 G.C.HARPAE_BLUE = HEX("2b3c87")
 G.C.LISETTE_PURPLE = HEX("61277e")
@@ -68,6 +69,7 @@ function loc_colour(_c, _default)
             G.ARGS.LOC_COLOURS[k] = v.boss_colour
         end
     end
+    G.ARGS.LOC_COLOURS.dark_gold = HEX("8c6d09")
     G.ARGS.LOC_COLOURS.huycorn = G.C.SGT_DIVINATIO
     G.ARGS.LOC_COLOURS.huythekiller = G.C.GREEN
     G.ARGS.LOC_COLOURS.amy = G.C.YELLOW
@@ -98,6 +100,11 @@ Sagatro.story_mode_showdown = {
     "bl_sgt_nyx_abyss",
     "bl_sgt_red_king",
 }
+
+function Sagatro.can_win_story_mode()
+    return (G.GAME.blind and table.contains(Sagatro.story_mode_showdown, G.GAME.blind.config.blind.key))
+    or Sagatro.event_check("ending_reached", nil, {contain = true})
+end
 
 Sagatro.story_mode_no_reroll = {
     "bl_sgt_red_queen",
@@ -407,6 +414,15 @@ function CardArea:update(dt)
             end
         end
     end
+end
+
+local can_highlight_ref = CardArea.can_highlight
+function CardArea:can_highlight(card)
+    local can_hl = can_highlight_ref(self, card)
+    if Sagatro.EventChainUtils.chain_key == "sgt_platinum_ending" and card.config.center_key ~= "j_sgt_goldia" then
+        can_hl = false
+    end
+    return can_hl
 end
 
 local parse_highlighted_ref = CardArea.parse_highlighted
@@ -809,15 +825,20 @@ function Game:update(dt)
                 Sagatro.update_blind_amounts(true)
             end
         end
+        if G.GAME.door_puzzle_active then
+            local at_least_most = G.HUD_blind and G.HUD_blind:get_UIE_by_ID("HUD_blind_score_at_least_most")
+            if at_least_most then
+                at_least_most.config.text = localize("ph_solve_the")
+                G.GAME.blind.chip_text = localize("ph_door_puzzle")
+                if G.GAME.blind.chips ~= to_big(1e300) then
+                    G.GAME.blind.chips = to_big(1e300)
+                end
+            end
+        end
     elseif G.STAGE == G.STAGES.MAIN_MENU then
         Sagatro.debug_info["During a run"] = nil
         Sagatro.debug_info["Story mode"] = nil
         G.P_CENTERS.j_sgt_seawater.pos.x = 0
-        if Sagatro.temp_music_volume then
-            G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume or 50
-            Sagatro.temp_music_volume = nil
-            G:save_settings()
-        end
     end
 
     if G.your_collection and type(G.your_collection) == "table" then
@@ -1044,6 +1065,17 @@ function Game:update(dt)
     end
 
     if Sagatro.cause_crash then error("A manual crash is called. Don't be grumpy, you did this on purpose.", 0) end
+end
+
+local delete_run_ref = Game.delete_run
+function Game:delete_run()
+    delete_run_ref(self)
+    Sagatro.EventChainUtils = EMPTY(Sagatro.EventChainUtils)
+    if Sagatro.temp_music_volume then
+        G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume
+        Sagatro.temp_music_volume = nil
+        G:save_settings()
+    end
 end
 
 -- Esoteric jokers are Exotic equivalents in this mod
@@ -1586,6 +1618,16 @@ function Blind:defeat(silent)
                     v:set_seal(v.ability.old_seal, true)
                     v.ability.old_seal = nil
                 end
+            end
+        end
+        if G.GAME.door_puzzle_active then
+            G.GAME.door_puzzle_active = nil
+            Sagatro.progress_storyline("door_puzzle", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            local regalias = #(G.GAME.regalia_list or {})
+            if regalias == 3 then
+            elseif regalias == 4 then
+                G.GAME.shelved_chain_hdrawn = "sgt_platinum_ending"
+            elseif regalias == 5 then
             end
         end
     end
@@ -2599,6 +2641,24 @@ function Sagatro:calculate(context)
                     end
                 }
             end
+            if Sagatro.event_check("door_puzzle") and not next(SMODS.find_card("j_sgt_enjel", true)) then
+                return {
+                    func = function()
+                        local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+                        local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
+                        if goldia and pmirror then
+                            local enjel = SMODS.add_card{key = "j_sgt_enjel"}
+                            local goldia_pos, pmirror_pos, enjel_pos =
+                            Sagatro.get_pos(goldia), Sagatro.get_pos(pmirror), Sagatro.get_pos(enjel)
+                            local to_the_right = goldia_pos < pmirror_pos
+                            for _ = enjel_pos, goldia_pos + (to_the_right and 1 or 2), -1 do
+                                Sagatro.swap(enjel, "left")
+                            end
+                        end
+                        return true
+                    end,
+                }
+            end
         end
         if context.setting_ability then
             Sagatro.update_inactive_state()
@@ -2611,6 +2671,12 @@ function Sagatro:calculate(context)
             or context.prevent_tag_trigger.name == 'Alien Tag') then
                 return {prevent_trigger = true}
             end
+        end
+    end
+    if context.check_eternal and not G.GAME.story_mode then
+        local card = context.other_card
+        if card.ability.platinum_reflection then
+            return {no_destroy = true}
         end
     end
     if context.final_scoring_step and not context.retrigger_joker and G.GAME.inversed_scaling then
@@ -2669,6 +2735,10 @@ function Sagatro:calculate(context)
                 end
             end
         end
+    end
+    if context.prevent_tag_trigger and G.GAME.pending_mega_buffoon
+    and context.prevent_tag_trigger.config.type == "new_blind_choice" then
+        return {prevent_trigger = true}
     end
 end
 
@@ -3677,6 +3747,14 @@ function Sagatro.swap(card, dir)
     end
 end
 
+function Sagatro.unhighlight_all()
+    if G.STAGE == G.STAGES.RUN then
+        G.jokers:unhighlight_all()
+        G.consumeables:unhighlight_all()
+        G.hand:unhighlight_all()
+    end
+end
+
 ---@param cls SMODS.GameObject The class to invoke `take_ownership` from.
 ---@param key string Object key. Ignores class prefix (e.g. "splash" instead of "j_splash").
 ---@param obj table Table of contents to modify the object with.
@@ -4340,12 +4418,12 @@ function Card:click()
 end
 
 local card_single_tap = Card.single_tap
-function Card:single_tap()
-    if card_single_tap then
+if card_single_tap then
+    function Card:single_tap()
         card_single_tap(self)
-    end
-    if self.sagatro_target then
-        G.FUNCS.openModUI_Sagatro{config = {page = "mod_desc", fromAlice = true}}
+        if self.sagatro_target then
+            G.FUNCS.openModUI_Sagatro{config = {page = "mod_desc", fromAlice = true}}
+        end
     end
 end
 
@@ -4354,6 +4432,7 @@ function Sagatro.help()
     if Sagatro.debug then
         print("Sagatro debug commands:")
         print("Sagatro.help() or help(): show this help screen.")
+        print("Sagatro.DT_save_remove(card): remove card without triggering remove_from_deck. Useful to bypass Sagatro.game_over calls.")
         print("Sagatro.DT_boss(blind_key): Reroll the boss to the specified one.")
         print("Sagatro.DT_isl(storyline_name, options): Instantly initialize storyline_name. Pass a table to options for finer control over storyline state.")
         print("Sagatro.DT_rarity(): print out modifications of each rarity pool.")
@@ -4370,14 +4449,32 @@ end
 
 help = help or Sagatro.help
 
-function Sagatro.DT_boss(blind_key)
-    if blind_key and G.P_BLINDS[blind_key]
-    and G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
-        G.FORCE_BOSS = blind_key
-        G.from_boss_tag = true
-        G.FUNCS.reroll_boss()
-        G.FORCE_BOSS = nil
+function Sagatro.DT_safe_remove(card)
+    if Sagatro.debug then
+        G.in_delete_run = true
+        card:remove()
+        if not next(SMODS.find_card(card.config.center.key, true)) then
+            G.GAME.used_jokers[card.config.center.key] = nil
+        end
+        G.in_delete_run = false
+        return "Removed target without triggering remove_from_deck."
     end
+    return "Debug commands are unavailable."
+end
+
+function Sagatro.DT_boss(blind_key)
+    if Sagatro.debug then
+        if blind_key and G.P_BLINDS[blind_key]
+        and G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
+            G.FORCE_BOSS = blind_key
+            G.from_boss_tag = true
+            G.FUNCS.reroll_boss()
+            G.FORCE_BOSS = nil
+            return "Changed boss blind to "..blind_key.."."
+        end
+        return "Failed: blind does not exist or not in blind select screen."
+    end
+    return "Debug commands are unavailable."
 end
 
 function Sagatro.DT_isl(storyline_name, options)
