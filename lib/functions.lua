@@ -864,6 +864,45 @@ function Game:update(dt)
         end
     end
 
+    if Sagatro.temp_areas.jokers then
+        if Sagatro.temp_areas.jokers.cards and type(Sagatro.temp_areas.jokers.cards) == "table" then
+            for _, v in ipairs(Sagatro.temp_areas.jokers.cards) do
+                if v.config.center_key == "j_sgt_submarine" and v.config.center.discovered then
+                    v.ability.anim_dt = v.ability.anim_dt + dt
+                    v.ability.anim_transition_path = v.ability.immutable.old_depth_level - v.ability.immutable.depth_level
+                    if v.ability.anim_dt > 0.125 then
+                        v.ability.anim_dt = v.ability.anim_dt - 0.125
+                        if v.ability.anim_pos.x == 11 and v.ability.anim_transition_path ~= 0 and not v.ability.in_transition then
+                            if v.ability.anim_transition_path > 0 then
+                                v.ability.anim_pos.x = 6
+                            elseif v.ability.anim_transition_path < 0 then
+                                v.ability.anim_pos.x = 0
+                            end
+                            v.ability.in_transition = true
+                        elseif (v.ability.anim_pos.x == 5 and v.ability.anim_transition_path < 0 and v.ability.in_transition)
+                        or v.ability.anim_pos.x == 11 then
+                            v.ability.anim_pos.x = 0
+                            v.ability.in_transition = false
+                            v.ability.immutable.old_depth_level = v.ability.immutable.depth_level
+                            v.ability.anim_transition_path = v.ability.immutable.old_depth_level - v.ability.immutable.depth_level
+                        else
+                            v.ability.anim_pos.x = v.ability.anim_pos.x + 1
+                        end
+                        local pending_up = 0
+                        if v.ability.anim_transition_path ~= 0 then
+                            if v.ability.anim_transition_path > 0 and not v.ability.in_transition then
+                                pending_up = 1
+                            end
+                        end
+                        v.ability.anim_pos.y = (math.min(v.ability.immutable.old_depth_level, v.ability.immutable.depth_level) - 1 + pending_up)
+                        + (v.ability.in_transition and 5 or 0)
+                        v.children.center:set_sprite_pos(v.ability.anim_pos)
+                    end
+                end
+            end
+        end
+    end
+
     Sagatro.pseudo_animation.nameless_dt = Sagatro.pseudo_animation.nameless_dt + dt
     if G.P_CENTERS and G.P_CENTERS.j_sgt_nameless and Sagatro.pseudo_animation.nameless_dt > 0.125 then
         Sagatro.pseudo_animation.nameless_dt = Sagatro.pseudo_animation.nameless_dt - 0.125
