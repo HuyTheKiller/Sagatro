@@ -61,3 +61,11 @@ TO-DO:
     [] Add Strange Boy's effect
     [] Replace Strange Boy's placeholder with final visual
 [] Add hints to progress Pocket Mirror (not as riddles like Alice in Wonderland, should be straightforward)
+
+Ice's feedback fixes:
+[] Make Fish jokers wiggle after gaining temp ability
+[] Add some kind of progress indicator
+[] Properly remove Pumpkin Carriage editions on special cases
+[] Rebalance some jokers/mechanics:
+    [] Nerf Aladdin to X0.25 Mult/round
+    [] Nerf Supply Pack's weight from 3 to 1.25
