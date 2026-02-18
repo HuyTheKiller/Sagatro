@@ -2927,7 +2927,7 @@ return {
             j_sgt_pocket_mirror = {
                 name = "Pocket Mirror",
                 text = {
-                    "{B:1,C:white}Regalia{}",
+                    "{B:1,C:dark_gold}Regalia{}",
                     "{C:attention}Retrigger{}",
                     "adjacent jokers",
                 },
@@ -2935,7 +2935,7 @@ return {
             j_sgt_pocket_mirror_storymode = {
                 name = "Pocket Mirror",
                 text = {
-                    {"{B:1,C:white}Regalia{} {B:1,C:white}G{}",
+                    {"{B:1,C:dark_gold}Regalia{} {B:1,C:dark_gold}G{}",
                     "{C:attention}Retrigger{}",
                     "adjacent jokers"},
                     {"{C:inactive}Do not ever let it go.",
@@ -2945,7 +2945,7 @@ return {
             j_sgt_knife_fork = {
                 name = "Messer And Gabel",
                 text = {
-                    "{B:1,C:white}Regalia{}",
+                    "{B:1,C:dark_gold}Regalia{}",
                     "Retrigger all played",
                     "{C:attention}Queens{} {C:attention}#1#{} times",
                 },
@@ -2953,7 +2953,7 @@ return {
             j_sgt_knife_fork_storymode = {
                 name = "Messer And Gabel",
                 text = {
-                    "{B:1,C:white}Regalia{} {B:1,C:white}I{}",
+                    "{B:1,C:dark_gold}Regalia{} {B:1,C:dark_gold}I{}",
                     "Retrigger all played",
                     "{C:attention}Queens{} {C:attention}#1#{} times",
                 },
@@ -2961,7 +2961,7 @@ return {
             j_sgt_rose_bell = {
                 name = "Rosen Glöckchen",
                 text = {
-                    "{B:1,C:white}Regalia{}",
+                    "{B:1,C:dark_gold}Regalia{}",
                     "Gain {X:mult,C:white}X#2#{} Mult every time",
                     "{C:attention}Queen{} of {C:hearts}Hearts{} scores",
                     "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
@@ -2970,7 +2970,7 @@ return {
             j_sgt_rose_bell_storymode = {
                 name = "Rosen Glöckchen",
                 text = {
-                    "{B:1,C:white}Regalia{} {B:1,C:white}A{}",
+                    "{B:1,C:dark_gold}Regalia{} {B:1,C:dark_gold}A{}",
                     "Gain {X:mult,C:white}X#2#{} Mult every time",
                     "{C:attention}Queen{} of {C:hearts}Hearts{} scores",
                     "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
@@ -2979,7 +2979,7 @@ return {
             j_sgt_moon_hairbrush = {
                 name = "Haarbürste des Mondes",
                 text = {
-                    "{B:1,C:white}Regalia{}",
+                    "{B:1,C:dark_gold}Regalia{}",
                     "{X:mult,C:white}X#1#{} Mult if played hand is a",
                     "{C:attention}#2#{}, changes every hand played",
                 },
@@ -2987,7 +2987,7 @@ return {
             j_sgt_moon_hairbrush_storymode = {
                 name = "Haarbürste des Mondes",
                 text = {
-                    "{B:1,C:white}Regalia{} {B:1,C:white}O{}",
+                    "{B:1,C:dark_gold}Regalia{} {B:1,C:dark_gold}O{}",
                     "{X:mult,C:white}X#1#{} Mult if played hand is a",
                     "{C:attention}#2#{}, changes every hand played",
                 },
@@ -2995,7 +2995,7 @@ return {
             j_sgt_snow_scissors = {
                 name = "Schnee Schere",
                 text = {
-                    "{B:1,C:white}Regalia{}",
+                    "{B:1,C:dark_gold}Regalia{}",
                     "Played {C:attention}Glass{} cards give",
                     "{X:mult,C:white}X#1#{} Mult when scored",
                 },
@@ -3003,7 +3003,7 @@ return {
             j_sgt_snow_scissors_storymode = {
                 name = "Schnee Schere",
                 text = {
-                    "{B:1,C:white}Regalia{} {B:1,C:white}L{}",
+                    "{B:1,C:dark_gold}Regalia{} {B:1,C:dark_gold}L{}",
                     "Played {C:attention}Glass{} cards give",
                     "{X:mult,C:white}X#1#{} Mult when scored",
                 },
@@ -3011,7 +3011,7 @@ return {
             j_sgt_angel_scythe = {
                 name = "Engelssense",
                 text = {
-                    "{B:1,C:white}Regalia{}",
+                    "{B:1,C:dark_gold}Regalia{}",
                     "Gain {X:chips,C:white}X#2#{} Chips at end of round",
                     "{C:inactive}(Currently {X:chips,C:white}X#1#{C:inactive} Chips)",
                 },
@@ -3019,7 +3019,7 @@ return {
             j_sgt_angel_scythe_storymode = {
                 name = "Engelssense",
                 text = {
-                    "{B:1,C:white}Regalia{} {B:1,C:white}D{}",
+                    "{B:1,C:dark_gold}Regalia{} {B:1,C:dark_gold}D{}",
                     "Gain {X:chips,C:white}X#2#{} Chips at end of round",
                     "{C:inactive}(Currently {X:chips,C:white}X#1#{C:inactive} Chips)",
                 },

@@ -2924,7 +2924,7 @@ return {
             j_sgt_pocket_mirror = {
                 name = "Gương Bỏ Túi",
                 text = {
-                    "{B:1,C:white}Ấn Vương{}",
+                    "{B:1,C:dark_gold}Ấn Vương{}",
                     "{C:attention}Tái kích{}",
                     "joker liền kề",
                 },
@@ -2932,7 +2932,7 @@ return {
             j_sgt_pocket_mirror_storymode = {
                 name = "Gương Bỏ Túi",
                 text = {
-                    {"{B:1,C:white}Ấn Vương{} {B:1,C:white}G{}",
+                    {"{B:1,C:dark_gold}Ấn Vương{} {B:1,C:dark_gold}G{}",
                     "{C:attention}Tái kích{}",
                     "joker liền kề"},
                     {"{C:inactive}Đừng bao giờ buông rời",
@@ -2942,7 +2942,7 @@ return {
             j_sgt_knife_fork = {
                 name = "Dao Và Nĩa",
                 text = {
-                    "{B:1,C:white}Ấn Vương{}",
+                    "{B:1,C:dark_gold}Ấn Vương{}",
                     "Tái kích mọi lá {C:attention}Đầm",
                     "đã chơi {C:attention}#1#{} lần",
                 },
@@ -2950,7 +2950,7 @@ return {
             j_sgt_knife_fork_storymode = {
                 name = "Dao Và Nĩa",
                 text = {
-                    "{B:1,C:white}Ấn Vương{} {B:1,C:white}I{}",
+                    "{B:1,C:dark_gold}Ấn Vương{} {B:1,C:dark_gold}I{}",
                     "Tái kích mọi lá {C:attention}Đầm",
                     "đã chơi {C:attention}#1#{} lần",
                 },
@@ -2958,7 +2958,7 @@ return {
             j_sgt_rose_bell = {
                 name = "Chuông Hồng",
                 text = {
-                    "{B:1,C:white}Ấn Vương{}",
+                    "{B:1,C:dark_gold}Ấn Vương{}",
                     "Thêm {X:mult,C:white}X#2#{} Nhân mỗi lần",
                     "lá {C:attention}Đầm {C:hearts}Cơ{} ghi điểm",
                     "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
@@ -2967,7 +2967,7 @@ return {
             j_sgt_rose_bell_storymode = {
                 name = "Chuông Hồng",
                 text = {
-                    "{B:1,C:white}Ấn Vương{} {B:1,C:white}A{}",
+                    "{B:1,C:dark_gold}Ấn Vương{} {B:1,C:dark_gold}A{}",
                     "Thêm {X:mult,C:white}X#2#{} Nhân mỗi lần",
                     "lá {C:attention}Đầm {C:hearts}Cơ{} ghi điểm",
                     "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
@@ -2976,7 +2976,7 @@ return {
             j_sgt_moon_hairbrush = {
                 name = "Chiếc Lược Mặt Trăng",
                 text = {
-                    "{B:1,C:white}Ấn Vương{}",
+                    "{B:1,C:dark_gold}Ấn Vương{}",
                     "{X:mult,C:white}X#1#{} Nhân nếu tay bài đã chơi là",
                     "{C:attention}#2#{}, thay đổi sau mỗi tay bài",
                 },
@@ -2984,7 +2984,7 @@ return {
             j_sgt_moon_hairbrush_storymode = {
                 name = "Chiếc Lược Mặt Trăng",
                 text = {
-                    "{B:1,C:white}Ấn Vương{} {B:1,C:white}O{}",
+                    "{B:1,C:dark_gold}Ấn Vương{} {B:1,C:dark_gold}O{}",
                     "{X:mult,C:white}X#1#{} Nhân nếu tay bài đã chơi là",
                     "{C:attention}#2#{}, thay đổi sau mỗi tay bài",
                 },
@@ -2992,7 +2992,7 @@ return {
             j_sgt_snow_scissors = {
                 name = "Kéo Tuyết",
                 text = {
-                    "{B:1,C:white}Ấn Vương{}",
+                    "{B:1,C:dark_gold}Ấn Vương{}",
                     "Lá {C:attention}Kính{} đã chơi ghi thêm",
                     "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
                 },
@@ -3000,7 +3000,7 @@ return {
             j_sgt_snow_scissors_storymode = {
                 name = "Kéo Tuyết",
                 text = {
-                    "{B:1,C:white}Ấn Vương{} {B:1,C:white}L{}",
+                    "{B:1,C:dark_gold}Ấn Vương{} {B:1,C:dark_gold}L{}",
                     "Lá {C:attention}Kính{} đã chơi ghi thêm",
                     "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
                 },
@@ -3008,7 +3008,7 @@ return {
             j_sgt_angel_scythe = {
                 name = "Liềm Thiên Sứ",
                 text = {
-                    "{B:1,C:white}Ấn Vươong{}",
+                    "{B:1,C:dark_gold}Ấn Vươong{}",
                     "Thêm {X:chips,C:white}X#2#{} Chip ở cuối ván",
                     "{C:inactive}(Hiện tại là {X:chips,C:white}X#1#{C:inactive} Chip)",
                 },
@@ -3016,7 +3016,7 @@ return {
             j_sgt_angel_scythe_storymode = {
                 name = "Liềm Thiên Sứ",
                 text = {
-                    "{B:1,C:white}Ấn Vươong{} {B:1,C:white}D{}",
+                    "{B:1,C:dark_gold}Ấn Vươong{} {B:1,C:dark_gold}D{}",
                     "Thêm {X:chips,C:white}X#2#{} Chip ở cuối ván",
                     "{C:inactive}(Hiện tại là {X:chips,C:white}X#1#{C:inactive} Chip)",
                 },
