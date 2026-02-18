@@ -38,13 +38,13 @@ TO-DO:
     [X] Add Harpae's effect inside story mode
     [X] Hook Harpae's effects to story events
     [X] Add Harpae's effect outside story mode
-[] Add Lisette:
+[X] Add Lisette:
     [X] Add base Lisette (legendary)
     [X] Add Lisette's effect inside story mode
     [X] Hook Lisette's effects to story events
-    [] Replace Lisette's placeholder with final visual
+    [X] Replace Lisette's placeholder with final visual
     [X] Add Lisette's effect outside story mode
-[X] Add Enjel:
+[] Add Enjel:
     [X] Add Enjel's visual
     [X] Add base Enjel (legendary)
     [] Add Enjel's effect inside story mode
@@ -65,6 +65,7 @@ TO-DO:
 Ice's feedback fixes:
 [] Make Fish jokers wiggle after gaining temp ability
 [] Add some kind of progress indicator
+[] Add a tooltip to specify main mechanics of each storyline
 [] Properly remove Pumpkin Carriage editions on special cases
 [] Rebalance some jokers/mechanics:
     [] Nerf Aladdin to X0.25 Mult/round
