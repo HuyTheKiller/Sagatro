@@ -424,3 +424,14 @@ SMODS.Sound{
 		return G.GAME.solving_door_puzzle and (Sagatro.config.SagatroMusicOption < 2) and 1000
 	end,
 }
+
+SMODS.Sound{
+    key = "music_platinum",
+    path = "music_platinum_loopable.ogg",
+    sync = false,
+    pitch = 1,
+    volume = 0.5,
+    select_music_track = function()
+		return Sagatro.event_check("platinum_ending") and (Sagatro.config.SagatroMusicOption < 2) and 1000
+	end,
+}
