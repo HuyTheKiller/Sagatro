@@ -446,3 +446,14 @@ SMODS.Sound{
 		return Sagatro.event_check("platinum_ending") and (Sagatro.config.SagatroMusicOption < 2) and 1000
 	end,
 }
+
+SMODS.Sound{
+    key = "music_the_name_bathed_in_gold",
+    path = "music_the_name_bathed_in_gold_loopable.ogg",
+    sync = false,
+    pitch = 1,
+    volume = 0.5,
+    select_music_track = function()
+		return (Sagatro.event_check("dawn_ending") or Sagatro.event_check("little_goody_2_shoes_ending")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
+	end,
+}
