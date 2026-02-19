@@ -150,6 +150,7 @@ function Card:fuse_saga()
 			table.sort(joker_pos, function (a, b)
 				return a.pos > b.pos
 			end)
+			local has_pumpkin_edition
 			for index, pos in ipairs(joker_pos) do
 				local isPrimary = false
 				if G.jokers.cards[pos.pos] == self then
@@ -196,11 +197,17 @@ function Card:fuse_saga()
 					end
 				end
 				--G.jokers.cards[pos]:start_dissolve({G.C.GOLD})
+				if G.jokers.cards[pos.pos].ability.pumpkin_edition then
+					has_pumpkin_edition = true
+				end
 				G.jokers.cards[pos.pos]:remove()
 			end
 
 			delay(0.3)
 
+			if has_pumpkin_edition then
+				j_fusion.ability.pumpkin_edition = true
+			end
 			j_fusion:add_to_deck()
 			G.jokers:emplace(j_fusion)
 			play_sound("sgt_page_flip", 1, 1.25)

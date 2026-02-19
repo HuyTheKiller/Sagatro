@@ -66,7 +66,7 @@ Ice's feedback fixes:
 [] Make Fish jokers wiggle after gaining temp ability
 [] Add some kind of progress indicator
 [] Add a tooltip to specify main mechanics of each storyline
-[] Properly remove Pumpkin Carriage editions on special cases
+[X] Properly remove Pumpkin Carriage editions on special cases
 [] Rebalance some jokers/mechanics:
     [] Nerf Aladdin to X0.25 Mult/round
     [] Nerf Supply Pack's weight from 3 to 1.25

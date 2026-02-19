@@ -1041,14 +1041,17 @@ local caterpillar = {
                 G.E_MANAGER:add_event(Event({
                     trigger = "immediate",
                     func = function()
-                        assert(SMODS.add_card({
+                        local mushroom = SMODS.add_card({
                             set = "Joker",
                             skip_materialize = true,
                             key = "j_sgt_mushroom",
                             edition = card.edition and card.edition.key or nil,
                             stickers = card.ability.sgt_mirrored and {"sgt_mirrored"} or nil,
                             force_stickers = card.ability.sgt_mirrored and true or nil,
-                        }))
+                        })
+                        if card.ability.pumpkin_edition then
+                            mushroom.ability.pumpkin_edition = true
+                        end
                         return true
                     end
                 }))
@@ -3638,14 +3641,17 @@ local magic_lamp = {
                         G.E_MANAGER:add_event(Event({
                             trigger = "immediate",
                             func = function()
-                                assert(SMODS.add_card({
+                                local genie = SMODS.add_card({
                                     set = "Joker",
                                     skip_materialize = true,
                                     key = "j_sgt_lamp_genie",
                                     edition = card.edition and card.edition.key or nil,
                                     stickers = card.ability.sgt_mirrored and {"sgt_mirrored"} or nil,
                                     force_stickers = card.ability.sgt_mirrored and true or nil,
-                                }))
+                                })
+                                if card.ability.pumpkin_edition then
+                                    genie.ability.pumpkin_edition = true
+                                end
                                 return true
                             end
                         }))
@@ -5757,14 +5763,17 @@ local turtle_egg = {
                 G.E_MANAGER:add_event(Event({
                     trigger = "immediate",
                     func = function()
-                        assert(SMODS.add_card({
+                        local bturtle = SMODS.add_card({
                             set = "Joker",
                             skip_materialize = true,
                             key = "j_sgt_baby_turtle",
                             edition = card.edition and card.edition.key or nil,
                             stickers = card.ability.sgt_mirrored and {"sgt_mirrored"} or nil,
                             force_stickers = card.ability.sgt_mirrored and true or nil,
-                        }))
+                        })
+                        if card.ability.pumpkin_edition then
+                            bturtle.ability.pumpkin_edition = true
+                        end
                         G.GAME.turtle_egg_hatched = true
                         return true
                     end
@@ -5806,14 +5815,17 @@ local turtle_egg = {
                 G.E_MANAGER:add_event(Event({
                     trigger = "immediate",
                     func = function()
-                        assert(SMODS.add_card({
+                        local bturtle = SMODS.add_card({
                             set = "Joker",
                             skip_materialize = true,
                             key = "j_sgt_baby_turtle",
                             edition = card.edition and card.edition.key or nil,
                             stickers = card.ability.sgt_mirrored and {"sgt_mirrored"} or nil,
                             force_stickers = card.ability.sgt_mirrored and true or nil,
-                        }))
+                        })
+                        if card.ability.pumpkin_edition then
+                            bturtle.ability.pumpkin_edition = true
+                        end
                         G.GAME.turtle_egg_hatched = true
                         return true
                     end
@@ -15579,14 +15591,17 @@ local three_winters = {
                 G.E_MANAGER:add_event(Event({
                     trigger = "immediate",
                     func = function()
-                        assert(SMODS.add_card({
+                        local ragnarok = SMODS.add_card({
                             set = "Joker",
                             skip_materialize = true,
                             key = "j_sgt_ragnarok",
                             edition = card.edition and card.edition.key or nil,
                             stickers = card.ability.sgt_mirrored and {"sgt_mirrored"} or nil,
                             force_stickers = card.ability.sgt_mirrored and true or nil,
-                        }))
+                        })
+                        if card.ability.pumpkin_edition then
+                            ragnarok.ability.pumpkin_edition = true
+                        end
                         return true
                     end
                 }))
@@ -16053,7 +16068,11 @@ local pumpkin_carriage = {
                 return {
                     message = localize("k_glowup_ex"),
                     colour = G.C.FILTER,
-                    card = card
+                    card = card,
+                    func = function()
+                        G.CONTROLLER.locks.edition = false
+                        return true
+                    end,
                 }
             else
                 return {
@@ -16065,12 +16084,17 @@ local pumpkin_carriage = {
         end
         if context.after and not context.blueprint and not context.retrigger_joker then
             if card.ability.extra - 1 <= 0 then
-                for _, v in pairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
-                    if v.ability.set == 'Joker' and v.ability.pumpkin_edition then
-                        v:set_edition(nil, true, true)
-                        v.ability.pumpkin_edition = nil
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        for _, v in pairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
+                            if v.ability.set == 'Joker' and v.ability.pumpkin_edition then
+                                v:set_edition(nil, true, true)
+                                v.ability.pumpkin_edition = nil
+                            end
+                        end
+                        return true
                     end
-                end
+                }))
                 Sagatro.self_destruct(card)
                 return {
                     message = localize('k_poof_ex'),
