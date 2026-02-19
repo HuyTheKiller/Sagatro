@@ -80,10 +80,10 @@ Sagatro.EventChain = SMODS.GameObject:extend{
     set = "EventChain",
     required_params = {
         "key",
-        "func_list",
     },
     delay = 0.8,
     first_delay = false,
+    func_list = {},
     inject = function(self)
         assert(type(self.func_list) == "table", ("Field \"func_list\" must be a table."))
         for i, func in ipairs(self.func_list) do
