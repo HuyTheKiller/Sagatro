@@ -2593,7 +2593,9 @@ function Sagatro:calculate(context)
             or card.config.center_key == "j_sgt_harpae"
             or card.config.center_key == "j_sgt_lisette"
             or card.config.center_key == "m_sgt_mirror"
-            or card.config.center_key == "j_sgt_enjel" then
+            or card.config.center_key == "j_sgt_enjel"
+            or card.config.center_key == "j_sgt_platinum"
+            or card.config.center_key == "j_sgt_ozzy" then
                 return {no_destroy = true}
             end
             if Sagatro.event_check("goldia_transformation")
