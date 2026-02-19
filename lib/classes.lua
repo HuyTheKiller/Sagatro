@@ -53,11 +53,10 @@ end
 
 ---@param key string
 --- Execute a registered event chain.\
---- Invoke directly to perform at an arbitrary time.
---- Otherwise, set `G.GAME.shelved_chain` to `key` to automatically
---- invoke at end of round, before all other end-of-round calculations.
---- Or, set `G.GAME.shelved_chain_hdrawn` to `key` to automatically
---- invoke after hand is drawn during a blind.
+--- Invoke directly to perform at an arbitrary time.\
+--- Otherwise, Set the following keys in `G.GAME.shelved_chains` to `key`:
+--- * `end_of_round` to automatically invoke at end of round, before all other end-of-round calculations.
+--- * `hand_drawn` automatically invoke after hand is drawn during a blind.
 function Sagatro.execute_chain(key)
     local event_chain = Sagatro.EventChains[key]
     if not event_chain then
