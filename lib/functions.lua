@@ -227,6 +227,7 @@ function Game:init_game_object()
     ret.switch_bonus = 0
     ret.celestara_tooltip = true
     ret.current_round.reroll_count = 0
+    ret.shelved_chains = {}
 	return ret
 end
 
@@ -1626,7 +1627,7 @@ function Blind:defeat(silent)
             local regalias = #(G.GAME.regalia_list or {})
             if regalias == 3 then
             elseif regalias == 4 then
-                G.GAME.shelved_chain_hdrawn = "sgt_platinum_ending"
+                G.GAME.shelved_chains.hand_drawn = "sgt_platinum_ending"
             elseif regalias == 5 then
             end
         end

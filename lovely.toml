@@ -1236,9 +1236,9 @@ pattern = '''G.STATE = G.STATES.NEW_ROUND'''
 position = "after"
 payload = '''
 G.GAME.current_round.force_end_round = nil
-if G.GAME.shelved_chain then
-    Sagatro.execute_chain(G.GAME.shelved_chain)
-    G.GAME.shelved_chain = nil
+if G.GAME.shelved_chains.end_of_round then
+    Sagatro.execute_chain(G.GAME.shelved_chains.end_of_round)
+    G.GAME.shelved_chains.end_of_round = nil
 end
 '''
 match_indent = true
@@ -1249,9 +1249,9 @@ target = "game.lua"
 pattern = '''G.STATE = G.STATES.SELECTING_HAND'''
 position = "after"
 payload = '''
-if G.GAME.shelved_chain_hdrawn then
-    Sagatro.execute_chain(G.GAME.shelved_chain_hdrawn)
-    G.GAME.shelved_chain_hdrawn = nil
+if G.GAME.shelved_chains.hand_drawn then
+    Sagatro.execute_chain(G.GAME.shelved_chains.hand_drawn)
+    G.GAME.shelved_chains.hand_drawn = nil
 end
 '''
 match_indent = true

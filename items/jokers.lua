@@ -13600,7 +13600,7 @@ local goldia = {
                 if Sagatro.event_check("door_puzzle") and not G.GAME.door_puzzle_active then
                     G.GAME.door_puzzle_active = true
                     G.GAME.delay_door_puzzle_colour = true
-                    G.GAME.shelved_chain_hdrawn = "sgt_door_puzzle_prep"
+                    G.GAME.shelved_chains.hand_drawn = "sgt_door_puzzle_prep"
                     if context.blind.boss then
                         G.E_MANAGER:add_event(Event({func = function()
                             G.GAME.blind:disable()
@@ -14385,9 +14385,9 @@ local fleta = {
     calculate = function(self, card, context)
         if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker
         and not card.ability.platinum_reflection then
-            if context.before and not G.GAME.shelved_chain
+            if context.before and not G.GAME.shelved_chains.end_of_round
             and G.GAME.blind_on_deck == "Boss" and card.ability.immutable.stage == 3 then
-                G.GAME.shelved_chain = "sgt_fleta_crashout"
+                G.GAME.shelved_chains.end_of_round = "sgt_fleta_crashout"
             end
             if context.ante_change and context.ante_end then
                 if not card.ability.immutable.ready then
@@ -14614,7 +14614,7 @@ local harpae = {
                 if context.scoring_name == card.ability.extra.poker_hand then
                     card.ability.immutable.obedience_count = card.ability.immutable.obedience_count + 1
                     if card.ability.immutable.obedience_count >= 10 then
-                        G.GAME.shelved_chain = "sgt_harpae_ending"
+                        G.GAME.shelved_chains.end_of_round = "sgt_harpae_ending"
                     end
                     return {
                         message = localize("k_good_ex"),
@@ -14978,7 +14978,7 @@ local rusty_scissors = {
                 local mirror = SMODS.find_card("m_sgt_mirror", true)[1]
                 if mirror then
                     mirror:shatter()
-                    G.GAME.shelved_chain = "sgt_lisette_ending"
+                    G.GAME.shelved_chains.end_of_round = "sgt_lisette_ending"
                     for _, scissors in ipairs(SMODS.find_card("j_sgt_rusty_scissors", true)) do
                         scissors:start_dissolve({G.C.GOLD})
                     end
