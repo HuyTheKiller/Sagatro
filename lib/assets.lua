@@ -426,6 +426,17 @@ SMODS.Sound{
 }
 
 SMODS.Sound{
+    key = "music_midnight_striken_clock_glass_slipper",
+    path = "music_midnight_striken_clock_glass_slipper_loopable.ogg",
+    sync = false,
+    pitch = 1,
+    volume = 0.5,
+    select_music_track = function()
+		return Sagatro.event_check("pocket_mirror_chase") and (Sagatro.config.SagatroMusicOption < 2) and 1000
+	end,
+}
+
+SMODS.Sound{
     key = "music_platinum",
     path = "music_platinum_loopable.ogg",
     sync = false,
