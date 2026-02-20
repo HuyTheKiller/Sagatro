@@ -68,6 +68,7 @@ function Sagatro.execute_chain(key)
         return
     end
     Sagatro.EventChainUtils.chain_key = event_chain.key
+    G.CONTROLLER:L_cursor_release()
     Sagatro.recursive_chain(event_chain.func_list, event_chain.delay, event_chain.first_delay)
 end
 
