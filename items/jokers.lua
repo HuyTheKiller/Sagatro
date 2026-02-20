@@ -13843,6 +13843,43 @@ local goldia = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
+        if G.STAGE == G.STAGES.RUN and not card.fake_card
+        and Sagatro.storyline_check(self.saga_group) then
+            local events = {
+                "the_pocket_mirror",
+                "knife_and_fork",
+                "facing_egliette",
+                "pm_mirrorworld",
+                "fleta_challenges",
+                "entering_mirror_maze",
+                "mirror_maze",
+                "lisette_chase",
+                "harpae_patience",
+                "facing_lisette",
+                "dull_glass",
+            }
+            for _, event in ipairs(events) do
+                if G.GAME.goldia_tooltip_key then
+                    info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = G.GAME.goldia_tooltip_key}
+                    break
+                elseif Sagatro.event_check(event)
+                or (event == "facing_lisette" and Sagatro.event_check("harpae_patience", nil, {contain = true})
+                and not (Sagatro.event_check("dull_glass") or Sagatro.event_check("dull_glass", nil, {contain = true}))) then
+                    if event == "dull_glass" then
+                        info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = event, specific_vars = {card.ability.immutable.tolerance_index}}
+                    elseif event ~= "facing_egliette" then
+                        info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = event}
+                        break
+                    elseif Sagatro.event_check("pm_mirrorworld", nil, true) then
+                        info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = event}
+                        break
+                    elseif Sagatro.event_check("pm_mirrorworld", nil, {contain = true}) then
+                        info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "exiting_pm_mirrorworld"}
+                        break
+                    end
+                end
+            end
+        end
         if Sagatro.storyline_check("none") or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
             specific_vars = {localize('ph_pmirror'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}

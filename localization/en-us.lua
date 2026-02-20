@@ -3618,6 +3618,119 @@ return {
                     "{s:0.8,C:sgt_sagadition}Select the mirror to get started",
                 },
             },
+            the_pocket_mirror = {
+                text = {
+                    "All hints assume you",
+                    "play the role of {C:sgt_sagadition}??????{}.",
+                    "Look for something that",
+                    "{C:sgt_sagadition}belongs{} to you in the shop.",
+                },
+            },
+            knife_and_fork = {
+                text = {
+                    "Keep exploring the shop.",
+                    "You may encounter",
+                    "something {C:sgt_sagadition}shiny{}.",
+                },
+            },
+            facing_egliette = {
+                text = {
+                    "Step into the {C:sgt_sagadition}Mirrorworld",
+                    "with some {C:sgt_sagadition}snack{}.",
+                },
+            },
+            pm_mirrorworld = {
+                text = {
+                    "Make sure to {C:sgt_sagadition}enlarge{} yourself",
+                    "so that you won't {C:sgt_sagadition}lose",
+                    "the next round.",
+                },
+            },
+            exiting_pm_mirrorworld = {
+                text = {
+                    "Leave the {C:sgt_sagadition}Mirrorworld{}. There's",
+                    "{C:sgt_sagadition}someone{} waiting for you outside.",
+                },
+            },
+            fleta_challenges = {
+                text = {
+                    "She asks you to play",
+                    "some games, except she",
+                    "can be a bit stubborn.",
+                    "Just {C:sgt_sagadition}follow{} the rules.",
+                },
+            },
+            entering_mirror_maze = {
+                text = {
+                    "The corridor is filled with",
+                    "nothing but {C:sgt_sagadition}Mirrors{}. You don't",
+                    "like it at all, but {C:sgt_sagadition}going",
+                    "{C:sgt_sagadition}through{} is the only way.",
+                },
+            },
+            mirror_maze = {
+                text = {
+                    "There's an ominous feeling as",
+                    "you walk through the corridor.",
+                    "{C:sgt_sagadition}Someone{}'s definitely lurking.",
+                },
+            },
+            lisette_chase = {
+                text = {
+                    "RUN! Don't let",
+                    "her {C:sgt_sagadition}catch{} you!",
+                },
+            },
+            harpae_patience = {
+                text = {
+                    "She tries to protect you at",
+                    "all times. It's best to simply",
+                    "follow her lead, {C:sgt_sagadition}except{}...",
+                },
+            },
+            facing_lisette = {
+                text = {
+                    "You have to confront",
+                    "{C:sgt_sagadition}her{} sooner or later.",
+                },
+            },
+            dull_glass = {
+                text = {
+                    "She walks towards you {C:sgt_sagadition}slower",
+                    "this time, but it's best to",
+                    "{C:sgt_sagadition}keep a distance{} away from her.",
+                    "({C:sgt_sagadition}#1#{}/4?)",
+                },
+            },
+            witching_hour = {
+                text = {
+                    "Enjel is not looking honest.",
+                    "She might reveal her {C:sgt_sagadition}true",
+                    "{C:sgt_sagadition}intentions{} so be careful...",
+                },
+            },
+            shattered_delusion = {
+                text = {
+                    "You're starting to trust",
+                    "Enjel more, only for her",
+                    "{C:sgt_sagadition}betray{} you and...",
+                },
+            },
+            platinum = {
+                text = {
+                    "You believe that Fleta,",
+                    "Harpae and Lisette are",
+                    "simply {C:sgt_sagadition}reflections{} of you,",
+                    "and so is Enjel...",
+                },
+            },
+            pm_chase = {
+                text = {
+                    "Enjel is not looking {C:sgt_sagadition}honest{}.",
+                    "She might reveal her true",
+                    "intentions so be careful...",
+                },
+            },
         },
         fish_effect = {
             pending_swallow = {

@@ -60,7 +60,7 @@ TO-DO:
     [X] Add base Strange Boy (legendary)
     [X] Add Strange Boy's effect
     [] Replace Strange Boy's placeholder with final visual
-[] Add hints to progress Pocket Mirror (not as riddles like Alice in Wonderland, should be straightforward)
+[X] Add hints to progress Pocket Mirror (not as riddles like Alice in Wonderland, should be straightforward)
 
 Ice's feedback fixes:
 [X] Make Fish jokers wiggle after gaining temp ability

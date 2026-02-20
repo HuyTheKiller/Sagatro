@@ -451,6 +451,7 @@ Sagatro.EventChain{
             if goldia then
                 Sagatro.unhighlight_all()
                 goldia.area:add_to_highlighted(goldia)
+                G.GAME.goldia_tooltip_key = nil
             end
             return 1, function()
                 if G.GAME.goldia_transformation_complete then
@@ -500,6 +501,7 @@ Sagatro.EventChain{
             local goldia, enjel = SMODS.find_card("j_sgt_goldia", true)[1], SMODS.find_card("j_sgt_enjel", true)[1]
             if goldia and enjel then
                 Sagatro.progress_storyline("enjel_chase", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                G.GAME.goldia_tooltip_key = nil
                 Sagatro.swap(goldia, "rightmost")
                 Sagatro.swap(enjel, "leftmost")
                 local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
@@ -750,6 +752,7 @@ Sagatro.EventChain{
             Sagatro.progress_storyline("ending_reached", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
             Sagatro.progress_storyline("ending_reached", "force_finish", "pocket_mirror", G.GAME.interwoven_storyline)
             G.GAME.modifiers.inflation = true
+            G.GAME.goldia_tooltip_key = nil
             check_for_unlock{type = "pm_unknown_end_2"}
             G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume or 50
             Sagatro.temp_music_volume = nil
@@ -765,6 +768,7 @@ Sagatro.EventChain{
             local goldia, enjel = SMODS.find_card("j_sgt_goldia", true)[1], SMODS.find_card("j_sgt_enjel", true)[1]
             if goldia and enjel then
                 Sagatro.progress_storyline("pocket_mirror_chase", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                G.GAME.goldia_tooltip_key = nil
                 local enjel_pos = Sagatro.get_pos(enjel)
                 Sagatro.swap(goldia, "leftmost")
                 for _ = enjel_pos, 3, -1 do

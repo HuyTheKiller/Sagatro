@@ -1636,12 +1636,16 @@ function Blind:defeat(silent)
             if regalias == 2 then
                 G.GAME.shelved_chains.hand_drawn = "sgt_enjel_chase_prep"
                 G.GAME.shelved_chains.end_of_round = "sgt_witching_hour_ending"
+                G.GAME.goldia_tooltip_key = "witching_hour"
             elseif regalias == 3 then
                 G.GAME.shelved_chains.end_of_round = "sgt_shattered_delusion_ending"
+                G.GAME.goldia_tooltip_key = "shattered_delusion"
             elseif regalias == 4 then
                 G.GAME.shelved_chains.end_of_round = "sgt_platinum_ending"
+                G.GAME.goldia_tooltip_key = "platinum"
             elseif regalias == 5 then
                 G.GAME.shelved_chains.hand_drawn = "sgt_pocket_mirror_chase_prep"
+                G.GAME.goldia_tooltip_key = "pm_chase"
             end
         end
         if G.GAME.witching_hour and Sagatro.temp_music_volume then

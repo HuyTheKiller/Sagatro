@@ -3613,6 +3613,119 @@ return {
                     "{s:0.8,C:sgt_sagadition}Nhấn vào gương để bắt đầu",
                 },
             },
+            the_pocket_mirror = {
+                text = {
+                    "Mọi gợi ý ngầm định bạn",
+                    "đang đóng vai {C:sgt_sagadition}??????{}.",
+                    "Hãy tìm món đồ nào đố",
+                    "{C:sgt_sagadition}thuộc{} về mình ở trong shop.",
+                },
+            },
+            knife_and_fork = {
+                text = {
+                    "Hãy tiếp tục khám phá shop.",
+                    "Bạn có thể bắt gặp",
+                    "thứ gì đó {C:sgt_sagadition}sáng bóng{}.",
+                },
+            },
+            facing_egliette = {
+                text = {
+                    "Hãy bước vào {C:sgt_sagadition}Thế Giới Gương",
+                    "với một ít {C:sgt_sagadition}món vặt{}.",
+                },
+            },
+            pm_mirrorworld = {
+                text = {
+                    "Đừng quên {C:sgt_sagadition}phóng to{} bản thân",
+                    "để không {C:sgt_sagadition}thua{} trong",
+                    "ván tiếp theo.",
+                },
+            },
+            exiting_pm_mirrorworld = {
+                text = {
+                    "Hãy thoát khỏi {C:sgt_sagadition}Thế Giới Gương{}.",
+                    "Có {C:sgt_sagadition}ai đó{} đang chờ bạn bên ngoài.",
+                },
+            },
+            fleta_challenges = {
+                text = {
+                    "Cô ấy muốn bạn chơi một chút",
+                    "trò chơi nho nhỏ, nhưng cổ cũng",
+                    "khá là bướng bỉnh đó.",
+                    "Cứ {C:sgt_sagadition}bám{} theo luật là được.",
+                },
+            },
+            entering_mirror_maze = {
+                text = {
+                    "Hành lang bị lấp đầy bởi toàn",
+                    "{C:sgt_sagadition}Gương{} là gương. Bạn không",
+                    "ưa nó chút nào, nhưng cách duy nhất",
+                    "chỉ có thể là {C:sgt_sagadition}băng qua{} mà thôi.",
+                },
+            },
+            mirror_maze = {
+                text = {
+                    "Bạn cảm thấy e ngại khi",
+                    "bước qua hành lang này.",
+                    "Chắc chắn {C:sgt_sagadition}ai đó{} đang nhìn lén.",
+                },
+            },
+            lisette_chase = {
+                text = {
+                    "CHẠY ĐI! Đừng để",
+                    "cô ấy {C:sgt_sagadition}bắt được{} bạn!",
+                },
+            },
+            harpae_patience = {
+                text = {
+                    "Cô ấy muốn bảo vệ bạn mọi",
+                    "lúc. Tốt nhất là cứ nghe theo",
+                    "cô ấy đi, {C:sgt_sagadition}trừ khi{}...",
+                },
+            },
+            facing_lisette = {
+                text = {
+                    "Sớm muộn gì bạn cũng phải",
+                    "đối mặt với {C:sgt_sagadition}cô ấy{} mà thôi.",
+                },
+            },
+            dull_glass = {
+                text = {
+                    "Lần này thì cô ấy chỉ {C:sgt_sagadition}chậm rãi",
+                    "bước đến bạn, nhưng tốt nhất là cứ",
+                    "{C:sgt_sagadition}giữ khoảng cách{} nhất định.",
+                    "({C:sgt_sagadition}#1#{}/4?)",
+                },
+            },
+            witching_hour = {
+                text = {
+                    "Có vẻ như Enjel không thật lòng.",
+                    "Cô ấy có thể lộ {C:sgt_sagadition}mưu đồ",
+                    "{C:sgt_sagadition}thực sự{} nên hãy cẩn thận...",
+                },
+            },
+            shattered_delusion = {
+                text = {
+                    "Bạn bắt đầu tin tưởng",
+                    "Enjel hơn, chỉ để cô ấy",
+                    "{C:sgt_sagadition}phản bội{} bạn và...",
+                },
+            },
+            platinum = {
+                text = {
+                    "Bạn tin rằng Fleta, Harpae",
+                    "và Lisette chỉ là những",
+                    "{C:sgt_sagadition}hình chiếu{} của bản thân,",
+                    "và Enjel cũng thế...",
+                },
+            },
+            pm_chase = {
+                text = {
+                    "Có vẻ như Enjel không {C:sgt_sagadition}thật lòng{}.",
+                    "Cô ấy có thể lộ mưu đồ",
+                    "thực sự nên hãy cẩn thận...",
+                },
+            },
         },
         fish_effect = {
             pending_swallow = {
