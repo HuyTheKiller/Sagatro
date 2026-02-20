@@ -15200,7 +15200,7 @@ local platinum = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {colours = {G.C.FLETA_RED, G.C.HARPAE_BLUE, G.C.LISETTE_PURPLE, G.C.ENJEL_MIDNIGHT, mix_colours(G.C.GOLDIA_PINK, G.C.PLATINUM_PINK, 0.5)}}}
-        if Sagatro.event_check("ending_reached", nil, {contain = true}) then
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = "j_sgt_platinum_ending"
         end
         return ret
