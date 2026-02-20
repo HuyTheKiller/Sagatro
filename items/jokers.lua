@@ -16183,7 +16183,7 @@ local pumpkin_carriage = {
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         local eligible_card = pseudorandom_element(card.eligible_strength_jokers, pseudoseed('pumpkin_carriage'))
-                        eligible_card:set_edition(poll_edition("pumcar", nil, nil, true), true)
+                        eligible_card:set_edition(poll_edition("pumcar", nil, nil, true), true, true)
                         eligible_card.ability.pumpkin_edition = true
                         card:juice_up(0.3, 0.5)
                         return true
@@ -16193,10 +16193,6 @@ local pumpkin_carriage = {
                     message = localize("k_glowup_ex"),
                     colour = G.C.FILTER,
                     card = card,
-                    func = function()
-                        G.CONTROLLER.locks.edition = false
-                        return true
-                    end,
                 }
             else
                 return {
