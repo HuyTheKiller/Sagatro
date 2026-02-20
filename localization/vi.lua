@@ -3617,7 +3617,7 @@ return {
                 text = {
                     "Mọi gợi ý ngầm định bạn",
                     "đang đóng vai {C:sgt_sagadition}??????{}.",
-                    "Hãy tìm món đồ nào đố",
+                    "Hãy tìm món đồ nào đó",
                     "{C:sgt_sagadition}thuộc{} về mình ở trong shop.",
                 },
             },
