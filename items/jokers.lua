@@ -13630,13 +13630,6 @@ local goldia = {
                     card:add_sticker("pinned", true)
                 end
                 if Sagatro.event_check("dull_glass") then
-                    local lisette = SMODS.add_card{key = "j_sgt_lisette"}
-                    if Sagatro.get_pos(card) > math.floor(#G.jokers.cards/2) then
-                        G.E_MANAGER:add_event(Event({func = function()
-                            Sagatro.swap(lisette, "leftmost")
-                            save_run()
-                        return true end}))
-                    end
                     if card.ability.immutable.tolerance_index >= 2 and not next(SMODS.find_card("m_sgt_mirror", true)) then
                         SMODS.add_card{key = "m_sgt_mirror", area = G.jokers, edition = "e_holo"}
                     end
@@ -13787,8 +13780,7 @@ local goldia = {
         if G.STAGE == G.STAGES.RUN then
             if card.area and card.area == G.jokers then
                 if Sagatro.event_check("dull_glass") then
-                    if (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.PLAY_TAROT)
-                    and not G.CONTROLLER.locked then
+                    if (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or (G.STATE == G.STATES.PLAY_TAROT and G.TAROT_INTERRUPT == G.STATES.SELECTING_HAND)) then
                         card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
                         if card.ability.immutable.dt > (120*48/135) then
                             card.ability.immutable.dt = card.ability.immutable.dt - (120*48/135)
@@ -13803,8 +13795,7 @@ local goldia = {
                 elseif Sagatro.event_check("pocket_mirror_chase") then
                     G.GAME.pm_chase = G.GAME.pm_chase or {}
                     G.GAME.pm_chase.goldia_pos = Sagatro.get_pos(card)
-                    if (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.PLAY_TAROT)
-                    and not G.CONTROLLER.locked then
+                    if (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or (G.STATE == G.STATES.PLAY_TAROT and G.TAROT_INTERRUPT == G.STATES.SELECTING_HAND)) then
                         card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
                         if card.ability.immutable.dt > (240/170) then
                             card.ability.immutable.dt = card.ability.immutable.dt - (240/170)
@@ -13818,8 +13809,7 @@ local goldia = {
                         card.ability.immutable.dt = 0
                     end
                 elseif Sagatro.event_check("enjel_chase") then
-                    if (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.PLAY_TAROT)
-                    and not G.CONTROLLER.locked then
+                    if (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or (G.STATE == G.STATES.PLAY_TAROT and G.TAROT_INTERRUPT == G.STATES.SELECTING_HAND)) then
                         card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
                         if card.ability.immutable.dt > (120/170) then
                             card.ability.immutable.dt = card.ability.immutable.dt - (120/170)
@@ -15023,8 +15013,7 @@ local enjel = {
                 if Sagatro.event_check("pocket_mirror_chase") then
                     G.GAME.pm_chase = G.GAME.pm_chase or {}
                     G.GAME.pm_chase.enjel_pos = Sagatro.get_pos(card)
-                    if (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.PLAY_TAROT)
-                    and not G.CONTROLLER.locked then
+                    if (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or (G.STATE == G.STATES.PLAY_TAROT and G.TAROT_INTERRUPT == G.STATES.SELECTING_HAND)) then
                         card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
                         if card.ability.immutable.dt > (120/170) then
                             card.ability.immutable.dt = card.ability.immutable.dt - (120/170)
@@ -15038,8 +15027,7 @@ local enjel = {
                         card.ability.immutable.dt = 0
                     end
                 elseif Sagatro.event_check("enjel_chase") then
-                    if (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.PLAY_TAROT)
-                    and not G.CONTROLLER.locked then
+                    if (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or (G.STATE == G.STATES.PLAY_TAROT and G.TAROT_INTERRUPT == G.STATES.SELECTING_HAND)) then
                         card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
                         if card.ability.immutable.dt > (120/170) then
                             card.ability.immutable.dt = card.ability.immutable.dt - (120/170)
