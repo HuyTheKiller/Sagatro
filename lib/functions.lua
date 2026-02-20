@@ -749,6 +749,14 @@ function Game:update(dt)
         if G.GAME.no_savebox then
             Sagatro.allow_save = nil
         end
+        if G.GAME.pm_chase and next(G.GAME.pm_chase)
+        and (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED) then
+            if G.GAME.pm_chase.goldia_pos > G.GAME.pm_chase.enjel_pos then
+                G.GAME.shelved_chains.end_of_round = "sgt_little_goody_2_shoes_ending"
+            elseif G.GAME.pm_chase.goldia_pos < G.GAME.pm_chase.enjel_pos then
+                G.GAME.shelved_chains.end_of_round = "sgt_dawn_ending"
+            end
+        end
         if G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP then
             -- Handle opening Mega Buffoon Pack spawned by Utima Vox (restricted to during shop and blind select)
             if G.GAME.pending_mega_buffoon then
@@ -1629,6 +1637,7 @@ function Blind:defeat(silent)
             elseif regalias == 4 then
                 G.GAME.shelved_chains.hand_drawn = "sgt_platinum_ending"
             elseif regalias == 5 then
+                G.GAME.shelved_chains.hand_drawn = "sgt_pocket_mirror_chase_prep"
             end
         end
     end
@@ -3728,26 +3737,27 @@ function Sagatro.swap(card, dir)
         table.sort(card.area.cards, function (a, b) return a.rank < b.rank end)
         card.area:align_cards()
     elseif dir == "leftmost" and card.rank > 1 then
-        for _, v in ipairs(card.area.cards) do
-            if v == card then
-                v.rank = #card.area.cards
-            else
-                v.rank = v.rank - 1
-            end
+        local pos = Sagatro.get_pos(card)
+        for _ = pos, 2, -1 do
+            Sagatro.swap(card, "left")
         end
-        table.sort(card.area.cards, function (a, b) return a.rank < b.rank end)
-        card.area:align_cards()
     elseif dir == "rightmost" and card.rank < #card.area.cards then
-        for _, v in ipairs(card.area.cards) do
-            if v == card then
-                v.rank = 1
-            else
-                v.rank = v.rank + 1
-            end
+        local pos = Sagatro.get_pos(card)
+        for _ = pos, #card.area.cards - 1 do
+            Sagatro.swap(card)
         end
-        table.sort(card.area.cards, function (a, b) return a.rank < b.rank end)
-        card.area:align_cards()
     end
+end
+
+---@param card table|Card
+---@param area table|CardArea
+---@param args? table
+--- Move a card from one area to another.
+function Sagatro.move_to_area(card, area, args)
+    args = args or {}
+    if not card.area then return end
+    card.area:remove_card(card)
+    area:emplace(card, args.front and "front")
 end
 
 function Sagatro.unhighlight_all()

@@ -590,8 +590,6 @@ G.FUNCS.goldia_transform = function(e)
             end
             Sagatro.progress_storyline("goldia_transformation", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
             Sagatro.progress_storyline("platinum_ending", "add", "pocket_mirror", G.GAME.interwoven_storyline)
-            G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume or 50
-            Sagatro.temp_music_volume = nil
             check_for_unlock{type = "pm_normal_end_1"}
         elseif #regalia_list == 5 then
             Sagatro.set_goldia_stage(0, "dawn")
@@ -609,6 +607,8 @@ G.FUNCS.goldia_transform = function(e)
         play_sound('timpani')
         G.jokers:unhighlight_all()
         G.GAME.goldia_transformation_complete = true
+        G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume or 50
+        Sagatro.temp_music_volume = nil
         Sagatro.progress_storyline("ending_reached", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
         Sagatro.progress_storyline("ending_reached", "force_finish", "pocket_mirror", G.GAME.interwoven_storyline)
     else

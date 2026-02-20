@@ -461,12 +461,9 @@ Sagatro.EventChain{
         function()
             local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
             if enjel then
-                local enjel_pos = Sagatro.get_pos(enjel)
-                for _ = enjel_pos, #G.jokers.cards - 1 do
-                    Sagatro.swap(enjel)
-                end
+                Sagatro.swap(enjel, "rightmost")
+                return 1.5
             end
-            return 1.5
         end,
         function()
             local platinum, enjel = SMODS.find_card("j_sgt_platinum", true)[1], SMODS.find_card("j_sgt_enjel", true)[1]
@@ -481,8 +478,8 @@ Sagatro.EventChain{
                         Sagatro.swap(platinum)
                     end
                 end
+                return 2
             end
-            return 2
         end,
         function()
             local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
@@ -492,5 +489,206 @@ Sagatro.EventChain{
                 enjel:juice_up()
             end
         end,
-    }
+    },
+}
+
+Sagatro.EventChain{
+    key = "pocket_mirror_chase_prep",
+    func_list = {
+        function()
+            local goldia, enjel = SMODS.find_card("j_sgt_goldia", true)[1], SMODS.find_card("j_sgt_enjel", true)[1]
+            if goldia and enjel then
+                Sagatro.progress_storyline("pocket_mirror_chase", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                local enjel_pos = Sagatro.get_pos(enjel)
+                Sagatro.swap(goldia, "leftmost")
+                for _ = enjel_pos, 3, -1 do
+                    Sagatro.swap(enjel, "left")
+                end
+                local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
+                if pmirror then
+                    Sagatro.move_to_area(pmirror, G.consumeables, {front = true})
+                end
+                return 12/68
+            end
+        end,
+    },
+}
+
+Sagatro.EventChain{
+    key = "dawn_ending",
+    func_list = {
+        function()
+            G.GAME.pm_chase = nil
+            Sagatro.temp_music_volume = G.SETTINGS.SOUND.music_volume
+            G.E_MANAGER:add_event(Event({
+                trigger = 'ease',
+                blockable = false,
+                ref_table = G.SETTINGS.SOUND,
+                ref_value = 'music_volume',
+                ease_to = 0,
+                delay = 1*(G.STAGE == G.STAGES.RUN and G.SETTINGS.GAMESPEED or 1),
+                func = (function(t) return t end)
+            }))
+            local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
+            if pmirror then
+                Sagatro.move_to_area(pmirror, G.jokers)
+            end
+        end,
+        function()
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                local enjel_pos = Sagatro.get_pos(enjel)
+                for _ = enjel_pos, #G.jokers.cards - 2 do
+                    Sagatro.swap(enjel)
+                end
+                return 2
+            end
+        end,
+        function()
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                play_sound('timpani')
+                enjel:juice_up()
+                return 0.5
+            end
+        end,
+        function()
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                play_sound('timpani')
+                enjel:juice_up()
+                return 0.5
+            end
+        end,
+        function()
+            Sagatro.progress_storyline("pocket_mirror_chase", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                enjel:shatter()
+                return 2
+            end
+        end,
+        function()
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if goldia then
+                Sagatro.unhighlight_all()
+                goldia.area:add_to_highlighted(goldia)
+            end
+            return 2, function()
+                if G.GAME.goldia_transformation_complete then
+                    G.GAME.goldia_transformation_complete = nil
+                    return true
+                end
+            end
+        end,
+        function()
+            play_sound('timpani')
+            SMODS.add_card{key = "j_sgt_pocket_mirror"}
+            return 0
+        end,
+    },
+}
+
+Sagatro.EventChain{
+    key = "little_goody_2_shoes_ending",
+    func_list = {
+        function()
+            G.GAME.pm_chase = nil
+            Sagatro.temp_music_volume = G.SETTINGS.SOUND.music_volume
+            G.E_MANAGER:add_event(Event({
+                trigger = 'ease',
+                blockable = false,
+                ref_table = G.SETTINGS.SOUND,
+                ref_value = 'music_volume',
+                ease_to = 0,
+                delay = 1*(G.STAGE == G.STAGES.RUN and G.SETTINGS.GAMESPEED or 1),
+                func = (function(t) return t end)
+            }))
+            local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
+            if pmirror then
+                Sagatro.move_to_area(pmirror, G.jokers)
+            end
+        end,
+        function()
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if goldia then
+                local goldia_pos = Sagatro.get_pos(goldia)
+                for _ = goldia_pos, #G.jokers.cards - 2 do
+                    Sagatro.swap(goldia)
+                end
+            end
+        end,
+        function()
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                Sagatro.swap(enjel, "leftmost")
+                return 2
+            end
+        end,
+        function()
+            local goldia, pmirror = SMODS.find_card("j_sgt_goldia", true)[1], SMODS.find_card("j_sgt_pocket_mirror", true)[1]
+            if goldia and pmirror then
+                local goldia_pos, pmirror_pos = Sagatro.get_pos(goldia), Sagatro.get_pos(pmirror)
+                for _ = goldia_pos, 3, -1 do
+                    Sagatro.swap(goldia, "left")
+                end
+                for _ = pmirror_pos, 4, -1 do
+                    Sagatro.swap(pmirror, "left")
+                end
+                return 2
+            end
+        end,
+        function()
+            play_sound('timpani')
+            local scythe = SMODS.create_card{key = "j_sgt_angel_scythe"}
+            scythe:add_to_deck()
+            G.jokers:emplace(scythe, "front")
+        end,
+        function()
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                play_sound('timpani')
+                enjel:juice_up()
+                return 0.5
+            end
+        end,
+        function()
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                play_sound('timpani')
+                enjel:juice_up()
+                return 0.5
+            end
+        end,
+        function()
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                enjel:shatter()
+                return 2
+            end
+        end,
+        function()
+            Sagatro.progress_storyline("pocket_mirror_chase", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                enjel:shatter()
+                return 2
+            end
+        end,
+        function()
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if goldia then
+                Sagatro.unhighlight_all()
+                goldia.area:add_to_highlighted(goldia)
+            end
+            return 2, function()
+                if G.GAME.goldia_transformation_complete then
+                    G.GAME.goldia_transformation_complete = nil
+                    return true
+                end
+            end
+        end,
+    },
 }

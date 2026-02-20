@@ -13786,17 +13786,35 @@ local goldia = {
         and card.ability.immutable.stage ~= "dawn" and (G.GAME.story_mode or card.displaying_save)
         if G.STAGE == G.STAGES.RUN then
             if card.area and card.area == G.jokers then
-                if G.STATE == G.STATES.SELECTING_HAND and Sagatro.event_check("dull_glass") then
-                    card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
-                    if card.ability.immutable.dt > (120*48/135) then
-                        card.ability.immutable.dt = card.ability.immutable.dt - (120*48/135)
-                        local lisette = SMODS.add_card{key = "j_sgt_lisette"}
-                        if Sagatro.get_pos(card) > math.floor(#G.jokers.cards/2) then
-                            Sagatro.swap(lisette, "leftmost")
+                if Sagatro.event_check("dull_glass") then
+                    if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED then
+                        card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
+                        if card.ability.immutable.dt > (120*48/135) then
+                            card.ability.immutable.dt = card.ability.immutable.dt - (120*48/135)
+                            local lisette = SMODS.add_card{key = "j_sgt_lisette"}
+                            if Sagatro.get_pos(card) > math.floor(#G.jokers.cards/2) then
+                                Sagatro.swap(lisette, "leftmost")
+                            end
                         end
+                    else
+                        card.ability.immutable.dt = 120*48/135
                     end
-                else
-                    card.ability.immutable.dt = 120*48/135
+                elseif Sagatro.event_check("pocket_mirror_chase") then
+                    G.GAME.pm_chase = G.GAME.pm_chase or {}
+                    G.GAME.pm_chase.goldia_pos = Sagatro.get_pos(card)
+                    if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED then
+                        card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
+                        if card.ability.immutable.dt > (240/170) then
+                            card.ability.immutable.dt = card.ability.immutable.dt - (240/170)
+                            if not card.states.drag.is and G.jokers.cards[Sagatro.get_pos(card)+1]
+                            and not G.jokers.cards[Sagatro.get_pos(card)+1].states.drag.is
+                            and G.jokers.cards[Sagatro.get_pos(card)+1].config.center_key ~= "j_sgt_enjel" then
+                                Sagatro.swap(card)
+                            end
+                        end
+                    else
+                        card.ability.immutable.dt = 0
+                    end
                 end
             end
         end
@@ -14890,7 +14908,7 @@ local enjel = {
     pools = { [SAGA_GROUP_POOL.pmirror] = true, [SAGA_GROUP_POOL.legend] = true },
     pos = { x = 0, y = 3 },
     soul_pos = { x = 2, y = 3, sgt_extra = { x = 1, y = 3, no_scale = true }, name_tag = { x = 3, y = 3 } },
-    config = {immutable = {}, extra = {chips = 50, chip_xmod = 2}, shatters_on_destroy = true},
+    config = {immutable = {dt = 0}, extra = {chips = 50, chip_xmod = 2}, shatters_on_destroy = true},
     rarity = 4,
     cost = 20,
     blueprint_compat = true,
@@ -14943,6 +14961,29 @@ local enjel = {
             G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
                 ease_background_colour_blind(G.STATE)
             return true end }))
+        end
+    end,
+    update = function(self, card, dt)
+        if G.STAGE == G.STAGES.RUN then
+            if card.area and card.area == G.jokers then
+                if Sagatro.event_check("pocket_mirror_chase") then
+                    G.GAME.pm_chase = G.GAME.pm_chase or {}
+                    G.GAME.pm_chase.enjel_pos = Sagatro.get_pos(card)
+                    if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED then
+                        card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
+                        if card.ability.immutable.dt > (120/170) then
+                            card.ability.immutable.dt = card.ability.immutable.dt - (120/170)
+                            if not card.states.drag.is and G.jokers.cards[Sagatro.get_pos(card)+1]
+                            and not G.jokers.cards[Sagatro.get_pos(card)+1].states.drag.is
+                            and G.jokers.cards[Sagatro.get_pos(card)+1].config.center_key ~= "j_sgt_goldia" then
+                                Sagatro.swap(card)
+                            end
+                        end
+                    else
+                        card.ability.immutable.dt = 0
+                    end
+                end
+            end
         end
     end,
     in_pool = function(self, args)
