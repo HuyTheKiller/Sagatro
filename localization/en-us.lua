@@ -3638,6 +3638,7 @@ return {
             },
             weight1_type1 = {
                 text = {
+                    "{B:1,C:white}Common{}",
                     "Convert 3 {C:attention}random cards{} in the first",
                     "drawn hand into {C:attention}2s{}, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3645,6 +3646,7 @@ return {
             },
             weight1_type2 = {
                 text = {
+                    "{B:1,C:white}Common{}",
                     "{C:attention}Decrease{} the rank of 3 {C:attention}random cards{}",
                     "in the first drawn hand, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3652,6 +3654,7 @@ return {
             },
             weight1_type3 = {
                 text = {
+                    "{B:1,C:white}Common{}",
                     "If played hand is a {C:attention}Pair{}, convert",
                     "the suit of the {C:attention}second card{} to the",
                     "suit of the {C:attention}first card{}, lasts 3 rounds",
@@ -3660,6 +3663,7 @@ return {
             },
             weight1_type4 = {
                 text = {
+                    "{B:1,C:white}Common{}",
                     "{C:chips}+10{} Chips and",
                     "{C:mult}+5{} Mult per stack",
                     "{C:inactive}(Stack count: {C:attention}#1#{C:inactive})",
@@ -3667,6 +3671,7 @@ return {
             },
             weight1_type5 = {
                 text = {
+                    "{B:1,C:white}Common{}",
                     "If played hand is a {C:attention}High Card{}, apply",
                     "a random {C:attention}enhancement{} to the",
                     "{C:attention}first unscored card{}, lasts 3 rounds",
@@ -3675,12 +3680,14 @@ return {
             },
             weight2_type1 = {
                 text = {
+                    "{B:1,C:white}Uncommon{}",
                     "Played and discarded cards {C:red}will not",
                     "return to deck until {C:attention}end of this ante",
                 },
             },
             weight2_type2 = {
                 text = {
+                    "{B:1,C:white}Uncommon{}",
                     "If played hand has {C:attention}1{} scoring card, retrigger the",
                     "{C:attention}leftmost{} card held in hand twice, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3688,6 +3695,7 @@ return {
             },
             weight2_type3 = {
                 text = {
+                    "{B:1,C:white}Uncommon{}",
                     "If played hand has {C:attention}2{} scoring cards, each",
                     "scoring card gives {C:mult}+8{} Mult, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3695,6 +3703,7 @@ return {
             },
             weight2_type4 = {
                 text = {
+                    "{B:1,C:white}Uncommon{}",
                     "If played hand has {C:attention}3{} scoring cards,",
                     "earn {C:money}$6{}, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3702,6 +3711,7 @@ return {
             },
             weight2_type5 = {
                 text = {
+                    "{B:1,C:white}Uncommon{}",
                     "If played hand has {C:attention}4{} scoring cards, each",
                     "scoring card gives {X:mult,C:white}X1.5{} Mult, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3709,6 +3719,7 @@ return {
             },
             weight2_type6 = {
                 text = {
+                    "{B:1,C:white}Uncommon{}",
                     "If played hand has {C:attention}5{} scoring cards, each",
                     "scoring card gives {X:mult,C:white}X1.4{} Mult, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3716,6 +3727,7 @@ return {
             },
             weight3_type1 = {
                 text = {
+                    "{B:1,C:white}Rare{}",
                     "Force-select {C:attention}1{} card per hand, each card",
                     "held in hand gives {X:mult,C:white}X1.5{} Mult, lasts 5 hands",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3723,6 +3735,7 @@ return {
             },
             weight3_type2 = {
                 text = {
+                    "{B:1,C:white}Rare{}",
                     "Force-select {C:attention}2{} cards per hand,",
                     "{C:attention}retrigger{} this joker, lasts 5 hands",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3730,6 +3743,7 @@ return {
             },
             weight3_type3 = {
                 text = {
+                    "{B:1,C:white}Rare{}",
                     "Transfer one level from {C:attention}first discarded poker hand{}",
                     "of round to {C:attention}most played{} poker hand, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3737,6 +3751,7 @@ return {
             },
             weight3_type4 = {
                 text = {
+                    "{B:1,C:white}Rare{}",
                     "If first discard of round has only {C:attention}1{} card,",
                     "apply a random {C:attention}enhancement{} (occasionally with",
                     "{C:dark_edition}edition{} and/or {C:attention}seal{}) to it, lasts 3 rounds",
@@ -3745,6 +3760,7 @@ return {
             },
             weight3_type5 = {
                 text = {
+                    "{B:1,C:white}Rare{}",
                     "{C:attention}Convert{} discarded cards to a random discarded card",
                     "in {C:attention}last discard{} of round, lasts 1 round",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3752,6 +3768,7 @@ return {
             },
             weight4_type1 = {
                 text = {
+                    "{B:1,C:white}Obscure{}",
                     "{C:attention}Retrigger{} this joker",
                     "twice, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3759,6 +3776,7 @@ return {
             },
             weight4_type2 = {
                 text = {
+                    "{B:1,C:white}Obscure{}",
                     "{C:attention}Convert{} all cards held in hand to",
                     "a random {C:attention}played card{}, lasts 1 hand",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3766,6 +3784,7 @@ return {
             },
             weight4_type3 = {
                 text = {
+                    "{B:1,C:white}Obscure{}",
                     "Doubles money at end of round,",
                     "lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3773,6 +3792,7 @@ return {
             },
             weight4_type4 = {
                 text = {
+                    "{B:1,C:white}Obscure{}",
                     "{X:dark_edition,C:white}^1.05{} Score,",
                     "lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3780,6 +3800,7 @@ return {
             },
             weight4_type5 = {
                 text = {
+                    "{B:1,C:white}Obscure{}",
                     "Each card held in hand gives",
                     "{X:dark_edition,C:white}^1.1{} Mult, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",

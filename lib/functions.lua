@@ -3458,7 +3458,7 @@ function Sagatro.fish_loc_vars(info_queue, card)
                 set = "fish_effect",
                 key = "weight".._weight.."_type".._type,
                 title = localize("fish_effect_active"),
-                specific_vars = {round_tally or hand_tally},
+                specific_vars = {round_tally or hand_tally, colours = {G.C.RARITY[({"Common", "Uncommon", "Rare", "sgt_obscure"})[_weight]]}},
                 colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
             }
         end
@@ -3468,7 +3468,7 @@ function Sagatro.fish_loc_vars(info_queue, card)
                 set = "fish_effect",
                 key = "weight1_type4",
                 title = localize("fish_effect_stackable"),
-                specific_vars = {_stack},
+                specific_vars = {_stack, colours = {G.C.RARITY[1]}},
                 colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
             }
         end
@@ -3478,6 +3478,7 @@ function Sagatro.fish_loc_vars(info_queue, card)
                 set = "fish_effect",
                 key = "weight2_type1",
                 title = localize("fish_effect_active"),
+                specific_vars = {colours = {G.C.RARITY[2]}},
                 colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
             }
         end

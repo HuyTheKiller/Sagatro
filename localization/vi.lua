@@ -3633,6 +3633,7 @@ return {
             },
             weight1_type1 = {
                 text = {
+                    "{B:1,C:white}Thường{}",
                     "Biến đổi 3 {C:attention}lá ngẫu nhiên{} trong đợt",
                     "bốc đầu tiên thành {C:attention}2{}, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3640,6 +3641,7 @@ return {
             },
             weight1_type2 = {
                 text = {
+                    "{B:1,C:white}Thường{}",
                     "{C:attention}Giảm{} bậc của 3 {C:attention}lá ngẫu nhiên",
                     "trong đợt bốc đầu tiên, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3647,6 +3649,7 @@ return {
             },
             weight1_type3 = {
                 text = {
+                    "{B:1,C:white}Thường{}",
                     "Nếu tay đã chơi là {C:attention}Đôi{}, biến đổi",
                     "chất của {C:attention}lá thứ hai{} thành",
                     "chất của {C:attention}lá đầu tiên{}, kéo dài 3 ván",
@@ -3655,6 +3658,7 @@ return {
             },
             weight1_type4 = {
                 text = {
+                    "{B:1,C:white}Thường{}",
                     "{C:chips}+10{} Chip và",
                     "{C:mult}+5{} Nhân mỗi tầng",
                     "{C:inactive}(Số tầng: {C:attention}#1#{C:inactive})",
@@ -3662,6 +3666,7 @@ return {
             },
             weight1_type5 = {
                 text = {
+                    "{B:1,C:white}Thường{}",
                     "Nếu tay đã chơi là {C:attention}Mậu Thầu{}, áp dụng",
                     "một {C:attention}cường hoá{} ngẫu nhiên lên {C:attention}lá",
                     "{C:attention}không ghi điểm đầu tiên{}, kéo dài 3 ván",
@@ -3670,12 +3675,14 @@ return {
             },
             weight2_type1 = {
                 text = {
+                    "{B:1,C:white}Ít Phổ Biến{}",
                     "Lá đã chơi và đã bỏ {C:red}sẽ không",
                     "trở về bộ bài cho đến {C:attention}cuối ante này",
                 },
             },
             weight2_type2 = {
                 text = {
+                    "{B:1,C:white}Ít Phổ Biến{}",
                     "Nếu tay đã chơi chứa {C:attention}1{} lá ghi điểm, tái kích lá",
                     "giữ trên tay {C:attention}tít bên trái{} 2 lần, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3683,6 +3690,7 @@ return {
             },
             weight2_type3 = {
                 text = {
+                    "{B:1,C:white}Ít Phổ Biến{}",
                     "Nếu tay đã chơi chứa {C:attention}2{} lá ghi điểm, mỗi",
                     "lá ghi điểm cho {C:mult}+8{} Nhân, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3690,6 +3698,7 @@ return {
             },
             weight2_type4 = {
                 text = {
+                    "{B:1,C:white}Ít Phổ Biến{}",
                     "Nếu tay đã chơi chứa {C:attention}3{} lá ghi điểm,",
                     "nhận {C:money}$6{}, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3697,6 +3706,7 @@ return {
             },
             weight2_type5 = {
                 text = {
+                    "{B:1,C:white}Ít Phổ Biến{}",
                     "Nếu tay đã chơi chứa {C:attention}4{} lá ghi điểm, mỗi",
                     "lá ghi điểm cho {X:mult,C:white}X1.5{} Nhân, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3704,6 +3714,7 @@ return {
             },
             weight2_type6 = {
                 text = {
+                    "{B:1,C:white}Ít Phổ Biến{}",
                     "Nếu tay đã chơi chứa {C:attention}5{} lá ghi điểm, mỗi",
                     "lá ghi điểm cho {X:mult,C:white}X1.4{} Nhân, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3711,6 +3722,7 @@ return {
             },
             weight3_type1 = {
                 text = {
+                    "{B:1,C:white}Hiếm{}",
                     "Ép chọn {C:attention}1{} lá mỗi tay bài, mỗi lá",
                     "giữ trên tay cho {X:mult,C:white}X1.5{} Nhân, kéo dài 5 tay bài",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3718,6 +3730,7 @@ return {
             },
             weight3_type2 = {
                 text = {
+                    "{B:1,C:white}Hiếm{}",
                     "Ép chọn {C:attention}2{} lá mỗi tay bài,",
                     "{C:attention}tái kích{} joker này, kéo dài 5 tay bài",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3725,6 +3738,7 @@ return {
             },
             weight3_type3 = {
                 text = {
+                    "{B:1,C:white}Hiếm{}",
                     "Chuyển 1 level từ {C:attention}tay poker bị bỏ đầu tiên{} của ván",
                     "sang tay poker {C:attention}chơi nhiều nhất{}, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3732,6 +3746,7 @@ return {
             },
             weight3_type4 = {
                 text = {
+                    "{B:1,C:white}Hiếm{}",
                     "Nếu lượt bỏ đầu tiên của ván chỉ có {C:attention}1{} lá,",
                     "áp dụng một {C:attention}cường hoá{} ngẫu nhiên (đôi khi có",
                     "{C:dark_edition}ấn bản{} và/hoặc {C:attention}con dấu{}) cho nó, kéo dài 3 ván",
@@ -3740,6 +3755,7 @@ return {
             },
             weight3_type5 = {
                 text = {
+                    "{B:1,C:white}Hiếm{}",
                     "{C:attention}Biến đổi{} những lá bị bỏ thành 1 lá bị bỏ ngẫu nhiên",
                     "trong {C:attention}lượt bỏ cuối{} của ván, kéo dài 1 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3747,6 +3763,7 @@ return {
             },
             weight4_type1 = {
                 text = {
+                    "{B:1,C:white}Mờ Mịt{}",
                     "{C:attention}Tái kích{} joker này",
                     "2 lần, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3754,6 +3771,7 @@ return {
             },
             weight4_type2 = {
                 text = {
+                    "{B:1,C:white}Mờ Mịt{}",
                     "{C:attention}Biến đổi{} mọi lá giữ trên tay thành",
                     "một {C:attention}lá đã chơi{} ngẫu nhiên, kéo dài 1 tay bài",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3761,6 +3779,7 @@ return {
             },
             weight4_type3 = {
                 text = {
+                    "{B:1,C:white}Mờ Mịt{}",
                     "Nhân đôi số tiên hiện có",
                     "ở cuối ván, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3768,6 +3787,7 @@ return {
             },
             weight4_type4 = {
                 text = {
+                    "{B:1,C:white}Mờ Mịt{}",
                     "{X:dark_edition,C:white}^1.05{} Điểm,",
                     "kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3775,6 +3795,7 @@ return {
             },
             weight4_type5 = {
                 text = {
+                    "{B:1,C:white}Mờ Mịt{}",
                     "Mỗi lá giữ trên tay cho",
                     "{X:dark_edition,C:white}^1.1{} Nhân, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
