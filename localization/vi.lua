@@ -869,6 +869,14 @@ return {
                     "{s:0.8,C:blue,u:blue}store.steampowered.com/app/1899060/",
                 },
             },
+            sgt_inflation = {
+                name = "Lạm Phát",
+                text = {
+                    "Vĩnh viễn tăng",
+                    "giá thêm {C:money}$1{} sau",
+                    "mỗi lần mua",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -3166,6 +3174,16 @@ return {
                     "ở trong shop",
                 },
             },
+            j_sgt_ozzy_storymode = {
+                name = "Ozzy",
+                text = {
+                    "{C:attention}+#1#{} ô shop",
+                    "Vĩnh viễn áp dụng {C:attention}Lạm Phát{}",
+                    "Ép lá {C:spectral}Siêu Linh{} thành",
+                    "loại lá tiêu thụ duy nhất",
+                    "ở trong shop",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -4100,6 +4118,7 @@ return {
             ph_solve_the = "Hãy giải",
             ph_door_puzzle = "Câu Đố Cửa",
             ph_door_solved = "Đã giải Câu Đố Cửa",
+            ph_ozzy_saved = "Được cứu bởi Ozzy",
             ph_fleta_musical_chair = "Không chơi lại tay poker đã chơi ở ván này",
             ph_losing_musical_chair = {"Thua ở trò", "ghế âm nhạc"},
             ph_shattered_pm = {"Gương Bỏ Túi", "bị vỡ tan"},

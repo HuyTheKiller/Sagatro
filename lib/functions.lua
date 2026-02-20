@@ -1633,12 +1633,21 @@ function Blind:defeat(silent)
             G.GAME.door_puzzle_active = nil
             Sagatro.progress_storyline("door_puzzle", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
             local regalias = #(G.GAME.regalia_list or {})
-            if regalias == 3 then
+            if regalias == 2 then
+                G.GAME.shelved_chains.hand_drawn = "sgt_enjel_chase_prep"
+                G.GAME.shelved_chains.end_of_round = "sgt_witching_hour_ending"
+            elseif regalias == 3 then
+                G.GAME.shelved_chains.end_of_round = "sgt_shattered_delusion_ending"
             elseif regalias == 4 then
                 G.GAME.shelved_chains.end_of_round = "sgt_platinum_ending"
             elseif regalias == 5 then
                 G.GAME.shelved_chains.hand_drawn = "sgt_pocket_mirror_chase_prep"
             end
+        end
+        if G.GAME.witching_hour and Sagatro.temp_music_volume then
+            G.GAME.witching_hour = nil
+            G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume or 50
+            Sagatro.temp_music_volume = nil
         end
     end
 	dft(self, silent)
@@ -2496,6 +2505,7 @@ function Sagatro.set_ability_reset_keys()
         "shatters_on_destroy",
         "hide_name_tag",
         "door_colour",
+        "saved_once",
     }
 end
 
@@ -4481,6 +4491,20 @@ help = help or Sagatro.help
 function Sagatro.DT_safe_remove(card)
     if Sagatro.debug then
         G.in_delete_run = true
+        if type(card) == "string" then
+            card = SMODS.find_card(card, true)[1]
+            if not card then return "Failed: card not found." end
+        end
+        if card.config.center_key == "j_sgt_rose_bell"
+        or card.config.center_key == "j_sgt_moon_hairbrush"
+        or card.config.center_key == "j_sgt_snow_scissors" then
+            for i, v in ipairs(G.GAME.regalia_list or {}) do
+                if v == card.config.center_key then
+                    table.remove(G.GAME.regalia_list, i)
+                    break
+                end
+            end
+        end
         card:remove()
         if not next(SMODS.find_card(card.config.center.key, true)) then
             G.GAME.used_jokers[card.config.center.key] = nil

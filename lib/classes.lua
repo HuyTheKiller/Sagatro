@@ -493,6 +493,271 @@ Sagatro.EventChain{
 }
 
 Sagatro.EventChain{
+    key = "enjel_chase_prep",
+    func_list = {
+        function()
+            local goldia, enjel = SMODS.find_card("j_sgt_goldia", true)[1], SMODS.find_card("j_sgt_enjel", true)[1]
+            if goldia and enjel then
+                Sagatro.progress_storyline("enjel_chase", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                Sagatro.swap(goldia, "rightmost")
+                Sagatro.swap(enjel, "leftmost")
+                local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
+                if pmirror then
+                    Sagatro.move_to_area(pmirror, G.consumeables, {front = true})
+                end
+                return 12/68
+            end
+        end,
+    },
+}
+
+Sagatro.EventChain{
+    key = "witching_hour_ending",
+    func_list = {
+        function()
+            Sagatro.temp_music_volume = G.SETTINGS.SOUND.music_volume
+            G.E_MANAGER:add_event(Event({
+                trigger = 'ease',
+                blockable = false,
+                ref_table = G.SETTINGS.SOUND,
+                ref_value = 'music_volume',
+                ease_to = 0,
+                delay = 1*(G.STAGE == G.STAGES.RUN and G.SETTINGS.GAMESPEED or 1),
+                func = (function(t) return t end)
+            }))
+            return 1
+        end,
+        function()
+            Sagatro.progress_storyline("enjel_chase", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
+                if pmirror then
+                    Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                    pmirror:remove()
+                    Sagatro.progress_storyline("goldia_transformation", "remove", "pocket_mirror", G.GAME.interwoven_storyline)
+                end
+                enjel:remove()
+                return 2
+            end
+        end,
+        function()
+            play_sound('timpani')
+            SMODS.add_card{key = "j_sgt_ozzy"}
+            G.GAME.witching_hour = true
+            ease_background_colour_blind(G.STATE)
+            return 1
+        end,
+        function()
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if goldia then
+                Sagatro.swap(goldia, "leftmost")
+                return 2
+            end
+        end,
+        function()
+            play_sound('timpani')
+            local fleta = SMODS.add_card{key = "j_sgt_fleta"}
+            Sagatro.swap(fleta, "left")
+            return 1
+        end,
+        function()
+            local fleta = SMODS.find_card("j_sgt_fleta", true)[1]
+            if fleta then
+                fleta.ability.shatters_on_destroy = nil
+                fleta:start_dissolve()
+                return 2
+            end
+        end,
+        function()
+            play_sound('timpani')
+            local lisette = SMODS.add_card{key = "j_sgt_lisette"}
+            Sagatro.swap(lisette, "left")
+            return 1
+        end,
+        function()
+            local lisette = SMODS.find_card("j_sgt_lisette", true)[1]
+            if lisette then
+                lisette.ability.shatters_on_destroy = nil
+                lisette:start_dissolve()
+                return 2
+            end
+        end,
+        function()
+            play_sound('timpani')
+            local harpae = SMODS.add_card{key = "j_sgt_harpae"}
+            Sagatro.swap(harpae, "left")
+            return 1
+        end,
+        function()
+            local harpae = SMODS.find_card("j_sgt_harpae", true)[1]
+            if harpae then
+                harpae.ability.shatters_on_destroy = nil
+                harpae:start_dissolve()
+                return 2
+            end
+        end,
+        function()
+            play_sound('timpani')
+            local enjel = SMODS.add_card{key = "j_sgt_enjel"}
+            Sagatro.swap(enjel, "left")
+            return 1
+        end,
+        function()
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                enjel:juice_up()
+                return 1
+            end
+        end,
+        function()
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                play_sound('timpani')
+                enjel:juice_up()
+                return 1
+            end
+        end,
+        function()
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                enjel.ability.shatters_on_destroy = nil
+                enjel:start_dissolve()
+                return 2
+            end
+        end,
+        function()
+            local ozzy = SMODS.find_card("j_sgt_ozzy", true)[1]
+            if ozzy then
+                local ozzy_pos = Sagatro.get_pos(ozzy)
+                for _ = ozzy_pos, 3, -1 do
+                    Sagatro.swap(ozzy, "left")
+                end
+                return 2
+            end
+        end,
+        function()
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if goldia then
+                goldia.ability.shatters_on_destroy = nil
+                Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                goldia:start_dissolve()
+                return 1.5
+            end
+        end,
+        function()
+            Sagatro.progress_storyline("goldia_transformation", "remove", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("ending_reached", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("ending_reached", "force_finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            G.GAME.modifiers.inflation = true
+            check_for_unlock{type = "pm_unknown_end_1"}
+            return 0
+        end,
+    },
+}
+
+Sagatro.EventChain{
+    key = "shattered_delusion_ending",
+    func_list = {
+        function()
+            Sagatro.temp_music_volume = G.SETTINGS.SOUND.music_volume
+            G.E_MANAGER:add_event(Event({
+                trigger = 'ease',
+                blockable = false,
+                ref_table = G.SETTINGS.SOUND,
+                ref_value = 'music_volume',
+                ease_to = 0,
+                delay = 1*(G.STAGE == G.STAGES.RUN and G.SETTINGS.GAMESPEED or 1),
+                func = (function(t) return t end)
+            }))
+            return 1
+        end,
+        function()
+            local goldia, enjel = SMODS.find_card("j_sgt_goldia", true)[1], SMODS.find_card("j_sgt_enjel", true)[1]
+            if goldia and enjel then
+                local enjel_pos, goldia_pos = Sagatro.get_pos(enjel), Sagatro.get_pos(goldia)
+                if enjel_pos > goldia_pos then
+                    for _ = enjel_pos, goldia_pos + 2, -1 do
+                        Sagatro.swap(enjel, "left")
+                    end
+                else
+                    for _ = enjel_pos, goldia_pos - 2 do
+                        Sagatro.swap(enjel)
+                    end
+                end
+                return 2
+            end
+        end,
+        function()
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if goldia then
+                goldia.ability.shatters_on_destroy = nil
+                Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                goldia:start_dissolve()
+                return 1.5
+            end
+        end,
+        function()
+            Sagatro.progress_storyline("goldia_transformation", "remove", "pocket_mirror", G.GAME.interwoven_storyline)
+            return 0
+        end,
+        function()
+            play_sound('timpani')
+            SMODS.add_card{key = "j_sgt_ozzy"}
+            return 1
+        end,
+        function()
+            local ozzy, enjel = SMODS.find_card("j_sgt_ozzy", true)[1], SMODS.find_card("j_sgt_enjel", true)[1]
+            if ozzy and enjel then
+                local ozzy_pos, enjel_pos = Sagatro.get_pos(ozzy), Sagatro.get_pos(enjel)
+                if ozzy_pos > enjel_pos then
+                    for _ = ozzy_pos, enjel_pos + 2, -1 do
+                        Sagatro.swap(ozzy, "left")
+                    end
+                else
+                    for _ = ozzy_pos, enjel_pos - 2 do
+                        Sagatro.swap(ozzy)
+                    end
+                end
+                return 1
+            end
+        end,
+        function()
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                play_sound('timpani')
+                enjel:juice_up()
+                return 0.5
+            end
+        end,
+        function()
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                play_sound('timpani')
+                enjel:juice_up()
+                return 0.5
+            end
+        end,
+        function()
+            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
+            if enjel then
+                enjel:shatter()
+                return 2
+            end
+        end,
+        function()
+            Sagatro.progress_storyline("ending_reached", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("ending_reached", "force_finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            G.GAME.modifiers.inflation = true
+            check_for_unlock{type = "pm_unknown_end_2"}
+            G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume or 50
+            Sagatro.temp_music_volume = nil
+            return 0
+        end,
+    },
+}
+
+Sagatro.EventChain{
     key = "pocket_mirror_chase_prep",
     func_list = {
         function()

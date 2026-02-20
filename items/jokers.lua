@@ -13817,6 +13817,21 @@ local goldia = {
                     else
                         card.ability.immutable.dt = 0
                     end
+                elseif Sagatro.event_check("enjel_chase") then
+                    if (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.PLAY_TAROT)
+                    and not G.CONTROLLER.locked then
+                        card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
+                        if card.ability.immutable.dt > (120/170) then
+                            card.ability.immutable.dt = card.ability.immutable.dt - (120/170)
+                            if not card.states.drag.is and G.jokers.cards[Sagatro.get_pos(card)+1]
+                            and not G.jokers.cards[Sagatro.get_pos(card)+1].states.drag.is
+                            and G.jokers.cards[Sagatro.get_pos(card)+1].config.center_key ~= "j_sgt_enjel" then
+                                Sagatro.swap(card)
+                            end
+                        end
+                    else
+                        card.ability.immutable.dt = 0
+                    end
                 end
             end
         end
@@ -14985,6 +15000,23 @@ local enjel = {
                     else
                         card.ability.immutable.dt = 0
                     end
+                elseif Sagatro.event_check("enjel_chase") then
+                    if (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.PLAY_TAROT)
+                    and not G.CONTROLLER.locked then
+                        card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
+                        if card.ability.immutable.dt > (120/170) then
+                            card.ability.immutable.dt = card.ability.immutable.dt - (120/170)
+                            if not card.states.drag.is and G.jokers.cards[Sagatro.get_pos(card)+1]
+                            and not G.jokers.cards[Sagatro.get_pos(card)+1].states.drag.is
+                            and G.jokers.cards[Sagatro.get_pos(card)+1].config.center_key ~= "j_sgt_goldia"
+                            and (not G.jokers.cards[Sagatro.get_pos(card)+2]
+                            or G.jokers.cards[Sagatro.get_pos(card)+2].config.center_key ~= "j_sgt_goldia") then
+                                Sagatro.swap(card)
+                            end
+                        end
+                    else
+                        card.ability.immutable.dt = 0
+                    end
                 end
             end
         end
@@ -15166,10 +15198,28 @@ local ozzy = {
     config = {extra = {shop_slots = 1, spectral_rate = 20}},
     rarity = 4,
     cost = 20,
-    blueprint_compat = true,
-    demicoloncompat = true,
+    blueprint_compat = false,
+    demicoloncompat = false,
     eternal_compat = true,
     perishable_compat = true,
+    set_ability = function(self, card, initial, delay_sprites)
+        if G.GAME.story_mode and G.STATE == G.STATES.PLAY_TAROT then
+            if to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips) then
+                card.ability.saved_once = true
+            end
+        end
+    end,
+    calculate = function(self, card, context)
+        if G.GAME.story_mode and not context.blueprint and not context.trigger_joker then
+            if context.end_of_round and not context.individual
+            and not context.repetition and context.game_over and not card.ability.saved_once then
+                card.ability.saved_once = true
+                return {
+                    saved = "ph_ozzy_saved",
+                }
+            end
+        end
+    end,
     add_to_deck = function(self, card, from_debuff)
         change_shop_size(card.ability.extra.shop_slots)
         for k, v in pairs(G.GAME) do
@@ -15216,7 +15266,12 @@ local ozzy = {
         return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.shop_slots}}
+        local ret = {vars = {card.ability.extra.shop_slots}}
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+            ret.key = self.key.."_storymode"
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_inflation"}
+        end
+        return ret
     end,
     set_badges = function(self, card, badges)
  		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )

@@ -870,6 +870,14 @@ return {
                     "{s:0.8,C:blue,u:blue}store.steampowered.com/app/1899060/",
                 },
             },
+            sgt_inflation = {
+                name = "Inflation",
+                text = {
+                    "Permanently raise",
+                    "prices by {C:money}$1{} on",
+                    "every purchase",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -3171,6 +3179,16 @@ return {
                     "in the shop",
                 },
             },
+            j_sgt_ozzy_storymode = {
+                name = "Ozzy",
+                text = {
+                    "{C:attention}+#1#{} shop slot",
+                    "Permanently apply {C:attention}Inflation{}",
+                    "Force {C:spectral}Spectral{} cards to be",
+                    "the only consumable type",
+                    "in the shop",
+                },
+            },
             j_sgt_shub = {
                 name = "Shub-Niggurath",
                 text = {
@@ -4105,6 +4123,7 @@ return {
             ph_solve_the = "Solve the",
             ph_door_puzzle = "Door Puzzle",
             ph_door_solved = "Door Puzzle solved",
+            ph_ozzy_saved = "Saved by Ozzy",
             ph_fleta_musical_chair = "No repeat hand types this round",
             ph_losing_musical_chair = {"Losing to", "musical chair"},
             ph_shattered_pm = {"Shattered", "Pocket Mirror"},

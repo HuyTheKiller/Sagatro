@@ -432,7 +432,7 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return Sagatro.event_check("pocket_mirror_chase") and (Sagatro.config.SagatroMusicOption < 2) and 1000
+		return (Sagatro.event_check("pocket_mirror_chase") or Sagatro.event_check("enjel_chase")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
 	end,
 }
 
