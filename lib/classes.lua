@@ -662,13 +662,6 @@ Sagatro.EventChain{
             end
         end,
         function()
-            local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
-            if enjel then
-                enjel:shatter()
-                return 2
-            end
-        end,
-        function()
             Sagatro.progress_storyline("pocket_mirror_chase", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
             Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
             local enjel = SMODS.find_card("j_sgt_enjel", true)[1]

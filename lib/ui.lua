@@ -606,6 +606,7 @@ G.FUNCS.goldia_transform = function(e)
         end
         play_sound('timpani')
         G.jokers:unhighlight_all()
+        ease_background_colour_blind(G.STATE)
         G.GAME.goldia_transformation_complete = true
         G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume or 50
         Sagatro.temp_music_volume = nil
