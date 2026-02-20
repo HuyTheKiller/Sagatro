@@ -13787,7 +13787,8 @@ local goldia = {
         if G.STAGE == G.STAGES.RUN then
             if card.area and card.area == G.jokers then
                 if Sagatro.event_check("dull_glass") then
-                    if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED then
+                    if (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.PLAY_TAROT)
+                    and not G.CONTROLLER.locked then
                         card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
                         if card.ability.immutable.dt > (120*48/135) then
                             card.ability.immutable.dt = card.ability.immutable.dt - (120*48/135)
@@ -13802,7 +13803,8 @@ local goldia = {
                 elseif Sagatro.event_check("pocket_mirror_chase") then
                     G.GAME.pm_chase = G.GAME.pm_chase or {}
                     G.GAME.pm_chase.goldia_pos = Sagatro.get_pos(card)
-                    if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED then
+                    if (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.PLAY_TAROT)
+                    and not G.CONTROLLER.locked then
                         card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
                         if card.ability.immutable.dt > (240/170) then
                             card.ability.immutable.dt = card.ability.immutable.dt - (240/170)
@@ -14969,7 +14971,8 @@ local enjel = {
                 if Sagatro.event_check("pocket_mirror_chase") then
                     G.GAME.pm_chase = G.GAME.pm_chase or {}
                     G.GAME.pm_chase.enjel_pos = Sagatro.get_pos(card)
-                    if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED then
+                    if (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.PLAY_TAROT)
+                    and not G.CONTROLLER.locked then
                         card.ability.immutable.dt = card.ability.immutable.dt + dt/G.SPEEDFACTOR
                         if card.ability.immutable.dt > (120/170) then
                             card.ability.immutable.dt = card.ability.immutable.dt - (120/170)
