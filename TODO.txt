@@ -67,6 +67,6 @@ Ice's feedback fixes:
 [] Add some kind of progress indicator
 [] Add a tooltip to specify main mechanics of each storyline
 [X] Properly remove Pumpkin Carriage editions on special cases
-[] Rebalance some jokers/mechanics:
-    [] Nerf Aladdin to X0.25 Mult/round
-    [] Nerf Supply Pack's weight from 3 to 1.25
+[X] Rebalance some jokers/mechanics:
+    [X] Nerf Aladdin to X0.25 Mult/round
+    [X] Nerf Supply Pack's weight from 3 to 1.25

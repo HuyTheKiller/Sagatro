@@ -3490,7 +3490,7 @@ local aladdin = {
     saga_group = "aladdin_and_the_magic_lamp",
     order = 1004,
     pos = { x = 2, y = 0 },
-    config = {buffed = false, extra = {tax = 0.25, xmult = 1, xmult_mod = 0.5, chips = 0}},
+    config = {buffed = false, extra = {tax = 0.25, xmult = 1, xmult_mod = 0.25, chips = 0}},
     rarity = 3,
     cost = 8,
     blueprint_compat = true,
