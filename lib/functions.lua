@@ -3435,6 +3435,16 @@ function Sagatro.fish_loc_vars(info_queue, card)
         local round_tally = card.ability.immutable.fish_round_tally
         local hand_tally = card.ability.immutable.fish_hand_tally
         local eaten_key = card.ability.immutable.eaten_key
+        if eaten_key then
+            info_queue[#info_queue+1] = {
+                generate_ui = saga_tooltip,
+                set = "fish_effect",
+                key = "eaten_fish_key",
+                title = localize("eaten_fish_key"),
+                specific_vars = {localize{type = 'name_text', set = "Joker", key = eaten_key, nodes = {}}},
+                colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
+            }
+        end
         if not _weight then
             info_queue[#info_queue+1] = {
                 generate_ui = saga_tooltip,
@@ -3468,16 +3478,6 @@ function Sagatro.fish_loc_vars(info_queue, card)
                 set = "fish_effect",
                 key = "weight2_type1",
                 title = localize("fish_effect_active"),
-                colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
-            }
-        end
-        if eaten_key then
-            info_queue[#info_queue+1] = {
-                generate_ui = saga_tooltip,
-                set = "fish_effect",
-                key = "eaten_fish_key",
-                title = localize("eaten_fish_key"),
-                specific_vars = {localize{type = 'name_text', set = "Joker", key = eaten_key, nodes = {}}},
                 colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
             }
         end
