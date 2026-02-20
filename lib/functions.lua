@@ -1635,7 +1635,7 @@ function Blind:defeat(silent)
             local regalias = #(G.GAME.regalia_list or {})
             if regalias == 3 then
             elseif regalias == 4 then
-                G.GAME.shelved_chains.hand_drawn = "sgt_platinum_ending"
+                G.GAME.shelved_chains.end_of_round = "sgt_platinum_ending"
             elseif regalias == 5 then
                 G.GAME.shelved_chains.hand_drawn = "sgt_pocket_mirror_chase_prep"
             end
