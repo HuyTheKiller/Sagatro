@@ -51,10 +51,10 @@ TO-DO:
     [X] Hook Enjel's effects to story events
     [] Replace Enjel's placeholder with final visual
     [X] Add Enjel's effect outside story mode
-[] Add Platinum:
+[X] Add Platinum:
     [X] Add base Platinum (legendary)
     [X] Add Platinum's effect
-    [] Replace Platinum's placeholder with final visual
+    [X] Replace Platinum's placeholder with final visual
     [X] Update Goldia's placeholder transformation (Goldia:set_ability("j_sgt_platinum"))
 [] Add Strange Boy:
     [X] Add base Strange Boy (legendary)
