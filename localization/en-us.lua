@@ -3612,6 +3612,12 @@ return {
                     "{s:0.8}around to view target",
                 },
             },
+            eaten_fish_key = {
+                text = {
+                    "Has just eaten",
+                    "{C:attention}#1#",
+                },
+            },
             weight1_type1 = {
                 text = {
                     "Convert 3 {C:attention}random cards{} in the first",
@@ -3965,6 +3971,7 @@ return {
             pending_swallow = "Fishing Frenzy",
             fish_effect_active = "Current Fish Effect",
             fish_effect_stackable = "Stackable Effect",
+            eaten_fish_key = "Eaten Fish",
             sgt_roll0 = "Oops! A Real Die",
             sgt_roll1 = "Number one",
             sgt_roll2 = "Number two",

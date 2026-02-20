@@ -3607,6 +3607,12 @@ return {
                     "{s:0.8}xung quanh để xem mục tiêu",
                 },
             },
+            eaten_fish_key = {
+                text = {
+                    "Vừa mới ăn",
+                    "{C:attention}#1#",
+                },
+            },
             weight1_type1 = {
                 text = {
                     "Biến đổi 3 {C:attention}lá ngẫu nhiên{} trong đợt",
@@ -3960,6 +3966,7 @@ return {
             pending_swallow = "Nuốt Cá",
             fish_effect_active = "Hiệu Ứng Hiện Tại",
             fish_effect_stackable = "Hiệu Ứng Tích Tầng",
+            eaten_fish_key = "Ăn Cá",
             sgt_roll0 = "Úi! Xúc Sắc Real",
             sgt_roll1 = "Số một",
             sgt_roll2 = "Số hai",

@@ -3298,7 +3298,7 @@ function Sagatro.process_edible_fish(card, context)
                 end
             end
         end
-        local edible_fish, weight_tally = {}, 1
+        local edible_fish, weight_tally, key_tally = {}, 0, ""
         for _, joker in ipairs(jokers) do
             if not card.getting_sliced
             and not SMODS.is_eternal(joker, card) and not joker.getting_sliced
@@ -3306,6 +3306,7 @@ function Sagatro.process_edible_fish(card, context)
             and joker.ability.immutable.weight_level < card.ability.immutable.weight_level then
                 if weight_tally < joker.ability.immutable.weight_level then
                     weight_tally = joker.ability.immutable.weight_level
+                    key_tally = joker.config.center_key
                 end
                 if card.config.center_key == "j_sgt_dolphin" or joker.config.center_key ~= "j_sgt_pufferfish" then
                     edible_fish[#edible_fish+1] = joker
@@ -3329,7 +3330,7 @@ function Sagatro.process_edible_fish(card, context)
                     fish:start_dissolve({G.C.RED}, true, 1.6)
                 end
                 play_sound('sgt_swallow', 0.96+math.random()*0.08)
-                Sagatro.process_edible_weight(card, weight_tally)
+                Sagatro.process_edible_weight(card, weight_tally, key_tally)
                 if dolphin_high then
                     dolphin_high = nil
                     card.ability.dolphin_high = true
@@ -3342,8 +3343,9 @@ function Sagatro.process_edible_fish(card, context)
 end
 
 ---@param weight_level 1|2|3|4
---- Fish joker's helper function to decide the result weight based on eaten weight.
-function Sagatro.process_edible_weight(card, weight_level)
+---@param key string
+--- Fish joker's helper function to decide the result weight based on eaten weight. Can also specify eaten fish's `key`.
+function Sagatro.process_edible_weight(card, weight_level, key)
     local roll = pseudorandom("fish_eating_weight")
     local chosen_weight, chosen_type, options = nil, nil, {}
     if weight_level == 1 then
@@ -3395,6 +3397,9 @@ function Sagatro.process_edible_weight(card, weight_level)
     card.ability.immutable.eaten_type = chosen_type
     card.ability.immutable.fish_round_tally = options.round and options.duration
     card.ability.immutable.fish_hand_tally = options.hand and options.duration
+    card.ability.immutable.eaten_key = key
+    local eval = function(_card) return not _card.states.hover.is end
+    juice_card_until(card, eval, true)
 end
 
 function Sagatro.process_edible_state(card, eaten_object)
@@ -3419,6 +3424,7 @@ function Sagatro.fish_loc_vars(info_queue, card)
         local no_reshuffle = card.ability.immutable.no_reshuffle
         local round_tally = card.ability.immutable.fish_round_tally
         local hand_tally = card.ability.immutable.fish_hand_tally
+        local eaten_key = card.ability.immutable.eaten_key
         if not _weight then
             info_queue[#info_queue+1] = {
                 generate_ui = saga_tooltip,
@@ -3452,6 +3458,16 @@ function Sagatro.fish_loc_vars(info_queue, card)
                 set = "fish_effect",
                 key = "weight2_type1",
                 title = localize("fish_effect_active"),
+                colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
+            }
+        end
+        if eaten_key then
+            info_queue[#info_queue+1] = {
+                generate_ui = saga_tooltip,
+                set = "fish_effect",
+                key = "eaten_fish_key",
+                title = localize("eaten_fish_key"),
+                specific_vars = {localize{type = 'name_text', set = "Joker", key = eaten_key, nodes = {}}},
                 colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
             }
         end
