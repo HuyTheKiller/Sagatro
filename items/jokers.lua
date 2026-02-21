@@ -16180,15 +16180,9 @@ local pumpkin_carriage = {
     calculate = function(self, card, context)
         if (context.before and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
             if next(card.eligible_strength_jokers) then
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        local eligible_card = pseudorandom_element(card.eligible_strength_jokers, pseudoseed('pumpkin_carriage'))
-                        eligible_card:set_edition(poll_edition("pumcar", nil, nil, true), true, true)
-                        eligible_card.ability.pumpkin_edition = true
-                        card:juice_up(0.3, 0.5)
-                        return true
-                    end
-                }))
+                local eligible_card = pseudorandom_element(card.eligible_strength_jokers, pseudoseed('pumpkin_carriage'))
+                eligible_card:set_edition(poll_edition("pumcar", nil, nil, true), nil, nil, true)
+                eligible_card.ability.pumpkin_edition = true
                 return {
                     message = localize("k_glowup_ex"),
                     colour = G.C.FILTER,
