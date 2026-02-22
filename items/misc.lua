@@ -3,11 +3,11 @@ local talisman = Sagatro.mod_compat.talisman
 local supply = {
     key = "Supply",
     primary_colour = HEX("AFB2B9"),
-	secondary_colour = G.C.SGT_SUPPLY,
-	collection_rows = { 4, 4 },
-	shop_rate = 0.0,
-	loc_txt = {},
-	default = "c_sgt_small_canned_fish",
+    secondary_colour = G.C.SGT_SUPPLY,
+    collection_rows = { 4, 4 },
+    shop_rate = 0.0,
+    loc_txt = {},
+    default = "c_sgt_small_canned_fish",
 }
 
 local consumabletype_table = {
@@ -84,15 +84,15 @@ local streak = {
     end,
     use = function(self, card, area, copier)
         local options = self:streak_options()
-		for i = 1, #G.hand.highlighted do
-			local highlighted = G.hand.highlighted[i]
-			G.E_MANAGER:add_event(Event({
-				func = function()
-					play_sound("tarot1")
-					highlighted:juice_up(0.3, 0.5)
-					return true
-				end,
-			}))
+        for i = 1, #G.hand.highlighted do
+            local highlighted = G.hand.highlighted[i]
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    play_sound("tarot1")
+                    highlighted:juice_up(0.3, 0.5)
+                    return true
+                end,
+            }))
             local streak_seed, seal = pseudorandom("streak_gen"), nil
             seal = (streak_seed < 0.003  and talisman and 9)--0.3% (none without Talisman)
                 or (streak_seed < 0.01   and talisman and 8)--0.7% (none without Talisman)
@@ -103,34 +103,34 @@ local streak = {
                 or (streak_seed < 0.45                and 3)-- 20%
                 or (streak_seed < 0.7                 and 2)-- 25%
                 or 1                                        -- 30%
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.1,
-				func = function()
-					if highlighted then
-						highlighted:set_seal(options[seal], nil, true)
-					end
-					return true
-				end,
-			}))
-			delay(0.5)
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.2,
-				func = function()
-					G.hand:unhighlight_all()
-					return true
-				end,
-			}))
-		end
-	end,
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                delay = 0.1,
+                func = function()
+                    if highlighted then
+                        highlighted:set_seal(options[seal], nil, true)
+                    end
+                    return true
+                end,
+            }))
+            delay(0.5)
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                delay = 0.2,
+                func = function()
+                    G.hand:unhighlight_all()
+                    return true
+                end,
+            }))
+        end
+    end,
     loc_vars = function(self, info_queue, card)
-		local _, loc_vars = self:streak_options()
+        local _, loc_vars = self:streak_options()
         for k, v in pairs(loc_vars) do
             info_queue[#info_queue+1] = {set = "Other", key = k, specific_vars = {self.config.seals[v]}}
         end
-		return {vars = {card and card.ability.max_highlighted or self.config.max_highlighted}}
-	end,
+        return {vars = {card and card.ability.max_highlighted or self.config.max_highlighted}}
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end
@@ -152,7 +152,7 @@ local lamp = {
         return true
     end,
     use = function(self, card, area, copier)
-		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
             card:juice_up(0.3, 0.5)
             assert(SMODS.add_card({
@@ -162,11 +162,11 @@ local lamp = {
             }))
             return true end }))
         delay(0.6)
-	end,
+    end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_magic_lamp"]
-		return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_magic_lamp", nodes = {}}}}
-	end,
+        return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_magic_lamp", nodes = {}}}}
+    end,
     in_pool = function(self, args)
         return not (next(SMODS.find_card("j_sgt_lamp_genie", true)) or next(SMODS.find_card("j_sgt_magic_lamp", true))
         or G.GAME.modifiers.sgt_disable_sagatro_items) and Sagatro.mod_compat.talisman
@@ -185,9 +185,9 @@ local omniscience = {
     hidden = true,
     soul_set = "Tarot",
     loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_omniscient
-		return {vars = {card and card.ability.max_highlighted or self.config.max_highlighted, localize{type = 'name_text', set = "Enhanced", key = "m_sgt_omniscient", nodes = {}}}}
-	end,
+        info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_omniscient
+        return {vars = {card and card.ability.max_highlighted or self.config.max_highlighted, localize{type = 'name_text', set = "Enhanced", key = "m_sgt_omniscient", nodes = {}}}}
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items
     end
@@ -220,10 +220,10 @@ local smithing = {
                 return true end }))
             delay(0.6)
         end
-	end,
+    end,
     loc_vars = function(self, info_queue, card)
-		return {vars = {card and card.ability.target_level or self.config.target_level}}
-	end,
+        return {vars = {card and card.ability.target_level or self.config.target_level}}
+    end,
     in_pool = function(self, args)
         local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
         if submarine and Sagatro.storyline_check("20k_miles_under_the_sea")
@@ -264,10 +264,10 @@ local welding = {
                 return true end }))
             delay(0.6)
         end
-	end,
+    end,
     loc_vars = function(self, info_queue, card)
-		return {vars = {card and card.ability.target_level or self.config.target_level, card and card.ability.extra.hand_size or self.config.extra.hand_size}}
-	end,
+        return {vars = {card and card.ability.target_level or self.config.target_level, card and card.ability.extra.hand_size or self.config.extra.hand_size}}
+    end,
     in_pool = function(self, args)
         local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
         if submarine and Sagatro.storyline_check("20k_miles_under_the_sea")
@@ -308,10 +308,10 @@ local composite = {
                 return true end }))
             delay(0.6)
         end
-	end,
+    end,
     loc_vars = function(self, info_queue, card)
-		return {vars = {card and card.ability.target_level or self.config.target_level, card and card.ability.extra.consumable_slot or self.config.extra.consumable_slot}}
-	end,
+        return {vars = {card and card.ability.target_level or self.config.target_level, card and card.ability.extra.consumable_slot or self.config.extra.consumable_slot}}
+    end,
     in_pool = function(self, args)
         local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
         if submarine and Sagatro.storyline_check("20k_miles_under_the_sea")
@@ -352,10 +352,10 @@ local nanotech = {
                 return true end }))
             delay(0.6)
         end
-	end,
+    end,
     loc_vars = function(self, info_queue, card)
-		return {vars = {card and card.ability.target_level or self.config.target_level, card and card.ability.extra.joker_slot or self.config.extra.joker_slot}}
-	end,
+        return {vars = {card and card.ability.target_level or self.config.target_level, card and card.ability.extra.joker_slot or self.config.extra.joker_slot}}
+    end,
     in_pool = function(self, args)
         local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
         if submarine and Sagatro.storyline_check("20k_miles_under_the_sea")
@@ -389,10 +389,10 @@ local small_canned_fish = {
                 return true end }))
             delay(0.6)
         end
-	end,
+    end,
     loc_vars = function(self, info_queue, card)
-		return {vars = {card and card.ability.amount or self.config.amount}}
-	end,
+        return {vars = {card and card.ability.amount or self.config.amount}}
+    end,
     in_pool = function(self, args)
         return Sagatro.storyline_check("20k_miles_under_the_sea")
     end,
@@ -421,10 +421,10 @@ local medium_canned_fish = {
                 return true end }))
             delay(0.6)
         end
-	end,
+    end,
     loc_vars = function(self, info_queue, card)
-		return {vars = {card and card.ability.amount or self.config.amount}}
-	end,
+        return {vars = {card and card.ability.amount or self.config.amount}}
+    end,
     in_pool = function(self, args)
         if Sagatro.storyline_check("20k_miles_under_the_sea") then
             return pseudorandom("medium_food_supply") < 0.33
@@ -456,10 +456,10 @@ local large_canned_fish = {
                 return true end }))
             delay(0.6)
         end
-	end,
+    end,
     loc_vars = function(self, info_queue, card)
-		return {vars = {card and card.ability.amount or self.config.amount}}
-	end,
+        return {vars = {card and card.ability.amount or self.config.amount}}
+    end,
     in_pool = function(self, args)
         if Sagatro.storyline_check("20k_miles_under_the_sea") then
             return pseudorandom("large_food_supply") < 0.11
@@ -495,10 +495,10 @@ local fuel_barrel = {
                 return true end }))
             delay(0.6)
         end
-	end,
+    end,
     loc_vars = function(self, info_queue, card)
-		return {vars = {card and card.ability.amount or self.config.amount, card and card.ability.uses or self.config.uses}}
-	end,
+        return {vars = {card and card.ability.amount or self.config.amount, card and card.ability.uses or self.config.uses}}
+    end,
     in_pool = function(self, args)
         return Sagatro.storyline_check("20k_miles_under_the_sea")
     end,

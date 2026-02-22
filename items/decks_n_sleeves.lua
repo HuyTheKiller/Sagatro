@@ -6,7 +6,7 @@ local saga_deck = {
     pos = { x = 0, y = 0 },
     config = {joker_slot = 3, extra = {win_ante_gain = 8}},
     apply = function(self, back)
-		G.GAME.win_ante = G.GAME.win_ante + self.config.extra.win_ante_gain
+        G.GAME.win_ante = G.GAME.win_ante + self.config.extra.win_ante_gain
         if Sagatro.config.DisableOtherJokers and G.SETTINGS.saga_tutorial_complete then
             local result = pseudorandom("saga_deck_mc_aura")
             if Sagatro.debug then
@@ -47,7 +47,7 @@ local saga_deck = {
             end
             G:save_settings()
         end
-	end,
+    end,
     loc_vars = function(self)
         return {vars = {self.config.joker_slot, 8 + self.config.extra.win_ante_gain}}
     end,
@@ -126,17 +126,17 @@ end
 
 if CardSleeves then
     local saga_sleeve = {
-		key = "saga",
-		name = "Saga Sleeve",
+        key = "saga",
+        name = "Saga Sleeve",
         -- artist_credits = {"amy"},
-		atlas = 'sleeves',
-		pos = { x = 0, y = 0 },
-		unlocked = false,
-		unlock_condition = { deck = "b_sgt_saga", stake = "stake_purple" },
-		apply = function(self, sleeve)
+        atlas = 'sleeves',
+        pos = { x = 0, y = 0 },
+        unlocked = false,
+        unlock_condition = { deck = "b_sgt_saga", stake = "stake_purple" },
+        apply = function(self, sleeve)
             CardSleeves.Sleeve.apply(sleeve)
-			if self.get_current_deck_key() == "b_sgt_saga" then
-				change_shop_size(self.config.extra.bonus_slots)
+            if self.get_current_deck_key() == "b_sgt_saga" then
+                change_shop_size(self.config.extra.bonus_slots)
                 SMODS.change_booster_limit(self.config.extra.bonus_slots)
             else
                 G.GAME.win_ante = G.GAME.win_ante + self.config.extra.win_ante_gain
@@ -181,30 +181,30 @@ if CardSleeves then
                     G:save_settings()
                 end
             end
-		end,
-		loc_vars = function(self)
-			local key, vars = self.key, nil
-			if self.get_current_deck_key() == "b_sgt_saga" then
-				key = key .. "_alt"
+        end,
+        loc_vars = function(self)
+            local key, vars = self.key, nil
+            if self.get_current_deck_key() == "b_sgt_saga" then
+                key = key .. "_alt"
                 self.config = {extra = {bonus_slots = 2}}
                 vars = {self.config.extra.bonus_slots}
-			else
-				key = self.key
+            else
+                key = self.key
                 self.config = {joker_slot = 3, extra = {win_ante_gain = 8}}
                 vars = {self.config.joker_slot, self.config.extra.win_ante_gain}
-			end
-			return { key = key, vars = vars }
-		end,
-	}
+            end
+            return { key = key, vars = vars }
+        end,
+    }
 
     local grimoire_sleeve = {
         key = "grimoire",
-		name = "Grimoire Sleeve",
+        name = "Grimoire Sleeve",
         -- artist_credits = {"amy"},
-		atlas = 'sleeves',
-		pos = { x = 1, y = 0 },
-		unlocked = false,
-		unlock_condition = { deck = "b_sgt_grimoire", stake = "stake_purple" },
+        atlas = 'sleeves',
+        pos = { x = 1, y = 0 },
+        unlocked = false,
+        unlock_condition = { deck = "b_sgt_grimoire", stake = "stake_purple" },
         apply = function(self, sleeve)
             CardSleeves.Sleeve.apply(sleeve)
             if self.get_current_deck_key() ~= "b_sgt_grimoire"
@@ -213,34 +213,34 @@ if CardSleeves then
             elseif self.get_current_deck_key() == "b_sgt_grimoire" then
                 G.GAME.starting_params.ante_scaling = self.config.conditional_ante_scaling
             end
-		end,
+        end,
         loc_vars = function(self)
             local key = self.key
-			if self.get_current_deck_key() == "b_sgt_grimoire" then
-				key = key .. "_alt"
+            if self.get_current_deck_key() == "b_sgt_grimoire" then
+                key = key .. "_alt"
                 self.config = {vouchers = {'v_sgt_oculus_omniscientis', 'v_sgt_abyss_pact'}, conditional_ante_scaling = 2}
-			else
-				key = self.key
+            else
+                key = self.key
                 self.config = {vouchers = {'v_sgt_oculus_divina', 'v_sgt_shadow_oath'}, consumables = {'c_sgt_rex_divinus'}, conditional_ante_scaling = 1.5}
-			end
+            end
             local vars = {localize{type = 'name_text', key = self.config.vouchers[1], set = 'Voucher'},
             localize{type = 'name_text', key = self.config.vouchers[2], set = 'Voucher'},
             self.config.conditional_ante_scaling}
             if self.get_current_deck_key() ~= "b_sgt_grimoire" then
                 vars[4] = localize{type = 'name_text', key = self.config.consumables[1], set = 'Divinatio'}
             end
-			return { key = key, vars = vars }
-		end,
+            return { key = key, vars = vars }
+        end,
     }
 
     local celestaverse_sleeve = {
         key = "celestaverse",
-		name = "Celestaverse Sleeve",
+        name = "Celestaverse Sleeve",
         -- artist_credits = {"amy"},
-		atlas = 'sleeves',
-		pos = { x = 2, y = 0 },
-		unlocked = false,
-		unlock_condition = { deck = "b_sgt_grimoire", stake = "stake_blue" },
+        atlas = 'sleeves',
+        pos = { x = 2, y = 0 },
+        unlocked = false,
+        unlock_condition = { deck = "b_sgt_grimoire", stake = "stake_blue" },
         apply = function(self, sleeve)
             CardSleeves.Sleeve.apply(sleeve)
             if self.get_current_deck_key() == "b_sgt_celestaverse" then
@@ -249,23 +249,23 @@ if CardSleeves then
                 -- so I'm pulling it straight from voucher's prototype table
                 G.GAME.celestara_rate = G.P_CENTERS.v_sgt_civilization.config.extra.rate * self.config.times_rate
             end
-		end,
+        end,
         loc_vars = function(self)
             local key, vars = self.key, nil
-			if self.get_current_deck_key() == "b_sgt_celestaverse" then
-				key = key .. "_alt"
+            if self.get_current_deck_key() == "b_sgt_celestaverse" then
+                key = key .. "_alt"
                 self.config = {times_rate = 3, conditional_ante_scaling = 1.5, consumables = {"c_sgt_sacra_sapientia"}}
                 vars = {localize{type = 'name_text', key = self.config.consumables[1], set = 'Divinatio'},
                 self.config.times_rate, self.config.conditional_ante_scaling}
-			else
-				key = self.key
+            else
+                key = self.key
                 self.config = {vouchers = {'v_sgt_alien_life', 'v_sgt_civilization'}, consumable_slot = 1}
                 vars = {localize{type = 'name_text', key = self.config.vouchers[1], set = 'Voucher'},
                 localize{type = 'name_text', key = self.config.vouchers[2], set = 'Voucher'},
                 self.config.consumable_slot}
-			end
-			return { key = key, vars = vars }
-		end,
+            end
+            return { key = key, vars = vars }
+        end,
     }
 
     local sleeve_table = {

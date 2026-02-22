@@ -10,10 +10,10 @@ local blue_streak = {
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
             return {
-				sound = "chips1",
+                sound = "chips1",
                 chip_mod = card.ability.seal.chips,
-				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.seal.chips}}
-			}
+                message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.seal.chips}}
+            }
         end
     end,
     loc_vars = function(self, info_queue, card)
@@ -34,8 +34,8 @@ local red_streak = {
         if context.main_scoring and context.cardarea == G.play then
             return {
                 mult_mod = card.ability.seal.mult,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.seal.mult}}
-			}
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.seal.mult}}
+            }
         end
     end,
     loc_vars = function(self, info_queue, card)
@@ -81,7 +81,7 @@ local purple_streak = {
             return {
                 Xmult_mod = card.ability.seal.xmult,
                 message = localize{type='variable', key='a_xmult', vars={card.ability.seal.xmult}}
-			}
+            }
         end
     end,
     loc_vars = function(self, info_queue, card)
@@ -103,7 +103,7 @@ local celurean_streak = {
             return {
                 Xchip_mod = card.ability.seal.xchip,
                 message = localize{type='variable', key='a_xchips', vars={card.ability.seal.xchip}}
-			}
+            }
         end
     end,
     loc_vars = function(self, info_queue, card)
@@ -154,7 +154,7 @@ local crimson_streak = {
             return {
                 sgt_e_mult = card.ability.seal.emult,
                 card = card
-			}
+            }
         end
     end,
     loc_vars = function(self, info_queue, card)
@@ -176,7 +176,7 @@ local black_streak = {
             return {
                 ee_mult = card.ability.seal.eemult,
                 card = card
-			}
+            }
         end
     end,
     loc_vars = function(self, info_queue, card)
@@ -198,7 +198,7 @@ local gods_miracle = {
             return {
                 eee_mult = card.ability.seal.eeemult,
                 card = card
-			}
+            }
         end
         if context.end_of_round and not context.individual and not context.repetition
         and context.game_over and not G.GAME.saved_by_gods_miracle then

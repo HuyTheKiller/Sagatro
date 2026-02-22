@@ -439,41 +439,41 @@ return {
                 },
             },
             undiscovered_divinatio = {
-				name = "Chưa Khám Phá",
+                name = "Chưa Khám Phá",
                 text = {
                     "Mua hoặc dùng",
                     "lá này trong một",
                     "trận ngẫu nhiên",
                     "để biết tác dụng của nó",
                 },
-			},
+            },
             undiscovered_celestara = {
-				name = "Chưa Khám Phá",
+                name = "Chưa Khám Phá",
                 text = {
                     "Mua hoặc dùng",
                     "lá này trong một",
                     "trận ngẫu nhiên",
                     "để biết tác dụng của nó",
                 },
-			},
+            },
             undiscovered_eldritch = {
-				name = "Chưa Khám Phá",
+                name = "Chưa Khám Phá",
                 text = {
                     "Mua hoặc dùng",
                     "lá này trong một",
                     "trận ngẫu nhiên",
                     "để biết tác dụng của nó",
                 },
-			},
+            },
             undiscovered_supply = {
-				name = "Chưa Khám Phá",
-				text = {
-					"Mua hoặc dùng lá này",
+                name = "Chưa Khám Phá",
+                text = {
+                    "Mua hoặc dùng lá này",
                     "trong một trận ngẫu nhiên",
-					"ở {C:sgt_sagadition}chế độ cốt truyện{}",
-					"để biết tác dụng của nó",
-				},
-			},
+                    "ở {C:sgt_sagadition}chế độ cốt truyện{}",
+                    "để biết tác dụng của nó",
+                },
+            },
             p_sgt_divinatio_normal = {
                 name = "Gói Chiêm Mộng",
                 text = {
@@ -555,12 +555,12 @@ return {
                 },
             },
             sgt_protected = {
-				name = "Bảo Vệ",
-				text = {
-					"{C:attention}Miễn nhiễm{} với",
-					"vô hiệu hoá",
-				},
-			},
+                name = "Bảo Vệ",
+                text = {
+                    "{C:attention}Miễn nhiễm{} với",
+                    "vô hiệu hoá",
+                },
+            },
             sgt_off_depth = {
                 name = "Lệch Độ Sâu",
                 text = {
@@ -1300,7 +1300,7 @@ return {
                 name = "Nhật Thần",
                 text = {
                     "Tạo ra một {C:attention}Joker {C:sgt_sagadition,E:1}Celestaverse",
-					"{C:sgt_esoteric,E:1}Bí Truyền{} ngẫu nhiên, loại bỏ mọi",
+                    "{C:sgt_esoteric,E:1}Bí Truyền{} ngẫu nhiên, loại bỏ mọi",
                     "level khỏi các {C:attention}tay poker{}",
                 },
             },
@@ -1558,8 +1558,8 @@ return {
                 name = "Hắc Thần",
                 text = {
                     "Tạo ra một {C:attention}Joker {C:sgt_sagadition,E:1}Lovecraft",
-					"{C:sgt_esoteric,E:1}Bí Truyền{} ngẫu nhiên, áp {C:attention}Ngắn Hạn",
-					"lên mọi Joker khác",
+                    "{C:sgt_esoteric,E:1}Bí Truyền{} ngẫu nhiên, áp {C:attention}Ngắn Hạn",
+                    "lên mọi Joker khác",
                 }
             },
             c_sgt_void_hole = {
@@ -2490,8 +2490,8 @@ return {
                 name = "Mực Khổng Lồ Nam Cực",
                 text = {
                     "{C:attention}Tái kích{} mọi lá",
-					"{C:attention}10{}, {C:attention}#1#{} hoặc {C:attention}#2#",
-					"đã chơi hoặc giữ trên tay",
+                    "{C:attention}10{}, {C:attention}#1#{} hoặc {C:attention}#2#",
+                    "đã chơi hoặc giữ trên tay",
                 },
             },
             j_sgt_chimaera = {
@@ -2571,7 +2571,7 @@ return {
                 name = "Cá Đuôi Chuột",
                 text = {
                     "Nếu {C:attention}tay bài ghi điểm{} chứa nhiều bậc",
-					"riêng biệt, thêm một {C:attention}con dấu{} ngẫu nhiên",
+                    "riêng biệt, thêm một {C:attention}con dấu{} ngẫu nhiên",
                     "lên lá ghi điểm có {C:attention}bậc thấp nhất",
                 },
             },
@@ -4091,8 +4091,8 @@ return {
             ch_c_sgt_inversion_text5 = { "được chơi trừ đi 1 trong trận này" },
         },
         poker_hands = {
-			sgt_Any = "bất kì tay nào",
-		},
+            sgt_Any = "bất kì tay nào",
+        },
         dictionary = {
             k_sgt_trivial = "Tầm Thường",
             k_sgt_obscure = "Mờ Mịt",

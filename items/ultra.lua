@@ -1,11 +1,11 @@
 local divinatio = {
     key = "Divinatio",
     primary_colour = HEX("f4ff00"),
-	secondary_colour = G.C.SGT_DIVINATIO,
-	collection_rows = { 5, 6 },
-	shop_rate = 0.0,
-	loc_txt = {},
-	default = "c_sgt_iustitia_sacra",
+    secondary_colour = G.C.SGT_DIVINATIO,
+    collection_rows = { 5, 6 },
+    shop_rate = 0.0,
+    loc_txt = {},
+    default = "c_sgt_iustitia_sacra",
 }
 
 local celestara = {
@@ -13,19 +13,19 @@ local celestara = {
     primary_colour = HEX("0a126b"),
     secondary_colour = G.C.SGT_CELESTARA,
     collection_rows = { 6, 6 },
-	shop_rate = 0.0,
-	loc_txt = {},
+    shop_rate = 0.0,
+    loc_txt = {},
     default = "c_sgt_argyra",
 }
 
 local eldritch = {
     key = "Eldritch",
     primary_colour = HEX("e264f9"),
-	secondary_colour = G.C.SGT_ELDRITCH,
-	collection_rows = { 4, 5 },
-	shop_rate = 0.0,
-	loc_txt = {},
-	default = "c_sgt_chanting",
+    secondary_colour = G.C.SGT_ELDRITCH,
+    collection_rows = { 4, 5 },
+    shop_rate = 0.0,
+    loc_txt = {},
+    default = "c_sgt_chanting",
 }
 
 local consumabletype_table = {
@@ -736,7 +736,7 @@ local anima = {
         return false
     end,
     use = function(self, card, area, copier)
-		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             for _, v in ipairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
                 if v.ability.set == "Joker" then
                     v:add_sticker("eternal", true)
@@ -750,7 +750,7 @@ local anima = {
             }))
             return true end }))
         delay(0.6)
-	end,
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items and Sagatro.mod_compat.talisman
     end,
@@ -780,7 +780,7 @@ local argyra = {
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
                 G.GAME.celestara_tooltip = nil
-				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
+                SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
                     SMODS.smart_level_up_hand(card, hand_type)
@@ -797,7 +797,7 @@ local argyra = {
                 end
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
-			end
+            end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
             Sagatro.self_destruct(card, {no_destruction_context = true})
@@ -918,7 +918,7 @@ local sulvatera = {
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
                 G.GAME.celestara_tooltip = nil
-				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
+                SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
                     SMODS.smart_level_up_hand(card, hand_type)
@@ -935,7 +935,7 @@ local sulvatera = {
                 end
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
-			end
+            end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
             Sagatro.self_destruct(card, {no_destruction_context = true})
@@ -1057,7 +1057,7 @@ local terranora = {
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
                 G.GAME.celestara_tooltip = nil
-				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
+                SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
                     SMODS.smart_level_up_hand(card, hand_type)
@@ -1073,7 +1073,7 @@ local terranora = {
                 end
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
-			end
+            end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
             Sagatro.self_destruct(card, {no_destruction_context = true})
@@ -1193,7 +1193,7 @@ local valora = {
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
                 G.GAME.celestara_tooltip = nil
-				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
+                SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
                     SMODS.smart_level_up_hand(card, hand_type)
@@ -1208,7 +1208,7 @@ local valora = {
                 return true end}))
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
-			end
+            end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
             Sagatro.self_destruct(card, {no_destruction_context = true})
@@ -1328,7 +1328,7 @@ local zephyria = {
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
                 G.GAME.celestara_tooltip = nil
-				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
+                SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
                     SMODS.smart_level_up_hand(card, hand_type)
@@ -1352,7 +1352,7 @@ local zephyria = {
                 }))
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
-			end
+            end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
             Sagatro.self_destruct(card, {no_destruction_context = true})
@@ -1472,7 +1472,7 @@ local chronara = {
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
                 G.GAME.celestara_tooltip = nil
-				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
+                SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
                     SMODS.smart_level_up_hand(card, hand_type)
@@ -1498,7 +1498,7 @@ local chronara = {
                 SMODS.calculate_effect({message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral}, card)
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
-			end
+            end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
             Sagatro.self_destruct(card, {no_destruction_context = true})
@@ -1618,7 +1618,7 @@ local aetheron = {
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
                 G.GAME.celestara_tooltip = nil
-				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
+                SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
                     SMODS.smart_level_up_hand(card, hand_type)
@@ -1634,7 +1634,7 @@ local aetheron = {
                 end
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
-			end
+            end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
             Sagatro.self_destruct(card, {no_destruction_context = true})
@@ -1755,7 +1755,7 @@ local oceanis = {
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
                 G.GAME.celestara_tooltip = nil
-				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
+                SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
                     SMODS.smart_level_up_hand(card, hand_type)
@@ -1771,7 +1771,7 @@ local oceanis = {
                 end
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
-			end
+            end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
             Sagatro.self_destruct(card, {no_destruction_context = true})
@@ -1891,14 +1891,14 @@ local lonestra = {
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
                 G.GAME.celestara_tooltip = nil
-				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
+                SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
                     SMODS.smart_level_up_hand(card, hand_type)
                 end
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
-			end
+            end
         end
         if context.repetition and context.cardarea == G.hand and not context.blueprint and not context.retrigger_joker
         and (next(context.card_effects[1]) or #context.card_effects > 1) and card.triggered then
@@ -2040,7 +2040,7 @@ local mystara = {
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
                 G.GAME.celestara_tooltip = nil
-				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
+                SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
                     SMODS.smart_level_up_hand(card, hand_type)
@@ -2051,7 +2051,7 @@ local mystara = {
                 end
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
-			end
+            end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
             Sagatro.self_destruct(card, {no_destruction_context = true})
@@ -2172,7 +2172,7 @@ local ceratek = {
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
                 G.GAME.celestara_tooltip = nil
-				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
+                SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
                     SMODS.smart_level_up_hand(card, hand_type)
@@ -2180,7 +2180,7 @@ local ceratek = {
                 context.scoring_hand[1]:set_edition(poll_edition('ceratek_edition', nil, nil, true), nil, nil, true)
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
-			end
+            end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
             Sagatro.self_destruct(card, {no_destruction_context = true})
@@ -2300,7 +2300,7 @@ local discordia = {
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
                 G.GAME.celestara_tooltip = nil
-				SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
+                SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
                     SMODS.smart_level_up_hand(card, hand_type)
@@ -2314,7 +2314,7 @@ local discordia = {
                 }))
                 card.triggered = true
                 delay(0.25*G.SETTINGS.GAMESPEED)
-			end
+            end
         end
         if context.after and not context.blueprint and not context.retrigger_joker and card.triggered then
             Sagatro.self_destruct(card, {no_destruction_context = true})
@@ -2442,7 +2442,7 @@ local soltera = {
         return false
     end,
     use = function(self, card, area, copier)
-		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             for k, v in pairs(G.GAME.hands) do
                 if to_big(v.level) > to_big(1) then
                     level_up_hand(card, k, true, -to_number(v.level) + 1)
@@ -2456,7 +2456,7 @@ local soltera = {
             }))
             return true end }))
         delay(0.6)
-	end,
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items and Sagatro.mod_compat.talisman
     end,
@@ -2604,34 +2604,34 @@ local amulet = {
     config = {extra = {seal = 'sgt_Platinum'}, max_highlighted = 1},
     use = function(self, card, area, copier)
         for i = 1, #G.hand.highlighted do
-			local highlighted = G.hand.highlighted[i]
-			G.E_MANAGER:add_event(Event({
-				func = function()
-					play_sound("tarot1")
-					card:juice_up(0.3, 0.5)
-					return true
-				end,
-			}))
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.1,
-				func = function()
-					if highlighted then
-						highlighted:set_seal(card.ability.extra.seal, nil, true)
-					end
-					return true
-				end,
-			}))
-			delay(0.5)
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.2,
-				func = function()
-					G.hand:unhighlight_all()
-					return true
-				end,
-			}))
-		end
+            local highlighted = G.hand.highlighted[i]
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    play_sound("tarot1")
+                    card:juice_up(0.3, 0.5)
+                    return true
+                end,
+            }))
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                delay = 0.1,
+                func = function()
+                    if highlighted then
+                        highlighted:set_seal(card.ability.extra.seal, nil, true)
+                    end
+                    return true
+                end,
+            }))
+            delay(0.5)
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                delay = 0.2,
+                func = function()
+                    G.hand:unhighlight_all()
+                    return true
+                end,
+            }))
+        end
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_SEALS[card.ability.extra.seal]
@@ -2656,7 +2656,7 @@ local emanate = {
     end,
     use = function(self, card, area, copier)
         for i = 1, #G.hand.highlighted do
-			local highlighted = G.hand.highlighted[i]
+            local highlighted = G.hand.highlighted[i]
             if pseudorandom('emanate') > 0.5 then
                 G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
                     highlighted:set_edition('e_negative', true)
@@ -2668,7 +2668,7 @@ local emanate = {
                     card:juice_up(0.3, 0.5)
                 return true end }))
             end
-		end
+        end
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = { key = 'e_negative_playing_card', set = 'Edition', config = {extra = 1}}
@@ -3000,34 +3000,34 @@ local repetite = {
     config = {extra = {seal = 'sgt_Blood'}, max_highlighted = 1},
     use = function(self, card, area, copier)
         for i = 1, #G.hand.highlighted do
-			local highlighted = G.hand.highlighted[i]
-			G.E_MANAGER:add_event(Event({
-				func = function()
-					play_sound("tarot1")
-					card:juice_up(0.3, 0.5)
-					return true
-				end,
-			}))
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.1,
-				func = function()
-					if highlighted then
-						highlighted:set_seal(card.ability.extra.seal, nil, true)
-					end
-					return true
-				end,
-			}))
-			delay(0.5)
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.2,
-				func = function()
-					G.hand:unhighlight_all()
-					return true
-				end,
-			}))
-		end
+            local highlighted = G.hand.highlighted[i]
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    play_sound("tarot1")
+                    card:juice_up(0.3, 0.5)
+                    return true
+                end,
+            }))
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                delay = 0.1,
+                func = function()
+                    if highlighted then
+                        highlighted:set_seal(card.ability.extra.seal, nil, true)
+                    end
+                    return true
+                end,
+            }))
+            delay(0.5)
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                delay = 0.2,
+                func = function()
+                    G.hand:unhighlight_all()
+                    return true
+                end,
+            }))
+        end
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_SEALS[card.ability.extra.seal]
@@ -3096,34 +3096,34 @@ local haze = {
     config = {extra = {seal = 'sgt_Space'}, max_highlighted = 1},
     use = function(self, card, area, copier)
         for i = 1, #G.hand.highlighted do
-			local highlighted = G.hand.highlighted[i]
-			G.E_MANAGER:add_event(Event({
-				func = function()
-					play_sound("tarot1")
-					card:juice_up(0.3, 0.5)
-					return true
-				end,
-			}))
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.1,
-				func = function()
-					if highlighted then
-						highlighted:set_seal(card.ability.extra.seal, nil, true)
-					end
-					return true
-				end,
-			}))
-			delay(0.5)
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.2,
-				func = function()
-					G.hand:unhighlight_all()
-					return true
-				end,
-			}))
-		end
+            local highlighted = G.hand.highlighted[i]
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    play_sound("tarot1")
+                    card:juice_up(0.3, 0.5)
+                    return true
+                end,
+            }))
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                delay = 0.1,
+                func = function()
+                    if highlighted then
+                        highlighted:set_seal(card.ability.extra.seal, nil, true)
+                    end
+                    return true
+                end,
+            }))
+            delay(0.5)
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                delay = 0.2,
+                func = function()
+                    G.hand:unhighlight_all()
+                    return true
+                end,
+            }))
+        end
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_SEALS[card.ability.extra.seal]
@@ -3141,34 +3141,34 @@ local cartomancy = {
     config = {extra = {seal = 'sgt_Cyan'}, max_highlighted = 1},
     use = function(self, card, area, copier)
         for i = 1, #G.hand.highlighted do
-			local highlighted = G.hand.highlighted[i]
-			G.E_MANAGER:add_event(Event({
-				func = function()
-					play_sound("tarot1")
-					card:juice_up(0.3, 0.5)
-					return true
-				end,
-			}))
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.1,
-				func = function()
-					if highlighted then
-						highlighted:set_seal(card.ability.extra.seal, nil, true)
-					end
-					return true
-				end,
-			}))
-			delay(0.5)
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.2,
-				func = function()
-					G.hand:unhighlight_all()
-					return true
-				end,
-			}))
-		end
+            local highlighted = G.hand.highlighted[i]
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    play_sound("tarot1")
+                    card:juice_up(0.3, 0.5)
+                    return true
+                end,
+            }))
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                delay = 0.1,
+                func = function()
+                    if highlighted then
+                        highlighted:set_seal(card.ability.extra.seal, nil, true)
+                    end
+                    return true
+                end,
+            }))
+            delay(0.5)
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                delay = 0.2,
+                func = function()
+                    G.hand:unhighlight_all()
+                    return true
+                end,
+            }))
+        end
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_SEALS[card.ability.extra.seal]
@@ -3232,7 +3232,7 @@ local sinister = {
         return false
     end,
     use = function(self, card, area, copier)
-		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             for _, v in ipairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
                 if v.ability.set == "Joker" then
                     v:add_sticker("perishable", true)
@@ -3246,7 +3246,7 @@ local sinister = {
             }))
             return true end }))
         delay(0.6)
-	end,
+    end,
     in_pool = function(self, args)
         return not G.GAME.modifiers.sgt_disable_sagatro_items and Sagatro.mod_compat.talisman
     end,
@@ -3504,7 +3504,7 @@ local void_hole = {
             end
             update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
         end
-	end,
+    end,
     bulk_use = function(self, card, area, copier, amount)
         G.GAME.celestara_tooltip = nil
         if (G.SETTINGS.FASTFORWARD or 0) == 0 then

@@ -893,7 +893,7 @@ function create_UIBox_Sagatro_welcome()
                         {n = G.UIT.R, config = {padding = 0, align = "cm"}, nodes = {
                             {n = G.UIT.O, config = {object = DynaText({
                                 string = {localize("sgt_welcome")}, colours = { G.C.RARITY[4] },
-								shadow = true, rotate = true, bump = true, pop_in = 0.3, pop_in_rate = 2, scale = 1.2,
+                                shadow = true, rotate = true, bump = true, pop_in = 0.3, pop_in_rate = 2, scale = 1.2,
                             })}}
                         }}
                     }},

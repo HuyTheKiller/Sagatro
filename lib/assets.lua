@@ -291,11 +291,11 @@ SMODS.Sound{
     key = "music_sagatro",
     path = "music_sagatro.ogg",
     select_music_track = function()
-		if G.STATE == G.STATES.MENU then
+        if G.STATE == G.STATES.MENU then
             return 100
         end
         return false
-	end,
+    end,
 }
 
 SMODS.Sound{
@@ -303,7 +303,7 @@ SMODS.Sound{
     path = "music_sagatro_story_mode_boss.ogg",
     select_music_track = function()
         return G.GAME.blind and G.GAME.blind.boss and (Sagatro.config.SagatroMusicOption < 3) and 10
-	end,
+    end,
 }
 
 SMODS.Sound{
@@ -311,7 +311,7 @@ SMODS.Sound{
     path = "music_sagatro_story_mode_shop.ogg",
     select_music_track = function()
         return G.shop and not G.shop.REMOVED and (Sagatro.config.SagatroMusicOption < 3) and 10
-	end,
+    end,
 }
 
 SMODS.Sound{
@@ -319,7 +319,7 @@ SMODS.Sound{
     path = "music_sagatro_story_mode_meteor.ogg",
     select_music_track = function()
         return G.booster_pack_meteors and not G.booster_pack_meteors.REMOVED and (Sagatro.config.SagatroMusicOption < 3) and 100
-	end,
+    end,
 }
 
 SMODS.Sound{
@@ -327,7 +327,7 @@ SMODS.Sound{
     path = "music_sagatro_story_mode_sparkle.ogg",
     select_music_track = function()
         return G.booster_pack and not G.booster_pack.REMOVED and (Sagatro.config.SagatroMusicOption < 3) and 100
-	end,
+    end,
 }
 
 SMODS.Sound{
@@ -335,15 +335,15 @@ SMODS.Sound{
     path = "music_sagatro_story_mode.ogg",
     select_music_track = function()
         return G.STATE ~= G.STATES.MENU and (Sagatro.config.SagatroMusicOption < 3)
-	end,
+    end,
 }
 
 SMODS.Sound{
     key = "music_aladdin",
     path = "music_aladdin.ogg",
     select_music_track = function()
-		return G.STATE and G.STATE == G.STATES.SMODS_BOOSTER_OPENED and SMODS.OPENED_BOOSTER.label:find("wish")
-	end,
+        return G.STATE and G.STATE == G.STATES.SMODS_BOOSTER_OPENED and SMODS.OPENED_BOOSTER.label:find("wish")
+    end,
 }
 
 -- Spare me from the copyright issue, Pocket Mirror Team
@@ -355,8 +355,8 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return (G.GAME.story_mode and next(SMODS.find_card("j_sgt_goldia", true))) and (Sagatro.config.SagatroMusicOption < 2) and 250
-	end,
+        return (G.GAME.story_mode and next(SMODS.find_card("j_sgt_goldia", true))) and (Sagatro.config.SagatroMusicOption < 2) and 250
+    end,
 }
 
 SMODS.Sound{
@@ -366,8 +366,8 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return Sagatro.storyline_check("pocket_mirror") and (Sagatro.event_check("pm_mirrorworld") or Sagatro.event_check("conditional_game_over")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
-	end,
+        return Sagatro.storyline_check("pocket_mirror") and (Sagatro.event_check("pm_mirrorworld") or Sagatro.event_check("conditional_game_over")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
+    end,
 }
 
 SMODS.Sound{
@@ -377,8 +377,8 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return (Sagatro.event_check("fleta_challenges")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
-	end,
+        return (Sagatro.event_check("fleta_challenges")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
+    end,
 }
 
 SMODS.Sound{
@@ -388,8 +388,8 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return (Sagatro.event_check("harpae_patience")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
-	end,
+        return (Sagatro.event_check("harpae_patience")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
+    end,
 }
 
 SMODS.Sound{
@@ -399,8 +399,8 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return (Sagatro.event_check("mirror_maze") or Sagatro.event_check("dull_glass")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
-	end,
+        return (Sagatro.event_check("mirror_maze") or Sagatro.event_check("dull_glass")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
+    end,
 }
 
 SMODS.Sound{
@@ -410,8 +410,8 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return Sagatro.event_check("lisette_chase") and (Sagatro.config.SagatroMusicOption < 2) and 1000
-	end,
+        return Sagatro.event_check("lisette_chase") and (Sagatro.config.SagatroMusicOption < 2) and 1000
+    end,
 }
 
 SMODS.Sound{
@@ -421,8 +421,8 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return G.GAME.solving_door_puzzle and (Sagatro.config.SagatroMusicOption < 2) and 1000
-	end,
+        return G.GAME.solving_door_puzzle and (Sagatro.config.SagatroMusicOption < 2) and 1000
+    end,
 }
 
 SMODS.Sound{
@@ -432,8 +432,8 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return (Sagatro.event_check("pocket_mirror_chase") or Sagatro.event_check("enjel_chase")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
-	end,
+        return (Sagatro.event_check("pocket_mirror_chase") or Sagatro.event_check("enjel_chase")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
+    end,
 }
 
 SMODS.Sound{
@@ -443,8 +443,8 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return Sagatro.event_check("platinum_ending") and (Sagatro.config.SagatroMusicOption < 2) and 1000
-	end,
+        return Sagatro.event_check("platinum_ending") and (Sagatro.config.SagatroMusicOption < 2) and 1000
+    end,
 }
 
 SMODS.Sound{
@@ -454,6 +454,6 @@ SMODS.Sound{
     pitch = 1,
     volume = 0.5,
     select_music_track = function()
-		return (Sagatro.event_check("dawn_ending") or Sagatro.event_check("little_goody_2_shoes_ending")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
-	end,
+        return (Sagatro.event_check("dawn_ending") or Sagatro.event_check("little_goody_2_shoes_ending")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
+    end,
 }

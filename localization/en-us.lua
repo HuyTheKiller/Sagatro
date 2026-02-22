@@ -440,41 +440,41 @@ return {
                 },
             },
             undiscovered_divinatio = {
-				name = "Not Discovered",
-				text = {
-					"Purchase or use",
-					"this card in an",
-					"unseeded run to",
-					"learn what it does",
-				},
-			},
+                name = "Not Discovered",
+                text = {
+                    "Purchase or use",
+                    "this card in an",
+                    "unseeded run to",
+                    "learn what it does",
+                },
+            },
             undiscovered_celestara = {
-				name = "Not Discovered",
-				text = {
-					"Purchase or use",
-					"this card in an",
-					"unseeded run to",
-					"learn what it does",
-				},
-			},
+                name = "Not Discovered",
+                text = {
+                    "Purchase or use",
+                    "this card in an",
+                    "unseeded run to",
+                    "learn what it does",
+                },
+            },
             undiscovered_eldritch = {
-				name = "Not Discovered",
-				text = {
-					"Purchase or use",
-					"this card in an",
-					"unseeded run to",
-					"learn what it does",
-				},
-			},
+                name = "Not Discovered",
+                text = {
+                    "Purchase or use",
+                    "this card in an",
+                    "unseeded run to",
+                    "learn what it does",
+                },
+            },
             undiscovered_supply = {
-				name = "Not Discovered",
-				text = {
-					"Purchase or use this",
-					"card in an unseeded",
-					"{C:sgt_sagadition}story mode{} run to",
-					"learn what it does",
-				},
-			},
+                name = "Not Discovered",
+                text = {
+                    "Purchase or use this",
+                    "card in an unseeded",
+                    "{C:sgt_sagadition}story mode{} run to",
+                    "learn what it does",
+                },
+            },
             p_sgt_divinatio_normal = {
                 name = "Divinatio Pack",
                 text = {
@@ -556,12 +556,12 @@ return {
                 },
             },
             sgt_protected = {
-				name = "Protected",
-				text = {
-					"{C:attention}Immune{} to",
-					"debuffs",
-				},
-			},
+                name = "Protected",
+                text = {
+                    "{C:attention}Immune{} to",
+                    "debuffs",
+                },
+            },
             sgt_off_depth = {
                 name = "Off Depth",
                 text = {
@@ -2575,7 +2575,7 @@ return {
                 name = "Grenadier",
                 text = {
                     "If {C:attention}scored cards{} contain multiple",
-					"unique ranks, add a random {C:attention}seal{} to",
+                    "unique ranks, add a random {C:attention}seal{} to",
                     "the {C:attention}lowest{} ranked card scored",
                 },
             },
@@ -4096,8 +4096,8 @@ return {
             ch_c_sgt_inversion_text5 = { "is played minus 1 this run" },
         },
         poker_hands = {
-			sgt_Any = "any hand",
-		},
+            sgt_Any = "any hand",
+        },
         dictionary = {
             k_sgt_trivial = "Trivial",
             k_sgt_obscure = "Obscure",

@@ -60,10 +60,10 @@ function loc_colour(_c, _default)
         lc()
     end
     for k, v in pairs(G.C) do
-		if string.len(k) > 4 and string.sub(k, 1, 4) == "SGT_" then
-			G.ARGS.LOC_COLOURS[string.lower(k)] = v
-		end
-	end
+        if string.len(k) > 4 and string.sub(k, 1, 4) == "SGT_" then
+            G.ARGS.LOC_COLOURS[string.lower(k)] = v
+        end
+    end
     for k, v in pairs(SMODS.Blinds) do
         if v.mod and v.mod.id == "Sagatro" then
             G.ARGS.LOC_COLOURS[k] = v.boss_colour
@@ -92,11 +92,11 @@ to_big = to_big or function(x)
 end
 
 to_number = to_number or function(x)
-	return x
+    return x
 end
 
 Sagatro.story_mode_showdown = {
-	"bl_sgt_red_queen",
+    "bl_sgt_red_queen",
     "bl_sgt_nyx_abyss",
     "bl_sgt_red_king",
 }
@@ -148,7 +148,7 @@ Sagatro.forced_buffoon_events = {
 
 local igo = Game.init_game_object
 function Game:init_game_object()
-	local ret = igo(self)
+    local ret = igo(self)
     -- Add played_this_ante field to poker hands, only when necessary
     if Sagatro.played_this_ante_compat() then
         for _, v in pairs(ret.hands) do
@@ -228,7 +228,7 @@ function Game:init_game_object()
     ret.celestara_tooltip = true
     ret.current_round.reroll_count = 0
     ret.shelved_chains = {}
-	return ret
+    return ret
 end
 
 -- Pretty much stolen from Cryptid lmao
@@ -329,7 +329,7 @@ end
 -- Mouse and Pufferfish's conditional debuff mechanic
 local cardarea_update_ref = CardArea.update
 function CardArea:update(dt)
-	cardarea_update_ref(self, dt)
+    cardarea_update_ref(self, dt)
     if self == G.jokers and G.jokers.cards[1] then
         for i, v in ipairs(G.jokers.cards) do
             if v.config.center_key == "j_sgt_mouse" then
@@ -510,11 +510,11 @@ function Card:update(dt)
                 self.ability.saga_fusion.jiggle = false
             end
         end
-		if self.ability.gravistone_triggered and not SMODS.has_enhancement(self, "m_sgt_gravistone") then
-			self.ability.gravistone_triggered = nil
-			SMODS.change_play_limit(-1)
+        if self.ability.gravistone_triggered and not SMODS.has_enhancement(self, "m_sgt_gravistone") then
+            self.ability.gravistone_triggered = nil
+            SMODS.change_play_limit(-1)
             SMODS.change_discard_limit(-1)
-		end
+        end
         if self.states.hover.is or self.states.drag.is then
             if self.area == G.jokers and G.GAME.story_mode then
                 if not self.debuff then
@@ -693,7 +693,7 @@ Sagatro.timer = {
 }
 local upd = Game.update
 function Game:update(dt)
-	upd(self, dt)
+    upd(self, dt)
     if not G.SETTINGS.tutorial_complete then
         Sagatro.config.DisableOtherJokers = false
     end
@@ -1090,110 +1090,110 @@ end
 -- Esoteric jokers are Exotic equivalents in this mod
 local set_spritesref = Card.set_sprites
 function Card:set_sprites(_center, _front)
-	set_spritesref(self, _center, _front)
+    set_spritesref(self, _center, _front)
     if _center and _center.name == "Submarine" then
-		self.children.sgt_extra_sprite = Sprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ASSET_ATLAS[_center.atlas or _center.set],
-			_center.extra_pos
-		)
-		self.children.sgt_extra_sprite.role.draw_major = self
-		self.children.sgt_extra_sprite.states.hover.can = false
-		self.children.sgt_extra_sprite.states.click.can = false
+        self.children.sgt_extra_sprite = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            _center.extra_pos
+        )
+        self.children.sgt_extra_sprite.role.draw_major = self
+        self.children.sgt_extra_sprite.states.hover.can = false
+        self.children.sgt_extra_sprite.states.click.can = false
         self.children.sgt_extra_sprite.custom_draw = true
-	end
+    end
     if _center and _center.name == "The Magic Lamp" then
-		self.children.floating_sprite = Sprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ASSET_ATLAS[_center.atlas or _center.set],
-			{ x = 2, y = 1 }
-		)
-		self.children.floating_sprite.role.draw_major = self
-		self.children.floating_sprite.states.hover.can = false
-		self.children.floating_sprite.states.click.can = false
-		self.children.floating_mid_sprite = Sprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ASSET_ATLAS[_center.atlas or _center.set],
-			{ x = 1, y = 1 }
-		)
-		self.children.floating_mid_sprite.role.draw_major = self
-		self.children.floating_mid_sprite.states.hover.can = false
-		self.children.floating_mid_sprite.states.click.can = false
-	end
+        self.children.floating_sprite = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            { x = 2, y = 1 }
+        )
+        self.children.floating_sprite.role.draw_major = self
+        self.children.floating_sprite.states.hover.can = false
+        self.children.floating_sprite.states.click.can = false
+        self.children.floating_mid_sprite = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            { x = 1, y = 1 }
+        )
+        self.children.floating_mid_sprite.role.draw_major = self
+        self.children.floating_mid_sprite.states.hover.can = false
+        self.children.floating_mid_sprite.states.click.can = false
+    end
     if _center and _center.name == "The Sinister" then
-		self.children.floating_sprite = Sprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ASSET_ATLAS[_center.atlas or _center.set],
-			{ x = 7, y = 4 }
-		)
-		self.children.floating_sprite.role.draw_major = self
-		self.children.floating_sprite.states.hover.can = false
-		self.children.floating_sprite.states.click.can = false
-	end
+        self.children.floating_sprite = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            { x = 7, y = 4 }
+        )
+        self.children.floating_sprite.role.draw_major = self
+        self.children.floating_sprite.states.hover.can = false
+        self.children.floating_sprite.states.click.can = false
+    end
     if _center and _center.name == "Anima" then
-		self.children.floating_sprite = Sprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ASSET_ATLAS[_center.atlas or _center.set],
-			{ x = 3, y = 2 }
-		)
-		self.children.floating_sprite.role.draw_major = self
-		self.children.floating_sprite.states.hover.can = false
-		self.children.floating_sprite.states.click.can = false
-	end
+        self.children.floating_sprite = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            { x = 3, y = 2 }
+        )
+        self.children.floating_sprite.role.draw_major = self
+        self.children.floating_sprite.states.hover.can = false
+        self.children.floating_sprite.states.click.can = false
+    end
     if _center and _center.name == "Soltera" then
-		self.children.floating_sprite = Sprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ASSET_ATLAS[_center.atlas or _center.set],
-			{ x = 3, y = 7 }
-		)
-		self.children.floating_sprite.role.draw_major = self
-		self.children.floating_sprite.states.hover.can = false
-		self.children.floating_sprite.states.click.can = false
-	end
-	if _center and _center.soul_pos and _center.soul_pos.sgt_extra then
-		self.children.floating_mid_sprite = Sprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ASSET_ATLAS[_center.atlas or _center.set],
-			_center.soul_pos.sgt_extra
-		)
-		self.children.floating_mid_sprite.role.draw_major = self
-		self.children.floating_mid_sprite.states.hover.can = false
-		self.children.floating_mid_sprite.states.click.can = false
-	end
+        self.children.floating_sprite = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            { x = 3, y = 7 }
+        )
+        self.children.floating_sprite.role.draw_major = self
+        self.children.floating_sprite.states.hover.can = false
+        self.children.floating_sprite.states.click.can = false
+    end
+    if _center and _center.soul_pos and _center.soul_pos.sgt_extra then
+        self.children.floating_mid_sprite = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            _center.soul_pos.sgt_extra
+        )
+        self.children.floating_mid_sprite.role.draw_major = self
+        self.children.floating_mid_sprite.states.hover.can = false
+        self.children.floating_mid_sprite.states.click.can = false
+    end
     if _center and _center.soul_pos and _center.soul_pos.name_tag then
-		self.children.floating_name_tag = Sprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ASSET_ATLAS[_center.atlas or _center.set],
-			_center.soul_pos.name_tag
-		)
-		self.children.floating_name_tag.role.draw_major = self
-		self.children.floating_name_tag.states.hover.can = false
-		self.children.floating_name_tag.states.click.can = false
-	end
+        self.children.floating_name_tag = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            _center.soul_pos.name_tag
+        )
+        self.children.floating_name_tag.role.draw_major = self
+        self.children.floating_name_tag.states.hover.can = false
+        self.children.floating_name_tag.states.click.can = false
+    end
 end
 
 local can_calc_ref = Card.can_calculate
@@ -1325,8 +1325,8 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
     end
     local card = cc(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
     if card.config.center_key == "j_sgt_ugly_blobfish" then
-		card:set_perishable(true)
-	end
+        card:set_perishable(true)
+    end
     for _, group in pairs(SAGA_GROUP_POOL) do
         if _type == group then
             if G.GAME.modifiers.all_eternal then
@@ -1560,7 +1560,7 @@ function Blind:disable(...)
     if self.config.blind.key == "bl_sgt_red_queen"
     and (select(1, ...)) and select(1, ...) == "do_not_cut_score" then
         self.chips = self.chips*3
-		self.chip_text = number_format(self.chips)
+        self.chip_text = number_format(self.chips)
     end
 end
 
@@ -1654,7 +1654,7 @@ function Blind:defeat(silent)
             Sagatro.temp_music_volume = nil
         end
     end
-	dft(self, silent)
+    dft(self, silent)
 end
 
 -- Ah yes, Nameless' secret ability is to slowly flood your shop voucher with Antimatter
@@ -1736,24 +1736,24 @@ end
 ---@param table table
 table.contains = table.contains or function(table, element)
     for _, v in pairs(table) do
-		if v == element then
-			return true
-		end
-	end
-	return false
+        if v == element then
+            return true
+        end
+    end
+    return false
 end
 
 ---@param t table
 table.remove_duplicate = function(t, element)
     local times = 0
     for i, v in ipairs(t) do
-		if v == element then
-			times = times + 1
+        if v == element then
+            times = times + 1
             if times > 1 then
                 table.remove(t, i)
             end
-		end
-	end
+        end
+    end
 end
 
 ---@param table table
@@ -4074,7 +4074,7 @@ local tag_zodiac_align = {2, 2, 3, 4, 4, 5, 5, 6}
 
 local at = add_tag
 function add_tag(tag)
-	at(tag)
+    at(tag)
     local max_tag_count = 13
     if Ortalab then
         local zodiac_count = G.HUD_zodiac and #G.HUD_zodiac or 0
@@ -4091,7 +4091,7 @@ end
 
 local tr = Tag.remove
 function Tag:remove()
-	tr(self)
+    tr(self)
     local max_tag_count = 13
     if Ortalab then
         local zodiac_count = G.HUD_zodiac and #G.HUD_zodiac or 0
@@ -4345,7 +4345,7 @@ Sagatro.config_tab = function()
             {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
                 create_toggle({label = localize('SGT_lenient_score'), ref_table = Sagatro.config, ref_value = 'LenientScore', info = localize('SGT_lenient_score_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
             }},
-		}},
+        }},
         {n=G.UIT.R, config = {minh = 0.04, minw = 4, colour = Sagatro.badge_colour}},
         {n=G.UIT.R, config = {align = 'cm', padding = 0.2}, nodes = {
             {n=G.UIT.T, config = {scale = 0.5, text = localize('SGT_misc_settings'), colour = G.C.WHITE}}
@@ -4371,7 +4371,7 @@ Sagatro.config_tab = function()
 end
 
 if Overflow and Overflow.blacklist then
-	Overflow.blacklist["c_sgt_iustitia_sacra"] = true
+    Overflow.blacklist["c_sgt_iustitia_sacra"] = true
 end
 
 if JokerDisplay then

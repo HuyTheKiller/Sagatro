@@ -54,8 +54,8 @@ local fertility = {
         delay(0.6)
     end,
     loc_vars = function(self, info_queue, card)
-		return {vars = {card and card.ability.universal or self.config.universal}}
-	end,
+        return {vars = {card and card.ability.universal or self.config.universal}}
+    end,
 }
 
 local prosperity = {
@@ -106,8 +106,8 @@ local prosperity = {
         delay(0.6)
     end,
     loc_vars = function(self, info_queue, card)
-		return {vars = {card and card.ability.money or self.config.money}}
-	end,
+        return {vars = {card and card.ability.money or self.config.money}}
+    end,
 }
 
 local love = {
@@ -160,9 +160,9 @@ local love = {
         if not card.fake_card then
             info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_lamp_genie"]
         end
-		return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_lamp_genie", nodes = {}},
+        return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_lamp_genie", nodes = {}},
             card and card.ability.retriggers or self.config.retriggers}}
-	end,
+    end,
 }
 
 local peace = {
@@ -215,8 +215,8 @@ local peace = {
         if not card.fake_card then
             info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_lamp_genie"]
         end
-		return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_lamp_genie", nodes = {}}}}
-	end,
+        return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_lamp_genie", nodes = {}}}}
+    end,
 }
 
 local ease = {
@@ -282,10 +282,10 @@ local ease = {
         if not card.fake_card then
             info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_aladdin"]
         end
-		return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_aladdin", nodes = {}},
+        return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_aladdin", nodes = {}},
         card and card.ability.chips or self.config.chips,
         card and card.ability.xmult or self.config.xmult}}
-	end,
+    end,
 }
 
 local asetheticism = {
@@ -407,20 +407,20 @@ local freedom = {
         if not card.fake_card then
             info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_lamp_genie"]
         end
-		return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_lamp_genie", nodes = {}},
+        return {vars = {localize{type = 'name_text', set = "Joker", key = "j_sgt_lamp_genie", nodes = {}},
             card and card.ability.emult or self.config.emult}}
-	end,
+    end,
 }
 
 local wish = {
     key = "Wish",
     no_collection = not Sagatro.mod_compat.talisman,
     primary_colour = HEX("1350c7"),
-	secondary_colour = G.C.SGT_WISH,
-	collection_rows = { 3, 3 },
-	shop_rate = 0.0,
-	loc_txt = {},
-	default = "c_sgt_prosperity",
+    secondary_colour = G.C.SGT_WISH,
+    collection_rows = { 3, 3 },
+    shop_rate = 0.0,
+    loc_txt = {},
+    default = "c_sgt_prosperity",
 }
 
 local consumabletype_table = {

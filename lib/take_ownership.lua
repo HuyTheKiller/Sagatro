@@ -106,8 +106,8 @@ true
 
 local splash_add_to_deck = G.P_CENTERS.j_splash.add_to_deck
 SMODS.Joker:take_ownership('splash',
-	{
-		add_to_deck = function(self, card, from_debuff)
+    {
+        add_to_deck = function(self, card, from_debuff)
             if splash_add_to_deck and type(splash_add_to_deck) == "function" then
                 splash_add_to_deck(self, card, from_debuff)
             end
@@ -122,8 +122,8 @@ SMODS.Joker:take_ownership('splash',
                 end
             end
         end,
-	},
-	true
+    },
+    true
 )
 
 -- Make non-rerollable bosses not spawn Boss Tag (yea, this somehow isn't working but it's fine)
