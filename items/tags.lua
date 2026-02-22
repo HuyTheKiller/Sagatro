@@ -3,6 +3,7 @@ local progress_pie = {
     name = "Progress Chart",
     atlas = "progress_pie",
     pos = {x = 0, y = 0},
+    no_collection = true,
     exclude_from_pool = true,
     set_ability = function(self, tag)
         tag.ability.in_run = true
@@ -27,6 +28,7 @@ local progress_pie_iw = {
     name = "Progress Chart",
     atlas = "progress_pie",
     pos = {x = 0, y = 0},
+    no_collection = true,
     exclude_from_pool = true,
     set_ability = function(self, tag)
         tag.ability.in_run = true
