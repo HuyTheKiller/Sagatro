@@ -3799,6 +3799,28 @@ function Sagatro.unhighlight_all()
     end
 end
 
+---@param enh string Enhancement key
+---@return string?
+function Sagatro.get_upgraded_enh(enh)
+    if enh == "m_bonus" then
+        return "m_sgt_favor"
+    elseif enh == "m_mult" then
+        return "m_sgt_exponent"
+    elseif enh == "m_wild" then
+        return "m_sgt_strange"
+    elseif enh == "m_glass" then
+        return "m_sgt_nyx_glass"
+    elseif enh == "m_steel" then
+        return "m_sgt_titanium"
+    elseif enh == "m_stone" then
+        return "m_sgt_abyss_stone"
+    elseif enh == "m_gold" then
+        return "m_sgt_platinum"
+    elseif enh == "m_lucky" then
+        return "m_sgt_ancient_lucky"
+    end
+end
+
 ---@param cls SMODS.GameObject The class to invoke `take_ownership` from.
 ---@param key string Object key. Ignores class prefix (e.g. "splash" instead of "j_splash").
 ---@param obj table Table of contents to modify the object with.

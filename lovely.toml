@@ -820,6 +820,13 @@ pattern = '''SMODS\.has_enhancement'''
 position = "at"
 payload = '''Sagatro.omniscient'''
 
+[[patches]]
+[patches.regex]
+target = "functions/common_events.lua"
+pattern = '''SMODS\.has_enhancement\(vv, v\.enhancement_gate\)'''
+position = "at"
+payload = '''Sagatro.omniscient(vv, {v.enhancement_gate, Sagatro.get_upgraded_enh(v.enhancement_gate)})'''
+
 # Upgraded enhancements behave like their original counterparts
 [[patches]]
 [patches.regex]

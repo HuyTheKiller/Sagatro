@@ -6777,7 +6777,7 @@ local dolphin = {
     order = 91,
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 3 },
-    config = {immutable = {depth_level = 3, weight_level = 3, depth_range = {1, 3}, target_offset = 1}, extra = {xmult = 1, xmult_mod = 0.2}},
+    config = {immutable = {depth_level = 3, weight_level = 3, depth_range = {1, 3}, target_offset = 1}, extra = {xmult = 1, xmult_mod = 0.2}, enhancement_gate = "m_lucky"},
     rarity = 2,
     cost = 6,
     blueprint_compat = true,
