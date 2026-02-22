@@ -14070,7 +14070,7 @@ local rose_bell = {
     pools = { [SAGA_GROUP_POOL.pmirror] = true },
     pos = { x = 4, y = 0 },
     soul_pos = { x = 5, y = 0 },
-    config = {extra = {xmult = 1, xmult_mod = 0.5}, shatters_on_destroy = true},
+    config = {extra = {xmult = 1, xmult_mod = 0.25}, shatters_on_destroy = true},
     rarity = 3,
     cost = 8,
     blueprint_compat = true,
