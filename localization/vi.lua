@@ -187,6 +187,21 @@ return {
             },
         },
         Tag = {
+            tag_sgt_progress_pie = {
+                name = "Biểu Đồ Tiến Trình",
+                text = {
+                    "Cho biết tiến trình hiện tại của",
+                    "trận chế độ cốt truyện này",
+                    "{C:inactive}(Hiện tại là {V:1}#1#%{C:inactive})",
+                },
+            },
+            tag_sgt_progress_pie_collection = {
+                name = "Biểu Đồ Tiến Trình",
+                text = {
+                    "Cho biết tiến trình hiện tại của",
+                    "một trận chế độ cốt truyện",
+                },
+            },
             tag_sgt_holy = {
                 name = "Nhãn Thiêng",
                 text = {

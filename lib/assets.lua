@@ -211,6 +211,13 @@ SMODS.Atlas{
 }
 
 SMODS.Atlas{
+    key = "progress_pie",
+    path = "Progress_pie.png",
+    px = 34,
+    py = 34,
+}
+
+SMODS.Atlas{
     key = "blinds",
     path = "Blinds.png",
     atlas_table = 'ANIMATION_ATLAS',

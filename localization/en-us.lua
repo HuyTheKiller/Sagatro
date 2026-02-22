@@ -187,6 +187,21 @@ return {
             },
         },
         Tag = {
+            tag_sgt_progress_pie = {
+                name = "Progress Chart",
+                text = {
+                    "Shows your current progress",
+                    "in this story mode run",
+                    "{C:inactive}(Currently {V:1}#1#%{C:inactive})",
+                },
+            },
+            tag_sgt_progress_pie_collection = {
+                name = "Progress Chart",
+                text = {
+                    "Shows your current progress",
+                    "in a story mode run",
+                },
+            },
             tag_sgt_holy = {
                 name = "Holy Tag",
                 text = {

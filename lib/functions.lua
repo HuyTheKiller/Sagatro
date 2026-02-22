@@ -757,6 +757,24 @@ function Game:update(dt)
                 G.GAME.shelved_chains.end_of_round = "sgt_dawn_ending"
             end
         end
+        if G.GAME.story_mode and not Sagatro.storyline_check("none") then
+            if not G.GAME.progress_tag or G.GAME.progress_tag == "\"MANUAL_REPLACE\"" then
+                for i = 1, #G.GAME.tags do
+                    if G.GAME.tags[i].key == "tag_sgt_progress_pie" then
+                        G.GAME.progress_tag = G.GAME.tags[i]
+                        break
+                    end
+                end
+            else
+                if (G.GAME.storyline_progress or 0) < 0 or (G.GAME.storyline_progress or 0) > 100 then
+                    G.GAME.storyline_progress = math.max(0, math.min(G.GAME.storyline_progress or 0, 100))
+                end
+                G.GAME.progress_tag.ability.progress = (G.GAME.storyline_progress or 0)/100
+                if G.GAME.progress_tag.tag_sprite.sprite_pos.x ~= math.floor(G.GAME.progress_tag.ability.progress*16) then
+                    G.GAME.progress_tag.tag_sprite:set_sprite_pos{x = math.floor(G.GAME.progress_tag.ability.progress*16), y = 0}
+                end
+            end
+        end
         if G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP then
             -- Handle opening Mega Buffoon Pack spawned by Utima Vox (restricted to during shop and blind select)
             if G.GAME.pending_mega_buffoon then
@@ -1780,6 +1798,17 @@ function Sagatro.init_storyline(storyline_name, interwoven, override)
         else
             if G.GAME.current_storyline == "none" or override then
                 G.GAME.current_storyline = storyline_name
+                local progress_already_active = false
+                for i = 1, #G.GAME.tags do
+                    if G.GAME.tags[i].key == "tag_sgt_progress_pie" then
+                        progress_already_active = true
+                        break
+                    end
+                end
+                if not progress_already_active then
+                    add_tag{key = "tag_sgt_progress_pie"}
+                    G.GAME.storyline_progress = 0
+                end
             end
         end
     end
