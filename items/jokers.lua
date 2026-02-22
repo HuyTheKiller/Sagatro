@@ -124,7 +124,7 @@ local white_rabbit = {
             text_config = { colour = G.C.CHIPS },
             calc_function = function(card)
                 card.joker_display_values.chips = card.ability.extra.chips*G.GAME.alice_multiplier
-           end,
+            end,
         }
     end,
 }
@@ -236,7 +236,7 @@ local drink_me = {
                 card.joker_display_values.active = (G.jokers.cards[1] == card and G.jokers.cards[#G.jokers.cards].config.center_key ~= "j_sgt_eat_me")
                 and localize("jdis_active") or localize("jdis_inactive")
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
-           end,
+            end,
         }
     end,
 }
@@ -364,7 +364,7 @@ local eat_me = {
                 and G.jokers.cards[1].config.center_key ~= "j_sgt_unlabeled_bottle")
                 and localize("jdis_active") or localize("jdis_inactive")
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
-           end,
+            end,
         }
     end,
 }
@@ -461,7 +461,7 @@ local mouse = {
 
                 card.joker_display_values.mult = card.ability.extra.mult*G.GAME.alice_multiplier
                 card.joker_display_values.debuff_position = positions and table.concat(positions, ", ") or ""
-           end,
+            end,
             scoring_function = function(playing_card, scoring_hand, joker_card)
                 return true
             end
@@ -576,7 +576,7 @@ local kid_gloves_and_fan = {
                 card.joker_display_values.ranks_per_decrease = card.ability.extra.rank_drop*G.GAME.alice_multiplier
                 card.joker_display_values.plus = G.GAME.story_mode and "+" or ""
                 card.joker_display_values.chips = G.GAME.story_mode and card.ability.extra.chips*G.GAME.alice_multiplier or ""
-           end,
+            end,
         }
     end,
 }
@@ -798,7 +798,7 @@ local unlabeled_bottle = {
                 card.joker_display_values.active = G.jokers.cards[1] == card
                 and localize("jdis_active") or localize("jdis_inactive")
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
-           end,
+            end,
         }
     end,
 }
@@ -870,7 +870,7 @@ local little_bill = {
                 end
                 card.joker_display_values.retriggers = card.joker_display_values.is_full_house
                 and card.ability.extra*G.GAME.alice_multiplier or 0
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if not joker_card:can_calculate() then
                     return 0
@@ -879,7 +879,7 @@ local little_bill = {
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return first_card and playing_card == first_card and joker_card.joker_display_values.is_full_house and
                     joker_card.ability.extra*G.GAME.alice_multiplier*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
         }
     end,
 }
@@ -978,7 +978,7 @@ local huge_dog = {
 
                 card.joker_display_values.retriggers = count
                 card.joker_display_values.localized_text_ace = localize("Ace", "ranks")
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if not joker_card:can_calculate() then
                     return 0
@@ -997,7 +997,7 @@ local huge_dog = {
                 or joker_card.ability.extra.times*G.GAME.alice_multiplier
                 return (playing_card:get_id() == 2 or playing_card:get_id() == 14)
                 and count * JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
         }
     end
 }
@@ -1096,7 +1096,7 @@ local caterpillar = {
             },
             calc_function = function(card)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
-           end,
+            end,
         }
     end,
 }
@@ -1264,7 +1264,7 @@ local mushroom = {
                 or (G.jokers.cards[#G.jokers.cards] == card and G.jokers.cards[1].config.center_key ~= "j_sgt_drink_me"))
                 and localize("jdis_active") or localize("jdis_inactive")
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
-           end,
+            end,
         }
     end,
 }
@@ -1298,7 +1298,7 @@ local pigeon = {
                             scalar_value = "egg_boost",
                             operation = function(ref_table, ref_value, initial, scaling)
                                 ref_table[ref_value] = initial + scaling*G.GAME.alice_multiplier
-                           end,
+                            end,
                             no_message = true
                         })
                     else
@@ -1393,7 +1393,7 @@ local pigeon = {
             calc_function = function(card)
                 card.joker_display_values.egg_boost = card.ability.egg_boost*G.GAME.alice_multiplier
                 card.joker_display_values.localized_text = localize{type = 'name_text', set = "Joker", key = "j_egg", nodes = {}}
-           end,
+            end,
         }
     end,
 }
@@ -1491,7 +1491,7 @@ local frog_footman = {
             },
             calc_function = function(card)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
-           end,
+            end,
         }
     end,
 }
@@ -1605,7 +1605,7 @@ local the_cook = {
                 card.joker_display_values.xmult = card.ability.extra.xmult*G.GAME.alice_multiplier
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "thecook") } }
                 card.joker_display_values.localized_text = localize("ph_per_face_down")
-           end,
+            end,
         }
     end
 }
@@ -1764,7 +1764,7 @@ local cheshire_cat = {
                     }, { colour = G.C.GREEN, scale = 0.3 })
                 end
                 card.joker_display_values.copy = copied_joker
-           end,
+            end,
             get_blueprint_joker = function(card)
                 for i = 1, #G.jokers.cards do
                     if G.jokers.cards[i] == card then
@@ -1887,7 +1887,7 @@ local duchess = {
             calc_function = function(card)
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "duchess") } }
                 card.joker_display_values.e_mult = card.ability.triggered and card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier) or 1
-           end,
+            end,
         }
     end,
 }
@@ -1961,14 +1961,14 @@ local the_baby = {
                 card.joker_display_values.active = G.GAME and G.GAME.current_round.hands_left <= 1
                 and localize("jdis_active") or localize("jdis_inactive")
                 card.joker_display_values.localized_text = next(SMODS.find_card("j_sgt_duchess", true)) and localize("k_safe_ex") or localize("k_self_destruct_ex")
-           end,
+            end,
             style_function = function(card, text, reminder_text, extra)
                 if reminder_text and reminder_text.children[2] then
                     reminder_text.children[2].config.colour = next(SMODS.find_card("j_sgt_duchess", true))
                     and G.C.GREEN or G.C.RED
                 end
                 return false
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if not joker_card:can_calculate() then
                     return 0
@@ -1976,7 +1976,7 @@ local the_baby = {
                 if held_in_hand then return 0 end
                 return G.GAME and G.GAME.current_round.hands_left <= 1
                 and (joker_card.ability.extra*G.GAME.alice_multiplier)*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
         }
     end,
 }
@@ -2067,13 +2067,13 @@ local pepper_caster = {
             calc_function = function(card)
                 card.joker_display_values.retriggers = card.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if not retrigger_joker:can_calculate() then
                     return 0
                 end
                 return retrigger_joker.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)
-           end,
+            end,
         }
     end,
 }
@@ -2188,7 +2188,7 @@ local mad_hatter = {
             },
             calc_function = function(card)
                 card.joker_display_values.localized_text = localize('k_sgt_trivial')
-           end,
+            end,
         }
     end,
 }
@@ -2266,7 +2266,7 @@ local tea = {
             calc_function = function(card)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
                 card.joker_display_values.chips = card.ability.extra.chips*G.GAME.alice_multiplier
-           end,
+            end,
         }
     end,
 }
@@ -2344,7 +2344,7 @@ local bread = {
             calc_function = function(card)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
                 card.joker_display_values.chips = card.ability.extra.chips*G.GAME.alice_multiplier
-           end,
+            end,
         }
     end,
 }
@@ -2422,7 +2422,7 @@ local butter = {
             calc_function = function(card)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
                 card.joker_display_values.mult = card.ability.extra.mult*G.GAME.alice_multiplier
-           end,
+            end,
         }
     end,
 }
@@ -2713,7 +2713,7 @@ local red_queen = {
                 end
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, "red_queen") } }
                 card.joker_display_values.e_mult = emult^count
-           end,
+            end,
         }
     end,
 }
@@ -2784,7 +2784,7 @@ local king = {
             text_config = { colour = G.C.MULT },
             calc_function = function(card)
                 card.joker_display_values.mult = card.ability.extra.mult*G.GAME.alice_multiplier
-           end,
+            end,
         }
     end,
 }
@@ -2855,7 +2855,7 @@ local flamingo = {
             text_config = { colour = G.C.CHIPS },
             calc_function = function(card)
                 card.joker_display_values.chips = card.ability.extra.chips*G.GAME.alice_multiplier
-           end,
+            end,
         }
     end,
 }
@@ -2950,7 +2950,7 @@ local gryphon = {
                     end
                 end
                 card.joker_display_values.e_mult = emult^count
-           end,
+            end,
         }
     end,
 }
@@ -3074,7 +3074,7 @@ local mock_turtle = {
                 card.joker_display_values.e_mult = card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)
                 card.joker_display_values.e_mult_odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.e_mult_odds, "mock_turtle_critical") } }
                 card.joker_display_values.self_destruct_odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.self_destruct_odds, "mock_turtle_vanish") } }
-           end,
+            end,
         }
     end,
 }
@@ -3366,7 +3366,7 @@ local puss_in_boots = {
                 end
                 card.joker_display_values.money = card.ability.extra.money * count
                 card.joker_display_values.xmult = jack_triggered and card.ability.extra.xmult or 1
-           end,
+            end,
         }
     end,
 }
@@ -3469,14 +3469,14 @@ local iron_john = {
             calc_function = function(card)
                 card.joker_display_values.localized_text = (G.jokers.cards[#G.jokers.cards] == card or G.consumeables.cards[#G.consumeables.cards] == card)
                 and localize("k_release") or localize("k_charge")
-           end,
+            end,
             style_function = function(card, text, reminder_text, extra)
                 if reminder_text and reminder_text.children[2] then
                     reminder_text.children[2].config.colour = (G.jokers.cards[#G.jokers.cards] == card or G.consumeables.cards[#G.consumeables.cards] == card)
                     and G.C.GREEN or G.C.ORANGE
                 end
                 return false
-           end,
+            end,
         }
     end,
 }
@@ -3603,7 +3603,7 @@ local aladdin = {
                 card.joker_display_values.percent = card.ability.buffed and "" or "%"
                 card.joker_display_values.close_bracket = card.ability.buffed and "" or ")"
                 card.joker_display_values.buffed = card.ability.buffed and localize("k_buffed") or ""
-           end,
+            end,
         }
     end,
 }
@@ -3712,14 +3712,14 @@ local magic_lamp = {
                 card.joker_display_values.active = card.ability.magic_lamp_rounds >= card.ability.extra.rounds_goal and
                 localize{type = 'name_text', set = "Joker", key = "j_sgt_aladdin", nodes = {}}
                 or (card.ability.magic_lamp_rounds .. "/" .. card.ability.extra.rounds_goal)
-           end,
+            end,
             style_function = function(card, text, reminder_text, extra)
                 if reminder_text and reminder_text.children[2] then
                     reminder_text.children[2].config.colour = card.ability.magic_lamp_rounds >= card.ability.extra.rounds_goal
                     and G.C.ORANGE or G.C.UI.TEXT_INACTIVE
                 end
                 return false
-           end,
+            end,
         }
     end
 }
@@ -3933,21 +3933,21 @@ local lamp_genie = {
                 and "^" or ""
                 card.joker_display_values.emult = card.ability.wishlist.c_sgt_freedom
                 and card.ability.extra.e_mult or ""
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if not retrigger_joker:can_calculate() then
                     return 0
                 end
                 return retrigger_joker.ability.wishlist.c_sgt_love
                 and retrigger_joker.ability.extra.retriggers or 0
-           end,
+            end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[5] then
                     text.children[5].config.colour = card.ability.wishlist.c_sgt_freedom
                     and G.C.DARK_EDITION or G.C.CLEAR
                 end
                 return false
-           end,
+            end,
         }
     end
 }
@@ -4275,7 +4275,7 @@ local submarine = {
                 card.joker_display_values.max_hunger = G.GAME.story_mode and card.ability.immutable.states.max_hunger or ""
                 card.joker_display_values.slash = G.GAME.story_mode and "/" or ""
                 card.joker_display_values.comma = G.GAME.story_mode and ", " or ""
-           end,
+            end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[1] then
                     text.children[1].config.colour = card.ability.immutable.states.low_fuel and G.C.RED
@@ -4286,7 +4286,7 @@ local submarine = {
                     or card.ability.immutable.states.nourished and G.C.GREEN or G.C.FILTER
                 end
                 return false
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 local leftmost_fish = nil
                 for _, v in ipairs(G.jokers.cards) do
@@ -4297,7 +4297,7 @@ local submarine = {
                     end
                 end
                 return card == leftmost_fish and retrigger_joker.ability.immutable.states.nourished and 1 or 0
-           end,
+            end,
         }
     end,
 }
@@ -4432,7 +4432,7 @@ local clownfish = {
                     end
                 end
                 card.joker_display_values.mult = mult*count
-           end,
+            end,
         }
     end,
 }
@@ -4527,7 +4527,7 @@ local blue_tang = {
                     end
                 end
                 card.joker_display_values.chips = chips*count
-           end,
+            end,
         }
     end,
 }
@@ -5235,7 +5235,7 @@ local school = {
             calc_function = function(card)
                 card.joker_display_values.active = G.hand and #G.hand.highlighted == 1
                 and localize("jdis_active") or localize("jdis_inactive")
-           end,
+            end,
         }
     end,
 }
@@ -5320,7 +5320,7 @@ local prawn = {
                 end
                 card.joker_display_values.dollars = dollars*count
                 card.joker_display_values.localized_text = "(" .. localize("k_round") .. ")"
-           end,
+            end,
         }
     end,
 }
@@ -5414,12 +5414,12 @@ local john_dory = {
                 end
                 card.joker_display_values.money = card.ability.extra.money * count
                 card.joker_display_values.john_dory_card = localize { type = 'variable', key = "jdis_rank_of_suit", vars = { localize("Jack", 'ranks'), localize("Diamonds", 'suits_plural') } }
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if held_in_hand then return 0 end
                 return (playing_card:is_suit("Diamonds") and playing_card:get_id() == 11)
                 and JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
         }
     end,
 }
@@ -5568,7 +5568,7 @@ local octopus = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             get_blueprint_joker = function(card)
                 for i = 1, #G.jokers.cards do
                     if G.jokers.cards[i] == card then
@@ -5591,13 +5591,13 @@ local octopus = {
                     end
                 end
                 return nil
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -5607,7 +5607,7 @@ local octopus = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -5717,16 +5717,16 @@ local squid = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             get_blueprint_joker = function(card)
                 return G.jokers.cards[1]
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -5736,7 +5736,7 @@ local squid = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -5863,7 +5863,7 @@ local turtle_egg = {
             reminder_text_config = { scale = 0.35 },
             calc_function = function(card)
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "turtle_egg") } }
-           end,
+            end,
         }
     end
 }
@@ -6059,13 +6059,13 @@ local green_turtle = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -6075,7 +6075,7 @@ local green_turtle = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end
 }
@@ -6208,7 +6208,7 @@ local electric_eel = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if held_in_hand then
                     local count = 0
@@ -6243,7 +6243,7 @@ local electric_eel = {
                     end
                     return count*JokerDisplay.calculate_joker_triggers(joker_card)
                 end
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -6253,7 +6253,7 @@ local electric_eel = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -6330,7 +6330,7 @@ local sea_angel = {
                     card.joker_display_values.is_3oak = true
                 end
                 card.joker_display_values.e_mult = card.joker_display_values.is_3oak and card.ability.extra.e_mult or 1
-           end,
+            end,
         }
     end,
 }
@@ -6385,7 +6385,7 @@ local stonefish = {
                             func = function()
                                 v:juice_up()
                                 return true
-                           end,
+                            end,
                         }))
                     end
                 end
@@ -6399,7 +6399,7 @@ local stonefish = {
                             func = function()
                                 v:juice_up()
                                 return true
-                           end,
+                            end,
                         }))
                     end
                 end
@@ -6475,7 +6475,7 @@ local blobfish = {
                     scalar_value = "mult_mod",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = initial + scaling*G.GAME.current_round.discards_left
-                   end,
+                    end,
                     scaling_message = {
                         message = localize('k_blob_ex'),
                         colour = G.C.FILTER,
@@ -6498,7 +6498,7 @@ local blobfish = {
                     scalar_value = "mult_mod",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = initial + scaling*G.GAME.current_round.discards_left
-                   end,
+                    end,
                     no_message = true
                 })
             else
@@ -6557,13 +6557,13 @@ local blobfish = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -6573,7 +6573,7 @@ local blobfish = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -6642,7 +6642,7 @@ local ugly_blobfish = {
                     end
                 end
                 card.joker_display_values.xmult = triggered and card.ability.extra.xmult or 1
-           end,
+            end,
         }
     end,
 }
@@ -6879,13 +6879,13 @@ local dolphin = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -6895,7 +6895,7 @@ local dolphin = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -6997,20 +6997,20 @@ local coelacanthiformes = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[1] then
                     text.children[1].config.colour = card.joker_display_values.active and #G.hand.highlighted == 1
                     and G.C.SECONDARY_SET.Tarot or G.C.UI.TEXT_INACTIVE
                 end
                 return false
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7020,7 +7020,7 @@ local coelacanthiformes = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end
 }
@@ -7089,13 +7089,13 @@ local sunfish = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7105,7 +7105,7 @@ local sunfish = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -7174,13 +7174,13 @@ local moonfish = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7190,7 +7190,7 @@ local moonfish = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end
 }
@@ -7328,13 +7328,13 @@ local swordfish = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7344,7 +7344,7 @@ local swordfish = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -7428,7 +7428,7 @@ local penguin = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local count = 0
                 if not held_in_hand then
@@ -7440,7 +7440,7 @@ local penguin = {
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or count
                 return count
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7450,7 +7450,7 @@ local penguin = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -7532,13 +7532,13 @@ local seal = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7548,7 +7548,7 @@ local seal = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -7597,7 +7597,7 @@ local ray = {
                     scalar_value = "base_mult",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = initial + math.max(scaling - temp_Mult, 0)
-                   end,
+                    end,
                     no_message = true
                 })
                 return nil, true
@@ -7614,7 +7614,7 @@ local ray = {
                         scalar_value = "base_mult",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + scaling - 2
-                       end,
+                        end,
                         no_message = true
                     })
                 else
@@ -7674,13 +7674,13 @@ local ray = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7690,7 +7690,7 @@ local ray = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -7766,7 +7766,7 @@ local orca = {
                             scalar_value = "unfound_sub",
                             operation = function(ref_table, ref_value, initial, scaling)
                                 ref_table[ref_value] = math.max(initial - scaling, 1)
-                           end,
+                            end,
                             scaling_message = {
                                 message = localize("k_upset_ex"),
                                 colour = G.C.FILTER,
@@ -7876,13 +7876,13 @@ local orca = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7892,7 +7892,7 @@ local orca = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -8006,13 +8006,13 @@ local sperm_whale = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -8022,7 +8022,7 @@ local sperm_whale = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -8108,7 +8108,7 @@ local sea_urchin = {
             extra_config = { colour = G.C.GREEN, scale = 0.3 },
             calc_function = function(card)
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "sea_urchin") } }
-           end,
+            end,
         }
     end,
 }
@@ -8185,7 +8185,7 @@ local starfish = {
             text_config = { colour = G.C.CHIPS },
             calc_function = function(card)
                 card.joker_display_values.chips = card.ability.extra.chips*(card.ability.five_tally or 0)
-           end,
+            end,
         }
     end,
 }
@@ -8250,7 +8250,7 @@ local shark = {
                         scalar_value = "eat_add",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + scaling*total_addition
-                       end,
+                        end,
                         scaling_message = {
                             message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips + card.ability.extra.eat_add*total_addition}},
                             colour = G.C.BLUE,
@@ -8289,7 +8289,7 @@ local shark = {
                     scalar_value = "eor_sub",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = math.max(initial - scaling, 0)
-                   end,
+                    end,
                     scaling_message = {
                         message = localize{type = 'variable', key = 'a_chips_minus', vars = {card.ability.extra.eor_sub}},
                         colour = G.C.BLUE,
@@ -8496,12 +8496,12 @@ local nautilus = {
                 card.joker_display_values.retriggers = count
                 card.joker_display_values.localized_text_ace = localize("Ace", "ranks")
                 card.joker_display_values.localized_text_king = localize("King", "ranks")
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if held_in_hand then return 0 end
                 return table.contains(joker_card.ability.extra.rank_ids, playing_card:get_id())
                 and joker_card.joker_display_values.retriggers * JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
         }
     end,
 }
@@ -8544,7 +8544,7 @@ local stomiidae = {
                         scalar_value = "spade_add",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + scaling*count
-                       end,
+                        end,
                         scaling_message = {
                             message = localize('k_upgrade_ex'),
                             colour = G.C.RED,
@@ -8610,7 +8610,7 @@ local stomiidae = {
                     scalar_value = "eor_sub",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = math.max(initial - scaling, 1)
-                   end,
+                    end,
                     scaling_message = {
                         message = hungry and localize("k_hungry_ex") or localize("k_digest_ex"),
                         colour = G.C.RED,
@@ -8848,13 +8848,13 @@ local king_crab = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -8864,7 +8864,7 @@ local king_crab = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -8982,13 +8982,13 @@ local big_red_jelly = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -8998,7 +8998,7 @@ local big_red_jelly = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -9057,7 +9057,7 @@ local narwhal = {
                         scalar_value = "xmult_mod",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + scaling*total_sell_cost
-                       end,
+                        end,
                         scaling_message = {
                             message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.xmult + card.ability.extra.xmult_mod*total_sell_cost}},
                             colour = G.C.RED,
@@ -9305,7 +9305,7 @@ local goblin_shark = {
                         scalar_value = "dollar_mod",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + scaling*total_addition
-                       end,
+                        end,
                         scaling_message = {
                             message = localize("$")..(card.ability.extra.dollars + card.ability.extra.dollar_mod*total_addition),
                             colour = G.C.GOLD,
@@ -9340,7 +9340,7 @@ local goblin_shark = {
                     scalar_value = "sub_per_hand",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = math.max(initial - scaling, 0)
-                   end,
+                    end,
                     scaling_message = {
                         message = "-"..localize("$")..card.ability.extra.sub_per_hand,
                         colour = G.C.GOLD,
@@ -9505,7 +9505,7 @@ local colossal_squid = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local count = 0
                 count = table.contains(joker_card.ability.extra.target_ids, playing_card:get_id())
@@ -9517,7 +9517,7 @@ local colossal_squid = {
                     and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0)
                 end
                 return count
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -9527,7 +9527,7 @@ local colossal_squid = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -9584,7 +9584,7 @@ local chimaera = {
                         scalar_value = "spectral_mod",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + scaling*#killed_jokers
-                       end,
+                        end,
                         scaling_message = {
                             message = localize("k_killed_ex"),
                             G.C.SECONDARY_SET.Spectral,
@@ -9642,7 +9642,7 @@ local chimaera = {
                         scalar_value = "spectral_sub",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = math.max(initial - scaling, 0)
-                       end,
+                        end,
                         no_message = true
                     })
                 else
@@ -9771,12 +9771,12 @@ local dumbo_octopus = {
             },
             calc_function = function(card)
                 card.joker_display_values.dumbo_octopus_card = localize { type = 'variable', key = "jdis_rank_of_suit", vars = { localize("8", "ranks"), localize("Diamonds", 'suits_plural') } }
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if held_in_hand then return 0 end
                 return (playing_card:is_suit("Diamonds") and playing_card:get_id() == 8)
                 and joker_card.ability.extra.retriggers*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
         }
     end,
 }
@@ -9812,7 +9812,7 @@ local atolla_wyvillei = {
                     scalar_value = "xmult_sub",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = math.max(initial - scaling*#context.full_hand, 1)
-                   end,
+                    end,
                     no_message = true
                 })
             else
@@ -10078,7 +10078,7 @@ local brittle_star = {
                     end
                 end
                 card.joker_display_values.xmult = card.ability.extra.xmult ^ count
-           end,
+            end,
         }
     end,
 }
@@ -10190,7 +10190,7 @@ local comb_jellyfish = {
             calc_function = function(card)
                 local _, count = Sagatro.check_suit_record(card.ability.extra, card.ability.suit_ge)
                 card.joker_display_values.count = count
-           end,
+            end,
         }
     end,
 }
@@ -10294,7 +10294,7 @@ local lobster = {
                     if v:is_suit("Diamonds") then first_diamond = v break end
                 end
                 return playing_card == first_diamond and joker_card.ability.extra.retriggers*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
         }
     end,
 }
@@ -10407,7 +10407,7 @@ local fangtooth = {
                 card.joker_display_values.xmult = card.ability.extra.xmult ^ count
                 card.joker_display_values.stored_rank = card.ability.extra.stored_rank
                 and localize(card.ability.extra.stored_rank, "ranks") or localize("k_none")
-           end,
+            end,
         }
     end,
 }
@@ -10448,7 +10448,7 @@ local grenadier = {
                             lowest_card:set_seal(SMODS.poll_seal{type_key = 'grenasl', guaranteed = true}, nil, true)
                         end
                         return true
-                   end,
+                    end,
                 }))
             end
         end
@@ -10501,7 +10501,7 @@ local grenadier = {
                 end
                 card.joker_display_values.active = table.size(ranks) > 1
                 and localize("jdis_active") or localize("jdis_inactive")
-           end,
+            end,
         }
     end,
 }
@@ -10634,13 +10634,13 @@ local mahimahi = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-           end,
+            end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -10650,7 +10650,7 @@ local mahimahi = {
                     end
                 end
                 return 0
-           end,
+            end,
         }
     end,
 }
@@ -10769,7 +10769,7 @@ local nemo = {
             },
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 return joker_card.ability.joker_count*JokerDisplay.calculate_joker_triggers(joker_card)
-           end,
+            end,
         }
     end,
 }
@@ -10890,7 +10890,7 @@ local mirror = {
                 local text, _, _ = JokerDisplay.evaluate_hand()
                 local is_pair = text == card.ability.type
                 card.joker_display_values.active = is_pair and localize("jdis_active") or localize("jdis_inactive")
-           end,
+            end,
         }
     end,
 }
@@ -11041,7 +11041,7 @@ local white_pawn = {
                 card.joker_display_values.active = card:can_calculate()
                 and (straight_active or straight_flush_active)
                 and localize("jdis_active") or localize("jdis_inactive")
-           end,
+            end,
         }
     end,
 }
@@ -11146,7 +11146,7 @@ local white_queen = {
                 if card.joker_display_values.mult < 0 then
                     card.joker_display_values.plus = ""
                 end
-           end,
+            end,
         }
     end,
 }
@@ -11256,7 +11256,7 @@ local white_king = {
                 if not card:can_calculate() then
                     card.joker_display_values.xmult = 1
                 end
-           end,
+            end,
         }
     end,
 }
@@ -11327,7 +11327,7 @@ local live_flowers = {
             calc_function = function(card)
                 card.joker_display_values.mult = card:can_calculate()
                 and card.ability.extra.mult or 0
-           end,
+            end,
         }
     end,
 }
@@ -11381,7 +11381,7 @@ local ticket_checker = {
             calc_function = function(card)
                 card.joker_display_values.xmult = card:can_calculate()
                 and table.size(G.GAME.used_vouchers) > 0 and card.ability.extra.xmult or 1
-           end,
+            end,
         }
     end,
 }
@@ -11433,7 +11433,7 @@ local man_in_white = {
                         scalar_value = "mult_sub",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = math.max(initial - scaling, 0)
-                       end,
+                        end,
                         scaling_message = {
                             message = localize("k_upset_ex"),
                             colour = G.C.FILTER,
@@ -11491,7 +11491,7 @@ local man_in_white = {
             calc_function = function(card)
                 card.joker_display_values.mult = card:can_calculate()
                 and card.ability.extra.mult or 0
-           end,
+            end,
             mod_function = function(card, mod_joker)
                 local ret = {}
                 if mod_joker:can_calculate() and card.config.center_key == "j_sgt_goat" then
@@ -11552,7 +11552,7 @@ local goat = {
                         scalar_value = "mult_sub",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = math.max(initial - scaling, 0)
-                       end,
+                        end,
                         scaling_message = {
                             message = localize("k_baah_ex"),
                             colour = G.C.FILTER,
@@ -11610,7 +11610,7 @@ local goat = {
             calc_function = function(card)
                 card.joker_display_values.mult = card:can_calculate()
                 and card.ability.extra.mult or 0
-           end,
+            end,
             mod_function = function(card, mod_joker)
                 local ret = {}
                 if mod_joker:can_calculate() and card.config.center_key == "j_sgt_beetle" then
@@ -11671,7 +11671,7 @@ local beetle = {
                         scalar_value = "mult_sub",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = math.max(initial - scaling, 0)
-                       end,
+                        end,
                         scaling_message = {
                             message = localize("k_bzzz_ex"),
                             colour = G.C.FILTER,
@@ -11719,7 +11719,7 @@ local beetle = {
             calc_function = function(card)
                 card.joker_display_values.mult = card:can_calculate()
                 and card.ability.extra.mult or 0
-           end,
+            end,
         }
     end,
 }
@@ -11759,7 +11759,7 @@ local dinah = {
                     scalar_value = "e_mult_mod",
                     operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + scaling*#targets
-                       end,
+                        end,
                     scaling_message = {
                         message = localize("k_happy_ex"),
                         colour = G.C.FILTER,
@@ -11821,7 +11821,7 @@ local dinah = {
                 card.joker_display_values.dinah_card = localize { type = 'variable', key = "jdis_rank_of_suit", vars = {localize(G.GAME.current_round.dinah_card.rank, 'ranks'), localize(G.GAME.current_round.dinah_card.suit, 'suits_plural') } }
                 card.joker_display_values.emult = card:can_calculate()
                 and card.ability.extra.e_mult or 1
-           end,
+            end,
         }
     end,
 }
@@ -11931,7 +11931,7 @@ local tweedledum = {
                     card.joker_display_values.xmult = 1
                     card.joker_display_values.xchips = 1
                 end
-           end,
+            end,
         }
     end,
 }
@@ -12041,7 +12041,7 @@ local tweedledee = {
                     card.joker_display_values.xmult = 1
                     card.joker_display_values.xchips = 1
                 end
-           end,
+            end,
         }
     end,
 }
@@ -12106,7 +12106,7 @@ local sheep = {
                 if not card:can_calculate() then
                     card.joker_display_values.xscore = 1
                 end
-           end,
+            end,
         }
     end,
 }
@@ -12274,7 +12274,7 @@ local bread_and_butter_fly = {
                 if not card:can_calculate() then
                     card.joker_display_values.money = 0
                 end
-           end,
+            end,
         }
     end,
 }
@@ -12442,7 +12442,7 @@ local white_rook = {
                 if card.joker_display_values.mult < 0 then
                     card.joker_display_values.plus = ""
                 end
-           end,
+            end,
         }
     end,
 }
@@ -12532,7 +12532,7 @@ local white_knight = {
                 if card.joker_display_values.mult < 0 then
                     card.joker_display_values.plus = ""
                 end
-           end,
+            end,
         }
     end,
 }
@@ -12605,7 +12605,7 @@ local white_bishop = {
                 if not card:can_calculate() then
                     card.joker_display_values.xmult = 1
                 end
-           end,
+            end,
         }
     end,
 }
@@ -12681,7 +12681,7 @@ local jabberwock = {
                 if card.joker_display_values.xmult == 0 or not card:can_calculate() then
                     card.joker_display_values.xmult = 1
                 end
-           end,
+            end,
         }
     end,
 }
@@ -12789,7 +12789,7 @@ local jubjub_bird = {
             reminder_text_config = { scale = 0.35 },
             calc_function = function(card)
                 card.joker_display_values.sell_cost = SMODS.signed_dollars(card.sell_cost)
-           end,
+            end,
         }
     end,
 }
@@ -12930,7 +12930,7 @@ local humpty_dumpty = {
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "humpty_dumpty") } }
                 card.joker_display_values.dollars = G.GAME.current_round.discards_left > 0 and card:can_calculate() and dollars or 0
                 card.joker_display_values.humdum_card_rank = localize(G.GAME.current_round.humdum_card.rank, 'ranks')
-           end,
+            end,
         }
     end,
 }
@@ -13046,7 +13046,7 @@ local lion = {
                 or card.ability.extra.times
 
                 card.joker_display_values.retriggers = count
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if not joker_card:can_calculate() then
                     return 0
@@ -13064,7 +13064,7 @@ local lion = {
                 and joker_card.ability.extra.times+joker_card.ability.extra.extra_times
                 or joker_card.ability.extra.times
                 return count * JokerDisplay.calculate_joker_triggers(joker_card)
-           end,
+            end,
         }
     end,
 }
@@ -13213,7 +13213,7 @@ local true_red_queen = {
                     end
                 end
                 card.joker_display_values.e_mult = card:can_calculate() and card.ability.extra.e_mult^count or 1
-           end,
+            end,
         }
     end,
 }
@@ -13282,7 +13282,7 @@ local red_king = {
             extra_config = { colour = G.C.GREEN, scale = 0.3 },
             calc_function = function(card)
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "red_king") } }
-           end,
+            end,
         }
     end,
 }
@@ -13357,7 +13357,7 @@ local vorpal_sword = {
                         scalar_value = "sell_cost",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + 8*scaling
-                       end,
+                        end,
                         scaling_message = {
                             message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult+8*potential_target.sell_cost}},
                             colour = G.C.RED,
@@ -13479,7 +13479,7 @@ local vorpal_sword = {
                     xmult = 1
                 end
                 card.joker_display_values.xmult = jabber and xmult or ""
-           end,
+            end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[3] then
                     text.children[3].config.colour =
@@ -13487,7 +13487,7 @@ local vorpal_sword = {
                     and G.C.MULT or G.C.CLEAR
                 end
                 return false
-           end,
+            end,
         }
     end
 }
@@ -13702,7 +13702,7 @@ local goldia = {
                     scalar_value = "stage0_mult_xmod",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = initial * scaling
-                   end,
+                    end,
                     no_message = true
                 })
                 return nil, true
@@ -13715,7 +13715,7 @@ local goldia = {
                         scalar_value = "stage0_mult_xmod",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial * scaling
-                       end,
+                        end,
                         no_message = true
                     })
                 end
@@ -14976,7 +14976,7 @@ local enjel = {
                     scalar_value = "chip_xmod",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = initial * scaling
-                   end,
+                    end,
                     no_message = true
                 })
                 return nil, true
@@ -14989,7 +14989,7 @@ local enjel = {
                         scalar_value = "chip_xmod",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial * scaling
-                       end,
+                        end,
                         no_message = true
                     })
                 end
@@ -15383,7 +15383,7 @@ local hansels_cheat_dice = {
                 card.ability.immutable.current_roll == 4 and localize("ph_X4_numer") or
                 card.ability.immutable.current_roll == 5 and localize("ph_D5_numer") or
                 card.ability.immutable.current_roll == 6 and localize("ph_guaranteed")
-           end,
+            end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[1] then
                     text.children[1].config.colour =
@@ -15392,7 +15392,7 @@ local hansels_cheat_dice = {
                     G.C.GREEN
                 end
                 return false
-           end,
+            end,
         }
     end,
 }
@@ -15680,14 +15680,14 @@ local skoll_n_hati = {
                 else
                     card.joker_display_values.xmult_xchip = card.ability.extra.xmult -- Fallback, just in case
                 end
-           end,
+            end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[1] then
                     text.children[1].config.colour = card.ability.current_mode == "skoll"
                     and G.C.RED or card.ability.current_mode == "hati" and G.C.BLUE or G.C.RED
                 end
                 return false
-           end,
+            end,
         }
     end,
 }
@@ -15777,7 +15777,7 @@ local three_winters = {
             },
             calc_function = function(card)
                 card.joker_display_values.active = card.ability.three_winters_rounds .. "/" .. card.ability.extra.rounds_goal
-           end,
+            end,
         }
     end,
 }
@@ -15829,7 +15829,7 @@ local adam = {
                     return 0
                 end
                 return ((Ortalab and card.curse) or (not Ortalab and card.ability.perishable)) and 1 or 0
-           end,
+            end,
         }
     end,
 }
@@ -15893,7 +15893,7 @@ local saint_germain = {
                 local text, _, scoring_hand = JokerDisplay.evaluate_hand()
                 card.joker_display_values.active = text ~= 'Unknown' and #scoring_hand == 1 and scoring_hand[1]:get_id() == 13
                 and localize("jdis_active") or localize("jdis_inactive")
-           end,
+            end,
         }
     end,
 }
@@ -15985,7 +15985,7 @@ local necronomicon = {
                 card.joker_display_values.active =
                 (G.GAME.current_round.hands_played == 0 and count >= 5 and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit)
                 and localize("jdis_active") or localize("jdis_inactive")
-           end,
+            end,
         }
     end,
 }
@@ -16257,7 +16257,7 @@ local pumpkin_carriage = {
             },
             calc_function = function(card)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
-           end,
+            end,
         }
     end,
 }
@@ -16376,7 +16376,7 @@ local abducted_cow = {
                 vars = {localize(card.ability.extra.held_card.rank, "ranks"),
                 localize(card.ability.extra.held_card.suit, "suits_plural")}}
                 or localize("k_none")
-           end,
+            end,
         }
     end,
 }
@@ -16462,7 +16462,7 @@ local flying_house = {
                 card.joker_display_values.active =
                 (G.GAME.current_round.hands_played == 0 and active)
                 and localize("jdis_active") or localize("jdis_inactive")
-           end,
+            end,
         }
     end,
 }
@@ -16557,7 +16557,7 @@ local shub = {
                     end
                 end
                 card.joker_display_values.e_mult = emult^count
-           end,
+            end,
         }
     end,
 }
@@ -16824,7 +16824,7 @@ local thor = {
                     end
                 end
                 card.joker_display_values.e_mult = emult^count
-           end,
+            end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if not joker_card:can_calculate() then
                     return 0
@@ -16858,7 +16858,7 @@ local thor = {
                     end
                     return count*JokerDisplay.calculate_joker_triggers(joker_card)
                 end
-           end,
+            end,
         }
     end,
 }
@@ -16915,7 +16915,7 @@ local odin = {
                         func = function()
                             v:juice_up()
                             return true
-                       end,
+                        end,
                     }))
                 end
             elseif G and G.hand and #G.hand.highlighted > 0 then
@@ -16927,7 +16927,7 @@ local odin = {
                         func = function()
                             v:juice_up()
                             return true
-                       end,
+                        end,
                     }))
                 end
             end
@@ -17224,7 +17224,7 @@ local azathoth = {
             },
             calc_function = function(card)
                 card.joker_display_values.localized_text = localize{type = 'name_text', set = "Tarot", key = "c_fool", nodes = {}}
-           end,
+            end,
         }
     end,
 }
@@ -17291,7 +17291,7 @@ local nameless = {
                         G.jokers:change_size(card.ability.amount)
                     end
                     return true
-               end,
+                end,
             }))
         end
     end,
@@ -17382,14 +17382,14 @@ local mabel = {
                 or G.jokers.cards[#G.jokers.cards] == card and "+" or ""
                 card.joker_display_values.amount =
                 (G.jokers.cards[1] == card or G.jokers.cards[#G.jokers.cards] == card) and card.ability.amount or 0
-           end,
+            end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[2] then
                     text.children[2].config.colour =
                     (G.jokers.cards[1] == card or G.jokers.cards[#G.jokers.cards] == card) and G.C.FILTER or G.C.UI.TEXT_INACTIVE
                 end
                 return false
-           end,
+            end,
         }
     end,
 }
