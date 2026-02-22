@@ -10,6 +10,14 @@ return {
                     "{s:0.8,C:inactive}Carve your own path beyond.",
                 },
             },
+            b_sgt_saga_storymode = {
+                name = "Saga Deck",
+                text = {
+                    "{C:attention}+#1#{} Joker slots",
+                    "{s:0.8,C:inactive}A true story never ends.",
+                    "{s:0.8,C:inactive}Carve your own path beyond.",
+                },
+            },
             b_sgt_grimoire = {
                 name = "Grimoire Deck",
                 text = {
@@ -36,6 +44,14 @@ return {
                 text = {
                     "{C:attention}+#1#{} Joker slots",
                     "{C:attention}+#2#{} winning Ante",
+                    "{s:0.8,C:inactive}A true story never ends.",
+                    "{s:0.8,C:inactive}Carve your own path beyond.",
+                },
+            },
+            sleeve_sgt_saga_storymode = {
+                name = "Saga Sleeve",
+                text = {
+                    "{C:attention}+#1#{} Joker slots",
                     "{s:0.8,C:inactive}A true story never ends.",
                     "{s:0.8,C:inactive}Carve your own path beyond.",
                 },

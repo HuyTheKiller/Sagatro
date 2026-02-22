@@ -49,7 +49,11 @@ local saga_deck = {
         end
     end,
     loc_vars = function(self)
-        return {vars = {self.config.joker_slot, 8 + self.config.extra.win_ante_gain}}
+        local ret = {vars = {self.config.joker_slot, 8 + self.config.extra.win_ante_gain}}
+        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+            ret.key = self.key.."_storymode"
+        end
+        return ret
     end,
 }
 
@@ -192,6 +196,9 @@ if CardSleeves then
                 key = self.key
                 self.config = {joker_slot = 3, extra = {win_ante_gain = 8}}
                 vars = {self.config.joker_slot, self.config.extra.win_ante_gain}
+                if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+                    key = self.key.."_storymode"
+                end
             end
             return { key = key, vars = vars }
         end,

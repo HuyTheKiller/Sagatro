@@ -10,6 +10,14 @@ return {
                     "{s:0.8,C:inactive}Hãy tạo lối đi vượt xa giới hạn.",
                 },
             },
+            b_sgt_saga_storymode = {
+                name = "Bộ Bài Cổ Tích",
+                text = {
+                    "{C:attention}+#1#{} ô Joker",
+                    "{s:0.8,C:inactive}Một câu chuyện không có hồi kết.",
+                    "{s:0.8,C:inactive}Hãy tạo lối đi vượt xa giới hạn.",
+                },
+            },
             b_sgt_grimoire = {
                 name = "Bộ Bài Ma Thư",
                 text = {
@@ -34,8 +42,16 @@ return {
             sleeve_sgt_saga = {
                 name = "Bọc Cổ Tích",
                 text = {
-                    "{C:attention}+#1#{} ộ Joker",
+                    "{C:attention}+#1#{} ô Joker",
                     "{C:attention}+#2#{} Ante để thắng",
+                    "{s:0.8,C:inactive}Một câu chuyện không có hồi kết.",
+                    "{s:0.8,C:inactive}Hãy tạo lối đi vượt xa giới hạn.",
+                },
+            },
+            sleeve_sgt_saga_storymode = {
+                name = "Bọc Cổ Tích",
+                text = {
+                    "{C:attention}+#1#{} ô Joker",
                     "{s:0.8,C:inactive}Một câu chuyện không có hồi kết.",
                     "{s:0.8,C:inactive}Hãy tạo lối đi vượt xa giới hạn.",
                 },
