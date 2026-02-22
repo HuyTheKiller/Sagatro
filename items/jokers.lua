@@ -14886,7 +14886,7 @@ local fleta = {
                         card.joker_display_values.current_progress = card.ability.immutable.butterfly_collected.goldia
                         card.joker_display_values.slash = "/"
                         card.joker_display_values.target_value = card.ability.immutable.butterfly_collected.fleta
-                    elseif card.ability.immutable.stage == 3 then
+                    elseif card.ability.immutable.stage == 3 or card.ability.immutable.stage == 0 then
                         card.joker_display_values.open_bracket = " ("
                         card.joker_display_values.close_bracket = ") "
                         card.joker_display_values.current_progress = 0
