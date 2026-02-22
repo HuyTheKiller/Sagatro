@@ -36,8 +36,11 @@ if G.GAME.story_mode then
             end
         end
     end
+    if v.exclude_from_pool then
+        add = nil
+    end
 else
-    if G.GAME.modifiers.sgt_disable_sagatro_items and v.mod and v.mod.id == "Sagatro" then
+    if (G.GAME.modifiers.sgt_disable_sagatro_items and v.mod and v.mod.id == "Sagatro") or v.exclude_from_pool then
         add = nil
     end
 end
@@ -52,7 +55,7 @@ _pool[#_pool + 1] = 'UNAVAILABLE'
 '''
 position = "at"
 payload = '''
-if G.GAME.modifiers.sgt_disable_sagatro_items and v.mod and v.mod.id == "Sagatro" then
+if (G.GAME.modifiers.sgt_disable_sagatro_items and v.mod and v.mod.id == "Sagatro") or v.exclude_from_pool then
 else
     _pool[#_pool + 1] = 'UNAVAILABLE'
 end

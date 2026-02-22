@@ -17629,6 +17629,10 @@ for _, v in ipairs(joker_table) do
         v.discovered = true
     end
     if not v.debug_obj or (v.debug_obj and Sagatro.debug) then
+        if v.debug_obj then
+            v.exclude_from_pool = true
+            v.no_doe = true
+        end
         v.debug_obj = nil
         SMODS.Joker(v)
     end
