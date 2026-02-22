@@ -13892,6 +13892,65 @@ local goldia = {
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { ref_table = "card.joker_display_values", ref_value = "plus", colour = G.C.MULT },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult", colour = G.C.MULT },
+                {
+                    border_nodes = {
+                        { ref_table = "card.joker_display_values", ref_value = "times" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                }
+            },
+            calc_function = function(card)
+                card.joker_display_values.plus = (card.ability.immutable.stage == 0 or card.ability.immutable.stage == "dawn")
+                and "+" or ""
+                card.joker_display_values.mult = (card.ability.immutable.stage == 0 or card.ability.immutable.stage == "dawn")
+                and card.ability.extra.stage0_mult or ""
+                if G.GAME.door_puzzle_active then
+                    card.joker_display_values.mult = 0
+                end
+                card.joker_display_values.times = ""
+                card.joker_display_values.xmult = ""
+                if card.ability.immutable.stage == "name_recalled" then
+                    local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                    local queen_count, glass_count = 0, 0
+                    if text ~= 'Unknown' then
+                        for _, scoring_card in pairs(scoring_hand) do
+                            if scoring_card:get_id() == 12 then
+                                queen_count = queen_count + 1
+                            end
+                            if Sagatro.omniscient(scoring_card, {"m_glass", "m_sgt_nyx_glass"}) then
+                                glass_count = glass_count + 1
+                            end
+                        end
+                    end
+                    local final_queen_xmult = card.ability.extra.full_queen_xmult ^ queen_count
+                    local final_glass_xmult = card.ability.extra.full_glass_xmult ^ glass_count
+                    card.joker_display_values.times = "X"
+                    card.joker_display_values.xmult = final_queen_xmult * final_glass_xmult
+                    if G.GAME.door_puzzle_active then
+                        card.joker_display_values.mult = 0
+                    end
+                end
+            end,
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if not joker_card:can_calculate() then return 0 end
+                if held_in_hand then return 0 end
+                return joker_card.ability.immutable.stage == "name_recalled" and playing_card:get_id() == 12
+                and JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+            style_function = function(card, text, reminder_text, extra)
+                if text and text.children[3] then
+                    text.children[3].config.colour = card.ability.immutable.stage == "name_recalled"
+                    and G.C.MULT or G.C.CLEAR
+                end
+                return false
+            end,
+        }
+    end,
 }
 
 local pocket_mirror = {
@@ -13983,6 +14042,18 @@ local pocket_mirror = {
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            retrigger_joker_function = function(card, retrigger_joker)
+                if not retrigger_joker:can_calculate() then
+                    return 0
+                end
+                return (card == retrigger_joker.area.cards[Sagatro.get_pos(retrigger_joker)-1]
+                or card == retrigger_joker.area.cards[Sagatro.get_pos(retrigger_joker)+1])
+                and 1 or 0
+            end,
+        }
+    end,
 }
 
 local knife_fork = {
@@ -14057,6 +14128,16 @@ local knife_fork = {
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if not joker_card:can_calculate() then return 0 end
+                if held_in_hand then return 0 end
+                return playing_card:get_id() == 12 and
+                joker_card.ability.extra.retriggers * JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+        }
     end,
 }
 
@@ -14141,6 +14222,28 @@ local rose_bell = {
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                }
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "bell_card", colour = G.C.FILTER },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.bell_card = localize { type = 'variable', key = "jdis_rank_of_suit", vars = {localize("Queen", 'ranks'), localize("Hearts", 'suits_plural') } }
+                card.joker_display_values.xmult = card:can_calculate()
+                and card.ability.extra.xmult or 1
+            end,
+        }
     end,
 }
 
@@ -14232,6 +14335,33 @@ local moon_hairbrush = {
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                }
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "poker_hand", colour = G.C.ORANGE },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.poker_hand = localize(card.ability.extra.poker_hand, 'poker_hands')
+                card.joker_display_values.is_poker_hand = false
+                local text, _, _ = JokerDisplay.evaluate_hand()
+                if text == card.ability.extra.poker_hand then
+                    card.joker_display_values.is_poker_hand = true
+                end
+                card.joker_display_values.xmult = card:can_calculate()
+                and card.joker_display_values.is_poker_hand and card.ability.extra.xmult or 1
+            end,
+        }
+    end,
 }
 
 local snow_scissors = {
@@ -14300,6 +14430,36 @@ local snow_scissors = {
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    }
+                }
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text",  colour = G.C.ORANGE },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                local count = 0
+                local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                if text ~= 'Unknown' then
+                    for _, scoring_card in pairs(scoring_hand) do
+                        if Sagatro.omniscient(scoring_card, {"m_glass", "m_sgt_nyx_glass"}) then
+                            count = count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                        end
+                    end
+                end
+                card.joker_display_values.xmult = card:can_calculate() and card.ability.extra.xmult ^ count or 1
+                card.joker_display_values.localized_text = localize{type = 'name_text', set = "Enhanced", key = "m_glass", nodes = {}}
+            end
+        }
     end,
 }
 
@@ -14383,6 +14543,22 @@ local angel_scythe = {
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                {
+                    border_nodes = {
+                        { text = "X" },
+                        { ref_table = "card.joker_display_values", ref_value = "xchips", retrigger_type = "exp" }
+                    },
+                    border_colour = G.C.CHIPS
+                }
+            },
+            calc_function = function(card)
+                card.joker_display_values.xchips = card:can_calculate() and card.ability.extra.xchips or 1
+            end,
+        }
+    end,
 }
 
 local egliette = {
@@ -14436,6 +14612,16 @@ local egliette = {
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+                if not joker_card:can_calculate() then return 0 end
+                if held_in_hand then return 0 end
+                return not G.GAME.story_mode and playing_card:get_id() == 12 and
+                joker_card.ability.extra.retriggers * JokerDisplay.calculate_joker_triggers(joker_card) or 0
+            end,
+        }
     end,
 }
 
@@ -14652,6 +14838,100 @@ local fleta = {
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { ref_table = "card.joker_display_values", ref_value = "open_bracket", colour = G.C.UI.TEXT_INACTIVE },
+                { ref_table = "card.joker_display_values", ref_value = "current_progress" },
+                { ref_table = "card.joker_display_values", ref_value = "slash", colour = G.C.UI.TEXT_INACTIVE },
+                { ref_table = "card.joker_display_values", ref_value = "target_value" },
+                { ref_table = "card.joker_display_values", ref_value = "close_bracket", colour = G.C.UI.TEXT_INACTIVE },
+                {
+                    border_nodes = {
+                        { ref_table = "card.joker_display_values", ref_value = "times" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                }
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "fleta_reminder", colour = G.C.FILTER },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.open_bracket = ""
+                card.joker_display_values.close_bracket = ""
+                card.joker_display_values.current_progress = ""
+                card.joker_display_values.slash = ""
+                card.joker_display_values.target_value = ""
+                card.joker_display_values.times = ""
+                card.joker_display_values.xmult = ""
+                card.joker_display_values.fleta_reminder = ""
+                if G.GAME.story_mode and not card.ability.platinum_reflection then
+                    if card.ability.immutable.stage == 1 then
+                        card.joker_display_values.open_bracket = " ("
+                        card.joker_display_values.close_bracket = ") "
+                        card.joker_display_values.current_progress = card.ability.immutable.pairs_played
+                        card.joker_display_values.slash = "/"
+                        card.joker_display_values.target_value = 3
+                        card.joker_display_values.fleta_reminder = localize("Pair", "poker_hands")
+                    elseif card.ability.immutable.stage == 2 then
+                        card.joker_display_values.open_bracket = " ("
+                        card.joker_display_values.close_bracket = ") "
+                        card.joker_display_values.current_progress = card.ability.immutable.butterfly_collected.goldia
+                        card.joker_display_values.slash = "/"
+                        card.joker_display_values.target_value = card.ability.immutable.butterfly_collected.fleta
+                    elseif card.ability.immutable.stage == 3 then
+                        card.joker_display_values.open_bracket = " ("
+                        card.joker_display_values.close_bracket = ") "
+                        card.joker_display_values.current_progress = 0
+                        card.joker_display_values.slash = "/"
+                        card.joker_display_values.target_value = 0
+                    end
+                else
+                    local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                    local count = 0
+                    if text ~= 'Unknown' then
+                        for _, scoring_card in pairs(scoring_hand) do
+                            if scoring_card:get_id() == 12 and scoring_card:is_suit("Hearts") then
+                                count = count + 1
+                            end
+                        end
+                    end
+                    card.joker_display_values.times = "X"
+                    card.joker_display_values.xmult = 1
+                    if not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
+                    and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum") then
+                        card.joker_display_values.xmult = card.ability.extra.xmult ^ count
+                    end
+                    card.joker_display_values.fleta_reminder = localize { type = 'variable', key = "jdis_rank_of_suit", vars = { localize("Queen", 'ranks'), localize("Hearts", 'suits_plural') } }
+                end
+            end,
+            style_function = function(card, text, reminder_text, extra)
+                if text then
+                    if text.children[2] then
+                        text.children[2].config.colour =
+                        (card.ability.immutable.stage == 1 and (card.ability.immutable.completed.memory and G.C.GREEN or G.C.FILTER))
+                        or (card.ability.immutable.stage == 2 and G.C.SGT_GOLDIATTENTION)
+                        or G.C.UI.TEXT_INACTIVE
+                    end
+                    if text.children[4] then
+                        text.children[4].config.colour =
+                        (card.ability.immutable.stage == 1 and G.C.UI.TEXT_INACTIVE)
+                        or (card.ability.immutable.stage == 2 and G.C.GREEN)
+                        or G.C.UI.TEXT_INACTIVE
+                    end
+                    if text.children[6] then
+                        text.children[6].config.colour = (G.GAME.story_mode and not card.ability.platinum_reflection) and G.C.CLEAR
+                        or (not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
+                        and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum")) and G.C.MULT
+                        or G.C.CLEAR
+                    end
+                end
+                return false
+            end,
+        }
+    end,
 }
 
 local harpae = {
@@ -14785,6 +15065,75 @@ local harpae = {
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { ref_table = "card.joker_display_values", ref_value = "open_bracket", colour = G.C.UI.TEXT_INACTIVE },
+                { ref_table = "card.joker_display_values", ref_value = "current_progress", colour = G.C.FILTER },
+                { ref_table = "card.joker_display_values", ref_value = "slash", colour = G.C.UI.TEXT_INACTIVE },
+                { ref_table = "card.joker_display_values", ref_value = "target_value", colour = G.C.UI.TEXT_INACTIVE },
+                { ref_table = "card.joker_display_values", ref_value = "close_bracket", colour = G.C.UI.TEXT_INACTIVE },
+                {
+                    border_nodes = {
+                        { ref_table = "card.joker_display_values", ref_value = "times" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                }
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "harpae_reminder", colour = G.C.FILTER },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.open_bracket = ""
+                card.joker_display_values.close_bracket = ""
+                card.joker_display_values.current_progress = ""
+                card.joker_display_values.slash = ""
+                card.joker_display_values.target_value = ""
+                card.joker_display_values.times = ""
+                card.joker_display_values.xmult = ""
+                card.joker_display_values.harpae_reminder = localize(card.ability.extra.poker_hand, "poker_hands")
+                if G.GAME.story_mode and not card.ability.platinum_reflection then
+                    card.joker_display_values.open_bracket = " ("
+                    card.joker_display_values.close_bracket = ") "
+                    card.joker_display_values.current_progress = card.ability.immutable.obedience_count
+                    card.joker_display_values.slash = "/"
+                    card.joker_display_values.target_value = 10
+                else
+                    local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                    local count = 0
+                    if text ~= 'Unknown' then
+                        for _, scoring_card in pairs(scoring_hand) do
+                            count = count + 1
+                        end
+                    end
+                    card.joker_display_values.times = "X"
+                    card.joker_display_values.xmult = 1
+                    if not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
+                    and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum") then
+                        card.joker_display_values.xmult = card.ability.extra.xmult ^ count
+                    end
+                end
+            end,
+            style_function = function(card, text, reminder_text, extra)
+                if text then
+                    if text.children[3] then
+                        text.children[3].config.colour =
+                        card.ability.immutable.down and G.C.RED
+                        or G.C.UI.TEXT_INACTIVE
+                    end
+                    if text.children[6] then
+                        text.children[6].config.colour = (G.GAME.story_mode and not card.ability.platinum_reflection) and G.C.CLEAR
+                        or (not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
+                        and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum")) and G.C.MULT
+                        or G.C.CLEAR
+                    end
+                end
+                return false
+            end,
+        }
     end,
 }
 
@@ -14947,6 +15296,73 @@ local lisette = {
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { ref_table = "card.joker_display_values", ref_value = "open_bracket", colour = G.C.UI.TEXT_INACTIVE },
+                { ref_table = "card.joker_display_values", ref_value = "current_progress", colour = G.C.UI.TEXT_INACTIVE },
+                { ref_table = "card.joker_display_values", ref_value = "slash", colour = G.C.UI.TEXT_INACTIVE },
+                { ref_table = "card.joker_display_values", ref_value = "target_value", colour = G.C.UI.TEXT_INACTIVE },
+                { ref_table = "card.joker_display_values", ref_value = "close_bracket", colour = G.C.UI.TEXT_INACTIVE },
+                {
+                    border_nodes = {
+                        { ref_table = "card.joker_display_values", ref_value = "times" },
+                        { ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
+                    },
+                }
+            },
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "lisette_reminder", colour = G.C.FILTER },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.open_bracket = ""
+                card.joker_display_values.close_bracket = ""
+                card.joker_display_values.current_progress = ""
+                card.joker_display_values.slash = ""
+                card.joker_display_values.target_value = ""
+                card.joker_display_values.times = ""
+                card.joker_display_values.xmult = ""
+                card.joker_display_values.lisette_reminder = ""
+                if G.GAME.story_mode and not card.ability.platinum_reflection then
+                    card.joker_display_values.open_bracket = " ("
+                    card.joker_display_values.close_bracket = ") "
+                    card.joker_display_values.current_progress = 0
+                    card.joker_display_values.slash = "/"
+                    card.joker_display_values.target_value = 0
+                else
+                    local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+                    local count = 0
+                    if text ~= 'Unknown' then
+                        for _, scoring_card in pairs(scoring_hand) do
+                            if Sagatro.omniscient(scoring_card, {"m_glass", "m_sgt_nyx_glass"}) then
+                                count = count + 1
+                            end
+                        end
+                    end
+                    card.joker_display_values.times = "X"
+                    card.joker_display_values.xmult = 1
+                    if not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
+                    and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum") then
+                        card.joker_display_values.xmult = card.ability.extra.xmult ^ count
+                    end
+                    card.joker_display_values.lisette_reminder = localize{type = 'name_text', set = "Enhanced", key = "m_glass", nodes = {}}
+                end
+            end,
+            style_function = function(card, text, reminder_text, extra)
+                if text then
+                    if text.children[6] then
+                        text.children[6].config.colour = (G.GAME.story_mode and not card.ability.platinum_reflection) and G.C.CLEAR
+                        or (not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
+                        and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum")) and G.C.MULT
+                        or G.C.CLEAR
+                    end
+                end
+                return false
+            end,
+        }
+    end,
 }
 
 local enjel = {
@@ -15066,6 +15482,59 @@ local enjel = {
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { ref_table = "card.joker_display_values", ref_value = "open_bracket", colour = G.C.UI.TEXT_INACTIVE },
+                { ref_table = "card.joker_display_values", ref_value = "current_progress", colour = G.C.UI.TEXT_INACTIVE },
+                { ref_table = "card.joker_display_values", ref_value = "slash", colour = G.C.UI.TEXT_INACTIVE },
+                { ref_table = "card.joker_display_values", ref_value = "target_value", colour = G.C.UI.TEXT_INACTIVE },
+                { ref_table = "card.joker_display_values", ref_value = "close_bracket", colour = G.C.UI.TEXT_INACTIVE },
+                { ref_table = "card.joker_display_values", ref_value = "plus" },
+                { ref_table = "card.joker_display_values", ref_value = "chips", retrigger_type = "mult" }
+            },
+            calc_function = function(card)
+                card.joker_display_values.open_bracket = ""
+                card.joker_display_values.close_bracket = ""
+                card.joker_display_values.current_progress = ""
+                card.joker_display_values.slash = ""
+                card.joker_display_values.target_value = ""
+                card.joker_display_values.plus = ""
+                card.joker_display_values.chips = ""
+                if G.GAME.story_mode and not card.ability.platinum_reflection then
+                    card.joker_display_values.open_bracket = "("
+                    card.joker_display_values.close_bracket = ")"
+                    card.joker_display_values.current_progress = 0
+                    card.joker_display_values.slash = "/"
+                    card.joker_display_values.target_value = 0
+                else
+                    card.joker_display_values.plus = "+"
+                    card.joker_display_values.chips = 0
+                    if not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
+                    and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum") then
+                        card.joker_display_values.chips = card.ability.extra.chips
+                    end
+                end
+            end,
+            style_function = function(card, text, reminder_text, extra)
+                if text then
+                    if text.children[6] then
+                        text.children[6].config.colour = (G.GAME.story_mode and not card.ability.platinum_reflection) and G.C.CLEAR
+                        or (not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
+                        and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum")) and G.C.CHIPS
+                        or G.C.CLEAR
+                    end
+                    if text.children[7] then
+                        text.children[7].config.colour = (G.GAME.story_mode and not card.ability.platinum_reflection) and G.C.CLEAR
+                        or (not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
+                        and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum")) and G.C.CHIPS
+                        or G.C.CLEAR
+                    end
+                end
+                return false
+            end,
+        }
+    end,
 }
 
 local rusty_scissors = {
@@ -15158,6 +15627,21 @@ local rusty_scissors = {
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text", colour = G.C.FILTER },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.localized_text = ""
+                if not G.GAME.story_mode then
+                    card.joker_display_values.localized_text = localize{type = 'name_text', set = "Enhanced", key = "m_glass", nodes = {}}
+                end
+            end,
+        }
     end,
 }
 
@@ -15307,6 +15791,18 @@ local ozzy = {
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            reminder_text = {
+                { text = "(" },
+                { ref_table = "card.joker_display_values", ref_value = "localized_text", colour = G.C.SECONDARY_SET.Spectral },
+                { text = ")" },
+            },
+            calc_function = function(card)
+                card.joker_display_values.localized_text = localize("b_spectral_cards")
+            end,
+        }
     end,
 }
 
