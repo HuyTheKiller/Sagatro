@@ -5214,7 +5214,7 @@ local school = {
         if context.hand_drawn and not context.first_hand_drawn
         and not context.blueprint and not context.retrigger_joker and card.ability.triggered then
             card.ability.triggered = nil
-            table.remove_duplicate(G.discard.cards, G.discard.cards[1])
+            table.remove_duplicate(G.discard.cards, G.discard.cards[#G.discard.cards])
         end
     end,
     in_pool = function(self, args)
