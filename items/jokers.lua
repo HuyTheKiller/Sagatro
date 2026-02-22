@@ -13981,7 +13981,7 @@ local pocket_mirror = {
         return ret
     end,
     set_badges = function(self, card, badges)
-         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+        badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
 }
 
@@ -14056,7 +14056,7 @@ local knife_fork = {
         return ret
     end,
     set_badges = function(self, card, badges)
-         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+        badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
 }
 
@@ -14140,7 +14140,7 @@ local rose_bell = {
         return ret
     end,
     set_badges = function(self, card, badges)
-         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+        badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
 }
 
@@ -14230,7 +14230,7 @@ local moon_hairbrush = {
         return ret
     end,
     set_badges = function(self, card, badges)
-         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+        badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
 }
 
@@ -14299,7 +14299,7 @@ local snow_scissors = {
         return ret
     end,
     set_badges = function(self, card, badges)
-         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+        badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
 }
 
@@ -14381,7 +14381,7 @@ local angel_scythe = {
         return ret
     end,
     set_badges = function(self, card, badges)
-         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+        badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
 }
 
@@ -14435,7 +14435,7 @@ local egliette = {
         return ret
     end,
     set_badges = function(self, card, badges)
-         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+        badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
 }
 
@@ -14643,7 +14643,7 @@ local fleta = {
         return ret
     end,
     set_badges = function(self, card, badges)
-         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+        badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
 }
 
@@ -14777,7 +14777,7 @@ local harpae = {
         return ret
     end,
     set_badges = function(self, card, badges)
-         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+        badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
 }
 
@@ -14938,7 +14938,7 @@ local lisette = {
         return ret
     end,
     set_badges = function(self, card, badges)
-         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+        badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
 }
 
@@ -15057,7 +15057,7 @@ local enjel = {
         return ret
     end,
     set_badges = function(self, card, badges)
-         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+        badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
 }
 
@@ -15150,7 +15150,7 @@ local rusty_scissors = {
         return ret
     end,
     set_badges = function(self, card, badges)
-         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+        badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
 }
 
@@ -15206,7 +15206,7 @@ local platinum = {
         return ret
     end,
     set_badges = function(self, card, badges)
-         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+        badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
 }
 
@@ -15299,7 +15299,7 @@ local ozzy = {
         return ret
     end,
     set_badges = function(self, card, badges)
-         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+        badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
     end,
 }
 
