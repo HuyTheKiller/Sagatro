@@ -5563,8 +5563,8 @@ local octopus = {
                 JokerDisplay.copy_display(card, copied_joker, copied_debuff)
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -5712,8 +5712,8 @@ local squid = {
                 JokerDisplay.copy_display(card, copied_joker, copied_debuff)
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -6054,8 +6054,8 @@ local green_turtle = {
                 card.joker_display_values.xmult = card.ability.extra.xmult ^ count
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -6203,8 +6203,8 @@ local electric_eel = {
             calc_function = function(card)
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -6552,8 +6552,8 @@ local blobfish = {
             calc_function = function(card)
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -6874,8 +6874,8 @@ local dolphin = {
             calc_function = function(card)
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -6992,8 +6992,8 @@ local coelacanthiformes = {
                 and is_discarding_one_card and ("+" .. (is_four and 1 or 0)) or "-"
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -7084,8 +7084,8 @@ local sunfish = {
             calc_function = function(card)
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -7169,8 +7169,8 @@ local moonfish = {
             calc_function = function(card)
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -7323,8 +7323,8 @@ local swordfish = {
             calc_function = function(card)
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -7423,8 +7423,8 @@ local penguin = {
             calc_function = function(card)
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -7527,8 +7527,8 @@ local seal = {
                 card.joker_display_values.localized_text = localize(card.ability.type, 'poker_hands')
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -7669,8 +7669,8 @@ local ray = {
             calc_function = function(card)
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -7871,8 +7871,8 @@ local orca = {
                 card.joker_display_values.localized_text = localize(card.ability.extra.target_rank, "ranks")
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -8001,8 +8001,8 @@ local sperm_whale = {
                 card.joker_display_values.poker_hand = localize(card.ability.extra.poker_hand, 'poker_hands')
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -8843,8 +8843,8 @@ local king_crab = {
                 card.joker_display_values.localized_text = localize(card.ability.fixed_type, 'poker_hands')
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -8977,8 +8977,8 @@ local big_red_jelly = {
             calc_function = function(card)
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -9500,8 +9500,8 @@ local colossal_squid = {
                 card.joker_display_values.localized_text_ace = localize("Ace", "ranks")
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
@@ -10629,8 +10629,8 @@ local mahimahi = {
                 card.joker_display_values.h_mult = triggered and card.ability.extra.h_mult*count or 0
                 card.joker_display_values.is_high_card = false
                 if card.ability.immutable.eaten_weight == 3 and card.ability.immutable.eaten_type == 2 then
-                    local _, poker_hands, _ = JokerDisplay.evaluate_hand()
-                    if poker_hands["High Card"] and next(poker_hands["High Card"]) then
+                    local text, _, _ = JokerDisplay.evaluate_hand()
+                    if text == "High Card" then
                         card.joker_display_values.is_high_card = true
                     end
                 end
