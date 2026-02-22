@@ -731,7 +731,7 @@ function Game:update(dt)
     if G.STAGE == G.STAGES.RUN then
         Sagatro.debug_info["During a run"] = true
         Sagatro.debug_info["Story mode"] = G.GAME.story_mode
-        if not next(SMODS.find_card("j_sgt_submarine", true)) then
+        if not SMODS.find_card("j_sgt_submarine", true)[1] then
             G.P_CENTERS.j_sgt_seawater.pos.x = 0
         end
         if Sagatro.event_check("lisette_chase") and G.STATE ~= G.STATES.ROUND_EVAL
