@@ -108,14 +108,13 @@ SMODS.Booster:take_ownership_by_kind('Standard', {
     create_card = function(self, card, i)
         local _edition = poll_edition('standard_edition'..G.GAME.round_resets.ante, 2, true)
         local _seal = SMODS.poll_seal({mod = 10})
-        local _card = SMODS.create_card{set = (pseudorandom(pseudoseed('stdset'..G.GAME.round_resets.ante)) > 0.6) and "Enhanced" or "Base", edition = _edition, seal = _seal, area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "sta"}
-        if Sagatro.event_check("mirror_maze") or Sagatro.event_check("lisette_chase") or Sagatro.event_check("dull_glass") then
+        local mirrorify = Sagatro.event_check("mirror_maze") or Sagatro.event_check("lisette_chase") or Sagatro.event_check("dull_glass")
+        local _card = SMODS.create_card{set = (pseudorandom(pseudoseed('stdset'..G.GAME.round_resets.ante)) > 0.6) and "Enhanced" or "Base", edition = not mirrorify and _edition or nil, seal = not mirrorify and _seal or nil, area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "sta"}
+        if mirrorify then
             _card.ability.old_enh = _card.config.center_key
-            _card.ability.old_edition = _card.edition and _card.edition.key or nil
-            _card.ability.old_seal = _card.seal
+            _card.ability.old_edition = _edition
+            _card.ability.old_seal = _seal
             _card:set_ability("m_sgt_mirror")
-            if _card.ability.old_edition then _card:set_edition(nil, nil, true) end
-            if _card.ability.old_seal then _card:set_seal(nil, true) end
         end
         return _card
     end,
