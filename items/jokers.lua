@@ -14459,6 +14459,13 @@ local fleta = {
     calculate = function(self, card, context)
         if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker
         and not card.ability.platinum_reflection then
+            if context.ending_shop and G.GAME.round_resets.blind_states.Small == "Upcoming"
+            and card.ability.immutable.stage == 0 then
+                card.ability.immutable.ready = true
+                G.GAME.modifiers.sgt_no_tags = true
+                card.ability.immutable.stage = 1
+                card.ability.immutable.pairs_played = 0
+            end
             if context.before and not G.GAME.shelved_chains.end_of_round
             and G.GAME.blind_on_deck == "Boss" and card.ability.immutable.stage == 3 then
                 G.GAME.shelved_chains.end_of_round = "sgt_fleta_crashout"
