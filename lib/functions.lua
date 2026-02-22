@@ -2479,7 +2479,7 @@ end
 local gba = get_blind_amount
 function get_blind_amount(ante)
     local amount = gba(ante)
-    if G.GAME.sgt_lenient_score then
+    if G.GAME.sgt_lenient_score or (G.STATE == G.STATES.MENU and Sagatro.config.LenientScore) then
         -- 110000, 560000/2=280000, 7.2e6/10=720000, 3e8/150=2e6, 4.7e10/1e4=4.7e6, 2.9e13/2e6=1.45e7
         -- 7.7e16/1e9=7.7e7, 8.6e20/2e12=4.3e8, 4.2e25/1e16=4.2e9, 9.2e30/1e20=9.2e10, 9.2e36/1e24=9.2e12
         -- 4.3e43/1e28=4.3e15, etc.
