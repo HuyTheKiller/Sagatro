@@ -3493,6 +3493,32 @@ return {
                     "Difficulty: {V:1}#2#{}/5",
                 },
             },
+            alice_in_wonderland_mech = {
+                text = {
+                    "Solve riddles to",
+                    "uncover better jokers.",
+                    "(Pending rework)",
+                },
+            },
+            ["20k_miles_under_the_sea_mech"] = {
+                text = {
+                    "Manage resources and guide",
+                    "your fish arsenal to victory.",
+                },
+            },
+            alice_in_mirrorworld_mech = {
+                text = {
+                    "Think outside the box",
+                    "for a clever solution",
+                    "against Inversion.",
+                },
+            },
+            pocket_mirror_mech = {
+                text = {
+                    "Discover multiple endings",
+                    "with this popular RPG story.",
+                },
+            },
             white_rabbit = {
                 text = {
                     "{s:0.8}Followed the White Rabbit, down I fell,",
@@ -4135,6 +4161,7 @@ return {
             saga_tooltip = "Hint to progress",
             saga_fusion_tooltip = "Joker fusion",
             saga_storyline_start = "Boot up",
+            saga_mechanic = "Storyline mechanic",
             pending_swallow = "Fishing Frenzy",
             fish_effect_active = "Current Fish Effect",
             fish_effect_stackable = "Stackable Effect",

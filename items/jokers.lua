@@ -109,6 +109,7 @@ local white_rabbit = {
         if Sagatro.storyline_check("none") or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
             specific_vars = {localize('ph_alice_in_wond'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "alice_in_wonderland_mech", title = localize("saga_mechanic")}
         end
         return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.extra.chip_mod*G.GAME.alice_multiplier}}
     end,
@@ -4013,6 +4014,7 @@ local lincoln_ship = {
         if Sagatro.storyline_check("none") or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
             specific_vars = {localize('ph_20k'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "20k_miles_under_the_sea_mech", title = localize("saga_mechanic")}
         end
         return {vars = {card.ability.extra.mult, localize{type = 'name_text', set = "Joker", key = "j_splash", nodes = {}}}}
     end,
@@ -10858,6 +10860,7 @@ local mirror = {
         or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "interwoven_storyline_start",
             specific_vars = {localize('ph_alice_in_mirr'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "alice_in_mirrorworld_mech", title = localize("saga_mechanic")}
         end
         if Sagatro.storyline_check(self.saga_group) and not Sagatro.storyline_check("pocket_mirror") then
             info_queue[#info_queue+1] = G.GAME.inversed_scaling
@@ -13873,6 +13876,7 @@ local goldia = {
         if Sagatro.storyline_check("none") or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
             specific_vars = {localize('ph_pmirror'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "pocket_mirror_mech", title = localize("saga_mechanic")}
         end
         local ret = {vars = {card.ability.extra.stage0_mult, card.ability.extra.stage0_mult_xmod}}
         if card.area and card.area ~= Sagatro.temp_areas.jokers and card.area.config.type == "title" then

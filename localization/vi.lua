@@ -3488,6 +3488,32 @@ return {
                     "Độ khó: {V:1}#2#{}/5",
                 },
             },
+            alice_in_wonderland_mech = {
+                text = {
+                    "Giải câu đố để khám",
+                    "phá joker tốt hơn.",
+                    "(Đang chờ được làm lại)",
+                },
+            },
+            ["20k_miles_under_the_sea_mech"] = {
+                text = {
+                    "Quản lý tài nguyên và dẫn",
+                    "đàn cá đến vinh quang.",
+                },
+            },
+            alice_in_mirrorworld_mech = {
+                text = {
+                    "Suy nghĩ khác biệt để tìm",
+                    "giải pháp khéo léo trước",
+                    "Nghịch Đảo.",
+                },
+            },
+            pocket_mirror_mech = {
+                text = {
+                    "Khám phá nhiều cái kết khác nhau",
+                    "trong một mạch truyện RPG nổi tiếng.",
+                },
+            },
             white_rabbit = {
                 text = {
                     "{s:0.8}Theo thỏ trắng nhảy vào hố sâu,",
@@ -4130,6 +4156,7 @@ return {
             saga_tooltip = "Gợi ý tiến triển",
             saga_fusion_tooltip = "Kết hợp joker",
             saga_storyline_start = "Khởi động",
+            saga_mechanic = "Cơ chế mạch truyện",
             pending_swallow = "Nuốt Cá",
             fish_effect_active = "Hiệu Ứng Hiện Tại",
             fish_effect_stackable = "Hiệu Ứng Tích Tầng",
