@@ -8,6 +8,12 @@ G.C.SGT_CELESTARA = HEX("717beb")
 G.C.SGT_ELDRITCH = HEX("3f0c57")
 G.C.SGT_SUPPLY = HEX("485267")
 G.C.SGT_BADGE = HEX("6131ac")
+G.C.GOLDIA_PINK = HEX("b4417b")
+G.C.PLATINUM_PINK = HEX("fdd2e3")
+G.C.FLETA_RED = HEX("721d16")
+G.C.HARPAE_BLUE = HEX("2b3c87")
+G.C.LISETTE_PURPLE = HEX("61277e")
+G.C.ENJEL_MIDNIGHT = HEX("241a34")
 G.C.SUBMARINE_DEPTH = {
     HEX("3a86e1"),
     HEX("265792"),
@@ -35,6 +41,12 @@ SMODS.Gradient{
 }
 G.C.SGT_SAGATTENTION = SMODS.Gradients["sgt_sagattention"]
 SMODS.Gradient{
+    key = "goldiattention",
+    colours = {HEX("b4417b"), HEX("631e41")},
+    cycle = 1,
+}
+G.C.SGT_GOLDIATTENTION = SMODS.Gradients["sgt_goldiattention"]
+SMODS.Gradient{
     key = "miracle",
     colours = {HEX('E7A73D'), HEX('FFEE00')},
     cycle = 2,
@@ -48,15 +60,16 @@ function loc_colour(_c, _default)
         lc()
     end
     for k, v in pairs(G.C) do
-		if string.len(k) > 4 and string.sub(k, 1, 4) == "SGT_" then
-			G.ARGS.LOC_COLOURS[string.lower(k)] = v
-		end
-	end
+        if string.len(k) > 4 and string.sub(k, 1, 4) == "SGT_" then
+            G.ARGS.LOC_COLOURS[string.lower(k)] = v
+        end
+    end
     for k, v in pairs(SMODS.Blinds) do
         if v.mod and v.mod.id == "Sagatro" then
             G.ARGS.LOC_COLOURS[k] = v.boss_colour
         end
     end
+    G.ARGS.LOC_COLOURS.dark_gold = HEX("8c6d09")
     G.ARGS.LOC_COLOURS.huycorn = G.C.SGT_DIVINATIO
     G.ARGS.LOC_COLOURS.huythekiller = G.C.GREEN
     G.ARGS.LOC_COLOURS.amy = G.C.YELLOW
@@ -79,14 +92,19 @@ to_big = to_big or function(x)
 end
 
 to_number = to_number or function(x)
-	return x
+    return x
 end
 
 Sagatro.story_mode_showdown = {
-	"bl_sgt_red_queen",
+    "bl_sgt_red_queen",
     "bl_sgt_nyx_abyss",
     "bl_sgt_red_king",
 }
+
+function Sagatro.can_win_story_mode()
+    return (G.GAME.blind and table.contains(Sagatro.story_mode_showdown, G.GAME.blind.config.blind.key))
+    or Sagatro.event_check("ending_reached", nil, {contain = true})
+end
 
 Sagatro.story_mode_no_reroll = {
     "bl_sgt_red_queen",
@@ -107,6 +125,15 @@ Sagatro.main_storyline_list = {
     "alice_in_wonderland",
     "20k_miles_under_the_sea",
     "alice_in_mirrorworld",
+    "pocket_mirror",
+}
+
+Sagatro.storyline_locmap = {
+    ["alice_in_wonderland"] = "ph_alice_in_wond",
+    ["20k_miles_under_the_sea"] = "ph_20k",
+    ["alice_in_mirrorworld"] = "ph_alice_in_mirr",
+    ["pocket_mirror"] = "ph_pmirror",
+    ["none"] = "saga_storyline_start",
 }
 
 Sagatro.forced_buffoon_events = {
@@ -119,9 +146,42 @@ Sagatro.forced_buffoon_events = {
     "the_sub_engineer",
 }
 
+Sagatro.progress_points = {
+    alice_in_wonderland = {}, -- Pending rework
+    ["20k_miles_under_the_sea"] = {
+        turquoise_jellyfish = 20,
+        aqua_eyeshard = 20,--40
+        black_oil = 20,--60
+        shadow_seamine = 20,--80
+        nyx_abyss = 20,--100
+    },
+    alice_in_mirrorworld = {
+        the_pawn = 100/6,
+        the_rook = 100/6,--33.3
+        the_knight = 100/6,--50
+        the_bishop = 100/6,--66.7
+        true_red_queen = 100/6,--83.3
+        red_king = 100/6,--100
+    },
+    pocket_mirror = {
+        the_pocket_mirror = 8,
+        knife_and_fork = 7,--15
+        pm_mirrorworld = 5,--20
+        facing_egliette = 5,--25
+        fleta_challenges = 15,--40
+        entering_mirror_maze = 5,--45
+        mirror_maze = 5,--50
+        lisette_chase = 5,--55
+        harpae_patience = 10,--65
+        dull_glass = 10,--75
+        door_puzzle = 10,--85
+        ending_reached = 15,--100
+    },
+}
+
 local igo = Game.init_game_object
 function Game:init_game_object()
-	local ret = igo(self)
+    local ret = igo(self)
     -- Add played_this_ante field to poker hands, only when necessary
     if Sagatro.played_this_ante_compat() then
         for _, v in pairs(ret.hands) do
@@ -184,6 +244,11 @@ function Game:init_game_object()
                 "j_sgt_ecila",
             },
         },
+        pocket_mirror = {
+            pm_mirrorworld = {
+                "j_sgt_eat_me",
+            },
+        },
     }
     ret.fish_effect = {}
     ret.current_round.dinah_card = {suit = "Spades", rank = "Ace"}
@@ -195,7 +260,8 @@ function Game:init_game_object()
     ret.switch_bonus = 0
     ret.celestara_tooltip = true
     ret.current_round.reroll_count = 0
-	return ret
+    ret.shelved_chains = {}
+    return ret
 end
 
 -- Pretty much stolen from Cryptid lmao
@@ -285,18 +351,18 @@ function Game:main_menu(change_context)
                 return true
         end)}))
     end
-    if not G.PROFILES[G.SETTINGS.profile].sgt_welcome or Sagatro.debug then
-        G.PROFILES[G.SETTINGS.profile].sgt_welcome = true
-        G.FUNCS.overlay_menu{
-            definition = create_UIBox_Sagatro_welcome(),
-        }
-    end
+    -- if not G.PROFILES[G.SETTINGS.profile].sgt_welcome --[[or Sagatro.debug]] then
+    --     G.PROFILES[G.SETTINGS.profile].sgt_welcome = true
+    --     G.FUNCS.overlay_menu{
+    --         definition = create_UIBox_Sagatro_welcome(),
+    --     }
+    -- end
 end
 
 -- Mouse and Pufferfish's conditional debuff mechanic
 local cardarea_update_ref = CardArea.update
 function CardArea:update(dt)
-	cardarea_update_ref(self, dt)
+    cardarea_update_ref(self, dt)
     if self == G.jokers and G.jokers.cards[1] then
         for i, v in ipairs(G.jokers.cards) do
             if v.config.center_key == "j_sgt_mouse" then
@@ -384,6 +450,80 @@ function CardArea:update(dt)
     end
 end
 
+local can_highlight_ref = CardArea.can_highlight
+function CardArea:can_highlight(card)
+    local can_hl = can_highlight_ref(self, card)
+    if Sagatro.EventChainUtils.chain_key == "sgt_platinum_ending" and card.config.center_key ~= "j_sgt_goldia" then
+        can_hl = false
+    end
+    return can_hl
+end
+
+local parse_highlighted_ref = CardArea.parse_highlighted
+function CardArea:parse_highlighted()
+    parse_highlighted_ref(self)
+    G.fleta_throw_hand = nil
+    local text,disp_text,poker_hands = G.FUNCS.get_poker_hand_info(self.highlighted)
+    if text ~= "NULL" then
+        local fleta = SMODS.find_card("j_sgt_fleta", true)[1]
+        if fleta and Sagatro.storyline_check("pocket_mirror") then
+            if fleta.ability.immutable.hands[text] then
+                G.fleta_throw_hand = true
+            end
+        end
+    end
+end
+
+function CardArea:temp_load(cardAreaTable, joker_size)
+
+    if self.cards then remove_all(self.cards) end
+    self.cards = {}
+    if self.children then remove_all(self.children) end
+    self.children = {}
+
+    self.config = setmetatable(cardAreaTable.config, {
+        __index = function(t, key)
+            if key == "card_limit" then
+                return (t.card_limits.total_slots or 0) - (t.card_limits.extra_slots_used or 0)
+            end
+        end,
+        __newindex = function(t, key, value)
+            if key == 'card_limit' then
+                if not t.card_limits.base then rawset(t.card_limits, 'base', value) end
+                rawset(t.card_limits, 'mod', value - t.card_limits.base - (t.card_limits.extra_slots or 0))
+            else
+                rawset(t, key, value)
+            end
+        end
+    })
+
+
+    for i = 1, #cardAreaTable.cards do
+        local card = Card(0, 0, G.CARD_W, G.CARD_H, G.P_CENTERS.j_joker, G.P_CENTERS.c_base)
+        card:load(cardAreaTable.cards[i])
+        card.T.h = card.T.h*joker_size
+        card.T.w = card.T.w*joker_size
+        card:set_sprites(card.config.center)
+        card.displaying_save = true
+        self.cards[#self.cards + 1] = card
+        if card.highlighted then
+            self.highlighted[#self.highlighted + 1] = card
+        end
+        card:set_card_area(self)
+    end
+    self:set_ranks()
+    self:align_cards()
+    self:hard_set_cards()
+end
+
+local add_to_highlighted_ref = CardArea.add_to_highlighted
+function CardArea:add_to_highlighted(card, silent)
+    if SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.story_starter and G.OVERLAY_TUTORIAL then
+        return
+    end
+    return add_to_highlighted_ref(self, card, silent)
+end
+
 -- Handle edible state of target fish - courtesy of stickers
 -- Also handle fusion buttons
 local card_update_ref = Card.update
@@ -403,11 +543,11 @@ function Card:update(dt)
                 self.ability.saga_fusion.jiggle = false
             end
         end
-		if self.ability.gravistone_triggered and not SMODS.has_enhancement(self, "m_sgt_gravistone") then
-			self.ability.gravistone_triggered = nil
-			SMODS.change_play_limit(-1)
+        if self.ability.gravistone_triggered and not SMODS.has_enhancement(self, "m_sgt_gravistone") then
+            self.ability.gravistone_triggered = nil
+            SMODS.change_play_limit(-1)
             SMODS.change_discard_limit(-1)
-		end
+        end
         if self.states.hover.is or self.states.drag.is then
             if self.area == G.jokers and G.GAME.story_mode then
                 if not self.debuff then
@@ -581,9 +721,18 @@ Sagatro.pseudo_animation = {
     submarine_dt = 0,
     current_depth_dt = 0,
 }
+Sagatro.timer = {
+    lisette_dt = 8,
+}
 local upd = Game.update
 function Game:update(dt)
-	upd(self, dt)
+    upd(self, dt)
+    if not G.SETTINGS.tutorial_complete then
+        Sagatro.config.DisableOtherJokers = false
+    end
+    if G.SETTINGS.tutorial_complete and not G.SETTINGS.saga_tutorial_complete then
+        G.FUNCS.saga_tutorial_controller()
+    end
     if not Sagatro.STATE then
         Sagatro.STATE = G.STATE
         Sagatro.debug_info["Game state"] = "MENU"
@@ -606,11 +755,76 @@ function Game:update(dt)
             back_button.config.fromAlice = Sagatro.fromAlice
         end
     end
+    if not G.SETTINGS.paused then
+        Sagatro.allow_save = nil
+        if Sagatro.temp_areas.jokers then
+            Sagatro.remove_temp_areas()
+        end
+    end
     if G.STAGE == G.STAGES.RUN then
         Sagatro.debug_info["During a run"] = true
         Sagatro.debug_info["Story mode"] = G.GAME.story_mode
-        if not next(SMODS.find_card("j_sgt_submarine", true)) then
+        if not SMODS.find_card("j_sgt_submarine", true)[1] then
             G.P_CENTERS.j_sgt_seawater.pos.x = 0
+        end
+        if Sagatro.event_check("lisette_chase") and G.STATE ~= G.STATES.ROUND_EVAL
+        and G.STATE ~= G.STATES.GAME_OVER then
+            Sagatro.timer.lisette_dt = Sagatro.timer.lisette_dt + dt
+            if Sagatro.timer.lisette_dt > (5/6)*8 then
+                Sagatro.timer.lisette_dt = Sagatro.timer.lisette_dt - (5/6)*8
+                if G.jokers then
+                    SMODS.add_card{key = "j_sgt_lisette"}
+                end
+            end
+        else
+            Sagatro.timer.lisette_dt = (5/6)*8
+        end
+        if G.GAME.no_savebox then
+            Sagatro.allow_save = nil
+        end
+        if G.GAME.pm_chase and next(G.GAME.pm_chase)
+        and (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.HAND_PLAYED) then
+            if G.GAME.pm_chase.goldia_pos > G.GAME.pm_chase.enjel_pos then
+                G.GAME.shelved_chains.end_of_round = "sgt_little_goody_2_shoes_ending"
+            elseif G.GAME.pm_chase.goldia_pos < G.GAME.pm_chase.enjel_pos then
+                G.GAME.shelved_chains.end_of_round = "sgt_dawn_ending"
+            end
+        end
+        if G.GAME.story_mode and not Sagatro.storyline_check("none") then
+            if not G.GAME.progress_tag or G.GAME.progress_tag == "\"MANUAL_REPLACE\"" then
+                for i = 1, #G.GAME.tags do
+                    if G.GAME.tags[i].key == "tag_sgt_progress_pie" then
+                        G.GAME.progress_tag = G.GAME.tags[i]
+                        break
+                    end
+                end
+            else
+                if (G.GAME.storyline_progress or 0) < 0 or (G.GAME.storyline_progress or 0) > 100 then
+                    G.GAME.storyline_progress = math.max(0, math.min(G.GAME.storyline_progress or 0, 100))
+                end
+                G.GAME.progress_tag.ability.progress = (G.GAME.storyline_progress or 0)/100
+                if G.GAME.progress_tag.tag_sprite.sprite_pos.x ~= math.floor(G.GAME.progress_tag.ability.progress*16) then
+                    G.GAME.progress_tag.tag_sprite:set_sprite_pos{x = math.floor(G.GAME.progress_tag.ability.progress*16), y = 0}
+                end
+            end
+            if G.GAME.interwoven_storyline then
+                if not G.GAME.progress_tag_iw or G.GAME.progress_tag_iw == "\"MANUAL_REPLACE\"" then
+                    for i = 1, #G.GAME.tags do
+                        if G.GAME.tags[i].key == "tag_sgt_progress_pie_iw" then
+                            G.GAME.progress_tag_iw = G.GAME.tags[i]
+                            break
+                        end
+                    end
+                else
+                    if (G.GAME.storyline_progress_iw or 0) < 0 or (G.GAME.storyline_progress_iw or 0) > 100 then
+                        G.GAME.storyline_progress_iw = math.max(0, math.min(G.GAME.storyline_progress_iw or 0, 100))
+                    end
+                    G.GAME.progress_tag_iw.ability.progress = (G.GAME.storyline_progress_iw or 0)/100
+                    if G.GAME.progress_tag_iw.tag_sprite.sprite_pos.x ~= math.floor(G.GAME.progress_tag_iw.ability.progress*16) then
+                        G.GAME.progress_tag_iw.tag_sprite:set_sprite_pos{x = math.floor(G.GAME.progress_tag_iw.ability.progress*16), y = 0}
+                    end
+                end
+            end
         end
         if G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP then
             -- Handle opening Mega Buffoon Pack spawned by Utima Vox (restricted to during shop and blind select)
@@ -640,6 +854,41 @@ function Game:update(dt)
                 end
             end
         end
+        if G.STATE == G.STATES.SELECTING_HAND then
+            if G.fleta_throw_hand then
+                if not G.fleta_warning_text then
+                    G.fleta_warning_text = UIBox{
+                        definition =
+                        {n=G.UIT.ROOT, config = {align = 'cm', colour = G.C.CLEAR, padding = 0.2}, nodes={
+                            {n=G.UIT.R, config = {align = 'cm', maxw = 1}, nodes={
+                                {n=G.UIT.O, config={object = DynaText({scale = 0.7, string = localize('ph_losing_hand'), maxw = 9, colours = {G.C.WHITE},float = true, shadow = true, silent = true, pop_in = 0, pop_in_rate = 6})}},
+                            }},
+                            {n=G.UIT.R, config = {align = 'cm', maxw = 1}, nodes={
+                                {n=G.UIT.O, config={object = DynaText({scale = 0.6, string = localize("ph_fleta_musical_chair"), maxw = 9, colours = {G.C.WHITE},float = true, shadow = true, silent = true, pop_in = 0, pop_in_rate = 6})}},
+                            }}
+                        }},
+                        config = {
+                            align = 'cm',
+                            offset ={x=0,y=-1.7},
+                            major = G.play,
+                        }
+                    }
+                    G.fleta_warning_text.attention_text = true
+                    G.fleta_warning_text.states.collide.can = false
+                    local fleta = SMODS.find_card("j_sgt_fleta", true)[1]
+                    if fleta then
+                        fleta:juice_up(0.05, 0.1)
+                    end
+                    play_sound('chips1', math.random()*0.1 + 0.55, 0.12)
+                end
+            else
+                G.fleta_throw_hand = nil
+                if G.fleta_warning_text then
+                    G.fleta_warning_text:remove()
+                    G.fleta_warning_text = nil
+                end
+            end
+        end
         -- Adam's ability to enable perishable in shop (take Orange Stake effect into account)
         if not (Ortalab or G.GAME.perishable_already_active) then
             G.GAME.modifiers.enable_perishables_in_shop = next(Sagatro.find_active_card("j_sgt_adam")) and true or nil
@@ -652,6 +901,16 @@ function Game:update(dt)
             if prev ~= G.GAME.modifiers.no_blind_reward.Boss then
                 prev = G.GAME.modifiers.no_blind_reward.Boss
                 Sagatro.update_blind_amounts(true)
+            end
+        end
+        if G.GAME.door_puzzle_active then
+            local at_least_most = G.HUD_blind and G.HUD_blind:get_UIE_by_ID("HUD_blind_score_at_least_most")
+            if at_least_most then
+                at_least_most.config.text = localize("ph_solve_the")
+                G.GAME.blind.chip_text = localize("ph_door_puzzle")
+                if G.GAME.blind.chips ~= to_big(1e300) then
+                    G.GAME.blind.chips = to_big(1e300)
+                end
             end
         end
     elseif G.STAGE == G.STAGES.MAIN_MENU then
@@ -695,6 +954,48 @@ function Game:update(dt)
                             + (v.ability.in_transition and 5 or 0)
                             v.children.center:set_sprite_pos(v.ability.anim_pos)
                         end
+                    elseif v.config.center_key == "j_sgt_goldia" and v.config.center.discovered then
+                        v.ability.hide_name_tag = v.ability.immutable.stage ~= "name_recalled" and v.ability.immutable.stage ~= "dawn"
+                        and (G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers))
+                    end
+                end
+            end
+        end
+    end
+
+    if Sagatro.temp_areas.jokers then
+        if Sagatro.temp_areas.jokers.cards and type(Sagatro.temp_areas.jokers.cards) == "table" then
+            for _, v in ipairs(Sagatro.temp_areas.jokers.cards) do
+                if v.config.center_key == "j_sgt_submarine" and v.config.center.discovered then
+                    v.ability.anim_dt = v.ability.anim_dt + dt
+                    v.ability.anim_transition_path = v.ability.immutable.old_depth_level - v.ability.immutable.depth_level
+                    if v.ability.anim_dt > 0.125 then
+                        v.ability.anim_dt = v.ability.anim_dt - 0.125
+                        if v.ability.anim_pos.x == 11 and v.ability.anim_transition_path ~= 0 and not v.ability.in_transition then
+                            if v.ability.anim_transition_path > 0 then
+                                v.ability.anim_pos.x = 6
+                            elseif v.ability.anim_transition_path < 0 then
+                                v.ability.anim_pos.x = 0
+                            end
+                            v.ability.in_transition = true
+                        elseif (v.ability.anim_pos.x == 5 and v.ability.anim_transition_path < 0 and v.ability.in_transition)
+                        or v.ability.anim_pos.x == 11 then
+                            v.ability.anim_pos.x = 0
+                            v.ability.in_transition = false
+                            v.ability.immutable.old_depth_level = v.ability.immutable.depth_level
+                            v.ability.anim_transition_path = v.ability.immutable.old_depth_level - v.ability.immutable.depth_level
+                        else
+                            v.ability.anim_pos.x = v.ability.anim_pos.x + 1
+                        end
+                        local pending_up = 0
+                        if v.ability.anim_transition_path ~= 0 then
+                            if v.ability.anim_transition_path > 0 and not v.ability.in_transition then
+                                pending_up = 1
+                            end
+                        end
+                        v.ability.anim_pos.y = (math.min(v.ability.immutable.old_depth_level, v.ability.immutable.depth_level) - 1 + pending_up)
+                        + (v.ability.in_transition and 5 or 0)
+                        v.children.center:set_sprite_pos(v.ability.anim_pos)
                     end
                 end
             end
@@ -708,16 +1009,16 @@ function Game:update(dt)
         if nameless.pos.x == 11 then
             nameless.pos.x = 0
             nameless.soul_pos.x = 0
-            nameless.soul_pos.extra.x = 0
+            nameless.soul_pos.sgt_extra.x = 0
         else
             nameless.pos.x = nameless.pos.x + 1
             nameless.soul_pos.x = nameless.soul_pos.x + 1
-            nameless.soul_pos.extra.x = nameless.soul_pos.extra.x + 1
+            nameless.soul_pos.sgt_extra.x = nameless.soul_pos.sgt_extra.x + 1
         end
         for _, card in pairs(G.I.CARD) do
             if card and card.config.center == nameless then
                 card.children.floating_sprite:set_sprite_pos(nameless.soul_pos)
-                card.children.floating_sprite2:set_sprite_pos(nameless.soul_pos.extra)
+                card.children.floating_mid_sprite:set_sprite_pos(nameless.soul_pos.sgt_extra)
             end
         end
     end
@@ -733,7 +1034,7 @@ function Game:update(dt)
         end
         for _, card in pairs(G.I.CARD) do
             if card and card.config.center == submarine then
-                card.children.extra_sprite:set_sprite_pos(submarine.extra_pos)
+                card.children.sgt_extra_sprite:set_sprite_pos(submarine.extra_pos)
             end
         end
     end
@@ -844,100 +1145,124 @@ function Game:update(dt)
     if Sagatro.cause_crash then error("A manual crash is called. Don't be grumpy, you did this on purpose.", 0) end
 end
 
+local delete_run_ref = Game.delete_run
+function Game:delete_run()
+    delete_run_ref(self)
+    Sagatro.EventChainUtils = EMPTY(Sagatro.EventChainUtils)
+    if Sagatro.temp_music_volume then
+        G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume
+        Sagatro.temp_music_volume = nil
+        G:save_settings()
+    end
+end
+
 -- Esoteric jokers are Exotic equivalents in this mod
 local set_spritesref = Card.set_sprites
 function Card:set_sprites(_center, _front)
-	set_spritesref(self, _center, _front)
+    set_spritesref(self, _center, _front)
     if _center and _center.name == "Submarine" then
-		self.children.extra_sprite = Sprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ASSET_ATLAS[_center.atlas or _center.set],
-			_center.extra_pos
-		)
-		self.children.extra_sprite.role.draw_major = self
-		self.children.extra_sprite.states.hover.can = false
-		self.children.extra_sprite.states.click.can = false
-        self.children.extra_sprite.custom_draw = true
-	end
+        self.children.sgt_extra_sprite = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            _center.extra_pos
+        )
+        self.children.sgt_extra_sprite.role.draw_major = self
+        self.children.sgt_extra_sprite.states.hover.can = false
+        self.children.sgt_extra_sprite.states.click.can = false
+        self.children.sgt_extra_sprite.custom_draw = true
+    end
     if _center and _center.name == "The Magic Lamp" then
-		self.children.floating_sprite = Sprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ASSET_ATLAS[_center.atlas or _center.set],
-			{ x = 2, y = 1 }
-		)
-		self.children.floating_sprite.role.draw_major = self
-		self.children.floating_sprite.states.hover.can = false
-		self.children.floating_sprite.states.click.can = false
-		self.children.floating_sprite2 = Sprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ASSET_ATLAS[_center.atlas or _center.set],
-			{ x = 1, y = 1 }
-		)
-		self.children.floating_sprite2.role.draw_major = self
-		self.children.floating_sprite2.states.hover.can = false
-		self.children.floating_sprite2.states.click.can = false
-	end
+        self.children.floating_sprite = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            { x = 2, y = 1 }
+        )
+        self.children.floating_sprite.role.draw_major = self
+        self.children.floating_sprite.states.hover.can = false
+        self.children.floating_sprite.states.click.can = false
+        self.children.floating_mid_sprite = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            { x = 1, y = 1 }
+        )
+        self.children.floating_mid_sprite.role.draw_major = self
+        self.children.floating_mid_sprite.states.hover.can = false
+        self.children.floating_mid_sprite.states.click.can = false
+    end
     if _center and _center.name == "The Sinister" then
-		self.children.floating_sprite = Sprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ASSET_ATLAS[_center.atlas or _center.set],
-			{ x = 7, y = 4 }
-		)
-		self.children.floating_sprite.role.draw_major = self
-		self.children.floating_sprite.states.hover.can = false
-		self.children.floating_sprite.states.click.can = false
-	end
+        self.children.floating_sprite = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            { x = 7, y = 4 }
+        )
+        self.children.floating_sprite.role.draw_major = self
+        self.children.floating_sprite.states.hover.can = false
+        self.children.floating_sprite.states.click.can = false
+    end
     if _center and _center.name == "Anima" then
-		self.children.floating_sprite = Sprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ASSET_ATLAS[_center.atlas or _center.set],
-			{ x = 3, y = 2 }
-		)
-		self.children.floating_sprite.role.draw_major = self
-		self.children.floating_sprite.states.hover.can = false
-		self.children.floating_sprite.states.click.can = false
-	end
+        self.children.floating_sprite = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            { x = 3, y = 2 }
+        )
+        self.children.floating_sprite.role.draw_major = self
+        self.children.floating_sprite.states.hover.can = false
+        self.children.floating_sprite.states.click.can = false
+    end
     if _center and _center.name == "Soltera" then
-		self.children.floating_sprite = Sprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ASSET_ATLAS[_center.atlas or _center.set],
-			{ x = 3, y = 7 }
-		)
-		self.children.floating_sprite.role.draw_major = self
-		self.children.floating_sprite.states.hover.can = false
-		self.children.floating_sprite.states.click.can = false
-	end
-	if _center and _center.soul_pos and _center.soul_pos.extra and not Cryptid then
-		self.children.floating_sprite2 = Sprite(
-			self.T.x,
-			self.T.y,
-			self.T.w,
-			self.T.h,
-			G.ASSET_ATLAS[_center.atlas or _center.set],
-			_center.soul_pos.extra
-		)
-		self.children.floating_sprite2.role.draw_major = self
-		self.children.floating_sprite2.states.hover.can = false
-		self.children.floating_sprite2.states.click.can = false
-	end
+        self.children.floating_sprite = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            { x = 3, y = 7 }
+        )
+        self.children.floating_sprite.role.draw_major = self
+        self.children.floating_sprite.states.hover.can = false
+        self.children.floating_sprite.states.click.can = false
+    end
+    if _center and _center.soul_pos and _center.soul_pos.sgt_extra then
+        self.children.floating_mid_sprite = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            _center.soul_pos.sgt_extra
+        )
+        self.children.floating_mid_sprite.role.draw_major = self
+        self.children.floating_mid_sprite.states.hover.can = false
+        self.children.floating_mid_sprite.states.click.can = false
+    end
+    if _center and _center.soul_pos and _center.soul_pos.name_tag then
+        self.children.floating_name_tag = Sprite(
+            self.T.x,
+            self.T.y,
+            self.T.w,
+            self.T.h,
+            G.ASSET_ATLAS[_center.atlas or _center.set],
+            _center.soul_pos.name_tag
+        )
+        self.children.floating_name_tag.role.draw_major = self
+        self.children.floating_name_tag.states.hover.can = false
+        self.children.floating_name_tag.states.click.can = false
+    end
 end
 
 local can_calc_ref = Card.can_calculate
@@ -952,6 +1277,10 @@ function Card:can_calculate(ignore_debuff, ignore_sliced)
                 end
             end
         end
+    end
+    if Sagatro.event_check("door_puzzle") and G.GAME.door_puzzle_active
+    and self.ability.set == "Joker" and self.config.center_key ~= "j_sgt_goldia" then
+        return false
     end
     return is_available
 end
@@ -984,6 +1313,15 @@ function Card:calculate_rental()
             G.GAME.dollar_buffer = 0
         return true end}))
     end
+end
+
+local can_use_consumeable_ref = Card.can_use_consumeable
+function Card:can_use_consumeable(any_state, skip_check)
+    if (Sagatro.event_check("mirror_maze") or Sagatro.event_check("lisette_chase") or Sagatro.event_check("dull_glass"))
+    and self.ability.consumeable and (self.ability.consumeable.mod_conv or self.ability.consumeable.suit_conv) then
+        return false
+    end
+    return can_use_consumeable_ref(self, any_state, skip_check)
 end
 
 -- Gravistone jank
@@ -1056,8 +1394,8 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
     end
     local card = cc(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
     if card.config.center_key == "j_sgt_ugly_blobfish" then
-		card:set_perishable(true)
-	end
+        card:set_perishable(true)
+    end
     for _, group in pairs(SAGA_GROUP_POOL) do
         if _type == group then
             if G.GAME.modifiers.all_eternal then
@@ -1291,7 +1629,7 @@ function Blind:disable(...)
     if self.config.blind.key == "bl_sgt_red_queen"
     and (select(1, ...)) and select(1, ...) == "do_not_cut_score" then
         self.chips = self.chips*3
-		self.chip_text = number_format(self.chips)
+        self.chip_text = number_format(self.chips)
     end
 end
 
@@ -1306,8 +1644,86 @@ function Blind:defeat(silent)
         if self.config.blind.key and table.contains(Sagatro.story_mode_showdown, self.config.blind.key) then
             G.GAME.story_ended = G.GAME.won
         end
+        if G.GAME.entering_mirror_maze then
+            G.GAME.entering_mirror_maze = nil
+        end
+        if G.GAME.leaving_mirror_maze then
+            G.GAME.leaving_mirror_maze = nil
+            G.GAME.sgt_no_saving = nil
+            Sagatro.progress_storyline("lisette_chase", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            for _, v in ipairs(G.playing_cards) do
+                if v.ability.old_enh then
+                    v:set_ability(v.ability.old_enh)
+                    v.ability.old_enh = nil
+                end
+                if v.ability.old_edition then
+                    v:set_edition(v.ability.old_edition, nil, true)
+                    v.ability.old_edition = nil
+                end
+                if v.ability.old_seal then
+                    v:set_seal(v.ability.old_seal, true)
+                    v.ability.old_seal = nil
+                end
+            end
+            for _, v in ipairs(SMODS.find_card("j_sgt_lisette", true)) do
+                v:remove()
+            end
+            local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+            if goldia then
+                goldia:remove_sticker("pinned")
+                goldia.pinned = nil
+            end
+            Sagatro.progress_storyline("harpae_patience", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+            SMODS.add_card{key = "j_sgt_harpae"}
+        end
+        if Sagatro.event_check("dull_glass") then
+            for _, v in ipairs(SMODS.find_card("j_sgt_lisette", true)) do
+                v:remove()
+            end
+        end
+        if G.GAME.cleaning_up_mirror then
+            G.GAME.cleaning_up_mirror = nil
+            for _, v in ipairs(G.playing_cards) do
+                if v.ability.old_enh then
+                    v:set_ability(v.ability.old_enh)
+                    v.ability.old_enh = nil
+                end
+                if v.ability.old_edition then
+                    v:set_edition(v.ability.old_edition, nil, true)
+                    v.ability.old_edition = nil
+                end
+                if v.ability.old_seal then
+                    v:set_seal(v.ability.old_seal, true)
+                    v.ability.old_seal = nil
+                end
+            end
+        end
+        if G.GAME.door_puzzle_active then
+            G.GAME.door_puzzle_active = nil
+            Sagatro.progress_storyline("door_puzzle", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            local regalias = #(G.GAME.regalia_list or {})
+            if regalias == 2 then
+                G.GAME.shelved_chains.hand_drawn = "sgt_enjel_chase_prep"
+                G.GAME.shelved_chains.end_of_round = "sgt_witching_hour_ending"
+                G.GAME.goldia_tooltip_key = "witching_hour"
+            elseif regalias == 3 then
+                G.GAME.shelved_chains.end_of_round = "sgt_shattered_delusion_ending"
+                G.GAME.goldia_tooltip_key = "shattered_delusion"
+            elseif regalias == 4 then
+                G.GAME.shelved_chains.end_of_round = "sgt_platinum_ending"
+                G.GAME.goldia_tooltip_key = "platinum"
+            elseif regalias == 5 then
+                G.GAME.shelved_chains.hand_drawn = "sgt_pocket_mirror_chase_prep"
+                G.GAME.goldia_tooltip_key = "pm_chase"
+            end
+        end
+        if G.GAME.witching_hour and Sagatro.temp_music_volume then
+            G.GAME.witching_hour = nil
+            G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume or 50
+            Sagatro.temp_music_volume = nil
+        end
     end
-	dft(self, silent)
+    dft(self, silent)
 end
 
 -- Ah yes, Nameless' secret ability is to slowly flood your shop voucher with Antimatter
@@ -1389,24 +1805,24 @@ end
 ---@param table table
 table.contains = table.contains or function(table, element)
     for _, v in pairs(table) do
-		if v == element then
-			return true
-		end
-	end
-	return false
+        if v == element then
+            return true
+        end
+    end
+    return false
 end
 
 ---@param t table
 table.remove_duplicate = function(t, element)
     local times = 0
     for i, v in ipairs(t) do
-		if v == element then
-			times = times + 1
+        if v == element then
+            times = times + 1
             if times > 1 then
                 table.remove(t, i)
             end
-		end
-	end
+        end
+    end
 end
 
 ---@param table table
@@ -1419,28 +1835,51 @@ table.size = table.size or function(table)
     return size
 end
 
----@param storyline_name string
----@param interwoven boolean|nil
----@param override boolean|nil
+---@param storyline_name string The storyline key. Must exist in `Sagatro.main_storyline_list`.
+---@param interwoven boolean? `true` if the storyline will be an interwoven one.
+---@param override boolean? Set to `true` to override the current storyline.
+--- Initialize a storyline, interwoven or not.
 function Sagatro.init_storyline(storyline_name, interwoven, override)
     if not G.GAME.story_mode then return end
     if table.contains(Sagatro.main_storyline_list, storyline_name) then
         if interwoven then
             if not G.GAME.interwoven_storyline or override then
                 G.GAME.interwoven_storyline = storyline_name
+                for i = 1, #G.GAME.tags do
+                    if G.GAME.tags[i].key == "tag_sgt_progress_pie_iw" then
+                        progress_already_active = true
+                        break
+                    end
+                end
+                if not progress_already_active then
+                    add_tag{key = "tag_sgt_progress_pie_iw"}
+                    G.GAME.storyline_progress_iw = 0
+                end
             end
         else
             if G.GAME.current_storyline == "none" or override then
                 G.GAME.current_storyline = storyline_name
+                local progress_already_active = false
+                for i = 1, #G.GAME.tags do
+                    if G.GAME.tags[i].key == "tag_sgt_progress_pie" then
+                        progress_already_active = true
+                        break
+                    end
+                end
+                if not progress_already_active then
+                    add_tag{key = "tag_sgt_progress_pie"}
+                    G.GAME.storyline_progress = 0
+                end
             end
         end
     end
 end
 
----@param event_name string
----@param queue_mode "add"|"finish"|"force_add"|"force_finish"|"remove"
----@param storyline_name string
----@param interwoven string|nil
+---@param event_name string The event key.
+---@param queue_mode "add"|"finish"|"force_add"|"force_finish"|"remove" Which mode to use.
+---@param storyline_name string The storyline key, used to validate the event.
+---@param interwoven string? The interwoven storyline key, used to validate the event. It's recommended to simply pass `G.GAME.interwoven_storyline`.
+--- Progress a certain event, validated by current storyline.
 function Sagatro.progress_storyline(event_name, queue_mode, storyline_name, interwoven)
     if not G.GAME.story_mode then return end
     if storyline_name == G.GAME.current_storyline or storyline_name == interwoven then
@@ -1459,6 +1898,14 @@ function Sagatro.progress_storyline(event_name, queue_mode, storyline_name, inte
             table.remove(G.GAME.saga_event_queue, 1)
             if not table.contains(G.GAME.saga_finished_events, event_name) then
                 table.insert(G.GAME.saga_finished_events, event_name)
+                if Sagatro.progress_points[storyline_name]
+                and Sagatro.progress_points[storyline_name][event_name] then
+                    G.GAME.storyline_progress = G.GAME.storyline_progress + Sagatro.progress_points[storyline_name][event_name]
+                end
+                if interwoven and Sagatro.progress_points[interwoven]
+                and Sagatro.progress_points[interwoven][event_name] then
+                    G.GAME.storyline_progress_iw = G.GAME.storyline_progress_iw + Sagatro.progress_points[interwoven][event_name]
+                end
             end
         elseif queue_mode == "force_finish" or queue_mode == "remove" then
             local pos = 0
@@ -1474,12 +1921,21 @@ function Sagatro.progress_storyline(event_name, queue_mode, storyline_name, inte
             if queue_mode == "force_finish"
             and not table.contains(G.GAME.saga_finished_events, event_name) then
                 table.insert(G.GAME.saga_finished_events, event_name)
+                if Sagatro.progress_points[storyline_name]
+                and Sagatro.progress_points[storyline_name][event_name] then
+                    G.GAME.storyline_progress = G.GAME.storyline_progress + Sagatro.progress_points[storyline_name][event_name]
+                end
+                if interwoven and Sagatro.progress_points[interwoven]
+                and Sagatro.progress_points[interwoven][event_name] then
+                    G.GAME.storyline_progress_iw = G.GAME.storyline_progress_iw + Sagatro.progress_points[interwoven][event_name]
+                end
             end
         end
     end
 end
 
----@param storyline_name string
+---@param storyline_name string The storyline key.
+--- Check for the current storyline.
 function Sagatro.storyline_check(storyline_name)
     if not G.GAME.story_mode then return false end
     local table = {G.GAME.current_storyline, G.GAME.interwoven_storyline}
@@ -1489,10 +1945,10 @@ function Sagatro.storyline_check(storyline_name)
     return false
 end
 
----@param event_table string|table string or table of strings
----@param flag boolean|nil if `true` or `nil` (left empty), check if first element in queue matches string
----if `false`, check if queue doesn't contain string
----@param only_finished boolean|{contain: boolean}|nil only check for finished events
+---@param event_table string|string[] The event key or array of event keys.
+---@param flag boolean? If `true` or `nil` (left empty), check if first element in queue matches string. If `false`, check if queue doesn't contain string.
+---@param only_finished boolean|{contain: boolean}? Only check for finished events.
+--- Check for the current event in various ways.
 function Sagatro.event_check(event_table, flag, only_finished)
     if not G.GAME.story_mode then return false end
     if flag == nil then flag = true end
@@ -1652,8 +2108,9 @@ function Sagatro.necronomicon_get_weight(card)
     return weight
 end
 
----@param weight number|nil weight number to generate rarity from
----@param override string|nil forced rarity
+---@param weight number?
+---@param override string?
+--- Necronomicon's helper function to decide the rarity to be created based on weight.
 function Sagatro.necronomicon_get_rarity(weight, override)
     if not override then
         for _, v in ipairs(Sagatro.necronomicon.rarity_order) do
@@ -1902,8 +2359,10 @@ function Sagatro.random_destroy(used_tarot)
     return destroyed_cards
 end
 
----@param seed string
----@param count integer
+---@param seed string A unique string.
+---@param area table|CardArea The area to select from.
+---@param count integer Number of elements to be selected.
+--- Select a certain amount of random cards in an area.
 function Sagatro.random_select(seed, area, count)
     local temp_hand = {}
     local selected_cards = {}
@@ -1921,6 +2380,7 @@ end
 
 ---@param table table
 ---@param suit string
+--- Comb Jellyfish's helper function to scan suit keys from its table, taking wild cards into effect.
 function Sagatro.suit_scan(table, suit)
     local empty_original_suit = false
     for k, v in pairs(table) do
@@ -1944,6 +2404,7 @@ end
 ---@param amount integer
 ---@return boolean
 ---@return integer
+--- Comb Jellyfish's helper function to check for suit records in its table.
 function Sagatro.check_suit_record(table, amount)
     local count = 0
     for _, v in pairs(table) do
@@ -2108,9 +2569,10 @@ SMODS.Scoring_Calculation {
     text = '/',
 }
 
----@param card table|Card must be a card object
----@param args table|nil configurable arguments, supports `no_destruction_context`, `no_sound`, `sound`, `pitch` and `volume`
----@param extra_func function|nil extra function to execute
+---@param card table|Card The card to self-destruct.
+---@param args table? Configurable arguments, supports `no_destruction_context`, `no_sound`, `sound`, `pitch` and `volume`.
+---@param extra_func function? Extra function to execute.
+--- A customizable Gros-Michel-like self-destruct function.
 function Sagatro.self_destruct(card, args, extra_func)
     args = args or {}
     if not args.no_destruction_context then
@@ -2150,6 +2612,10 @@ function Sagatro.set_ability_reset_keys()
         "buffed",
         "debuffed_by_turquoise_jellyfish",
         "inactive",
+        "shatters_on_destroy",
+        "hide_name_tag",
+        "door_colour",
+        "saved_once",
     }
 end
 
@@ -2187,6 +2653,20 @@ function Sagatro:calculate(context)
             end
             if Sagatro.storyline_check("alice_in_wonderland") then
                 G.GAME.switch_bonus = G.GAME.switch_bonus + Sagatro.ability.switch_bonus
+            end
+            if G.GAME.delayed_joker_slot then
+                G.GAME.rounds_per_joker_slot = G.GAME.rounds_per_joker_slot or (G.GAME.sgt_lenient_score and 18 or 15)
+                for i = 3, 1, -1 do
+                    if G.GAME.round >= i*G.GAME.rounds_per_joker_slot then
+                        if G.GAME.delayed_joker_slot == 4 - i then
+                            G.jokers:change_size(1)
+                            G.GAME.delayed_joker_slot = G.GAME.delayed_joker_slot - 1
+                            return {
+                                message = localize{type='variable',key='sgt_plus_joker_slot',vars={1}},
+                            }
+                        end
+                    end
+                end
             end
         end
         if context.after then
@@ -2236,7 +2716,24 @@ function Sagatro:calculate(context)
         if context.check_eternal then
             local card = context.other_card
             if card.config.center_key == "j_sgt_submarine"
-            or card.config.center_key == "j_sgt_mirror" then
+            or card.config.center_key == "j_sgt_mirror"
+            or card.config.center_key == "j_sgt_goldia"
+            or card.config.center_key == "j_sgt_fleta"
+            or card.config.center_key == "j_sgt_harpae"
+            or card.config.center_key == "j_sgt_lisette"
+            or card.config.center_key == "m_sgt_mirror"
+            or card.config.center_key == "j_sgt_enjel"
+            or card.config.center_key == "j_sgt_platinum"
+            or card.config.center_key == "j_sgt_ozzy" then
+                return {no_destroy = true}
+            end
+            if Sagatro.event_check("goldia_transformation")
+            and (card.config.center_key == "j_sgt_pocket_mirror"
+            or card.config.center_key == "j_sgt_knife_fork"
+            or card.config.center_key == "j_sgt_rose_bell"
+            or card.config.center_key == "j_sgt_moon_hairbrush"
+            or card.config.center_key == "j_sgt_snow_scissors"
+            or card.config.center_key == "j_sgt_angel_scythe") then
                 return {no_destroy = true}
             end
             if card.ability.set == "Joker" and not card.config.center.mirrorworld and G.GAME.inversed_scaling then
@@ -2251,8 +2748,12 @@ function Sagatro:calculate(context)
             for _, v in ipairs(G.shop_booster.cards) do
                 if v.ability.booster_pos == 1 then
                     if G.GAME.round == 1 then
-                        v:set_ability("p_buffoon_jumbo_1")
-                        Sagatro.resize(v)
+                        v.story_starter = true
+                        v.ability.extra = #G.P_CENTER_POOLS["Story Starter"]
+                        if Sagatro.storyline_check("pocket_mirror") then
+                            v.ability.extra = 1
+                            v.contains_pocket_mirror = true
+                        end
                         v.ability.couponed = true
                         v:set_cost()
                     end
@@ -2260,6 +2761,35 @@ function Sagatro:calculate(context)
                     juice_card_until(v, eval, true)
                 end
                 break
+            end
+        end
+        if context.ending_shop then
+            if Sagatro.event_check("the_pocket_mirror") then
+                return {
+                    func = function()
+                        play_sound('timpani')
+                        SMODS.add_card{key = "j_sgt_pocket_mirror"}
+                        return true
+                    end
+                }
+            end
+            if Sagatro.event_check("door_puzzle") and not next(SMODS.find_card("j_sgt_enjel", true)) then
+                return {
+                    func = function()
+                        local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
+                        local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
+                        if goldia and pmirror then
+                            local enjel = SMODS.add_card{key = "j_sgt_enjel"}
+                            local goldia_pos, pmirror_pos, enjel_pos =
+                            Sagatro.get_pos(goldia), Sagatro.get_pos(pmirror), Sagatro.get_pos(enjel)
+                            local to_the_right = goldia_pos < pmirror_pos
+                            for _ = enjel_pos, goldia_pos + (to_the_right and 1 or 2), -1 do
+                                Sagatro.swap(enjel, "left")
+                            end
+                        end
+                        return true
+                    end,
+                }
             end
         end
         if context.setting_ability then
@@ -2273,6 +2803,12 @@ function Sagatro:calculate(context)
             or context.prevent_tag_trigger.name == 'Alien Tag') then
                 return {prevent_trigger = true}
             end
+        end
+    end
+    if context.check_eternal and not G.GAME.story_mode then
+        local card = context.other_card
+        if card.ability.platinum_reflection then
+            return {no_destroy = true}
         end
     end
     if context.final_scoring_step and not context.retrigger_joker and G.GAME.inversed_scaling then
@@ -2289,10 +2825,14 @@ function Sagatro:calculate(context)
             G.GAME.first_hand_played = true
         return true end}))
     end
-    if context.ante_change and context.ante_end and not context.retrigger_joker
-    and Sagatro.played_this_ante_compat() then
-        for _, v in pairs(G.GAME.hands) do
-            v.played_this_ante = 0
+    if context.ante_change and not context.retrigger_joker then
+        if context.ante_end and Sagatro.played_this_ante_compat() then
+            for _, v in pairs(G.GAME.hands) do
+                v.played_this_ante = 0
+            end
+        end
+        if context.ante_change < 0 then
+            G.GAME.ante_reduced = (G.GAME.ante_reduced or 0) - context.ante_change
         end
     end
     if ((context.ante_change and context.ante_change < 0) or context.sgt_ante_interrupt)
@@ -2327,6 +2867,10 @@ function Sagatro:calculate(context)
                 end
             end
         end
+    end
+    if context.prevent_tag_trigger and G.GAME.pending_mega_buffoon
+    and context.prevent_tag_trigger.config.type == "new_blind_choice" then
+        return {prevent_trigger = true}
     end
 end
 
@@ -2874,7 +3418,7 @@ function Sagatro.process_edible_fish(card, context)
                 end
             end
         end
-        local edible_fish, weight_tally = {}, 1
+        local edible_fish, weight_tally, key_tally = {}, 0, ""
         for _, joker in ipairs(jokers) do
             if not card.getting_sliced
             and not SMODS.is_eternal(joker, card) and not joker.getting_sliced
@@ -2882,6 +3426,7 @@ function Sagatro.process_edible_fish(card, context)
             and joker.ability.immutable.weight_level < card.ability.immutable.weight_level then
                 if weight_tally < joker.ability.immutable.weight_level then
                     weight_tally = joker.ability.immutable.weight_level
+                    key_tally = joker.config.center_key
                 end
                 if card.config.center_key == "j_sgt_dolphin" or joker.config.center_key ~= "j_sgt_pufferfish" then
                     edible_fish[#edible_fish+1] = joker
@@ -2905,7 +3450,7 @@ function Sagatro.process_edible_fish(card, context)
                     fish:start_dissolve({G.C.RED}, true, 1.6)
                 end
                 play_sound('sgt_swallow', 0.96+math.random()*0.08)
-                Sagatro.process_edible_weight(card, weight_tally)
+                Sagatro.process_edible_weight(card, weight_tally, key_tally)
                 if dolphin_high then
                     dolphin_high = nil
                     card.ability.dolphin_high = true
@@ -2918,7 +3463,9 @@ function Sagatro.process_edible_fish(card, context)
 end
 
 ---@param weight_level 1|2|3|4
-function Sagatro.process_edible_weight(card, weight_level)
+---@param key string
+--- Fish joker's helper function to decide the result weight based on eaten weight. Can also specify eaten fish's `key`.
+function Sagatro.process_edible_weight(card, weight_level, key)
     local roll = pseudorandom("fish_eating_weight")
     local chosen_weight, chosen_type, options = nil, nil, {}
     if weight_level == 1 then
@@ -2970,6 +3517,9 @@ function Sagatro.process_edible_weight(card, weight_level)
     card.ability.immutable.eaten_type = chosen_type
     card.ability.immutable.fish_round_tally = options.round and options.duration
     card.ability.immutable.fish_hand_tally = options.hand and options.duration
+    card.ability.immutable.eaten_key = key
+    local eval = function(_card) return not _card.states.hover.is end
+    juice_card_until(card, eval, true)
 end
 
 function Sagatro.process_edible_state(card, eaten_object)
@@ -2994,6 +3544,17 @@ function Sagatro.fish_loc_vars(info_queue, card)
         local no_reshuffle = card.ability.immutable.no_reshuffle
         local round_tally = card.ability.immutable.fish_round_tally
         local hand_tally = card.ability.immutable.fish_hand_tally
+        local eaten_key = card.ability.immutable.eaten_key
+        if eaten_key then
+            info_queue[#info_queue+1] = {
+                generate_ui = saga_tooltip,
+                set = "fish_effect",
+                key = "eaten_fish_key",
+                title = localize("eaten_fish_key"),
+                specific_vars = {localize{type = 'name_text', set = "Joker", key = eaten_key, nodes = {}}},
+                colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
+            }
+        end
         if not _weight then
             info_queue[#info_queue+1] = {
                 generate_ui = saga_tooltip,
@@ -3007,7 +3568,7 @@ function Sagatro.fish_loc_vars(info_queue, card)
                 set = "fish_effect",
                 key = "weight".._weight.."_type".._type,
                 title = localize("fish_effect_active"),
-                specific_vars = {round_tally or hand_tally},
+                specific_vars = {round_tally or hand_tally, colours = {G.C.RARITY[({"Common", "Uncommon", "Rare", "sgt_obscure"})[_weight]]}},
                 colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
             }
         end
@@ -3017,7 +3578,7 @@ function Sagatro.fish_loc_vars(info_queue, card)
                 set = "fish_effect",
                 key = "weight1_type4",
                 title = localize("fish_effect_stackable"),
-                specific_vars = {_stack},
+                specific_vars = {_stack, colours = {G.C.RARITY[1]}},
                 colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
             }
         end
@@ -3027,6 +3588,7 @@ function Sagatro.fish_loc_vars(info_queue, card)
                 set = "fish_effect",
                 key = "weight2_type1",
                 title = localize("fish_effect_active"),
+                specific_vars = {colours = {G.C.RARITY[2]}},
                 colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.5),
             }
         end
@@ -3043,10 +3605,12 @@ function Sagatro.resolve_fuel(mod)
             card.ability.immutable.states.fuel_left = 0
             card:add_sticker("sgt_imminent_doom", true)
             G.GAME.imminent_doom = true
+            G.GAME.defeating_agent = "ph_out_of_fuel"
         else
             if card.ability.immutable.states.hunger_left > 0 then
                 card:remove_sticker("sgt_imminent_doom")
                 G.GAME.imminent_doom = nil
+                G.GAME.defeating_agent = nil
             end
             if card.ability.immutable.states.fuel_left <= 1.5 and not card.ability.immutable.states.low_fuel then
                 card.ability.immutable.states.low_fuel = true
@@ -3091,10 +3655,12 @@ function Sagatro.resolve_hunger(mod)
             card.ability.immutable.states.hunger_left = 0
             card:add_sticker("sgt_imminent_doom", true)
             G.GAME.imminent_doom = true
+            G.GAME.defeating_agent = "ph_out_of_food"
         else
             if card.ability.immutable.states.fuel_left > 0 then
                 card:remove_sticker("sgt_imminent_doom")
                 G.GAME.imminent_doom = nil
+                G.GAME.defeating_agent = nil
             end
             if card.ability.immutable.states.hunger_left <= 1.5 and not card.ability.immutable.states.starvation then
                 card.ability.immutable.states.starvation = true
@@ -3142,6 +3708,8 @@ function Sagatro.global_set_cost(from_event)
     end
 end
 
+---@param card table|Card
+--- Retrieve the position of a card in its area.
 function Sagatro.get_pos(card)
     if card.area then
         for i, v in ipairs(card.area.cards) do
@@ -3231,6 +3799,7 @@ function Sagatro.stall_ante()
 end
 
 ---@param beta_vercode string
+--- Helper function to decide compatibility based on SMODS version.
 function Sagatro.backward_compat(beta_vercode)
     local _, i = SMODS.version:find("1.0.0~BETA")
     if i then
@@ -3265,8 +3834,30 @@ function Sagatro.handle_dissolve(card, dissolve, dissolve_time)
     }))
 end
 
+---@param e? table
+function Sagatro.process_draw_from_play(e)
+    local play_count = #G.play.cards
+    local it = 1
+    for _, v in ipairs(G.play.cards) do
+        if (not v.shattered) and (not v.destroyed) then
+            local flags = SMODS.calculate_context({sgt_draw_from_play = true, other_card = v})
+            flags.to = flags.to or G.discard
+            flags.dir = flags.dir or "down"
+            draw_card(G.play, v.debuff and G.discard or flags.to, it*100/play_count,
+            v.debuff and "down" or flags.dir, flags.to == G.hand, v)
+            it = it + 1
+        end
+    end
+end
+
+-- Overriding this for now. TODO: move to SMODS method on dependency bump
+G.FUNCS.draw_from_play_to_discard = function(e)
+    Sagatro.process_draw_from_play(e)
+end
+
 ---@param card table|Card
----@param dir "left"|"right"|nil
+---@param dir "left"|"right"|"leftmost"|"rightmost"?
+--- Move a card one space to the left or right or to leftmost/rightmost in its area.
 function Sagatro.swap(card, dir)
     dir = dir or "right"
     if not card.area then return end
@@ -3282,15 +3873,67 @@ function Sagatro.swap(card, dir)
         card.area.cards[card.rank].rank = card.rank - 1
         table.sort(card.area.cards, function (a, b) return a.rank < b.rank end)
         card.area:align_cards()
+    elseif dir == "leftmost" and card.rank > 1 then
+        local pos = Sagatro.get_pos(card)
+        for _ = pos, 2, -1 do
+            Sagatro.swap(card, "left")
+        end
+    elseif dir == "rightmost" and card.rank < #card.area.cards then
+        local pos = Sagatro.get_pos(card)
+        for _ = pos, #card.area.cards - 1 do
+            Sagatro.swap(card)
+        end
     end
 end
 
----@param cls SMODS.GameObject
----@param key string
----@param obj table
----@param silent boolean?
----@param from_mod Mod|table?
+---@param card table|Card
+---@param area table|CardArea
+---@param args? table
+--- Move a card from one area to another.
+function Sagatro.move_to_area(card, area, args)
+    args = args or {}
+    if not card.area then return end
+    card.area:remove_card(card)
+    area:emplace(card, args.front and "front")
+end
+
+function Sagatro.unhighlight_all()
+    if G.STAGE == G.STAGES.RUN then
+        G.jokers:unhighlight_all()
+        G.consumeables:unhighlight_all()
+        G.hand:unhighlight_all()
+    end
+end
+
+---@param enh string Enhancement key
 ---@return string?
+function Sagatro.get_upgraded_enh(enh)
+    if enh == "m_bonus" then
+        return "m_sgt_favor"
+    elseif enh == "m_mult" then
+        return "m_sgt_exponent"
+    elseif enh == "m_wild" then
+        return "m_sgt_strange"
+    elseif enh == "m_glass" then
+        return "m_sgt_nyx_glass"
+    elseif enh == "m_steel" then
+        return "m_sgt_titanium"
+    elseif enh == "m_stone" then
+        return "m_sgt_abyss_stone"
+    elseif enh == "m_gold" then
+        return "m_sgt_platinum"
+    elseif enh == "m_lucky" then
+        return "m_sgt_ancient_lucky"
+    end
+end
+
+---@param cls SMODS.GameObject The class to invoke `take_ownership` from.
+---@param key string Object key. Ignores class prefix (e.g. "splash" instead of "j_splash").
+---@param obj table Table of contents to modify the object with.
+---@param silent boolean? Set to `true` to remove mod badge.
+---@param from_mod Mod|table? The mod performing `take_ownership`. Defaults to this mod.
+---@return string?
+--- Take control of a registered object at runtime. Proof-of-concept function.
 function Sagatro.runtime_ownership(cls, key, obj, silent, from_mod)
     assert(not obj.inject, 'Overriding "inject" field is not allowed.')
     SMODS.current_mod = from_mod or Sagatro
@@ -3401,9 +4044,119 @@ SMODS.Keybind {
     end
 }
 
----@param mod number
----@param operator "+"|"X"|"^"|"^^"|"^^^"|{hyper: number}|nil
----@param arbitrary boolean|nil
+local sr = save_run
+function save_run()
+    if G.GAME.story_mode and G.GAME.sgt_no_saving then
+        return
+    end
+    return sr()
+end
+
+function Sagatro.can_save()
+    return G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.SHOP
+end
+
+function Sagatro.save_exclusion()
+    return G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.PLANET_PACK or G.STATE ==
+        G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.STANDARD_PACK or G.STATE == G.STATES.BUFFOON_PACK or
+        G.STATE == G.STATES.SMODS_BOOSTER_OPENED or G.STATE == G.STATES.SMODS_REDEEM_VOUCHER or
+        G.STATE == G.STATES.DRAW_TO_HAND or G.STATE == G.STATES.HAND_PLAYED or G.STATE == G.STATES.ROUND_EVAL
+end
+
+---@param action "save"|"load"|"delete"
+---@param index integer
+--- Handle saving/loading from separate files.
+function Sagatro.handle_save(action, index)
+    if action == "save" and G.GAME.story_mode then
+        if G.STAGE == G.STAGES.RUN then
+            if Sagatro.can_save() then
+                save_run()
+            end
+            if G.ARGS.save_run then
+                G.ARGS.save_run.GAME.story_save_date = os.date("%d/%m/%Y %H:%M:%S")
+                compress_and_save(G.SETTINGS.profile.."/"..Sagatro.save_name..index..".jkr", G.ARGS.save_run)
+            end
+        end
+    elseif action == "load" then
+        if G.OVERLAY_MENU then G.FUNCS.exit_overlay_menu() end
+        if Sagatro.config.QuickRestart or Sagatro.debug or (Handy and Handy.animation_skip.should_skip_everything()) then
+            G:delete_run()
+            G.SAVED_GAME = get_compressed(G.SETTINGS.profile.."/"..Sagatro.save_name..index..".jkr")
+            if G.SAVED_GAME ~= nil then
+                G.SAVED_GAME = STR_UNPACK(G.SAVED_GAME)
+            end
+            G:start_run({
+                savetext = G.SAVED_GAME
+            })
+        else
+            G.E_MANAGER:clear_queue()
+            G.FUNCS.wipe_on()
+            G.E_MANAGER:add_event(Event({
+                no_delete = true,
+                func = function()
+                G:delete_run()
+                return true
+                end
+            }))
+            G.E_MANAGER:add_event(Event({
+                trigger = 'immediate',
+                no_delete = true,
+                func = function()
+                    G.SAVED_GAME = get_compressed(G.SETTINGS.profile.."/"..Sagatro.save_name..index..".jkr")
+                    if G.SAVED_GAME ~= nil then
+                        G.SAVED_GAME = STR_UNPACK(G.SAVED_GAME)
+                    end
+                    G:start_run({
+                        savetext = G.SAVED_GAME
+                    })
+                return true
+                end
+            }))
+            G.FUNCS.wipe_off()
+        end
+    elseif action == "delete" then
+        love.filesystem.remove(G.SETTINGS.profile.."/"..Sagatro.save_name..index..".jkr")
+    end
+end
+
+---@param from integer|string
+---@param to integer|string
+function Sagatro.set_goldia_stage(from, to)
+    for _, goldia in ipairs(SMODS.find_card("j_sgt_goldia", true)) do
+        if goldia.ability.immutable.stage == from then
+            goldia.ability.immutable.stage = to
+        end
+    end
+end
+
+---@param defeating_agent string?
+--- Cause game over at an arbitrary time. Can specify a valid `localize`able string or a center key.
+function Sagatro.game_over(defeating_agent)
+    if G.STAGE == G.STAGES.RUN and not G.GAME.game_over then
+        G.GAME.defeating_agent = defeating_agent
+        G.GAME.game_over = true
+        G.RESET_BLIND_STATES = true
+        G.RESET_JIGGLES = true
+        G.STATE = G.STATES.GAME_OVER
+        if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+            G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+        end
+        G:save_settings()
+        G.FILE_HANDLER.force = true
+        G.STATE_COMPLETE = false
+    end
+end
+
+function Sagatro.remove_temp_areas()
+    for area, _ in pairs(Sagatro.temp_areas) do
+        Sagatro.temp_areas[area]:remove()
+        Sagatro.temp_areas[area] = nil
+    end
+end
+
+---@param mod number The modify amount.
+---@param operator "+"|"X"|"^"|"^^"|"^^^"|{hyper: number}? The operator to use. SUpports Talisman hyperoperations.
+---@param arbitrary boolean? Set to `true` to automatically end round when invoked at an arbitrary time.
 function Sagatro.modify_score(mod, operator, arbitrary)
     if not G.GAME.facing_blind then return end
     operator = operator or "+"
@@ -3449,7 +4202,7 @@ local tag_zodiac_align = {2, 2, 3, 4, 4, 5, 5, 6}
 
 local at = add_tag
 function add_tag(tag)
-	at(tag)
+    at(tag)
     local max_tag_count = 13
     if Ortalab then
         local zodiac_count = G.HUD_zodiac and #G.HUD_zodiac or 0
@@ -3466,7 +4219,7 @@ end
 
 local tr = Tag.remove
 function Tag:remove()
-	tr(self)
+    tr(self)
     local max_tag_count = 13
     if Ortalab then
         local zodiac_count = G.HUD_zodiac and #G.HUD_zodiac or 0
@@ -3616,6 +4369,9 @@ function SMODS.calculate_individual_effect(effect, scored_card, key, amount, fro
         end
         return true
     end
+    if key == 'sgt_draw_card' then
+        return amount
+    end
 end
 
 for _, v in ipairs{'sgt_e_mult','sgt_emult','sgt_Emult_mod'} do
@@ -3626,7 +4382,8 @@ for _, v in ipairs{'sgt_a_score', 'sgt_ascore', 'sgt_Ascore_mod',
                     'sgt_e_score', 'sgt_escore', 'sgt_Escore_mod',
                     'sgt_ee_score', 'sgt_eescore', 'sgt_EEscore_mod',
                     'sgt_eee_score', 'sgt_eeescore', 'sgt_EEEscore_mod',
-                    'sgt_hyper_score', 'sgt_hyperscore', 'sgt_hyperscore_mod'} do
+                    'sgt_hyper_score', 'sgt_hyperscore', 'sgt_hyperscore_mod',
+                    'sgt_draw_card'} do
     table.insert(SMODS.other_calculation_keys, v)
 end
 
@@ -3716,7 +4473,7 @@ Sagatro.config_tab = function()
             {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
                 create_toggle({label = localize('SGT_lenient_score'), ref_table = Sagatro.config, ref_value = 'LenientScore', info = localize('SGT_lenient_score_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
             }},
-		}},
+        }},
         {n=G.UIT.R, config = {minh = 0.04, minw = 4, colour = Sagatro.badge_colour}},
         {n=G.UIT.R, config = {align = 'cm', padding = 0.2}, nodes = {
             {n=G.UIT.T, config = {scale = 0.5, text = localize('SGT_misc_settings'), colour = G.C.WHITE}}
@@ -3726,7 +4483,8 @@ Sagatro.config_tab = function()
                 create_toggle({label = localize('SGT_disable_sagatro_items'), ref_table = Sagatro.config, ref_value = 'DisableSagatroItems', info = localize('SGT_disable_sagatro_items_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
             }},
             {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
-                create_toggle({label = localize('SGT_sagatro_music'), ref_table = Sagatro.config, ref_value = 'SagatroMusic', info = localize('SGT_sagatro_music_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
+                -- create_toggle({label = localize('SGT_sagatro_music'), ref_table = Sagatro.config, ref_value = 'SagatroMusic', info = localize('SGT_sagatro_music_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
+                create_option_cycle({label = localize('SGT_sagatro_music'), current_option = Sagatro.config.SagatroMusicOption, options = localize('SGT_sagatro_music_options'), ref_table = Sagatro.config, ref_value = 'SagatroMusicOption', info = localize('SGT_sagatro_music_desc'), colour = Sagatro.badge_colour, w = 3.7*0.65/(5/6), h=0.8*0.65/(5/6), text_scale=0.5*0.65/(5/6), scale=5/6, no_pips = true, opt_callback = 'cycle_update'}),
             }},
         }},
         {n=G.UIT.R, config = {align = 'cm', padding = 0.2}, nodes = {
@@ -3741,7 +4499,7 @@ Sagatro.config_tab = function()
 end
 
 if Overflow and Overflow.blacklist then
-	Overflow.blacklist["c_sgt_iustitia_sacra"] = true
+    Overflow.blacklist["c_sgt_iustitia_sacra"] = true
 end
 
 if JokerDisplay then
@@ -3832,12 +4590,12 @@ function Card:click()
 end
 
 local card_single_tap = Card.single_tap
-function Card:single_tap()
-    if card_single_tap then
+if card_single_tap then
+    function Card:single_tap()
         card_single_tap(self)
-    end
-    if self.sagatro_target then
-        G.FUNCS.openModUI_Sagatro{config = {page = "mod_desc", fromAlice = true}}
+        if self.sagatro_target then
+            G.FUNCS.openModUI_Sagatro{config = {page = "mod_desc", fromAlice = true}}
+        end
     end
 end
 
@@ -3846,8 +4604,9 @@ function Sagatro.help()
     if Sagatro.debug then
         print("Sagatro debug commands:")
         print("Sagatro.help() or help(): show this help screen.")
+        print("Sagatro.DT_save_remove(card): remove card without triggering remove_from_deck. Useful to bypass Sagatro.game_over calls.")
         print("Sagatro.DT_boss(blind_key): Reroll the boss to the specified one.")
-        print("Sagatro.DT_isl(storyline_name): Instantly initialize storyline_name.")
+        print("Sagatro.DT_isl(storyline_name, options): Instantly initialize storyline_name. Pass a table to options for finer control over storyline state.")
         print("Sagatro.DT_rarity(): print out modifications of each rarity pool.")
         print("Sagatro.DT_event(): show event queue and list of finished events.")
         print("Sagatro.DT_i(): Prints debug info Sagatro will give in crash screen.")
@@ -3862,18 +4621,51 @@ end
 
 help = help or Sagatro.help
 
-function Sagatro.DT_boss(blind_key)
-    if blind_key and G.P_BLINDS[blind_key]
-    and G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
-        G.FORCE_BOSS = blind_key
-        G.from_boss_tag = true
-        G.FUNCS.reroll_boss()
-        G.FORCE_BOSS = nil
+function Sagatro.DT_safe_remove(card)
+    if Sagatro.debug then
+        G.in_delete_run = true
+        if type(card) == "string" then
+            card = SMODS.find_card(card, true)[1]
+            if not card then return "Failed: card not found." end
+        end
+        if card.config.center_key == "j_sgt_rose_bell"
+        or card.config.center_key == "j_sgt_moon_hairbrush"
+        or card.config.center_key == "j_sgt_snow_scissors" then
+            for i, v in ipairs(G.GAME.regalia_list or {}) do
+                if v == card.config.center_key then
+                    table.remove(G.GAME.regalia_list, i)
+                    break
+                end
+            end
+        end
+        card:remove()
+        if not next(SMODS.find_card(card.config.center.key, true)) then
+            G.GAME.used_jokers[card.config.center.key] = nil
+        end
+        G.in_delete_run = false
+        return "Removed target without triggering remove_from_deck."
     end
+    return "Debug commands are unavailable."
 end
 
-function Sagatro.DT_isl(storyline_name)
+function Sagatro.DT_boss(blind_key)
     if Sagatro.debug then
+        if blind_key and G.P_BLINDS[blind_key]
+        and G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
+            G.FORCE_BOSS = blind_key
+            G.from_boss_tag = true
+            G.FUNCS.reroll_boss()
+            G.FORCE_BOSS = nil
+            return "Changed boss blind to "..blind_key.."."
+        end
+        return "Failed: blind does not exist or not in blind select screen."
+    end
+    return "Debug commands are unavailable."
+end
+
+function Sagatro.DT_isl(storyline_name, options)
+    if Sagatro.debug then
+        options = options or {}
         if Sagatro.storyline_check("none") then
             if storyline_name == "alice_in_wonderland" then
                 SMODS.add_card{key = "j_sgt_white_rabbit"}
@@ -3882,6 +4674,17 @@ function Sagatro.DT_isl(storyline_name)
             elseif storyline_name == "alice_in_mirrorworld" then
                 SMODS.add_card{key = "j_sgt_white_rabbit"}
                 SMODS.add_card{key = "j_sgt_mirror"}
+            elseif storyline_name == "pocket_mirror" then
+                SMODS.add_card{key = "j_sgt_goldia"}
+                if options.transform then
+                    Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                    SMODS.add_card{key = "j_sgt_pocket_mirror"}
+                    SMODS.add_card{key = "j_sgt_knife_fork"}
+                    SMODS.add_card{key = "j_sgt_rose_bell"}
+                    SMODS.add_card{key = "j_sgt_moon_hairbrush"}
+                    SMODS.add_card{key = "j_sgt_snow_scissors"}
+                    SMODS.add_card{key = "j_sgt_angel_scythe"}
+                end
             end
             return "Initialized '"..storyline_name.."'"
         end

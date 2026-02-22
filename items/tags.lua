@@ -1,3 +1,49 @@
+local progress_pie = {
+    key = "progress_pie",
+    name = "Progress Chart",
+    atlas = "progress_pie",
+    pos = {x = 0, y = 0},
+    no_collection = true,
+    exclude_from_pool = true,
+    set_ability = function(self, tag)
+        tag.ability.in_run = true
+    end,
+    in_pool = function(self, args)
+        return false
+    end,
+    loc_vars = function(self, info_queue, tag)
+        if not tag.ability.in_run or tag.fake_tag then
+            return {key = "tag_sgt_progress_pie_collection"}
+        end
+        local ret = {vars = {G.GAME.storyline_progress or 0, colours = {(G.GAME.storyline_progress or 0) < 100 and G.C.FILTER or G.C.GREEN}}}
+        if G.GAME.current_storyline == "alice_in_wonderland" then
+            ret.key = "tag_sgt_progress_pie_alice_in_wond"
+        end
+        return ret
+    end,
+}
+
+local progress_pie_iw = {
+    key = "progress_pie_iw",
+    name = "Progress Chart",
+    atlas = "progress_pie",
+    pos = {x = 0, y = 0},
+    no_collection = true,
+    exclude_from_pool = true,
+    set_ability = function(self, tag)
+        tag.ability.in_run = true
+    end,
+    in_pool = function(self, args)
+        return false
+    end,
+    loc_vars = function(self, info_queue, tag)
+        if not tag.ability.in_run or tag.fake_tag then
+            return {key = "tag_sgt_progress_pie_iw_collection"}
+        end
+        return {vars = {G.GAME.storyline_progress_iw or 0, colours = {(G.GAME.storyline_progress_iw or 0) < 100 and G.C.FILTER or G.C.GREEN}}}
+    end,
+}
+
 local holy = {
     key = "holy",
     name = "Holy Tag",
@@ -139,6 +185,8 @@ local obscure = {
 }
 
 local tag_table = {
+    progress_pie,
+    progress_pie_iw,
     holy,
     alien,
     ghostly,

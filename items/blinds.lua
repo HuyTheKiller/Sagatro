@@ -8,9 +8,9 @@ local red_queen = {
     dollars = 10,
     boss = {
         min = 1,
-		max = 10,
-		showdown = true,
-	},
+        max = 10,
+        showdown = true,
+    },
     boss_colour = HEX("AA0000"),
     recalc_debuff = function(self, card, from_blind)
         if card.area ~= G.jokers and not G.GAME.blind.disabled then
@@ -19,9 +19,9 @@ local red_queen = {
         return false
     end,
     disable = function(self)
-		G.GAME.blind.chips = G.GAME.blind.chips/3
-		G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-	end,
+        G.GAME.blind.chips = G.GAME.blind.chips/3
+        G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
+    end,
     defeat = function(self)
         if G.GAME.story_mode then
             Sagatro.progress_storyline("final_showdown", "finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
@@ -29,7 +29,7 @@ local red_queen = {
                 G.GAME.paused_showdown = nil
                 G.GAME.mirrorworld_showdown = true
             end
-		end
+        end
     end,
     in_pool = function(self)
         return not (G.GAME.story_mode or next(SMODS.find_card("j_sgt_red_queen", true)) or G.GAME.modifiers.sgt_disable_sagatro_items)
@@ -46,9 +46,9 @@ local turquoise_jellyfish = {
     dollars = 8,
     boss = {
         min = 1,
-		max = 10,
-		showdown = true,
-	},
+        max = 10,
+        showdown = true,
+    },
     boss_colour = HEX("31CFB2"),
     press_play = function(self)
         G.E_MANAGER:add_event(Event({func = function()
@@ -88,7 +88,7 @@ local turquoise_jellyfish = {
                 card.ability.immutable.pending_go_down = nil
                 G.FUNCS.submarine_down({config = {ref_table = card}}, true)
             end
-		end
+        end
     end,
     in_pool = function(self)
         return not (G.GAME.story_mode or G.GAME.modifiers.sgt_disable_sagatro_items)
@@ -105,9 +105,9 @@ local aqua_eyeshard = {
     dollars = 8,
     boss = {
         min = 1,
-		max = 10,
-		showdown = true,
-	},
+        max = 10,
+        showdown = true,
+    },
     boss_colour = HEX("24B2CE"),
     set_blind = function(self, reset, silent)
         if not reset then
@@ -132,7 +132,7 @@ local aqua_eyeshard = {
                 card.ability.immutable.pending_go_down = nil
                 G.FUNCS.submarine_down({config = {ref_table = card}}, true)
             end
-		end
+        end
     end,
     in_pool = function(self)
         return not (G.GAME.story_mode or G.GAME.modifiers.sgt_disable_sagatro_items)
@@ -149,9 +149,9 @@ local black_oil = {
     dollars = 8,
     boss = {
         min = 1,
-		max = 10,
-		showdown = true,
-	},
+        max = 10,
+        showdown = true,
+    },
     boss_colour = HEX("2F6771"),
     defeat = function(self)
         if G.GAME.story_mode then
@@ -161,7 +161,7 @@ local black_oil = {
                 card.ability.immutable.pending_go_down = nil
                 G.FUNCS.submarine_down({config = {ref_table = card}}, true)
             end
-		end
+        end
     end,
     in_pool = function(self)
         return not (G.GAME.story_mode or G.GAME.modifiers.sgt_disable_sagatro_items)
@@ -178,9 +178,9 @@ local shadow_seamine = {
     dollars = 8,
     boss = {
         min = 1,
-		max = 10,
-		showdown = true,
-	},
+        max = 10,
+        showdown = true,
+    },
     boss_colour = HEX("086F84"),
     calculate = function(self, blind, context)
         if context.after and not (blind.disabled or context.retrigger_joker) then --???
@@ -213,7 +213,7 @@ local shadow_seamine = {
                 G.FUNCS.submarine_down({config = {ref_table = card}}, true)
                 G.GAME.nyx_abyss_incoming = true
             end
-		end
+        end
     end,
     in_pool = function(self)
         return not (G.GAME.story_mode or G.GAME.modifiers.sgt_disable_sagatro_items)
@@ -236,9 +236,9 @@ local nyx_abyss = {
     dollars = 8,
     boss = {
         min = 1,
-		max = 10,
-		showdown = true,
-	},
+        max = 10,
+        showdown = true,
+    },
     boss_colour = HEX("430D44"),
     config = {extra = {hands_removed = 0, hand_size = 1}},
     calculate = function(self, blind, context)
@@ -268,7 +268,7 @@ local nyx_abyss = {
                 card.ability.immutable.pending_go_down = nil
                 G.GAME.nyx_abyss_incoming = nil
             end
-		end
+        end
     end,
     in_pool = function(self)
         return not (G.GAME.story_mode or G.GAME.modifiers.sgt_disable_sagatro_items)
@@ -285,8 +285,8 @@ local the_pawn = {
     dollars = 5,
     boss = {
         min = 2,
-		max = 10,
-	},
+        max = 10,
+    },
     boss_colour = HEX("901a1a"),
     config = {extra = {chips = 75}},
     modify_hand = function(self, cards, poker_hands, text, mult, hand_chips)
@@ -299,7 +299,7 @@ local the_pawn = {
     defeat = function(self)
         if G.GAME.story_mode then
             Sagatro.progress_storyline("the_pawn", "force_finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
-		end
+        end
     end,
     in_pool = function(self)
         return G.GAME.round_resets.ante >= self.boss.min and not (G.GAME.story_mode or G.GAME.modifiers.sgt_disable_sagatro_items)
@@ -324,8 +324,8 @@ local the_rook = {
     dollars = 5,
     boss = {
         min = 4,
-		max = 10,
-	},
+        max = 10,
+    },
     boss_colour = HEX("901a1a"),
     press_play = function(self)
         for _, v in ipairs(G.hand.cards) do
@@ -342,7 +342,7 @@ local the_rook = {
     defeat = function(self)
         if G.GAME.story_mode then
             Sagatro.progress_storyline("the_rook", "force_finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
-		end
+        end
     end,
     in_pool = function(self)
         return G.GAME.round_resets.ante >= self.boss.min and not (G.GAME.story_mode or G.GAME.modifiers.sgt_disable_sagatro_items)
@@ -359,8 +359,8 @@ local the_knight = {
     dollars = 5,
     boss = {
         min = 5,
-		max = 10,
-	},
+        max = 10,
+    },
     boss_colour = HEX("901a1a"),
     calculate = function(self, blind, context)
         if context.before then
@@ -374,7 +374,7 @@ local the_knight = {
     defeat = function(self)
         if G.GAME.story_mode then
             Sagatro.progress_storyline("the_knight", "force_finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
-		end
+        end
     end,
     in_pool = function(self)
         return G.GAME.round_resets.ante >= self.boss.min and not (G.GAME.story_mode or G.GAME.modifiers.sgt_disable_sagatro_items)
@@ -391,8 +391,8 @@ local the_bishop = {
     dollars = 5,
     boss = {
         min = 5,
-		max = 10,
-	},
+        max = 10,
+    },
     boss_colour = HEX("901a1a"),
     recalc_debuff = function(self, card, from_blind)
         if card.ability.set == "Default" or card.ability.set == "Enhanced" then
@@ -403,7 +403,7 @@ local the_bishop = {
     defeat = function(self)
         if G.GAME.story_mode then
             Sagatro.progress_storyline("the_bishop", "force_finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
-		end
+        end
     end,
     in_pool = function(self)
         return G.GAME.round_resets.ante >= self.boss.min and not (G.GAME.story_mode or G.GAME.modifiers.sgt_disable_sagatro_items)
@@ -463,7 +463,7 @@ local true_red_queen = {
     defeat = function(self)
         if G.GAME.story_mode then
             Sagatro.progress_storyline("true_red_queen", "force_finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
-		end
+        end
     end,
     in_pool = function(self)
         return not (G.GAME.story_mode or G.GAME.modifiers.sgt_disable_sagatro_items)
@@ -527,7 +527,7 @@ local red_king = {
     defeat = function(self)
         if G.GAME.story_mode then
             Sagatro.progress_storyline("red_king", "force_finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
-		end
+        end
     end,
     in_pool = function(self)
         return not (G.GAME.story_mode or G.GAME.modifiers.sgt_disable_sagatro_items)

@@ -187,6 +187,44 @@ return {
             },
         },
         Tag = {
+            tag_sgt_progress_pie = {
+                name = "Biểu Đồ Tiến Trình",
+                text = {
+                    "Cho biết tiến trình hiện tại của",
+                    "trận chế độ cốt truyện này",
+                    "{C:inactive}(Hiện tại là {V:1}#1#%{C:inactive})",
+                },
+            },
+            tag_sgt_progress_pie_alice_in_wond = {
+                name = "Biểu Đồ Tiến Trình",
+                text = {
+                    "Cho biết tiến trình hiện tại của",
+                    "trận chế độ cốt truyện này",
+                    "{C:inactive}(Đang chờ được làm lại)",
+                },
+            },
+            tag_sgt_progress_pie_collection = {
+                name = "Biểu Đồ Tiến Trình",
+                text = {
+                    "Cho biết tiến trình hiện tại của",
+                    "một trận chế độ cốt truyện",
+                },
+            },
+            tag_sgt_progress_pie_iw = {
+                name = "Biểu Đồ Tiến Trình",
+                text = {
+                    "Cho biết tiến trình lồng hiện tại",
+                    "của trận chế độ cốt truyện này",
+                    "{C:inactive}(Hiện tại là {V:1}#1#%{C:inactive})",
+                },
+            },
+            tag_sgt_progress_pie_iw_collection = {
+                name = "Biểu Đồ Tiến Trình",
+                text = {
+                    "Cho biết tiến trình lồng hiện tại",
+                    "của một trận chế độ cốt truyện",
+                },
+            },
             tag_sgt_holy = {
                 name = "Nhãn Thiêng",
                 text = {
@@ -439,41 +477,41 @@ return {
                 },
             },
             undiscovered_divinatio = {
-				name = "Chưa Khám Phá",
+                name = "Chưa Khám Phá",
                 text = {
                     "Mua hoặc dùng",
                     "lá này trong một",
                     "trận ngẫu nhiên",
                     "để biết tác dụng của nó",
                 },
-			},
+            },
             undiscovered_celestara = {
-				name = "Chưa Khám Phá",
+                name = "Chưa Khám Phá",
                 text = {
                     "Mua hoặc dùng",
                     "lá này trong một",
                     "trận ngẫu nhiên",
                     "để biết tác dụng của nó",
                 },
-			},
+            },
             undiscovered_eldritch = {
-				name = "Chưa Khám Phá",
+                name = "Chưa Khám Phá",
                 text = {
                     "Mua hoặc dùng",
                     "lá này trong một",
                     "trận ngẫu nhiên",
                     "để biết tác dụng của nó",
                 },
-			},
+            },
             undiscovered_supply = {
-				name = "Chưa Khám Phá",
-				text = {
-					"Mua hoặc dùng lá này",
+                name = "Chưa Khám Phá",
+                text = {
+                    "Mua hoặc dùng lá này",
                     "trong một trận ngẫu nhiên",
-					"ở {C:sgt_sagadition}chế độ cốt truyện{}",
-					"để biết tác dụng của nó",
-				},
-			},
+                    "ở {C:sgt_sagadition}chế độ cốt truyện{}",
+                    "để biết tác dụng của nó",
+                },
+            },
             p_sgt_divinatio_normal = {
                 name = "Gói Chiêm Mộng",
                 text = {
@@ -555,12 +593,12 @@ return {
                 },
             },
             sgt_protected = {
-				name = "Bảo Vệ",
-				text = {
-					"{C:attention}Miễn nhiễm{} với",
-					"vô hiệu hoá",
-				},
-			},
+                name = "Bảo Vệ",
+                text = {
+                    "{C:attention}Miễn nhiễm{} với",
+                    "vô hiệu hoá",
+                },
+            },
             sgt_off_depth = {
                 name = "Lệch Độ Sâu",
                 text = {
@@ -767,6 +805,23 @@ return {
                     "không thể bán hoặc bị phá huỷ",
                 },
             },
+            sgt_soul_storyline = {
+                text = {
+                    "Dùng lá này ngay để",
+                    "{C:attention}bắt đầu{} một mạch truyện",
+                    "{C:legendary,E:1}Huyền Thoại{} ngẫu nhiên",
+                },
+            },
+            sgt_pocket_mirror = {
+                name = "Ghi Chú Quan Trọng",
+                text = {
+                    "Phải ở bên",
+                    "cạnh {C:attention}#1#{}",
+                    "khi {C:attention}Blind{}",
+                    "được chọn và",
+                    "ở cuối ván",
+                },
+            },
             sgt_switch_cooldown = {
                 name = "Hồi Chiêu Chuyển Đổi",
                 text = {
@@ -840,6 +895,24 @@ return {
                     "Joker này không thể bị bán",
                     "cho đến khi {C:attention}#1#{} ván đã trôi qua",
                     "{C:inactive}({C:attention}#2#{C:inactive}/#1#)",
+                },
+            },
+            sgt_play_pocket_mirror = {
+                name = "Pocket Mirror",
+                text = {
+                    "Mạch truyện ẩn này là cách",
+                    "chúng tôi tôn trọng nguyên tác",
+                    "{C:attention}Pocket Mirror ~ GoldenerTraum{}",
+                    "Chơi game này trên Steam:",
+                    "{s:0.8,C:blue,u:blue}store.steampowered.com/app/1899060/",
+                },
+            },
+            sgt_inflation = {
+                name = "Lạm Phát",
+                text = {
+                    "Vĩnh viễn tăng",
+                    "giá thêm {C:money}$1{} sau",
+                    "mỗi lần mua",
                 },
             },
         },
@@ -1265,7 +1338,7 @@ return {
                 name = "Nhật Thần",
                 text = {
                     "Tạo ra một {C:attention}Joker {C:sgt_sagadition,E:1}Celestaverse",
-					"{C:sgt_esoteric,E:1}Bí Truyền{} ngẫu nhiên, loại bỏ mọi",
+                    "{C:sgt_esoteric,E:1}Bí Truyền{} ngẫu nhiên, loại bỏ mọi",
                     "level khỏi các {C:attention}tay poker{}",
                 },
             },
@@ -1523,8 +1596,8 @@ return {
                 name = "Hắc Thần",
                 text = {
                     "Tạo ra một {C:attention}Joker {C:sgt_sagadition,E:1}Lovecraft",
-					"{C:sgt_esoteric,E:1}Bí Truyền{} ngẫu nhiên, áp {C:attention}Ngắn Hạn",
-					"lên mọi Joker khác",
+                    "{C:sgt_esoteric,E:1}Bí Truyền{} ngẫu nhiên, áp {C:attention}Ngắn Hạn",
+                    "lên mọi Joker khác",
                 }
             },
             c_sgt_void_hole = {
@@ -1592,7 +1665,7 @@ return {
                     "Lá 2 bị {C:attention}phá huỷ{} sau khi ghi điểm",
                 },
             },
-            j_sgt_kid_gloves_and_fan_story_mode = {
+            j_sgt_kid_gloves_and_fan_storymode = {
                 name = "Găng Tay Và Chiếc Quạt",
                 text = {
                     "{C:chips}+#2#{} Chip",
@@ -2455,8 +2528,8 @@ return {
                 name = "Mực Khổng Lồ Nam Cực",
                 text = {
                     "{C:attention}Tái kích{} mọi lá",
-					"{C:attention}10{}, {C:attention}#1#{} hoặc {C:attention}#2#",
-					"đã chơi hoặc giữ trên tay",
+                    "{C:attention}10{}, {C:attention}#1#{} hoặc {C:attention}#2#",
+                    "đã chơi hoặc giữ trên tay",
                 },
             },
             j_sgt_chimaera = {
@@ -2536,7 +2609,7 @@ return {
                 name = "Cá Đuôi Chuột",
                 text = {
                     "Nếu {C:attention}tay bài ghi điểm{} chứa nhiều bậc",
-					"riêng biệt, thêm một {C:attention}con dấu{} ngẫu nhiên",
+                    "riêng biệt, thêm một {C:attention}con dấu{} ngẫu nhiên",
                     "lên lá ghi điểm có {C:attention}bậc thấp nhất",
                 },
             },
@@ -2574,7 +2647,7 @@ return {
                 },
             },
             j_sgt_white_pawn = {
-                name = "Tốt Trắng",
+                name = "Con Hàu",
                 text = {
                     {"Nếu tay bài đã chơi chứa {C:attention}#1#{}",
                     "và chỉ một lá có chất {C:hearts}Cơ{} hoặc",
@@ -2603,7 +2676,7 @@ return {
                 },
             },
             j_sgt_live_flowers = {
-                name = "Chùm Hoa Biết Nói",
+                name = "Hoa Loa Kèn Vằn",
                 text = {
                     "{C:mult}+#1#{} Nhân",
                     "{C:mult}-#2#{} Nhân mỗi tay bài đã chơi",
@@ -2660,26 +2733,26 @@ return {
             j_sgt_tweedledum = {
                 name = "Ò E Anh",
                 text = {
-                    {"Lá đã chơi với",
-                    "bậc {C:attention}chẵn{} ghi thêm",
-                    "{X:chips,C:white}X#2#{} Chip khi ghi điểm",
+                    {"Nếu {C:attention}Vua Trắng{} sắp bị",
+                    "phá huỷ, {C:red,E:2}tự huỷ{} thay cho nó"},
+                    {"Lá đã chơi với bậc {C:attention}chẵn{} ghi",
+                    "thêm {X:chips,C:white}X#2#{} Chip khi ghi điểm",
                     "{C:inactive}(10, 8, 6, 4, 2)"},
-                    {"Lá đã chơi với",
-                    "bậc {C:attention}lẻ{} ghi thêm",
-                    "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                    {"Lá đã chơi với bậc {C:attention}lẻ{} ghi",
+                    "thêm {X:mult,C:white}X#1#{} Nhân khi ghi điểm",
                     "{C:inactive}(A, 9, 7, 5, 3)"},
                 },
             },
             j_sgt_tweedledee = {
                 name = "Ò E Em",
                 text = {
-                    {"Lá đã chơi với",
-                    "bậc {C:attention}lẻ{} ghi thêm",
-                    "{X:chips,C:white}X#2#{} Chip khi ghi điểm",
+                    {"Nếu {C:attention}Vua Trắng{} sắp bị",
+                    "phá huỷ, {C:red,E:2}tự huỷ{} thay cho nó"},
+                    {"Lá đã chơi với bậc {C:attention}lẻ{} ghi",
+                    "thêm {X:chips,C:white}X#2#{} Chip khi ghi điểm",
                     "{C:inactive}(A, 9, 7, 5, 3)"},
-                    {"Lá đã chơi với",
-                    "bậc {C:attention}chẵn{} ghi thêm",
-                    "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                    {"Lá đã chơi với bậc {C:attention}chẵn{} ghi",
+                    "thêm {X:mult,C:white}X#1#{} Nhân khi ghi điểm",
                     "{C:inactive}(10, 8, 6, 4, 2)"},
                 },
             },
@@ -2717,11 +2790,9 @@ return {
                 },
             },
             j_sgt_white_rook = {
-                name = "Xe Trắng",
+                name = "Nai Con",
                 text = {
-                    {"Nếu {C:attention}Vua Trắng{} sắp bị",
-                    "phá huỷ, {C:red,E:2}tự huỷ{} thay cho nó",
-                    "Áp dụng {C:attention}Bốn Ngón Tay{} nếu có",
+                    {"Áp dụng {C:attention}Bốn Ngón Tay{} nếu có",
                     "một lá {C:attention}không bậc{} giữ trên tay"},
                     {"{C:mult}+#1#*A{} Nhân, với A bằng hiệu của",
                     "tổng lá {C:spades}Bích{} và {C:clubs}Tép{} trên tay",
@@ -2738,7 +2809,7 @@ return {
                 },
             },
             j_sgt_white_bishop = {
-                name = "Tượng Trắng",
+                name = "Hoa Cúc",
                 text = {
                     "{X:mult,C:white}X#1#{} Nhân nếu tay bài",
                     "ghi điểm chỉ chứa {C:spades}Bích{} hoặc {C:clubs}Tép{}",
@@ -2786,7 +2857,7 @@ return {
                 },
             },
             j_sgt_seal_and_carpenter = {
-                name = "Hải Cẩu Và Thợ Mộc",
+                name = "Thợ Mộc",
                 text = {
                     "Khi ván bắt đầu, {C:attention}phá huỷ{} một",
                     "{C:attention}lá bài thường{} ngẫu nhiên trên tay",
@@ -2852,6 +2923,303 @@ return {
                     "Mỗi joker thuộc về {C:sgt_sagadition}Alice",
                     "{C:sgt_sagadition}ở Xứ Sở Trong Gương{}",
                     "cho {X:mult,C:white}X#1#{} Nhân",
+                },
+            },
+            j_sgt_goldia = {
+                name = "Goldia",
+                text = {
+                    "{C:mult}+#1#{} Nhân",
+                    "{C:attention}X#2#{} giá trị Nhân",
+                    "ở cuối Ante",
+                },
+            },
+            j_sgt_goldia_stage_0 = {
+                name = "??????",
+                text = {
+                    "{C:mult}+#1#{} Nhân",
+                    "{C:attention}X#2#{} giá trị Nhân",
+                    "ở cuối Ante",
+                },
+            },
+            j_sgt_goldia_stage_dawn = {
+                name = "Goldia",
+                text = {
+                    "{C:mult}+#1#{} Nhân",
+                    "{C:attention}X#2#{} giá trị Nhân",
+                    "ở cuối Ante",
+                },
+            },
+            j_sgt_goldia_stage_name_recalled = {
+                name = "Goldia",
+                text = {
+                    "Tái kích mọi lá {C:attention}Đầm{} đã chơi",
+                    "Mỗi lá {C:attention}Đầm {C:hearts}Cơ{} đã chơi ghi",
+                    "thêm {X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                    "Lá {C:attention}Kính{} đã chơi ghi thêm",
+                    "{X:mult,C:white}X#2#{} Nhân khi ghi điểm",
+                },
+            },
+            j_sgt_pocket_mirror = {
+                name = "Gương Bỏ Túi",
+                text = {
+                    "{B:1,C:dark_gold}Ấn Vương{}",
+                    "{C:attention}Tái kích{}",
+                    "joker liền kề",
+                },
+            },
+            j_sgt_pocket_mirror_storymode = {
+                name = "Gương Bỏ Túi",
+                text = {
+                    {"{B:1,C:dark_gold}Ấn Vương{} {B:1,C:dark_gold}G{}",
+                    "{C:attention}Tái kích{}",
+                    "joker liền kề"},
+                    {"{C:inactive}Đừng bao giờ buông rời",
+                    "{C:inactive}nó, con nhé?"},
+                },
+            },
+            j_sgt_knife_fork = {
+                name = "Dao Và Nĩa",
+                text = {
+                    "{B:1,C:dark_gold}Ấn Vương{}",
+                    "Tái kích mọi lá {C:attention}Đầm",
+                    "đã chơi {C:attention}#1#{} lần",
+                },
+            },
+            j_sgt_knife_fork_storymode = {
+                name = "Dao Và Nĩa",
+                text = {
+                    "{B:1,C:dark_gold}Ấn Vương{} {B:1,C:dark_gold}I{}",
+                    "Tái kích mọi lá {C:attention}Đầm",
+                    "đã chơi {C:attention}#1#{} lần",
+                },
+            },
+            j_sgt_rose_bell = {
+                name = "Chuông Hồng",
+                text = {
+                    "{B:1,C:dark_gold}Ấn Vương{}",
+                    "Thêm {X:mult,C:white}X#2#{} Nhân mỗi lần",
+                    "lá {C:attention}Đầm {C:hearts}Cơ{} ghi điểm",
+                    "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_rose_bell_storymode = {
+                name = "Chuông Hồng",
+                text = {
+                    "{B:1,C:dark_gold}Ấn Vương{} {B:1,C:dark_gold}A{}",
+                    "Thêm {X:mult,C:white}X#2#{} Nhân mỗi lần",
+                    "lá {C:attention}Đầm {C:hearts}Cơ{} ghi điểm",
+                    "{C:inactive}(Hiện tại là {X:mult,C:white}X#1#{C:inactive} Nhân)",
+                },
+            },
+            j_sgt_moon_hairbrush = {
+                name = "Chiếc Lược Mặt Trăng",
+                text = {
+                    "{B:1,C:dark_gold}Ấn Vương{}",
+                    "{X:mult,C:white}X#1#{} Nhân nếu tay bài đã chơi là",
+                    "{C:attention}#2#{}, thay đổi sau mỗi tay bài",
+                },
+            },
+            j_sgt_moon_hairbrush_storymode = {
+                name = "Chiếc Lược Mặt Trăng",
+                text = {
+                    "{B:1,C:dark_gold}Ấn Vương{} {B:1,C:dark_gold}O{}",
+                    "{X:mult,C:white}X#1#{} Nhân nếu tay bài đã chơi là",
+                    "{C:attention}#2#{}, thay đổi sau mỗi tay bài",
+                },
+            },
+            j_sgt_snow_scissors = {
+                name = "Kéo Tuyết",
+                text = {
+                    "{B:1,C:dark_gold}Ấn Vương{}",
+                    "Lá {C:attention}Kính{} đã chơi ghi thêm",
+                    "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                },
+            },
+            j_sgt_snow_scissors_storymode = {
+                name = "Kéo Tuyết",
+                text = {
+                    "{B:1,C:dark_gold}Ấn Vương{} {B:1,C:dark_gold}L{}",
+                    "Lá {C:attention}Kính{} đã chơi ghi thêm",
+                    "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                },
+            },
+            j_sgt_angel_scythe = {
+                name = "Liềm Thiên Sứ",
+                text = {
+                    "{B:1,C:dark_gold}Ấn Vươong{}",
+                    "Thêm {X:chips,C:white}X#2#{} Chip ở cuối ván",
+                    "{C:inactive}(Hiện tại là {X:chips,C:white}X#1#{C:inactive} Chip)",
+                },
+            },
+            j_sgt_angel_scythe_storymode = {
+                name = "Liềm Thiên Sứ",
+                text = {
+                    "{B:1,C:dark_gold}Ấn Vươong{} {B:1,C:dark_gold}D{}",
+                    "Thêm {X:chips,C:white}X#2#{} Chip ở cuối ván",
+                    "{C:inactive}(Hiện tại là {X:chips,C:white}X#1#{C:inactive} Chip)",
+                },
+            },
+            j_sgt_egliette = {
+                name = "Egliette",
+                text = {
+                    "Tái kích mọi lá {C:attention}Đầm",
+                    "đã chơi {C:attention}#1#{} lần",
+                },
+            },
+            j_sgt_egliette_storymode = {
+                name = "Egliette",
+                text = {
+                    "Ta không thể để ngươi",
+                    "tiến xa hơn nữa, có nghĩa",
+                    "là ngươi sẽ phải {C:attention}kết thúc",
+                    "tại nơi này!",
+                },
+            },
+            j_sgt_fleta = {
+                name = "Fleta",
+                text = {
+                    "Mỗi lá {C:attention}Đầm {C:hearts}Cơ{} đã chơi ghi",
+                    "thêm {X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                },
+            },
+            j_sgt_fleta_stage_0 = {
+                name = "Fleta",
+                text = {
+                    {"Đối mặt với một {C:attention}thử thách",
+                    "mỗi Ante trong {C:attention}3{} Ante",
+                    "{C:inactive}(Bắt đầu từ Ante tiếp)"},
+                    {"Chỉ {C:attention}yêu cầu{} chiến thắng",
+                    "thử thách thứ ba"},
+                },
+            },
+            j_sgt_fleta_stage_1 = {
+                name = "Fleta",
+                text = {
+                    "Thử thách: Trò {C:attention}trí nhớ",
+                    "Chơi {C:attention}Đôi{} 3 lần",
+                    "trong một ván",
+                    "{C:inactive}({V:1}#1#{C:inactive}/3)",
+                },
+            },
+            j_sgt_fleta_stage_2 = {
+                name = "Fleta",
+                text = {
+                    "Thử thách: Thu thập {C:attention}bướm",
+                    "20 lá ngẫu nhiên trong bộ bài",
+                    "được áp nhãn {C:attention}Bướm",
+                    "Ghi điểm lá bài để thu thập chúng",
+                    "Fleta cũng sẽ cố thu thập lá không",
+                    "ghi điểm mỗi tay bài đã chơi",
+                    "{C:inactive}({C:sgt_goldiattention}#1#{C:inactive}/{C:green}#2#{C:inactive})",
+                },
+            },
+            j_sgt_fleta_stage_3 = {
+                name = "Fleta",
+                text = {
+                    "Thử thách: Ghế {C:attention}âm nhạc{}",
+                    "Không chơi lại tay poker đã chơi",
+                    "ở ván này trong {C:attention}3{} ván",
+                },
+            },
+            j_sgt_harpae = {
+                name = "Harpae",
+                text = {
+                    "Mỗi lá đã chơi ghi thêm {X:mult,C:white}X#1#{} Nhân",
+                    "khi ghi điểm nếu tay bài đã chơi là",
+                    "{C:attention}#2#{}, thay đổi sau mỗi tay bài",
+                },
+            },
+            j_sgt_harpae_storymode = {
+                name = "Harpae",
+                text = {
+                    {"Chơi tay poker được chỉ định",
+                    "nếu có thể: {C:attention}#2#{}",
+                    "Thay đổi sau mỗi tay bài",
+                    "{C:inactive}({V:1}#1#{C:inactive}/10)"},
+                    {"{C:inactive}Khi cô ấy {V:2}gục{C:inactive} ngã, cứ làm",
+                    "{C:inactive}theo những gì cô ấy bảo."},
+                },
+            },
+            j_sgt_lisette = {
+                name = "Lisette",
+                text = {
+                    "Lá {C:attention}Kính{} đã chơi ghi thêm",
+                    "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                    "Lá {C:attention}Kính{} khó bị vỡ hơn",
+                },
+            },
+            j_sgt_lisette_storymode = {
+                name = "Lisette",
+                text = {
+                    "*Ném kéo về",
+                    "phía {C:attention}#1#{}*",
+                },
+            },
+            j_sgt_enjel = {
+                name = "Enjel",
+                text = {
+                    "{C:chips}+#1#{} Chip",
+                    "{C:attention}X#2#{} giá trị Chip",
+                    "ở cuối Ante",
+                },
+            },
+            j_sgt_enjel_storymode = {
+                name = "Enjel",
+                text = {
+                    "?????",
+                },
+            },
+            j_sgt_rusty_scissors = {
+                name = "Kéo Rỉ Sét",
+                text = {
+                    "Lá {C:attention}Kính{C:green} chắc chắn",
+                    "sẽ bị vỡ",
+                },
+            },
+            j_sgt_rusty_scissors_storymode = {
+                name = "Kéo Rỉ Sét",
+                text = {
+                    "Dùng như lá tiêu thụ",
+                    "để phá huỷ lá {C:attention}Gương{}",
+                    "liền phải khi đối mặt",
+                    "với {C:attention}Lisette{}",
+                },
+            },
+            j_sgt_platinum = {
+                name = "Platinum",
+                text = {
+                    {"Tạo ra {V:1}Fleta{}, {V:2}Harpae{},",
+                    "{V:3}Lisette{} và {V:4}Enjel{}"},
+                    {"Những joker này chỉ",
+                    "hoạt động khi {V:5}Platinum{}",
+                    "ở ngay liền phải chúng"},
+                },
+            },
+            j_sgt_platinum_ending = {
+                name = "Platinum",
+                text = {
+                    {"Tạo ra {V:1}Fleta{}, {V:2}Harpae{}",
+                    "và {V:3}Lisette{}"},
+                    {"Đồng hoá {V:4}Enjel{}"},
+                },
+            },
+            j_sgt_ozzy = {
+                name = "Ozzy",
+                text = {
+                    "{C:attention}+#1#{} ô shop",
+                    "Ép lá {C:spectral}Siêu Linh{} thành",
+                    "loại lá tiêu thụ duy nhất",
+                    "ở trong shop",
+                },
+            },
+            j_sgt_ozzy_storymode = {
+                name = "Ozzy",
+                text = {
+                    "{C:attention}+#1#{} ô shop",
+                    "Vĩnh viễn áp dụng {C:attention}Lạm Phát{}",
+                    "Ép lá {C:spectral}Siêu Linh{} thành",
+                    "loại lá tiêu thụ duy nhất",
+                    "ở trong shop",
                 },
             },
             j_sgt_shub = {
@@ -3096,6 +3464,28 @@ return {
                     "{C:attention}+1{} số lá có thể chọn",
                 },
             },
+            m_sgt_mirror = {
+                name = "Lá Gương",
+                text = {
+                    "{X:mult,C:white}X#1#{} Nhân",
+                    "Không có bậc hay chất",
+                },
+            },
+            m_sgt_pm_door = {
+                name = "Cửa Bí Ẩn",
+                text = {
+                    "Chơi một cửa mỗi lần",
+                    "theo đúng thứ tự để",
+                    "giải câu đố",
+                },
+            },
+            m_sgt_pm_door_not_cool = {
+                name = "Cửa Bí Ẩn",
+                text = {
+                    "Ê! Đang làm quái gì ở đây thế?",
+                    "Cửa này chưa được khởi tạo đúng cách.",
+                },
+            },
         },
         ["Saga Tooltip"] = {
             fusion_hint = {
@@ -3119,6 +3509,32 @@ return {
                     "mạch truyện hiện tại với:",
                     "{C:sgt_sagadition}#1#{}",
                     "Độ khó: {V:1}#2#{}/5",
+                },
+            },
+            alice_in_wonderland_mech = {
+                text = {
+                    "Giải câu đố để khám",
+                    "phá joker tốt hơn.",
+                    "(Đang chờ được làm lại)",
+                },
+            },
+            ["20k_miles_under_the_sea_mech"] = {
+                text = {
+                    "Quản lý tài nguyên và dẫn",
+                    "đàn cá đến vinh quang.",
+                },
+            },
+            alice_in_mirrorworld_mech = {
+                text = {
+                    "Suy nghĩ khác biệt để tìm",
+                    "giải pháp khéo léo trước",
+                    "Nghịch Đảo.",
+                },
+            },
+            pocket_mirror_mech = {
+                text = {
+                    "Khám phá nhiều cái kết khác nhau",
+                    "trong một mạch truyện RPG nổi tiếng.",
                 },
             },
             white_rabbit = {
@@ -3234,6 +3650,14 @@ return {
                     "{s:0.8}Lên lưng tôi nhé, tôi đưa cô mau.",
                 },
             },
+            lincoln_ship = {
+                text = {
+                    "Cuộc hành trình đẫm nước đã bắt đầu!",
+                    "Ra ngoài khơi chỉ là bước đầu thôi,",
+                    "chúng ta cần phải tìm một {C:sgt_sagadition}phương tiện",
+                    "thích hợp để xuống sâu hơn!",
+                },
+            },
             submarine = {
                 text = {
                     "Sinh Tồn Rougelike đến từ {C:sgt_sagadition}Sagatro{}!",
@@ -3253,6 +3677,119 @@ return {
                     "{s:0.8,C:sgt_sagadition}Nhấn vào gương để bắt đầu",
                 },
             },
+            the_pocket_mirror = {
+                text = {
+                    "Mọi gợi ý ngầm định bạn",
+                    "đang đóng vai {C:sgt_sagadition}??????{}.",
+                    "Hãy tìm món đồ nào đó",
+                    "{C:sgt_sagadition}thuộc{} về mình ở trong shop.",
+                },
+            },
+            knife_and_fork = {
+                text = {
+                    "Hãy tiếp tục khám phá shop.",
+                    "Bạn có thể bắt gặp",
+                    "thứ gì đó {C:sgt_sagadition}sáng bóng{}.",
+                },
+            },
+            facing_egliette = {
+                text = {
+                    "Hãy bước vào {C:sgt_sagadition}Thế Giới Gương",
+                    "với một ít {C:sgt_sagadition}món vặt{}.",
+                },
+            },
+            pm_mirrorworld = {
+                text = {
+                    "Đừng quên {C:sgt_sagadition}phóng to{} bản thân",
+                    "để không {C:sgt_sagadition}thua{} trong",
+                    "ván tiếp theo.",
+                },
+            },
+            exiting_pm_mirrorworld = {
+                text = {
+                    "Hãy thoát khỏi {C:sgt_sagadition}Thế Giới Gương{}.",
+                    "Có {C:sgt_sagadition}ai đó{} đang chờ bạn bên ngoài.",
+                },
+            },
+            fleta_challenges = {
+                text = {
+                    "Cô ấy muốn bạn chơi một chút",
+                    "trò chơi nho nhỏ, nhưng cổ cũng",
+                    "khá là bướng bỉnh đó.",
+                    "Cứ {C:sgt_sagadition}bám{} theo luật là được.",
+                },
+            },
+            entering_mirror_maze = {
+                text = {
+                    "Hành lang bị lấp đầy bởi toàn",
+                    "{C:sgt_sagadition}Gương{} là gương. Bạn không",
+                    "ưa nó chút nào, nhưng cách duy nhất",
+                    "chỉ có thể là {C:sgt_sagadition}băng qua{} mà thôi.",
+                },
+            },
+            mirror_maze = {
+                text = {
+                    "Bạn cảm thấy e ngại khi",
+                    "bước qua hành lang này.",
+                    "Chắc chắn {C:sgt_sagadition}ai đó{} đang nhìn lén.",
+                },
+            },
+            lisette_chase = {
+                text = {
+                    "CHẠY ĐI! Đừng để",
+                    "cô ấy {C:sgt_sagadition}bắt được{} bạn!",
+                },
+            },
+            harpae_patience = {
+                text = {
+                    "Cô ấy muốn bảo vệ bạn mọi",
+                    "lúc. Tốt nhất là cứ nghe theo",
+                    "cô ấy đi, {C:sgt_sagadition}trừ khi{}...",
+                },
+            },
+            facing_lisette = {
+                text = {
+                    "Sớm muộn gì bạn cũng phải",
+                    "đối mặt với {C:sgt_sagadition}cô ấy{} mà thôi.",
+                },
+            },
+            dull_glass = {
+                text = {
+                    "Lần này thì cô ấy chỉ {C:sgt_sagadition}chậm rãi",
+                    "bước đến bạn, nhưng tốt nhất là cứ",
+                    "{C:sgt_sagadition}giữ khoảng cách{} nhất định.",
+                    "({C:sgt_sagadition}#1#{}/4?)",
+                },
+            },
+            witching_hour = {
+                text = {
+                    "Có vẻ như Enjel không thật lòng.",
+                    "Cô ấy có thể lộ {C:sgt_sagadition}mưu đồ",
+                    "{C:sgt_sagadition}thực sự{} nên hãy cẩn thận...",
+                },
+            },
+            shattered_delusion = {
+                text = {
+                    "Bạn bắt đầu tin tưởng",
+                    "Enjel hơn, chỉ để cô ấy",
+                    "{C:sgt_sagadition}phản bội{} bạn và...",
+                },
+            },
+            platinum = {
+                text = {
+                    "Bạn tin rằng Fleta, Harpae",
+                    "và Lisette chỉ là những",
+                    "{C:sgt_sagadition}hình chiếu{} của bản thân,",
+                    "và Enjel cũng thế...",
+                },
+            },
+            pm_chase = {
+                text = {
+                    "Có vẻ như Enjel không {C:sgt_sagadition}thật lòng{}.",
+                    "Cô ấy có thể lộ mưu đồ",
+                    "thực sự nên hãy cẩn thận...",
+                },
+            },
         },
         fish_effect = {
             pending_swallow = {
@@ -3265,8 +3802,15 @@ return {
                     "{s:0.8}xung quanh để xem mục tiêu",
                 },
             },
+            eaten_fish_key = {
+                text = {
+                    "Vừa mới ăn",
+                    "{C:attention}#1#",
+                },
+            },
             weight1_type1 = {
                 text = {
+                    "{B:1,C:white}Thường{}",
                     "Biến đổi 3 {C:attention}lá ngẫu nhiên{} trong đợt",
                     "bốc đầu tiên thành {C:attention}2{}, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3274,6 +3818,7 @@ return {
             },
             weight1_type2 = {
                 text = {
+                    "{B:1,C:white}Thường{}",
                     "{C:attention}Giảm{} bậc của 3 {C:attention}lá ngẫu nhiên",
                     "trong đợt bốc đầu tiên, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3281,6 +3826,7 @@ return {
             },
             weight1_type3 = {
                 text = {
+                    "{B:1,C:white}Thường{}",
                     "Nếu tay đã chơi là {C:attention}Đôi{}, biến đổi",
                     "chất của {C:attention}lá thứ hai{} thành",
                     "chất của {C:attention}lá đầu tiên{}, kéo dài 3 ván",
@@ -3289,6 +3835,7 @@ return {
             },
             weight1_type4 = {
                 text = {
+                    "{B:1,C:white}Thường{}",
                     "{C:chips}+10{} Chip và",
                     "{C:mult}+5{} Nhân mỗi tầng",
                     "{C:inactive}(Số tầng: {C:attention}#1#{C:inactive})",
@@ -3296,6 +3843,7 @@ return {
             },
             weight1_type5 = {
                 text = {
+                    "{B:1,C:white}Thường{}",
                     "Nếu tay đã chơi là {C:attention}Mậu Thầu{}, áp dụng",
                     "một {C:attention}cường hoá{} ngẫu nhiên lên {C:attention}lá",
                     "{C:attention}không ghi điểm đầu tiên{}, kéo dài 3 ván",
@@ -3304,12 +3852,14 @@ return {
             },
             weight2_type1 = {
                 text = {
+                    "{B:1,C:white}Ít Phổ Biến{}",
                     "Lá đã chơi và đã bỏ {C:red}sẽ không",
                     "trở về bộ bài cho đến {C:attention}cuối ante này",
                 },
             },
             weight2_type2 = {
                 text = {
+                    "{B:1,C:white}Ít Phổ Biến{}",
                     "Nếu tay đã chơi chứa {C:attention}1{} lá ghi điểm, tái kích lá",
                     "giữ trên tay {C:attention}tít bên trái{} 2 lần, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3317,6 +3867,7 @@ return {
             },
             weight2_type3 = {
                 text = {
+                    "{B:1,C:white}Ít Phổ Biến{}",
                     "Nếu tay đã chơi chứa {C:attention}2{} lá ghi điểm, mỗi",
                     "lá ghi điểm cho {C:mult}+8{} Nhân, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3324,6 +3875,7 @@ return {
             },
             weight2_type4 = {
                 text = {
+                    "{B:1,C:white}Ít Phổ Biến{}",
                     "Nếu tay đã chơi chứa {C:attention}3{} lá ghi điểm,",
                     "nhận {C:money}$6{}, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3331,6 +3883,7 @@ return {
             },
             weight2_type5 = {
                 text = {
+                    "{B:1,C:white}Ít Phổ Biến{}",
                     "Nếu tay đã chơi chứa {C:attention}4{} lá ghi điểm, mỗi",
                     "lá ghi điểm cho {X:mult,C:white}X1.5{} Nhân, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3338,6 +3891,7 @@ return {
             },
             weight2_type6 = {
                 text = {
+                    "{B:1,C:white}Ít Phổ Biến{}",
                     "Nếu tay đã chơi chứa {C:attention}5{} lá ghi điểm, mỗi",
                     "lá ghi điểm cho {X:mult,C:white}X1.4{} Nhân, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3345,6 +3899,7 @@ return {
             },
             weight3_type1 = {
                 text = {
+                    "{B:1,C:white}Hiếm{}",
                     "Ép chọn {C:attention}1{} lá mỗi tay bài, mỗi lá",
                     "giữ trên tay cho {X:mult,C:white}X1.5{} Nhân, kéo dài 5 tay bài",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3352,6 +3907,7 @@ return {
             },
             weight3_type2 = {
                 text = {
+                    "{B:1,C:white}Hiếm{}",
                     "Ép chọn {C:attention}2{} lá mỗi tay bài,",
                     "{C:attention}tái kích{} joker này, kéo dài 5 tay bài",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3359,6 +3915,7 @@ return {
             },
             weight3_type3 = {
                 text = {
+                    "{B:1,C:white}Hiếm{}",
                     "Chuyển 1 level từ {C:attention}tay poker bị bỏ đầu tiên{} của ván",
                     "sang tay poker {C:attention}chơi nhiều nhất{}, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3366,6 +3923,7 @@ return {
             },
             weight3_type4 = {
                 text = {
+                    "{B:1,C:white}Hiếm{}",
                     "Nếu lượt bỏ đầu tiên của ván chỉ có {C:attention}1{} lá,",
                     "áp dụng một {C:attention}cường hoá{} ngẫu nhiên (đôi khi có",
                     "{C:dark_edition}ấn bản{} và/hoặc {C:attention}con dấu{}) cho nó, kéo dài 3 ván",
@@ -3374,6 +3932,7 @@ return {
             },
             weight3_type5 = {
                 text = {
+                    "{B:1,C:white}Hiếm{}",
                     "{C:attention}Biến đổi{} những lá bị bỏ thành 1 lá bị bỏ ngẫu nhiên",
                     "trong {C:attention}lượt bỏ cuối{} của ván, kéo dài 1 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3381,6 +3940,7 @@ return {
             },
             weight4_type1 = {
                 text = {
+                    "{B:1,C:white}Mờ Mịt{}",
                     "{C:attention}Tái kích{} joker này",
                     "2 lần, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3388,6 +3948,7 @@ return {
             },
             weight4_type2 = {
                 text = {
+                    "{B:1,C:white}Mờ Mịt{}",
                     "{C:attention}Biến đổi{} mọi lá giữ trên tay thành",
                     "một {C:attention}lá đã chơi{} ngẫu nhiên, kéo dài 1 tay bài",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3395,6 +3956,7 @@ return {
             },
             weight4_type3 = {
                 text = {
+                    "{B:1,C:white}Mờ Mịt{}",
                     "Nhân đôi số tiên hiện có",
                     "ở cuối ván, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3402,6 +3964,7 @@ return {
             },
             weight4_type4 = {
                 text = {
+                    "{B:1,C:white}Mờ Mịt{}",
                     "{X:dark_edition,C:white}^1.05{} Điểm,",
                     "kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3409,6 +3972,7 @@ return {
             },
             weight4_type5 = {
                 text = {
+                    "{B:1,C:white}Mờ Mịt{}",
                     "Mỗi lá giữ trên tay cho",
                     "{X:dark_edition,C:white}^1.1{} Nhân, kéo dài 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
@@ -3512,7 +4076,9 @@ return {
                 text = {
                     "{s:1.3}Thêm yếu tố {s:1.3,C:dark_edition}cổ tích {s:1.3}vào Balatro.",
                     " ",
-                    "Nhạc được dùng không có bản quyền. Có thể live stream thoả thích!",
+                    "Một số Nhạc được dùng không có bản quyền. trừ nhạc ngoại.",
+                    "Nếu gặp vấn đề, vào tab Tuỳ Chọn của mod này và sử dụng",
+                    "tuỳ chọn \"Không nhạc ngoại\" của Nhạc Sagatro.",
                     " ",
                     "Danh đề:",
                     "{C:attention}Hình Ảnh Gốc{}: HuyCorn, Amy, TNhie, Kazumi, D.J.",
@@ -3524,6 +4090,24 @@ return {
         },
     },
     misc = {
+        achievement_names = {
+            ach_sgt_pm_bad_end_1 = "Búp Bê Sứ",
+            ach_sgt_pm_bad_end_2 = "Mù Loà",
+            ach_sgt_pm_normal_end_1 = "Platinum",
+            ach_sgt_pm_normal_end_2 = "Bình Minh",
+            ach_sgt_pm_normal_end_3 = "Little Goody Two Shoes",
+            ach_sgt_pm_unknown_end_1 = "Giờ Ma Quỷ",
+            ach_sgt_pm_unknown_end_2 = "Ảo Mộng Tan Vỡ",
+        },
+        achievement_descriptions = {
+            ach_sgt_pm_bad_end_1 = "Thua thử thách thứ ba của Fleta",
+            ach_sgt_pm_bad_end_2 = "Chơi hoàn hảo như yêu cầu của Harpae",
+            ach_sgt_pm_normal_end_1 = "Dùng 4 ấn vương để Biến đổi ??????",
+            ach_sgt_pm_normal_end_2 = "Dùng 5 ấn vương để Biến đổi ??????",
+            ach_sgt_pm_normal_end_3 = "Dùng 6 ấn vương để Biến đổi ??????",
+            ach_sgt_pm_unknown_end_1 = "Không lấy được nhiều hơn 2 ấn vương",
+            ach_sgt_pm_unknown_end_2 = "Không lấy được nhiều hơn 3 ấn vương",
+        },
         labels = {
             k_sgt_trivial = "Tầm Thường",
             k_sgt_obscure = "Mờ Mịt",
@@ -3556,6 +4140,9 @@ return {
         v_dictionary = {
             sgt_rank_of_suit = "#1# #2#",
             sgt_plus_spectrals = "+#1# Siêu Linh",
+            sgt_save_slots_used = "Ô đã dùng: #1#/#2#",
+            sgt_plus_joker_slot = "+#1# ô Joker",
+            sgt_plus_joker_slots = "+#1# ô Joker",
         },
         v_text = {
             ch_c_sgt_disable_sagatro_items = { "Vật phẩm của {C:sgt_sagadition}Sagatro{} không còn xuất hiện trong {C:attention}shop" },
@@ -3568,8 +4155,8 @@ return {
             ch_c_sgt_inversion_text5 = { "được chơi trừ đi 1 trong trận này" },
         },
         poker_hands = {
-			sgt_Any = "bất kì tay nào",
-		},
+            sgt_Any = "bất kì tay nào",
+        },
         dictionary = {
             k_sgt_trivial = "Tầm Thường",
             k_sgt_obscure = "Mờ Mịt",
@@ -3592,9 +4179,11 @@ return {
             saga_tooltip = "Gợi ý tiến triển",
             saga_fusion_tooltip = "Kết hợp joker",
             saga_storyline_start = "Khởi động",
+            saga_mechanic = "Cơ chế mạch truyện",
             pending_swallow = "Nuốt Cá",
             fish_effect_active = "Hiệu Ứng Hiện Tại",
             fish_effect_stackable = "Hiệu Ứng Tích Tầng",
+            eaten_fish_key = "Ăn Cá",
             sgt_roll0 = "Úi! Xúc Sắc Real",
             sgt_roll1 = "Số một",
             sgt_roll2 = "Số hai",
@@ -3607,8 +4196,16 @@ return {
             b_sgt_down = "XUỐNG",
             b_sgt_ready = "S.SÀNG",
             b_sgt_switch = "CHUYỂN",
+            b_sgt_transform = "BIẾN ĐỔI",
             b_delete_ace = "Huỷ Át",
             b_dont_even_try = "Đừng cố nữa",
+            b_from_save = "Từ Bản Lưu",
+            b_savebox = "Hộp Lưu",
+            b_save = "Lưu",
+            b_load = "Tải",
+            b_delete = "Xoá",
+            b_saveload_list = "Danh sách lưu/tải",
+            b_wipe_all_saves = "Xoá hết bản lưu",
             k_in_a_hurry_ex = "Tranh thủ lên!",
             k_too_late_ex = "Trễ rồi!",
             k_shrunk_ex = "Thu Nhỏ!",
@@ -3679,8 +4276,17 @@ return {
             k_consumed_ex = "Tiêu Thụ!",
             k_kaboom_ex = "Bùm!",
             k_incoming_ex = "Sắp Đến!",
+            k_caught_ex = "Bắt Được!",
+            k_good_ex = "Tốt Lắm!",
+            k_down_ex = "Gục!",
+            k_calm_down_ex = "Bình Tĩnh!",
             k_plus_divinatio = "+1 Chiêm Mộng",
             k_plus_celestara = "+1 Huyền Thể",
+            k_empty = "Trống",
+            k_saveload_runs = "Lưu/tải trận chế độ cốt truyện",
+            k_most_recent_voucher_cap1 = "PHIẾU",
+            k_most_recent_voucher_cap2 = "GẦN NHẤT",
+            k_save_date = "Ngày lưu",
             ph_per_face_down = " mỗi lá sấp",
             ph_trial_begins = "Khai Toà!",
             ph_plus_ante = "+1 Ante",
@@ -3695,14 +4301,30 @@ return {
             ph_20k = "2 Vạn Dặm Dưới Biển",
             ph_alice_in_mirr = "Alice ở Xứ Sở Trong Gương",
             ph_gods_miracle = "Được cứu bởi Phép Lạ Của Chúa",
+            ph_plot_armor = "Được cứu bởi Cốt Truyện",
             ph_depth_level = "Tầng độ sâu",
             ph_lovecraft = "Lovecraft",
             ph_norse = "Thần Thoại Bắc Âu",
             ph_black_soul = "Black Soul",
             ph_celestaverse = "Celestaverse",
+            ph_pmirror = "Pocket Mirror",
             ph_blind_score_at_most = "Đạt tối đa",
             ph_up_ante_2_inverse = "Giảm toàn bộ Blind",
             ph_overscored_hand = "Tay này sẽ ghi quá điểm",
+            ph_select_save = "Chọn ô lưu trữ",
+            ph_no_data = "Không có dữ liệu",
+            ph_losing_hand = "Tay bài sẽ gây thua trận",
+            ph_solve_the = "Hãy giải",
+            ph_door_puzzle = "Câu Đố Cửa",
+            ph_door_solved = "Đã giải Câu Đố Cửa",
+            ph_ozzy_saved = "Được cứu bởi Ozzy",
+            ph_fleta_musical_chair = "Không chơi lại tay poker đã chơi ở ván này",
+            ph_losing_musical_chair = {"Thua ở trò", "ghế âm nhạc"},
+            ph_shattered_pm = {"Gương Bỏ Túi", "bị vỡ tan"},
+            ph_eternal_blindness = {"Mù loà", "vĩnh viễn"},
+            ph_dead_end_door = {"Chọn nhầm", "cửa tử"},
+            ph_out_of_fuel = {"Hết sạch", "nhiên liệu"},
+            ph_out_of_food = {"Hết sạch", "lương thực"},
             sgt_swap = "Tráo!",
             sgt_art_credit = "Ảnh vẽ bởi ",
             sgt_and = " và ",
@@ -3715,11 +4337,16 @@ return {
             SGT_disable_sagatro_items = "Tắt Vật Phẩm Sagatro",
             SGT_disable_sagatro_items_desc = {"(Yêu cầu tạo trận mới, chỉ hoạt động","khi tắt Chế Độ Cốt Truyện)"},
             SGT_sagatro_music = "Nhạc Sagatro",
-            SGT_sagatro_music_desc = {"Bật nhạc Sagatro trong trận"},
+            SGT_sagatro_music_options = {
+                "Tất cả nhạc",
+                "Tắt nhạc ngoại",
+                "Tắt",
+            },
+            SGT_sagatro_music_desc = {"Tuỳ chọn bật nhạc Sagatro","và/hoặc nhạc ngoại trong trận"},
             SGT_ortagas = "Chuyển sang Ortagas",
             SGT_ortagas_desc = {"Vô dụng?"},
-            SGT_quick_restart = "Trận Mới Nhanh",
-            SGT_quick_restart_desc = {"Nhấn R để tạo trận mới tức thí"},
+            SGT_quick_restart = "Tải Mới Nhanh",
+            SGT_quick_restart_desc = {"Nhấn R để tạo trận mới tức thì", "Tăng tốc tải trận bằng Hộp Lưu"},
             SGT_lenient_score = "Điểm Nhẹ Nhàng",
             SGT_lenient_score_desc = {"Giảm độ dữ dội của tăng điểm vô hạn","trong chế độ cốt truyện (Yêu cầu tạo trận mới)"},
             SGT_lenient_score_enabled = "Điểm Nhẹ Nhàng Đã Bật",
@@ -3739,6 +4366,10 @@ return {
             sgt_welcome_text6 = "Lưu ý rằng ante để thắng sẽ không còn ý nghĩa trong chế độ này.",
             sgt_welcome_text7 = "Chúc bạn may mắn - và tận hưởng hành trình của mình!",
             b_sgt_understood = "Đã hiểu",
+            sgt_savebox_text1 = "Tính năng này cho phép bạn lưu trữ các trận ở chế độ",
+            sgt_savebox_text2 = "cốt truyện riêng biệt, tách khỏi trận hiện tại.",
+            sgt_savebox_text3 = "Được truyền cảm hửng bới các tựa game RPG yêu cầu",
+            sgt_savebox_text4 = "người chơi phải tiếp cận nhiều ending.",
         },
         quips = {
             sgt_good_end1 = {
@@ -3811,6 +4442,80 @@ return {
                 "Chỉ một tiếng nổ,",
                 "mọi thứ đã thành",
                 "tro bụi.",
+            },
+        },
+        tutorial = {
+            sgt_sb_1 = {
+                "Chào anh/chị! Tên bé là {C:attention}Alice{},",
+                "bé ở đây để hướng dẫn",
+                "anh/chị những điều {C:attention}cơ bản{} về",
+                "trận {C:sgt_sagadition}Chế Độ Cốt Truyện{}!",
+            },
+            sgt_sb_2 = {
+                "Lúc này đây, anh/chị cũng đã quá",
+                "quen thuộc với {C:attention}Balatro{} rồi, nên",
+                "vào {C:blue}Small Blind{} luôn nhé!",
+            },
+            sgt_fh_1 = {
+                "Anh/chị có thấy gì khác biệt không?",
+            },
+            sgt_fh_2 = {
+                "Đúng rồi! Không còn Ante để thắng nữa!",
+                "Các trận {C:sgt_sagadition}Chế Độ Cốt Truyện{} yêu cầu",
+                "điều kiện cụ thể để chiến thắng.",
+            },
+            sgt_fh_3 = {
+                "Hãy đi mà đánh thắng ván này",
+                "như mọi khi, bé sẽ giải thích",
+                "thêm ở trong shop.",
+            },
+            sgt_s_1 = {
+                "Ờm, cái gì đây? Một",
+                "{C:attention}Gói Hề{} miễn phí à?",
+            },
+            sgt_s_2 = {
+                "Cũng không mất gì đâu nên",
+                "bé nghĩ là cứ mở đi nhỉ?",
+            },
+            sgt_s_3 = {
+                "Tuyệt vời! Vì anh/chị đã khởi động mạch",
+                "{C:sgt_sagadition}#1#{} rồi, các Joker",
+                "liên quan đến mạch đó có thể xuất hiện.",
+            },
+            sgt_s_4 = {
+                "Joker mạch truyện có thể có",
+                "{C:sgt_sagadition}gợi ý tiến triển{} được",
+                "đính kèm! Lia chuột lên để xem nhé!",
+            },
+            sgt_s_5 = {
+                "Ngoài nó ra thì Joker không thuộc",
+                "về mạch truyện cụ thể nào cũng có thể",
+                "giúp đỡ anh/chị khi cần thiết.",
+            },
+            sgt_s_6 = {
+                "À, còn có một tính năng mới bắt nguồn từ",
+                "một {C:sgt_sagadition}mạch truyện{} ẩn mà bé ít nhất cũng",
+                "muốn anh/chị biết. Mở Tuỳ Chọn để xem nó nhé!",
+            },
+            sgt_bp_1 = {
+                "Đây được gọi là các",
+                "Joker {C:attention}khởi đâu{}.",
+                "{s:0.8}(Cảm ơn {s:0.8,C:attention}Exattox{s:0.8} vì đã",
+                "{s:0.8}nghĩ ra thuật ngữ này)",
+            },
+            sgt_bp_2 = {
+                "Chọn một trong số chúng sẽ khởi động",
+                "một {C:sgt_sagadition}mạch truyện{}, sau đó anh/chị sẽ",
+                "phải bám theo {C:attention}cơ chế{} mạch truyện đó.",
+            },
+            sgt_bp_3 = {
+                "Giờ thì, anh/chị hãy chọn đi.",
+            },
+            sgt_bb_1 = {
+                "Làm tốt lắm thưa anh/chị! Đó là",
+                "toàn bộ những thứ cơ bản của trận",
+                "{C:sgt_sagadition}Chế Độ Cốt Truyện{}. Anh/chị giờ",
+                "có thể bắt đầu chuyến hành trình.",
             },
         },
     },

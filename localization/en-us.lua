@@ -187,6 +187,44 @@ return {
             },
         },
         Tag = {
+            tag_sgt_progress_pie = {
+                name = "Progress Chart",
+                text = {
+                    "Shows your current progress",
+                    "in this story mode run",
+                    "{C:inactive}(Currently {V:1}#1#%{C:inactive})",
+                },
+            },
+            tag_sgt_progress_pie_alice_in_wond = {
+                name = "Progress Chart",
+                text = {
+                    "Shows your current progress",
+                    "in this story mode run",
+                    "{C:inactive}(Pending rework)",
+                },
+            },
+            tag_sgt_progress_pie_collection = {
+                name = "Progress Chart",
+                text = {
+                    "Shows your current progress",
+                    "in a story mode run",
+                },
+            },
+            tag_sgt_progress_pie_iw = {
+                name = "Progress Chart",
+                text = {
+                    "Shows your current interwoven",
+                    "progress in this story mode run",
+                    "{C:inactive}(Currently {V:1}#1#%{C:inactive})",
+                },
+            },
+            tag_sgt_progress_pie_iw_collection = {
+                name = "Progress Chart",
+                text = {
+                    "Shows your current interwoven",
+                    "progress in a story mode run",
+                },
+            },
             tag_sgt_holy = {
                 name = "Holy Tag",
                 text = {
@@ -440,41 +478,41 @@ return {
                 },
             },
             undiscovered_divinatio = {
-				name = "Not Discovered",
-				text = {
-					"Purchase or use",
-					"this card in an",
-					"unseeded run to",
-					"learn what it does",
-				},
-			},
+                name = "Not Discovered",
+                text = {
+                    "Purchase or use",
+                    "this card in an",
+                    "unseeded run to",
+                    "learn what it does",
+                },
+            },
             undiscovered_celestara = {
-				name = "Not Discovered",
-				text = {
-					"Purchase or use",
-					"this card in an",
-					"unseeded run to",
-					"learn what it does",
-				},
-			},
+                name = "Not Discovered",
+                text = {
+                    "Purchase or use",
+                    "this card in an",
+                    "unseeded run to",
+                    "learn what it does",
+                },
+            },
             undiscovered_eldritch = {
-				name = "Not Discovered",
-				text = {
-					"Purchase or use",
-					"this card in an",
-					"unseeded run to",
-					"learn what it does",
-				},
-			},
+                name = "Not Discovered",
+                text = {
+                    "Purchase or use",
+                    "this card in an",
+                    "unseeded run to",
+                    "learn what it does",
+                },
+            },
             undiscovered_supply = {
-				name = "Not Discovered",
-				text = {
-					"Purchase or use this",
-					"card in an unseeded",
-					"{C:sgt_sagadition}story mode{} run to",
-					"learn what it does",
-				},
-			},
+                name = "Not Discovered",
+                text = {
+                    "Purchase or use this",
+                    "card in an unseeded",
+                    "{C:sgt_sagadition}story mode{} run to",
+                    "learn what it does",
+                },
+            },
             p_sgt_divinatio_normal = {
                 name = "Divinatio Pack",
                 text = {
@@ -556,12 +594,12 @@ return {
                 },
             },
             sgt_protected = {
-				name = "Protected",
-				text = {
-					"{C:attention}Immune{} to",
-					"debuffs",
-				},
-			},
+                name = "Protected",
+                text = {
+                    "{C:attention}Immune{} to",
+                    "debuffs",
+                },
+            },
             sgt_off_depth = {
                 name = "Off Depth",
                 text = {
@@ -768,6 +806,23 @@ return {
                     "can't be sold or destroyed",
                 },
             },
+            sgt_soul_storyline = {
+                text = {
+                    "Use this card now",
+                    "to {C:attention}initialize{} a random",
+                    "{C:legendary,E:1}Legendary{} storyline",
+                },
+            },
+            sgt_pocket_mirror = {
+                name = "Important Note",
+                text = {
+                    "Must be by",
+                    "{C:attention}#1#{}'s side",
+                    "when {C:attention}Blind{}",
+                    "is selected and",
+                    "at end of round",
+                },
+            },
             sgt_switch_cooldown = {
                 name = "Switch Cooldown",
                 text = {
@@ -841,6 +896,24 @@ return {
                     "This joker cannot be sold",
                     "until {C:attention}#1#{} rounds have passed",
                     "{C:inactive}({C:attention}#2#{C:inactive}/#1#)",
+                },
+            },
+            sgt_play_pocket_mirror = {
+                name = "Pocket Mirror",
+                text = {
+                    "This secret storyline is",
+                    "how we show respect towards",
+                    "{C:attention}Pocket Mirror ~ GoldenerTraum{}",
+                    "Play the game on Steam:",
+                    "{s:0.8,C:blue,u:blue}store.steampowered.com/app/1899060/",
+                },
+            },
+            sgt_inflation = {
+                name = "Inflation",
+                text = {
+                    "Permanently raise",
+                    "prices by {C:money}$1{} on",
+                    "every purchase",
                 },
             },
         },
@@ -1597,7 +1670,7 @@ return {
                     "Played 2s are {C:attention}destroyed{} after scoring",
                 },
             },
-            j_sgt_kid_gloves_and_fan_story_mode = {
+            j_sgt_kid_gloves_and_fan_storymode = {
                 name = "Kid-gloves And The Fan",
                 text = {
                     "{C:chips}+#2#{} Chips",
@@ -2540,7 +2613,7 @@ return {
                 name = "Grenadier",
                 text = {
                     "If {C:attention}scored cards{} contain multiple",
-					"unique ranks, add a random {C:attention}seal{} to",
+                    "unique ranks, add a random {C:attention}seal{} to",
                     "the {C:attention}lowest{} ranked card scored",
                 },
             },
@@ -2578,7 +2651,7 @@ return {
                 },
             },
             j_sgt_white_pawn = {
-                name = "White Pawn",
+                name = "Oyster",
                 text = {
                     {"If played hand contains a {C:attention}#1#{}",
                     "and only one card with {C:hearts}Hearts{} or",
@@ -2607,7 +2680,7 @@ return {
                 },
             },
             j_sgt_live_flowers = {
-                name = "Live Flowers",
+                name = "Tiger Lily",
                 text = {
                     "{C:mult}+#1#{} Mult",
                     "{C:mult}-#2#{} Mult per hand played",
@@ -2621,7 +2694,7 @@ return {
                 },
             },
             j_sgt_man_in_white = {
-                name = "Man In White",
+                name = "Aged Man",
                 text = {
                     {"Gain {C:mult}+#2#{} Mult if played hand",
                     "contains a {C:attention}Straight{} and an {C:attention}Ace",
@@ -2664,26 +2737,26 @@ return {
             j_sgt_tweedledum = {
                 name = "Tweedledum",
                 text = {
-                    {"Played cards with",
-                    "{C:attention}even{} rank give",
-                    "{X:chips,C:white}X#2#{} Chips when scored",
+                    {"If {C:attention}White King{} is about to be",
+                    "destroyed, {C:red,E:2}self destructs{} instead"},
+                    {"Played cards with {C:attention}even{} rank",
+                    "give {X:chips,C:white}X#2#{} Chips when scored",
                     "{C:inactive}(10, 8, 6, 4, 2)"},
-                    {"Played cards with",
-                    "{C:attention}odd{} rank give",
-                    "{X:mult,C:white}X#1#{} Mult when scored",
+                    {"Played cards with {C:attention}odd{} rank",
+                    "give {X:mult,C:white}X#1#{} Mult when scored",
                     "{C:inactive}(A, 9, 7, 5, 3)"},
                 },
             },
             j_sgt_tweedledee = {
                 name = "Tweedledee",
                 text = {
-                    {"Played cards with",
-                    "{C:attention}odd{} rank give",
-                    "{X:chips,C:white}X#2#{} Chips when scored",
+                    {"If {C:attention}White King{} is about to be",
+                    "destroyed, {C:red,E:2}self destructs{} instead"},
+                    {"Played cards with {C:attention}odd{} rank",
+                    "give {X:chips,C:white}X#2#{} Chips when scored",
                     "{C:inactive}(A, 9, 7, 5, 3)"},
-                    {"Played cards with",
-                    "{C:attention}even{} rank give",
-                    "{X:mult,C:white}X#1#{} Mult when scored",
+                    {"Played cards with {C:attention}even{} rank",
+                    "give {X:mult,C:white}X#1#{} Mult when scored",
                     "{C:inactive}(10, 8, 6, 4, 2)"},
                 },
             },
@@ -2721,11 +2794,9 @@ return {
                 },
             },
             j_sgt_white_rook = {
-                name = "White Rook",
+                name = "Fawn",
                 text = {
-                    {"If {C:attention}White King{} is about to be",
-                    "destroyed, {C:red,E:2}self destructs{} instead",
-                    "Apply {C:attention}Four Fingers{} if there is",
+                    {"Apply {C:attention}Four Fingers{} if there is",
                     "a {C:attention}rankless{} card held in hand"},
                     {"{C:mult}+#1#*A{} Mult, where A is the difference between",
                     "total {C:spades}Spades{} and {C:clubs}Clubs{} in hand and",
@@ -2742,7 +2813,7 @@ return {
                 },
             },
             j_sgt_white_bishop = {
-                name = "White Bishop",
+                name = "Daisy",
                 text = {
                     "{X:mult,C:white}X#1#{} Mult if scoring hand",
                     "only contains {C:spades}Spades{} or {C:clubs}Clubs{}",
@@ -2789,7 +2860,7 @@ return {
                 },
             },
             j_sgt_seal_and_carpenter = {
-                name = "Seal And Carpenter",
+                name = "Carpenter",
                 text = {
                     "When round begins, {C:attention}destroy{} a",
                     "random {C:attention}playing card{} in hand",
@@ -2855,6 +2926,305 @@ return {
                     "Each joker belonging to {C:sgt_sagadition}Alice",
                     "{C:sgt_sagadition}Through the Looking Glass{}",
                     "gives {X:mult,C:white}X#1#{} Mult",
+                },
+            },
+            j_sgt_goldia = {
+                name = "Goldia",
+                text = {
+                    "{C:mult}+#1#{} Mult",
+                    "{C:attention}X#2#{} Mult value",
+                    "at end of Ante",
+                },
+            },
+            j_sgt_goldia_stage_0 = {
+                name = "??????",
+                text = {
+                    "{C:mult}+#1#{} Mult",
+                    "{C:attention}X#2#{} Mult value",
+                    "at end of Ante",
+                },
+            },
+            j_sgt_goldia_stage_dawn = {
+                name = "Goldia",
+                text = {
+                    "{C:mult}+#1#{} Mult",
+                    "{C:attention}X#2#{} Mult value",
+                    "at end of Ante",
+                },
+            },
+            j_sgt_goldia_stage_name_recalled = {
+                name = "Goldia",
+                text = {
+                    "Retrigger all played {C:attention}Queens{}",
+                    "Each played {C:attention}Queen{} of {C:hearts}Hearts{}",
+                    "gives {X:mult,C:white}X#1#{} Mult when scored",
+                    "Played {C:attention}Glass{} cards give",
+                    "{X:mult,C:white}X#2#{} Mult when scored",
+                },
+            },
+            j_sgt_pocket_mirror = {
+                name = "Pocket Mirror",
+                text = {
+                    "{B:1,C:dark_gold}Regalia{}",
+                    "{C:attention}Retrigger{}",
+                    "adjacent jokers",
+                },
+            },
+            j_sgt_pocket_mirror_storymode = {
+                name = "Pocket Mirror",
+                text = {
+                    {"{B:1,C:dark_gold}Regalia{} {B:1,C:dark_gold}G{}",
+                    "{C:attention}Retrigger{}",
+                    "adjacent jokers"},
+                    {"{C:inactive}Do not ever let it go.",
+                    "{C:inactive}Do you understand?"},
+                },
+            },
+            j_sgt_knife_fork = {
+                name = "Messer And Gabel",
+                text = {
+                    "{B:1,C:dark_gold}Regalia{}",
+                    "Retrigger all played",
+                    "{C:attention}Queens{} {C:attention}#1#{} times",
+                },
+            },
+            j_sgt_knife_fork_storymode = {
+                name = "Messer And Gabel",
+                text = {
+                    "{B:1,C:dark_gold}Regalia{} {B:1,C:dark_gold}I{}",
+                    "Retrigger all played",
+                    "{C:attention}Queens{} {C:attention}#1#{} times",
+                },
+            },
+            j_sgt_rose_bell = {
+                name = "Rosen Glöckchen",
+                text = {
+                    "{B:1,C:dark_gold}Regalia{}",
+                    "Gain {X:mult,C:white}X#2#{} Mult every time",
+                    "{C:attention}Queen{} of {C:hearts}Hearts{} scores",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_rose_bell_storymode = {
+                name = "Rosen Glöckchen",
+                text = {
+                    "{B:1,C:dark_gold}Regalia{} {B:1,C:dark_gold}A{}",
+                    "Gain {X:mult,C:white}X#2#{} Mult every time",
+                    "{C:attention}Queen{} of {C:hearts}Hearts{} scores",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+                },
+            },
+            j_sgt_moon_hairbrush = {
+                name = "Haarbürste des Mondes",
+                text = {
+                    "{B:1,C:dark_gold}Regalia{}",
+                    "{X:mult,C:white}X#1#{} Mult if played hand is a",
+                    "{C:attention}#2#{}, changes every hand played",
+                },
+            },
+            j_sgt_moon_hairbrush_storymode = {
+                name = "Haarbürste des Mondes",
+                text = {
+                    "{B:1,C:dark_gold}Regalia{} {B:1,C:dark_gold}O{}",
+                    "{X:mult,C:white}X#1#{} Mult if played hand is a",
+                    "{C:attention}#2#{}, changes every hand played",
+                },
+            },
+            j_sgt_snow_scissors = {
+                name = "Schnee Schere",
+                text = {
+                    "{B:1,C:dark_gold}Regalia{}",
+                    "Played {C:attention}Glass{} cards give",
+                    "{X:mult,C:white}X#1#{} Mult when scored",
+                },
+            },
+            j_sgt_snow_scissors_storymode = {
+                name = "Schnee Schere",
+                text = {
+                    "{B:1,C:dark_gold}Regalia{} {B:1,C:dark_gold}L{}",
+                    "Played {C:attention}Glass{} cards give",
+                    "{X:mult,C:white}X#1#{} Mult when scored",
+                },
+            },
+            j_sgt_angel_scythe = {
+                name = "Engelssense",
+                text = {
+                    "{B:1,C:dark_gold}Regalia{}",
+                    "Gain {X:chips,C:white}X#2#{} Chips at end of round",
+                    "{C:inactive}(Currently {X:chips,C:white}X#1#{C:inactive} Chips)",
+                },
+            },
+            j_sgt_angel_scythe_storymode = {
+                name = "Engelssense",
+                text = {
+                    "{B:1,C:dark_gold}Regalia{} {B:1,C:dark_gold}D{}",
+                    "Gain {X:chips,C:white}X#2#{} Chips at end of round",
+                    "{C:inactive}(Currently {X:chips,C:white}X#1#{C:inactive} Chips)",
+                },
+            },
+            j_sgt_egliette = {
+                name = "Egliette",
+                text = {
+                    "Retrigger all played",
+                    "{C:attention}Queens{} {C:attention}#1#{} times",
+                },
+            },
+            j_sgt_egliette_storymode = {
+                name = "Egliette",
+                text = {
+                    "I am hereby announcing",
+                    "your {C:attention}demise{}, for you",
+                    "will not be advancing further",
+                    "than this very room!",
+                },
+            },
+            j_sgt_fleta = {
+                name = "Fleta",
+                text = {
+                    "Each played {C:attention}Queen{} of {C:hearts}Hearts{}",
+                    "gives {X:mult,C:white}X#1#{} Mult when scored",
+                },
+            },
+            j_sgt_fleta_stage_0 = {
+                name = "Fleta",
+                text = {
+                    {"Encounter a {C:attention}challenge",
+                    "every Ante for {C:attention}3{} Antes",
+                    "{C:inactive}(Starting from the next Ante)"},
+                    {"Only winning the third",
+                    "challenge is {C:attention}required"},
+                },
+            },
+            j_sgt_fleta_stage_1 = {
+                name = "Fleta",
+                text = {
+                    "Challenge: {C:attention}Memory{} game",
+                    "Play {C:attention}Pair{} 3 times",
+                    "in one round",
+                    "{C:inactive}({V:1}#1#{C:inactive}/3)",
+                },
+            },
+            j_sgt_fleta_stage_2 = {
+                name = "Fleta",
+                text = {
+                    "Challenge: Collect {C:attention}butterflies",
+                    "20 random cards in deck gain",
+                    "the {C:attention}Butterfly{} sticker",
+                    "Score the card to collect them",
+                    "Fleta will also try to collect",
+                    "unscored ones every hand played",
+                    "{C:inactive}({C:sgt_goldiattention}#1#{C:inactive}/{C:green}#2#{C:inactive})",
+                },
+            },
+            j_sgt_fleta_stage_3 = {
+                name = "Fleta",
+                text = {
+                    "Challenge: {C:attention}Musical{} chair",
+                    "No repeat hand types",
+                    "this round for {C:attention}3{} rounds",
+                },
+            },
+            j_sgt_harpae = {
+                name = "Harpae",
+                text = {
+                    "Each played card gives {X:mult,C:white}X#1#{} Mult",
+                    "when scored if played hand is a",
+                    "{C:attention}#2#{}, changes every hand played",
+                },
+            },
+            j_sgt_harpae_storymode = {
+                name = "Harpae",
+                text = {
+                    {"Play the specified poker hand",
+                    "if possible: {C:attention}#2#{}",
+                    "Changes every hand played",
+                    "{C:inactive}({V:1}#1#{C:inactive}/10)"},
+                    {"{C:inactive}When she's {V:2}down{C:inactive}, simply do",
+                    "{C:inactive}what she tells you to."},
+                },
+            },
+            j_sgt_lisette = {
+                name = "Lisette",
+                text = {
+                    "Played {C:attention}Glass{} cards give",
+                    "{X:mult,C:white}X#1#{} Mult when scored",
+                    "{C:attention}Glass{} cards are less",
+                    "likely to break",
+                },
+            },
+            j_sgt_lisette_storymode = {
+                name = "Lisette",
+                text = {
+                    "*Hurls scissors",
+                    "at {C:attention}#1#{}*",
+                },
+            },
+            j_sgt_enjel = {
+                name = "Enjel",
+                text = {
+                    "{C:chips}+#1#{} Chips",
+                    "{C:attention}X#2#{} Chip value",
+                    "at end of Ante",
+                },
+            },
+            j_sgt_enjel_storymode = {
+                name = "Enjel",
+                text = {
+                    "?????",
+                },
+            },
+            j_sgt_rusty_scissors = {
+                name = "Rusty Scissors",
+                text = {
+                    "{C:attention}Glass{} cards are",
+                    "{C:green}guaranteed{} to break",
+                },
+            },
+            j_sgt_rusty_scissors_storymode = {
+                name = "Rusty Scissors",
+                text = {
+                    "Use like a consumable to",
+                    "break the {C:attention}Mirror{} card",
+                    "to the right when facing",
+                    "against {C:attention}Lisette{}",
+                },
+            },
+            j_sgt_platinum = {
+                name = "Platinum",
+                text = {
+                    {"Create {V:1}Fleta{}, {V:2}Harpae{},",
+                    "{V:3}Lisette{} and {V:4}Enjel{}"},
+                    {"These jokers only",
+                    "work if {V:5}Platinum{}",
+                    "is directly to",
+                    "the right of them"},
+                },
+            },
+            j_sgt_platinum_ending = {
+                name = "Platinum",
+                text = {
+                    {"Create {V:1}Fleta{}, {V:2}Harpae{},",
+                    "and {V:3}Lisette{}"},
+                    {"Assimilate {V:4}Enjel{}"},
+                },
+            },
+            j_sgt_ozzy = {
+                name = "Ozzy",
+                text = {
+                    "{C:attention}+#1#{} shop slot",
+                    "Force {C:spectral}Spectral{} cards to be",
+                    "the only consumable type",
+                    "in the shop",
+                },
+            },
+            j_sgt_ozzy_storymode = {
+                name = "Ozzy",
+                text = {
+                    "{C:attention}+#1#{} shop slot",
+                    "Permanently apply {C:attention}Inflation{}",
+                    "Force {C:spectral}Spectral{} cards to be",
+                    "the only consumable type",
+                    "in the shop",
                 },
             },
             j_sgt_shub = {
@@ -3099,6 +3469,28 @@ return {
                     "{C:attention}+1{} card selection limit",
                 },
             },
+            m_sgt_mirror = {
+                name = "Mirror Card",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult",
+                    "No rank or suit",
+                },
+            },
+            m_sgt_pm_door = {
+                name = "Mystery Door",
+                text = {
+                    "Play one door at a time,",
+                    "in the correct order to",
+                    "solve the puzzle",
+                },
+            },
+            m_sgt_pm_door_not_cool = {
+                name = "Mystery Door",
+                text = {
+                    "HEY! What are you doing here?",
+                    "This door isn't initialized properly.",
+                },
+            },
         },
         ["Saga Tooltip"] = {
             fusion_hint = {
@@ -3122,6 +3514,32 @@ return {
                     "the current storyline with:",
                     "{C:sgt_sagadition}#1#{}",
                     "Difficulty: {V:1}#2#{}/5",
+                },
+            },
+            alice_in_wonderland_mech = {
+                text = {
+                    "Solve riddles to",
+                    "uncover better jokers.",
+                    "(Pending rework)",
+                },
+            },
+            ["20k_miles_under_the_sea_mech"] = {
+                text = {
+                    "Manage resources and guide",
+                    "your fish arsenal to victory.",
+                },
+            },
+            alice_in_mirrorworld_mech = {
+                text = {
+                    "Think outside the box",
+                    "for a clever solution",
+                    "against Inversion.",
+                },
+            },
+            pocket_mirror_mech = {
+                text = {
+                    "Discover multiple endings",
+                    "with this popular RPG story.",
                 },
             },
             white_rabbit = {
@@ -3237,6 +3655,14 @@ return {
                     "{s:0.8}Hop on my back - I'll give you a ride.\"",
                 },
             },
+            lincoln_ship = {
+                text = {
+                    "The water journey has begun!",
+                    "Going off-shore is only the",
+                    "first part, we must find the",
+                    "suitable {C:sgt_sagadition}vehicle{} to go deeper!",
+                },
+            },
             submarine = {
                 text = {
                     "Survival Rougelike from {C:sgt_sagadition}Sagatro{}!",
@@ -3256,6 +3682,119 @@ return {
                     "{s:0.8,C:sgt_sagadition}Select the mirror to get started",
                 },
             },
+            the_pocket_mirror = {
+                text = {
+                    "All hints assume you",
+                    "play the role of {C:sgt_sagadition}??????{}.",
+                    "Look for something that",
+                    "{C:sgt_sagadition}belongs{} to you in the shop.",
+                },
+            },
+            knife_and_fork = {
+                text = {
+                    "Keep exploring the shop.",
+                    "You may encounter",
+                    "something {C:sgt_sagadition}shiny{}.",
+                },
+            },
+            facing_egliette = {
+                text = {
+                    "Step into the {C:sgt_sagadition}Mirrorworld",
+                    "with some {C:sgt_sagadition}snack{}.",
+                },
+            },
+            pm_mirrorworld = {
+                text = {
+                    "Make sure to {C:sgt_sagadition}enlarge{} yourself",
+                    "so that you won't {C:sgt_sagadition}lose",
+                    "the next round.",
+                },
+            },
+            exiting_pm_mirrorworld = {
+                text = {
+                    "Leave the {C:sgt_sagadition}Mirrorworld{}. There's",
+                    "{C:sgt_sagadition}someone{} waiting for you outside.",
+                },
+            },
+            fleta_challenges = {
+                text = {
+                    "She asks you to play",
+                    "some games, except she",
+                    "can be a bit stubborn.",
+                    "Just {C:sgt_sagadition}follow{} the rules.",
+                },
+            },
+            entering_mirror_maze = {
+                text = {
+                    "The corridor is filled with",
+                    "nothing but {C:sgt_sagadition}Mirrors{}. You don't",
+                    "like it at all, but {C:sgt_sagadition}going",
+                    "{C:sgt_sagadition}through{} is the only way.",
+                },
+            },
+            mirror_maze = {
+                text = {
+                    "There's an ominous feeling as",
+                    "you walk through the corridor.",
+                    "{C:sgt_sagadition}Someone{}'s definitely lurking.",
+                },
+            },
+            lisette_chase = {
+                text = {
+                    "RUN! Don't let",
+                    "her {C:sgt_sagadition}catch{} you!",
+                },
+            },
+            harpae_patience = {
+                text = {
+                    "She tries to protect you at",
+                    "all times. It's best to simply",
+                    "follow her lead, {C:sgt_sagadition}except{}...",
+                },
+            },
+            facing_lisette = {
+                text = {
+                    "You have to confront",
+                    "{C:sgt_sagadition}her{} sooner or later.",
+                },
+            },
+            dull_glass = {
+                text = {
+                    "She walks towards you {C:sgt_sagadition}slower",
+                    "this time, but it's best to",
+                    "{C:sgt_sagadition}keep a distance{} away from her.",
+                    "({C:sgt_sagadition}#1#{}/4?)",
+                },
+            },
+            witching_hour = {
+                text = {
+                    "Enjel is not looking honest.",
+                    "She might reveal her {C:sgt_sagadition}true",
+                    "{C:sgt_sagadition}intentions{} so be careful...",
+                },
+            },
+            shattered_delusion = {
+                text = {
+                    "You're starting to trust",
+                    "Enjel more, only for her",
+                    "{C:sgt_sagadition}betray{} you and...",
+                },
+            },
+            platinum = {
+                text = {
+                    "You believe that Fleta,",
+                    "Harpae and Lisette are",
+                    "simply {C:sgt_sagadition}reflections{} of you,",
+                    "and so is Enjel...",
+                },
+            },
+            pm_chase = {
+                text = {
+                    "Enjel is not looking {C:sgt_sagadition}honest{}.",
+                    "She might reveal her true",
+                    "intentions so be careful...",
+                },
+            },
         },
         fish_effect = {
             pending_swallow = {
@@ -3268,8 +3807,15 @@ return {
                     "{s:0.8}around to view target",
                 },
             },
+            eaten_fish_key = {
+                text = {
+                    "Has just eaten",
+                    "{C:attention}#1#",
+                },
+            },
             weight1_type1 = {
                 text = {
+                    "{B:1,C:white}Common{}",
                     "Convert 3 {C:attention}random cards{} in the first",
                     "drawn hand into {C:attention}2s{}, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3277,6 +3823,7 @@ return {
             },
             weight1_type2 = {
                 text = {
+                    "{B:1,C:white}Common{}",
                     "{C:attention}Decrease{} the rank of 3 {C:attention}random cards{}",
                     "in the first drawn hand, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3284,6 +3831,7 @@ return {
             },
             weight1_type3 = {
                 text = {
+                    "{B:1,C:white}Common{}",
                     "If played hand is a {C:attention}Pair{}, convert",
                     "the suit of the {C:attention}second card{} to the",
                     "suit of the {C:attention}first card{}, lasts 3 rounds",
@@ -3292,6 +3840,7 @@ return {
             },
             weight1_type4 = {
                 text = {
+                    "{B:1,C:white}Common{}",
                     "{C:chips}+10{} Chips and",
                     "{C:mult}+5{} Mult per stack",
                     "{C:inactive}(Stack count: {C:attention}#1#{C:inactive})",
@@ -3299,6 +3848,7 @@ return {
             },
             weight1_type5 = {
                 text = {
+                    "{B:1,C:white}Common{}",
                     "If played hand is a {C:attention}High Card{}, apply",
                     "a random {C:attention}enhancement{} to the",
                     "{C:attention}first unscored card{}, lasts 3 rounds",
@@ -3307,12 +3857,14 @@ return {
             },
             weight2_type1 = {
                 text = {
+                    "{B:1,C:white}Uncommon{}",
                     "Played and discarded cards {C:red}will not",
                     "return to deck until {C:attention}end of this ante",
                 },
             },
             weight2_type2 = {
                 text = {
+                    "{B:1,C:white}Uncommon{}",
                     "If played hand has {C:attention}1{} scoring card, retrigger the",
                     "{C:attention}leftmost{} card held in hand twice, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3320,6 +3872,7 @@ return {
             },
             weight2_type3 = {
                 text = {
+                    "{B:1,C:white}Uncommon{}",
                     "If played hand has {C:attention}2{} scoring cards, each",
                     "scoring card gives {C:mult}+8{} Mult, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3327,6 +3880,7 @@ return {
             },
             weight2_type4 = {
                 text = {
+                    "{B:1,C:white}Uncommon{}",
                     "If played hand has {C:attention}3{} scoring cards,",
                     "earn {C:money}$6{}, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3334,6 +3888,7 @@ return {
             },
             weight2_type5 = {
                 text = {
+                    "{B:1,C:white}Uncommon{}",
                     "If played hand has {C:attention}4{} scoring cards, each",
                     "scoring card gives {X:mult,C:white}X1.5{} Mult, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3341,6 +3896,7 @@ return {
             },
             weight2_type6 = {
                 text = {
+                    "{B:1,C:white}Uncommon{}",
                     "If played hand has {C:attention}5{} scoring cards, each",
                     "scoring card gives {X:mult,C:white}X1.4{} Mult, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3348,6 +3904,7 @@ return {
             },
             weight3_type1 = {
                 text = {
+                    "{B:1,C:white}Rare{}",
                     "Force-select {C:attention}1{} card per hand, each card",
                     "held in hand gives {X:mult,C:white}X1.5{} Mult, lasts 5 hands",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3355,6 +3912,7 @@ return {
             },
             weight3_type2 = {
                 text = {
+                    "{B:1,C:white}Rare{}",
                     "Force-select {C:attention}2{} cards per hand,",
                     "{C:attention}retrigger{} this joker, lasts 5 hands",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3362,6 +3920,7 @@ return {
             },
             weight3_type3 = {
                 text = {
+                    "{B:1,C:white}Rare{}",
                     "Transfer one level from {C:attention}first discarded poker hand{}",
                     "of round to {C:attention}most played{} poker hand, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3369,6 +3928,7 @@ return {
             },
             weight3_type4 = {
                 text = {
+                    "{B:1,C:white}Rare{}",
                     "If first discard of round has only {C:attention}1{} card,",
                     "apply a random {C:attention}enhancement{} (occasionally with",
                     "{C:dark_edition}edition{} and/or {C:attention}seal{}) to it, lasts 3 rounds",
@@ -3377,6 +3937,7 @@ return {
             },
             weight3_type5 = {
                 text = {
+                    "{B:1,C:white}Rare{}",
                     "{C:attention}Convert{} discarded cards to a random discarded card",
                     "in {C:attention}last discard{} of round, lasts 1 round",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3384,6 +3945,7 @@ return {
             },
             weight4_type1 = {
                 text = {
+                    "{B:1,C:white}Obscure{}",
                     "{C:attention}Retrigger{} this joker",
                     "twice, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3391,6 +3953,7 @@ return {
             },
             weight4_type2 = {
                 text = {
+                    "{B:1,C:white}Obscure{}",
                     "{C:attention}Convert{} all cards held in hand to",
                     "a random {C:attention}played card{}, lasts 1 hand",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3398,6 +3961,7 @@ return {
             },
             weight4_type3 = {
                 text = {
+                    "{B:1,C:white}Obscure{}",
                     "Doubles money at end of round,",
                     "lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3405,6 +3969,7 @@ return {
             },
             weight4_type4 = {
                 text = {
+                    "{B:1,C:white}Obscure{}",
                     "{X:dark_edition,C:white}^1.05{} Score,",
                     "lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3412,6 +3977,7 @@ return {
             },
             weight4_type5 = {
                 text = {
+                    "{B:1,C:white}Obscure{}",
                     "Each card held in hand gives",
                     "{X:dark_edition,C:white}^1.1{} Mult, lasts 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
@@ -3515,7 +4081,9 @@ return {
                 text = {
                     "{s:1.3}Adds {s:1.3,C:dark_edition}fairy tale {s:1.3}elements to Balatro.",
                     " ",
-                    "Music used here are not copyrighted. Feel free to stream!",
+                    "Some music used here are not copyrighted, except external ones.",
+                    "If you encounter issues, go to this mod's Config tab",
+                    "and use the \"No external\" option of Sagatro music",
                     " ",
                     "Credits:",
                     "{C:attention}Original Art{}: HuyCorn, Amy, TNhie, Kazumi, D.J.",
@@ -3527,6 +4095,24 @@ return {
         },
     },
     misc = {
+        achievement_names = {
+            ach_sgt_pm_bad_end_1 = "Porcelain",
+            ach_sgt_pm_bad_end_2 = "Blindness",
+            ach_sgt_pm_normal_end_1 = "Platinum",
+            ach_sgt_pm_normal_end_2 = "Dawn",
+            ach_sgt_pm_normal_end_3 = "Little Goody Two Shoes",
+            ach_sgt_pm_unknown_end_1 = "Witching Hour",
+            ach_sgt_pm_unknown_end_2 = "Shattered Delusion",
+        },
+        achievement_descriptions = {
+            ach_sgt_pm_bad_end_1 = "Lose Fleta's third challenge",
+            ach_sgt_pm_bad_end_2 = "Play perfectly as Harpae said",
+            ach_sgt_pm_normal_end_1 = "Transform ?????? using 4 regalias",
+            ach_sgt_pm_normal_end_2 = "Transform ?????? using 5 regalias",
+            ach_sgt_pm_normal_end_3 = "Transform ?????? using 6 regalias",
+            ach_sgt_pm_unknown_end_1 = "Fail to get more than 2 regalias",
+            ach_sgt_pm_unknown_end_2 = "Fail to get more than 3 regalias",
+        },
         labels = {
             k_sgt_trivial = "Trivial",
             k_sgt_obscure = "Obscure",
@@ -3559,6 +4145,9 @@ return {
         v_dictionary = {
             sgt_rank_of_suit = "#1# of #2#",
             sgt_plus_spectrals = "+#1# Spectral",
+            sgt_save_slots_used = "Slots used: #1#/#2#",
+            sgt_plus_joker_slot = "+#1# Joker slot",
+            sgt_plus_joker_slots = "+#1# Joker slots",
         },
         v_text = {
             ch_c_sgt_disable_sagatro_items = { "{C:sgt_sagadition}Sagatro{} items no longer appear in the {C:attention}shop" },
@@ -3571,8 +4160,8 @@ return {
             ch_c_sgt_inversion_text5 = { "is played minus 1 this run" },
         },
         poker_hands = {
-			sgt_Any = "any hand",
-		},
+            sgt_Any = "any hand",
+        },
         dictionary = {
             k_sgt_trivial = "Trivial",
             k_sgt_obscure = "Obscure",
@@ -3595,9 +4184,11 @@ return {
             saga_tooltip = "Hint to progress",
             saga_fusion_tooltip = "Joker fusion",
             saga_storyline_start = "Boot up",
+            saga_mechanic = "Storyline mechanic",
             pending_swallow = "Fishing Frenzy",
             fish_effect_active = "Current Fish Effect",
             fish_effect_stackable = "Stackable Effect",
+            eaten_fish_key = "Eaten Fish",
             sgt_roll0 = "Oops! A Real Die",
             sgt_roll1 = "Number one",
             sgt_roll2 = "Number two",
@@ -3610,8 +4201,16 @@ return {
             b_sgt_down = "DOWN",
             b_sgt_ready = "READY",
             b_sgt_switch = "SWITCH",
+            b_sgt_transform = "TRANSFORM",
             b_delete_ace = "Delete Ace",
             b_dont_even_try = "Don't even try",
+            b_from_save = "From Save",
+            b_savebox = "Save Box",
+            b_save = "Save",
+            b_load = "Load",
+            b_delete = "Delete",
+            b_saveload_list = "Save/load list",
+            b_wipe_all_saves = "Wipe all saves",
             k_in_a_hurry_ex = "In a hurry!",
             k_too_late_ex = "Too late!",
             k_shrunk_ex = "Shrunk!",
@@ -3682,8 +4281,17 @@ return {
             k_consumed_ex = "Consumed!",
             k_kaboom_ex = "Kaboom!",
             k_incoming_ex = "Incoming!",
+            k_caught_ex = "Caught!",
+            k_good_ex = "Good!",
+            k_down_ex = "Down!",
+            k_calm_down_ex = "Calm Down!",
             k_plus_divinatio = "+1 Divinatio",
             k_plus_celestara = "+1 Celestara",
+            k_empty = "Empty",
+            k_saveload_runs = "Save/load story mode runs",
+            k_most_recent_voucher_cap1 = "MOST RECENT",
+            k_most_recent_voucher_cap2 = "VOUCHER",
+            k_save_date = "Save date",
             ph_per_face_down = " per face-down",
             ph_trial_begins = "Trial Begins!",
             ph_plus_ante = "+1 Ante",
@@ -3698,14 +4306,30 @@ return {
             ph_20k = "20k Miles Under The Sea",
             ph_alice_in_mirr = "Alice Through the Looking-Glass",
             ph_gods_miracle = "Saved by God's Miracle",
+            ph_plot_armor = "Saved by Plot Armor",
             ph_depth_level = "Depth level",
             ph_lovecraft = "Lovecraft",
             ph_norse = "Norse Mythology",
             ph_black_soul = "Black Soul",
             ph_celestaverse = "Celestaverse",
+            ph_pmirror = "Pocket Mirror",
             ph_blind_score_at_most = "Score at most",
             ph_up_ante_2_inverse = "Lower all Blinds",
             ph_overscored_hand = "Hand will overscore",
+            ph_select_save = "Select a save slot",
+            ph_no_data = "No data",
+            ph_losing_hand = "Hand will cause game over",
+            ph_solve_the = "Solve the",
+            ph_door_puzzle = "Door Puzzle",
+            ph_door_solved = "Door Puzzle solved",
+            ph_ozzy_saved = "Saved by Ozzy",
+            ph_fleta_musical_chair = "No repeat hand types this round",
+            ph_losing_musical_chair = {"Losing to", "musical chair"},
+            ph_shattered_pm = {"Shattered", "Pocket Mirror"},
+            ph_eternal_blindness = {"Eternal", "blindness"},
+            ph_dead_end_door = {"Picking the", "dead end door"},
+            ph_out_of_fuel = {"Running out", "of fuel"},
+            ph_out_of_food = {"Running out", "of food"},
             sgt_swap = "Swap!",
             sgt_art_credit = "Art by ",
             sgt_and = " and ",
@@ -3718,11 +4342,16 @@ return {
             SGT_disable_sagatro_items = "Disable Sagatro Items",
             SGT_disable_sagatro_items_desc = {"(Requires run restart, Story Mode","must be off to work)"},
             SGT_sagatro_music = "Sagatro Music",
-            SGT_sagatro_music_desc = {"Enable Sagatro music inside a run"},
+            SGT_sagatro_music_options = {
+                "All songs",
+                "No external",
+                "Disabled",
+            },
+            SGT_sagatro_music_desc = {"Options to enable Sagatro music","and/or external ones inside a run"},
             SGT_ortagas = "Switch to Ortagas",
             SGT_ortagas_desc = {"Does nothing?"},
-            SGT_quick_restart = "Quick Restart",
-            SGT_quick_restart_desc = {"Press R to instantly restart the run"},
+            SGT_quick_restart = "Quick Reload",
+            SGT_quick_restart_desc = {"Press R to instantly restart the run", "Speeds up loading in Save Box"},
             SGT_lenient_score = "Lenient Score",
             SGT_lenient_score_desc = {"Reduce endless scaling intensity","in story mode (Requires run restart)"},
             SGT_lenient_score_enabled = "Lenient Score Enabled",
@@ -3742,6 +4371,10 @@ return {
             sgt_welcome_text6 = "Please note that winning ante becomes meaningless in this mode.",
             sgt_welcome_text7 = "Good luck - and enjoy the journey!",
             b_sgt_understood = "Understood",
+            sgt_savebox_text1 = "This feature allows you to store distinct story mode",
+            sgt_savebox_text2 = "saves, separate from the current run.",
+            sgt_savebox_text3 = "Inspired by RPG games where you need to",
+            sgt_savebox_text4 = "scan for multiple endings.",
         },
         quips = {
             sgt_good_end1 = {
@@ -3814,6 +4447,79 @@ return {
                 "With just one explosion,",
                 "everything was reduced",
                 "to ashes.",
+            },
+        },
+        tutorial = {
+            sgt_sb_1 = {
+                "Hello there! My name is",
+                "{C:attention}Alice{}, I'm here to guide",
+                "you through the {C:attention}basics",
+                "of a {C:sgt_sagadition}Story Mode{} run!",
+            },
+            sgt_sb_2 = {
+                "At this point, you have already",
+                "been familiar with {C:attention}Balatro{}, so",
+                "let's jump into {C:blue}Small Blind{}!",
+            },
+            sgt_fh_1 = {
+                "Notice anything different?",
+            },
+            sgt_fh_2 = {
+                "That's right! Win Ante is no more!",
+                "{C:sgt_sagadition}Story Mode{} runs require",
+                "specific conditions to win instead.",
+            },
+            sgt_fh_3 = {
+                "Just go and win this round as",
+                "you normally do, I'll explain",
+                "more in the shop.",
+            },
+            sgt_s_1 = {
+                "Uh, what's this? A",
+                "free {C:attention}Buffoon Pack{}?",
+            },
+            sgt_s_2 = {
+                "It wouldn't hurt to",
+                "open it anyway, right?",
+            },
+            sgt_s_3 = {
+                "Great! Now that you have started",
+                "{C:sgt_sagadition}#1#{}, Jokers",
+                "related to it may now appear.",
+            },
+            sgt_s_4 = {
+                "Storyline Jokers can have a",
+                "{C:sgt_sagadition}hint to progress{} attached",
+                "to it! Hover over to see!",
+            },
+            sgt_s_5 = {
+                "In addition to that, Jokers not",
+                "belonging to a particular storyline",
+                "can also aid you when needed.",
+            },
+            sgt_s_6 = {
+                "Oh, and there's a new feature derived",
+                "from a secret {C:sgt_sagadition}storyline{} that I at least",
+                "want you to know. Open Options to see it!",
+            },
+            sgt_bp_1 = {
+                "These are called",
+                "{C:attention}starter{} Jokers.",
+                "{s:0.8}(Thank you {s:0.8,C:attention}Exattox{s:0.8} for",
+                "{s:0.8}making up that term)",
+            },
+            sgt_bp_2 = {
+                "Picking one of them up initializes",
+                "a {C:sgt_sagadition}storyline{}, after which you're bound",
+                "to follow that storyline's {C:attention}mechanic{}.",
+            },
+            sgt_bp_3 = {
+                "Now, choose your path.",
+            },
+            sgt_bb_1 = {
+                "Good job! That's all the basics",
+                "of a {C:sgt_sagadition}Story Mode{} run.",
+                "You may now begin your journey.",
             },
         },
     },
