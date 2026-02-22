@@ -23,10 +23,11 @@ TO-DO:
         [X] Add transformation to "dawn" (for Dawn ending)
         [X] Add transformation to "name_recalled" (for Little Goody Two Shoes ending)
         [X] Add placeholder transformation to Platinum (has no effect)
-[X] Add Egliette:
+[] Add Egliette:
     [X] Add base Egliette (obscure)
     [X] Add Egliette's effect inside story mode
     [X] Add Egliette's effect outside story mode
+    [] Replace Egliette's placeholder with final visual
     [X] Hook Egliette's effects to story events
 [X] Add Fleta:
     [X] Add base Fleta (legendary)
