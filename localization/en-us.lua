@@ -195,11 +195,34 @@ return {
                     "{C:inactive}(Currently {V:1}#1#%{C:inactive})",
                 },
             },
+            tag_sgt_progress_pie_alice_in_wond = {
+                name = "Progress Chart",
+                text = {
+                    "Shows your current progress",
+                    "in this story mode run",
+                    "{C:inactive}(Pending rework)",
+                },
+            },
             tag_sgt_progress_pie_collection = {
                 name = "Progress Chart",
                 text = {
                     "Shows your current progress",
                     "in a story mode run",
+                },
+            },
+            tag_sgt_progress_pie_iw = {
+                name = "Progress Chart",
+                text = {
+                    "Shows your current interwoven",
+                    "progress in this story mode run",
+                    "{C:inactive}(Currently {V:1}#1#%{C:inactive})",
+                },
+            },
+            tag_sgt_progress_pie_iw_collection = {
+                name = "Progress Chart",
+                text = {
+                    "Shows your current interwoven",
+                    "progress in a story mode run",
                 },
             },
             tag_sgt_holy = {

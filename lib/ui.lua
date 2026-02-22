@@ -470,6 +470,11 @@ G.FUNCS.mirror_switch = function(e)
                     SMODS.destroy_cards(cards, true, true)
                     SMODS.add_card{key = "j_sgt_fleta"}
                     G.GAME.interwoven_storyline = nil
+                    if G.GAME.progress_tag_iw then
+                        G.GAME.progress_tag_iw:yep('-', G.C.RED, function() return true end)
+                        G.GAME.progress_tag_iw.triggered = true
+                        G.GAME.storyline_progress_iw = nil
+                    end
                 end
             else
                 if G.GAME.inversed_scaling then

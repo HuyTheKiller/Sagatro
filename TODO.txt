@@ -64,7 +64,7 @@ TO-DO:
 
 Ice's feedback fixes:
 [X] Make Fish jokers wiggle after gaining temp ability
-[] Add some kind of progress indicator
+[X] Add some kind of progress indicator
 [X] Add a tooltip to specify main mechanics of each storyline
 [X] Properly remove Pumpkin Carriage editions on special cases
 [X] Rebalance some jokers/mechanics:

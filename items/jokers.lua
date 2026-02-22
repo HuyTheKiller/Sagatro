@@ -14586,6 +14586,7 @@ local egliette = {
             if context.end_of_round and not context.game_over and context.main_eval
             and not context.blueprint and not context.retrigger_joker then
                 Sagatro.progress_storyline("pm_mirrorworld", "force_finish", self.saga_group, G.GAME.interwoven_storyline)
+                G.GAME.storyline_progress_iw = 100
                 Sagatro.self_destruct(card)
                 return {
                     message = localize("k_poof_ex"),

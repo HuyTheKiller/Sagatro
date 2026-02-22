@@ -195,11 +195,34 @@ return {
                     "{C:inactive}(Hiện tại là {V:1}#1#%{C:inactive})",
                 },
             },
+            tag_sgt_progress_pie_alice_in_wond = {
+                name = "Biểu Đồ Tiến Trình",
+                text = {
+                    "Cho biết tiến trình hiện tại của",
+                    "trận chế độ cốt truyện này",
+                    "{C:inactive}(Đang chờ được làm lại)",
+                },
+            },
             tag_sgt_progress_pie_collection = {
                 name = "Biểu Đồ Tiến Trình",
                 text = {
                     "Cho biết tiến trình hiện tại của",
                     "một trận chế độ cốt truyện",
+                },
+            },
+            tag_sgt_progress_pie_iw = {
+                name = "Biểu Đồ Tiến Trình",
+                text = {
+                    "Cho biết tiến trình lồng hiện tại",
+                    "của trận chế độ cốt truyện này",
+                    "{C:inactive}(Hiện tại là {V:1}#1#%{C:inactive})",
+                },
+            },
+            tag_sgt_progress_pie_iw_collection = {
+                name = "Biểu Đồ Tiến Trình",
+                text = {
+                    "Cho biết tiến trình lồng hiện tại",
+                    "của một trận chế độ cốt truyện",
                 },
             },
             tag_sgt_holy = {

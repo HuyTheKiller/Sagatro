@@ -146,6 +146,39 @@ Sagatro.forced_buffoon_events = {
     "the_sub_engineer",
 }
 
+Sagatro.progress_points = {
+    alice_in_wonderland = {}, -- Pending rework
+    ["20k_miles_under_the_sea"] = {
+        turquoise_jellyfish = 20,
+        aqua_eyeshard = 20,--40
+        black_oil = 20,--60
+        shadow_seamine = 20,--80
+        nyx_abyss = 20,--100
+    },
+    alice_in_mirrorworld = {
+        the_pawn = 100/6,
+        the_rook = 100/6,--33.3
+        the_knight = 100/6,--50
+        the_bishop = 100/6,--66.7
+        true_red_queen = 100/6,--83.3
+        red_king = 100/6,--100
+    },
+    pocket_mirror = {
+        the_pocket_mirror = 8,
+        knife_and_fork = 7,--15
+        pm_mirrorworld = 5,--20
+        facing_egliette = 5,--25
+        fleta_challenges = 15,--40
+        entering_mirror_maze = 5,--45
+        mirror_maze = 5,--50
+        lisette_chase = 5,--55
+        harpae_patience = 10,--65
+        dull_glass = 10,--75
+        door_puzzle = 10,--85
+        ending_reached = 15,--100
+    },
+}
+
 local igo = Game.init_game_object
 function Game:init_game_object()
     local ret = igo(self)
@@ -772,6 +805,24 @@ function Game:update(dt)
                 G.GAME.progress_tag.ability.progress = (G.GAME.storyline_progress or 0)/100
                 if G.GAME.progress_tag.tag_sprite.sprite_pos.x ~= math.floor(G.GAME.progress_tag.ability.progress*16) then
                     G.GAME.progress_tag.tag_sprite:set_sprite_pos{x = math.floor(G.GAME.progress_tag.ability.progress*16), y = 0}
+                end
+            end
+            if G.GAME.interwoven_storyline then
+                if not G.GAME.progress_tag_iw or G.GAME.progress_tag_iw == "\"MANUAL_REPLACE\"" then
+                    for i = 1, #G.GAME.tags do
+                        if G.GAME.tags[i].key == "tag_sgt_progress_pie_iw" then
+                            G.GAME.progress_tag_iw = G.GAME.tags[i]
+                            break
+                        end
+                    end
+                else
+                    if (G.GAME.storyline_progress_iw or 0) < 0 or (G.GAME.storyline_progress_iw or 0) > 100 then
+                        G.GAME.storyline_progress_iw = math.max(0, math.min(G.GAME.storyline_progress_iw or 0, 100))
+                    end
+                    G.GAME.progress_tag_iw.ability.progress = (G.GAME.storyline_progress_iw or 0)/100
+                    if G.GAME.progress_tag_iw.tag_sprite.sprite_pos.x ~= math.floor(G.GAME.progress_tag_iw.ability.progress*16) then
+                        G.GAME.progress_tag_iw.tag_sprite:set_sprite_pos{x = math.floor(G.GAME.progress_tag_iw.ability.progress*16), y = 0}
+                    end
                 end
             end
         end
@@ -1794,6 +1845,16 @@ function Sagatro.init_storyline(storyline_name, interwoven, override)
         if interwoven then
             if not G.GAME.interwoven_storyline or override then
                 G.GAME.interwoven_storyline = storyline_name
+                for i = 1, #G.GAME.tags do
+                    if G.GAME.tags[i].key == "tag_sgt_progress_pie_iw" then
+                        progress_already_active = true
+                        break
+                    end
+                end
+                if not progress_already_active then
+                    add_tag{key = "tag_sgt_progress_pie_iw"}
+                    G.GAME.storyline_progress_iw = 0
+                end
             end
         else
             if G.GAME.current_storyline == "none" or override then
@@ -1837,6 +1898,14 @@ function Sagatro.progress_storyline(event_name, queue_mode, storyline_name, inte
             table.remove(G.GAME.saga_event_queue, 1)
             if not table.contains(G.GAME.saga_finished_events, event_name) then
                 table.insert(G.GAME.saga_finished_events, event_name)
+                if Sagatro.progress_points[storyline_name]
+                and Sagatro.progress_points[storyline_name][event_name] then
+                    G.GAME.storyline_progress = G.GAME.storyline_progress + Sagatro.progress_points[storyline_name][event_name]
+                end
+                if interwoven and Sagatro.progress_points[interwoven]
+                and Sagatro.progress_points[interwoven][event_name] then
+                    G.GAME.storyline_progress_iw = G.GAME.storyline_progress_iw + Sagatro.progress_points[interwoven][event_name]
+                end
             end
         elseif queue_mode == "force_finish" or queue_mode == "remove" then
             local pos = 0
@@ -1852,6 +1921,14 @@ function Sagatro.progress_storyline(event_name, queue_mode, storyline_name, inte
             if queue_mode == "force_finish"
             and not table.contains(G.GAME.saga_finished_events, event_name) then
                 table.insert(G.GAME.saga_finished_events, event_name)
+                if Sagatro.progress_points[storyline_name]
+                and Sagatro.progress_points[storyline_name][event_name] then
+                    G.GAME.storyline_progress = G.GAME.storyline_progress + Sagatro.progress_points[storyline_name][event_name]
+                end
+                if interwoven and Sagatro.progress_points[interwoven]
+                and Sagatro.progress_points[interwoven][event_name] then
+                    G.GAME.storyline_progress_iw = G.GAME.storyline_progress_iw + Sagatro.progress_points[interwoven][event_name]
+                end
             end
         end
     end
