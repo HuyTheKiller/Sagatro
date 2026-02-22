@@ -10,7 +10,7 @@ local white_rabbit = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.story_starter] = true },
     pos = { x = 0, y = 0 },
     config = {extra = {chips = 0, chip_mod = 6}},
-	rarity = 1,
+    rarity = 1,
     cost = 4,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -18,11 +18,11 @@ local white_rabbit = {
     perishable_compat = false,
     calculate = function(self, card, context)
         if context.joker_main and to_big(card.ability.extra.chips) > to_big(0) then
-			return {
-				chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
-				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
-			}
-		end
+            return {
+                chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
+                message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
+            }
+        end
         if context.before and G.GAME.current_round.discards_used <= 0 and not context.blueprint then
             if SMODS.scale_card then
                 SMODS.scale_card(card, {
@@ -44,7 +44,7 @@ local white_rabbit = {
                     card = card
                 }
             end
-		end
+        end
         if context.pre_discard and not context.blueprint and not context.retrigger_joker and not context.forcetrigger and not context.hook then
             if G.GAME.current_round.discards_used <= 0 then
                 return {
@@ -67,9 +67,9 @@ local white_rabbit = {
                 card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
             end
             return {
-				chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
-				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
-			}
+                chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
+                message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
+            }
         end
     end,
     add_to_deck = function(self, card, from_debuff)
@@ -110,11 +110,11 @@ local white_rabbit = {
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
             specific_vars = {localize('ph_alice_in_wond'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
         end
-		return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.extra.chip_mod*G.GAME.alice_multiplier}}
-	end,
+        return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.extra.chip_mod*G.GAME.alice_multiplier}}
+    end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -124,7 +124,7 @@ local white_rabbit = {
             text_config = { colour = G.C.CHIPS },
             calc_function = function(card)
                 card.joker_display_values.chips = card.ability.extra.chips*G.GAME.alice_multiplier
-            end,
+           end,
         }
     end,
 }
@@ -139,7 +139,7 @@ local drink_me = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 0 },
     config = {extra = 1, taken = false},
-	rarity = 1,
+    rarity = 1,
     cost = 6,
     blueprint_compat = false,
     demicoloncompat = false,
@@ -215,8 +215,8 @@ local drink_me = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -236,7 +236,7 @@ local drink_me = {
                 card.joker_display_values.active = (G.jokers.cards[1] == card and G.jokers.cards[#G.jokers.cards].config.center_key ~= "j_sgt_eat_me")
                 and localize("jdis_active") or localize("jdis_inactive")
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
-            end,
+           end,
         }
     end,
 }
@@ -251,7 +251,7 @@ local eat_me = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 2, y = 0 },
     config = {extra = 1},
-	rarity = 1,
+    rarity = 1,
     cost = 6,
     blueprint_compat = false,
     demicoloncompat = false,
@@ -341,8 +341,8 @@ local eat_me = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -364,7 +364,7 @@ local eat_me = {
                 and G.jokers.cards[1].config.center_key ~= "j_sgt_unlabeled_bottle")
                 and localize("jdis_active") or localize("jdis_inactive")
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
-            end,
+           end,
         }
     end,
 }
@@ -379,7 +379,7 @@ local mouse = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 0 },
     config = {extra = {mult = 20, buffer_mult = 0, debuff_position = {}}},
-	rarity = 1,
+    rarity = 1,
     cost = 5,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -387,15 +387,15 @@ local mouse = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.modify_scoring_hand and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
-			return {
+            return {
                 add_to_hand = true,
                 no_retrigger = true
             }
-		end
+        end
         if (context.joker_main or context.forcetrigger) and to_big(card.ability.extra.mult) > to_big(0) then
             return {
                 mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
             }
         end
         if context.after and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
@@ -440,8 +440,8 @@ local mouse = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -461,7 +461,7 @@ local mouse = {
 
                 card.joker_display_values.mult = card.ability.extra.mult*G.GAME.alice_multiplier
                 card.joker_display_values.debuff_position = positions and table.concat(positions, ", ") or ""
-            end,
+           end,
             scoring_function = function(playing_card, scoring_hand, joker_card)
                 return true
             end
@@ -479,7 +479,7 @@ local kid_gloves_and_fan = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 0 },
     config = {extra = {rank_drop = 1, chips = 0}},
-	rarity = 2,
+    rarity = 2,
     cost = 8,
     blueprint_compat = false,
     demicoloncompat = false,
@@ -487,11 +487,11 @@ local kid_gloves_and_fan = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.joker_main and to_big(card.ability.extra.chips) > to_big(0) then
-			return {
-				chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
-				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
-			}
-		end
+            return {
+                chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
+                message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
+            }
+        end
         if G and G.jokers and G.jokers.cards and G.jokers.cards[1]
         and G.jokers.cards[1] == card and not context.blueprint then
             if context.individual and context.cardarea == G.play then
@@ -552,8 +552,8 @@ local kid_gloves_and_fan = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -576,7 +576,7 @@ local kid_gloves_and_fan = {
                 card.joker_display_values.ranks_per_decrease = card.ability.extra.rank_drop*G.GAME.alice_multiplier
                 card.joker_display_values.plus = G.GAME.story_mode and "+" or ""
                 card.joker_display_values.chips = G.GAME.story_mode and card.ability.extra.chips*G.GAME.alice_multiplier or ""
-            end,
+           end,
         }
     end,
 }
@@ -591,7 +591,7 @@ local dodo_bird = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 1 },
     config = {extra = {xmult = 1.5}},
-	rarity = 3,
+    rarity = 3,
     cost = 9,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -647,8 +647,8 @@ local dodo_bird = {
         return {vars = {card.ability.extra.xmult*G.GAME.alice_multiplier}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -678,7 +678,7 @@ local unlabeled_bottle = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 1 },
     config = {extra = 2, taken = false},
-	rarity = 2,
+    rarity = 2,
     cost = 6,
     blueprint_compat = false,
     demicoloncompat = false,
@@ -777,8 +777,8 @@ local unlabeled_bottle = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -798,7 +798,7 @@ local unlabeled_bottle = {
                 card.joker_display_values.active = G.jokers.cards[1] == card
                 and localize("jdis_active") or localize("jdis_inactive")
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
-            end,
+           end,
         }
     end,
 }
@@ -813,7 +813,7 @@ local little_bill = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 2, y = 1 },
     config = {type = "Full House", extra = 2},
-	rarity = 1,
+    rarity = 1,
     cost = 5,
     blueprint_compat = true,
     demicoloncompat = false,
@@ -848,8 +848,8 @@ local little_bill = {
         return {vars = {card.ability.extra*G.GAME.alice_multiplier, localize(card.ability.type, 'poker_hands'), localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -870,7 +870,7 @@ local little_bill = {
                 end
                 card.joker_display_values.retriggers = card.joker_display_values.is_full_house
                 and card.ability.extra*G.GAME.alice_multiplier or 0
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if not joker_card:can_calculate() then
                     return 0
@@ -879,7 +879,7 @@ local little_bill = {
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return first_card and playing_card == first_card and joker_card.joker_display_values.is_full_house and
                     joker_card.ability.extra*G.GAME.alice_multiplier*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
         }
     end,
 }
@@ -894,7 +894,7 @@ local huge_dog = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 3, y = 1 },
     config = {extra = {times = 1, extra_times = 1}},
-	rarity = 2,
+    rarity = 2,
     cost = 6,
     blueprint_compat = true,
     demicoloncompat = false,
@@ -945,8 +945,8 @@ local huge_dog = {
         return {vars = {card.ability.extra.times*G.GAME.alice_multiplier, card.ability.extra.extra_times*G.GAME.alice_multiplier}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -978,7 +978,7 @@ local huge_dog = {
 
                 card.joker_display_values.retriggers = count
                 card.joker_display_values.localized_text_ace = localize("Ace", "ranks")
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if not joker_card:can_calculate() then
                     return 0
@@ -997,7 +997,7 @@ local huge_dog = {
                 or joker_card.ability.extra.times*G.GAME.alice_multiplier
                 return (playing_card:get_id() == 2 or playing_card:get_id() == 14)
                 and count * JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
         }
     end
 }
@@ -1012,7 +1012,7 @@ local caterpillar = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 1 },
     config = {extra = 12},
-	rarity = 1,
+    rarity = 1,
     cost = 1,
     blueprint_compat = false,
     demicoloncompat = false,
@@ -1083,8 +1083,8 @@ local caterpillar = {
         return {vars = {card.ability.extra, localize{type = 'name_text', set = "Joker", key = "j_sgt_mushroom", nodes = {}}}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -1096,7 +1096,7 @@ local caterpillar = {
             },
             calc_function = function(card)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
-            end,
+           end,
         }
     end,
 }
@@ -1111,7 +1111,7 @@ local mushroom = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 1 },
     config = {extra = 10, times = 1, taken = false},
-	rarity = 2,
+    rarity = 2,
     cost = 7,
     blueprint_compat = false,
     demicoloncompat = false,
@@ -1241,8 +1241,8 @@ local mushroom = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -1264,7 +1264,7 @@ local mushroom = {
                 or (G.jokers.cards[#G.jokers.cards] == card and G.jokers.cards[1].config.center_key ~= "j_sgt_drink_me"))
                 and localize("jdis_active") or localize("jdis_inactive")
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
-            end,
+           end,
         }
     end,
 }
@@ -1279,7 +1279,7 @@ local pigeon = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 2 },
     config = {extra = 3, egg_boost = 1, triggered = false, value_loss = 2},
-	rarity = 2,
+    rarity = 2,
     cost = 8,
     blueprint_compat = false,
     demicoloncompat = true,
@@ -1298,7 +1298,7 @@ local pigeon = {
                             scalar_value = "egg_boost",
                             operation = function(ref_table, ref_value, initial, scaling)
                                 ref_table[ref_value] = initial + scaling*G.GAME.alice_multiplier
-                            end,
+                           end,
                             no_message = true
                         })
                     else
@@ -1374,8 +1374,8 @@ local pigeon = {
         return {vars = {localize{type = 'name_text', set = "Joker", key = "j_egg", nodes = {}}, card.ability.extra*G.GAME.alice_multiplier, card.ability.egg_boost*G.GAME.alice_multiplier, card.ability.value_loss}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -1393,7 +1393,7 @@ local pigeon = {
             calc_function = function(card)
                 card.joker_display_values.egg_boost = card.ability.egg_boost*G.GAME.alice_multiplier
                 card.joker_display_values.localized_text = localize{type = 'name_text', set = "Joker", key = "j_egg", nodes = {}}
-            end,
+           end,
         }
     end,
 }
@@ -1408,7 +1408,7 @@ local frog_footman = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 2 },
     config = {extra = 2, consumable_slot = 1, alice_mult_buffer = 1, taken = false},
-	rarity = 1,
+    rarity = 1,
     cost = 5,
     blueprint_compat = false,
     demicoloncompat = true,
@@ -1478,8 +1478,8 @@ local frog_footman = {
         return {vars = {card.ability.consumable_slot*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -1491,7 +1491,7 @@ local frog_footman = {
             },
             calc_function = function(card)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
-            end,
+           end,
         }
     end,
 }
@@ -1506,7 +1506,7 @@ local the_cook = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 2, y = 2 },
     config = {extra = {odds = 4, xmult = 2, card_list = {}}, value_shift_init = {{3, 1.8}, {4, 2}, {5, 2.2}, {6, 2.4}}},
-	rarity = 3,
+    rarity = 3,
     cost = 6,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -1580,8 +1580,8 @@ local the_cook = {
         return {vars = {n, d, card.ability.extra.xmult*G.GAME.alice_multiplier}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -1605,7 +1605,7 @@ local the_cook = {
                 card.joker_display_values.xmult = card.ability.extra.xmult*G.GAME.alice_multiplier
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "thecook") } }
                 card.joker_display_values.localized_text = localize("ph_per_face_down")
-            end,
+           end,
         }
     end
 }
@@ -1620,7 +1620,7 @@ local cheshire_cat = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 3, y = 0 },
     config = {extra = {odds = 3}, taken = false},
-	rarity = 1,
+    rarity = 1,
     cost = 6,
     blueprint_compat = true,
     demicoloncompat = false,
@@ -1632,21 +1632,21 @@ local cheshire_cat = {
     calculate = function(self, card, context)
         if context.end_of_round and not context.game_over and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
             if SMODS.pseudorandom_probability(card, 'cheshire_cat_vanish', 1, card.ability.extra.odds*(Sagatro.event_check("goodbye_frog") and 1 or G.GAME.alice_multiplier), "cheshire_cat") then
-				Sagatro.self_destruct(card)
+                Sagatro.self_destruct(card)
                 if Sagatro.event_check("goodbye_frog") then
                     Sagatro.progress_storyline("goodbye_frog", "finish", self.saga_group, G.GAME.interwoven_storyline)
                     Sagatro.progress_storyline("the_party", "add", self.saga_group, G.GAME.interwoven_storyline)
                 end
-				return {
-					message = localize("k_gone_ex"),
+                return {
+                    message = localize("k_gone_ex"),
                     no_retrigger = true
-				}
-			else
-				return {
-					message = localize("k_grin_ex"),
+                }
+            else
+                return {
+                    message = localize("k_grin_ex"),
                     no_retrigger = true
-				}
-			end
+                }
+            end
         end
         local left_joker = nil
         for i = 1, #G.jokers.cards do
@@ -1726,8 +1726,8 @@ local cheshire_cat = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -1764,7 +1764,7 @@ local cheshire_cat = {
                     }, { colour = G.C.GREEN, scale = 0.3 })
                 end
                 card.joker_display_values.copy = copied_joker
-            end,
+           end,
             get_blueprint_joker = function(card)
                 for i = 1, #G.jokers.cards do
                     if G.jokers.cards[i] == card then
@@ -1798,7 +1798,7 @@ local duchess = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 3, y = 2 },
     config = {triggered = false, extra = {e_mult = 1.5, odds = 3, probability_list = {}}},
-	rarity = "sgt_obscure",
+    rarity = "sgt_obscure",
     cost = 12,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -1863,8 +1863,8 @@ local duchess = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -1887,7 +1887,7 @@ local duchess = {
             calc_function = function(card)
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "duchess") } }
                 card.joker_display_values.e_mult = card.ability.triggered and card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier) or 1
-            end,
+           end,
         }
     end,
 }
@@ -1902,7 +1902,7 @@ local the_baby = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 4, y = 2 },
     config = {extra = 3},
-	rarity = 2,
+    rarity = 2,
     cost = 7,
     blueprint_compat = true,
     demicoloncompat = false,
@@ -1942,8 +1942,8 @@ local the_baby = {
         return {vars = {card.ability.extra*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_duchess", nodes = {}}}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -1961,14 +1961,14 @@ local the_baby = {
                 card.joker_display_values.active = G.GAME and G.GAME.current_round.hands_left <= 1
                 and localize("jdis_active") or localize("jdis_inactive")
                 card.joker_display_values.localized_text = next(SMODS.find_card("j_sgt_duchess", true)) and localize("k_safe_ex") or localize("k_self_destruct_ex")
-            end,
+           end,
             style_function = function(card, text, reminder_text, extra)
                 if reminder_text and reminder_text.children[2] then
                     reminder_text.children[2].config.colour = next(SMODS.find_card("j_sgt_duchess", true))
                     and G.C.GREEN or G.C.RED
                 end
                 return false
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if not joker_card:can_calculate() then
                     return 0
@@ -1976,7 +1976,7 @@ local the_baby = {
                 if held_in_hand then return 0 end
                 return G.GAME and G.GAME.current_round.hands_left <= 1
                 and (joker_card.ability.extra*G.GAME.alice_multiplier)*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
         }
     end,
 }
@@ -1991,20 +1991,20 @@ local pepper_caster = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 2 },
     config = {extra = {retriggers = 1, uses = 10}, taken = false},
-	rarity = "sgt_obscure",
+    rarity = "sgt_obscure",
     cost = 12,
     blueprint_compat = true,
     demicoloncompat = false,
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
-		if context.retrigger_joker_check and not context.retrigger_joker then
+        if context.retrigger_joker_check and not context.retrigger_joker then
             return {
                 message = localize("k_again_ex"),
                 repetitions = card.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
                 card = card,
             }
-		end
+        end
         if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and not context.retrigger_joker then
             if card.ability.extra.uses - 1 <= 0 then
                 Sagatro.self_destruct(card)
@@ -2022,7 +2022,7 @@ local pepper_caster = {
                 }
             end
         end
-	end,
+    end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
             card.ability.extra.uses = card.ability.extra.uses*G.GAME.alice_multiplier
@@ -2049,8 +2049,8 @@ local pepper_caster = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -2067,13 +2067,13 @@ local pepper_caster = {
             calc_function = function(card)
                 card.joker_display_values.retriggers = card.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if not retrigger_joker:can_calculate() then
                     return 0
                 end
                 return retrigger_joker.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)
-            end,
+           end,
         }
     end,
 }
@@ -2088,7 +2088,7 @@ local mad_hatter = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 3 },
     config = {extra = {ante_loss = 1}, temp_table = {}},
-	rarity = "sgt_obscure",
+    rarity = "sgt_obscure",
     cost = 16,
     blueprint_compat = false,
     demicoloncompat = false,
@@ -2177,8 +2177,8 @@ local mad_hatter = {
         end
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -2188,7 +2188,7 @@ local mad_hatter = {
             },
             calc_function = function(card)
                 card.joker_display_values.localized_text = localize('k_sgt_trivial')
-            end,
+           end,
         }
     end,
 }
@@ -2203,7 +2203,7 @@ local tea = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 3 },
     config = {extra = {chips = 10, uses = 1}, taken = false},
-	rarity = "sgt_trivial",
+    rarity = "sgt_trivial",
     cost = 1,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -2211,11 +2211,11 @@ local tea = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.joker_main or context.forcetrigger then
-			return {
-				chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
-				message = localize {type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
-			}
-		end
+            return {
+                chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
+                message = localize {type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
+            }
+        end
         if (context.after and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
             if card.ability.extra.uses - 1 <= 0 then
                 Sagatro.self_destruct(card)
@@ -2247,8 +2247,8 @@ local tea = {
         return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier*(G.GAME.story_mode and 1 or 24)}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -2266,7 +2266,7 @@ local tea = {
             calc_function = function(card)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
                 card.joker_display_values.chips = card.ability.extra.chips*G.GAME.alice_multiplier
-            end,
+           end,
         }
     end,
 }
@@ -2281,7 +2281,7 @@ local bread = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 2, y = 3 },
     config = {extra = {chips = 20, uses = 1}, taken = false},
-	rarity = "sgt_trivial",
+    rarity = "sgt_trivial",
     cost = 1,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -2289,11 +2289,11 @@ local bread = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.joker_main or context.forcetrigger then
-			return {
-				chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
-				message = localize {type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
-			}
-		end
+            return {
+                chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
+                message = localize {type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
+            }
+        end
         if (context.after and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
             if card.ability.extra.uses - 1 <= 0 then
                 Sagatro.self_destruct(card)
@@ -2325,8 +2325,8 @@ local bread = {
         return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier*(G.GAME.story_mode and 1 or 24)}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -2344,7 +2344,7 @@ local bread = {
             calc_function = function(card)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
                 card.joker_display_values.chips = card.ability.extra.chips*G.GAME.alice_multiplier
-            end,
+           end,
         }
     end,
 }
@@ -2359,7 +2359,7 @@ local butter = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 3, y = 3 },
     config = {extra = {mult = 2, uses = 1}, taken = false},
-	rarity = "sgt_trivial",
+    rarity = "sgt_trivial",
     cost = 1,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -2367,11 +2367,11 @@ local butter = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.joker_main or context.forcetrigger then
-			return {
+            return {
                 mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
             }
-		end
+        end
         if (context.after and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
             if card.ability.extra.uses - 1 <= 0 then
                 Sagatro.self_destruct(card)
@@ -2403,8 +2403,8 @@ local butter = {
         return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier*(G.GAME.story_mode and 1 or 24)}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -2422,7 +2422,7 @@ local butter = {
             calc_function = function(card)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra.uses
                 card.joker_display_values.mult = card.ability.extra.mult*G.GAME.alice_multiplier
-            end,
+           end,
         }
     end,
 }
@@ -2437,7 +2437,7 @@ local march_hare = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 3 },
     config = {extra = {mult = 0, mult_mod = 3}},
-	rarity = 2,
+    rarity = 2,
     cost = 7,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -2445,11 +2445,11 @@ local march_hare = {
     perishable_compat = false,
     calculate = function(self, card, context)
         if context.joker_main and to_big(card.ability.extra.mult) > to_big(0) then
-			return {
+            return {
                 mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
             }
-		end
+        end
         if context.before and G.GAME.current_round.discards_used <= 0 and not context.blueprint then
             if SMODS.scale_card then
                 SMODS.scale_card(card, {
@@ -2471,7 +2471,7 @@ local march_hare = {
                     card = card
                 }
             end
-		end
+        end
         if context.pre_discard and not context.blueprint and not context.retrigger_joker and not context.forcetrigger and not context.hook then
             if G.GAME.current_round.discards_used <= 0 then
                 return {
@@ -2494,9 +2494,9 @@ local march_hare = {
                 card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
             end
             return {
-				mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
-			}
+                mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
+            }
         end
     end,
     in_pool = function(self, args)
@@ -2506,11 +2506,11 @@ local march_hare = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-		return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, card.ability.extra.mult_mod*G.GAME.alice_multiplier}}
-	end,
+        return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, card.ability.extra.mult_mod*G.GAME.alice_multiplier}}
+    end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -2535,7 +2535,7 @@ local dormouse = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 3 },
     config = {extra = {mult = 80, odds = 4}},
-	rarity = 2,
+    rarity = 2,
     cost = 8,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -2545,7 +2545,7 @@ local dormouse = {
         if (context.joker_main and SMODS.pseudorandom_probability(card, "dormouse", 1, card.ability.extra.odds, "dormouse")) or context.forcetrigger then
             return {
                 mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
             }
         end
     end,
@@ -2557,11 +2557,11 @@ local dormouse = {
     end,
     loc_vars = function(self, info_queue, card)
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "dormouse")
-		return {vars = {n, d, card.ability.extra.mult*G.GAME.alice_multiplier}}
-	end,
+        return {vars = {n, d, card.ability.extra.mult*G.GAME.alice_multiplier}}
+    end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -2595,7 +2595,7 @@ local red_queen = {
     pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 4 },
     config = {extra = {e_mult = 1.1, odds = 1}},
-	rarity = "sgt_obscure",
+    rarity = "sgt_obscure",
     cost = 16,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -2681,8 +2681,8 @@ local red_queen = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -2713,7 +2713,7 @@ local red_queen = {
                 end
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, "red_queen") } }
                 card.joker_display_values.e_mult = emult^count
-            end,
+           end,
         }
     end,
 }
@@ -2728,7 +2728,7 @@ local king = {
     pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 4 },
     config = {extra = {mult = 10, relief = 5}},
-	rarity = 2,
+    rarity = 2,
     cost = 5,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -2738,7 +2738,7 @@ local king = {
         if context.joker_main or context.forcetrigger then
             return {
                 mult_mod = card.ability.extra.mult*G.GAME.alice_multiplier,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult*G.GAME.alice_multiplier}}
             }
         end
     end,
@@ -2770,11 +2770,11 @@ local king = {
         if G.P_CENTERS["j_sgt_red_queen"] then
             info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_red_queen"]
         end
-		return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_red_queen", nodes = {}}, card.ability.extra.relief}}
-	end,
+        return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_red_queen", nodes = {}}, card.ability.extra.relief}}
+    end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -2784,7 +2784,7 @@ local king = {
             text_config = { colour = G.C.MULT },
             calc_function = function(card)
                 card.joker_display_values.mult = card.ability.extra.mult*G.GAME.alice_multiplier
-            end,
+           end,
         }
     end,
 }
@@ -2799,7 +2799,7 @@ local flamingo = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 2, y = 4 },
     config = {extra = {chips = 50, relief = 5}},
-	rarity = 2,
+    rarity = 2,
     cost = 5,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -2807,11 +2807,11 @@ local flamingo = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.joker_main or context.forcetrigger then
-			return {
-				chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
-				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
-			}
-		end
+            return {
+                chip_mod = card.ability.extra.chips*G.GAME.alice_multiplier,
+                message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*G.GAME.alice_multiplier}}
+            }
+        end
     end,
     add_to_deck = function(self, card, from_debuff)
         G.GAME.relief_factor = G.GAME.relief_factor*card.ability.extra.relief
@@ -2841,11 +2841,11 @@ local flamingo = {
         if G.P_CENTERS["j_sgt_red_queen"] then
             info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_red_queen"]
         end
-		return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_red_queen", nodes = {}}, card.ability.extra.relief}}
-	end,
+        return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_red_queen", nodes = {}}, card.ability.extra.relief}}
+    end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -2855,7 +2855,7 @@ local flamingo = {
             text_config = { colour = G.C.CHIPS },
             calc_function = function(card)
                 card.joker_display_values.chips = card.ability.extra.chips*G.GAME.alice_multiplier
-            end,
+           end,
         }
     end,
 }
@@ -2870,7 +2870,7 @@ local gryphon = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 3, y = 4 },
     config = {extra = {e_mult = 1.1}},
-	rarity = "sgt_obscure",
+    rarity = "sgt_obscure",
     cost = 14,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -2925,8 +2925,8 @@ local gryphon = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -2950,7 +2950,7 @@ local gryphon = {
                     end
                 end
                 card.joker_display_values.e_mult = emult^count
-            end,
+           end,
         }
     end,
 }
@@ -2965,7 +2965,7 @@ local mock_turtle = {
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 4 },
     config = {extra = {e_mult = 2, e_mult_odds = 6, self_destruct_odds = 18, probability_list = {e_mult = false, self_destruct = false}}, taken = false},
-	rarity = 3,
+    rarity = 3,
     cost = 10,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -3041,8 +3041,8 @@ local mock_turtle = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_alice_in_wond'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -3074,7 +3074,7 @@ local mock_turtle = {
                 card.joker_display_values.e_mult = card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)
                 card.joker_display_values.e_mult_odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.e_mult_odds, "mock_turtle_critical") } }
                 card.joker_display_values.self_destruct_odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.self_destruct_odds, "mock_turtle_vanish") } }
-            end,
+           end,
         }
     end,
 }
@@ -3090,7 +3090,7 @@ local alice = {
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },
     config = {extra = 3},
-	rarity = 4,
+    rarity = 4,
     cost = 20,
     blueprint_compat = false,
     demicoloncompat = false,
@@ -3186,13 +3186,13 @@ local shepherd_boy = {
                     card = card
                 }
             end
-		end
+        end
         if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.mult,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
-			}
-		end
+            return {
+                mult_mod = card.ability.extra.mult,
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+            }
+        end
         if context.after and not context.blueprint and not context.retrigger_joker
         and SMODS.pseudorandom_probability(card, "real_wolf_incoming", 1, card.ability.extra.odds, "shepherd_boy") then
             G.E_MANAGER:add_event(Event({func = function()
@@ -3241,9 +3241,9 @@ local shepherd_boy = {
                 card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_wolf_ex'), colour = G.C.RED})
             return true end }))
             return {
-				mult_mod = card.ability.extra.mult,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
-			}
+                mult_mod = card.ability.extra.mult,
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+            }
         end
     end,
     in_pool = function(self, args)
@@ -3257,8 +3257,8 @@ local shepherd_boy = {
         return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod, SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "shepherd_boy")}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -3336,8 +3336,8 @@ local puss_in_boots = {
         return {vars = {card.ability.extra.money, card.ability.extra.xmult}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -3366,7 +3366,7 @@ local puss_in_boots = {
                 end
                 card.joker_display_values.money = card.ability.extra.money * count
                 card.joker_display_values.xmult = jack_triggered and card.ability.extra.xmult or 1
-            end,
+           end,
         }
     end,
 }
@@ -3449,8 +3449,8 @@ local iron_john = {
         return {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -3469,14 +3469,14 @@ local iron_john = {
             calc_function = function(card)
                 card.joker_display_values.localized_text = (G.jokers.cards[#G.jokers.cards] == card or G.consumeables.cards[#G.consumeables.cards] == card)
                 and localize("k_release") or localize("k_charge")
-            end,
+           end,
             style_function = function(card, text, reminder_text, extra)
                 if reminder_text and reminder_text.children[2] then
                     reminder_text.children[2].config.colour = (G.jokers.cards[#G.jokers.cards] == card or G.consumeables.cards[#G.consumeables.cards] == card)
                     and G.C.GREEN or G.C.ORANGE
                 end
                 return false
-            end,
+           end,
         }
     end,
 }
@@ -3571,8 +3571,8 @@ local aladdin = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -3603,7 +3603,7 @@ local aladdin = {
                 card.joker_display_values.percent = card.ability.buffed and "" or "%"
                 card.joker_display_values.close_bracket = card.ability.buffed and "" or ")"
                 card.joker_display_values.buffed = card.ability.buffed and localize("k_buffed") or ""
-            end,
+           end,
         }
     end,
 }
@@ -3629,7 +3629,7 @@ local magic_lamp = {
             return {
                 message = localize{type='variable', key='a_xmult', vars={card.ability.extra.xmult}},
                 Xmult_mod = card.ability.extra.xmult
-			}
+            }
         end
         if (context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
             card.ability.magic_lamp_rounds = card.ability.magic_lamp_rounds + 1
@@ -3691,8 +3691,8 @@ local magic_lamp = {
         localize{type = 'name_text', set = "Joker", key = "j_sgt_lamp_genie", nodes = {}}}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -3712,14 +3712,14 @@ local magic_lamp = {
                 card.joker_display_values.active = card.ability.magic_lamp_rounds >= card.ability.extra.rounds_goal and
                 localize{type = 'name_text', set = "Joker", key = "j_sgt_aladdin", nodes = {}}
                 or (card.ability.magic_lamp_rounds .. "/" .. card.ability.extra.rounds_goal)
-            end,
+           end,
             style_function = function(card, text, reminder_text, extra)
                 if reminder_text and reminder_text.children[2] then
                     reminder_text.children[2].config.colour = card.ability.magic_lamp_rounds >= card.ability.extra.rounds_goal
                     and G.C.ORANGE or G.C.UI.TEXT_INACTIVE
                 end
                 return false
-            end,
+           end,
         }
     end
 }
@@ -3767,7 +3767,7 @@ local lamp_genie = {
                 repetitions = card.ability.extra.retriggers,
                 card = card,
             }
-		end
+        end
         if context.setting_blind and not card.getting_sliced and context.blind.boss and not context.forcetrigger
         and not context.blueprint and not context.retrigger_joker and card.ability.wishlist.c_sgt_peace then
             G.E_MANAGER:add_event(Event({func = function()
@@ -3787,7 +3787,7 @@ local lamp_genie = {
         end
         if (context.joker_main or context.forcetrigger) and card.ability.wishlist.c_sgt_freedom then
             return {
-				sgt_e_mult = card.ability.extra.e_mult,
+                sgt_e_mult = card.ability.extra.e_mult,
             }
         end
         -- Aestheticism affects future playing cards as well
@@ -3904,8 +3904,8 @@ local lamp_genie = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -3933,21 +3933,21 @@ local lamp_genie = {
                 and "^" or ""
                 card.joker_display_values.emult = card.ability.wishlist.c_sgt_freedom
                 and card.ability.extra.e_mult or ""
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if not retrigger_joker:can_calculate() then
                     return 0
                 end
                 return retrigger_joker.ability.wishlist.c_sgt_love
                 and retrigger_joker.ability.extra.retriggers or 0
-            end,
+           end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[5] then
                     text.children[5].config.colour = card.ability.wishlist.c_sgt_freedom
                     and G.C.DARK_EDITION or G.C.CLEAR
                 end
                 return false
-            end,
+           end,
         }
     end
 }
@@ -3964,7 +3964,7 @@ local lincoln_ship = {
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL.story_starter] = true},
     pos = { x = 0, y = 0 },
     config = {extra = {mult = 8}},
-	rarity = 1,
+    rarity = 1,
     cost = 5,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -3972,15 +3972,15 @@ local lincoln_ship = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.modify_scoring_hand and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
-			return {
+            return {
                 add_to_hand = true,
                 no_retrigger = true
             }
-		end
+        end
         if context.joker_main or context.forcetrigger then
             return {
                 mult_mod = card.ability.extra.mult,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
             }
         end
     end,
@@ -4017,8 +4017,8 @@ local lincoln_ship = {
         return {vars = {card.ability.extra.mult, localize{type = 'name_text', set = "Joker", key = "j_splash", nodes = {}}}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -4060,7 +4060,7 @@ local submarine = {
             hand_size_story_mode = 0,
         }
     },
-	rarity = "sgt_obscure",
+    rarity = "sgt_obscure",
     cost = 14,
     blueprint_compat = false,
     demicoloncompat = false,
@@ -4254,8 +4254,8 @@ local submarine = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -4275,7 +4275,7 @@ local submarine = {
                 card.joker_display_values.max_hunger = G.GAME.story_mode and card.ability.immutable.states.max_hunger or ""
                 card.joker_display_values.slash = G.GAME.story_mode and "/" or ""
                 card.joker_display_values.comma = G.GAME.story_mode and ", " or ""
-            end,
+           end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[1] then
                     text.children[1].config.colour = card.ability.immutable.states.low_fuel and G.C.RED
@@ -4286,7 +4286,7 @@ local submarine = {
                     or card.ability.immutable.states.nourished and G.C.GREEN or G.C.FILTER
                 end
                 return false
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 local leftmost_fish = nil
                 for _, v in ipairs(G.jokers.cards) do
@@ -4297,7 +4297,7 @@ local submarine = {
                     end
                 end
                 return card == leftmost_fish and retrigger_joker.ability.immutable.states.nourished and 1 or 0
-            end,
+           end,
         }
     end,
 }
@@ -4312,7 +4312,7 @@ local sub_engineer = {
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 1, y = 0 },
     config = {amount = 1},
-	rarity = 2,
+    rarity = 2,
     cost = 5,
     blueprint_compat = false,
     demicoloncompat = false,
@@ -4338,8 +4338,8 @@ local sub_engineer = {
         return {vars = {card.ability.amount}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local clownfish = {
@@ -4352,7 +4352,7 @@ local clownfish = {
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 5, y = 0 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {mult = 4}},
-	rarity = 1,
+    rarity = 1,
     cost = 3,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -4411,8 +4411,8 @@ local clownfish = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -4432,7 +4432,7 @@ local clownfish = {
                     end
                 end
                 card.joker_display_values.mult = mult*count
-            end,
+           end,
         }
     end,
 }
@@ -4447,7 +4447,7 @@ local blue_tang = {
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL["common_fish"]] = true},
     pos = { x = 6, y = 0 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {chips = 25}},
-	rarity = 1,
+    rarity = 1,
     cost = 3,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -4506,8 +4506,8 @@ local blue_tang = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -4527,7 +4527,7 @@ local blue_tang = {
                     end
                 end
                 card.joker_display_values.chips = chips*count
-            end,
+           end,
         }
     end,
 }
@@ -4542,7 +4542,7 @@ local pufferfish = {
     pools = {[SAGA_GROUP_POOL["20k"]] = true},
     pos = { x = 0, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {xmult = 3}},
-	rarity = 2,
+    rarity = 2,
     cost = 5,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -4592,8 +4592,8 @@ local pufferfish = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -4619,7 +4619,7 @@ local white_jellyfish = {
     pos = { x = 1, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {every = 2, xmult = 2.25, odds = 4}},
     no_pool_flag = "white_jellyfish_pop",
-	rarity = 2,
+    rarity = 2,
     cost = 6,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -4700,8 +4700,8 @@ local white_jellyfish = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -4747,7 +4747,7 @@ local red_jellyfish = {
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 2}}, extra = {every = 2, xmult = 4, odds = 32}},
     yes_pool_flag = "white_jellyfish_pop",
     no_pool_flag = "red_jellyfish_pop",
-	rarity = 3,
+    rarity = 3,
     cost = 10,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -4828,8 +4828,8 @@ local red_jellyfish = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -4874,7 +4874,7 @@ local queen_jellyfish = {
     pos = { x = 3, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 3}}, extra = {every = 2, e_mult = 1.25, odds = 256}},
     yes_pool_flag = "red_jellyfish_pop",
-	rarity = "sgt_obscure",
+    rarity = "sgt_obscure",
     cost = 15,
     blueprint_compat = true,
     demicoloncompat = true,
@@ -4952,8 +4952,8 @@ local queen_jellyfish = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -5000,7 +5000,7 @@ local mandarin_fish = {
     pos = { x = 4, y = 1 },
     config = {immutable = {depth_level = 1, weight_level = 1, depth_range = {1, 1}}, extra = {money = 75}},
     no_pool_flag = "mandarin_fish_extinct",
-	rarity = 3,
+    rarity = 3,
     cost = 7,
     blueprint_compat = false,
     demicoloncompat = false,
@@ -5045,8 +5045,8 @@ local mandarin_fish = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -5132,7 +5132,7 @@ local barracuda = {
             end
             return {
                 mult_mod = card.ability.extra.mult,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
             }
         end
     end,
@@ -5165,8 +5165,8 @@ local barracuda = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -5202,7 +5202,7 @@ local school = {
                 for _, v in ipairs(G.hand.cards) do
                     if not (v.area ~= G.hand or v.highlighted or table.contains(G.hand.highlighted, v)) then
                         G.hand.highlighted[#G.hand.highlighted+1] = v
-					    v:highlight(true)
+                        v:highlight(true)
                     end
                 end
                 play_sound('cardSlide1')
@@ -5222,8 +5222,8 @@ local school = {
         return true
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -5235,7 +5235,7 @@ local school = {
             calc_function = function(card)
                 card.joker_display_values.active = G.hand and #G.hand.highlighted == 1
                 and localize("jdis_active") or localize("jdis_inactive")
-            end,
+           end,
         }
     end,
 }
@@ -5295,8 +5295,8 @@ local prawn = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -5320,7 +5320,7 @@ local prawn = {
                 end
                 card.joker_display_values.dollars = dollars*count
                 card.joker_display_values.localized_text = "(" .. localize("k_round") .. ")"
-            end,
+           end,
         }
     end,
 }
@@ -5389,8 +5389,8 @@ local john_dory = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -5414,12 +5414,12 @@ local john_dory = {
                 end
                 card.joker_display_values.money = card.ability.extra.money * count
                 card.joker_display_values.john_dory_card = localize { type = 'variable', key = "jdis_rank_of_suit", vars = { localize("Jack", 'ranks'), localize("Diamonds", 'suits_plural') } }
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if held_in_hand then return 0 end
                 return (playing_card:is_suit("Diamonds") and playing_card:get_id() == 11)
                 and JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
         }
     end,
 }
@@ -5548,8 +5548,8 @@ local octopus = {
         }
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -5568,7 +5568,7 @@ local octopus = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             get_blueprint_joker = function(card)
                 for i = 1, #G.jokers.cards do
                     if G.jokers.cards[i] == card then
@@ -5591,13 +5591,13 @@ local octopus = {
                     end
                 end
                 return nil
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -5607,7 +5607,7 @@ local octopus = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -5697,8 +5697,8 @@ local squid = {
         }
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -5717,16 +5717,16 @@ local squid = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             get_blueprint_joker = function(card)
                 return G.jokers.cards[1]
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -5736,7 +5736,7 @@ local squid = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -5842,8 +5842,8 @@ local turtle_egg = {
         n, d, SMODS.get_probability_vars(card, 1, card.ability.extra.sell_odds, "turtle_egg_sell_hatch")}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -5863,7 +5863,7 @@ local turtle_egg = {
             reminder_text_config = { scale = 0.35 },
             calc_function = function(card)
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "turtle_egg") } }
-            end,
+           end,
         }
     end
 }
@@ -5920,8 +5920,8 @@ local baby_turtle = {
         return {vars = {card.ability.extra.xmult, localize{type = 'name_text', set = "Joker", key = "j_sgt_green_turtle", nodes = {}}}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -6024,8 +6024,8 @@ local green_turtle = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -6059,13 +6059,13 @@ local green_turtle = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -6075,7 +6075,7 @@ local green_turtle = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end
 }
@@ -6196,8 +6196,8 @@ local electric_eel = {
         }
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             calc_function = function(card)
@@ -6208,7 +6208,7 @@ local electric_eel = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if held_in_hand then
                     local count = 0
@@ -6243,7 +6243,7 @@ local electric_eel = {
                     end
                     return count*JokerDisplay.calculate_joker_triggers(joker_card)
                 end
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -6253,7 +6253,7 @@ local electric_eel = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -6310,8 +6310,8 @@ local sea_angel = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -6330,7 +6330,7 @@ local sea_angel = {
                     card.joker_display_values.is_3oak = true
                 end
                 card.joker_display_values.e_mult = card.joker_display_values.is_3oak and card.ability.extra.e_mult or 1
-            end,
+           end,
         }
     end,
 }
@@ -6376,34 +6376,34 @@ local stonefish = {
         end
         if context.forcetrigger then
             if context.scoring_hand then
-				for k, v in ipairs(context.scoring_hand) do
-					if v:is_face() then
-						v:set_ability(G.P_CENTERS.m_stone, nil, true)
-						G.E_MANAGER:add_event(Event({
-							trigger = "after",
-							delay = 0.4,
-							func = function()
-								v:juice_up()
-								return true
-							end,
-						}))
-					end
-				end
-			elseif G and G.hand and #G.hand.highlighted > 0 then
-				for k, v in ipairs(G.hand.highlighted) do
-					if v:is_face() then
-						v:set_ability(G.P_CENTERS.m_stone, nil, true)
-						G.E_MANAGER:add_event(Event({
-							trigger = "after",
-							delay = 0.4,
-							func = function()
-								v:juice_up()
-								return true
-							end,
-						}))
-					end
-				end
-			end
+                for k, v in ipairs(context.scoring_hand) do
+                    if v:is_face() then
+                        v:set_ability(G.P_CENTERS.m_stone, nil, true)
+                        G.E_MANAGER:add_event(Event({
+                            trigger = "after",
+                            delay = 0.4,
+                            func = function()
+                                v:juice_up()
+                                return true
+                           end,
+                        }))
+                    end
+                end
+            elseif G and G.hand and #G.hand.highlighted > 0 then
+                for k, v in ipairs(G.hand.highlighted) do
+                    if v:is_face() then
+                        v:set_ability(G.P_CENTERS.m_stone, nil, true)
+                        G.E_MANAGER:add_event(Event({
+                            trigger = "after",
+                            delay = 0.4,
+                            func = function()
+                                v:juice_up()
+                                return true
+                           end,
+                        }))
+                    end
+                end
+            end
         end
     end,
     in_pool = function(self, args)
@@ -6437,8 +6437,8 @@ local stonefish = {
         }
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local blobfish = {
@@ -6464,7 +6464,7 @@ local blobfish = {
         if context.joker_main and to_big(card.ability.extra.mult) > to_big(0) then
             return {
                 mult_mod = card.ability.extra.mult,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
             }
         end
         if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint then
@@ -6475,7 +6475,7 @@ local blobfish = {
                     scalar_value = "mult_mod",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = initial + scaling*G.GAME.current_round.discards_left
-                    end,
+                   end,
                     scaling_message = {
                         message = localize('k_blob_ex'),
                         colour = G.C.FILTER,
@@ -6498,7 +6498,7 @@ local blobfish = {
                     scalar_value = "mult_mod",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = initial + scaling*G.GAME.current_round.discards_left
-                    end,
+                   end,
                     no_message = true
                 })
             else
@@ -6506,7 +6506,7 @@ local blobfish = {
             end
             return {
                 mult_mod = card.ability.extra.mult,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
             }
         end
     end,
@@ -6540,8 +6540,8 @@ local blobfish = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -6557,13 +6557,13 @@ local blobfish = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -6573,7 +6573,7 @@ local blobfish = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -6619,8 +6619,8 @@ local ugly_blobfish = {
         return {vars = {card.ability.extra.xmult}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -6642,7 +6642,7 @@ local ugly_blobfish = {
                     end
                 end
                 card.joker_display_values.xmult = triggered and card.ability.extra.xmult or 1
-            end,
+           end,
         }
     end,
 }
@@ -6707,9 +6707,9 @@ local coral_kingdom = {
         end
         if context.joker_main and to_big(card.ability.extra.chips) > to_big(0) then
             return {
-				chip_mod = card.ability.extra.chips,
-				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
-			}
+                chip_mod = card.ability.extra.chips,
+                message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
+            }
         end
         if context.forcetrigger then
             local jokers_to_create = math.min(card.ability.extra.joker_count, G.jokers.config.card_limit - (#G.jokers.cards + G.GAME.joker_buffer))
@@ -6740,9 +6740,9 @@ local coral_kingdom = {
                 card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
             end
             return {
-				chip_mod = card.ability.extra.chips,
-				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
-			}
+                chip_mod = card.ability.extra.chips,
+                message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
+            }
         end
     end,
     in_pool = function(self, args)
@@ -6755,8 +6755,8 @@ local coral_kingdom = {
         return {vars = {card.ability.extra.joker_count, card.ability.extra.chips, card.ability.extra.chip_mod}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -6859,8 +6859,8 @@ local dolphin = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -6879,13 +6879,13 @@ local dolphin = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -6895,7 +6895,7 @@ local dolphin = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -6976,8 +6976,8 @@ local coelacanthiformes = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -6997,20 +6997,20 @@ local coelacanthiformes = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[1] then
                     text.children[1].config.colour = card.joker_display_values.active and #G.hand.highlighted == 1
                     and G.C.SECONDARY_SET.Tarot or G.C.UI.TEXT_INACTIVE
                 end
                 return false
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7020,7 +7020,7 @@ local coelacanthiformes = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end
 }
@@ -7089,13 +7089,13 @@ local sunfish = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7105,7 +7105,7 @@ local sunfish = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -7162,8 +7162,8 @@ local moonfish = {
         }
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             calc_function = function(card)
@@ -7174,13 +7174,13 @@ local moonfish = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7190,7 +7190,7 @@ local moonfish = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end
 }
@@ -7257,7 +7257,7 @@ local swordfish = {
             end
             return {
                 chip_mod = card.ability.extra.chips,
-				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
+                message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
             }
         end
         if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint then
@@ -7311,8 +7311,8 @@ local swordfish = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -7328,13 +7328,13 @@ local swordfish = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7344,7 +7344,7 @@ local swordfish = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -7416,8 +7416,8 @@ local penguin = {
         }
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             calc_function = function(card)
@@ -7428,7 +7428,7 @@ local penguin = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local count = 0
                 if not held_in_hand then
@@ -7440,7 +7440,7 @@ local penguin = {
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or count
                 return count
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7450,7 +7450,7 @@ local penguin = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -7514,8 +7514,8 @@ local seal = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -7532,13 +7532,13 @@ local seal = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7548,7 +7548,7 @@ local seal = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -7597,7 +7597,7 @@ local ray = {
                     scalar_value = "base_mult",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = initial + math.max(scaling - temp_Mult, 0)
-                    end,
+                   end,
                     no_message = true
                 })
                 return nil, true
@@ -7614,7 +7614,7 @@ local ray = {
                         scalar_value = "base_mult",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + scaling - 2
-                        end,
+                       end,
                         no_message = true
                     })
                 else
@@ -7623,7 +7623,7 @@ local ray = {
             end
             return {
                 mult_mod = card.ability.extra.mult,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
             }
         end
     end,
@@ -7657,8 +7657,8 @@ local ray = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -7674,13 +7674,13 @@ local ray = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7690,7 +7690,7 @@ local ray = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -7766,7 +7766,7 @@ local orca = {
                             scalar_value = "unfound_sub",
                             operation = function(ref_table, ref_value, initial, scaling)
                                 ref_table[ref_value] = math.max(initial - scaling, 1)
-                            end,
+                           end,
                             scaling_message = {
                                 message = localize("k_upset_ex"),
                                 colour = G.C.FILTER,
@@ -7799,7 +7799,7 @@ local orca = {
                 end
             end
             return {
-				message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.xmult}},
+                message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.xmult}},
                 Xmult_mod = card.ability.extra.xmult
             }
         end
@@ -7850,8 +7850,8 @@ local orca = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -7876,13 +7876,13 @@ local orca = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -7892,7 +7892,7 @@ local orca = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -7988,8 +7988,8 @@ local sperm_whale = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -8006,13 +8006,13 @@ local sperm_whale = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -8022,7 +8022,7 @@ local sperm_whale = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -8094,8 +8094,8 @@ local sea_urchin = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -8108,7 +8108,7 @@ local sea_urchin = {
             extra_config = { colour = G.C.GREEN, scale = 0.3 },
             calc_function = function(card)
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "sea_urchin") } }
-            end,
+           end,
         }
     end,
 }
@@ -8141,7 +8141,7 @@ local starfish = {
         if (context.joker_main or context.forcetrigger) and card.ability.five_tally > 0 then
             return {
                 chip_mod = card.ability.extra.chips*card.ability.five_tally,
-				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*card.ability.five_tally}}
+                message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips*card.ability.five_tally}}
             }
         end
     end,
@@ -8174,8 +8174,8 @@ local starfish = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -8185,7 +8185,7 @@ local starfish = {
             text_config = { colour = G.C.CHIPS },
             calc_function = function(card)
                 card.joker_display_values.chips = card.ability.extra.chips*(card.ability.five_tally or 0)
-            end,
+           end,
         }
     end,
 }
@@ -8250,7 +8250,7 @@ local shark = {
                         scalar_value = "eat_add",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + scaling*total_addition
-                        end,
+                       end,
                         scaling_message = {
                             message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips + card.ability.extra.eat_add*total_addition}},
                             colour = G.C.BLUE,
@@ -8277,9 +8277,9 @@ local shark = {
                 end
             end
             return {
-				chip_mod = card.ability.extra.chips,
-				message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
-			}
+                chip_mod = card.ability.extra.chips,
+                message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
+            }
         end
         if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and not context.retrigger_joker then
             if SMODS.scale_card then
@@ -8289,7 +8289,7 @@ local shark = {
                     scalar_value = "eor_sub",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = math.max(initial - scaling, 0)
-                    end,
+                   end,
                     scaling_message = {
                         message = localize{type = 'variable', key = 'a_chips_minus', vars = {card.ability.extra.eor_sub}},
                         colour = G.C.BLUE,
@@ -8334,8 +8334,8 @@ local shark = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -8400,8 +8400,8 @@ local lantern_fish = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local nautilus = {
@@ -8467,8 +8467,8 @@ local nautilus = {
         }
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -8496,12 +8496,12 @@ local nautilus = {
                 card.joker_display_values.retriggers = count
                 card.joker_display_values.localized_text_ace = localize("Ace", "ranks")
                 card.joker_display_values.localized_text_king = localize("King", "ranks")
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if held_in_hand then return 0 end
                 return table.contains(joker_card.ability.extra.rank_ids, playing_card:get_id())
                 and joker_card.joker_display_values.retriggers * JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
         }
     end,
 }
@@ -8544,7 +8544,7 @@ local stomiidae = {
                         scalar_value = "spade_add",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + scaling*count
-                        end,
+                       end,
                         scaling_message = {
                             message = localize('k_upgrade_ex'),
                             colour = G.C.RED,
@@ -8610,7 +8610,7 @@ local stomiidae = {
                     scalar_value = "eor_sub",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = math.max(initial - scaling, 1)
-                    end,
+                   end,
                     scaling_message = {
                         message = hungry and localize("k_hungry_ex") or localize("k_digest_ex"),
                         colour = G.C.RED,
@@ -8657,8 +8657,8 @@ local stomiidae = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -8701,7 +8701,7 @@ local hermit_crab = {
         if (context.joker_main and next(context.poker_hands[card.ability.type])) or context.forcetrigger then
             return {
                 mult_mod = card.ability.extra.mult,
-				message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+                message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
             }
         end
     end,
@@ -8734,8 +8734,8 @@ local hermit_crab = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -8830,8 +8830,8 @@ local king_crab = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -8848,13 +8848,13 @@ local king_crab = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -8864,7 +8864,7 @@ local king_crab = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -8962,8 +8962,8 @@ local big_red_jelly = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -8982,13 +8982,13 @@ local big_red_jelly = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -8998,7 +8998,7 @@ local big_red_jelly = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -9057,7 +9057,7 @@ local narwhal = {
                         scalar_value = "xmult_mod",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + scaling*total_sell_cost
-                        end,
+                       end,
                         scaling_message = {
                             message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.xmult + card.ability.extra.xmult_mod*total_sell_cost}},
                             colour = G.C.RED,
@@ -9118,8 +9118,8 @@ local narwhal = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -9209,8 +9209,8 @@ local seahorse = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -9305,7 +9305,7 @@ local goblin_shark = {
                         scalar_value = "dollar_mod",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + scaling*total_addition
-                        end,
+                       end,
                         scaling_message = {
                             message = localize("$")..(card.ability.extra.dollars + card.ability.extra.dollar_mod*total_addition),
                             colour = G.C.GOLD,
@@ -9340,7 +9340,7 @@ local goblin_shark = {
                     scalar_value = "sub_per_hand",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = math.max(initial - scaling, 0)
-                    end,
+                   end,
                     scaling_message = {
                         message = "-"..localize("$")..card.ability.extra.sub_per_hand,
                         colour = G.C.GOLD,
@@ -9390,8 +9390,8 @@ local goblin_shark = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -9484,8 +9484,8 @@ local colossal_squid = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -9505,7 +9505,7 @@ local colossal_squid = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local count = 0
                 count = table.contains(joker_card.ability.extra.target_ids, playing_card:get_id())
@@ -9517,7 +9517,7 @@ local colossal_squid = {
                     and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0)
                 end
                 return count
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -9527,7 +9527,7 @@ local colossal_squid = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -9584,7 +9584,7 @@ local chimaera = {
                         scalar_value = "spectral_mod",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + scaling*#killed_jokers
-                        end,
+                       end,
                         scaling_message = {
                             message = localize("k_killed_ex"),
                             G.C.SECONDARY_SET.Spectral,
@@ -9642,7 +9642,7 @@ local chimaera = {
                         scalar_value = "spectral_sub",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = math.max(initial - scaling, 0)
-                        end,
+                       end,
                         no_message = true
                     })
                 else
@@ -9681,8 +9681,8 @@ local chimaera = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -9756,8 +9756,8 @@ local dumbo_octopus = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -9771,12 +9771,12 @@ local dumbo_octopus = {
             },
             calc_function = function(card)
                 card.joker_display_values.dumbo_octopus_card = localize { type = 'variable', key = "jdis_rank_of_suit", vars = { localize("8", "ranks"), localize("Diamonds", 'suits_plural') } }
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if held_in_hand then return 0 end
                 return (playing_card:is_suit("Diamonds") and playing_card:get_id() == 8)
                 and joker_card.ability.extra.retriggers*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
         }
     end,
 }
@@ -9812,7 +9812,7 @@ local atolla_wyvillei = {
                     scalar_value = "xmult_sub",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = math.max(initial - scaling*#context.full_hand, 1)
-                    end,
+                   end,
                     no_message = true
                 })
             else
@@ -9866,8 +9866,8 @@ local atolla_wyvillei = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -9976,8 +9976,8 @@ local faceless_cusk = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -10057,8 +10057,8 @@ local brittle_star = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -10078,7 +10078,7 @@ local brittle_star = {
                     end
                 end
                 card.joker_display_values.xmult = card.ability.extra.xmult ^ count
-            end,
+           end,
         }
     end,
 }
@@ -10176,8 +10176,8 @@ local comb_jellyfish = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -10190,7 +10190,7 @@ local comb_jellyfish = {
             calc_function = function(card)
                 local _, count = Sagatro.check_suit_record(card.ability.extra, card.ability.suit_ge)
                 card.joker_display_values.count = count
-            end,
+           end,
         }
     end,
 }
@@ -10284,8 +10284,8 @@ local lobster = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
@@ -10294,7 +10294,7 @@ local lobster = {
                     if v:is_suit("Diamonds") then first_diamond = v break end
                 end
                 return playing_card == first_diamond and joker_card.ability.extra.retriggers*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
         }
     end,
 }
@@ -10376,8 +10376,8 @@ local fangtooth = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -10407,7 +10407,7 @@ local fangtooth = {
                 card.joker_display_values.xmult = card.ability.extra.xmult ^ count
                 card.joker_display_values.stored_rank = card.ability.extra.stored_rank
                 and localize(card.ability.extra.stored_rank, "ranks") or localize("k_none")
-            end,
+           end,
         }
     end,
 }
@@ -10448,7 +10448,7 @@ local grenadier = {
                             lowest_card:set_seal(SMODS.poll_seal{type_key = 'grenasl', guaranteed = true}, nil, true)
                         end
                         return true
-                    end,
+                   end,
                 }))
             end
         end
@@ -10483,8 +10483,8 @@ local grenadier = {
         }
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -10501,7 +10501,7 @@ local grenadier = {
                 end
                 card.joker_display_values.active = table.size(ranks) > 1
                 and localize("jdis_active") or localize("jdis_inactive")
-            end,
+           end,
         }
     end,
 }
@@ -10588,8 +10588,8 @@ local mahimahi = {
         }}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -10634,13 +10634,13 @@ local mahimahi = {
                         card.joker_display_values.is_high_card = true
                     end
                 end
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 local first_card = scoring_hand and JokerDisplay.calculate_leftmost_card(scoring_hand)
                 return held_in_hand and joker_card.joker_display_values and joker_card.joker_display_values.is_high_card and first_card and playing_card == first_card
                 and (joker_card.ability.immutable or {}).eaten_weight == 3 and (joker_card.ability.immutable or {}).eaten_type == 2
                 and 2*JokerDisplay.calculate_joker_triggers(joker_card) or 0
-            end,
+           end,
             retrigger_joker_function = function(card, retrigger_joker)
                 if card == retrigger_joker and card.ability.immutable and retrigger_joker.ability.immutable then
                     if retrigger_joker.ability.immutable.eaten_weight == 3 and retrigger_joker.ability.immutable.eaten_type == 2 then
@@ -10650,7 +10650,7 @@ local mahimahi = {
                     end
                 end
                 return 0
-            end,
+           end,
         }
     end,
 }
@@ -10673,11 +10673,11 @@ local seawater = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.modify_scoring_hand and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
-			return {
+            return {
                 add_to_hand = true,
                 no_retrigger = true
             }
-		end
+        end
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
@@ -10686,8 +10686,8 @@ local seawater = {
         return true
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local nemo = {
@@ -10759,8 +10759,8 @@ local nemo = {
         return true
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_20k'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -10769,7 +10769,7 @@ local nemo = {
             },
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 return joker_card.ability.joker_count*JokerDisplay.calculate_joker_triggers(joker_card)
-            end,
+           end,
         }
     end,
 }
@@ -10876,8 +10876,8 @@ local mirror = {
         return {vars = {localize(card.ability.type, "poker_hands")}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -10890,7 +10890,7 @@ local mirror = {
                 local text, _, _ = JokerDisplay.evaluate_hand()
                 local is_pair = text == card.ability.type
                 card.joker_display_values.active = is_pair and localize("jdis_active") or localize("jdis_inactive")
-            end,
+           end,
         }
     end,
 }
@@ -11001,8 +11001,8 @@ local white_pawn = {
         return {vars = {localize(card.ability.type, "poker_hands"), localize(card.ability.extra_type, "poker_hands")}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -11041,7 +11041,7 @@ local white_pawn = {
                 card.joker_display_values.active = card:can_calculate()
                 and (straight_active or straight_flush_active)
                 and localize("jdis_active") or localize("jdis_inactive")
-            end,
+           end,
         }
     end,
 }
@@ -11110,8 +11110,8 @@ local white_queen = {
         return {vars = {card.ability.extra.mult}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -11146,7 +11146,7 @@ local white_queen = {
                 if card.joker_display_values.mult < 0 then
                     card.joker_display_values.plus = ""
                 end
-            end,
+           end,
         }
     end,
 }
@@ -11216,8 +11216,8 @@ local white_king = {
         return {vars = {card.ability.extra.xmult}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -11256,7 +11256,7 @@ local white_king = {
                 if not card:can_calculate() then
                     card.joker_display_values.xmult = 1
                 end
-            end,
+           end,
         }
     end,
 }
@@ -11315,8 +11315,8 @@ local live_flowers = {
         return {vars = {card.ability.extra.mult, card.ability.extra.mult_sub}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -11327,7 +11327,7 @@ local live_flowers = {
             calc_function = function(card)
                 card.joker_display_values.mult = card:can_calculate()
                 and card.ability.extra.mult or 0
-            end,
+           end,
         }
     end,
 }
@@ -11366,8 +11366,8 @@ local ticket_checker = {
         return {vars = {card.ability.extra.xmult}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -11381,7 +11381,7 @@ local ticket_checker = {
             calc_function = function(card)
                 card.joker_display_values.xmult = card:can_calculate()
                 and table.size(G.GAME.used_vouchers) > 0 and card.ability.extra.xmult or 1
-            end,
+           end,
         }
     end,
 }
@@ -11433,7 +11433,7 @@ local man_in_white = {
                         scalar_value = "mult_sub",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = math.max(initial - scaling, 0)
-                        end,
+                       end,
                         scaling_message = {
                             message = localize("k_upset_ex"),
                             colour = G.C.FILTER,
@@ -11479,8 +11479,8 @@ local man_in_white = {
         return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod, card.ability.extra.mult_sub}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -11491,7 +11491,7 @@ local man_in_white = {
             calc_function = function(card)
                 card.joker_display_values.mult = card:can_calculate()
                 and card.ability.extra.mult or 0
-            end,
+           end,
             mod_function = function(card, mod_joker)
                 local ret = {}
                 if mod_joker:can_calculate() and card.config.center_key == "j_sgt_goat" then
@@ -11552,7 +11552,7 @@ local goat = {
                         scalar_value = "mult_sub",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = math.max(initial - scaling, 0)
-                        end,
+                       end,
                         scaling_message = {
                             message = localize("k_baah_ex"),
                             colour = G.C.FILTER,
@@ -11598,8 +11598,8 @@ local goat = {
         return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod, card.ability.extra.mult_sub}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -11610,7 +11610,7 @@ local goat = {
             calc_function = function(card)
                 card.joker_display_values.mult = card:can_calculate()
                 and card.ability.extra.mult or 0
-            end,
+           end,
             mod_function = function(card, mod_joker)
                 local ret = {}
                 if mod_joker:can_calculate() and card.config.center_key == "j_sgt_beetle" then
@@ -11671,7 +11671,7 @@ local beetle = {
                         scalar_value = "mult_sub",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = math.max(initial - scaling, 0)
-                        end,
+                       end,
                         scaling_message = {
                             message = localize("k_bzzz_ex"),
                             colour = G.C.FILTER,
@@ -11707,8 +11707,8 @@ local beetle = {
         return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod, card.ability.extra.mult_sub}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -11719,7 +11719,7 @@ local beetle = {
             calc_function = function(card)
                 card.joker_display_values.mult = card:can_calculate()
                 and card.ability.extra.mult or 0
-            end,
+           end,
         }
     end,
 }
@@ -11759,7 +11759,7 @@ local dinah = {
                     scalar_value = "e_mult_mod",
                     operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + scaling*#targets
-                        end,
+                       end,
                     scaling_message = {
                         message = localize("k_happy_ex"),
                         colour = G.C.FILTER,
@@ -11799,8 +11799,8 @@ local dinah = {
         colours = {G.C.SUITS[G.GAME.current_round.dinah_card.suit]}}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -11821,7 +11821,7 @@ local dinah = {
                 card.joker_display_values.dinah_card = localize { type = 'variable', key = "jdis_rank_of_suit", vars = {localize(G.GAME.current_round.dinah_card.rank, 'ranks'), localize(G.GAME.current_round.dinah_card.suit, 'suits_plural') } }
                 card.joker_display_values.emult = card:can_calculate()
                 and card.ability.extra.e_mult or 1
-            end,
+           end,
         }
     end,
 }
@@ -11890,8 +11890,8 @@ local tweedledum = {
         return {vars = {card.ability.extra.xmult, card.ability.extra.xchips}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -11931,7 +11931,7 @@ local tweedledum = {
                     card.joker_display_values.xmult = 1
                     card.joker_display_values.xchips = 1
                 end
-            end,
+           end,
         }
     end,
 }
@@ -12000,8 +12000,8 @@ local tweedledee = {
         return {vars = {card.ability.extra.xmult, card.ability.extra.xchips}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -12041,7 +12041,7 @@ local tweedledee = {
                     card.joker_display_values.xmult = 1
                     card.joker_display_values.xchips = 1
                 end
-            end,
+           end,
         }
     end,
 }
@@ -12088,8 +12088,8 @@ local sheep = {
             card.ability.extra.xscore - card.ability.extra.xscore_mod*(Sagatro.get_pos(card)-1)}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -12106,7 +12106,7 @@ local sheep = {
                 if not card:can_calculate() then
                     card.joker_display_values.xscore = 1
                 end
-            end,
+           end,
         }
     end,
 }
@@ -12173,8 +12173,8 @@ local rocking_horse_fly = {
         return {vars = {localize(card.ability.type, 'poker_hands')}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -12261,8 +12261,8 @@ local bread_and_butter_fly = {
         return {vars = {card.ability.extra.min_money}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -12274,7 +12274,7 @@ local bread_and_butter_fly = {
                 if not card:can_calculate() then
                     card.joker_display_values.money = 0
                 end
-            end,
+           end,
         }
     end,
 }
@@ -12329,8 +12329,8 @@ local snap_dragon_fly = {
         return {vars = {card.ability.extra.mult}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -12410,8 +12410,8 @@ local white_rook = {
         return {vars = {card.ability.extra.mult}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -12442,7 +12442,7 @@ local white_rook = {
                 if card.joker_display_values.mult < 0 then
                     card.joker_display_values.plus = ""
                 end
-            end,
+           end,
         }
     end,
 }
@@ -12500,8 +12500,8 @@ local white_knight = {
         return {vars = {card.ability.extra.mult}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -12532,7 +12532,7 @@ local white_knight = {
                 if card.joker_display_values.mult < 0 then
                     card.joker_display_values.plus = ""
                 end
-            end,
+           end,
         }
     end,
 }
@@ -12579,8 +12579,8 @@ local white_bishop = {
         return {vars = {card.ability.extra.xmult}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -12605,7 +12605,7 @@ local white_bishop = {
                 if not card:can_calculate() then
                     card.joker_display_values.xmult = 1
                 end
-            end,
+           end,
         }
     end,
 }
@@ -12654,8 +12654,8 @@ local jabberwock = {
         return {vars = {colours = {G.C.SGT_OBSCURE}}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -12681,7 +12681,7 @@ local jabberwock = {
                 if card.joker_display_values.xmult == 0 or not card:can_calculate() then
                     card.joker_display_values.xmult = 1
                 end
-            end,
+           end,
         }
     end,
 }
@@ -12730,8 +12730,8 @@ local bandersnatch = {
         return {vars = {colours = {G.C.SGT_OBSCURE}}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local jubjub_bird = {
@@ -12778,7 +12778,7 @@ local jubjub_bird = {
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -12789,7 +12789,7 @@ local jubjub_bird = {
             reminder_text_config = { scale = 0.35 },
             calc_function = function(card)
                 card.joker_display_values.sell_cost = SMODS.signed_dollars(card.sell_cost)
-            end,
+           end,
         }
     end,
 }
@@ -12846,17 +12846,17 @@ local humpty_dumpty = {
                         target:juice_up()
                     end
                 end
-				Sagatro.self_destruct(card)
-				return {
-					message = localize("k_shattered_ex"),
+                Sagatro.self_destruct(card)
+                return {
+                    message = localize("k_shattered_ex"),
                     no_retrigger = true
-				}
-			else
-				return {
-					message = localize("k_safe_ex"),
+                }
+            else
+                return {
+                    message = localize("k_safe_ex"),
                     no_retrigger = true
-				}
-			end
+                }
+            end
         end
         if context.selling_self and not context.blueprint and not context.retrigger_joker then
             if Sagatro.storyline_check(self.saga_group) then
@@ -12894,7 +12894,7 @@ local humpty_dumpty = {
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -12930,7 +12930,7 @@ local humpty_dumpty = {
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "humpty_dumpty") } }
                 card.joker_display_values.dollars = G.GAME.current_round.discards_left > 0 and card:can_calculate() and dollars or 0
                 card.joker_display_values.humdum_card_rank = localize(G.GAME.current_round.humdum_card.rank, 'ranks')
-            end,
+           end,
         }
     end,
 }
@@ -12972,7 +12972,7 @@ local seal_and_carpenter = {
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+    end,
 }
 
 local lion = {
@@ -13020,7 +13020,7 @@ local lion = {
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -13046,7 +13046,7 @@ local lion = {
                 or card.ability.extra.times
 
                 card.joker_display_values.retriggers = count
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if not joker_card:can_calculate() then
                     return 0
@@ -13064,7 +13064,7 @@ local lion = {
                 and joker_card.ability.extra.times+joker_card.ability.extra.extra_times
                 or joker_card.ability.extra.times
                 return count * JokerDisplay.calculate_joker_triggers(joker_card)
-            end,
+           end,
         }
     end,
 }
@@ -13134,7 +13134,7 @@ local unicorn = {
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -13190,7 +13190,7 @@ local true_red_queen = {
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -13213,7 +13213,7 @@ local true_red_queen = {
                     end
                 end
                 card.joker_display_values.e_mult = card:can_calculate() and card.ability.extra.e_mult^count or 1
-            end,
+           end,
         }
     end,
 }
@@ -13269,7 +13269,7 @@ local red_king = {
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -13282,7 +13282,7 @@ local red_king = {
             extra_config = { colour = G.C.GREEN, scale = 0.3 },
             calc_function = function(card)
                 card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "red_king") } }
-            end,
+           end,
         }
     end,
 }
@@ -13357,7 +13357,7 @@ local vorpal_sword = {
                         scalar_value = "sell_cost",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial + 8*scaling
-                        end,
+                       end,
                         scaling_message = {
                             message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult+8*potential_target.sell_cost}},
                             colour = G.C.RED,
@@ -13426,7 +13426,7 @@ local vorpal_sword = {
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             extra = {
@@ -13439,7 +13439,7 @@ local vorpal_sword = {
             extra_config = { colour = G.C.GREEN, scale = 0.3 },
             text = {
                 { ref_table = "card.joker_display_values", ref_value = "plus", colour = G.C.MULT },
-                { ref_table = "card.joker_display_values", ref_value = "mult", colour = G.C.MULT },
+                { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult", colour = G.C.MULT },
                 {
                     border_nodes = {
                         { ref_table = "card.joker_display_values", ref_value = "times" },
@@ -13479,7 +13479,7 @@ local vorpal_sword = {
                     xmult = 1
                 end
                 card.joker_display_values.xmult = jabber and xmult or ""
-            end,
+           end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[3] then
                     text.children[3].config.colour =
@@ -13487,7 +13487,7 @@ local vorpal_sword = {
                     and G.C.MULT or G.C.CLEAR
                 end
                 return false
-            end,
+           end,
         }
     end
 }
@@ -13539,8 +13539,8 @@ local ecila = {
         return {vars = {card.ability.extra.xmult}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             mod_function = function(card, mod_joker)
@@ -13702,7 +13702,7 @@ local goldia = {
                     scalar_value = "stage0_mult_xmod",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = initial * scaling
-                    end,
+                   end,
                     no_message = true
                 })
                 return nil, true
@@ -13715,7 +13715,7 @@ local goldia = {
                         scalar_value = "stage0_mult_xmod",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial * scaling
-                        end,
+                       end,
                         no_message = true
                     })
                 end
@@ -13890,8 +13890,8 @@ local goldia = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+        badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local pocket_mirror = {
@@ -13923,7 +13923,7 @@ local pocket_mirror = {
                     }
                 end
             end
-		end
+        end
         if ((context.end_of_round and not context.game_over and context.main_eval)
         or (context.setting_blind and not card.getting_sliced))
         and not context.blueprint and not context.retrigger_joker then
@@ -13981,8 +13981,8 @@ local pocket_mirror = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local knife_fork = {
@@ -14056,8 +14056,8 @@ local knife_fork = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local rose_bell = {
@@ -14140,8 +14140,8 @@ local rose_bell = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local moon_hairbrush = {
@@ -14230,8 +14230,8 @@ local moon_hairbrush = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local snow_scissors = {
@@ -14299,8 +14299,8 @@ local snow_scissors = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local angel_scythe = {
@@ -14381,8 +14381,8 @@ local angel_scythe = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local egliette = {
@@ -14435,8 +14435,8 @@ local egliette = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local fleta = {
@@ -14643,8 +14643,8 @@ local fleta = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local harpae = {
@@ -14777,8 +14777,8 @@ local harpae = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local lisette = {
@@ -14938,8 +14938,8 @@ local lisette = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local enjel = {
@@ -14976,7 +14976,7 @@ local enjel = {
                     scalar_value = "chip_xmod",
                     operation = function(ref_table, ref_value, initial, scaling)
                         ref_table[ref_value] = initial * scaling
-                    end,
+                   end,
                     no_message = true
                 })
                 return nil, true
@@ -14989,13 +14989,13 @@ local enjel = {
                         scalar_value = "chip_xmod",
                         operation = function(ref_table, ref_value, initial, scaling)
                             ref_table[ref_value] = initial * scaling
-                        end,
+                       end,
                         no_message = true
                     })
                 end
                 return {
                     chip_mod = card.ability.extra.chips,
-				    message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
+                    message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
                 }
             end
         end
@@ -15057,8 +15057,8 @@ local enjel = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local rusty_scissors = {
@@ -15150,8 +15150,8 @@ local rusty_scissors = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local platinum = {
@@ -15206,8 +15206,8 @@ local platinum = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local ozzy = {
@@ -15299,8 +15299,8 @@ local ozzy = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_pmirror'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local hansels_cheat_dice = {
@@ -15367,8 +15367,8 @@ local hansels_cheat_dice = {
         colours = {card.ability.immutable.current_roll > 1 and G.C.GREEN or card.ability.immutable.current_roll > 0 and G.C.RED or G.C.UI.TEXT_INACTIVE}}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -15383,7 +15383,7 @@ local hansels_cheat_dice = {
                 card.ability.immutable.current_roll == 4 and localize("ph_X4_numer") or
                 card.ability.immutable.current_roll == 5 and localize("ph_D5_numer") or
                 card.ability.immutable.current_roll == 6 and localize("ph_guaranteed")
-            end,
+           end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[1] then
                     text.children[1].config.colour =
@@ -15392,7 +15392,7 @@ local hansels_cheat_dice = {
                     G.C.GREEN
                 end
                 return false
-            end,
+           end,
         }
     end,
 }
@@ -15660,8 +15660,8 @@ local skoll_n_hati = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -15680,14 +15680,14 @@ local skoll_n_hati = {
                 else
                     card.joker_display_values.xmult_xchip = card.ability.extra.xmult -- Fallback, just in case
                 end
-            end,
+           end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[1] then
                     text.children[1].config.colour = card.ability.current_mode == "skoll"
                     and G.C.RED or card.ability.current_mode == "hati" and G.C.BLUE or G.C.RED
                 end
                 return false
-            end,
+           end,
         }
     end,
 }
@@ -15757,8 +15757,8 @@ local three_winters = {
         localize{type = 'name_text', set = "Joker", key = "j_sgt_ragnarok", nodes = {}}}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -15777,7 +15777,7 @@ local three_winters = {
             },
             calc_function = function(card)
                 card.joker_display_values.active = card.ability.three_winters_rounds .. "/" .. card.ability.extra.rounds_goal
-            end,
+           end,
         }
     end,
 }
@@ -15807,7 +15807,7 @@ local adam = {
                     card = card,
                 }
             end
-		end
+        end
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode and args
@@ -15820,8 +15820,8 @@ local adam = {
         return {key = Ortalab and "j_sgt_adam_alt" or "j_sgt_adam"}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             retrigger_joker_function = function(card, retrigger_joker)
@@ -15829,7 +15829,7 @@ local adam = {
                     return 0
                 end
                 return ((Ortalab and card.curse) or (not Ortalab and card.ability.perishable)) and 1 or 0
-            end,
+           end,
         }
     end,
 }
@@ -15880,8 +15880,8 @@ local saint_germain = {
         Sagatro.electric_eel_info_queue_append(info_queue, Sagatro.electric_eel_info_queue)
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -15893,7 +15893,7 @@ local saint_germain = {
                 local text, _, scoring_hand = JokerDisplay.evaluate_hand()
                 card.joker_display_values.active = text ~= 'Unknown' and #scoring_hand == 1 and scoring_hand[1]:get_id() == 13
                 and localize("jdis_active") or localize("jdis_inactive")
-            end,
+           end,
         }
     end,
 }
@@ -15964,8 +15964,8 @@ local necronomicon = {
         return true
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -15985,7 +15985,7 @@ local necronomicon = {
                 card.joker_display_values.active =
                 (G.GAME.current_round.hands_played == 0 and count >= 5 and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit)
                 and localize("jdis_active") or localize("jdis_inactive")
-            end,
+           end,
         }
     end,
 }
@@ -16042,8 +16042,8 @@ local frog_prince = {
         return {vars = {localize{type = 'name_text', set = "Joker", key = "j_shortcut", nodes = {}}}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -16148,8 +16148,8 @@ local little_prince = {
         end
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local pumpkin_carriage = {
@@ -16244,8 +16244,8 @@ local pumpkin_carriage = {
         return {vars = {card.ability.extra}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -16257,7 +16257,7 @@ local pumpkin_carriage = {
             },
             calc_function = function(card)
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
-            end,
+           end,
         }
     end,
 }
@@ -16345,8 +16345,8 @@ local abducted_cow = {
         return {vars = {text}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -16376,7 +16376,7 @@ local abducted_cow = {
                 vars = {localize(card.ability.extra.held_card.rank, "ranks"),
                 localize(card.ability.extra.held_card.suit, "suits_plural")}}
                 or localize("k_none")
-            end,
+           end,
         }
     end,
 }
@@ -16444,8 +16444,8 @@ local flying_house = {
         localize("Three of a Kind", 'poker_hands')}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             reminder_text = {
@@ -16462,7 +16462,7 @@ local flying_house = {
                 card.joker_display_values.active =
                 (G.GAME.current_round.hands_played == 0 and active)
                 and localize("jdis_active") or localize("jdis_inactive")
-            end,
+           end,
         }
     end,
 }
@@ -16534,8 +16534,8 @@ local shub = {
             card.ability.extra.e_mult_mod, G.GAME.starting_deck_size}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -16557,7 +16557,7 @@ local shub = {
                     end
                 end
                 card.joker_display_values.e_mult = emult^count
-            end,
+           end,
         }
     end,
 }
@@ -16650,8 +16650,8 @@ local ragnarok = {
         return {vars = {card.ability.extra.e_mult, card.ability.extra.e_mult_mod_boss, card.ability.extra.e_mult_mod_showdown}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -16686,8 +16686,8 @@ local yggdrasil = {
     eternal_compat = true,
     perishable_compat = true,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local thor = {
@@ -16799,8 +16799,8 @@ local thor = {
         return {vars = {card.ability.extra.e_mult}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -16824,7 +16824,7 @@ local thor = {
                     end
                 end
                 card.joker_display_values.e_mult = emult^count
-            end,
+           end,
             retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
                 if not joker_card:can_calculate() then
                     return 0
@@ -16858,7 +16858,7 @@ local thor = {
                     end
                     return count*JokerDisplay.calculate_joker_triggers(joker_card)
                 end
-            end,
+           end,
         }
     end,
 }
@@ -16883,11 +16883,11 @@ local odin = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.modify_scoring_hand and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
-			return {
+            return {
                 add_to_hand = true,
                 no_retrigger = true
             }
-		end
+        end
         if context.before and not context.blueprint and not context.retrigger_joker then
             for _, v in ipairs(context.full_hand) do
                 v:set_ability(G.P_CENTERS.m_sgt_omniscient, nil, true)
@@ -16907,7 +16907,7 @@ local odin = {
         end
         if context.forcetrigger then
             if context.scoring_hand then
-				for _, v in ipairs(context.full_hand) do
+                for _, v in ipairs(context.full_hand) do
                     v:set_ability(G.P_CENTERS.m_sgt_omniscient, nil, true)
                     G.E_MANAGER:add_event(Event({
                         trigger = "after",
@@ -16915,11 +16915,11 @@ local odin = {
                         func = function()
                             v:juice_up()
                             return true
-                        end,
+                       end,
                     }))
-				end
-			elseif G and G.hand and #G.hand.highlighted > 0 then
-				for _, v in ipairs(G.hand.highlighted) do
+                end
+            elseif G and G.hand and #G.hand.highlighted > 0 then
+                for _, v in ipairs(G.hand.highlighted) do
                     v:set_ability(G.P_CENTERS.m_sgt_omniscient, nil, true)
                     G.E_MANAGER:add_event(Event({
                         trigger = "after",
@@ -16927,18 +16927,18 @@ local odin = {
                         func = function()
                             v:juice_up()
                             return true
-                        end,
+                       end,
                     }))
-				end
-			end
+                end
+            end
         end
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_omniscient
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local hermod = {
@@ -17018,8 +17018,8 @@ local hermod = {
         return {vars = {card.ability.extra.amount, card.ability.extra.amount_mod}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_norse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -17137,8 +17137,8 @@ local three_body = {
         return {vars = {card.ability.extra.amount}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_celestaverse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_celestaverse'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local azathoth = {
@@ -17208,8 +17208,8 @@ local azathoth = {
         return {vars = {card.ability.extra.amount, card.ability.extra.amount_mod, localize{type = 'name_text', set = "Tarot", key = "c_fool", nodes = {}}}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -17224,7 +17224,7 @@ local azathoth = {
             },
             calc_function = function(card)
                 card.joker_display_values.localized_text = localize{type = 'name_text', set = "Tarot", key = "c_fool", nodes = {}}
-            end,
+           end,
         }
     end,
 }
@@ -17256,8 +17256,8 @@ local darkness = {
         end
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local nameless = {
@@ -17291,7 +17291,7 @@ local nameless = {
                         G.jokers:change_size(card.ability.amount)
                     end
                     return true
-                end,
+               end,
             }))
         end
     end,
@@ -17309,8 +17309,8 @@ local nameless = {
         return {vars = {card.ability.amount}}
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_lovecraft'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
 }
 
 local mabel = {
@@ -17368,8 +17368,8 @@ local mabel = {
         return ret
     end,
     set_badges = function(self, card, badges)
- 		badges[#badges+1] = create_badge(localize('ph_black_soul'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
- 	end,
+         badges[#badges+1] = create_badge(localize('ph_black_soul'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
+    end,
     joker_display_def = function(JokerDisplay)
         return {
             text = {
@@ -17382,14 +17382,14 @@ local mabel = {
                 or G.jokers.cards[#G.jokers.cards] == card and "+" or ""
                 card.joker_display_values.amount =
                 (G.jokers.cards[1] == card or G.jokers.cards[#G.jokers.cards] == card) and card.ability.amount or 0
-            end,
+           end,
             style_function = function(card, text, reminder_text, extra)
                 if text and text.children[2] then
                     text.children[2].config.colour =
                     (G.jokers.cards[1] == card or G.jokers.cards[#G.jokers.cards] == card) and G.C.FILTER or G.C.UI.TEXT_INACTIVE
                 end
                 return false
-            end,
+           end,
         }
     end,
 }
