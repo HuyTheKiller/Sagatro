@@ -4378,6 +4378,7 @@ return {
                 "including stalling Ante more than 2 times and earned",
                 "score is very high compared to required score.",
             },
+            SGT_hide_stake_stickers = "Hide stake stickers",
             sgt_welcome = "Welcome to Sagatro!",
             sgt_welcome_text1 = "This is a mod that brings fairy tales, mythology, and",
             sgt_welcome_text2 = "surreal elements into the game we - and you - all love.",

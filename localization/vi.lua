@@ -4373,6 +4373,7 @@ return {
                 "bao gồm đứng Ante quá 2 lần và điểm số đạt được rất lớn",
                 "so với điểm yêu cầu.",
             },
+            SGT_hide_stake_stickers = "Ẩn nhãn cược",
             sgt_welcome = "Chào mừng đến với Sagatro!",
             sgt_welcome_text1 = "Đây là một bản mod mang những câu chuyện cổ tích, thần thoại và yếu tố",
             sgt_welcome_text2 = "siêu thực vào tựa game mà chúng tôi - cũng như các bạn - yêu thích.",

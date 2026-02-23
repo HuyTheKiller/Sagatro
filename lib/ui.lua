@@ -215,6 +215,31 @@ function create_UIBox_round_scores_row(score, text_colour)
     return ret
 end
 
+local card_collection_UIBox = SMODS.card_collection_UIBox
+SMODS.card_collection_UIBox = function(_pool, rows, args)
+    if _pool == G.P_CENTER_POOLS.Joker then
+        args.modify_card = function(card, center) card.sticker = not Sagatro.config.HideStakeStickers and get_joker_win_sticker(center) or nil end
+    end
+    local ret = card_collection_UIBox(_pool, rows, args)
+    if _pool == G.P_CENTER_POOLS.Joker then
+        local contents = ret.nodes[1].nodes[1].nodes[1].nodes
+        local sticker_toggle = create_toggle({label = localize('SGT_hide_stake_stickers'),
+        ref_table = Sagatro.config, ref_value = 'HideStakeStickers',
+        active_colour = G.ACTIVE_MOD_UI == Sagatro and Sagatro.secondary_colour or G.C.RED,
+        inactive_colour = G.ACTIVE_MOD_UI == Sagatro and Sagatro.badge_colour or G.C.L_BLACK,
+        callback = function()
+            for j = 1, #G.your_collection do
+                for i = 1, #G.your_collection[j].cards do
+                    local c = G.your_collection[j].cards[i]
+                    c.sticker = not Sagatro.config.HideStakeStickers and get_joker_win_sticker(c.config.center) or nil
+                end
+            end
+        end})
+        table.insert(contents, 2, sticker_toggle)
+    end
+    return ret
+end
+
 -- Submarine's UP and DOWN movements
 local highlight_ref = Card.highlight
 function Card:highlight(is_higlighted)

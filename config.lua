@@ -7,4 +7,5 @@ return {
     Ortagas = false,
     QuickRestart = false,
     LenientScore = false,
+    HideStakeStickers = false,
 }
