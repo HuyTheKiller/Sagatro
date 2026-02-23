@@ -2804,6 +2804,17 @@ function Sagatro:calculate(context)
                 return {prevent_trigger = true}
             end
         end
+        if context.modify_shop_card and (Sagatro.event_check("mirror_maze")
+        or Sagatro.event_check("lisette_chase") or Sagatro.event_check("dull_glass")) then
+            if context.card.ability.set == "Base" or context.card.ability.set == "Enhanced" then
+                context.card.ability.old_enh = context.card.config.center_key
+                context.card.ability.old_edition = context.card.edition and context.card.edition.key or nil
+                context.card.ability.old_seal = context.card.seal
+                context.card:set_ability("m_sgt_mirror")
+                if context.card.ability.old_edition then context.card:set_edition(nil, nil, true) end
+                if context.card.ability.old_seal then context.card:set_seal(nil, true) end
+            end
+        end
     end
     if context.check_eternal and not G.GAME.story_mode then
         local card = context.other_card
