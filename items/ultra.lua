@@ -2481,6 +2481,8 @@ local demon = {
     config = {extra = 3},
     can_use = function(self, card)
         return #G.hand.cards > 1
+        and (not G.GAME.story_mode or not (Sagatro.event_check("mirror_maze")
+        or Sagatro.event_check("lisette_chase") or Sagatro.event_check("dull_glass")))
     end,
     use = function(self, card, area, copier)
         local destroyed_cards = Sagatro.random_destroy(card)
@@ -2524,6 +2526,8 @@ local merciless = {
     config = {extra = 2},
     can_use = function(self, card)
         return #G.hand.cards > 1
+        and (not G.GAME.story_mode or not (Sagatro.event_check("mirror_maze")
+        or Sagatro.event_check("lisette_chase") or Sagatro.event_check("dull_glass")))
     end,
     use = function(self, card, area, copier)
         local destroyed_cards = Sagatro.random_destroy(card)
@@ -2561,6 +2565,8 @@ local chanting = {
     config = {extra = 4},
     can_use = function(self, card)
         return #G.hand.cards > 1
+        and (not G.GAME.story_mode or not (Sagatro.event_check("mirror_maze")
+        or Sagatro.event_check("lisette_chase") or Sagatro.event_check("dull_glass")))
     end,
     use = function(self, card, area, copier)
         local destroyed_cards = Sagatro.random_destroy(card)
@@ -2722,6 +2728,8 @@ local magiseal = {
             if SMODS.has_no_suit(highlighted) then return false end
         end
         return #G.hand.highlighted > 0 and #G.hand.highlighted <= card.ability.max_highlighted
+        and (not G.GAME.story_mode or not (Sagatro.event_check("mirror_maze")
+        or Sagatro.event_check("lisette_chase") or Sagatro.event_check("dull_glass")))
     end,
     use = function(self, card, area, copier)
         local suit = G.hand.highlighted[1].base.suit
@@ -2787,6 +2795,8 @@ local lexicon = {
             if SMODS.has_no_rank(highlighted) then return false end
         end
         return #G.hand.highlighted > 0 and #G.hand.highlighted <= card.ability.max_highlighted
+        and (not G.GAME.story_mode or not (Sagatro.event_check("mirror_maze")
+        or Sagatro.event_check("lisette_chase") or Sagatro.event_check("dull_glass")))
     end,
     use = function(self, card, area, copier)
         local rank = G.hand.highlighted[1].base.value

@@ -1333,3 +1333,19 @@ else
 end
 '''
 match_indent = true
+
+# Forced Mirror card event blocks several Spectral card usages
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+and #G.hand.cards > 1 then
+return true
+'''
+position = "at"
+payload = '''
+and #G.hand.cards > 1 then
+return not G.GAME.story_mode or not (Sagatro.event_check("mirror_maze") or Sagatro.event_check("lisette_chase")
+    or Sagatro.event_check("dull_glass"))
+'''
+match_indent = true
