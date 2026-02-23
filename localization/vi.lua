@@ -2663,7 +2663,7 @@ return {
                 },
             },
             j_sgt_white_pawn = {
-                name = "Con Hàu",
+                name = {"Con Hàu", "{s:0.5}Tốt Trắng{}"},
                 text = {
                     {"Nếu tay bài đã chơi chứa {C:attention}#1#{}",
                     "và chỉ một lá có chất {C:hearts}Cơ{} hoặc",
@@ -2806,7 +2806,7 @@ return {
                 },
             },
             j_sgt_white_rook = {
-                name = "Nai Con",
+                name = {"Nai Con", "{s:0.5}Xe Trắng{}"},
                 text = {
                     {"Áp dụng {C:attention}Bốn Ngón Tay{} nếu có",
                     "một lá {C:attention}không bậc{} giữ trên tay"},
@@ -2825,7 +2825,7 @@ return {
                 },
             },
             j_sgt_white_bishop = {
-                name = "Hoa Cúc",
+                name = {"Hoa Cúc", "{s:0.5}Tượng Trắng{}"},
                 text = {
                     "{X:mult,C:white}X#1#{} Nhân nếu tay bài",
                     "ghi điểm chỉ chứa {C:spades}Bích{} hoặc {C:clubs}Tép{}",

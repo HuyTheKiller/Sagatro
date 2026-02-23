@@ -2667,7 +2667,7 @@ return {
                 },
             },
             j_sgt_white_pawn = {
-                name = "Oyster",
+                name = {"Oyster", "{s:0.5}White Pawn{}"},
                 text = {
                     {"If played hand contains a {C:attention}#1#{}",
                     "and only one card with {C:hearts}Hearts{} or",
@@ -2810,7 +2810,7 @@ return {
                 },
             },
             j_sgt_white_rook = {
-                name = "Fawn",
+                name = {"Fawn", "{s:0.5}White Rook{}"},
                 text = {
                     {"Apply {C:attention}Four Fingers{} if there is",
                     "a {C:attention}rankless{} card held in hand"},
@@ -2829,7 +2829,7 @@ return {
                 },
             },
             j_sgt_white_bishop = {
-                name = "Daisy",
+                name = {"Daisy", "{s:0.5}White Bishop{}"},
                 text = {
                     "{X:mult,C:white}X#1#{} Mult if scoring hand",
                     "only contains {C:spades}Spades{} or {C:clubs}Clubs{}",
