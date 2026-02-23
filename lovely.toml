@@ -1317,6 +1317,7 @@ end
 '''
 match_indent = true
 
+# Forced Mirror cards don't juice up with edition
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"
