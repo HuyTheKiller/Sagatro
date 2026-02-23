@@ -14032,10 +14032,12 @@ local pocket_mirror = {
                     end
                 end
             end
-            info_queue[#info_queue+1] = {set = "Other", key = "sgt_pocket_mirror", specific_vars = {
-                localize{type = "name_text", set = "Joker",
-                key = "j_sgt_goldia_stage_"..(goldia and goldia.ability.immutable.stage or 0)}
-            }}
+            if not Sagatro.event_check("ending_reached", nil, {contain = true}) then
+                info_queue[#info_queue+1] = {set = "Other", key = "sgt_pocket_mirror", specific_vars = {
+                    localize{type = "name_text", set = "Joker",
+                    key = "j_sgt_goldia_stage_"..(goldia and goldia.ability.immutable.stage or 0)}
+                }}
+            end
         end
         return ret
     end,
