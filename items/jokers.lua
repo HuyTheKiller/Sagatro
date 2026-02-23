@@ -14473,7 +14473,7 @@ local angel_scythe = {
     pools = { [SAGA_GROUP_POOL.pmirror] = true },
     pos = { x = 4, y = 0 },
     soul_pos = { x = 5, y = 3 },
-    config = {extra = {xchip = 1.5, xchip_mod = 0.25}, shatters_on_destroy = true},
+    config = {extra = {xchip = 1, xchip_mod = 0.15}, shatters_on_destroy = true},
     rarity = 2,
     cost = 6,
     blueprint_compat = true,
