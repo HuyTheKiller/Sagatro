@@ -14465,7 +14465,7 @@ local snow_scissors = {
 
 local angel_scythe = {
     key = "angel_scythe",
-    name = "Schnee Schere",
+    name = "Engelssense",
     artist_credits = {"huycorn"},
     atlas = "pocket_mirror",
     saga_group = "pocket_mirror",
