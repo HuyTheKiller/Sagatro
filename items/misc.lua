@@ -748,6 +748,7 @@ local off_depth = {
         if context.end_of_round and context.main_eval then
             if card.ability.sgt_off_depth_tally == 1 then
                 card.ability.sgt_off_depth_tally = 0
+                card.ability.extra_slots_used = -1
                 SMODS.calculate_effect({message = localize('k_disabled_ex'), colour = G.C.FILTER, delay = 0.45, no_retrigger = true}, card)
                 SMODS.debuff_card(card, true, "sgt_off_depth_expired")
             else
