@@ -1316,3 +1316,19 @@ else
 end
 '''
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''card:set_edition(poll_edition('illusion', nil, true, true))'''
+position = "at"
+payload = '''
+local _edition = poll_edition('illusion', nil, true, true)
+if Sagatro.event_check("mirror_maze") or Sagatro.event_check("lisette_chase")
+or Sagatro.event_check("dull_glass") then
+  card.ability.old_edition = _edition
+else
+  card:set_edition(_edition)
+end
+'''
+match_indent = true
