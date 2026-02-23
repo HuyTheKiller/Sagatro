@@ -10997,10 +10997,6 @@ local white_pawn = {
         return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_rook
-        info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_knight
-        info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_bishop
-        info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_white_queen
         return {vars = {localize(card.ability.type, "poker_hands"), localize(card.ability.extra_type, "poker_hands")}}
     end,
     set_badges = function(self, card, badges)
