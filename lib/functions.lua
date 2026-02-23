@@ -2804,13 +2804,14 @@ function Sagatro:calculate(context)
                 return {prevent_trigger = true}
             end
         end
+        -- It's all a lie - playing cards in shop cannot have a seal
         if context.modify_shop_card and (Sagatro.event_check("mirror_maze")
         or Sagatro.event_check("lisette_chase") or Sagatro.event_check("dull_glass")) then
             if context.card.ability.set == "Base" or context.card.ability.set == "Enhanced" then
                 context.card.ability.old_enh = context.card.config.center_key
-                context.card.ability.old_seal = context.card.seal
+                -- context.card.ability.old_seal = context.card.seal
                 context.card:set_ability("m_sgt_mirror")
-                if context.card.ability.old_seal then context.card:set_seal(nil, true) end
+                -- if context.card.ability.old_seal then context.card:set_seal(nil, true) end
             end
         end
     end
