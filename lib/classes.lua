@@ -953,10 +953,5 @@ Sagatro.EventChain{
                 end
             end
         end,
-        function()
-            play_sound('timpani')
-            SMODS.add_card{key = "j_sgt_pocket_mirror"}
-            return 0
-        end,
     },
 }
