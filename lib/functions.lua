@@ -4208,6 +4208,22 @@ function mod_chips(_chips)
     return mod_chips_ref(_chips)
 end
 
+-- Make sure it's possible to apply stake sticker to Mandarin Fish
+local sjw = set_joker_win
+function set_joker_win()
+    sjw()
+    if G.GAME.pool_flags.mandarin_fish_extinct then
+        local center_key = "j_sgt_mandarin_fish"
+        G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] = G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] or {count = 1, order = v.config.center.order, wins = {}, losses = {}, wins_by_key = {}, losses_by_key = {}}
+        if G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] then
+            G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins = G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins or {}
+            G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins[G.GAME.stake] = (G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins[G.GAME.stake] or 0) + 1
+            G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins_by_key[SMODS.stake_from_index(G.GAME.stake)] = (G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins_by_key[SMODS.stake_from_index(G.GAME.stake)] or 0) + 1
+        end
+    end
+    G:save_settings()
+end
+
 local tag_zodiac_align = {2, 2, 3, 4, 4, 5, 5, 6}
 
 local at = add_tag
