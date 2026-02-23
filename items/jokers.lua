@@ -15746,7 +15746,7 @@ local ozzy = {
         for k, v in pairs(G.GAME) do
             if string.len(k) > 5 and string.find(k, "_rate")
             and type(v) == "number" and k ~= "joker_rate" and k ~= "edition_rate"
-            and k ~= "spectral_rate" and k ~= "eldritch_rate" then
+            and k ~= "spectral_rate" and k ~= "eldritch_rate" and k ~= "playing_card_rate" then
                 if v ~= 0 then
                     G.GAME[k] = G.GAME[k]/1e18
                 end
@@ -15765,7 +15765,7 @@ local ozzy = {
         for k, v in pairs(G.GAME) do
             if string.len(k) > 5 and string.find(k, "_rate")
             and type(v) == "number" and k ~= "joker_rate" and k ~= "edition_rate"
-            and k ~= "spectral_rate" and k ~= "eldritch_rate" then
+            and k ~= "spectral_rate" and k ~= "eldritch_rate" and k ~= "playing_card_rate" then
                 if v ~= 0 then
                     G.GAME[k] = G.GAME[k]*1e18
                 end
