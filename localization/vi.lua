@@ -621,6 +621,7 @@ return {
                     "Trở về phạm vi độ sâu của cá này ({C:attention}#2#{} đến {C:attention}#3#{})",
                     "hoặc sẽ bị {C:attention}vô hiệu hoá{} sau 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                    "{C:inactive}Không tốn ô joker khi bị vô hiệu",
                 },
             },
             sgt_off_depth_singular = {
@@ -629,6 +630,7 @@ return {
                     "Trở về mức độ sâu của cá này ({C:attention}#2#{})",
                     "hoặc sẽ bị {C:attention}vô hiệu hoá{} sau 3 ván",
                     "{C:inactive}(Còn lại {C:attention}#1#{C:inactive})",
+                    "{C:inactive}Không tốn ô joker khi bị vô hiệu",
                 },
             },
             sgt_off_depth_not_fish = {

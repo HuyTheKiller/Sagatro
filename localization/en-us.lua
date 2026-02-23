@@ -622,6 +622,7 @@ return {
                     "Return to this fish's depth range ({C:attention}#2#{} to {C:attention}#3#{})",
                     "or {C:attention}debuffed{} after 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
+                    "{C:inactive}Takes no joker slot when debuffed",
                 },
             },
             sgt_off_depth_singular = {
@@ -630,6 +631,7 @@ return {
                     "Return to this fish's depth ({C:attention}#2#{})",
                     "or {C:attention}debuffed{} after 3 rounds",
                     "{C:inactive}({C:attention}#1#{C:inactive} remaining)",
+                    "{C:inactive}Takes no joker slot when debuffed",
                 },
             },
             sgt_off_depth_not_fish = {
