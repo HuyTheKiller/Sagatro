@@ -13989,7 +13989,7 @@ local pocket_mirror = {
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if goldia then
                 local pos, other_pos = Sagatro.get_pos(card), Sagatro.get_pos(goldia)
-                if math.abs(pos - other_pos) ~= 1 and not card.shattered then
+                if math.abs(pos - other_pos) ~= 1 and not card.shattered and not Sagatro.event_check("ending_reached", nil, {contain = true}) then
                     card.shattered = true
                     G.E_MANAGER:add_event(Event({func = function()
                         card:shatter()
