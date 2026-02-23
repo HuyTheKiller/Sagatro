@@ -30,3 +30,6 @@ Sagatro.EventChain = setmetatable({}, {
 
 ---@type table<string, Sagatro.EventChain|table>
 Sagatro.EventChains = {}
+
+---@type {chain_key?: string, new_chain_delay?: number, chain_block?: fun():boolean}
+Sagatro.EventChainUtils = {}
