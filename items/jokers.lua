@@ -14089,11 +14089,6 @@ local knife_fork = {
                 }
             end
         end
-        if context.setting_blind and not card.getting_sliced
-        and not context.blueprint and not context.retrigger_joker and G.GAME.pm_mirrorworld
-        and Sagatro.event_check("conditional_game_over", false) and next(SMODS.find_card("j_sgt_egliette", true)) then
-            Sagatro.progress_storyline("conditional_game_over", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
-        end
     end,
     add_to_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
@@ -14585,6 +14580,11 @@ local egliette = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if G.GAME.story_mode then
+            if context.setting_blind and not card.getting_sliced
+            and not context.blueprint and not context.retrigger_joker and G.GAME.pm_mirrorworld
+            and Sagatro.event_check("conditional_game_over", false) then
+                Sagatro.progress_storyline("conditional_game_over", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
+            end
             if context.end_of_round and not context.game_over and context.main_eval
             and not context.blueprint and not context.retrigger_joker then
                 Sagatro.progress_storyline("pm_mirrorworld", "force_finish", self.saga_group, G.GAME.interwoven_storyline)
