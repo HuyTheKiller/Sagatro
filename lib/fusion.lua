@@ -145,7 +145,7 @@ function Card:fuse_saga()
             ease_dollars(-chosen_fusion.cost)
             local j_fusion = create_card('Joker', G.jokers, nil, nil, nil, nil, chosen_fusion.result_joker, nil)
             if edition and not j_fusion.edition then
-                j_fusion.edition = edition
+                j_fusion:set_edition(edition.key, nil, true)
             end
             table.sort(joker_pos, function (a, b)
                 return a.pos > b.pos
