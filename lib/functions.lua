@@ -340,13 +340,21 @@ function Game:main_menu(change_context)
         end,
     }))
 
-    if newcard and (math.random() < 0.1 or Sagatro.debug) then
+    local swap_chance = math.random()
+    if newcard and (swap_chance < 0.25 or Sagatro.debug) then
         local card
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             delay = 4.04,
             func = (function()
-                card = Card(G.title_top.T.x, G.title_top.T.y, G.CARD_W*1.1*1.2, G.CARD_H*1.1*1.2, G.P_CARDS.empty, G.P_CENTERS.j_sgt_ecila, { bypass_discovery_center = true })
+                local center = G.P_CENTERS[swap_chance < 0.125 and "j_sgt_goldia" or "j_sgt_ecila"]
+                card = Card(G.title_top.T.x, G.title_top.T.y, G.CARD_W*1.1*1.2, G.CARD_H*1.1*1.2, G.P_CARDS.empty, center, { bypass_discovery_center = true })
+                if swap_chance < 0.25 then
+                    if not (SMODS.Achievements.ach_sgt_pm_normal_end_2.earned
+                    or SMODS.Achievements.ach_sgt_pm_normal_end_3.earned) then
+                        card.displaying_save = true
+                    end
+                end
                 card.no_ui = true
                 card.states.visible = false
                 card.sticker_run = "NONE" 
