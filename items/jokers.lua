@@ -633,6 +633,9 @@ local dodo_bird = {
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
             Sagatro.progress_storyline("white_rabbit_house", "remove", self.saga_group, G.GAME.interwoven_storyline)
+            if Sagatro.event_check("white_rabbit_house", nil, true) then
+                Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
+            end
         end
     end,
     in_pool = function(self, args)
