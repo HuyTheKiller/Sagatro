@@ -453,7 +453,10 @@ end
 local can_highlight_ref = CardArea.can_highlight
 function CardArea:can_highlight(card)
     local can_hl = can_highlight_ref(self, card)
-    if Sagatro.EventChainUtils.chain_key == "sgt_platinum_ending" and card.config.center_key ~= "j_sgt_goldia" then
+    if (Sagatro.EventChainUtils.chain_key == "sgt_platinum_ending"
+    or Sagatro.EventChainUtils.chain_key == "sgt_dawn_ending"
+    or Sagatro.EventChainUtils.chain_key == "sgt_little_goody_2_shoes_ending")
+    and card.config.center_key ~= "j_sgt_goldia" then
         can_hl = false
     end
     return can_hl
