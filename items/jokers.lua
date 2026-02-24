@@ -10855,7 +10855,7 @@ local mirror = {
             return Sagatro.event_check("facing_egliette")
         end
         if G.GAME.story_mode then
-            return Sagatro.storyline_check("alice_in_wonderland")
+            return Sagatro.storyline_check("alice_in_wonderland") and not G.GAME.won
         end
         return true
     end,
