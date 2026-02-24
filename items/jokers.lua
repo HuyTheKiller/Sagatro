@@ -14091,7 +14091,7 @@ local knife_fork = {
         end
         if context.setting_blind and not card.getting_sliced
         and not context.blueprint and not context.retrigger_joker and G.GAME.pm_mirrorworld
-        and Sagatro.event_check("conditional_game_over", false) then
+        and Sagatro.event_check("conditional_game_over", false) and next(SMODS.find_card("j_sgt_egliette", true)) then
             Sagatro.progress_storyline("conditional_game_over", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
         end
     end,
