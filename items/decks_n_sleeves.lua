@@ -12,9 +12,21 @@ local saga_deck = {
             if Sagatro.debug then
                 print(result)
             end
+            G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally =
+            G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally or 0
+            if not G.PROFILES[G.SETTINGS.profile].mc_aura_first_time then
+                G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally =
+                G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally + 1
+            elseif Sagatro.config.Ortagas then
+                G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally =
+                G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally + 2
+            end
             G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd =
             G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd or 0.997
-            if result > (G.GAME.seeded and 0.997 or G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd) then
+            if result > (G.GAME.seeded and 0.997 or G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd)
+            or G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally >= 2 then
+                G.PROFILES[G.SETTINGS.profile].mc_aura_first_time = true
+                G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally = 0
                 if Sagatro.debug then
                     print(G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd)
                 end
@@ -149,9 +161,21 @@ if CardSleeves then
                     if Sagatro.debug then
                         print(result)
                     end
+                    G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally =
+                    G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally or 0
+                    if not G.PROFILES[G.SETTINGS.profile].mc_aura_first_time then
+                        G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally =
+                        G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally + 1
+                    elseif Sagatro.config.Ortagas then
+                        G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally =
+                        G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally + 2
+                    end
                     G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd =
                     G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd or 0.997
-                    if result > (G.GAME.seeded and 0.997 or G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd) then
+                    if result > (G.GAME.seeded and 0.997 or G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd)
+                    or G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally >= 2 then
+                        G.PROFILES[G.SETTINGS.profile].mc_aura_first_time = true
+                        G.PROFILES[G.SETTINGS.profile].mc_aura_first_time_tally = 0
                         if Sagatro.debug then
                             print(G.PROFILES[G.SETTINGS.profile].story_mode_mc_aura_odd)
                         end

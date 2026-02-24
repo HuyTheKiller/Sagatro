@@ -4353,7 +4353,7 @@ return {
                 "Tắt",
             },
             SGT_sagatro_music_desc = {"Tuỳ chọn bật nhạc Sagatro","và/hoặc nhạc ngoại trong trận"},
-            SGT_ortagas = "Chuyển sang Ortagas",
+            SGT_ortagas = "Ortagas",
             SGT_ortagas_desc = {"Vô dụng?"},
             SGT_quick_restart = "Tải Mới Nhanh",
             SGT_quick_restart_desc = {"Nhấn R để tạo trận mới tức thì", "Tăng tốc tải trận bằng Hộp Lưu"},

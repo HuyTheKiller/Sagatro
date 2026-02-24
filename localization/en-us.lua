@@ -4358,7 +4358,7 @@ return {
                 "Disabled",
             },
             SGT_sagatro_music_desc = {"Options to enable Sagatro music","and/or external ones inside a run"},
-            SGT_ortagas = "Switch to Ortagas",
+            SGT_ortagas = "Ortagas",
             SGT_ortagas_desc = {"Does nothing?"},
             SGT_quick_restart = "Quick Reload",
             SGT_quick_restart_desc = {"Press R to instantly restart the run", "Speeds up loading in Save Box"},
