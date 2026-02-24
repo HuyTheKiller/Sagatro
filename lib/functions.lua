@@ -347,7 +347,7 @@ function Game:main_menu(change_context)
             trigger = 'after',
             delay = 4.04,
             func = (function()
-                local center = G.P_CENTERS[swap_chance < 0.125 and "j_sgt_goldia" or "j_sgt_ecila"]
+                local center = G.P_CENTERS[(swap_chance < 0.125 or Sagatro.debug) and "j_sgt_goldia" or "j_sgt_ecila"]
                 card = Card(G.title_top.T.x, G.title_top.T.y, G.CARD_W*1.1*1.2, G.CARD_H*1.1*1.2, G.P_CARDS.empty, center, { bypass_discovery_center = true })
                 if swap_chance < 0.25 then
                     if not (SMODS.Achievements.ach_sgt_pm_normal_end_2.earned
