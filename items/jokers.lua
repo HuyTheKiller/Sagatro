@@ -1518,14 +1518,15 @@ local the_cook = {
         card.ability.extra.xmult = card.ability.value_shift_init[2][2]
     end,
     calculate = function(self, card, context)
-        if context.sgt_stay_flipped and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
+        if context.sgt_stay_flipped and context.trigger == card
+        and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             card:juice_up(0.7)
         end
-        if context.sgt_play_cards and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
+        if context.sgt_played_cards and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             card.ability.extra.card_list = {}
-            for i = 1, #G.hand.highlighted do
-                if G.hand.highlighted[i].facing == 'back' then
-                    table.insert(card.ability.extra.card_list, G.hand.highlighted[i])
+            for i = 1, #context.sgt_played_cards do
+                if context.sgt_played_cards[i].facing == 'back' then
+                    table.insert(card.ability.extra.card_list, context.sgt_played_cards[i])
                 end
             end
         end

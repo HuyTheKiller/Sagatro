@@ -206,7 +206,7 @@ end
 '''
 match_indent = true
 
-# The Cook patches (stolen from Bunco's Vandalism)
+# The Cook patches (modified from Bunco's Vandalism)
 [[patches]]
 [patches.pattern]
 target = 'blind.lua'
@@ -218,7 +218,7 @@ if G.jokers then
     for _, v in ipairs(Sagatro.find_active_card("j_sgt_the_cook")) do
         if v:can_calculate() then
             if (SMODS.pseudorandom_probability(v, 'thecook'..G.SEED, 1, v.ability.extra.odds, 'thecook')) and (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.DRAW_TO_HAND) then
-                SMODS.calculate_context({sgt_stay_flipped = true})
+                SMODS.calculate_context({sgt_stay_flipped = true, trigger = v})
                 return true
             end
         end
@@ -229,15 +229,11 @@ end
 [[patches]]
 [patches.pattern]
 target = 'functions/state_events.lua'
-pattern = '''--check the hand first'''
+pattern = '''table.sort(G.hand.highlighted, function(a,b) return a.T.x < b.T.x end)'''
 position = 'after'
 match_indent = true
 payload = '''
-if G.jokers then
-    for _, v in ipairs(Sagatro.find_active_card("j_sgt_the_cook")) do
-        SMODS.calculate_context({sgt_play_cards = true})
-    end
-end
+SMODS.calculate_context({sgt_played_cards = G.hand.highlighted})
 '''
 
 # Patches to disable Up the Ante
