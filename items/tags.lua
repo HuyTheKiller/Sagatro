@@ -15,11 +15,7 @@ local progress_pie = {
         if not tag.ability.in_run or tag.fake_tag then
             return {key = "tag_sgt_progress_pie_collection"}
         end
-        local ret = {vars = {G.GAME.storyline_progress or 0, colours = {(G.GAME.storyline_progress or 0) < 100 and G.C.FILTER or G.C.GREEN}}}
-        if G.GAME.current_storyline == "alice_in_wonderland" then
-            ret.key = "tag_sgt_progress_pie_alice_in_wond"
-        end
-        return ret
+        return {vars = {G.GAME.storyline_progress or 0, colours = {(G.GAME.storyline_progress or 0) < 100 and G.C.FILTER or G.C.GREEN}}}
     end,
 }
 

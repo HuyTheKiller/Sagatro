@@ -147,7 +147,20 @@ Sagatro.forced_buffoon_events = {
 }
 
 Sagatro.progress_points = {
-    alice_in_wonderland = {}, -- Pending rework
+    alice_in_wonderland = {
+        cry_into_flood = 8,
+        white_rabbit_house = 8,--16
+        little_bill = 8,--24
+        huge_dog = 8,--32
+        caterpillar = 8,--40
+        pig_and_pepper = 8,--48
+        goodbye_frog = 8,--56
+        the_party = 8,--64
+        mad_hatter = 8,--72
+        red_queen = 8,--80
+        gryphon = 10,--90
+        final_showdown = 10,--100
+    },
     ["20k_miles_under_the_sea"] = {
         turquoise_jellyfish = 20,
         aqua_eyeshard = 20,--40
