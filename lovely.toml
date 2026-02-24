@@ -258,7 +258,7 @@ end
 [[patches]]
 [patches.regex]
 target = 'functions/UI_definitions.lua'
-pattern = '''elseif [type == 'Boss' and ]*not run_info then'''
+pattern = '''elseif (type == 'Boss' and )*not run_info then'''
 position = 'at'
 payload = '''elseif type == 'Boss' and not run_info and not Sagatro.stall_ante() then'''
 
@@ -489,22 +489,10 @@ G.GAME.current_round.dollars_to_be_earned = self.dollars > 0 and (self.dollars <
 
 # Force win if a certain showdown blind is defeated
 [[patches]]
-[patches.pattern]
+[patches.regex]
 target = 'functions/state_events.lua'
-pattern = '''if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss' then'''
+pattern = '''if (not G\.GAME\.won and )*G\.GAME\.round_resets\.ante (=|>)= G\.GAME\.win_ante and G\.GAME\.blind(:get_type\(\)|_on_deck) == 'Boss' then'''
 position = 'at'
-match_indent = true
-payload = '''
-if not G.GAME.won and ((not G.GAME.story_mode and G.GAME.round_resets.ante >= G.GAME.win_ante and G.GAME.blind_on_deck == 'Boss')
-or (G.GAME.story_mode and Sagatro.can_win_story_mode() and not G.GAME.paused_showdown)) then
-'''
-
-[[patches]] # Same patch but for dev version of SMODS
-[patches.pattern]
-target = 'functions/state_events.lua'
-pattern = '''if not G.GAME.won and G.GAME.round_resets.ante >= G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss' then'''
-position = 'at'
-match_indent = true
 payload = '''
 if not G.GAME.won and ((not G.GAME.story_mode and G.GAME.round_resets.ante >= G.GAME.win_ante and G.GAME.blind_on_deck == 'Boss')
 or (G.GAME.story_mode and Sagatro.can_win_story_mode() and not G.GAME.paused_showdown)) then
