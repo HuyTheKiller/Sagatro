@@ -10,7 +10,7 @@ Immerse yourself with **Story Mode** - a unique twist to gameplay that allows yo
 ---
 
 🛠️ **Current Features**  
-- ✨ 134 New Jokers from various stories (+14 more with Talisman installed!).
+- ✨ 149 New Jokers from various stories (+14 more with Talisman installed!).
 - 📕 Story Mode: Enable the natural flow of a story - progress to get stronger, defeat the final boss to win regardless of win Ante. You can treat this mod as a simple content pack by turning it off.
 - 🔴 12 New Boss Blinds: these will pose as minor and major villains in Story Mode.
 - 🎲 60+ new consumable cards - level the playing field against cruel blinds. Also accommodated by 6 Vouchers and 4 Tags.
@@ -29,8 +29,8 @@ Immerse yourself with **Story Mode** - a unique twist to gameplay that allows yo
     * 🟡 Gold Stake: Jokers must last 3 rounds to be sellable
 - 🗻 Boost your Cryptid addiction with this mod's own Exponential Mult - an extremely powerful operation used for deep endless runs.
 - 🎨 Custom artwork: Many of them are pulled from Black Souls' twisted farity tales.
-- 🎵 Custom music: Ease your stress with a lofi-themed version of the original soundtrack. It's not copyrighted so feel free to stream!
-
+- 🎵 Custom music: Ease your stress with a lofi-themed version of the original soundtrack. It's not copyrighted* so feel free to stream!
+###### * Pocket Mirror storyline alters background music based on your current progress, many of which may be copyrighted. If you encounter issues, go to Sagatro's config tab and use the "No external" option of Sagatro music.
 ---
 
 🚧 **Status**  
