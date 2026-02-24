@@ -226,7 +226,7 @@ SMODS.card_collection_UIBox = function(_pool, rows, args)
         local sticker_toggle = create_toggle({label = localize('SGT_hide_stake_stickers'),
         ref_table = Sagatro.config, ref_value = 'HideStakeStickers',
         active_colour = G.ACTIVE_MOD_UI == Sagatro and Sagatro.secondary_colour or G.C.RED,
-        inactive_colour = G.ACTIVE_MOD_UI == Sagatro and Sagatro.badge_colour or G.C.L_BLACK,
+        inactive_colour = G.ACTIVE_MOD_UI == Sagatro and Sagatro.badge_colour or ret.nodes[1].nodes[1].config.colour,
         callback = function()
             for j = 1, #G.your_collection do
                 for i = 1, #G.your_collection[j].cards do
