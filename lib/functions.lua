@@ -542,8 +542,13 @@ end
 
 local add_to_highlighted_ref = CardArea.add_to_highlighted
 function CardArea:add_to_highlighted(card, silent)
-    if SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.story_starter and G.OVERLAY_TUTORIAL then
-        return
+    if G.OVERLAY_TUTORIAL and G.OVERLAY_TUTORIAL.Alice then
+        if SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.story_starter then
+            return
+        end
+        if G.STATE == G.STATES.SHOP then
+            return
+        end
     end
     return add_to_highlighted_ref(self, card, silent)
 end
