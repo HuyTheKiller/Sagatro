@@ -58,7 +58,7 @@ G.FUNCS.saga_tutorial_controller = function(reset)
                 G:save_progress()
             end
         end
-        if G.STATE == G.STATES.SMODS_BOOSTER_OPENED and SMODS.OPENED_BOOSTER.story_starter and G.pack_cards and G.pack_cards.cards[1]
+        if G.STATE == G.STATES.SMODS_BOOSTER_OPENED and SMODS.OPENED_BOOSTER.story_starter and G.pack_cards and G.pack_cards.cards and G.pack_cards.cards[1]
         and G.pack_cards.cards[1].dissolve == 0 and not G.SETTINGS.saga_tutorial_progress.completed_parts['booster'] then
             G.SETTINGS.saga_tutorial_progress.section = 'booster'
             G.FUNCS.saga_tutorial_part('booster')
