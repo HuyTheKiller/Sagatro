@@ -15117,7 +15117,7 @@ local harpae = {
                 else
                     local text, _, scoring_hand = JokerDisplay.evaluate_hand()
                     local count = 0
-                    if text ~= 'Unknown' then
+                    if text == card.ability.extra.poker_hand then
                         for _, scoring_card in pairs(scoring_hand) do
                             count = count + 1
                         end
