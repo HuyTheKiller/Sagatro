@@ -13995,6 +13995,7 @@ local pocket_mirror = {
                 local pos, other_pos = Sagatro.get_pos(card), Sagatro.get_pos(goldia)
                 if math.abs(pos - other_pos) ~= 1 and not card.shattered and not Sagatro.event_check("ending_reached", nil, {contain = true}) then
                     card.shattered = true
+                    G.GAME.sgt_no_saving = true
                     G.E_MANAGER:add_event(Event({func = function()
                         card:shatter()
                     return true end}))
@@ -14102,6 +14103,7 @@ local knife_fork = {
             local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
             if pmirror and not pmirror.shattered then
                 pmirror.shattered = true
+                G.GAME.sgt_no_saving = true
                 G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
                     for _, regalia in ipairs{"j_sgt_knife_fork", "j_sgt_rose_bell", "j_sgt_moon_hairbrush", "j_sgt_snow_scissors", "j_sgt_angel_scythe"} do
                         regalia = SMODS.find_card(regalia, true)[1]
@@ -14199,6 +14201,7 @@ local rose_bell = {
             local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
             if pmirror and not pmirror.shattered then
                 pmirror.shattered = true
+                G.GAME.sgt_no_saving = true
                 G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
                     for _, regalia in ipairs{"j_sgt_knife_fork", "j_sgt_rose_bell", "j_sgt_moon_hairbrush", "j_sgt_snow_scissors", "j_sgt_angel_scythe"} do
                         regalia = SMODS.find_card(regalia, true)[1]
@@ -14311,6 +14314,7 @@ local moon_hairbrush = {
             local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
             if pmirror and not pmirror.shattered then
                 pmirror.shattered = true
+                G.GAME.sgt_no_saving = true
                 G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
                     for _, regalia in ipairs{"j_sgt_knife_fork", "j_sgt_rose_bell", "j_sgt_moon_hairbrush", "j_sgt_snow_scissors", "j_sgt_angel_scythe"} do
                         regalia = SMODS.find_card(regalia, true)[1]
@@ -14406,6 +14410,7 @@ local snow_scissors = {
             local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
             if pmirror and not pmirror.shattered then
                 pmirror.shattered = true
+                G.GAME.sgt_no_saving = true
                 G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
                     for _, regalia in ipairs{"j_sgt_knife_fork", "j_sgt_rose_bell", "j_sgt_moon_hairbrush", "j_sgt_snow_scissors", "j_sgt_angel_scythe"} do
                         regalia = SMODS.find_card(regalia, true)[1]
@@ -14519,6 +14524,7 @@ local angel_scythe = {
             local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
             if pmirror and not pmirror.shattered then
                 pmirror.shattered = true
+                G.GAME.sgt_no_saving = true
                 G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2*G.SETTINGS.GAMESPEED, func = function()
                     for _, regalia in ipairs{"j_sgt_knife_fork", "j_sgt_rose_bell", "j_sgt_moon_hairbrush", "j_sgt_snow_scissors", "j_sgt_angel_scythe"} do
                         regalia = SMODS.find_card(regalia, true)[1]
