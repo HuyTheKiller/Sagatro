@@ -1745,6 +1745,7 @@ function Blind:defeat(silent)
                 G.GAME.shelved_chains.hand_drawn = "sgt_pocket_mirror_chase_prep"
                 G.GAME.goldia_tooltip_key = "pm_chase"
             end
+            Sagatro.update_blind_amount(true)
         end
         if G.GAME.witching_hour and Sagatro.temp_music_volume then
             G.GAME.witching_hour = nil
