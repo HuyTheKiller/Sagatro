@@ -15183,7 +15183,8 @@ local lisette = {
         elseif not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
         and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum") then
             if context.mod_probability and not context.blueprint then
-                if context.trigger_obj and Sagatro.omniscient(context.trigger_obj, {"m_glass", "m_sgt_nyx_glass"}) then
+                if context.trigger_obj and context.trigger_obj.is and context.trigger_obj:is(Card)
+                and Sagatro.omniscient(context.trigger_obj, {"m_glass", "m_sgt_nyx_glass"}) then
                     return { denominator = context.denominator*card.ability.extra.glass_odds_mod }
                 end
             end
@@ -15595,7 +15596,8 @@ local rusty_scissors = {
         if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
         else
             if context.fix_probability then
-                if context.trigger_obj and Sagatro.omniscient(context.trigger_obj, {"m_glass", "m_sgt_nyx_glass"}) then
+                if context.trigger_obj and context.trigger_obj.is and context.trigger_obj:is(Card)
+                and Sagatro.omniscient(context.trigger_obj, {"m_glass", "m_sgt_nyx_glass"}) then
                     return { numerator = context.denominator }
                 end
             end
