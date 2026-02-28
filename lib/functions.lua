@@ -3975,7 +3975,7 @@ end
 ---@return string?
 --- Take control of a registered object at runtime. Proof-of-concept function.
 function Sagatro.runtime_ownership(cls, key, obj, silent, from_mod)
-    assert(SMODS.current_mod, "Attempt to call \"Sagatro.runtime_ownership\" during load")
+    assert(not SMODS.current_mod, "Attempt to call \"Sagatro.runtime_ownership\" during load")
     assert(not obj.inject, 'Overriding "inject" field is not allowed.')
     SMODS.current_mod = from_mod or Sagatro
     local result = cls:take_ownership(key, obj, silent)
