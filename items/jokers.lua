@@ -15018,6 +15018,9 @@ local harpae = {
             end
         elseif not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
         and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum") then
+            if context.starting_shop then
+                card.ability.immutable.appeared = nil
+            end
             if context.individual and context.cardarea == G.play then
                 if context.scoring_name == card.ability.extra.poker_hand then
                     return {
