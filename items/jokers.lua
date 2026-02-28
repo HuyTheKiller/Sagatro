@@ -14697,10 +14697,10 @@ local fleta = {
                 and not card.ability.immutable.butterfly_uncaged then
                     card.ability.immutable.butterfly_uncaged = true
                     local i = 0
-                    while i < 20 do -- yikes, this is not the optimal way to mass-assign stickers
+                    while i < math.min(#G.playing_cards, 20) do -- yikes, this is not the optimal way to mass-assign stickers
                         for _, v in ipairs(G.playing_cards) do
                             if not v.ability.sgt_butterfly and i < 20 then
-                                if pseudorandom("uncaged_butterfly") > 0.67 then
+                                if pseudorandom("uncaged_butterfly") > 0.67 or #G.playing_cards <= 20 then
                                     v:add_sticker("sgt_butterfly", true)
                                     i = i + 1
                                 end
