@@ -4245,11 +4245,13 @@ local sjw = set_joker_win
 function set_joker_win()
     sjw()
     local function set_sticker_run(center_key)
-        G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] = G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] or {count = 1, order = G.P_CENTERS[center_key].order, wins = {}, losses = {}, wins_by_key = {}, losses_by_key = {}}
-        if G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] then
-            G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins = G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins or {}
-            G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins[G.GAME.stake] = (G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins[G.GAME.stake] or 0) + 1
-            G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins_by_key[SMODS.stake_from_index(G.GAME.stake)] = (G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins_by_key[SMODS.stake_from_index(G.GAME.stake)] or 0) + 1
+        if (G.P_CENTERS[center_key] or {}).set == "Joker" then
+            G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] = G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] or {count = 1, order = G.P_CENTERS[center_key].order, wins = {}, losses = {}, wins_by_key = {}, losses_by_key = {}}
+            if G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] then
+                G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins = G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins or {}
+                G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins[G.GAME.stake] = (G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins[G.GAME.stake] or 0) + 1
+                G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins_by_key[SMODS.stake_from_index(G.GAME.stake)] = (G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins_by_key[SMODS.stake_from_index(G.GAME.stake)] or 0) + 1
+            end
         end
     end
     if G.GAME.pool_flags.mandarin_fish_extinct then
