@@ -3843,7 +3843,7 @@ end
 function Sagatro.backward_compat(beta_vercode)
     local _, i = SMODS.version:find("1.0.0~BETA")
     if i then
-        return SMODS.version:sub(i + 1) < beta_vercode
+        return SMODS.version:sub(i + 2) < beta_vercode
     end
     return false
 end
