@@ -288,28 +288,83 @@ function Game:main_menu(change_context)
     end
     Sagatro.delayed_func()
 
-    local selected_card = Ortalab and Ortalab.config.menu_toggle and "j_sgt_mabel" or "j_sgt_alice"
-    local newcard = Card(
-        G.title_top.T.x,
-        G.title_top.T.y,
-        G.CARD_W*1.1*1.2,
-        G.CARD_H*1.1*1.2, -- rescale to match Ace of Spades
-        G.P_CARDS.empty,
-        G.P_CENTERS[selected_card],
-        { bypass_discovery_center = true }
-    )
-    if G.title_top.T.w < 2.1 then
-        G.title_top.T.w = G.title_top.T.w * 1.7675
-        G.title_top.T.x = G.title_top.T.x - 0.8
-    end
-    G.title_top:emplace(newcard)
+    if Sagatro.backward_compat "1330a" then
+        local selected_card = Ortalab and Ortalab.config.menu_toggle and "j_sgt_mabel" or "j_sgt_alice"
+        local newcard = Card(
+            G.title_top.T.x,
+            G.title_top.T.y,
+            G.CARD_W*1.1*1.2,
+            G.CARD_H*1.1*1.2, -- rescale to match Ace of Spades
+            G.P_CARDS.empty,
+            G.P_CENTERS[selected_card],
+            { bypass_discovery_center = true }
+        )
+        if G.title_top.T.w < 2.1 then
+            G.title_top.T.w = G.title_top.T.w * 1.7675
+            G.title_top.T.x = G.title_top.T.x - 0.8
+        end
+        G.title_top:emplace(newcard)
 
-    newcard.no_ui = true
-    newcard.states.visible = false
-    newcard.sticker_run = "NONE" -- remove stake sticker
-    newcard.sagatro_target = true
+        newcard.no_ui = true
+        newcard.states.visible = false
+        newcard.sticker_run = "NONE" -- remove stake sticker
+        newcard.mod_flag = "Sagatro"
+
+        G.E_MANAGER:add_event(Event({
+            trigger = "after",
+            delay = change_context == 'game' and 1.5 or 0,
+            blockable = false,
+            blocking = false,
+            func = function()
+                if change_context == "splash" then
+                    newcard.states.visible = true
+                    newcard:start_materialize({ G.C.WHITE, G.C.WHITE }, true, 2.5)
+                else
+                    newcard.states.visible = true
+                    newcard:start_materialize({ G.C.WHITE, G.C.WHITE }, nil, 1.2)
+                end
+                return true
+            end,
+        }))
+
+        local swap_chance = math.random()
+        if newcard and (swap_chance < 0.25 or Sagatro.debug) then
+            local card
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 4.04,
+                func = (function()
+                    local center = G.P_CENTERS[(swap_chance < 0.125 or Sagatro.debug) and "j_sgt_goldia" or "j_sgt_ecila"]
+                    card = Card(G.title_top.T.x, G.title_top.T.y, G.CARD_W*1.1*1.2, G.CARD_H*1.1*1.2, G.P_CARDS.empty, center, { bypass_discovery_center = true })
+                    if swap_chance < 0.25 then
+                        if not (SMODS.Achievements.ach_sgt_pm_normal_end_2.earned
+                        or SMODS.Achievements.ach_sgt_pm_normal_end_3.earned) then
+                            card.displaying_save = true
+                        end
+                    end
+                    card.no_ui = true
+                    card.states.visible = false
+                    card.sticker_run = "NONE" 
+                    card.mod_flag = "Sagatro"
+                    newcard.parent = nil
+                    newcard:start_dissolve({G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD})
+                    return true
+            end)}))
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 1.04,
+                func = (function()
+                    card:start_materialize()
+                    G.title_top:emplace(card)
+                    return true
+            end)}))
+        end
+    end
 
     if not Ortalab or (Ortalab and not Ortalab.config.menu_toggle) then
+        local splash_args = {mid_flash = change_context == 'splash' and 1.6 or 0.}
+        ease_value(splash_args, 'mid_flash', -(change_context == 'splash' and 1.6 or 0), nil, nil, nil, 4)
+
         G.SPLASH_BACK:define_draw_steps({
             {
                 shader = "splash",
@@ -318,60 +373,13 @@ function Game:main_menu(change_context)
                     { name = "vort_speed", val = 0.4 },
                     { name = "colour_1", ref_table = Sagatro, ref_value = "badge_colour" },
                     { name = "colour_2", ref_table = G.C.RARITY, ref_value = 4 },
+                    { name = 'mid_flash', ref_table = splash_args, ref_value = 'mid_flash' },
+                    { name = 'vort_offset', val = 0 },
                 },
             },
         })
     end
 
-    G.E_MANAGER:add_event(Event({
-        trigger = "after",
-        delay = change_context == 'game' and 1.5 or 0,
-        blockable = false,
-        blocking = false,
-        func = function()
-            if change_context == "splash" then
-                newcard.states.visible = true
-                newcard:start_materialize({ G.C.WHITE, G.C.WHITE }, true, 2.5)
-            else
-                newcard.states.visible = true
-                newcard:start_materialize({ G.C.WHITE, G.C.WHITE }, nil, 1.2)
-            end
-            return true
-        end,
-    }))
-
-    local swap_chance = math.random()
-    if newcard and (swap_chance < 0.25 or Sagatro.debug) then
-        local card
-        G.E_MANAGER:add_event(Event({
-            trigger = 'after',
-            delay = 4.04,
-            func = (function()
-                local center = G.P_CENTERS[(swap_chance < 0.125 or Sagatro.debug) and "j_sgt_goldia" or "j_sgt_ecila"]
-                card = Card(G.title_top.T.x, G.title_top.T.y, G.CARD_W*1.1*1.2, G.CARD_H*1.1*1.2, G.P_CARDS.empty, center, { bypass_discovery_center = true })
-                if swap_chance < 0.25 then
-                    if not (SMODS.Achievements.ach_sgt_pm_normal_end_2.earned
-                    or SMODS.Achievements.ach_sgt_pm_normal_end_3.earned) then
-                        card.displaying_save = true
-                    end
-                end
-                card.no_ui = true
-                card.states.visible = false
-                card.sticker_run = "NONE" 
-                card.sagatro_target = true
-                newcard.parent = nil
-                newcard:start_dissolve({G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD})
-                return true
-        end)}))
-        G.E_MANAGER:add_event(Event({
-            trigger = 'after',
-            delay = 1.04,
-            func = (function()
-                card:start_materialize()
-                G.title_top:emplace(card)
-                return true
-        end)}))
-    end
     -- if not G.PROFILES[G.SETTINGS.profile].sgt_welcome --[[or Sagatro.debug]] then
     --     G.PROFILES[G.SETTINGS.profile].sgt_welcome = true
     --     G.FUNCS.overlay_menu{
@@ -4470,7 +4478,7 @@ if Ortalab then
             mr()
 
             for _, v in ipairs(G.title_top.cards) do
-                if v.sagatro_target then
+                if v.mod_flag == "Sagatro" then
                     v:set_ability(G.P_CENTERS[Ortalab.config.menu_toggle and "j_sgt_mabel" or "j_sgt_alice"], nil)
                     if v.edition and v.edition.negative then
                         v:set_edition(nil, true, true)
@@ -4659,7 +4667,7 @@ end
 local card_click = Card.click
 function Card:click()
     card_click(self)
-    if self.sagatro_target then
+    if self.mod_flag == "Sagatro" then
         G.FUNCS.openModUI_Sagatro{config = {page = "mod_desc", fromAlice = true}}
     end
 end
@@ -4668,10 +4676,57 @@ local card_single_tap = Card.single_tap
 if card_single_tap then
     function Card:single_tap()
         card_single_tap(self)
-        if self.sagatro_target then
+        if self.mod_flag == "Sagatro" then
             G.FUNCS.openModUI_Sagatro{config = {page = "mod_desc", fromAlice = true}}
         end
     end
+end
+
+function Sagatro.menu_cards()
+    return {
+        {key = Ortalab and Ortalab.config.menu_toggle and "j_sgt_mabel" or "j_sgt_alice"},
+        func = function()
+            local swap_chance = math.random()
+            if swap_chance < 0.25 or Sagatro.debug then
+                local card
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 4.04,
+                    func = (function()
+                        local newcard
+                        for _, v in ipairs(G.title_top.cards) do
+                            if v.mod_flag == "Sagatro" then
+                                newcard = v
+                                break
+                            end
+                        end
+                        local center = G.P_CENTERS[(swap_chance < 0.125 or Sagatro.debug) and "j_sgt_goldia" or "j_sgt_ecila"]
+                        card = Card(G.title_top.T.x, G.title_top.T.y, G.CARD_W*1.1*1.2, G.CARD_H*1.1*1.2, G.P_CARDS.empty, center, { bypass_discovery_center = true })
+                        if swap_chance < 0.25 then
+                            if not (SMODS.Achievements.ach_sgt_pm_normal_end_2.earned
+                            or SMODS.Achievements.ach_sgt_pm_normal_end_3.earned) then
+                                card.displaying_save = true
+                            end
+                        end
+                        card.no_ui = true
+                        card.states.visible = false
+                        card.sticker_run = "NONE" 
+                        card.mod_flag = "Sagatro"
+                        newcard.parent = nil
+                        newcard:start_dissolve({G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD})
+                        return true
+                end)}))
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 1.04,
+                    func = (function()
+                        card:start_materialize()
+                        G.title_top:emplace(card)
+                        return true
+                end)}))
+            end
+        end,
+    }
 end
 
 -- Debug territory
