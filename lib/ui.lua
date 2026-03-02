@@ -612,6 +612,7 @@ G.FUNCS.goldia_transform = function(e)
         for i = 1, #regalia_list do
             regalia_list[i]:remove()
         end
+        G.GAME.regalia_list_sticker = G.GAME.regalia_list
         G.GAME.regalia_list = {}
         if #regalia_list == 4 then
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]

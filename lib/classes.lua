@@ -855,6 +855,7 @@ Sagatro.EventChain{
         function()
             play_sound('timpani')
             SMODS.add_card{key = "j_sgt_pocket_mirror"}
+            G.GAME.dawn_pm = true
             return 0
         end,
     },

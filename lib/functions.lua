@@ -4240,16 +4240,32 @@ function mod_chips(_chips)
 end
 
 -- Make sure it's possible to apply stake sticker to Mandarin Fish
+-- Automatic stake sticker handling for collected regalias and more
 local sjw = set_joker_win
 function set_joker_win()
     sjw()
-    if G.GAME.pool_flags.mandarin_fish_extinct then
-        local center_key = "j_sgt_mandarin_fish"
+    local function set_sticker_run(center_key)
         G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] = G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] or {count = 1, order = v.config.center.order, wins = {}, losses = {}, wins_by_key = {}, losses_by_key = {}}
         if G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] then
             G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins = G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins or {}
             G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins[G.GAME.stake] = (G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins[G.GAME.stake] or 0) + 1
             G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins_by_key[SMODS.stake_from_index(G.GAME.stake)] = (G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins_by_key[SMODS.stake_from_index(G.GAME.stake)] or 0) + 1
+        end
+    end
+    if G.GAME.pool_flags.mandarin_fish_extinct then
+        set_sticker_run("j_sgt_mandarin_fish")
+    end
+    if G.GAME.regalia_list_sticker and type(G.GAME.regalia_list_sticker) == "table" then
+        for _, regalia in ipairs(G.GAME.regalia_list_sticker) do
+            if regalia ~= "j_sgt_pocket_mirror" or not G.GAME.dawn_pm then
+                set_sticker_run(regalia)
+            end
+        end
+        G.GAME.regalia_list_sticker = nil
+    end
+    if Sagatro.storyline_check("pocket_mirror") then
+        for _, extra in ipairs{"j_sgt_egliette", "j_sgt_rusty_scissors"} do
+            set_sticker_run(extra)
         end
     end
     G:save_settings()
