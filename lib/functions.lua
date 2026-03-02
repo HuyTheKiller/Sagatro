@@ -4245,7 +4245,7 @@ local sjw = set_joker_win
 function set_joker_win()
     sjw()
     local function set_sticker_run(center_key)
-        G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] = G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] or {count = 1, order = v.config.center.order, wins = {}, losses = {}, wins_by_key = {}, losses_by_key = {}}
+        G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] = G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] or {count = 1, order = G.P_CENTERS[center_key].order, wins = {}, losses = {}, wins_by_key = {}, losses_by_key = {}}
         if G.PROFILES[G.SETTINGS.profile].joker_usage[center_key] then
             G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins = G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins or {}
             G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins[G.GAME.stake] = (G.PROFILES[G.SETTINGS.profile].joker_usage[center_key].wins[G.GAME.stake] or 0) + 1
