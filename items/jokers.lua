@@ -14836,7 +14836,7 @@ local fleta = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.xmult}}
-        if (G.GAME.story_mode and not card.ability.platinum_reflection) or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if ((G.GAME.story_mode or card.displaying_save) or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers)) and not card.ability.platinum_reflection then
             ret.key = self.key.."_stage_"..card.ability.immutable.stage
             if card.ability.immutable.stage == 1 then
                 ret.vars = {card.ability.immutable.pairs_played, colours = {card.ability.immutable.completed.memory and G.C.GREEN or G.C.FILTER}}
@@ -15071,7 +15071,7 @@ local harpae = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.xmult, localize(card.ability.extra.poker_hand, 'poker_hands')}}
-        if (G.GAME.story_mode and not card.ability.platinum_reflection) or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if ((G.GAME.story_mode or card.displaying_save) or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers)) and not card.ability.platinum_reflection then
             ret.key = self.key.."_storymode"
             ret.vars[1] = card.ability.immutable.obedience_count
             ret.vars.colours = {card.ability.immutable.obedience_count >= 10 and G.C.GREEN or G.C.FILTER,
@@ -15293,7 +15293,7 @@ local lisette = {
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.m_glass
         local ret = {vars = {card.ability.extra.xmult}}
-        if (G.GAME.story_mode and not card.ability.platinum_reflection) or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if ((G.GAME.story_mode or card.displaying_save) or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers)) and not card.ability.platinum_reflection then
             ret.key = self.key.."_storymode"
             info_queue[#info_queue] = nil
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
@@ -15491,7 +15491,7 @@ local enjel = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.chips, card.ability.extra.chip_xmod}}
-        if (G.GAME.story_mode and not card.ability.platinum_reflection) or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if ((G.GAME.story_mode or card.displaying_save) or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers)) and not card.ability.platinum_reflection then
             ret.key = self.key.."_storymode"
         end
         return ret
