@@ -2757,6 +2757,7 @@ function Sagatro:calculate(context)
             or card.config.center_key == "j_sgt_mirror"
             or card.config.center_key == "j_sgt_goldia"
             or card.config.center_key == "j_sgt_fleta"
+            or card.config.center_key == "j_sgt_egliette"
             or card.config.center_key == "j_sgt_harpae"
             or card.config.center_key == "j_sgt_lisette"
             or card.config.center_key == "m_sgt_mirror"
