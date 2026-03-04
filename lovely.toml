@@ -1325,3 +1325,16 @@ return not G.GAME.story_mode or not (Sagatro.event_check("mirror_maze") or Sagat
     or Sagatro.event_check("dull_glass"))
 '''
 match_indent = true
+
+# Reduce debug bounding rectangle's thickness
+[[patches]]
+[patches.pattern]
+target = "engine/node.lua"
+pattern = '''
+love.graphics.setLineWidth(3)
+'''
+position = "at"
+payload = '''
+love.graphics.setLineWidth(1)
+'''
+match_indent = true
