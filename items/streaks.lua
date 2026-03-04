@@ -127,7 +127,10 @@ local cosmic_streak = {
                 delay = 0.0,
                 func = (function()
                         local card = create_card('Planet',G.consumeables, nil, nil, nil, nil, nil, 'cos')
-                        card:set_edition({negative = true}, true)
+                        card:set_edition("e_negative", true, true)
+                        card:juice_up(1, 0.5)
+                        local ed = G.P_CENTERS.e_negative
+                        play_sound(ed.sound.sound, ed.sound.per, ed.sound.vol)
                         card:add_to_deck()
                         G.consumeables:emplace(card)
                     return true
