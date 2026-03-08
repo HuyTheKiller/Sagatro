@@ -285,7 +285,7 @@ function Game:start_run(args)
     gsr(self, args)
     if not args.savetext then
         G.GAME.story_mode = Sagatro.config.DisableOtherJokers
-        if G.GAME.modifiers.ortalab_only then
+        if G.GAME.modifiers.ortalab_only or ColdBeans then
             G.GAME.story_mode = false
         end
         if args.challenge then
