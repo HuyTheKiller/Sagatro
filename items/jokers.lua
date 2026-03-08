@@ -4079,7 +4079,7 @@ local submarine = {
         card.ability.in_transition = false
     end,
     calculate = function(self, card, context)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "20k_miles_under_the_sea") then
             if not (context.blueprint or context.retrigger_joker) then
                 if context.ante_change and context.ante_end then
                     Sagatro.resolve_fuel(-1)
@@ -10995,7 +10995,7 @@ local white_pawn = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -11104,7 +11104,7 @@ local white_queen = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -11210,7 +11210,7 @@ local white_king = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -11309,7 +11309,7 @@ local live_flowers = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -11360,7 +11360,7 @@ local ticket_checker = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -11470,7 +11470,7 @@ local man_in_white = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -11589,7 +11589,7 @@ local goat = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -11701,7 +11701,7 @@ local beetle = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -11790,7 +11790,7 @@ local dinah = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -11881,7 +11881,7 @@ local tweedledum = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -11991,7 +11991,7 @@ local tweedledee = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -12081,7 +12081,7 @@ local sheep = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -12167,7 +12167,7 @@ local rocking_horse_fly = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -12255,7 +12255,7 @@ local bread_and_butter_fly = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -12323,7 +12323,7 @@ local snap_dragon_fly = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -12401,7 +12401,7 @@ local white_rook = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -12491,7 +12491,7 @@ local white_knight = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -12573,7 +12573,7 @@ local white_bishop = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -12648,7 +12648,7 @@ local jabberwock = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -12723,7 +12723,7 @@ local bandersnatch = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -12771,7 +12771,7 @@ local jubjub_bird = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -12832,7 +12832,7 @@ local humpty_dumpty = {
         end
         if context.end_of_round and not context.game_over and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
             if SMODS.pseudorandom_probability(card, 'humdum_irreversible', 1, card.ability.extra.odds, "humpty_dumpty") then
-                if Sagatro.storyline_check(self.saga_group) then
+                if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
                     local eligible_jokers = {}
                     for _, v in ipairs(G.jokers.cards) do
                         if v.ability.set == "Joker" and not v.config.center.mirrorworld and v.config.center_key ~= "j_sgt_mirror" then
@@ -12862,7 +12862,7 @@ local humpty_dumpty = {
             end
         end
         if context.selling_self and not context.blueprint and not context.retrigger_joker then
-            if Sagatro.storyline_check(self.saga_group) then
+            if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
                 local eligible_jokers = {}
                 for _, v in ipairs(G.jokers.cards) do
                     if v.ability.set == "Joker" and not v.config.center.mirrorworld and v.config.center_key ~= "j_sgt_mirror" then
@@ -12882,7 +12882,7 @@ local humpty_dumpty = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -12968,7 +12968,7 @@ local seal_and_carpenter = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -13013,7 +13013,7 @@ local lion = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -13127,7 +13127,7 @@ local unicorn = {
         G.GAME.bankrupt_at = G.GAME.bankrupt_at + card.ability.extra.debt_amount
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -13183,7 +13183,7 @@ local true_red_queen = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling and not G.GAME.true_red_queen_blind
         end
         return not (G.GAME.story_mode or G.GAME.true_red_queen_blind)
@@ -13259,7 +13259,7 @@ local red_king = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling and not G.GAME.red_king_blind
         end
         return not (G.GAME.story_mode or G.GAME.red_king_blind)
@@ -13411,7 +13411,7 @@ local vorpal_sword = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
@@ -13533,7 +13533,7 @@ local ecila = {
         end
     end,
     in_pool = function(self, args)
-        if Sagatro.storyline_check(self.saga_group) then
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
         return not G.GAME.story_mode
