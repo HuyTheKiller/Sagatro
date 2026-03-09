@@ -1186,6 +1186,7 @@ local delete_run_ref = Game.delete_run
 function Game:delete_run()
     delete_run_ref(self)
     Sagatro.EventChainUtils = EMPTY(Sagatro.EventChainUtils)
+    G.EVENT_CHAIN_INTERRUPT = nil
     if Sagatro.temp_music_volume then
         G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume
         Sagatro.temp_music_volume = nil
