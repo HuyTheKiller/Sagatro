@@ -11,6 +11,9 @@ function Sagatro.recursive_chain(func_list, delay, use_delay, index)
     G.CONTROLLER.locks.executing_chain = true
     if index == 1 then
         G.EVENT_CHAIN_INTERRUPT = G.STATE
+        if G.STATE == G.STATES.PLAY_TAROT then
+            G.EVENT_CHAIN_INTERRUPT = G.TAROT_INTERRUPT or G.STATE
+        end
         G.STATE = G.STATES.PLAY_TAROT
         G.GAME.sgt_no_saving = true
     elseif index > #func_list then
