@@ -1311,7 +1311,8 @@ function Card:can_calculate(ignore_debuff, ignore_sliced)
         if G.GAME.blind.config.blind.key == "bl_sgt_knight" and not G.GAME.blind.disabled then
             if self.ability.set == "Default" or self.ability.set == "Enhanced" then
                 if self.area == G.play then
-                    is_available = is_available and (Sagatro.get_pos(self) == 1 or Sagatro.get_pos(self) == #G.play.cards)
+                    local pos = Sagatro.get_pos(self)
+                    is_available = is_available and (pos == 1 or pos == #G.play.cards)
                 end
             end
         end
