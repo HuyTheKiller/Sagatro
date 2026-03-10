@@ -3836,10 +3836,11 @@ local abyss_stone = {
     update = function(self, card, dt)
         card.ability.abyss_stone_tally = 0
         for _, v in pairs(G.playing_cards or {}) do
-            if v ~= card and SMODS.has_no_rank(v) then
+            if SMODS.has_no_rank(v) then
                 card.ability.abyss_stone_tally = card.ability.abyss_stone_tally + 1
             end
         end
+        card.ability.abyss_stone_tally = math.max(card.ability.abyss_stone_tally - 1, 0)
         card.ability.bonus = card.ability.immutable.base_bonus + card.ability.abyss_stone_tally*card.ability.extra.bonus_mod
     end,
     remove_from_deck = function(self, card, from_debuff)
