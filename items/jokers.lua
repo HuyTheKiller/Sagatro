@@ -10448,14 +10448,9 @@ local grenadier = {
                 end
             end
             if table.size(ranks) > 1 or context.forcetrigger then
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        if lowest_card then
-                            lowest_card:set_seal(SMODS.poll_seal{type_key = 'grenasl', guaranteed = true}, nil, true)
-                        end
-                        return true
-                    end,
-                }))
+                if lowest_card then
+                    lowest_card:set_seal(SMODS.poll_seal{type_key = 'grenasl', guaranteed = true}, nil, true)
+                end
             end
         end
     end,
