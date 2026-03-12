@@ -1,3 +1,6 @@
+Sagatro.UIDEF = {}
+Sagatro.FUNCS = {}
+
 -- Custom tooltip (modified from Ortalab)
 function saga_tooltip(_c, info_queue, card, desc_nodes, specific_vars, full_UI_table)
     localize{type = 'descriptions', set = _c.set, key = _c.key, nodes = desc_nodes, vars = specific_vars or _c.vars}
@@ -248,7 +251,7 @@ function Card:highlight(is_higlighted)
         if self.config.center_key == "j_sgt_submarine" and self.area == G.jokers then
             if self.highlighted then
                 self.children.movement_buttons = UIBox{
-                    definition = G.UIDEF.movement_buttons(self),
+                    definition = Sagatro.UIDEF.movement_buttons(self),
                     config = {
                         align= "cl",
                         offset = {x=0.4,y=0},
@@ -264,7 +267,7 @@ function Card:highlight(is_higlighted)
         if self.config.center_key == "j_sgt_mirror" and self.area == G.jokers then
             if self.highlighted then
                 self.children.switch_button = UIBox{
-                    definition = G.UIDEF.switch_button(self),
+                    definition = Sagatro.UIDEF.switch_button(self),
                     config = {
                         align= "cl",
                         offset = {x=0.4,y=0},
@@ -280,7 +283,7 @@ function Card:highlight(is_higlighted)
         if (self.config.center_key == "j_sgt_goldia" or self.config.center_key == "j_sgt_platinum") and self.area == G.jokers then
             if self.highlighted then
                 self.children.transform_button = UIBox{
-                    definition = G.UIDEF.transform_button(self),
+                    definition = Sagatro.UIDEF.transform_button(self),
                     config = {
                         align= "cl",
                         offset = {x=0.4,y=0},
@@ -294,7 +297,7 @@ function Card:highlight(is_higlighted)
     end
 end
 
-function G.UIDEF.movement_buttons(card)
+function Sagatro.UIDEF.movement_buttons(card)
     local up, down = nil, nil
     if Sagatro.storyline_check("20k_miles_under_the_sea") and card.config.center_key == "j_sgt_submarine" then
         local showdown = G.GAME.nyx_abyss_incoming
@@ -324,7 +327,7 @@ function G.UIDEF.movement_buttons(card)
     return t
 end
 
-function G.UIDEF.switch_button(card)
+function Sagatro.UIDEF.switch_button(card)
     local switch, ready = nil, nil
     if Sagatro.storyline_check("alice_in_mirrorworld") and card.config.center_key == "j_sgt_mirror" then
         switch = {n=G.UIT.C, config={align = "cl"}, nodes={
@@ -354,7 +357,7 @@ function G.UIDEF.switch_button(card)
     return t
 end
 
-function G.UIDEF.transform_button(card)
+function Sagatro.UIDEF.transform_button(card)
     local transform = nil
     if Sagatro.storyline_check("pocket_mirror") and card.config.center_key == "j_sgt_goldia" then
         transform = {n=G.UIT.C, config={align = "cl"}, nodes={
@@ -374,7 +377,7 @@ function G.UIDEF.transform_button(card)
     return t
 end
 
-G.FUNCS.submarine_up = function(e)
+Sagatro.FUNCS.submarine_up = function(e)
     local submarine = e.config.ref_table
     play_sound('timpani')
     submarine.ability.immutable.depth_level = math.max(submarine.ability.immutable.depth_level - 1, 1)
@@ -403,7 +406,7 @@ G.FUNCS.submarine_up = function(e)
     end
 end
 
-G.FUNCS.submarine_can_go_up = function(e)
+Sagatro.FUNCS.submarine_can_go_up = function(e)
     local submarine = e.config.ref_table
     if submarine.ability.immutable.depth_level > 1 and not G.GAME.submarine_movement_cooldown
     and not submarine.ability.immutable.pending_go_down and not G.CONTROLLER.locked then
@@ -415,7 +418,7 @@ G.FUNCS.submarine_can_go_up = function(e)
     end
 end
 
-G.FUNCS.submarine_down = function(e, force_go_down)
+Sagatro.FUNCS.submarine_down = function(e, force_go_down)
     local submarine = e.config.ref_table
     local bosses = {"turquoise_jellyfish", "aqua_eyeshard", "black_oil", "shadow_seamine", "nyx_abyss"}
     Sagatro.progress_storyline(bosses[submarine.ability.immutable.depth_level], "add", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
@@ -429,7 +432,7 @@ G.FUNCS.submarine_down = function(e, force_go_down)
         SMODS.calculate_effect({message = localize("k_incoming_ex")}, submarine)
         if G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
             G.from_boss_tag = true
-            G.FUNCS.reroll_boss()
+            Sagatro.FUNCS.reroll_boss()
         elseif G.GAME.blind_on_deck ~= "Boss" then
             add_tag(Tag("tag_boss"))
             play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
@@ -446,7 +449,7 @@ G.FUNCS.submarine_down = function(e, force_go_down)
     end
 end
 
-G.FUNCS.submarine_can_go_down = function(e)
+Sagatro.FUNCS.submarine_can_go_down = function(e)
     local submarine = e.config.ref_table
     if (submarine.ability.immutable.depth_level < submarine.ability.immutable.armor_level
     or G.GAME.nyx_abyss_incoming) and not submarine.ability.immutable.pending_go_down
@@ -459,7 +462,7 @@ G.FUNCS.submarine_can_go_down = function(e)
     end
 end
 
-G.FUNCS.mirror_switch = function(e)
+Sagatro.FUNCS.mirror_switch = function(e)
     local mirror = e.config.ref_table
     G.E_MANAGER:add_event(Event({func = function()
         play_sound('timpani')
@@ -537,7 +540,7 @@ G.FUNCS.mirror_switch = function(e)
     return true end }))
 end
 
-G.FUNCS.mirror_can_switch = function(e)
+Sagatro.FUNCS.mirror_can_switch = function(e)
     if not G.GAME.mirror_switch_cooldown and not G.GAME.saga_forced_boss
     and (G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP) and not G.CONTROLLER.locked then
         e.config.colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5)
@@ -554,7 +557,7 @@ G.FUNCS.mirror_can_switch = function(e)
     end
 end
 
-G.FUNCS.mirror_ready = function(e)
+Sagatro.FUNCS.mirror_ready = function(e)
     local mirror = e.config.ref_table
     G.E_MANAGER:add_event(Event({func = function()
         play_sound('timpani')
@@ -565,7 +568,7 @@ G.FUNCS.mirror_ready = function(e)
                     Sagatro.progress_storyline(v, "add", "alice_in_wonderland", G.GAME.interwoven_storyline)
                     if G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
                         G.from_boss_tag = true
-                        G.FUNCS.reroll_boss()
+                        Sagatro.FUNCS.reroll_boss()
                     elseif G.GAME.blind_on_deck ~= "Boss" then
                         add_tag(Tag("tag_boss"))
                         play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
@@ -579,7 +582,7 @@ G.FUNCS.mirror_ready = function(e)
     return true end }))
 end
 
-G.FUNCS.mirror_can_ready = function(e)
+Sagatro.FUNCS.mirror_can_ready = function(e)
     if G.GAME.inversed_scaling and not (G.GAME.saga_forced_boss or G.GAME.mirror_ready) and not G.GAME.won
     and (Sagatro.event_check("the_bishop", nil, true) or G.GAME.mirrorworld_showdown) and not G.CONTROLLER.locked then
         e.config.colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5)
@@ -590,7 +593,7 @@ G.FUNCS.mirror_can_ready = function(e)
     end
 end
 
-G.FUNCS.goldia_transform = function(e)
+Sagatro.FUNCS.goldia_transform = function(e)
     local regalia_list = {}
     local regalia_checklist = {
         j_sgt_pocket_mirror = false,
@@ -648,7 +651,7 @@ G.FUNCS.goldia_transform = function(e)
     end
 end
 
-G.FUNCS.goldia_can_transform = function(e)
+Sagatro.FUNCS.goldia_can_transform = function(e)
     if #G.GAME.regalia_list >= 4 and Sagatro.event_check("goldia_transformation") and not G.CONTROLLER.locked then
         e.config.colour = G.C.SGT_GOLDIATTENTION
         e.config.button = 'goldia_transform'
@@ -658,7 +661,7 @@ G.FUNCS.goldia_can_transform = function(e)
     end
 end
 
-G.FUNCS.cash_out_into_boss_blind = function()
+Sagatro.FUNCS.cash_out_into_boss_blind = function()
     G.GAME.facing_blind = true
     G.E_MANAGER:add_event(Event({
         trigger = 'immediate',
@@ -679,7 +682,7 @@ G.FUNCS.cash_out_into_boss_blind = function()
     }))
 end
 
-G.FUNCS.lenient_score_tooltip = function(e)
+Sagatro.FUNCS.lenient_score_tooltip = function(e)
   G.SETTINGS.paused = true
   G.FUNCS.overlay_menu{
     definition = create_UIBox_lenient_score(),
@@ -791,7 +794,7 @@ function G.UIDEF.shop()
     return ret
 end
 
-G.FUNCS.can_toggle_shop = function(e)
+Sagatro.FUNCS.can_toggle_shop = function(e)
     if not G.SETTINGS.saga_tutorial_complete and G.SETTINGS.saga_tutorial_progress
     and not G.SETTINGS.saga_tutorial_progress.completed_parts['shop_2'] then
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
@@ -891,7 +894,7 @@ function create_UIBox_Sagatro(args)
     }))
 end
 
-G.FUNCS.exit_overlay_menu_Sagatro = function()
+Sagatro.FUNCS.exit_overlay_menu_Sagatro = function()
   if not G.OVERLAY_MENU then return end
   G.CONTROLLER.locks.frame_set = true
   G.CONTROLLER.locks.frame = true
@@ -1006,14 +1009,14 @@ function Sagatro.get_save_count()
     return _slots_used, Sagatro.save_slots
 end
 
-function G.UIDEF.saveload_list(from_game_over, from_options)
+function Sagatro.UIDEF.saveload_list(from_game_over, from_options)
   G.SAVELOAD_PAGE_SIZE = 10
   local saveload_pages = {}
   for i = 1, math.ceil(Sagatro.save_slots/G.SAVELOAD_PAGE_SIZE) do
     table.insert(saveload_pages, localize('k_page')..' '..tostring(i)..'/'..tostring(math.ceil(Sagatro.save_slots/G.SAVELOAD_PAGE_SIZE)))
   end
   G.E_MANAGER:add_event(Event({func = (function()
-    G.FUNCS.change_saveload_page{cycle_config = {current_option = 1}}
+    Sagatro.FUNCS.change_saveload_page{cycle_config = {current_option = 1}}
   return true end)}))
 
   Sagatro.save_count = localize{type = 'variable', key = 'sgt_save_slots_used', vars = {Sagatro.get_save_count()}}
@@ -1038,7 +1041,7 @@ function G.UIDEF.saveload_list(from_game_over, from_options)
   return t
 end
 
-function G.UIDEF.saveload_list_page(_page)
+function Sagatro.UIDEF.saveload_list_page(_page)
   local snapped = false
   local saveload_list = {}
   for i = 1, Sagatro.save_slots do
@@ -1071,7 +1074,7 @@ function G.UIDEF.saveload_list_page(_page)
   return {n=G.UIT.ROOT, config={align = "cm", padding = 0.1, colour = G.C.CLEAR}, nodes=saveload_list}
 end
 
-function G.UIDEF.save_description(_id)
+function Sagatro.UIDEF.save_description(_id)
   local joker_size = 0.6
   if _id == "nil" then
     return {n=G.UIT.ROOT, config={align = "cm", colour = G.C.BLACK, minh = 8.82, minw = 11.5, r = 0.1}, nodes={
@@ -1241,7 +1244,7 @@ function G.UIDEF.save_description(_id)
   }}
 end
 
-function G.UIDEF.saveload_tab(from_game_over)
+function Sagatro.UIDEF.saveload_tab(from_game_over)
   return {n=G.UIT.ROOT, config={align = "cm", padding = 0.1, colour = G.C.CLEAR, minh = 8, minw = 7}, nodes={
     {n=G.UIT.R, config={align = "cm", padding = 0.1, r = 0.1 ,colour = G.C.BLACK}, nodes={
       {n = G.UIT.C, config = {padding = 0.1, emboss = 0.05, align = "cm",r = 0.1}, nodes={
@@ -1277,15 +1280,15 @@ function G.UIDEF.saveload_tab(from_game_over)
   }}
 end
 
-G.FUNCS.saveload_list = function(e)
+Sagatro.FUNCS.saveload_list = function(e)
   G.SETTINGS.paused = true
   G.FUNCS.overlay_menu{
-    definition = G.UIDEF.saveload_list(e.config.id == 'from_game_over', e.config.id == "savebox_button"),
+    definition = Sagatro.UIDEF.saveload_list(e.config.id == 'from_game_over', e.config.id == "savebox_button"),
   }
   if (e.config.id == 'from_game_over') then G.OVERLAY_MENU.config.no_esc =true end
 end
 
-G.FUNCS.change_save_description = function(e)
+Sagatro.FUNCS.change_save_description = function(e)
   if G.OVERLAY_MENU then
     local desc_area = G.OVERLAY_MENU:get_UIE_by_ID('saveload_area')
     if desc_area and (desc_area.config.oid ~= e.config.id or Sagatro.from_save_button) then
@@ -1296,7 +1299,7 @@ G.FUNCS.change_save_description = function(e)
         desc_area.config.object:remove()
       end
       desc_area.config.object = UIBox{
-        definition =  G.UIDEF.save_description(e.config.id),
+        definition =  Sagatro.UIDEF.save_description(e.config.id),
         config = {offset = {x=0,y=0}, align = 'cm', parent = desc_area}
       }
       desc_area.config.oid = e.config.id
@@ -1305,7 +1308,7 @@ G.FUNCS.change_save_description = function(e)
   end
 end
 
-G.FUNCS.change_saveload_page = function(args)
+Sagatro.FUNCS.change_saveload_page = function(args)
   if not args or not args.cycle_config then return end
   if G.OVERLAY_MENU then
     local sl_list = G.OVERLAY_MENU:get_UIE_by_ID('saveload_list')
@@ -1315,15 +1318,15 @@ G.FUNCS.change_saveload_page = function(args)
         sl_list.config.object:remove()
       end
       sl_list.config.object = UIBox{
-        definition = G.UIDEF.saveload_list_page(args.cycle_config.current_option-1),
+        definition = Sagatro.UIDEF.saveload_list_page(args.cycle_config.current_option-1),
         config = {offset = {x=0,y=0}, align = 'cm', parent = sl_list}
       }
-      G.FUNCS.change_save_description{config = {id = 'nil'}}
+      Sagatro.FUNCS.change_save_description{config = {id = 'nil'}}
     end
   end
 end
 
-G.FUNCS.save_snapshot = function(e)
+Sagatro.FUNCS.save_snapshot = function(e)
     local storyline_name = G.GAME.interwoven_storyline or G.GAME.current_storyline
     storyline_name = localize(Sagatro.storyline_locmap[storyline_name or "EMPTY"] or "k_empty")
     Sagatro.save_name_list[e.config.id] = storyline_name
@@ -1331,11 +1334,11 @@ G.FUNCS.save_snapshot = function(e)
     Sagatro.save_count = localize{type = 'variable', key = 'sgt_save_slots_used', vars = {Sagatro.get_save_count()}}
     play_sound("sgt_page_scratch", 1, 1.25)
     Sagatro.from_save_button = true
-    G.FUNCS.change_saveload_page{cycle_config = {current_option = Sagatro.save_list_cycle_option}}
-    G.FUNCS.change_save_description{config = {id = e.config.id}}
+    Sagatro.FUNCS.change_saveload_page{cycle_config = {current_option = Sagatro.save_list_cycle_option}}
+    Sagatro.FUNCS.change_save_description{config = {id = e.config.id}}
 end
 
-G.FUNCS.can_save_snapshot = function(e)
+Sagatro.FUNCS.can_save_snapshot = function(e)
     if Sagatro.allow_save and G.ARGS.save_run then
         e.config.colour = Sagatro.badge_colour
         e.config.button = "save_snapshot"
@@ -1345,11 +1348,11 @@ G.FUNCS.can_save_snapshot = function(e)
     end
 end
 
-G.FUNCS.load_snapshot = function(e)
+Sagatro.FUNCS.load_snapshot = function(e)
     Sagatro.handle_save("load", e.config.id)
 end
 
-G.FUNCS.can_load_snapshot = function(e)
+Sagatro.FUNCS.can_load_snapshot = function(e)
     local save_slot = love.filesystem.getInfo(G.SETTINGS.profile.."/"..Sagatro.save_name..(e.config.id or 1)..".jkr")
     if save_slot ~= nil then
         e.config.colour = Sagatro.badge_colour
@@ -1360,17 +1363,17 @@ G.FUNCS.can_load_snapshot = function(e)
     end
 end
 
-G.FUNCS.delete_snapshot = function(e)
+Sagatro.FUNCS.delete_snapshot = function(e)
     Sagatro.save_name_list[e.config.id] = localize("k_empty")
     Sagatro.handle_save("delete", e.config.id)
     Sagatro.save_count = localize{type = 'variable', key = 'sgt_save_slots_used', vars = {Sagatro.get_save_count()}}
     play_sound("sgt_page_flip", 1, 1.25)
     Sagatro.from_save_button = true
-    G.FUNCS.change_saveload_page{cycle_config = {current_option = Sagatro.save_list_cycle_option}}
-    G.FUNCS.change_save_description{config = {id = e.config.id}}
+    Sagatro.FUNCS.change_saveload_page{cycle_config = {current_option = Sagatro.save_list_cycle_option}}
+    Sagatro.FUNCS.change_save_description{config = {id = e.config.id}}
 end
 
-G.FUNCS.can_delete_snapshot = function(e)
+Sagatro.FUNCS.can_delete_snapshot = function(e)
     local save_slot = love.filesystem.getInfo(G.SETTINGS.profile.."/"..Sagatro.save_name..(e.config.id or 1)..".jkr")
     if save_slot ~= nil then
         e.config.colour = Sagatro.badge_colour
@@ -1381,7 +1384,7 @@ G.FUNCS.can_delete_snapshot = function(e)
     end
 end
 
-G.FUNCS.delete_all_snapshots = function(e)
+Sagatro.FUNCS.delete_all_snapshots = function(e)
     for i = 1, Sagatro.save_slots do
         love.filesystem.remove(G.SETTINGS.profile.."/".."storymodesave"..i..".jkr")
         love.filesystem.remove(G.SETTINGS.profile.."/".."storymodesave_talisman"..i..".jkr")
@@ -1640,7 +1643,7 @@ SMODS.DrawStep {
 }
 SMODS.draw_ignore_keys.floating_name_tag = true
 
-G.FUNCS.delete_ace_in_menu = function(e)
+Sagatro.FUNCS.delete_ace_in_menu = function(e)
     if G.title_top then
         for _, card in ipairs(G.title_top.cards) do
             if card.config.card_key then -- "Delete Ace" is cosmetic, this should delete any playing card
@@ -1651,4 +1654,12 @@ G.FUNCS.delete_ace_in_menu = function(e)
         end
     end
     G.FUNCS.exit_overlay_menu()
+end
+
+for key, func in pairs(Sagatro.FUNCS) do
+    G.FUNCS[key] = func
+end
+
+for key, uidef in pairs(Sagatro.UIDEF) do
+    G.UIDEF[key] = uidef
 end
