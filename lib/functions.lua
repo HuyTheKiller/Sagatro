@@ -28,30 +28,26 @@ G.C.SAGA_DIFFICULTY = {
     G.C.YELLOW,
     G.C.RED,
 }
-SMODS.Gradient{
+G.C.SGT_SAGADITION = SMODS.Gradient{
     key = "sagadition",
     colours = {Sagatro.badge_colour, G.C.RARITY[4]},
     cycle = 2,
-} -- Skull, not putting inside assets.lua for preventive measures
-G.C.SGT_SAGADITION = SMODS.Gradients["sgt_sagadition"]
-SMODS.Gradient{
+}
+G.C.SGT_SAGATTENTION = SMODS.Gradient{
     key = "sagattention",
     colours = {G.C.SUBMARINE_DEPTH[1], G.C.GREEN},
     cycle = 1,
 }
-G.C.SGT_SAGATTENTION = SMODS.Gradients["sgt_sagattention"]
-SMODS.Gradient{
+G.C.SGT_GOLDIATTENTION = SMODS.Gradient{
     key = "goldiattention",
     colours = {HEX("b4417b"), HEX("631e41")},
     cycle = 1,
 }
-G.C.SGT_GOLDIATTENTION = SMODS.Gradients["sgt_goldiattention"]
-SMODS.Gradient{
+G.C.SGT_MIRACLE = SMODS.Gradient{
     key = "miracle",
     colours = {HEX('E7A73D'), HEX('FFEE00')},
     cycle = 2,
 }
-G.C.SGT_MIRACLE = SMODS.Gradients["sgt_miracle"]
 
 -- Add them to loc_colour for text formatting
 local lc = loc_colour
