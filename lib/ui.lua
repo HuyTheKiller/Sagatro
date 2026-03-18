@@ -432,7 +432,7 @@ Sagatro.FUNCS.submarine_down = function(e, force_go_down)
         SMODS.calculate_effect({message = localize("k_incoming_ex")}, submarine)
         if G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
             G.from_boss_tag = true
-            Sagatro.FUNCS.reroll_boss()
+            G.FUNCS.reroll_boss()
         elseif G.GAME.blind_on_deck ~= "Boss" then
             add_tag(Tag("tag_boss"))
             play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
@@ -568,7 +568,7 @@ Sagatro.FUNCS.mirror_ready = function(e)
                     Sagatro.progress_storyline(v, "add", "alice_in_wonderland", G.GAME.interwoven_storyline)
                     if G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
                         G.from_boss_tag = true
-                        Sagatro.FUNCS.reroll_boss()
+                        G.FUNCS.reroll_boss()
                     elseif G.GAME.blind_on_deck ~= "Boss" then
                         add_tag(Tag("tag_boss"))
                         play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
