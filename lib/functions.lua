@@ -788,7 +788,7 @@ function Game:update(dt)
             back_button.config.fromAlice = Sagatro.fromAlice
         end
     end
-    if not G.SETTINGS.paused then
+    if not (G.SETTINGS.paused or G.OVERLAY_MENU) then
         Sagatro.allow_save = nil
         if Sagatro.temp_areas.jokers then
             Sagatro.remove_temp_areas()
