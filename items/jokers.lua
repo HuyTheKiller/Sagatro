@@ -15567,9 +15567,9 @@ local rusty_scissors = {
     eternal_compat = true,
     perishable_compat = true,
     can_use = function(self, card) -- evil joker trying to be a consumable trollface
-        return card.area == G.jokers and G.jokers.cards[Sagatro.get_pos(card)+1]
+        return card.area == G.jokers and ((G.jokers.cards[Sagatro.get_pos(card)+1]
         and G.jokers.cards[Sagatro.get_pos(card)+1].config.center_key == "m_sgt_mirror"
-        and G.STATE == G.STATES.SELECTING_HAND
+        and G.STATE == G.STATES.SELECTING_HAND) or SilkTouch) and true
     end,
     use = function(self, card, area, copier)
         G.E_MANAGER:add_event(Event({

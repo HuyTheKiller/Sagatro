@@ -452,8 +452,26 @@ Sagatro.EventChain{
         function()
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if goldia then
-                Sagatro.unhighlight_all()
-                goldia.area:add_to_highlighted(goldia)
+                if goldia.area:can_highlight(goldia) then
+                    Sagatro.unhighlight_all()
+                    goldia.area:add_to_highlighted(goldia)
+                elseif SilkTouch then
+                    G.CONTROLLER.dragging.target = goldia
+                    G.CONTROLLER.cursor_down.duration = 0.2
+                    G.CONTROLLER.dragging.handled = false
+                    local eval = function(card)
+                        card.juice_counter = card.juice_counter or 3
+                        if card.juice_counter > 0 then
+                            card.juice_counter = card.juice_counter - 1
+                            return true
+                        end
+                        G.CONTROLLER.dragging.target = nil
+                        G.CONTROLLER.cursor_down.duration = 0
+                        G.CONTROLLER.dragging.handled = false
+                        return false
+                    end
+                    juice_card_until(goldia, eval, true)
+                end
                 G.GAME.goldia_tooltip_key = nil
             end
             return 1, function()
@@ -845,8 +863,26 @@ Sagatro.EventChain{
         function()
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if goldia then
-                Sagatro.unhighlight_all()
-                goldia.area:add_to_highlighted(goldia)
+                if goldia.area:can_highlight(goldia) then
+                    Sagatro.unhighlight_all()
+                    goldia.area:add_to_highlighted(goldia)
+                elseif SilkTouch then
+                    G.CONTROLLER.dragging.target = goldia
+                    G.CONTROLLER.cursor_down.duration = 0.2
+                    G.CONTROLLER.dragging.handled = false
+                    local eval = function(card)
+                        card.juice_counter = card.juice_counter or 3
+                        if card.juice_counter > 0 then
+                            card.juice_counter = card.juice_counter - 1
+                            return true
+                        end
+                        G.CONTROLLER.dragging.target = nil
+                        G.CONTROLLER.cursor_down.duration = 0
+                        G.CONTROLLER.dragging.handled = false
+                        return false
+                    end
+                    juice_card_until(goldia, eval, true)
+                end
             end
             return 2, function()
                 if G.GAME.goldia_transformation_complete then
@@ -947,8 +983,26 @@ Sagatro.EventChain{
         function()
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if goldia then
-                Sagatro.unhighlight_all()
-                goldia.area:add_to_highlighted(goldia)
+                if goldia.area:can_highlight(goldia) then
+                    Sagatro.unhighlight_all()
+                    goldia.area:add_to_highlighted(goldia)
+                elseif SilkTouch then
+                    G.CONTROLLER.dragging.target = goldia
+                    G.CONTROLLER.cursor_down.duration = 0.2
+                    G.CONTROLLER.dragging.handled = false
+                    local eval = function(card)
+                        card.juice_counter = card.juice_counter or 3
+                        if card.juice_counter > 0 then
+                            card.juice_counter = card.juice_counter - 1
+                            return true
+                        end
+                        G.CONTROLLER.dragging.target = nil
+                        G.CONTROLLER.cursor_down.duration = 0
+                        G.CONTROLLER.dragging.handled = false
+                        return false
+                    end
+                    juice_card_until(goldia, eval, true)
+                end
             end
             return 2, function()
                 if G.GAME.goldia_transformation_complete then
