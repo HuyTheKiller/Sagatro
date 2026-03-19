@@ -1339,7 +1339,7 @@ Sagatro.FUNCS.save_snapshot = function(e)
 end
 
 Sagatro.FUNCS.can_save_snapshot = function(e)
-    if Sagatro.allow_save and G.ARGS.save_run then
+    if Sagatro.allow_save and (G.ARGS.save_run or Sagatro.can_save()) then
         e.config.colour = Sagatro.badge_colour
         e.config.button = "save_snapshot"
     else
