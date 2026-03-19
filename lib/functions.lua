@@ -460,7 +460,7 @@ function CardArea:update(dt)
     if self == G.jokers and #G.jokers.highlighted == 0 and G.GAME.story_mode then
         local check = false
         for _, v in ipairs(G.jokers.cards) do
-            if v.states.hover.is or v.states.drag.is then
+            if v.states.hover.is or v.states.drag.is or v.states.focus.is then
                 check = true
                 break
             end
@@ -581,7 +581,7 @@ function Card:update(dt)
             SMODS.change_play_limit(-1)
             SMODS.change_discard_limit(-1)
         end
-        if self.states.hover.is or self.states.drag.is then
+        if self.states.hover.is or self.states.drag.is or self.states.focus.is then
             if self.area == G.jokers and G.GAME.story_mode then
                 if not self.debuff then
                     if self.ability.immutable and self.ability.immutable.weight_level then
@@ -728,7 +728,7 @@ function Card:update(dt)
                 elseif not self.ability.sgt_off_depth then
                     self:add_sticker("sgt_off_depth", true)
                     if self.area == G.jokers then
-                        local eval = function(card) return not card.states.hover.is end
+                        local eval = function(card) return not (card.states.hover.is or card.states.focus.is) end
                         juice_card_until(self, eval, true)
                     end
                 end
@@ -1927,7 +1927,7 @@ function Sagatro.progress_storyline(event_name, queue_mode, storyline_name, inte
             if event_name == "game_over" and G.jokers.cards[1] then
                 G.jokers.cards[1].ability.storyline_derailed = true
                 G.jokers.cards[1]:add_sticker("sgt_imminent_doom", true)
-                local eval = function(card) return not card.states.hover.is end
+                local eval = function(card) return not (card.states.hover.is or card.states.focus.is) end
                 juice_card_until(G.jokers.cards[1], eval, true)
             end
         elseif queue_mode == "finish" and G.GAME.saga_event_queue[1] == event_name then
@@ -2794,7 +2794,7 @@ function Sagatro:calculate(context)
                         v.ability.couponed = true
                         v:set_cost()
                     end
-                    local eval = function(card) return not card.states.hover.is end
+                    local eval = function(card) return not (card.states.hover.is or card.states.focus.is) end
                     juice_card_until(v, eval, true)
                 end
                 break
@@ -3563,7 +3563,7 @@ function Sagatro.process_edible_weight(card, weight_level, key)
     card.ability.immutable.fish_round_tally = options.round and options.duration
     card.ability.immutable.fish_hand_tally = options.hand and options.duration
     card.ability.immutable.eaten_key = key
-    local eval = function(_card) return not _card.states.hover.is end
+    local eval = function(_card) return not (_card.states.hover.is or _card.states.focus.is) end
     juice_card_until(card, eval, true)
 end
 
