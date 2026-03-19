@@ -4007,6 +4007,9 @@ function Sagatro.delayed_func()
             if e and e.config and e.config.page then
                 SMODS.LAST_SELECTED_MOD_TAB = e.config.page
             end
+            if not G.SETTINGS.paused then
+                G.SETTINGS.paused = true
+            end
             G.FUNCS.overlay_menu({
                 definition = create_UIBox_Sagatro(e)
             })
