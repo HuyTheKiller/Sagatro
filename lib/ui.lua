@@ -1113,10 +1113,10 @@ function Sagatro.UIDEF.save_description(_id)
           {n=G.UIT.T, config={text = localize('b_save'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT,func = 'set_button_pip', focus_args = {button = 'x',set_button_pip = true}}}
         }},
         {n=G.UIT.C, config={align = "cm", padding = 0.1, minh = 0.7, minw = 2.5, r = 0.1, hover = true, colour = Sagatro.badge_colour, button = "load_snapshot", func = "can_load_snapshot", shadow = true, id = _id}, nodes={
-          {n=G.UIT.T, config={text = localize('b_load'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT,func = 'set_button_pip', focus_args = {button = 'x',set_button_pip = true}}}
+          {n=G.UIT.T, config={text = localize('b_load'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT,func = 'set_button_pip', focus_args = {button = 'y',set_button_pip = true}}}
         }},
         {n=G.UIT.C, config={align = "cm", padding = 0.1, minh = 0.7, minw = 2.5, r = 0.1, hover = true, colour = Sagatro.badge_colour, button = "delete_snapshot", func = "can_delete_snapshot", shadow = true, id = _id}, nodes={
-          {n=G.UIT.T, config={text = localize('b_delete'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT,func = 'set_button_pip', focus_args = {button = 'x',set_button_pip = true}}}
+          {n=G.UIT.T, config={text = localize('b_delete'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT}}
         }},
       }},
   }}
@@ -1235,10 +1235,10 @@ function Sagatro.UIDEF.save_description(_id)
         {n=G.UIT.T, config={text = localize('b_save'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT,func = 'set_button_pip', focus_args = {button = 'x',set_button_pip = true}}}
       }},
       {n=G.UIT.C, config={align = "cm", padding = 0.1, minh = 0.7, minw = 2.5, r = 0.1, hover = true, colour = Sagatro.badge_colour, button = "load_snapshot", func = "can_load_snapshot", shadow = true, id = _id}, nodes={
-        {n=G.UIT.T, config={text = localize('b_load'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT,func = 'set_button_pip', focus_args = {button = 'x',set_button_pip = true}}}
+        {n=G.UIT.T, config={text = localize('b_load'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT,func = 'set_button_pip', focus_args = {button = 'y',set_button_pip = true}}}
       }},
       {n=G.UIT.C, config={align = "cm", padding = 0.1, minh = 0.7, minw = 2.5, r = 0.1, hover = true, colour = Sagatro.badge_colour, button = "delete_snapshot", func = "can_delete_snapshot", shadow = true, id = _id}, nodes={
-        {n=G.UIT.T, config={text = localize('b_delete'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT,func = 'set_button_pip', focus_args = {button = 'x',set_button_pip = true}}}
+        {n=G.UIT.T, config={text = localize('b_delete'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT}}
       }},
     }},
   }}
