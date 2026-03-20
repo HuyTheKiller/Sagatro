@@ -57,10 +57,10 @@ TO-DO:
     [X] Add Platinum's effect
     [X] Replace Platinum's placeholder with final visual
     [X] Update Goldia's placeholder transformation (Goldia:set_ability("j_sgt_platinum"))
-[] Add Strange Boy:
+[X] Add Strange Boy:
     [X] Add base Strange Boy (legendary)
     [X] Add Strange Boy's effect
-    [] Replace Strange Boy's placeholder with final visual
+    [X] Replace Strange Boy's placeholder with final visual
 [X] Add hints to progress Pocket Mirror (not as riddles like Alice in Wonderland, should be straightforward)
 
 Ice's feedback fixes:
