@@ -14,6 +14,7 @@ Sagatro.load_table = {
     challenges = true,
     achievements = true,
     dragging = true,
+    controller = true,
 }
 
 Sagatro.secondary_colour = darken(Sagatro.badge_colour, 0.4)

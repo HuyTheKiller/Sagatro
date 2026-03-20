@@ -1336,6 +1336,9 @@ function Card:can_sell_card(context)
     and G.GAME.modifiers.sgt_joker_selling_rounds then
         can_sell = can_sell and self.ability.sgt_selling_tally >= G.GAME.modifiers.sgt_joker_selling_rounds
     end
+    if Sagatro.event_check("goldia_transformation") then
+        can_sell = false
+    end
     return can_sell
 end
 

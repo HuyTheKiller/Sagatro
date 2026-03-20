@@ -456,21 +456,25 @@ Sagatro.EventChain{
                     Sagatro.unhighlight_all()
                     goldia.area:add_to_highlighted(goldia)
                 elseif SilkTouch then
-                    G.CONTROLLER.dragging.target = goldia
-                    G.CONTROLLER.cursor_down.duration = 0.2
-                    G.CONTROLLER.dragging.handled = false
-                    local eval = function(card)
-                        card.juice_counter = card.juice_counter or 3
-                        if card.juice_counter > 0 then
-                            card.juice_counter = card.juice_counter - 1
-                            return true
-                        end
-                        G.CONTROLLER.dragging.target = nil
-                        G.CONTROLLER.cursor_down.duration = 0
+                    if G.CONTROLLER.HID.controller then
+                        G.CONTROLLER:snap_to{node = goldia}
+                    else
+                        G.CONTROLLER.dragging.target = goldia
+                        G.CONTROLLER.cursor_down.duration = 0.2
                         G.CONTROLLER.dragging.handled = false
-                        return false
+                        local eval = function(card)
+                            card.juice_counter = card.juice_counter or 3
+                            if card.juice_counter > 0 then
+                                card.juice_counter = card.juice_counter - 1
+                                return true
+                            end
+                            G.CONTROLLER.dragging.target = nil
+                            G.CONTROLLER.cursor_down.duration = 0
+                            G.CONTROLLER.dragging.handled = false
+                            return false
+                        end
+                        juice_card_until(goldia, eval, true)
                     end
-                    juice_card_until(goldia, eval, true)
                 end
                 G.GAME.goldia_tooltip_key = nil
             end
@@ -867,21 +871,25 @@ Sagatro.EventChain{
                     Sagatro.unhighlight_all()
                     goldia.area:add_to_highlighted(goldia)
                 elseif SilkTouch then
-                    G.CONTROLLER.dragging.target = goldia
-                    G.CONTROLLER.cursor_down.duration = 0.2
-                    G.CONTROLLER.dragging.handled = false
-                    local eval = function(card)
-                        card.juice_counter = card.juice_counter or 3
-                        if card.juice_counter > 0 then
-                            card.juice_counter = card.juice_counter - 1
-                            return true
-                        end
-                        G.CONTROLLER.dragging.target = nil
-                        G.CONTROLLER.cursor_down.duration = 0
+                    if G.CONTROLLER.HID.controller then
+                        G.CONTROLLER:snap_to{node = goldia}
+                    else
+                        G.CONTROLLER.dragging.target = goldia
+                        G.CONTROLLER.cursor_down.duration = 0.2
                         G.CONTROLLER.dragging.handled = false
-                        return false
+                        local eval = function(card)
+                            card.juice_counter = card.juice_counter or 3
+                            if card.juice_counter > 0 then
+                                card.juice_counter = card.juice_counter - 1
+                                return true
+                            end
+                            G.CONTROLLER.dragging.target = nil
+                            G.CONTROLLER.cursor_down.duration = 0
+                            G.CONTROLLER.dragging.handled = false
+                            return false
+                        end
+                        juice_card_until(goldia, eval, true)
                     end
-                    juice_card_until(goldia, eval, true)
                 end
             end
             return 2, function()
@@ -987,21 +995,25 @@ Sagatro.EventChain{
                     Sagatro.unhighlight_all()
                     goldia.area:add_to_highlighted(goldia)
                 elseif SilkTouch then
-                    G.CONTROLLER.dragging.target = goldia
-                    G.CONTROLLER.cursor_down.duration = 0.2
-                    G.CONTROLLER.dragging.handled = false
-                    local eval = function(card)
-                        card.juice_counter = card.juice_counter or 3
-                        if card.juice_counter > 0 then
-                            card.juice_counter = card.juice_counter - 1
-                            return true
-                        end
-                        G.CONTROLLER.dragging.target = nil
-                        G.CONTROLLER.cursor_down.duration = 0
+                    if G.CONTROLLER.HID.controller then
+                        G.CONTROLLER:snap_to{node = goldia}
+                    else
+                        G.CONTROLLER.dragging.target = goldia
+                        G.CONTROLLER.cursor_down.duration = 0.2
                         G.CONTROLLER.dragging.handled = false
-                        return false
+                        local eval = function(card)
+                            card.juice_counter = card.juice_counter or 3
+                            if card.juice_counter > 0 then
+                                card.juice_counter = card.juice_counter - 1
+                                return true
+                            end
+                            G.CONTROLLER.dragging.target = nil
+                            G.CONTROLLER.cursor_down.duration = 0
+                            G.CONTROLLER.dragging.handled = false
+                            return false
+                        end
+                        juice_card_until(goldia, eval, true)
                     end
-                    juice_card_until(goldia, eval, true)
                 end
             end
             return 2, function()
