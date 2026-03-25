@@ -15569,7 +15569,7 @@ local rusty_scissors = {
     can_use = function(self, card) -- evil joker trying to be a consumable trollface
         return card.area == G.jokers and ((G.jokers.cards[Sagatro.get_pos(card)+1]
         and G.jokers.cards[Sagatro.get_pos(card)+1].config.center_key == "m_sgt_mirror"
-        and G.STATE == G.STATES.SELECTING_HAND) or SilkTouch) and true
+        and G.STATE == G.STATES.SELECTING_HAND) or G.CONTROLLER.HID.touch) and true
     end,
     use = function(self, card, area, copier)
         G.E_MANAGER:add_event(Event({
