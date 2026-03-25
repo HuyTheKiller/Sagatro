@@ -15058,7 +15058,7 @@ local harpae = {
         end
     end,
     update = function(self, card, dt)
-        if G.GAME.story_mode and G.STAGE == G.STAGES.RUN then
+        if G.GAME.story_mode and G.STAGE == G.STAGES.RUN and card.area == G.jokers then
             G.GAME.no_savebox = card.ability.immutable.appeared
         end
     end,
