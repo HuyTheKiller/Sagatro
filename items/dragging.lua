@@ -92,17 +92,7 @@ if SilkTouch then
     }
     SilkTouch.DragTarget{
         key = "mirror_switch",
-        moveable_t = {
-            x = {ref_table = "G.consumeables.T", ref_value = "x", mod_value = 0.3},
-            y = {
-                ref_table = {"G.consumeables.T", "G.consumeables.T"  },
-                ref_value = {                 "y",                "h"},
-                operation_table = {             "+"                  },
-                mod_value = 0.5,
-            },
-            w = {ref_table = "G.consumeables.T", ref_value = "w", mod_value = -0.3},
-            h = {ref_table = "G.consumeables.T", ref_value = "h", mod_value = -0.6},
-        },
+        moveable_t = "sgt_submarine_up",
         text = function(card) return copy_table(localize("ml_sgt_switch")) end,
         colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5),
         drag_condition = function(card)
@@ -119,16 +109,7 @@ if SilkTouch then
     }
     SilkTouch.DragTarget{
         key = "mirror_ready",
-        moveable_t = {
-            x = {ref_table = "G.consumeables.T", ref_value = "x", mod_value = 0.3},
-            y = {
-                ref_table = {"G.consumeables.T", "G.consumeables.T", "G.consumeables.T"  },
-                ref_value = {                 "y",                "h",                "h"},
-                operation_table = {             "+",                "+"                  },
-            },
-            w = {ref_table = "G.consumeables.T", ref_value = "w", mod_value = -0.3},
-            h = {ref_table = "G.consumeables.T", ref_value = "h", mod_value = -0.6},
-        },
+        moveable_t = "sgt_submarine_down",
         text = function(card) return copy_table(localize("ml_sgt_ready")) end,
         colour = mix_colours(G.C.GREY, G.C.WHITE, 0.5),
         drag_condition = function(card)
@@ -145,17 +126,7 @@ if SilkTouch then
     }
     SilkTouch.DragTarget{
         key = "transform",
-        moveable_t = {
-            x = {ref_table = "G.consumeables.T", ref_value = "x", mod_value = 0.3},
-            y = {
-                ref_table = {"G.consumeables.T", "G.consumeables.T"  },
-                ref_value = {                 "y",                "h"},
-                operation_table = {             "+"                  },
-                mod_value = 0.5,
-            },
-            w = {ref_table = "G.consumeables.T", ref_value = "w", mod_value = -0.3},
-            h = {ref_table = "G.consumeables.T", ref_value = "h", mod_value = 0.6},
-        },
+        moveable_t = "sgt_join",
         text = function(card)
             return copy_table(localize("ml_sgt_transform"))
         end,
