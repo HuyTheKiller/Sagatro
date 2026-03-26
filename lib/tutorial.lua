@@ -206,7 +206,7 @@ G.FUNCS.saga_tutorial_part = function(_part)
         func = function()
             if (G.OVERLAY_TUTORIAL.step == step and
             not G.OVERLAY_TUTORIAL.step_complete) or G.OVERLAY_TUTORIAL.skip_steps then
-                if G.OVERLAY_TUTORIAL.Alice then G.OVERLAY_TUTORIAL.Alice:remove() end
+                if G.OVERLAY_TUTORIAL.Jimbo then G.OVERLAY_TUTORIAL.Jimbo:remove() end
                 if G.OVERLAY_TUTORIAL.content then G.OVERLAY_TUTORIAL.content:remove() end
                 G.OVERLAY_TUTORIAL:remove()
                 G.OVERLAY_TUTORIAL = nil
@@ -220,9 +220,9 @@ G.FUNCS.saga_tutorial_part = function(_part)
 end
 
 G.FUNCS.saga_tut_next = function(e)
-    if G.OVERLAY_TUTORIAL and G.OVERLAY_TUTORIAL.Alice then
-        G.OVERLAY_TUTORIAL.Alice:remove_button()
-        G.OVERLAY_TUTORIAL.Alice:remove_speech_bubble()
+    if G.OVERLAY_TUTORIAL and G.OVERLAY_TUTORIAL.Jimbo then
+        G.OVERLAY_TUTORIAL.Jimbo:remove_button()
+        G.OVERLAY_TUTORIAL.Jimbo:remove_speech_bubble()
         G.OVERLAY_TUTORIAL.step_complete = false
         G.OVERLAY_TUTORIAL.step = G.OVERLAY_TUTORIAL.step+1
     end
@@ -230,7 +230,7 @@ end
 
 G.FUNCS.skip_saga_tutorial_section = function(e)
     G.OVERLAY_TUTORIAL.skip_steps = true
-    if G.OVERLAY_TUTORIAL.Alice then G.OVERLAY_TUTORIAL.Alice:remove() end
+    if G.OVERLAY_TUTORIAL.Jimbo then G.OVERLAY_TUTORIAL.Jimbo:remove() end
     if G.OVERLAY_TUTORIAL.content then G.OVERLAY_TUTORIAL.content:remove() end
     G.OVERLAY_TUTORIAL:remove()
     G.OVERLAY_TUTORIAL = nil
@@ -286,12 +286,12 @@ function saga_tutorial_info(args)
             if G.OVERLAY_TUTORIAL and G.OVERLAY_TUTORIAL.step == step and
             not G.OVERLAY_TUTORIAL.step_complete then
                 G.CONTROLLER.interrupt.focus = true
-                G.OVERLAY_TUTORIAL.Alice = G.OVERLAY_TUTORIAL.Alice or Card_Character(pos)
+                G.OVERLAY_TUTORIAL.Jimbo = G.OVERLAY_TUTORIAL.Jimbo or Card_Character(pos)
                 if type(args.highlight) == 'function' then args.highlight = args.highlight() end
-                args.highlight[#args.highlight+1] = G.OVERLAY_TUTORIAL.Alice
-                G.OVERLAY_TUTORIAL.Alice:add_speech_bubble(args.text_key, align, args.loc_vars)
-                G.OVERLAY_TUTORIAL.Alice:set_alignment(attach)
-                if args.hard_set then G.OVERLAY_TUTORIAL.Alice:hard_set_VT() end
+                args.highlight[#args.highlight+1] = G.OVERLAY_TUTORIAL.Jimbo
+                G.OVERLAY_TUTORIAL.Jimbo:add_speech_bubble(args.text_key, align, args.loc_vars)
+                G.OVERLAY_TUTORIAL.Jimbo:set_alignment(attach)
+                if args.hard_set then G.OVERLAY_TUTORIAL.Jimbo:hard_set_VT() end
                 G.OVERLAY_TUTORIAL.button_listen = nil
                 if G.OVERLAY_TUTORIAL.content then G.OVERLAY_TUTORIAL.content:remove() end
                 if args.content then
@@ -300,21 +300,21 @@ function saga_tutorial_info(args)
                         config = {
                             align = args.content_config and args.content_config.align or "cm",
                             offset = args.content_config and args.content_config.offset or {x=0,y=0},
-                            major = args.content_config and args.content_config.major or G.OVERLAY_TUTORIAL.Alice,
+                            major = args.content_config and args.content_config.major or G.OVERLAY_TUTORIAL.Jimbo,
                             bond = 'Weak'
                           }
                       }
                     args.highlight[#args.highlight+1] = G.OVERLAY_TUTORIAL.content
                 end
                 if args.button_listen then G.OVERLAY_TUTORIAL.button_listen = args.button_listen end
-                if not args.no_button then G.OVERLAY_TUTORIAL.Alice:add_button(button.button, button.func, button.colour, button.update_func, true) end
-                G.OVERLAY_TUTORIAL.Alice:say_stuff(2*(#(G.localization.misc.tutorial[args.text_key] or {}))+1)
+                if not args.no_button then G.OVERLAY_TUTORIAL.Jimbo:add_button(button.button, button.func, button.colour, button.update_func, true) end
+                G.OVERLAY_TUTORIAL.Jimbo:say_stuff(2*(#(G.localization.misc.tutorial[args.text_key] or {}))+1)
                 if args.snap_to then
                     G.E_MANAGER:add_event(Event({
                         trigger = 'immediate',
                         blocking = false, blockable = false,
                         func = function()
-                            if G.OVERLAY_TUTORIAL and G.OVERLAY_TUTORIAL.Alice and not G.OVERLAY_TUTORIAL.Alice.talking then
+                            if G.OVERLAY_TUTORIAL and G.OVERLAY_TUTORIAL.Jimbo and not G.OVERLAY_TUTORIAL.Jimbo.talking then
                             local _snap_to = args.snap_to()
                             if _snap_to then
                                 G.CONTROLLER.interrupt.focus = false
