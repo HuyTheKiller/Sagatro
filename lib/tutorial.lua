@@ -99,6 +99,12 @@ G.FUNCS.saga_tutorial_part = function(_part)
             attach = {major =  G.ROOM_ATTACH, type = 'cm', offset = {x = 0, y = 0}},
             step = step,
         })
+        step = saga_tutorial_info({
+            text_key = 'sgt_bb_2',
+            hard_set = true,
+            attach = {major =  G.ROOM_ATTACH, type = 'cm', offset = {x = 0, y = 0}},
+            step = step,
+        })
     elseif _part == 'first_hand' then
         step = saga_tutorial_info({
             text_key = 'sgt_fh_1',

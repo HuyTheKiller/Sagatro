@@ -4534,6 +4534,12 @@ return {
                 "Now, choose your path.",
             },
             sgt_bb_1 = {
+                "Stake effects have also been {C:attention}reworked{}.",
+                "You can take a look at it later in",
+                "main menu. I recommend using {C:attention}Galdur",
+                "with 'Unlock All Stakes' option.",
+            },
+            sgt_bb_2 = {
                 "Good job! That's all the basics",
                 "of a {C:sgt_sagadition}Story Mode{} run.",
                 "You may now begin your journey.",

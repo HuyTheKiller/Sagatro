@@ -4529,6 +4529,12 @@ return {
                 "Giờ thì, anh/chị hãy chọn đi.",
             },
             sgt_bb_1 = {
+                "Hiệu ứng cược cũng đã được {C:attention}làm lại{}.",
+                "Anh/chị có thể xem nó sau ở menu",
+                "chính. Bé đây khuyến kích dùng {C:attention}Galdur",
+                "với tuỳ chọn 'Mở Khoá Toàn Bộ Cược'.",
+            },
+            sgt_bb_2 = {
                 "Làm tốt lắm thưa anh/chị! Đó là",
                 "toàn bộ những thứ cơ bản của trận",
                 "{C:sgt_sagadition}Chế Độ Cốt Truyện{}. Anh/chị giờ",
