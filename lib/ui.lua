@@ -226,19 +226,29 @@ SMODS.card_collection_UIBox = function(_pool, rows, args)
     local ret = card_collection_UIBox(_pool, rows, args)
     if _pool == G.P_CENTER_POOLS.Joker then
         local contents = ret.nodes[1].nodes[1].nodes[1].nodes
-        local sticker_toggle = create_toggle({label = localize('SGT_hide_stake_stickers'),
-        ref_table = Sagatro.config, ref_value = 'HideStakeStickers',
-        active_colour = G.ACTIVE_MOD_UI == Sagatro and Sagatro.secondary_colour or G.C.RED,
-        inactive_colour = G.ACTIVE_MOD_UI == Sagatro and Sagatro.badge_colour or ret.nodes[1].nodes[1].config.colour,
-        callback = function()
-            for j = 1, #G.your_collection do
-                for i = 1, #G.your_collection[j].cards do
-                    local c = G.your_collection[j].cards[i]
-                    c.sticker = not Sagatro.config.HideStakeStickers and get_joker_win_sticker(c.config.center) or nil
+        local node = {n=G.UIT.R, config = {align = 'cm'}, nodes={
+            create_toggle({label = localize('SGT_disable_other_jokers'),
+                col = true,
+                ref_table = Sagatro.config, ref_value = 'DisableOtherJokers',
+                active_colour = G.ACTIVE_MOD_UI == Sagatro and Sagatro.secondary_colour or G.C.RED,
+                inactive_colour = G.ACTIVE_MOD_UI == Sagatro and Sagatro.badge_colour or ret.nodes[1].nodes[1].config.colour
+            }),
+            create_toggle({label = localize('SGT_hide_stake_stickers'),
+                col = true,
+                ref_table = Sagatro.config, ref_value = 'HideStakeStickers',
+                active_colour = G.ACTIVE_MOD_UI == Sagatro and Sagatro.secondary_colour or G.C.RED,
+                inactive_colour = G.ACTIVE_MOD_UI == Sagatro and Sagatro.badge_colour or ret.nodes[1].nodes[1].config.colour,
+                callback = function()
+                    for j = 1, #G.your_collection do
+                        for i = 1, #G.your_collection[j].cards do
+                            local c = G.your_collection[j].cards[i]
+                            c.sticker = not Sagatro.config.HideStakeStickers and get_joker_win_sticker(c.config.center) or nil
+                        end
+                    end
                 end
-            end
-        end})
-        table.insert(contents, 2, sticker_toggle)
+            }),
+        }}
+        table.insert(contents, 2, node)
     end
     return ret
 end
