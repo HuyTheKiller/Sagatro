@@ -988,8 +988,9 @@ function Game:update(dt)
                             v.children.center:set_sprite_pos(v.ability.anim_pos)
                         end
                     elseif v.config.center_key == "j_sgt_goldia" and v.config.center.discovered then
-                        v.ability.hide_name_tag = v.ability.immutable.stage ~= "name_recalled" and v.ability.immutable.stage ~= "dawn"
-                        and (G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers))
+                        local pos_x = v.ability.immutable.stage ~= "name_recalled" and v.ability.immutable.stage ~= "dawn"
+                        and (G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers)) and 4 or 3
+                        v.children.floating_name_tag:set_sprite_pos{x = pos_x, y = 4}
                     end
                 end
             end
@@ -1029,6 +1030,10 @@ function Game:update(dt)
                         v.ability.anim_pos.y = (math.min(v.ability.immutable.old_depth_level, v.ability.immutable.depth_level) - 1 + pending_up)
                         + (v.ability.in_transition and 5 or 0)
                         v.children.center:set_sprite_pos(v.ability.anim_pos)
+                    elseif v.config.center_key == "j_sgt_goldia" and v.config.center.discovered then
+                        local pos_x = v.ability.immutable.stage ~= "name_recalled" and v.ability.immutable.stage ~= "dawn"
+                        and (G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers)) and 4 or 3
+                        v.children.floating_name_tag:set_sprite_pos{x = pos_x, y = 4}
                     end
                 end
             end

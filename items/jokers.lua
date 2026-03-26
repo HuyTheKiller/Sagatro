@@ -13774,8 +13774,9 @@ local goldia = {
         end
     end,
     update = function(self, card, dt)
-        card.ability.hide_name_tag = card.ability.immutable.stage ~= "name_recalled"
-        and card.ability.immutable.stage ~= "dawn" and (G.GAME.story_mode or card.displaying_save)
+        local pos_x = card.ability.immutable.stage ~= "name_recalled"
+        and card.ability.immutable.stage ~= "dawn" and (G.GAME.story_mode or card.displaying_save) and 4 or 3
+        card.children.floating_name_tag:set_sprite_pos{x = pos_x, y = 4}
         if G.STAGE == G.STAGES.RUN then
             if card.area and card.area == G.jokers then
                 if Sagatro.event_check("dull_glass") then
@@ -15381,7 +15382,7 @@ local lisette = {
 local enjel = {
     key = "enjel",
     name = "Enjel",
-    artist_credits = {"huycorn", "amy"},
+    artist_credits = {"amy", "huythekiller"},
     atlas = "pocket_mirror",
     saga_group = "pocket_mirror",
     order = 125,

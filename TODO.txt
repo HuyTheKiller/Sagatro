@@ -45,12 +45,12 @@ TO-DO:
     [X] Hook Lisette's effects to story events
     [X] Replace Lisette's placeholder with final visual
     [X] Add Lisette's effect outside story mode
-[] Add Enjel:
+[X] Add Enjel:
     [X] Add Enjel's visual
     [X] Add base Enjel (legendary)
     [X] Add Enjel's effect inside story mode
     [X] Hook Enjel's effects to story events
-    [] Replace Enjel's placeholder with final visual
+    [X] Replace Enjel's placeholder with final visual
     [X] Add Enjel's effect outside story mode
 [X] Add Platinum:
     [X] Add base Platinum (legendary)
