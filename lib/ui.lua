@@ -260,6 +260,21 @@ function G.UIDEF.run_setup_option(type)
         local story_mode_toggle = create_toggle({label = localize('SGT_disable_other_jokers'),
             label_scale = 0.25, w = 0, scale = 0.7, col = true,
             ref_table = Sagatro.config, ref_value = 'DisableOtherJokers',
+            callback = function()
+                if G.GAME.viewed_back then
+                    local original_back = G.GAME.viewed_back.effect.center
+                    local flash = original_back == G.P_CENTERS.b_red and G.P_CENTERS.b_blue or nil
+                    G.GAME.viewed_back:change_to(flash)
+                    G.E_MANAGER:add_event(Event({
+                        trigger = "after",
+                        delay = 0.01,
+                        func = function()
+                            G.GAME.viewed_back:change_to(original_back)
+                            return true
+                        end
+                    }))
+                end
+            end
         })
         for i, node in ipairs(ret.nodes) do
             if node.nodes[1] and node.nodes[1].config.id == "run_setup_seed" then
