@@ -253,6 +253,24 @@ SMODS.card_collection_UIBox = function(_pool, rows, args)
     return ret
 end
 
+local run_setup_option = G.UIDEF.run_setup_option
+function G.UIDEF.run_setup_option(type)
+    local ret = run_setup_option(type)
+    if type == 'New Run' then
+        local story_mode_toggle = create_toggle({label = localize('SGT_disable_other_jokers'),
+            label_scale = 0.25, w = 0, scale = 0.7, col = true,
+            ref_table = Sagatro.config, ref_value = 'DisableOtherJokers',
+        })
+        for i, node in ipairs(ret.nodes) do
+            if node.nodes[1] and node.nodes[1].config.id == "run_setup_seed" then
+                table.insert(ret.nodes[i].nodes[3].nodes, story_mode_toggle)
+                break
+            end
+        end
+    end
+    return ret
+end
+
 -- Submarine's UP and DOWN movements
 local highlight_ref = Card.highlight
 function Card:highlight(is_higlighted)

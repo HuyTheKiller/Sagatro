@@ -4672,6 +4672,19 @@ if JokerDisplay then
     end
 end
 
+if Galdur then
+    local new_run_setup_opt = G.UIDEF.run_setup_option_new_model
+    function G.UIDEF.run_setup_option_new_model(type)
+        local ret = new_run_setup_opt(type)
+        local story_mode_toggle = create_toggle({label = localize('SGT_disable_other_jokers'),
+            label_scale = 0.25, w = 0, scale = 0.7,
+            ref_table = Sagatro.config, ref_value = 'DisableOtherJokers',
+        })
+        table.insert(ret.nodes[1].nodes[2].nodes[3].nodes[2].nodes, story_mode_toggle)
+        return ret
+    end
+end
+
 local card_click = Card.click
 function Card:click()
     card_click(self)
