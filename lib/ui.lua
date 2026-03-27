@@ -295,6 +295,16 @@ function G.UIDEF.run_setup_option(type)
                             config = {offset = {x=0,y=0}, align = 'cm', parent = stake_desc}
                         }
                     end
+                    if CardSleeves then
+                        local sleeve_desc = G.OVERLAY_MENU:get_UIE_by_func('RUN_SETUP_check_sleeve2')
+                        if sleeve_desc then
+                            sleeve_desc.config.object:remove()
+                            sleeve_desc.config.object = UIBox {
+                                definition = G.UIDEF.viewed_sleeve_option(),
+                                config = { offset = { x = 0, y = 0 }, align = 'cm', parent = sleeve_desc }
+                            }
+                        end
+                    end
                 end
             end
         })
