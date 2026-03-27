@@ -253,6 +253,23 @@ SMODS.card_collection_UIBox = function(_pool, rows, args)
     return ret
 end
 
+function UIBox:get_UIE_by_func(func, node)
+    if not node then node = self.UIRoot end
+    if node.config and node.config.func and node.config.func == func then return node end
+    for _, v in pairs(node.children) do
+        local res = self:get_UIE_by_func(func, v)
+        if res then
+            return res
+        elseif v.config.object and v.config.object.get_UIE_by_func then
+            res = v.config.object:get_UIE_by_func(func, nil)
+            if res then
+                return res
+            end
+        end
+    end
+    return nil
+end
+
 local run_setup_option = G.UIDEF.run_setup_option
 function G.UIDEF.run_setup_option(type)
     local ret = run_setup_option(type)
@@ -262,17 +279,22 @@ function G.UIDEF.run_setup_option(type)
             ref_table = Sagatro.config, ref_value = 'DisableOtherJokers',
             callback = function()
                 if G.GAME.viewed_back then
-                    local original_back = G.GAME.viewed_back.effect.center
-                    local flash = original_back == G.P_CENTERS.b_red and G.P_CENTERS.b_blue or nil
-                    G.GAME.viewed_back:change_to(flash)
-                    G.E_MANAGER:add_event(Event({
-                        trigger = "after",
-                        delay = 0.01,
-                        func = function()
-                            G.GAME.viewed_back:change_to(original_back)
-                            return true
-                        end
-                    }))
+                    local back_desc = G.OVERLAY_MENU:get_UIE_by_func('RUN_SETUP_check_back')
+                    if back_desc then
+                        back_desc.config.object:remove()
+                        back_desc.config.object = UIBox{
+                            definition = G.GAME.viewed_back:generate_UI(),
+                            config = {offset = {x=0,y=0}, align = 'cm', parent = back_desc}
+                        }
+                    end
+                    local stake_desc = G.OVERLAY_MENU:get_UIE_by_func('RUN_SETUP_check_stake2')
+                    if stake_desc then
+                        stake_desc.config.object:remove()
+                        stake_desc.config.object = UIBox{
+                            definition =  G.UIDEF.viewed_stake_option(),
+                            config = {offset = {x=0,y=0}, align = 'cm', parent = stake_desc}
+                        }
+                    end
                 end
             end
         })
