@@ -69,7 +69,7 @@ return {
                 name = "Grimoire Sleeve",
                 text = {
                     "Start run with",
-                    "{C:sgt_divinatio,T:v_sgt_oculus_divina}#1#{}",
+                    "{C:sgt_divinatio,T:v_sgt_oculus_divina}#1#{},",
                     "{C:sgt_eldritch,T:v_sgt_shadow_oath}#2#{}",
                     "and {C:sgt_divinatio,T:c_sgt_rex_divinus}#4#{}",
                     "{C:red}X#3#{} base Blind size",
