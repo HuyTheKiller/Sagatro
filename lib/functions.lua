@@ -4551,7 +4551,7 @@ end
 
 Sagatro.config_tab = function()
     return {n = G.UIT.ROOT, config = {r = 0.1, align = "tm", padding = 0.1, colour = Sagatro.secondary_colour, minw = 8, minh = 6}, nodes = {
-        {n=G.UIT.R, config = {align = 'cm', padding = 0.2}, nodes = {
+        {n=G.UIT.R, config = {align = 'cm', padding = 0.1}, nodes = {
             {n=G.UIT.T, config = {scale = 0.5, text = localize('SGT_story_related_settings'), colour = G.C.WHITE}}
         }},
         {n=G.UIT.R, config = {align = 'cm'}, nodes={
@@ -4566,10 +4566,10 @@ Sagatro.config_tab = function()
             }},
         }},
         {n=G.UIT.R, config = {minh = 0.04, minw = 4, colour = Sagatro.badge_colour}},
-        {n=G.UIT.R, config = {align = 'cm', padding = 0.2}, nodes = {
+        {n=G.UIT.R, config = {align = 'cm', padding = 0.1}, nodes = {
             {n=G.UIT.T, config = {scale = 0.5, text = localize('SGT_misc_settings'), colour = G.C.WHITE}}
         }},
-        {n=G.UIT.R, config = {align = 'cm', padding = 0.2}, nodes = {
+        {n=G.UIT.R, config = {align = 'cm', padding = 0.1}, nodes = {
             {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
                 create_toggle({label = localize('SGT_disable_sagatro_items'), ref_table = Sagatro.config, ref_value = 'DisableSagatroItems', info = localize('SGT_disable_sagatro_items_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
             }},
@@ -4578,7 +4578,7 @@ Sagatro.config_tab = function()
                 create_option_cycle({label = localize('SGT_sagatro_music'), current_option = Sagatro.config.SagatroMusicOption, options = localize('SGT_sagatro_music_options'), ref_table = Sagatro.config, ref_value = 'SagatroMusicOption', info = localize('SGT_sagatro_music_desc'), colour = Sagatro.badge_colour, w = 3.7*0.65/(5/6), h=0.8*0.65/(5/6), text_scale=0.5*0.65/(5/6), scale=5/6, no_pips = true}),
             }},
         }},
-        {n=G.UIT.R, config = {align = 'cm', padding = 0.2}, nodes = {
+        {n=G.UIT.R, config = {align = 'cm', padding = 0.1}, nodes = {
             {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
                 create_toggle({label = localize('SGT_quick_restart'), ref_table = Sagatro.config, ref_value = 'QuickRestart', info = localize('SGT_quick_restart_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
             }},
