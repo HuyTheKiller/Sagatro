@@ -8,4 +8,5 @@ return {
     QuickRestart = false,
     LenientScore = false,
     HideStakeStickers = false,
+    ForceAprilFools = false,
 }

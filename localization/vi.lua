@@ -925,6 +925,13 @@ return {
                     "mỗi lần mua",
                 },
             },
+            sgt_april_fools = {
+                name = "Joker Không Rõ",
+                text = {
+                    "Trang bị joker này",
+                    "để biết nó làm gì",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -4374,6 +4381,8 @@ return {
                 "so với điểm yêu cầu.",
             },
             SGT_hide_stake_stickers = "Ẩn nhãn cược",
+            SGT_april_fools = "Ép Cá Tháng Tư",
+            SGT_april_fools_desc = {"Ép buộc cơ chế Cá Tháng Tư luôn được bật", "(chỉ Chế Độ Cốt Truyện)"},
             sgt_welcome = "Chào mừng đến với Sagatro!",
             sgt_welcome_text1 = "Đây là một bản mod mang những câu chuyện cổ tích, thần thoại và yếu tố",
             sgt_welcome_text2 = "siêu thực vào tựa game mà chúng tôi - cũng như các bạn - yêu thích.",

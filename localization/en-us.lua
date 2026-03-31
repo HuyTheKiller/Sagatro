@@ -926,6 +926,13 @@ return {
                     "every purchase",
                 },
             },
+            sgt_april_fools = {
+                name = "Unknown Joker",
+                text = {
+                    "Equip this joker",
+                    "to learn what it does",
+                },
+            },
         },
         Voucher = {
             v_sgt_oculus_divina = {
@@ -4379,6 +4386,8 @@ return {
                 "score is very high compared to required score.",
             },
             SGT_hide_stake_stickers = "Hide stake stickers",
+            SGT_april_fools = "Force April Fools",
+            SGT_april_fools_desc = {"Force April Fools mechanic to be always on", "(Story Mode only)"},
             sgt_welcome = "Welcome to Sagatro!",
             sgt_welcome_text1 = "This is a mod that brings fairy tales, mythology, and",
             sgt_welcome_text2 = "surreal elements into the game we - and you - all love.",

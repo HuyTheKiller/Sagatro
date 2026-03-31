@@ -42,7 +42,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         end
         ui[Ortalab and "mythos" or "celestara"] = celestara_nodes
     end
-    if (G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or ((card or {}).displaying_save)) and card then
+    if (G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or ((card or {}).displaying_save)) and (card and not card.ability.april_fools_hidden) then
         if _c.key == "j_sgt_submarine" then
             local submarine_nodes = {background_colour = mix_colours(G.C.SUBMARINE_DEPTH[1], G.C.WHITE, 0.25)}
             local vars = card.config.center:loc_vars({}, card).vars
@@ -101,7 +101,8 @@ function G.UIDEF.card_h_popup(card)
         #ret_val.nodes[1].nodes[1].nodes[1].nodes+(card.config.center.discovered and 0 or 1),
         desc_from_rows(AUT.celestara))
     end
-    if card.area and card.area.config.collection and not card.config.center.discovered then return ret_val end
+    if (card.area and (card.area.config.collection and not card.config.center.discovered))
+    or (card.ability and card.ability.april_fools_hidden) then return ret_val end
     if not Ortalab and obj and obj.artist_credits and obj.discovered then
         table.insert(ret_val.nodes[1].nodes[1].nodes[1].nodes, Sagatro.artist_node(obj.artist_credits, localize('sgt_art_credit')))
     end
@@ -464,6 +465,13 @@ Sagatro.FUNCS.submarine_up = function(e)
     G.GAME.first_submarine_up = true
     Sagatro.resolve_fuel(-1)
     submarine:juice_up()
+    if G.shop_jokers then
+        for _, fish in ipairs(G.shop_jokers.cards or {}) do
+            if fish.ability.immutable and fish.ability.immutable.weight_level then
+                fish:set_sprites(fish.config.center)
+            end
+        end
+    end
     if G.GAME.ante_cooldown == 0 then
         G.GAME.ante_cooldown = G.GAME.ante_cooldown + (G.GAME.sgt_lenient_score and 8 or 4)
         if not G.GAME.ante_first_time then
@@ -525,6 +533,13 @@ Sagatro.FUNCS.submarine_down = function(e, force_go_down)
             Sagatro.resolve_fuel(-1)
         end
         submarine:juice_up()
+        if G.shop_jokers then
+            for _, fish in ipairs(G.shop_jokers.cards or {}) do
+                if fish.ability.immutable and fish.ability.immutable.weight_level then
+                    fish:set_sprites(fish.config.center)
+                end
+            end
+        end
     end
 end
 

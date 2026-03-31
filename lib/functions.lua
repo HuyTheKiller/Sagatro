@@ -1302,6 +1302,30 @@ function Card:set_sprites(_center, _front)
         self.children.floating_name_tag.states.hover.can = false
         self.children.floating_name_tag.states.click.can = false
     end
+    if _center and self.ability and self.ability.april_fools_hidden then
+        if self.children.center then self.children.center:remove() end
+        local pos = nil
+        if self.config.center.saga_group == "alice_in_wonderland" then
+            pos = {x = 1, y = 7}
+        elseif self.config.center.saga_group == "alice_in_mirrorworld" then
+            pos = {x = 2, y = 7}
+        elseif self.config.center.saga_group == "20k_miles_under_the_sea" then
+            if self.ability.immutable and self.ability.immutable.weight_level then
+                Sagatro.get_submarine_depth_colour()
+                pos = {x = Sagatro.get_submarine_depth_colour() - 1, y = 8}
+            else
+                pos = {x = 0, y = 7}
+            end
+        elseif self.config.center.saga_group then
+            pos = {x = 0, y = 7}
+        end
+        self.children.center = SMODS.create_sprite(self.T.x, self.T.y, self.T.w, self.T.h, 'sgt_misc_jokers', pos or {x = 0, y = 7})
+        self.children.center.states.hover = self.states.hover
+        self.children.center.states.click = self.states.click
+        self.children.center.states.drag = self.states.drag
+        self.children.center.states.collide.can = false
+        self.children.center:set_role({major = self, role_type = 'Glued', draw_major = self})
+    end
 end
 
 local can_calc_ref = Card.can_calculate
@@ -1328,9 +1352,14 @@ end
 local add_to_deck_ref = Card.add_to_deck
 function Card:add_to_deck(from_debuff)
     add_to_deck_ref(self, from_debuff)
-    if not from_debuff and self.ability.set == "Joker"
-    and G.GAME.modifiers.sgt_joker_selling_rounds then
-        self.ability.sgt_selling_tally = self.ability.sgt_selling_tally or 0
+    if not from_debuff and self.ability.set == "Joker" then
+        if G.GAME.modifiers.sgt_joker_selling_rounds then
+            self.ability.sgt_selling_tally = self.ability.sgt_selling_tally or 0
+        end
+        if self.ability.april_fools_hidden then
+            self.ability.april_fools_hidden = nil
+            self:set_sprites(self.config.center)
+        end
     end
 end
 
@@ -1376,6 +1405,9 @@ function copy_card(other, new_card, card_scale, playing_card, strip_edition)
     local card = copy_cardref(other, new_card, card_scale, playing_card, strip_edition)
     if SMODS.has_enhancement(card, "m_sgt_gravistone") then
         card.ability.gravistone_triggered = nil
+    end
+    if card.ability.april_fools_hidden then
+        card:set_sprites(card.config.center)
     end
     return card
 end
@@ -2850,13 +2882,32 @@ function Sagatro:calculate(context)
             end
         end
         -- It's all a lie - playing cards in shop cannot have a seal
-        if context.modify_shop_card and (Sagatro.event_check("mirror_maze")
-        or Sagatro.event_check("lisette_chase") or Sagatro.event_check("dull_glass")) then
-            if context.card.ability.set == "Default" or context.card.ability.set == "Enhanced" then
-                context.card.ability.old_enh = context.card.config.center_key
-                -- context.card.ability.old_seal = context.card.seal
-                context.card:set_ability("m_sgt_mirror")
-                -- if context.card.ability.old_seal then context.card:set_seal(nil, true) end
+        if context.modify_shop_card then
+            if Sagatro.event_check("mirror_maze") or Sagatro.event_check("lisette_chase") or Sagatro.event_check("dull_glass") then
+                if context.card.ability.set == "Default" or context.card.ability.set == "Enhanced" then
+                    context.card.ability.old_enh = context.card.config.center_key
+                    -- context.card.ability.old_seal = context.card.seal
+                    context.card:set_ability("m_sgt_mirror")
+                    -- if context.card.ability.old_seal then context.card:set_seal(nil, true) end
+                end
+            end
+            if context.card.ability.set == "Joker" and (os.date"%d%m" == "0104" or Sagatro.config.ForceAprilFools) then
+                if context.card.config.center.saga_group
+                and context.card.config.center.saga_group ~= "pocket_mirror"
+                and not context.card:is_rarity(4) then
+                    context.card.ability.april_fools_hidden = true
+                    context.card:set_sprites(context.card.config.center)
+                end
+            end
+        end
+        if context.modify_booster_card then
+            if context.card.ability.set == "Joker" and (os.date"%d%m" == "0104" or Sagatro.config.ForceAprilFools) then
+                if context.card.config.center.saga_group
+                and context.card.config.center.saga_group ~= "pocket_mirror"
+                and not context.card:is_rarity(4) and context.card.config.center_key ~= "j_sgt_submarine" then
+                    context.card.ability.april_fools_hidden = true
+                    context.card:set_sprites(context.card.config.center)
+                end
             end
         end
     end
@@ -4576,6 +4627,9 @@ Sagatro.config_tab = function()
             {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
                 -- create_toggle({label = localize('SGT_sagatro_music'), ref_table = Sagatro.config, ref_value = 'SagatroMusic', info = localize('SGT_sagatro_music_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
                 create_option_cycle({label = localize('SGT_sagatro_music'), current_option = Sagatro.config.SagatroMusicOption, options = localize('SGT_sagatro_music_options'), ref_table = Sagatro.config, ref_value = 'SagatroMusicOption', info = localize('SGT_sagatro_music_desc'), colour = Sagatro.badge_colour, w = 3.7*0.65/(5/6), h=0.8*0.65/(5/6), text_scale=0.5*0.65/(5/6), scale=5/6, no_pips = true}),
+            }},
+            {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
+                create_toggle({label = localize('SGT_april_fools'), ref_table = Sagatro.config, ref_value = 'ForceAprilFools', info = localize('SGT_april_fools_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
             }},
         }},
         {n=G.UIT.R, config = {align = 'cm', padding = 0.1}, nodes = {

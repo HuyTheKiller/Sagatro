@@ -1338,3 +1338,32 @@ payload = '''
 love.graphics.setLineWidth(1)
 '''
 match_indent = true
+
+# April Fools shrouding effect
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+elseif _c.generate_ui and type(_c.generate_ui) == 'function' then
+'''
+position = "before"
+payload = '''
+elseif card and card.ability.april_fools_hidden then
+    full_UI_table.name = localize{type = 'name', set = 'Other', key = 'sgt_april_fools', name_nodes = {}}
+    localize{type = 'other', key = 'sgt_april_fools', set = _c.set, nodes = desc_nodes}
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+obj:set_badges(card, badges)
+'''
+position = "at"
+payload = '''
+if not card.ability.april_fools_hidden then
+    obj:set_badges(card, badges)
+end
+'''
+match_indent = true
