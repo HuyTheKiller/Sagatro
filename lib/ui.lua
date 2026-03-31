@@ -231,7 +231,10 @@ SMODS.card_collection_UIBox = function(_pool, rows, args)
                 col = true,
                 ref_table = Sagatro.config, ref_value = 'DisableOtherJokers',
                 active_colour = G.ACTIVE_MOD_UI == Sagatro and Sagatro.secondary_colour or G.C.RED,
-                inactive_colour = G.ACTIVE_MOD_UI == Sagatro and Sagatro.badge_colour or ret.nodes[1].nodes[1].config.colour
+                inactive_colour = G.ACTIVE_MOD_UI == Sagatro and Sagatro.badge_colour or ret.nodes[1].nodes[1].config.colour,
+                callback = function()
+                    SMODS.save_mod_config(Sagatro)
+                end
             }),
             create_toggle({label = localize('SGT_hide_stake_stickers'),
                 col = true,
@@ -306,6 +309,7 @@ function G.UIDEF.run_setup_option(type)
                         end
                     end
                 end
+                SMODS.save_mod_config(Sagatro)
             end
         })
         for i, node in ipairs(ret.nodes) do

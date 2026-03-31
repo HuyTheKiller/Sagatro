@@ -4679,6 +4679,9 @@ if Galdur then
         local story_mode_toggle = create_toggle({label = localize('SGT_disable_other_jokers'),
             label_scale = 0.25, w = 0, scale = 0.7,
             ref_table = Sagatro.config, ref_value = 'DisableOtherJokers',
+            callback = function()
+                SMODS.save_mod_config(Sagatro)
+            end
         })
         table.insert(ret.nodes[1].nodes[2].nodes[3].nodes[2].nodes, story_mode_toggle)
         return ret
