@@ -1310,7 +1310,7 @@ function Card:set_sprites(_center, _front)
         elseif self.config.center.saga_group == "alice_in_mirrorworld" then
             pos = {x = 2, y = 7}
         elseif self.config.center.saga_group == "20k_miles_under_the_sea" then
-            if self.ability.immutable and self.ability.immutable.weight_level then
+            if (self.ability.immutable and self.ability.immutable.weight_level) or self.config.center_key == "j_sgt_seawater" then
                 Sagatro.get_submarine_depth_colour()
                 pos = {x = Sagatro.get_submarine_depth_colour() - 1, y = 8}
             else
