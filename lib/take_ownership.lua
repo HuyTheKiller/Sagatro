@@ -30,7 +30,7 @@ SMODS.Booster:take_ownership_by_kind('Buffoon', {
         end
         if Sagatro.backward_compat "1522a" then
             _card = SMODS.create_card(_card)
-            if os.date"%d%m" == "0104" or Sagatro.config.ForceAprilFools then
+            if G.GAME.story_mode and (os.date"%d%m" == "0104" or Sagatro.config.ForceAprilFools) then
                 if _card.config.center.saga_group
                 and _card.config.center.saga_group ~= "pocket_mirror"
                 and not _card:is_rarity(4) and _card.config.center_key ~= "j_sgt_submarine" then
