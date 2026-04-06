@@ -1485,6 +1485,13 @@ Sagatro.FUNCS.delete_all_snapshots = function(e)
     end
 end
 
+Sagatro.FUNCS.cycle_update = function(args)
+    args = args or {}
+    if args.cycle_config and args.cycle_config.ref_table and args.cycle_config.ref_value then
+        args.cycle_config.ref_table[args.cycle_config.ref_value] = args.to_key
+    end
+end
+
 local sn = scale_number
 function scale_number(number, scale, max, e_switch_point)
     local ret = sn(number, scale, max, e_switch_point)

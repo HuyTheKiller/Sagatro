@@ -4626,7 +4626,7 @@ Sagatro.config_tab = function()
             }},
             {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
                 -- create_toggle({label = localize('SGT_sagatro_music'), ref_table = Sagatro.config, ref_value = 'SagatroMusic', info = localize('SGT_sagatro_music_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
-                create_option_cycle({label = localize('SGT_sagatro_music'), current_option = Sagatro.config.SagatroMusicOption, options = localize('SGT_sagatro_music_options'), ref_table = Sagatro.config, ref_value = 'SagatroMusicOption', info = localize('SGT_sagatro_music_desc'), colour = Sagatro.badge_colour, w = 3.7*0.65/(5/6), h=0.8*0.65/(5/6), text_scale=0.5*0.65/(5/6), scale=5/6, no_pips = true}),
+                create_option_cycle({label = localize('SGT_sagatro_music'), current_option = Sagatro.config.SagatroMusicOption, options = localize('SGT_sagatro_music_options'), ref_table = Sagatro.config, ref_value = 'SagatroMusicOption', info = localize('SGT_sagatro_music_desc'), colour = Sagatro.badge_colour, w = 3.7*0.65/(5/6), h=0.8*0.65/(5/6), text_scale=0.5*0.65/(5/6), scale=5/6, no_pips = true, opt_callback = 'cycle_update'}),
             }},
             {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
                 create_toggle({label = localize('SGT_april_fools'), ref_table = Sagatro.config, ref_value = 'ForceAprilFools', info = localize('SGT_april_fools_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
