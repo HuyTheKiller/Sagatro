@@ -813,7 +813,6 @@ Sagatro.EventChain{
     key = "dawn_ending",
     func_list = {
         function()
-            G.GAME.pm_chase = nil
             Sagatro.temp_music_volume = G.SETTINGS.SOUND.music_volume
             G.E_MANAGER:add_event(Event({
                 trigger = 'ease',
@@ -900,6 +899,7 @@ Sagatro.EventChain{
             end
         end,
         function()
+            G.GAME.pm_chase = nil
             play_sound('timpani')
             SMODS.add_card{key = "j_sgt_pocket_mirror"}
             G.GAME.dawn_pm = true
@@ -1022,6 +1022,10 @@ Sagatro.EventChain{
                     return true
                 end
             end
+        end,
+        function()
+            G.GAME.pm_chase = nil
+            return 0
         end,
     },
 }
