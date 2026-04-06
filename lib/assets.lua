@@ -310,7 +310,7 @@ SMODS.Sound{
     key = "music_sagatro",
     path = "music_sagatro.ogg",
     select_music_track = function()
-        if G.STATE == G.STATES.MENU then
+        if G.STAGE == G.STAGES.MAIN_MENU then
             return 100
         end
         return false

@@ -106,7 +106,7 @@ local white_rabbit = {
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "white_rabbit"}
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "fusion_hint", title = localize("saga_fusion_tooltip")}
         end
-        if Sagatro.storyline_check("none") or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
+        if Sagatro.storyline_check("none") or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
             specific_vars = {localize('ph_alice_in_wond'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "alice_in_wonderland_mech", title = localize("saga_mechanic")}
@@ -541,7 +541,7 @@ local kid_gloves_and_fan = {
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "kid_gloves_and_fan"}
         end
         local ret = {vars = {card.ability.extra.rank_drop*G.GAME.alice_multiplier}}
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_storymode"
             ret.vars[#ret.vars+1] = card.ability.extra.chips*G.GAME.alice_multiplier
         end
@@ -4015,7 +4015,7 @@ local lincoln_ship = {
         if Sagatro.storyline_check(self.saga_group) and not next(SMODS.find_card("j_sgt_submarine", true)) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "lincoln_ship"}
         end
-        if Sagatro.storyline_check("none") or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
+        if Sagatro.storyline_check("none") or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
             specific_vars = {localize('ph_20k'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "20k_miles_under_the_sea_mech", title = localize("saga_mechanic")}
@@ -4232,7 +4232,7 @@ local submarine = {
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "submarine"}
         end
         local ret = {}
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_storymode"
             ret.vars = {
                 card.ability.immutable.states.fuel_left,
@@ -4338,7 +4338,7 @@ local sub_engineer = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             info_queue[#info_queue+1] = G.P_CENTERS.p_sgt_supply
         end
         return {vars = {card.ability.amount}}
@@ -10857,7 +10857,7 @@ local mirror = {
     end,
     loc_vars = function(self, info_queue, card)
         if (Sagatro.storyline_check("alice_in_wonderland") and not Sagatro.storyline_check(self.saga_group))
-        or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
+        or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "interwoven_storyline_start",
             specific_vars = {localize('ph_alice_in_mirr'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "alice_in_mirrorworld_mech", title = localize("saga_mechanic")}
@@ -12885,7 +12885,7 @@ local humpty_dumpty = {
     end,
     loc_vars = function(self, info_queue, card)
         if (Sagatro.storyline_check(self.saga_group) and G.GAME.inversed_scaling)
-        or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             info_queue[#info_queue+1] = {key = "sgt_mirrored", set = "Other"}
         end
         return {vars = {card.ability.extra.value_gain, localize(G.GAME.current_round.humdum_card.rank, 'ranks'),
@@ -13870,7 +13870,7 @@ local goldia = {
                 end
             end
         end
-        if Sagatro.storyline_check("none") or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
+        if Sagatro.storyline_check("none") or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
             specific_vars = {localize('ph_pmirror'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "pocket_mirror_mech", title = localize("saga_mechanic")}
@@ -13879,7 +13879,7 @@ local goldia = {
         if card.area and card.area ~= Sagatro.temp_areas.jokers and card.area.config.type == "title" then
             info_queue[#info_queue+1] = {set = "Other", key = "sgt_play_pocket_mirror"}
         end
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_stage_"..card.ability.immutable.stage
             if card.ability.immutable.stage == 0 or card.ability.immutable.stage == "dawn" then
                 ret.vars = {card.ability.extra.stage0_mult, card.ability.extra.stage0_mult_xmod}
@@ -14023,7 +14023,7 @@ local pocket_mirror = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {colours = {G.C.GOLD}}}
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_storymode"
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if card.displaying_save then
@@ -14121,7 +14121,7 @@ local knife_fork = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.retriggers, colours = {G.C.GOLD}}}
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_storymode"
         end
         return ret
@@ -14216,7 +14216,7 @@ local rose_bell = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.xmult, card.ability.extra.xmult_mod, colours = {G.C.GOLD}}}
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_storymode"
         end
         return ret
@@ -14267,7 +14267,7 @@ local moon_hairbrush = {
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
         local _poker_hands = {}
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
             -- Fixed list so that modded poker hands won't interfere with story mode\
             -- Also exclude harder hands for ease of access
             _poker_hands = {"Full House", "Flush", "Straight", "Three of a Kind", "Two Pair", "Pair", "High Card"}
@@ -14329,7 +14329,7 @@ local moon_hairbrush = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.xmult, localize(card.ability.extra.poker_hand, 'poker_hands'), colours = {G.C.GOLD}}}
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_storymode"
         end
         return ret
@@ -14426,7 +14426,7 @@ local snow_scissors = {
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.m_glass
         local ret = {vars = {card.ability.extra.xmult, colours = {G.C.GOLD}}}
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_storymode"
         end
         return ret
@@ -14539,7 +14539,7 @@ local angel_scythe = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.xchip, card.ability.extra.xchip_mod, colours = {G.C.GOLD}}}
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_storymode"
         end
         return ret
@@ -14615,7 +14615,7 @@ local egliette = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.retriggers}}
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_storymode"
         end
         return ret
@@ -14833,7 +14833,7 @@ local fleta = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.xmult}}
-        if ((G.GAME.story_mode or card.displaying_save) or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers)) and not card.ability.platinum_reflection then
+        if ((G.GAME.story_mode or card.displaying_save) or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers)) and not card.ability.platinum_reflection then
             ret.key = self.key.."_stage_"..card.ability.immutable.stage
             if card.ability.immutable.stage == 1 then
                 ret.vars = {card.ability.immutable.pairs_played, colours = {card.ability.immutable.completed.memory and G.C.GREEN or G.C.FILTER}}
@@ -14963,7 +14963,7 @@ local harpae = {
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
         local _poker_hands = {}
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
             card.ability.immutable.appeared = true
             -- Fixed list so that modded poker hands won't interfere with story mode\
             -- Also exclude harder hands for ease of access
@@ -15068,7 +15068,7 @@ local harpae = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.xmult, localize(card.ability.extra.poker_hand, 'poker_hands')}}
-        if ((G.GAME.story_mode or card.displaying_save) or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers)) and not card.ability.platinum_reflection then
+        if ((G.GAME.story_mode or card.displaying_save) or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers)) and not card.ability.platinum_reflection then
             ret.key = self.key.."_storymode"
             ret.vars[1] = card.ability.immutable.obedience_count
             ret.vars.colours = {card.ability.immutable.obedience_count >= 10 and G.C.GREEN or G.C.FILTER,
@@ -15290,7 +15290,7 @@ local lisette = {
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.m_glass
         local ret = {vars = {card.ability.extra.xmult}}
-        if ((G.GAME.story_mode or card.displaying_save) or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers)) and not card.ability.platinum_reflection then
+        if ((G.GAME.story_mode or card.displaying_save) or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers)) and not card.ability.platinum_reflection then
             ret.key = self.key.."_storymode"
             info_queue[#info_queue] = nil
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
@@ -15488,7 +15488,7 @@ local enjel = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.chips, card.ability.extra.chip_xmod}}
-        if ((G.GAME.story_mode or card.displaying_save) or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers)) and not card.ability.platinum_reflection then
+        if ((G.GAME.story_mode or card.displaying_save) or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers)) and not card.ability.platinum_reflection then
             ret.key = self.key.."_storymode"
         end
         return ret
@@ -15633,7 +15633,7 @@ local rusty_scissors = {
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {}}
         info_queue[#info_queue+1] = G.P_CENTERS.m_glass
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_storymode"
             info_queue[#info_queue] = G.P_CENTERS.m_sgt_mirror
             info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_lisette
@@ -15706,7 +15706,7 @@ local platinum = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {colours = {G.C.FLETA_RED, G.C.HARPAE_BLUE, G.C.LISETTE_PURPLE, G.C.ENJEL_MIDNIGHT, mix_colours(G.C.GOLDIA_PINK, G.C.PLATINUM_PINK, 0.5)}}}
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = "j_sgt_platinum_ending"
         end
         return ret
@@ -15798,7 +15798,7 @@ local ozzy = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.extra.shop_slots}}
-        if G.GAME.story_mode or (G.STATE == G.STATES.MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_storymode"
             info_queue[#info_queue+1] = {set = "Other", key = "sgt_inflation"}
         end
