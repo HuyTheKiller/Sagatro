@@ -1999,11 +1999,11 @@ function Sagatro.progress_storyline(event_name, queue_mode, storyline_name, inte
                 table.insert(G.GAME.saga_finished_events, event_name)
                 if Sagatro.progress_points[storyline_name]
                 and Sagatro.progress_points[storyline_name][event_name] then
-                    G.GAME.storyline_progress = G.GAME.storyline_progress + Sagatro.progress_points[storyline_name][event_name]
+                    Sagatro.progress_chart(Sagatro.progress_points[storyline_name][event_name])
                 end
                 if interwoven and Sagatro.progress_points[interwoven]
                 and Sagatro.progress_points[interwoven][event_name] then
-                    G.GAME.storyline_progress_iw = G.GAME.storyline_progress_iw + Sagatro.progress_points[interwoven][event_name]
+                    Sagatro.progress_chart(Sagatro.progress_points[storyline_name][event_name], true)
                 end
             end
         end
@@ -2049,6 +2049,21 @@ function Sagatro.event_check(event_table, flag, only_finished)
         end
     end
     return false
+end
+
+---@param mod number Amount to progress.
+---@param interwoven? boolean True to modify interwoven progress.
+--- Progress the pie chart.
+function Sagatro.progress_chart(mod, interwoven)
+    local progress, tag = "storyline_progress", "progress_tag"
+    if interwoven then
+        progress = progress.."_iw"
+        tag = tag.."_iw"
+    end
+    G.GAME[progress] = G.GAME[progress] + mod
+    if G.GAME[tag] and G.GAME[tag] ~= "\"MANUAL_REPLACE\"" then
+        G.GAME[tag]:juice_up()
+    end
 end
 
 -- Force the first pack in shop to be buffoon in certain events
