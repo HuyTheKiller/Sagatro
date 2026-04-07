@@ -91,12 +91,14 @@ for k, v in pairs(Sagatro.load_table) do
     end
 end
 
-SMODS.Atlas{
-    key = "modicon",
-    path = "icon.png",
-    px = 34,
-    py = 34
-}
+if not SMODS.Atlases.sgt_modicon then
+    SMODS.Atlas{
+        key = "modicon",
+        path = "icon.png",
+        px = 34,
+        py = 34
+    }
+end
 
 Sagatro.description_loc_vars = function()
     return { background_colour = G.C.CLEAR, text_colour = G.C.WHITE, scale = 1.2 }

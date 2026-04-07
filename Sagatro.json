@@ -6,6 +6,7 @@
 	"description": "Adds fairy tale elements to Balatro. Load this mod for more information.",
 	"prefix": "sgt",
 	"main_file": "main.lua",
+	"icon_path": "icon.png",
 	"priority": 2147483648,
 	"badge_colour": "6131ac",
 	"display_name": "Sagatro",
