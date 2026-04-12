@@ -267,7 +267,7 @@ function Game:init_game_object()
     ret.relief_factor = 1
     ret.orbis_fatum_odds = 4
     ret.switch_bonus = 0
-    ret.celestara_tooltip = true
+    ret.celestara_tooltip = not G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done
     ret.current_round.reroll_count = 0
     ret.shelved_chains = {}
     return ret

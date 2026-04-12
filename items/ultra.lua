@@ -779,7 +779,7 @@ local argyra = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
-                G.GAME.celestara_tooltip = nil
+                G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
                 SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -811,7 +811,7 @@ local argyra = {
         return true
     end,
     use = function(self, card, area, copier)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -840,7 +840,7 @@ local argyra = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -917,7 +917,7 @@ local sulvatera = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
-                G.GAME.celestara_tooltip = nil
+                G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
                 SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -949,7 +949,7 @@ local sulvatera = {
         return true
     end,
     use = function(self, card, area, copier)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -978,7 +978,7 @@ local sulvatera = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1056,7 +1056,7 @@ local terranora = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
-                G.GAME.celestara_tooltip = nil
+                G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
                 SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1087,7 +1087,7 @@ local terranora = {
         return true
     end,
     use = function(self, card, area, copier)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1116,7 +1116,7 @@ local terranora = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1192,7 +1192,7 @@ local valora = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
-                G.GAME.celestara_tooltip = nil
+                G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
                 SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1222,7 +1222,7 @@ local valora = {
         return true
     end,
     use = function(self, card, area, copier)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1251,7 +1251,7 @@ local valora = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1327,7 +1327,7 @@ local zephyria = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
-                G.GAME.celestara_tooltip = nil
+                G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
                 SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1366,7 +1366,7 @@ local zephyria = {
         return true
     end,
     use = function(self, card, area, copier)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1395,7 +1395,7 @@ local zephyria = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1471,7 +1471,7 @@ local chronara = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
-                G.GAME.celestara_tooltip = nil
+                G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
                 SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1512,7 +1512,7 @@ local chronara = {
         return true
     end,
     use = function(self, card, area, copier)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1541,7 +1541,7 @@ local chronara = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1617,7 +1617,7 @@ local aetheron = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
-                G.GAME.celestara_tooltip = nil
+                G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
                 SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1648,7 +1648,7 @@ local aetheron = {
         return true
     end,
     use = function(self, card, area, copier)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1677,7 +1677,7 @@ local aetheron = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1754,7 +1754,7 @@ local oceanis = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
-                G.GAME.celestara_tooltip = nil
+                G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
                 SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1785,7 +1785,7 @@ local oceanis = {
         return true
     end,
     use = function(self, card, area, copier)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1814,7 +1814,7 @@ local oceanis = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1890,7 +1890,7 @@ local lonestra = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
-                G.GAME.celestara_tooltip = nil
+                G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
                 SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -1919,7 +1919,7 @@ local lonestra = {
         return true
     end,
     use = function(self, card, area, copier)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -1948,7 +1948,7 @@ local lonestra = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -2039,7 +2039,7 @@ local mystara = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
-                G.GAME.celestara_tooltip = nil
+                G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
                 SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -2065,7 +2065,7 @@ local mystara = {
         return true
     end,
     use = function(self, card, area, copier)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -2094,7 +2094,7 @@ local mystara = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -2171,7 +2171,7 @@ local ceratek = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
-                G.GAME.celestara_tooltip = nil
+                G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
                 SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -2194,7 +2194,7 @@ local ceratek = {
         return true
     end,
     use = function(self, card, area, copier)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -2223,7 +2223,7 @@ local ceratek = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -2299,7 +2299,7 @@ local discordia = {
         if context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.hand_type then
             if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
-                G.GAME.celestara_tooltip = nil
+                G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
                 SMODS.calculate_effect({message = localize("k_downgrade_ex"), level_up = -1, no_retrigger = true}, card)
                 for _, hand_type in ipairs(card.ability.dissonance or {}) do
                     SMODS.calculate_effect({message = localize("k_upgrade_ex"), no_retrigger = true}, card)
@@ -2328,7 +2328,7 @@ local discordia = {
         return true
     end,
     use = function(self, card, area, copier)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -2357,7 +2357,7 @@ local discordia = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         local resonant = {}
         for _, hand_type in ipairs(card.ability.resonance or {}) do
             if SMODS.Scoring_Parameters then
@@ -3316,7 +3316,7 @@ local void_hole = {
             for _, celestara_card in pairs(G.P_CENTER_POOLS.Celestara) do
                 if context.scoring_name == celestara_card.config.hand_type then
                     if to_big(G.GAME.hands[context.scoring_name].level) > to_big(1) then
-                        G.GAME.celestara_tooltip = nil
+                        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
                         for k, v in pairs(copy_table(celestara_card.config)) do
                             card.ability[k] = v
                         end
@@ -3476,7 +3476,7 @@ local void_hole = {
         end
     end,
     use = function(self, card, area, copier)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         if (G.SETTINGS.FASTFORWARD or 0) == 0 then
             update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
@@ -3516,7 +3516,7 @@ local void_hole = {
         end
     end,
     bulk_use = function(self, card, area, copier, amount)
-        G.GAME.celestara_tooltip = nil
+        G.GAME.celestara_tooltip = nil; G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done = true
         if (G.SETTINGS.FASTFORWARD or 0) == 0 then
             update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
