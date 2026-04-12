@@ -260,6 +260,7 @@ function Game:init_game_object()
         },
     }
     ret.fish_effect = {}
+    ret.one_time_progress = {}
     ret.current_round.dinah_card = {suit = "Spades", rank = "Ace"}
     ret.current_round.humdum_card = {rank = "Ace"}
     ret.ante_cooldown = 0
@@ -879,6 +880,9 @@ function Game:update(dt)
                             G.play.T.y + G.play.T.h/2-G.CARD_H*1.27/2, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
                             _card.cost = 0
                             _card.from_tag = true
+                            if G.GAME.story_mode and Sagatro.storyline_check("none") then
+                                _card.story_starter = true
+                            end
                             G.FUNCS.use_card({config = {ref_table = _card}})
                             _card:start_materialize()
                             G.CONTROLLER.locks.utima_vox = nil
@@ -1396,6 +1400,24 @@ function Card:can_use_consumeable(any_state, skip_check)
     return can_use_consumeable_ref(self, any_state, skip_check)
 end
 
+local change_base_ref = SMODS.change_base
+function SMODS.change_base(card, suit, rank, manual_sprites)
+    local _card = change_base_ref(card, suit, rank, manual_sprites)
+    if rank == "2" and Sagatro.storyline_check("alice_in_wonderland") and not G.GAME.legacy_wonderland then
+        for _, v in ipairs(Sagatro.find_active_card("j_sgt_little_bill")) do
+            v.ability.immutable.progress = v.ability.immutable.progress + 1
+            if v.ability.immutable.progress >= v.ability.immutable.progress_goal then
+                v.ability.immutable.progress = v.ability.immutable.progress - v.ability.immutable.progress_goal
+                G.E_MANAGER:add_event(Event({func = function()
+                    Sagatro.progress_chart(v.ability.immutable.progress_earnings)
+                return true end}))
+                SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, v)
+            end
+        end
+    end
+    return _card
+end
+
 -- Gravistone jank
 local copy_cardref = copy_card
 function copy_card(other, new_card, card_scale, playing_card, strip_edition)
@@ -1459,7 +1481,7 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
             _type = "Norse Gods"
         end
     end
-    if Sagatro.event_check("final_showdown") and _type == "Joker" then
+    if Sagatro.event_check("final_showdown") and _type == "Joker" and G.GAME.legacy_wonderland then
         _type = "Final Showdown"
         if pseudorandom("alice_in_final_showdown") > 0.997 then
             if not G.GAME.won and not next(SMODS.find_card("j_sgt_alice", true)) then
@@ -2063,6 +2085,17 @@ function Sagatro.progress_chart(mod, interwoven)
     G.GAME[progress] = math.max(math.min(G.GAME[progress] + mod, 100), 0)
     if G.GAME[tag] and G.GAME[tag] ~= "\"MANUAL_REPLACE\"" then
         G.GAME[tag]:juice_up()
+    end
+    if G.GAME[progress] >= 100 then
+        if interwoven then
+            -- TARGET: automatically trigger event on reaching 100% in interwoven storyline
+        else
+            -- TARGET: automatically trigger event on reaching 100% in main storyline
+            if Sagatro.storyline_check("alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                Sagatro.progress_storyline("final_showdown", "add", "alice_in_wonderland", G.GAME.interwoven_storyline)
+                add_tag(Tag("tag_boss"))
+            end
+        end
     end
 end
 
@@ -2786,6 +2819,7 @@ function Sagatro:calculate(context)
             G.GAME.fish_effect.no_reshuffle = nil
             G.GAME.supply_drop = nil
             G.GAME.submarine_hint_to_progress = nil
+            G.GAME.wond_hint_to_progress = nil
             G.GAME.mirror_hint_to_progress = nil
             G.GAME.ante_cooldown = math.max(G.GAME.ante_cooldown - 1, 0)
             if G.GAME.pending_fish_var_tooltip_removal == 1 then
@@ -2793,6 +2827,10 @@ function Sagatro:calculate(context)
                 G.GAME.pending_fish_var_tooltip_removal = nil
             elseif type(G.GAME.pending_fish_var_tooltip_removal) == "number" then
                 G.GAME.pending_fish_var_tooltip_removal = G.GAME.pending_fish_var_tooltip_removal - 1
+            end
+            if Sagatro.storyline_check("alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                G.GAME.rare_mod = math.min(G.GAME.rare_mod*1.23, 5/(1e18^#Sagatro.find_active_card("j_sgt_mad_hatter")))
+                G.GAME.sgt_obscure_mod = math.min(G.GAME.sgt_obscure_mod*1.64, 50/(1e18^#Sagatro.find_active_card("j_sgt_mad_hatter")))
             end
             if Sagatro.storyline_check("20k_miles_under_the_sea") and G.GAME.round_resets.ante >= 2
             and not next(SMODS.find_card("j_sgt_sub_engineer", true)) then
@@ -2802,6 +2840,13 @@ function Sagatro:calculate(context)
                 if v.ability.set == "Joker" and v.ability.immutable then
                     v.ability.immutable.no_reshuffle = nil
                 end
+            end
+        end
+        if Sagatro.storyline_check("alice_in_wonderland") and not G.GAME.legacy_wonderland then
+            if context.ending_shop and G.GAME.round_resets.blind_states.Small == "Upcoming"
+            and G.GAME.round_resets.ante >= 5 and not G.GAME.huge_dog_challenge and not G.GAME.inversed_scaling then
+                G.GAME.huge_dog_challenge = true
+                SMODS.add_card{key = "j_sgt_huge_dog"}
             end
         end
         if context.check_eternal then
@@ -2835,27 +2880,46 @@ function Sagatro:calculate(context)
                 return {no_destroy = {override_compat = true}}
             end
         end
-        if context.starting_shop and (G.GAME.juice_up_booster or G.GAME.round == 1) then
-            G.GAME.juice_up_booster = nil
-            for _, v in ipairs(G.shop_booster.cards) do
-                if v.ability.booster_pos == 1 then
-                    if G.GAME.round == 1 then
-                        v.story_starter = true
-                        v.ability.extra = #G.P_CENTER_POOLS["Story Starter"]
-                        if Sagatro.storyline_check("pocket_mirror") then
-                            v.ability.extra = 1
-                            v.contains_pocket_mirror = true
+        if context.starting_shop then
+            if (G.GAME.juice_up_booster or (G.GAME.round == 1
+            and (Sagatro.storyline_check("none") or Sagatro.storyline_check("pocket_mirror")))) then
+                G.GAME.juice_up_booster = nil
+                for _, v in ipairs(G.shop_booster.cards) do
+                    if v.ability.booster_pos == 1 then
+                        if G.GAME.round == 1 then
+                            v.story_starter = true
+                            v.ability.extra = #G.P_CENTER_POOLS["Story Starter"]
+                            if Sagatro.storyline_check("pocket_mirror") then
+                                v.ability.extra = 1
+                                v.contains_pocket_mirror = true
+                            end
+                            v.ability.couponed = true
+                            v:set_cost()
                         end
-                        v.ability.couponed = true
-                        v:set_cost()
+                        local eval = function(card) return not (card.states.hover.is or card.states.focus.is) end
+                        juice_card_until(v, eval, true)
                     end
-                    local eval = function(card) return not (card.states.hover.is or card.states.focus.is) end
-                    juice_card_until(v, eval, true)
+                    break
                 end
-                break
+            end
+            if G.GAME.early_starter then
+                G.GAME.early_starter = nil
+                if Sagatro.storyline_check("alice_in_wonderland") and G.SETTINGS.saga_tutorial_complete then
+                    local mirror = SMODS.create_card{key = "j_sgt_mirror", area = G.shop_jokers}
+                    create_shop_card_ui(mirror)
+                    G.shop_jokers:emplace(mirror)
+                    G.GAME.shop.joker_max = G.GAME.shop.joker_max + 1
+                    G.shop_jokers.config.card_limit = G.GAME.shop.joker_max
+                    G.shop_jokers.T.w = math.min(G.GAME.shop.joker_max*1.02*G.CARD_W,4.08*G.CARD_W)
+                    G.shop:recalculate()
+                    mirror.ability.couponed = true
+                    mirror:set_cost()
+                    G.GAME.awaiting_mirror = true
+                end
             end
         end
         if context.ending_shop then
+            G.GAME.awaiting_mirror = nil
             if Sagatro.event_check("the_pocket_mirror") then
                 return {
                     func = function()
@@ -2924,6 +2988,30 @@ function Sagatro:calculate(context)
                     context.card:set_sprites(context.card.config.center)
                 end
             end
+        end
+        if context.ending_booster and SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.story_starter then
+            G.E_MANAGER:add_event(Event({func = function()
+                if Sagatro.storyline_check("alice_in_wonderland") and G.SETTINGS.saga_tutorial_complete then
+                    if G.shop_jokers then
+                        G.GAME.early_starter = nil
+                        G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.4, func = function()
+                            local mirror = SMODS.create_card{key = "j_sgt_mirror", area = G.shop_jokers}
+                            create_shop_card_ui(mirror)
+                            G.shop_jokers:emplace(mirror)
+                            G.GAME.shop.joker_max = G.GAME.shop.joker_max + 1
+                            G.shop_jokers.config.card_limit = G.GAME.shop.joker_max
+                            G.shop_jokers.T.w = math.min(G.GAME.shop.joker_max*1.02*G.CARD_W,4.08*G.CARD_W)
+                            G.shop:recalculate()
+                            mirror.ability.couponed = true
+                            mirror:set_cost()
+                            G.GAME.awaiting_mirror = true
+                            save_run()
+                        return true end}))
+                    else
+                        G.GAME.early_starter = true
+                    end
+                end
+            return true end}))
         end
     end
     if context.check_eternal and not G.GAME.story_mode then
@@ -4654,6 +4742,9 @@ Sagatro.config_tab = function()
             {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
                 create_toggle({label = localize('SGT_ortagas'), ref_table = Sagatro.config, ref_value = 'Ortagas', info = localize('SGT_ortagas_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true, callback = function() if menu_refresh and G.title_top then menu_refresh() end end}),
             }},
+            {n=G.UIT.C, config = {padding = 0.2, align = 'cm'}, nodes = {
+                create_toggle({label = localize('SGT_legacy_wonderland'), ref_table = Sagatro.config, ref_value = 'LegacyWonderland', info = localize('SGT_legacy_wonderland_desc'), active_colour = Sagatro.badge_colour, inactive_colour = Sagatro.secondary_colour, right = true}),
+            }},
         }},
     }}
 end
@@ -4761,6 +4852,7 @@ local card_click = Card.click
 function Card:click()
     card_click(self)
     if self.mod_flag == "Sagatro" then
+        play_sound('button', 1, 0.3)
         G.FUNCS.openModUI_Sagatro{config = {page = "mod_desc", fromAlice = true}}
     end
 end
@@ -4770,6 +4862,7 @@ if card_single_tap then
     function Card:single_tap()
         card_single_tap(self)
         if self.mod_flag == "Sagatro" then
+            play_sound('button', 1, 0.3)
             G.FUNCS.openModUI_Sagatro{config = {page = "mod_desc", fromAlice = true}}
         end
     end

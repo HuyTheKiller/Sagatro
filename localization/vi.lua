@@ -3528,11 +3528,24 @@ return {
                     "Độ khó: {V:1}#2#{}/5",
                 },
             },
-            alice_in_wonderland_mech = {
+            alice_in_wonderland_mech_legacy = {
                 text = {
                     "Giải câu đố để khám",
                     "phá joker tốt hơn.",
-                    "(Đang chờ được làm lại)",
+                    "(Cơ chế cổ điển)",
+                },
+            },
+            alice_in_wonderland_mech = {
+                text = {
+                    "Hoàn thành nhiệm vụ trên từng",
+                    "joker mạch truyện để tiến triển.",
+                },
+            },
+            wond_hint_to_progress = {
+                text = {
+                    "Đạt {C:sgt_sagadition}100%{} tiến trình và",
+                    "đánh bại {C:sgt_sagadition}Nữ Hoàng Cơ{}",
+                    "để thắng",
                 },
             },
             ["20k_miles_under_the_sea_mech"] = {
@@ -3562,12 +3575,48 @@ return {
                     "{s:0.8}Tay với chẳng tới, số mệnh bắt đầu.",
                 },
             },
+            white_rabbit_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình cho mỗi",
+                    "#3# lần tăng trưởng {C:sgt_sagadition}Thỏ Trắng{}",
+                    "(Hiện tại là {C:sgt_sagadition}#2#{}/#3#)",
+                },
+            },
+            drink_me_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%() tiến trình nếu",
+                    "dùng {C:sgt_sagadition}Hãy Uống Tôi!{} để biến đổi",
+                    "{C:sgt_sagadition}5{} lá hoặc nhiều hơn",
+                },
+            },
+            eat_me_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%() tiến trình nếu",
+                    "dùng {C:sgt_sagadition}Hãy Ăn Tôi!{} để biến đổi",
+                    "{C:sgt_sagadition}5{} lá hoặc nhiều hơn",
+                },
+            },
+            mouse_new = {
+                text = {
+                    "Xác suất cứng {V:1}50%{} sẽ",
+                    "thất bại khi trang bị",
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình",
+                    "khi trang bị, một lần mỗi trận",
+                },
+            },
             kid_gloves_and_fan = {
                 text = {
                     "{s:0.8}Trời nóng bức, tôi quạt cho nguôi",
                     "{s:0.8}Ngờ đâu nhỏ lại, găng tay vừa rồi.",
                     "{s:0.8}Lệ từng rơi hóa lũ cuốn lôi,",
                     "{s:0.8}Giữa dòng vô định cần {s:0.8,C:sgt_sagadition}ai{s:0.8} cứu tôi.",
+                },
+            },
+            kid_gloves_and_fan_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình",
+                    "cho mỗi lá bài bị phá huỷ",
+                    "bởi {C:sgt_sagadition}Găng Tay Và Chiếc Quạt{}",
                 },
             },
             dodo_bird = {
@@ -3579,6 +3628,13 @@ return {
                     "{s:0.8}Về {s:0.8,C:sgt_sagadition}\"Nhà\"{s:0.8} nó trước, ta sẽ rõ ràng.",
                 },
             },
+            dodo_bird_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình cho mỗi",
+                    "#3# lần bất kì joker nào kích hoạt",
+                    "(Hiện tại là {C:sgt_sagadition}#2#{}/#3#)",
+                },
+            },
             unlabeled_bottle = {
                 text = {
                     "{s:0.8}Ở đây uống sẽ khiến thân co,",
@@ -3588,11 +3644,27 @@ return {
                     "{s:0.8}Thỏ Trắng hốt hoảng gọi ai ngoài kia.",
                 },
             },
+            unlabeled_bottle_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình",
+                    "cho mỗi #3# lá bị biến đổi",
+                    "bởi {C:sgt_sagadition}Chai Không Nhãn{}",
+                    "(Hiện tại là {C:sgt_sagadition}#2#{}/#3#)",
+                },
+            },
             little_bill = {
                 text = {
                     "{s:0.8}Đau quá, con thằn lằn chôn mình đây,",
                     "{s:0.8}Ném sỏi ném đá chẳng chút nhẹ tay.",
                     "{s:0.8}Nhưng khi chạm đất, {s:0.8,C:sgt_sagadition}bánh{s:0.8} hiện nơi này.",
+                },
+            },
+            little_bill_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình",
+                    "cho mỗi #3# lá bị biến đổi",
+                    "thành 2 bởi bất kì nguồn nào",
+                    "(Hiện tại là {C:sgt_sagadition}#2#{}/#3#)",
                 },
             },
             huge_dog = {
@@ -3604,6 +3676,17 @@ return {
                     "{s:0.8}Ai đó ngân nga... ngay trước mặt luôn.",
                 },
             },
+            huge_dog_new = {
+                text = {
+                    "Khi {C:sgt_sagadition}Blind{} được chọn, chọn 5 bậc ngẫu nhiên",
+                    "(Các bậc đã chọn: #4#)",
+                    "{C:sgt_sagadition}Tự huỷ{} nếu tay bài ghi điểm",
+                    "chứa bất kì bậc đã chọn nào",
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình khi chạm mốc",
+                    "cuối ante #3# lần, một lần mỗi trận",
+                    "(Hiện tại là {C:sgt_sagadition}#2#{}/#3#)",
+                },
+            },
             caterpillar = {
                 text = {
                     "{s:0.8}\"C-cô... là ai?\" - ông hỏi bất ngờ,",
@@ -3611,6 +3694,12 @@ return {
                     "{s:0.8}Dù tôi thấy khó, chẳng muốn dây dưa,",
                     "{s:0.8}Nhưng ông gọi lại, chẳng cách nào lờ...",
                     "{s:0.8}Thôi thì cứ chờ... để ông nói {s:0.8,C:sgt_sagadition}hết{s:0.8}.",
+                },
+            },
+            caterpillar_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình khi",
+                    "{C:sgt_sagadition}tự huỷ{}, một lần mỗi trận",
                 },
             },
             mushroom = {
@@ -3622,6 +3711,19 @@ return {
                     "{s:0.8}“Tôi đâu phải rắn…” - nói hoài chẳng tin.",
                 },
             },
+            mushroom_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình khi",
+                    "{C:sgt_sagadition}tự huỷ{}, một lần mỗi trận",
+                },
+            },
+            pigeon_new = {
+                text = {
+                    "Hãy cẩn thận!",
+                    "Mất {C:sgt_sagadition}#1#%{} tiến trình",
+                    "khi bán {C:sgt_sagadition}Trứng{}",
+                },
+            },
             frog_footman = {
                 text = {
                     "{s:0.8}\"Thật phát điên với lũ nói quanh,",
@@ -3629,6 +3731,19 @@ return {
                     "{s:0.8}Trong {s:0.8,C:sgt_sagadition}nhà{s:0.8} ồn ã, hắn ngó rồi tránh,",
                     "{s:0.8}Chẳng buồn bước tới, cứ đứng loanh quanh.",
                     "{s:0.8}Thôi thì mặc kệ, tôi vào cho đành.",
+                },
+            },
+            frog_footman_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình khi",
+                    "{C:sgt_sagadition}tự huỷ{}, một lần mỗi trận",
+                },
+            },
+            the_cook_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình",
+                    "cho mỗi #3# lá sấp đã chơi",
+                    "(Hiện tại là {C:sgt_sagadition}#2#{}/#3#)",
                 },
             },
             cheshire_cat = {
@@ -3639,6 +3754,31 @@ return {
                     "{s:0.8}chóng cả mặt đó, biết chưa hả mèo",
                 },
             },
+            cheshire_cat_new = {
+                text = {
+                    "Hãy cẩn thận!",
+                    "Mất {C:sgt_sagadition}#1#%{} tiến trình ở cuối",
+                    "ván nếu {C:sgt_sagadition}Mèo Cheshire{} ở lại",
+                },
+            },
+            duchess_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình cho",
+                    "mỗi lá bị {C:sgt_sagadition}Nữ Công Tước{} phá huỷ",
+                },
+            },
+            the_baby_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình khi bán",
+                    "{C:sgt_sagadition}Nữ Công Tước{}, một lần mỗi trận",
+                },
+            },
+            pepper_caster_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình",
+                    "ở cuối ván",
+                },
+            },
             mad_hatter = {
                 text = {
                     "{s:0.8}Bàn dài rộng thế, chỉ {s:0.8,C:sgt_sagadition}ba{s:0.8} kẻ ngồi,",
@@ -3646,6 +3786,29 @@ return {
                     "{s:0.8}Chẳng ưa nói chuyện, tôi lùi thật vội,",
                     "{s:0.8}Thấy một cánh cửa thấp bé bên đồi,",
                     "{s:0.8}Ăn chút {s:0.8,C:sgt_sagadition}nấm cũ{s:0.8}, rồi men lối thôi.",
+                },
+            },
+            mad_hatter_new = {
+                text = {
+                    "{C:sgt_sagadition}Tiệc Trà{} có hiệu lực",
+                    "khi sở hữu {C:sgt_sagadition}Thợ Mũ{}",
+                    "Hãy cẩn thận!",
+                    "Mất {C:sgt_sagadition}#1#%{} tiến trình",
+                    "mỗi lần ante không tăng",
+                },
+            },
+            march_hare_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình",
+                    "khi dùng hết {C:sgt_sagadition}Trà{} hoặc {C:sgt_sagadition}Tách Trà{}",
+                    "trong {C:sgt_sagadition}Tiệc Trà{}",
+                },
+            },
+            dormouse_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình",
+                    "khi dùng hết {C:sgt_sagadition}Viên Đường{}",
+                    "trong {C:sgt_sagadition}Tiệc Trà{}",
                 },
             },
             red_queen = {
@@ -3659,12 +3822,35 @@ return {
                     "{s:0.8}Mà này, {s:0.8,C:sgt_sagadition}Cheshire{s:0.8} - đừng có phá rối!",
                 },
             },
+            red_queen_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình ở",
+                    "cuối ván nếu không lá nào",
+                    "bị phá huỷ bởi {C:sgt_sagadition}Nữ Hoàng Cơ{}",
+                    "Hãy cẩn thận!",
+                    "Mất hết tiến trình nếu",
+                    "sở hữu {C:sgt_sagadition}Mèo Cheshire{}",
+                },
+            },
             gryphon = {
                 text = {
                     "{s:0.8}\"Bà ấy chỉ hét, giết ai được đâu,\"",
                     "{s:0.8}Cô được tha rồi, đừng có mà rầu.",
                     "{s:0.8}Giờ đến gặp {s:0.8,C:sgt_sagadition}Rùa{s:0.8}, hắn hát đôi câu…",
                     "{s:0.8}Lên lưng tôi nhé, tôi đưa cô mau.",
+                },
+            },
+            gryphon_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình",
+                    "ở cuối ván cho mỗi",
+                    "4 lá {C:sgt_sagadition}Đầm{} trong cả bộ bài",
+                },
+            },
+            mock_turtle_new = {
+                text = {
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình",
+                    "khi {C:sgt_sagadition}Giả Rùa{} kích hoạt",
                 },
             },
             lincoln_ship = {
@@ -4241,6 +4427,7 @@ return {
             k_goodbye_ex = "Tạm Biệt!",
             k_go_off_ex = "Bỏ Đi!",
             k_overflow_ex = "Tràn!",
+            k_flooded_ex = "Cuốn Trôi!",
             k_die_ex = "Chết Đi!",
             k_stirred_ex = "Khuấy Đều!",
             k_shared_ex = "Chia Sẻ!",
@@ -4303,6 +4490,7 @@ return {
             k_good_ex = "Tốt Lắm!",
             k_down_ex = "Gục!",
             k_calm_down_ex = "Bình Tĩnh!",
+            k_progress_ex = "Tiến Triển!",
             k_plus_divinatio = "+1 Chiêm Mộng",
             k_plus_celestara = "+1 Huyền Thể",
             k_empty = "Trống",
@@ -4383,6 +4571,8 @@ return {
             SGT_hide_stake_stickers = "Ẩn nhãn cược",
             SGT_april_fools = "Ép Cá Tháng Tư",
             SGT_april_fools_desc = {"Ép buộc cơ chế Cá Tháng Tư luôn được bật", "(chỉ Chế Độ Cốt Truyện)"},
+            SGT_legacy_wonderland = "Cơ Chế Cổ Điển",
+            SGT_legacy_wonderland_desc = {"Dùng cơ chế cốt truyện cũ cho Alice", "ở Xứ Sở Diệu Kì (Yêu cầu tạo trận mới)"},
             sgt_welcome = "Chào mừng đến với Sagatro!",
             sgt_welcome_text1 = "Đây là một bản mod mang những câu chuyện cổ tích, thần thoại và yếu tố",
             sgt_welcome_text2 = "siêu thực vào tựa game mà chúng tôi - cũng như các bạn - yêu thích.",

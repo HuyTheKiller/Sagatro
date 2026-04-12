@@ -9,4 +9,5 @@ return {
     LenientScore = false,
     HideStakeStickers = false,
     ForceAprilFools = false,
+    LegacyWonderland = false,
 }

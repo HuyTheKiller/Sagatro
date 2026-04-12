@@ -313,6 +313,7 @@ function Game:start_run(args)
     if G.GAME.story_mode then
         if not args.savetext then
             G.GAME.sgt_lenient_score = Sagatro.config.LenientScore
+            G.GAME.legacy_wonderland = Sagatro.config.LegacyWonderland
             G.GAME.delayed_joker_slot = 3
             if G.GAME.selected_back.effect.center.key == "b_sgt_saga"
             or (CardSleeves and G.GAME.selected_sleeve == "sleeve_sgt_saga") then
@@ -321,7 +322,7 @@ function Game:start_run(args)
         end
         Sagatro.update_HUD()
     end
-    G.GAME.fusion_table = G.GAME.story_mode and SagaFusion.fusions or {}
+    G.GAME.fusion_table = G.GAME.story_mode and G.GAME.legacy_wonderland and SagaFusion.fusions or {}
     -- Change colour in story mode, but the hook is over here, I just want to save space
     G.C.BLIND.Small = G.GAME.story_mode and Sagatro.badge_colour or HEX("50846e")
     G.C.BLIND.Big = G.GAME.story_mode and Sagatro.badge_colour or HEX("50846e")

@@ -3533,11 +3533,24 @@ return {
                     "Difficulty: {V:1}#2#{}/5",
                 },
             },
-            alice_in_wonderland_mech = {
+            alice_in_wonderland_mech_legacy = {
                 text = {
                     "Solve riddles to",
                     "uncover better jokers.",
-                    "(Pending rework)",
+                    "(Legacy mechanic)",
+                },
+            },
+            alice_in_wonderland_mech = {
+                text = {
+                    "Complete tasks on each",
+                    "storyline joker to progress.",
+                },
+            },
+            wond_hint_to_progress = {
+                text = {
+                    "Reach {C:sgt_sagadition}100%{} progress and",
+                    "beat {C:sgt_sagadition}Queen Of Hearts{}",
+                    "to win",
                 },
             },
             ["20k_miles_under_the_sea_mech"] = {
@@ -3567,12 +3580,48 @@ return {
                     "{s:0.8}Too far to reach - fate bends to its will.",
                 },
             },
+            white_rabbit_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress for every",
+                    "#3# times {C:sgt_sagadition}White Rabbit{} has scaled",
+                    "(Currently {C:sgt_sagadition}#2#{}/#3#)",
+                },
+            },
+            drink_me_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress if {C:sgt_sagadition}5{}",
+                    "or more cards are transformed",
+                    "by {C:sgt_sagadition}Drink Me!{}",
+                },
+            },
+            eat_me_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress if {C:sgt_sagadition}5{}",
+                    "or more cards are transformed",
+                    "by {C:sgt_sagadition}Eat Me!{}",
+                },
+            },
+            mouse_new = {
+                text = {
+                    "{V:1}50%{} fixed chance",
+                    "to fail to equip",
+                    "Earn {C:sgt_sagadition}#1#%{} of progress",
+                    "on equip, once per run",
+                },
+            },
             kid_gloves_and_fan = {
                 text = {
                     "{s:0.8}It's stifling hot in this narrow space,",
                     "{s:0.8}I fan myself - then shrink in a haze.",
                     "{s:0.8}The tears I had cried turned flood in a daze,,",
                     "{s:0.8}Now drifting alone… will {s:0.8,C:sgt_sagadition}someone{s:0.8} give chase?",
+                },
+            },
+            kid_gloves_and_fan_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress",
+                    "for every card destroyed",
+                    "by {C:sgt_sagadition}Kid-gloves And The Fan{}",
                 },
             },
             dodo_bird = {
@@ -3584,6 +3633,13 @@ return {
                     "{s:0.8}Let's head to his {s:0.8,C:sgt_sagadition}\"house\"{s:0.8}, perhaps I'll understand.",
                 },
             },
+            dodo_bird_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress for every",
+                    "#3# times any joker triggers",
+                    "(Currently {C:sgt_sagadition}#2#{}/#3#)",
+                },
+            },
             unlabeled_bottle = {
                 text = {
                     "{s:0.8}Here, drink makes you shrink, small as can be,",
@@ -3593,11 +3649,27 @@ return {
                     "{s:0.8}White Rabbit panicked, calling someone outside.",
                 },
             },
+            unlabeled_bottle_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress for",
+                    "every #3# cards transformed",
+                    "by {C:sgt_sagadition}Unlabeled Bottle{}",
+                    "(Currently {C:sgt_sagadition}#2#{}/#3#)",
+                },
+            },
             little_bill = {
                 text = {
                     "{s:0.8}Ouch! That lizard's trying to bury me deep,",
                     "{s:0.8}Throwing stones and pebbles in one wild sweep.",
                     "{s:0.8}But once they hit the ground - {s:0.8,C:sgt_sagadition}cakes{s:0.8} lie in a heap.",
+                },
+            },
+            little_bill_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress for",
+                    "every #3# cards transformed",
+                    "into 2 by any means",
+                    "(Currently {C:sgt_sagadition}#2#{}/#3#)",
                 },
             },
             huge_dog = {
@@ -3609,6 +3681,17 @@ return {
                     "{s:0.8}Then heard someone humming, right there to behold.",
                 },
             },
+            huge_dog_new = {
+                text = {
+                    "When {C:sgt_sagadition}Blind{} is selected, select 5 random ranks",
+                    "(Selected ranks: #4#)",
+                    "{C:sgt_sagadition}Self destructs{} if scoring hand",
+                    "contains any selected rank",
+                    "Earn {C:sgt_sagadition}#1#%{} of progress on reaching",
+                    "end of ante #3# times, once per run",
+                    "(Currently {C:sgt_sagadition}#2#{}/#3#)",
+                },
+            },
             caterpillar = {
                 text = {
                     "{s:0.8}\"W-who... are you?\" - he asked out of the blue,",
@@ -3616,6 +3699,12 @@ return {
                     "{s:0.8}Though I felt uneasy, unsure what to do,",
                     "{s:0.8}He called me back - I couldn't just skew…",
                     "{s:0.8}So I stood and waited… to hear him {s:0.8,C:sgt_sagadition}through{s:0.8}.",
+                },
+            },
+            caterpillar_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress on",
+                    "{C:sgt_sagadition}self destruct{}, once per run",
                 },
             },
             mushroom = {
@@ -3627,6 +3716,19 @@ return {
                     "{s:0.8}“I'm not a snake…” - but no one cared to know.",
                 },
             },
+            mushroom_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress on",
+                    "{C:sgt_sagadition}self destruct{}, once per run",
+                },
+            },
+            pigeon_new = {
+                text = {
+                    "Be careful!",
+                    "Lose {C:sgt_sagadition}#1#%{} of progress",
+                    "on selling {C:sgt_sagadition}Egg{}",
+                },
+            },
             frog_footman = {
                 text = {
                     "{s:0.8}“They drive me mad with riddles all day,",
@@ -3634,6 +3736,19 @@ return {
                     "{s:0.8}He looked at the {s:0.8,C:sgt_sagadition}house{s:0.8}, then drifted astray,",
                     "{s:0.8}Wouldn't go near - just wandered away.",
                     "{s:0.8}Well then, I'll enter. That's all I can say.",
+                },
+            },
+            frog_footman_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress on",
+                    "{C:sgt_sagadition}self destruct{}, once per run",
+                },
+            },
+            the_cook_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress for",
+                    "every #3# face-down cards played",
+                    "(Currently {C:sgt_sagadition}#2#{}/#3#)",
                 },
             },
             cheshire_cat = {
@@ -3644,6 +3759,31 @@ return {
                     "{s:0.8}You're making me dizzy - you smug little star!",
                 },
             },
+            cheshire_cat_new = {
+                text = {
+                    "Be careful!",
+                    "Lose {C:sgt_sagadition}#1#%{} of progress at end",
+                    "of round if {C:sgt_sagadition}Cheshire Cat{} stays",
+                },
+            },
+            duchess_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress for",
+                    "every card destroyed by {C:sgt_sagadition}Duchess{}",
+                },
+            },
+            the_baby_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress when",
+                    "selling {C:sgt_sagadition}Duchess{}, once per run",
+                },
+            },
+            pepper_caster_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress",
+                    "at end of round",
+                },
+            },
             mad_hatter = {
                 text = {
                     "{s:0.8}Such a long, wide table - yet just {s:0.8,C:sgt_sagadition}three{s:0.8} in place,",
@@ -3651,6 +3791,29 @@ return {
                     "{s:0.8}I disliked their chatter, so left in haste,",
                     "{s:0.8}Found a tiny door by a hill I faced,",
                     "{s:0.8}A bite of {s:0.8,C:sgt_sagadition}old mushroom{s:0.8} - and off I raced.",
+                },
+            },
+            mad_hatter_new = {
+                text = {
+                    "{C:sgt_sagadition}Tea Party{} becomes active",
+                    "as long as {C:sgt_sagadition}Mad Hatter{} is around",
+                    "Be careful!",
+                    "Lose {C:sgt_sagadition}#1#%{} of progress every",
+                    "time ante would not go up",
+                },
+            },
+            march_hare_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress",
+                    "when using up {C:sgt_sagadition}Tea{} or {C:sgt_sagadition}Teapot{}",
+                    "during {C:sgt_sagadition}Tea Party{}",
+                },
+            },
+            dormouse_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress",
+                    "when using up {C:sgt_sagadition}Sugarcube{}",
+                    "during {C:sgt_sagadition}Tea Party{}",
                 },
             },
             red_queen = {
@@ -3664,12 +3827,35 @@ return {
                     "{s:0.8}And you, {s:0.8,C:sgt_sagadition}Cheshire Cat{s:0.8} - stop grinning so rude!"
                 },
             },
+            red_queen_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress at",
+                    "end of round if no card was",
+                    "destroyed by {C:sgt_sagadition}Red Queen{}",
+                    "Be careful!",
+                    "Lose all progress if",
+                    "{C:sgt_sagadition}Cheshire Cat{} is around",
+                },
+            },
             gryphon = {
                 text = {
                     "{s:0.8}\"She only shouts - she won't take a life,",
                     "{s:0.8}You've been spared, so no need for strife.",
                     "{s:0.8}Now meet the {s:0.8,C:sgt_sagadition}Mock Turtle{s:0.8}, he sings with pride...",
                     "{s:0.8}Hop on my back - I'll give you a ride.\"",
+                },
+            },
+            gryphon_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress",
+                    "at end of round for every",
+                    "4 {C:sgt_sagadition}Queens{} in full deck",
+                },
+            },
+            mock_turtle_new = {
+                text = {
+                    "Earn {C:sgt_sagadition}#1#%{} of progress",
+                    "when {C:sgt_sagadition}Mock Turtle{} triggers",
                 },
             },
             lincoln_ship = {
@@ -4246,6 +4432,7 @@ return {
             k_goodbye_ex = "Goodbye!",
             k_go_off_ex = "Leaved!",
             k_overflow_ex = "Overflow!",
+            k_flooded_ex = "Flooded!",
             k_die_ex = "Die!",
             k_stirred_ex = "Stirred!",
             k_shared_ex = "Shared!",
@@ -4308,6 +4495,7 @@ return {
             k_good_ex = "Good!",
             k_down_ex = "Down!",
             k_calm_down_ex = "Calm Down!",
+            k_progress_ex = "Progress!",
             k_plus_divinatio = "+1 Divinatio",
             k_plus_celestara = "+1 Celestara",
             k_empty = "Empty",
@@ -4388,6 +4576,8 @@ return {
             SGT_hide_stake_stickers = "Hide stake stickers",
             SGT_april_fools = "Force April Fools",
             SGT_april_fools_desc = {"Force April Fools mechanic to be always on", "(Story Mode only)"},
+            SGT_legacy_wonderland = "Legacy Mechanic",
+            SGT_legacy_wonderland_desc = {"Use the old story mechanic for Alice", "in the Wonderland (Requires run restart)"},
             sgt_welcome = "Welcome to Sagatro!",
             sgt_welcome_text1 = "This is a mod that brings fairy tales, mythology, and",
             sgt_welcome_text2 = "surreal elements into the game we - and you - all love.",

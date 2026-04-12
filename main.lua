@@ -50,6 +50,7 @@ Sagatro.mad_hatter_whitelist = {
 
 Sagatro.optional_features = {
     retrigger_joker = true,
+    post_trigger = true,
 }
 
 Sagatro.temp_areas = {}

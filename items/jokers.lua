@@ -5,11 +5,16 @@ local white_rabbit = {
     artist_credits = {"amy"},
     atlas = "alice_in_wonderland",
     saga_group = "alice_in_wonderland",
-    saga_difficulty = 3,
+    saga_difficulty = function()
+        if G.GAME.legacy_wonderland or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.LegacyWonderland) then
+            return 3
+        end
+        return 2
+    end,
     order = 1,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.story_starter] = true },
     pos = { x = 0, y = 0 },
-    config = {extra = {chips = 0, chip_mod = 6}},
+    config = {immutable = {progress = 0, progress_goal = 10, progress_earnings = 3}, extra = {chips = 0, chip_mod = 6}},
     rarity = 1,
     cost = 4,
     blueprint_compat = true,
@@ -24,6 +29,16 @@ local white_rabbit = {
             }
         end
         if context.before and G.GAME.current_round.discards_used <= 0 and not context.blueprint then
+            if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                card.ability.immutable.progress = card.ability.immutable.progress + 1
+                if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                    card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                    G.E_MANAGER:add_event(Event({func = function()
+                        Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                    return true end}))
+                    SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
+                end
+            end
             if SMODS.scale_card then
                 SMODS.scale_card(card, {
                     ref_table = card.ability.extra,
@@ -56,6 +71,16 @@ local white_rabbit = {
             end
         end
         if context.forcetrigger then
+            if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                card.ability.immutable.progress = card.ability.immutable.progress + 1
+                if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                    card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                    G.E_MANAGER:add_event(Event({func = function()
+                        Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                    return true end}))
+                    SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
+                end
+            end
             if SMODS.scale_card then
                 SMODS.scale_card(card, {
                     ref_table = card.ability.extra,
@@ -83,14 +108,20 @@ local white_rabbit = {
                 return
             end
             Sagatro.init_storyline(self.saga_group)
-            if next(SMODS.find_card("j_sgt_dodo_bird", true)) then
-                Sagatro.progress_storyline("white_rabbit_house", "add", self.saga_group, G.GAME.interwoven_storyline)
+            if G.GAME.legacy_wonderland then
+                if next(SMODS.find_card("j_sgt_dodo_bird", true)) then
+                    Sagatro.progress_storyline("white_rabbit_house", "add", self.saga_group, G.GAME.interwoven_storyline)
+                end
+            else
+                G.GAME.wond_hint_to_progress = true
             end
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
-            Sagatro.progress_storyline("white_rabbit_house", "remove", self.saga_group, G.GAME.interwoven_storyline)
+            if G.GAME.legacy_wonderland then
+                Sagatro.progress_storyline("white_rabbit_house", "remove", self.saga_group, G.GAME.interwoven_storyline)
+            end
         end
     end,
     in_pool = function(self, args)
@@ -101,15 +132,26 @@ local white_rabbit = {
     end,
     loc_vars = function(self, info_queue, card)
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
-        and Sagatro.event_check("cry_into_flood", false) and Sagatro.storyline_check(self.saga_group))
+        and (Sagatro.event_check("cry_into_flood", false) or not G.GAME.legacy_wonderland) and Sagatro.storyline_check(self.saga_group))
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "white_rabbit"}
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "fusion_hint", title = localize("saga_fusion_tooltip")}
+            if G.GAME.legacy_wonderland then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "white_rabbit"}
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "fusion_hint", title = localize("saga_fusion_tooltip")}
+            else
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "white_rabbit_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
+        end
+        if G.GAME.wond_hint_to_progress then
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "wond_hint_to_progress"}
         end
         if Sagatro.storyline_check("none") or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
-            specific_vars = {localize('ph_alice_in_wond'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "alice_in_wonderland_mech", title = localize("saga_mechanic")}
+            specific_vars = {localize('ph_alice_in_wond'), self.saga_difficulty(), colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty()]}}, title = localize("saga_storyline_start")}
+            local mech_key = "alice_in_wonderland_mech"
+            if G.GAME.legacy_wonderland or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.LegacyWonderland) then
+                mech_key = mech_key.."_legacy"
+            end
+            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = mech_key, title = localize("saga_mechanic")}
         end
         return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, card.ability.extra.chip_mod*G.GAME.alice_multiplier}}
     end,
@@ -139,7 +181,7 @@ local drink_me = {
     order = 2,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 0 },
-    config = {extra = 1, taken = false},
+    config = {immutable = {progress = 0, progress_goal = 5, progress_earnings = 3}, extra = 1},
     rarity = 1,
     cost = 6,
     blueprint_compat = false,
@@ -157,7 +199,9 @@ local drink_me = {
                             func = function()
                                 v:juice_up()
                                 assert(SMODS.change_base(v, nil, "2"))
-
+                                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                                    card.ability.immutable.progress = card.ability.immutable.progress + 1
+                                end
                                 return true
                             end
                         }))
@@ -170,6 +214,15 @@ local drink_me = {
                 }
             end
             if context.after then
+                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                    if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                        card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                        return true end}))
+                        SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
+                    end
+                end
                 if card.ability.extra - 1 <= 0 then
                     Sagatro.self_destruct(card)
                     return {
@@ -199,13 +252,19 @@ local drink_me = {
             return Sagatro.event_check("facing_egliette")
         end
         if G.GAME.story_mode then
-            return next(SMODS.find_card("j_sgt_white_rabbit", true))
+            if G.GAME.legacy_wonderland then
+                return next(SMODS.find_card("j_sgt_white_rabbit", true))
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        if G.P_CENTERS["j_sgt_eat_me"] and not card.fake_card then
+        if not card.fake_card then
             info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_eat_me"]
+            if (Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland) or Sagatro.debug then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "drink_me_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
         end
         local ret = {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}}}
         if Ortalab then
@@ -251,7 +310,7 @@ local eat_me = {
     order = 3,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 2, y = 0 },
-    config = {extra = 1},
+    config = {immutable = {progress = 0, progress_goal = 5, progress_earnings = 3}, extra = 1},
     rarity = 1,
     cost = 6,
     blueprint_compat = false,
@@ -264,20 +323,22 @@ local eat_me = {
         and (G.jokers.cards[1].config.center_key ~= "j_sgt_drink_me" and G.jokers.cards[1].config.center_key ~= "j_sgt_unlabeled_bottle") then
             if context.before then
                 for _, v in ipairs(context.scoring_hand) do
-                    if not SMODS.has_no_rank(v) and ((not next(SMODS.find_card("j_sgt_little_bill")) and v:get_id() ~= 14)
-                    or (next(SMODS.find_card("j_sgt_little_bill")) and v:get_id() ~= 2)) then
+                    if not SMODS.has_no_rank(v) and ((not next(Sagatro.find_active_card("j_sgt_little_bill")) and v:get_id() ~= 14)
+                    or (next(Sagatro.find_active_card("j_sgt_little_bill")) and v:get_id() ~= 2)) then
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 v:juice_up()
-                                assert(SMODS.change_base(v, nil, next(SMODS.find_card("j_sgt_little_bill")) and "2" or "Ace"))
-
+                                assert(SMODS.change_base(v, nil, next(Sagatro.find_active_card("j_sgt_little_bill")) and "2" or "Ace"))
+                                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                                    card.ability.immutable.progress = card.ability.immutable.progress + 1
+                                end
                                 return true
                             end
                         }))
                     end
                 end
                 return {
-                    message = not next(SMODS.find_card("j_sgt_little_bill", true)) and localize("k_enlarged_ex") or localize("k_shrunk_ex"),
+                    message = not next(Sagatro.find_active_card("j_sgt_little_bill", true)) and localize("k_enlarged_ex") or localize("k_shrunk_ex"),
                     colour = G.C.BLUE,
                     no_retrigger = true
                 }
@@ -290,11 +351,20 @@ local eat_me = {
                         end
                     return true end }))
                 end
+                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                    if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                        card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                        return true end}))
+                        SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
+                    end
+                end
                 if card.ability.extra - 1 <= 0 then
                     Sagatro.self_destruct(card)
                     if Sagatro.storyline_check("pocket_mirror") then
                         Sagatro.progress_storyline("conditional_game_over", "remove", "pocket_mirror", G.GAME.interwoven_storyline)
-                    elseif Sagatro.event_check("little_bill") and Sagatro.event_check("huge_dog", nil, true) then
+                    elseif Sagatro.event_check("little_bill") and Sagatro.event_check("huge_dog", nil, true) and G.GAME.legacy_wonderland then
                         Sagatro.progress_storyline("little_bill", "finish", self.saga_group, G.GAME.interwoven_storyline)
                         Sagatro.progress_storyline("huge_dog", "add", self.saga_group, G.GAME.interwoven_storyline)
                     end
@@ -325,13 +395,19 @@ local eat_me = {
             return Sagatro.event_check("facing_egliette")
         end
         if G.GAME.story_mode then
-            return (next(SMODS.find_card("j_sgt_white_rabbit", true)) or next(SMODS.find_card("j_sgt_little_bill", true)))
+            if G.GAME.legacy_wonderland then
+                return (next(SMODS.find_card("j_sgt_white_rabbit", true)) or next(SMODS.find_card("j_sgt_little_bill", true)))
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        if G.P_CENTERS["j_sgt_drink_me"] and not card.fake_card then
+        if not card.fake_card then
             info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_drink_me"]
+            if (Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland) or Sagatro.debug then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "eat_me_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
         end
         local ret = {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), localize{type = 'name_text', set = "Joker", key = "j_sgt_drink_me", nodes = {}}}}
         if Ortalab then
@@ -379,7 +455,7 @@ local mouse = {
     order = 4,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 0 },
-    config = {extra = {mult = 20, buffer_mult = 0, debuff_position = {}}},
+    config = {immutable = {progress = 0, progress_goal = 1, progress_earnings = 8}, extra = {mult = 20, buffer_mult = 0, debuff_position = {}}},
     rarity = 1,
     cost = 5,
     blueprint_compat = true,
@@ -417,20 +493,47 @@ local mouse = {
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
             card.ability.extra.buffer_mult = card.ability.extra.mult
+            if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland
+            and not G.GAME.one_time_progress.mouse then
+                if pseudorandom("flooded_mouse") < 1/2 then
+                    local func = function()
+                        card_eval_status_text(card, 'extra', nil, 1, nil, {message = localize('k_flooded_ex'), sound = "tarot1", volume = 1, instant = true})
+                        ease_dollars(card.cost)
+                    end
+                    Sagatro.self_destruct(card, {no_destruction_context = true, no_sound = true}, func)
+                else
+                    card.ability.immutable.progress = card.ability.immutable.progress + 1
+                    if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                        G.GAME.one_time_progress.mouse = true
+                        card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                        return true end}))
+                        SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
+                    end
+                end
+            end
         end
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return next(SMODS.find_card("j_sgt_kid_gloves_and_fan", true))
+            if G.GAME.legacy_wonderland then
+                return next(SMODS.find_card("j_sgt_kid_gloves_and_fan", true))
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS["j_splash"]
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
-        and Sagatro.event_check("cry_into_flood"))
+        and (Sagatro.event_check("cry_into_flood") or not G.GAME.legacy_wonderland) and Sagatro.storyline_check(self.saga_group))
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "fusion_hint", title = localize("saga_fusion_tooltip")}
+            if G.GAME.legacy_wonderland then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "fusion_hint", title = localize("saga_fusion_tooltip")}
+            elseif not G.GAME.one_time_progress.mouse then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "mouse_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal, colours = {darken(G.C.GREEN, 0.15)}}}
+            end
         end
         local ret = {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_splash", nodes = {}}}}
         if Ortalab then
@@ -479,7 +582,7 @@ local kid_gloves_and_fan = {
     order = 5,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 0 },
-    config = {extra = {rank_drop = 1, chips = 0}},
+    config = {immutable = {progress = 0, progress_goal = 1, progress_earnings = 3}, extra = {rank_drop = 1, chips = 0}},
     rarity = 2,
     cost = 8,
     blueprint_compat = false,
@@ -509,6 +612,7 @@ local kid_gloves_and_fan = {
                                 return true
                             end
                         }))
+                        return nil, true
                     end
                 end
             end
@@ -516,6 +620,15 @@ local kid_gloves_and_fan = {
                 if not context.destroy_card.debuff then
                     local temp = context.destroy_card
                     if not SMODS.has_no_rank(temp) and temp:get_id() == 2 then
+                        if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                            card.ability.immutable.progress = card.ability.immutable.progress + 1
+                            if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                                card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                                G.E_MANAGER:add_event(Event({func = function()
+                                    Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                                return true end}))
+                            end
+                        end
                         return {
                             message = localize("k_poof_ex"),
                             colour = G.C.FILTER,
@@ -528,20 +641,33 @@ local kid_gloves_and_fan = {
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            Sagatro.progress_storyline("cry_into_flood", "add", self.saga_group, G.GAME.interwoven_storyline)
+            if G.GAME.legacy_wonderland then
+                Sagatro.progress_storyline("cry_into_flood", "add", self.saga_group, G.GAME.interwoven_storyline)
+            end
         end
     end,
     in_pool = function(self, args)
-        return not G.GAME.story_mode
+        if G.GAME.story_mode then
+            if G.GAME.legacy_wonderland then
+                return false
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
-        and Sagatro.event_check("cry_into_flood"))
+        and (Sagatro.event_check("cry_into_flood") or not G.GAME.legacy_wonderland) and Sagatro.storyline_check(self.saga_group))
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "kid_gloves_and_fan"}
+            if G.GAME.legacy_wonderland then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "kid_gloves_and_fan"}
+            else
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "kid_gloves_and_fan_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
         end
         local ret = {vars = {card.ability.extra.rank_drop*G.GAME.alice_multiplier}}
-        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
+        if (G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save)
+        and G.GAME.legacy_wonderland then
             ret.key = self.key.."_storymode"
             ret.vars[#ret.vars+1] = card.ability.extra.chips*G.GAME.alice_multiplier
         end
@@ -575,8 +701,8 @@ local kid_gloves_and_fan = {
                 card.joker_display_values.active = G.jokers.cards[1] == card
                 and localize("jdis_active") or localize("jdis_inactive")
                 card.joker_display_values.ranks_per_decrease = card.ability.extra.rank_drop*G.GAME.alice_multiplier
-                card.joker_display_values.plus = G.GAME.story_mode and "+" or ""
-                card.joker_display_values.chips = G.GAME.story_mode and card.ability.extra.chips*G.GAME.alice_multiplier or ""
+                card.joker_display_values.plus = G.GAME.story_mode and G.GAME.legacy_wonderland and "+" or ""
+                card.joker_display_values.chips = G.GAME.story_mode and G.GAME.legacy_wonderland and card.ability.extra.chips*G.GAME.alice_multiplier or ""
             end,
         }
     end,
@@ -591,7 +717,7 @@ local dodo_bird = {
     order = 6,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 1 },
-    config = {extra = {xmult = 1.5}},
+    config = {immutable = {progress = 0, progress_goal = 20, progress_earnings = 3}, extra = {xmult = 1.5}},
     rarity = 3,
     cost = 9,
     blueprint_compat = true,
@@ -599,6 +725,20 @@ local dodo_bird = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
+        if (context.post_trigger and not context.blueprint and not context.retrigger_joker
+        and not context.other_context.fix_probability and not context.other_context.mod_probability
+        and not context.other_context.modify_scoring_hand and not context.other_context.check_eternal
+        and not context.other_context.check_enhancement and not context.other_context.sgt_played_cards)
+        or context.forcetrigger then
+            card.ability.immutable.progress = card.ability.immutable.progress + 1
+            if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                G.E_MANAGER:add_event(Event({func = function()
+                    Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                return true end}))
+                SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
+            end
+        end
         if context.other_joker and not context.forcetrigger then
             if not context.other_joker.ability.inactive then
                 if G.GAME.current_round.hands_left == 0 and G.GAME.current_round.discards_left == 0 then
@@ -624,29 +764,43 @@ local dodo_bird = {
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            Sagatro.progress_storyline("cry_into_flood", "finish", self.saga_group, G.GAME.interwoven_storyline)
-            if next(SMODS.find_card("j_sgt_white_rabbit", true)) then
-                Sagatro.progress_storyline("white_rabbit_house", "add", self.saga_group, G.GAME.interwoven_storyline)
+            if G.GAME.legacy_wonderland then
+                Sagatro.progress_storyline("cry_into_flood", "finish", self.saga_group, G.GAME.interwoven_storyline)
+                if next(SMODS.find_card("j_sgt_white_rabbit", true)) then
+                    Sagatro.progress_storyline("white_rabbit_house", "add", self.saga_group, G.GAME.interwoven_storyline)
+                end
             end
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
-            Sagatro.progress_storyline("white_rabbit_house", "remove", self.saga_group, G.GAME.interwoven_storyline)
-            if Sagatro.event_check("white_rabbit_house", nil, true) then
-                Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
+            if G.GAME.legacy_wonderland then
+                Sagatro.progress_storyline("white_rabbit_house", "remove", self.saga_group, G.GAME.interwoven_storyline)
+                if Sagatro.event_check("white_rabbit_house", nil, true) then
+                    Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
+                end
             end
         end
     end,
     in_pool = function(self, args)
-        return not G.GAME.story_mode
+        if G.GAME.story_mode then
+            if G.GAME.legacy_wonderland then
+                return false
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
-        and Sagatro.event_check("cry_into_flood", nil, {contain = true})
-        and Sagatro.event_check("white_rabbit_house", nil, true))
+        and ((Sagatro.event_check("cry_into_flood", nil, {contain = true})
+        and Sagatro.event_check("white_rabbit_house", nil, true)) or not G.GAME.legacy_wonderland) and Sagatro.storyline_check(self.saga_group))
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "dodo_bird"}
+            if G.GAME.legacy_wonderland then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "dodo_bird"}
+            else
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "dodo_bird_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
         end
         return {vars = {card.ability.extra.xmult*G.GAME.alice_multiplier}}
     end,
@@ -681,7 +835,7 @@ local unlabeled_bottle = {
     order = 7,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 1 },
-    config = {extra = 2, taken = false},
+    config = {immutable = {progress = 0, progress_goal = 3, progress_earnings = 3}, extra = 2},
     rarity = 2,
     cost = 6,
     blueprint_compat = false,
@@ -689,7 +843,7 @@ local unlabeled_bottle = {
     eternal_compat = false,
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
-        card.ability.taken = not G.GAME.story_mode
+        card.ability.taken = not (G.GAME.story_mode and G.GAME.legacy_wonderland)
     end,
     calculate = function(self, card, context)
         if G and G.jokers and G.jokers.cards and G.jokers.cards[1]
@@ -701,7 +855,9 @@ local unlabeled_bottle = {
                             func = function()
                                 v:juice_up()
                                 assert(SMODS.change_base(v, nil, "Ace"))
-
+                                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                                    card.ability.immutable.progress = card.ability.immutable.progress + 1
+                                end
                                 return true
                             end
                         }))
@@ -727,9 +883,20 @@ local unlabeled_bottle = {
                     end
                     Sagatro.self_destruct(v, {sound = "sgt_run_away", pitch = 1, volume = 1}, yeet_text)
                 end
+                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                    if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                        card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                        return true end}))
+                        SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
+                    end
+                end
                 if card.ability.extra - 1 <= 0 then
                     Sagatro.self_destruct(card)
-                    Sagatro.progress_storyline("little_bill", "add", self.saga_group, G.GAME.interwoven_storyline)
+                    if G.GAME.legacy_wonderland then
+                        Sagatro.progress_storyline("little_bill", "add", self.saga_group, G.GAME.interwoven_storyline)
+                    end
                     return {
                         message = localize('k_drank_ex'),
                         colour = G.C.FILTER,
@@ -751,17 +918,29 @@ local unlabeled_bottle = {
         if not from_debuff then
             card.ability.extra = card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)
         end
-        Sagatro.progress_storyline("white_rabbit_house", "finish", self.saga_group, G.GAME.interwoven_storyline)
+        if G.GAME.legacy_wonderland then
+            Sagatro.progress_storyline("white_rabbit_house", "finish", self.saga_group, G.GAME.interwoven_storyline)
+        end
     end,
     in_pool = function(self, args)
-        return not G.GAME.story_mode
+        if G.GAME.story_mode then
+            if G.GAME.legacy_wonderland then
+                return false
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
+        end
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
-        and Sagatro.event_check("white_rabbit_house", nil, {contain = true})
-        and Sagatro.event_check("little_bill", false))
+        and ((Sagatro.event_check("white_rabbit_house", nil, {contain = true})
+        and Sagatro.event_check("little_bill", false)) or not G.GAME.legacy_wonderland) and Sagatro.storyline_check(self.saga_group))
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "unlabeled_bottle"}
+            if G.GAME.legacy_wonderland then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "unlabeled_bottle"}
+            else
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "unlabeled_bottle_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
         end
         local ret
         if card.ability.taken or Sagatro.debug then
@@ -816,7 +995,7 @@ local little_bill = {
     order = 8,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 2, y = 1 },
-    config = {type = "Full House", extra = 2},
+    config = {immutable = {progress = 0, progress_goal = 5, progress_earnings = 3}, type = "Full House", extra = 2},
     rarity = 1,
     cost = 5,
     blueprint_compat = true,
@@ -836,18 +1015,23 @@ local little_bill = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.event_check("little_bill")
+            if G.GAME.legacy_wonderland then
+                return Sagatro.event_check("little_bill")
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        if G.P_CENTERS["j_sgt_eat_me"] then
-            info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_eat_me"]
-        end
+        info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_eat_me"]
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
-        and Sagatro.event_check("little_bill"))
+        and (Sagatro.event_check("little_bill") or not G.GAME.legacy_wonderland) and Sagatro.storyline_check(self.saga_group))
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "little_bill"}
+            if G.GAME.legacy_wonderland then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "little_bill"}
+            else
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "little_bill_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
         end
         return {vars = {card.ability.extra*G.GAME.alice_multiplier, localize(card.ability.type, 'poker_hands'), localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}}}
     end,
@@ -897,7 +1081,7 @@ local huge_dog = {
     order = 9,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 3, y = 1 },
-    config = {extra = {times = 1, extra_times = 1}},
+    config = {immutable = {progress = 0, progress_goal = 2, progress_earnings = 16}, extra = {times = 1, extra_times = 1}},
     rarity = 2,
     cost = 6,
     blueprint_compat = true,
@@ -905,6 +1089,53 @@ local huge_dog = {
     eternal_compat = true,
     perishable_compat = true,
     calculate = function(self, card, context)
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland
+        and not G.GAME.one_time_progress.huge_dog then
+            if context.setting_blind and not card.getting_sliced and not context.blueprint and not context.retrigger_joker then
+                local available_ranks = {}
+                for _, v in ipairs(G.playing_cards) do
+                    if not (SMODS.has_no_rank(v) or table.contains(available_ranks, v.base.value)) then
+                        table.insert(available_ranks, v.base.value)
+                    end
+                end
+                if next(available_ranks) then
+                    local selected_ranks = {}
+                    table.sort(available_ranks)
+                    pseudoshuffle(available_ranks, "huge_dog_ranks")
+                    for i = 1, 5 do table.insert(selected_ranks, available_ranks[i]) end
+                    if next(selected_ranks) then
+                        table.sort(selected_ranks)
+                        card.ability.immutable.selected_ranks = selected_ranks
+                    end
+                end
+            end
+            if context.after and not context.blueprint and not context.retrigger_joker then
+                if card.ability.immutable.selected_ranks then
+                    for _, v in ipairs(context.scoring_hand) do
+                        if not SMODS.has_no_rank(v) and table.contains(card.ability.immutable.selected_ranks, v.base.value) then
+                            Sagatro.self_destruct(card, {sound = "sgt_run_away", pitch = 1, volume = 1})
+                            return {
+                                message = localize('k_yeet_ex'),
+                                colour = G.C.FILTER,
+                                no_retrigger = true
+                            }
+                        end
+                    end
+                end
+            end
+            if context.ante_change and context.ante_end then
+                card.ability.immutable.progress = card.ability.immutable.progress + 1
+                if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                    card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                    G.GAME.one_time_progress.huge_dog = true
+                    card.ability.immutable.selected_ranks = nil
+                    G.E_MANAGER:add_event(Event({func = function()
+                        Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                    return true end}))
+                    SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
+                end
+            end
+        end
         if context.repetition and context.cardarea == G.play then
             local valid_cards, all_cards = 0, 0
             local temp = context.other_card
@@ -925,26 +1156,45 @@ local huge_dog = {
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            Sagatro.progress_storyline("huge_dog", "finish", self.saga_group, G.GAME.interwoven_storyline)
+            if G.GAME.legacy_wonderland then
+                Sagatro.progress_storyline("huge_dog", "finish", self.saga_group, G.GAME.interwoven_storyline)
+            end
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
-            Sagatro.progress_storyline("caterpillar", "add", self.saga_group, G.GAME.interwoven_storyline)
+            if G.GAME.legacy_wonderland then
+                Sagatro.progress_storyline("caterpillar", "add", self.saga_group, G.GAME.interwoven_storyline)
+            end
         end
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.event_check("huge_dog")
+            if G.GAME.legacy_wonderland then
+                return Sagatro.event_check("huge_dog")
+            end
+            return false
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
-        and Sagatro.event_check("huge_dog", nil, {contain = true})
-        and Sagatro.event_check("caterpillar", false))
+        and ((Sagatro.event_check("huge_dog", nil, {contain = true})
+        and Sagatro.event_check("caterpillar", false)) or not G.GAME.legacy_wonderland) and Sagatro.storyline_check(self.saga_group))
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "huge_dog"}
+            if G.GAME.legacy_wonderland then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "huge_dog"}
+            elseif not G.GAME.one_time_progress.huge_dog then
+                local text = localize("k_none")
+                if card.ability.immutable.selected_ranks then
+                    local localized_ranks = {}
+                    for _, rank in ipairs(card.ability.immutable.selected_ranks) do
+                        table.insert(localized_ranks, localize(rank, "ranks"))
+                    end
+                    text = table.concat(localized_ranks, ", ")
+                end
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "huge_dog_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal, text}}
+            end
         end
         return {vars = {card.ability.extra.times*G.GAME.alice_multiplier, card.ability.extra.extra_times*G.GAME.alice_multiplier}}
     end,
@@ -1015,7 +1265,7 @@ local caterpillar = {
     order = 10,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 1 },
-    config = {extra = 12},
+    config = {immutable = {progress = 0, progress_goal = 1, progress_earnings = 8}, extra = 12},
     rarity = 1,
     cost = 1,
     blueprint_compat = false,
@@ -1038,10 +1288,22 @@ local caterpillar = {
                     end
                 }))
                 card.ability.extra = card.ability.extra - 1
+                return nil, true
             end
         end
         if context.after and not context.blueprint and not context.retrigger_joker then
             if card.ability.extra <= 0 then
+                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland
+                and not G.GAME.one_time_progress.caterpillar then
+                    card.ability.immutable.progress = card.ability.immutable.progress + 1
+                    if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                        card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                        G.GAME.one_time_progress.caterpillar = true
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                        return true end}))
+                    end
+                end
                 G.E_MANAGER:add_event(Event({
                     trigger = "immediate",
                     func = function()
@@ -1060,7 +1322,9 @@ local caterpillar = {
                     end
                 }))
                 Sagatro.self_destruct(card)
-                Sagatro.progress_storyline("caterpillar", "finish", self.saga_group, G.GAME.interwoven_storyline)
+                if G.GAME.legacy_wonderland then
+                    Sagatro.progress_storyline("caterpillar", "finish", self.saga_group, G.GAME.interwoven_storyline)
+                end
                 return {
                     message = localize('k_go_off_ex'),
                     colour = G.C.FILTER,
@@ -1071,18 +1335,23 @@ local caterpillar = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.event_check("caterpillar")
+            if G.GAME.legacy_wonderland then
+                return Sagatro.event_check("caterpillar")
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        if G.P_CENTERS["j_sgt_mushroom"] then
-            info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_mushroom"]
-        end
+        info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_mushroom"]
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
-        and Sagatro.event_check("caterpillar"))
+        and (Sagatro.event_check("caterpillar") or not G.GAME.legacy_wonderland) and Sagatro.storyline_check(self.saga_group))
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "caterpillar"}
+            if G.GAME.legacy_wonderland then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "caterpillar"}
+            elseif not G.GAME.one_time_progress.caterpillar then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "caterpillar_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
         end
         return {vars = {card.ability.extra, localize{type = 'name_text', set = "Joker", key = "j_sgt_mushroom", nodes = {}}}}
     end,
@@ -1114,7 +1383,7 @@ local mushroom = {
     order = 11,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 1 },
-    config = {extra = 10, times = 1, taken = false},
+    config = {immutable = {progress = 0, progress_goal = 1, progress_earnings = 16}, extra = 10, times = 1, taken = false},
     rarity = 2,
     cost = 7,
     blueprint_compat = false,
@@ -1145,15 +1414,28 @@ local mushroom = {
                 end
                 if context.after then
                     local game_over = Sagatro.event_check("pig_and_pepper", nil, {contain = true})
-                    Sagatro.progress_storyline("pig_and_pepper", "add", self.saga_group, G.GAME.interwoven_storyline)
-                    if Sagatro.event_check("mad_hatter") then -- allows leniency (you don't have to take March Hare and Dormouse)
-                        Sagatro.progress_storyline("the_party", "force_finish", self.saga_group, G.GAME.interwoven_storyline)
-                        Sagatro.progress_storyline("red_queen", "add", self.saga_group, G.GAME.interwoven_storyline)
-                        game_over = false
+                    if G.GAME.legacy_wonderland then
+                        Sagatro.progress_storyline("pig_and_pepper", "add", self.saga_group, G.GAME.interwoven_storyline)
+                        if Sagatro.event_check("mad_hatter") then -- allows leniency (you don't have to take March Hare and Dormouse)
+                            Sagatro.progress_storyline("the_party", "force_finish", self.saga_group, G.GAME.interwoven_storyline)
+                            Sagatro.progress_storyline("red_queen", "add", self.saga_group, G.GAME.interwoven_storyline)
+                            game_over = false
+                        end
                     end
                     if card.ability.extra - 1 <= 0 then
-                        if game_over then
+                        if game_over and G.GAME.legacy_wonderland then
                             Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
+                        end
+                        if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland
+                        and not G.GAME.one_time_progress.mushroom then
+                            card.ability.immutable.progress = card.ability.immutable.progress + 1
+                            if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                                card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                                G.GAME.one_time_progress.mushroom = true
+                                G.E_MANAGER:add_event(Event({func = function()
+                                    Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                                return true end}))
+                            end
                         end
                         Sagatro.self_destruct(card)
                         return {
@@ -1192,15 +1474,28 @@ local mushroom = {
                 end
                 if context.after then
                     local game_over = Sagatro.event_check("pig_and_pepper", nil, {contain = true})
-                    Sagatro.progress_storyline("pig_and_pepper", "add", self.saga_group, G.GAME.interwoven_storyline)
-                    if Sagatro.event_check("mad_hatter") then -- allows leniency (you don't have to take March Hare and Dormouse)
-                        Sagatro.progress_storyline("the_party", "force_finish", self.saga_group, G.GAME.interwoven_storyline)
-                        Sagatro.progress_storyline("red_queen", "add", self.saga_group, G.GAME.interwoven_storyline)
-                        game_over = false
+                    if G.GAME.legacy_wonderland then
+                        Sagatro.progress_storyline("pig_and_pepper", "add", self.saga_group, G.GAME.interwoven_storyline)
+                        if Sagatro.event_check("mad_hatter") then -- allows leniency (you don't have to take March Hare and Dormouse)
+                            Sagatro.progress_storyline("the_party", "force_finish", self.saga_group, G.GAME.interwoven_storyline)
+                            Sagatro.progress_storyline("red_queen", "add", self.saga_group, G.GAME.interwoven_storyline)
+                            game_over = false
+                        end
                     end
                     if card.ability.extra - 1 <= 0 then
-                        if game_over then
+                        if game_over and G.GAME.legacy_wonderland then
                             Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
+                        end
+                        if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland
+                        and not G.GAME.one_time_progress.mushroom then
+                            card.ability.immutable.progress = card.ability.immutable.progress + 1
+                            if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                                card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                                G.GAME.one_time_progress.mushroom = true
+                                G.E_MANAGER:add_event(Event({func = function()
+                                    Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                                return true end}))
+                            end
                         end
                         Sagatro.self_destruct(card)
                         return {
@@ -1231,10 +1526,14 @@ local mushroom = {
     end,
     loc_vars = function(self, info_queue, card)
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
-        and Sagatro.event_check("caterpillar", nil, {contain = true})
-        and Sagatro.event_check("pig_and_pepper", false))
+        and ((Sagatro.event_check("caterpillar", nil, {contain = true})
+        and Sagatro.event_check("pig_and_pepper", false)) or not G.GAME.legacy_wonderland) and Sagatro.storyline_check(self.saga_group))
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "mushroom"}
+            if G.GAME.legacy_wonderland then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "mushroom"}
+            elseif not G.GAME.one_time_progress.mushroom then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "mushroom_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
         end
         local ret = {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), card.ability.times*G.GAME.alice_multiplier}}
         if Ortalab then
@@ -1282,7 +1581,7 @@ local pigeon = {
     order = 12,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 1, y = 2 },
-    config = {extra = 3, egg_boost = 1, triggered = false, value_loss = 2},
+    config = {immutable = {progress = 0, progress_goal = 1, progress_earnings = 3}, extra = 3, egg_boost = 1, triggered = false, value_loss = 2},
     rarity = 2,
     cost = 8,
     blueprint_compat = false,
@@ -1291,6 +1590,17 @@ local pigeon = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if (context.end_of_round and not context.game_over and context.main_eval and not context.blueprint) or context.forcetrigger then
+            if context.forcetrigger then
+                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                    card.ability.immutable.progress = card.ability.immutable.progress + 1
+                    if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                        card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.progress_chart(-card.ability.immutable.progress_earnings)
+                        return true end}))
+                    end
+                end
+            end
             for _, v in ipairs(G.jokers.cards) do
                 if v.config.center_key == "j_egg" then
                     card.ability.triggered = true
@@ -1322,6 +1632,15 @@ local pigeon = {
         end
         if context.selling_card and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             if context.card.config.center_key == "j_egg" then
+                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                    card.ability.immutable.progress = card.ability.immutable.progress + 1
+                    if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                        card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.progress_chart(-card.ability.immutable.progress_earnings)
+                        return true end}))
+                    end
+                end
                 card.ability.extra_value = (card.ability.extra_value or 0) - card.ability.value_loss
                 card.ability.value_loss = card.ability.value_loss*2
                 card:set_cost()
@@ -1369,12 +1688,20 @@ local pigeon = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return next(SMODS.find_card("j_sgt_mushroom", true)) and not next(SMODS.find_card("j_sgt_mad_hatter"))
+            if G.GAME.legacy_wonderland then
+                return next(SMODS.find_card("j_sgt_mushroom", true)) and not next(SMODS.find_card("j_sgt_mad_hatter"))
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.j_egg
+        if not card.fake_card then
+            if (Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland) or Sagatro.debug then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "pigeon_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
+        end
         return {vars = {localize{type = 'name_text', set = "Joker", key = "j_egg", nodes = {}}, card.ability.extra*G.GAME.alice_multiplier, card.ability.egg_boost*G.GAME.alice_multiplier, card.ability.value_loss}}
     end,
     set_badges = function(self, card, badges)
@@ -1411,7 +1738,7 @@ local frog_footman = {
     order = 13,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 2 },
-    config = {extra = 2, consumable_slot = 1, alice_mult_buffer = 1, taken = false},
+    config = {immutable = {progress = 0, progress_goal = 1, progress_earnings = 8}, extra = 2, consumable_slot = 1, alice_mult_buffer = 1, taken = false},
     rarity = 1,
     cost = 5,
     blueprint_compat = false,
@@ -1437,10 +1764,23 @@ local frog_footman = {
             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_ouch_ex'), colour = G.C.SECONDARY_SET.Tarot})
             card.ability.extra = card.ability.extra - 1
             if card.ability.extra <= 0 then
+                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland
+                and not G.GAME.one_time_progress.frog_footman then
+                    card.ability.immutable.progress = card.ability.immutable.progress + 1
+                    if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                        card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                        G.GAME.one_time_progress.frog_footman = true
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                        return true end}))
+                    end
+                end
                 Sagatro.self_destruct(card)
-                if Sagatro.event_check("goodbye_frog", false) then
-                    Sagatro.progress_storyline("pig_and_pepper", "finish", self.saga_group, G.GAME.interwoven_storyline)
-                    Sagatro.progress_storyline("goodbye_frog", "add", self.saga_group, G.GAME.interwoven_storyline)
+                if G.GAME.legacy_wonderland then
+                    if Sagatro.event_check("goodbye_frog", false) then
+                        Sagatro.progress_storyline("pig_and_pepper", "finish", self.saga_group, G.GAME.interwoven_storyline)
+                        Sagatro.progress_storyline("goodbye_frog", "add", self.saga_group, G.GAME.interwoven_storyline)
+                    end
                 end
                 return {
                     message = localize('k_goodbye_ex'),
@@ -1469,15 +1809,22 @@ local frog_footman = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.event_check("pig_and_pepper")
+            if G.GAME.legacy_wonderland then
+                return Sagatro.event_check("pig_and_pepper")
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
-        and Sagatro.event_check("pig_and_pepper"))
+        and (Sagatro.event_check("pig_and_pepper") or not G.GAME.legacy_wonderland) and Sagatro.storyline_check(self.saga_group))
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "frog_footman"}
+            if G.GAME.legacy_wonderland then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "frog_footman"}
+            elseif not G.GAME.one_time_progress.frog_footman then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "frog_footman_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
         end
         return {vars = {card.ability.consumable_slot*G.GAME.alice_multiplier, card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)}}
     end,
@@ -1509,7 +1856,7 @@ local the_cook = {
     order = 14,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 2, y = 2 },
-    config = {extra = {odds = 4, xmult = 2, card_list = {}}, value_shift_init = {{3, 1.8}, {4, 2}, {5, 2.2}, {6, 2.4}}},
+    config = {immutable = {progress = 0, progress_goal = 5, progress_earnings = 4}, extra = {odds = 4, xmult = 2, card_list = {}}, value_shift_init = {{3, 1.8}, {4, 2}, {5, 2.2}, {6, 2.4}}},
     rarity = 3,
     cost = 6,
     blueprint_compat = true,
@@ -1530,6 +1877,16 @@ local the_cook = {
             for i = 1, #context.sgt_played_cards do
                 if context.sgt_played_cards[i].facing == 'back' then
                     table.insert(card.ability.extra.card_list, context.sgt_played_cards[i])
+                    if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                        card.ability.immutable.progress = card.ability.immutable.progress + 1
+                        if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                            card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                            G.E_MANAGER:add_event(Event({func = function()
+                                Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                            return true end}))
+                            SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
+                        end
+                    end
                 end
             end
         end
@@ -1576,11 +1933,19 @@ local the_cook = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.event_check("goodbye_frog")
+            if G.GAME.legacy_wonderland then
+                return Sagatro.event_check("goodbye_frog")
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
+        if not card.fake_card then
+            if (Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland) or Sagatro.debug then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "the_cook_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
+        end
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "thecook")
         return {vars = {n, d, card.ability.extra.xmult*G.GAME.alice_multiplier}}
     end,
@@ -1624,7 +1989,7 @@ local cheshire_cat = {
     order = 16,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 3, y = 0 },
-    config = {extra = {odds = 3}, taken = false},
+    config = {immutable = {progress = 0, progress_goal = 1, progress_earnings = 3}, extra = {odds = 3}, taken = false},
     rarity = 1,
     cost = 6,
     blueprint_compat = true,
@@ -1632,13 +1997,13 @@ local cheshire_cat = {
     eternal_compat = false,
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
-        card.ability.extra.odds = Sagatro.event_check("goodbye_frog") and 1 or 3
+        card.ability.extra.odds = Sagatro.event_check("goodbye_frog") and G.GAME.legacy_wonderland and 1 or 3
     end,
     calculate = function(self, card, context)
         if context.end_of_round and not context.game_over and context.main_eval and not context.game_over and not context.blueprint and not context.retrigger_joker then
-            if SMODS.pseudorandom_probability(card, 'cheshire_cat_vanish', 1, card.ability.extra.odds*(Sagatro.event_check("goodbye_frog") and 1 or G.GAME.alice_multiplier), "cheshire_cat") then
+            if SMODS.pseudorandom_probability(card, 'cheshire_cat_vanish', 1, card.ability.extra.odds*(Sagatro.event_check("goodbye_frog") and G.GAME.legacy_wonderland and 1 or G.GAME.alice_multiplier), "cheshire_cat") then
                 Sagatro.self_destruct(card)
-                if Sagatro.event_check("goodbye_frog") then
+                if Sagatro.event_check("goodbye_frog") and G.GAME.legacy_wonderland then
                     Sagatro.progress_storyline("goodbye_frog", "finish", self.saga_group, G.GAME.interwoven_storyline)
                     Sagatro.progress_storyline("the_party", "add", self.saga_group, G.GAME.interwoven_storyline)
                 end
@@ -1647,6 +2012,15 @@ local cheshire_cat = {
                     no_retrigger = true
                 }
             else
+                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                    card.ability.immutable.progress = card.ability.immutable.progress + 1
+                    if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                        card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.progress_chart(-card.ability.immutable.progress_earnings)
+                        return true end}))
+                    end
+                end
                 return {
                     message = localize("k_grin_ex"),
                     no_retrigger = true
@@ -1680,17 +2054,24 @@ local cheshire_cat = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.event_check("pig_and_pepper", nil, {contain = true})
+            if G.GAME.legacy_wonderland then
+                return Sagatro.event_check("pig_and_pepper", nil, {contain = true})
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
-        and Sagatro.event_check("goodbye_frog"))
+        and (Sagatro.event_check("goodbye_frog") or not G.GAME.legacy_wonderland) and Sagatro.storyline_check(self.saga_group))
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "cheshire_cat"}
+            if G.GAME.legacy_wonderland then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "cheshire_cat"}
+            else
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "cheshire_cat_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
         end
-        local ret = {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds*(Sagatro.event_check("goodbye_frog") and 1 or G.GAME.alice_multiplier), "cheshire_cat")}}
+        local ret = {vars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds*(Sagatro.event_check("goodbye_frog") and G.GAME.legacy_wonderland and 1 or G.GAME.alice_multiplier), "cheshire_cat")}}
         if card.area and (card.area == G.jokers or card.area == G.consumeables) then
             local left_joker = nil
             for i = 1, #G.jokers.cards do
@@ -1802,7 +2183,7 @@ local duchess = {
     order = 17,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 3, y = 2 },
-    config = {triggered = false, extra = {e_mult = 1.5, odds = 3, probability_list = {}}},
+    config = {immutable = {progress = 0, progress_goal = 2, progress_earnings = 6}, triggered = false, extra = {e_mult = 1.5, odds = 3, probability_list = {}}},
     rarity = "sgt_obscure",
     cost = 12,
     blueprint_compat = true,
@@ -1827,6 +2208,15 @@ local duchess = {
         if context.destroy_card and context.cardarea == G.play and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             for i = 1, #context.scoring_hand do
                 if context.scoring_hand[i] == context.destroy_card and card.ability.extra.probability_list[i] then
+                    if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                        card.ability.immutable.progress = card.ability.immutable.progress + 1
+                        if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                            card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                            G.E_MANAGER:add_event(Event({func = function()
+                                Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                            return true end}))
+                        end
+                    end
                     return {
                         message = localize("k_die_ex"),
                         colour = G.C.RED,
@@ -1849,11 +2239,19 @@ local duchess = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.event_check("goodbye_frog")
+            if G.GAME.legacy_wonderland then
+                return Sagatro.event_check("goodbye_frog")
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
+        if not card.fake_card then
+            if (Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland) or Sagatro.debug then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "duchess_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
+        end
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "duchess")
         local ret = {vars = {n, d, card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
         if next(SMODS.find_card("j_sgt_alice")) then
@@ -1906,7 +2304,7 @@ local the_baby = {
     order = 18,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true, [SAGA_GROUP_POOL.gfrog] = true },
     pos = { x = 4, y = 2 },
-    config = {extra = 3},
+    config = {immutable = {progress = 0, progress_goal = 1, progress_earnings = 16}, extra = 3},
     rarity = 2,
     cost = 7,
     blueprint_compat = true,
@@ -1933,16 +2331,37 @@ local the_baby = {
                 end
             end
         end
+        if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland
+        and not G.GAME.one_time_progress.the_baby then
+            if context.selling_card and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
+                if context.card.config.center_key == "j_sgt_duchess" then
+                    card.ability.immutable.progress = card.ability.immutable.progress + 1
+                    if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                        card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                        G.GAME.one_time_progress.the_baby = true
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                        return true end}))
+                    end
+                end
+            end
+        end
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.event_check("goodbye_frog")
+            if G.GAME.legacy_wonderland then
+                return Sagatro.event_check("goodbye_frog")
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        if G.P_CENTERS["j_sgt_duchess"] then
-            info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_duchess"]
+        info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_duchess"]
+        if not card.fake_card then
+            if (Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland and not G.GAME.one_time_progress.the_baby) or Sagatro.debug then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "the_baby_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
         end
         return {vars = {card.ability.extra*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_duchess", nodes = {}}}}
     end,
@@ -1995,7 +2414,7 @@ local pepper_caster = {
     order = 15,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 2 },
-    config = {extra = {retriggers = 1, uses = 10}, taken = false},
+    config = {immutable = {progress = 0, progress_goal = 1, progress_earnings = 3}, extra = {retriggers = 1, uses = 10}, taken = false},
     rarity = "sgt_obscure",
     cost = 12,
     blueprint_compat = true,
@@ -2011,6 +2430,15 @@ local pepper_caster = {
             }
         end
         if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and not context.retrigger_joker then
+            if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                card.ability.immutable.progress = card.ability.immutable.progress + 1
+                if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                    card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                    G.E_MANAGER:add_event(Event({func = function()
+                        Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                    return true end}))
+                end
+            end
             if card.ability.extra.uses - 1 <= 0 then
                 Sagatro.self_destruct(card)
                 return {
@@ -2036,11 +2464,19 @@ local pepper_caster = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return next(SMODS.find_card("j_sgt_the_cook", true))
+            if G.GAME.legacy_wonderland then
+                return next(SMODS.find_card("j_sgt_the_cook", true))
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
+        if not card.fake_card then
+            if (Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland) or Sagatro.debug then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "pepper_caster_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
+        end
         local ret = {vars = {card.ability.extra.retriggers*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier), card.ability.taken and card.ability.extra.uses or card.ability.extra.uses*G.GAME.alice_multiplier}}
         if next(SMODS.find_card("j_sgt_alice")) then
             ret.main_end = {}
@@ -2092,7 +2528,7 @@ local mad_hatter = {
     order = 19,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 3 },
-    config = {extra = {ante_loss = 1}, temp_table = {}},
+    config = {immutable = {progress = 0, progress_goal = 1, progress_earnings = 6}, extra = {ante_loss = 1}, temp_table = {}},
     rarity = "sgt_obscure",
     cost = 16,
     blueprint_compat = false,
@@ -2132,6 +2568,19 @@ local mad_hatter = {
             end
         end
     end,
+    calculate = function(self, card, context)
+        if context.sgt_ante_interrupt and not context.blueprint and not context.retrigger_joker then
+            if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                card.ability.immutable.progress = card.ability.immutable.progress + 1
+                if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                    card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                    G.E_MANAGER:add_event(Event({func = function()
+                        Sagatro.progress_chart(-card.ability.immutable.progress_earnings)
+                    return true end}))
+                end
+            end
+        end
+    end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
             Sagatro.progress_storyline("mad_hatter", "force_add", self.saga_group, G.GAME.interwoven_storyline)
@@ -2151,8 +2600,8 @@ local mad_hatter = {
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
-            Sagatro.progress_storyline("mad_hatter", "force_finish", self.saga_group, G.GAME.interwoven_storyline)
-            if G.GAME.story_mode and not Sagatro.event_check("the_party", nil, {contain = true}) then
+            Sagatro.progress_storyline("mad_hatter", G.GAME.legacy_storyline and "force_finish" or "remove", self.saga_group, G.GAME.interwoven_storyline)
+            if G.GAME.story_mode and not Sagatro.event_check("the_party", nil, {contain = true}) and G.GAME.legacy_wonderland then
                 Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
             end
         end
@@ -2170,15 +2619,22 @@ local mad_hatter = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.event_check("the_party") and Sagatro.event_check("mad_hatter", false)
+            if G.GAME.legacy_wonderland then
+                return Sagatro.event_check("the_party") and Sagatro.event_check("mad_hatter", false)
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.won
         end
         return not G.GAME.won
     end,
     loc_vars = function(self, info_queue, card)
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
-        and Sagatro.event_check("the_party", nil, true))
+        and (Sagatro.event_check("the_party", nil, true) or not G.GAME.legacy_wonderland) and Sagatro.storyline_check(self.saga_group))
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "mad_hatter"}
+            if G.GAME.legacy_wonderland then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "mad_hatter"}
+            else
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "mad_hatter_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
         end
     end,
     set_badges = function(self, card, badges)
@@ -2222,6 +2678,18 @@ local tea = {
             }
         end
         if (context.after and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+            if Sagatro.storyline_check("alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                for _, v in ipairs(Sagatro.find_active_card("j_sgt_march_hare")) do
+                    v.ability.immutable.progress = v.ability.immutable.progress + 1
+                    if v.ability.immutable.progress >= v.ability.immutable.progress_goal then
+                        v.ability.immutable.progress = v.ability.immutable.progress - v.ability.immutable.progress_goal
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.progress_chart(v.ability.immutable.progress_earnings)
+                        return true end}))
+                        SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, v)
+                    end
+                end
+            end
             if card.ability.extra.uses - 1 <= 0 then
                 Sagatro.self_destruct(card)
                 return {
@@ -2300,6 +2768,18 @@ local bread = {
             }
         end
         if (context.after and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+            if Sagatro.storyline_check("alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                for _, v in ipairs(Sagatro.find_active_card("j_sgt_march_hare")) do
+                    v.ability.immutable.progress = v.ability.immutable.progress + 1
+                    if v.ability.immutable.progress >= v.ability.immutable.progress_goal then
+                        v.ability.immutable.progress = v.ability.immutable.progress - v.ability.immutable.progress_goal
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.progress_chart(v.ability.immutable.progress_earnings)
+                        return true end}))
+                        SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, v)
+                    end
+                end
+            end
             if card.ability.extra.uses - 1 <= 0 then
                 Sagatro.self_destruct(card)
                 return {
@@ -2378,6 +2858,18 @@ local butter = {
             }
         end
         if (context.after and not context.blueprint and not context.retrigger_joker) or context.forcetrigger then
+            if Sagatro.storyline_check("alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                for _, v in ipairs(Sagatro.find_active_card("j_sgt_march_dormouse")) do
+                    v.ability.immutable.progress = v.ability.immutable.progress + 1
+                    if v.ability.immutable.progress >= v.ability.immutable.progress_goal then
+                        v.ability.immutable.progress = v.ability.immutable.progress - v.ability.immutable.progress_goal
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.progress_chart(v.ability.immutable.progress_earnings)
+                        return true end}))
+                        SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, v)
+                    end
+                end
+            end
             if card.ability.extra.uses - 1 <= 0 then
                 Sagatro.self_destruct(card)
                 return {
@@ -2441,7 +2933,7 @@ local march_hare = {
     order = 23,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 3 },
-    config = {extra = {mult = 0, mult_mod = 3}},
+    config = {immutable = {progress = 0, progress_goal = 1, progress_earnings = 3}, extra = {mult = 0, mult_mod = 3}},
     rarity = 2,
     cost = 7,
     blueprint_compat = true,
@@ -2506,11 +2998,19 @@ local march_hare = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.event_check("mad_hatter")
+            if G.GAME.legacy_wonderland then
+                return Sagatro.event_check("mad_hatter")
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
+        if not card.fake_card then
+            if (Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland) or Sagatro.debug then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "march_hare_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
+        end
         return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, card.ability.extra.mult_mod*G.GAME.alice_multiplier}}
     end,
     set_badges = function(self, card, badges)
@@ -2539,7 +3039,7 @@ local dormouse = {
     order = 24,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 5, y = 3 },
-    config = {extra = {mult = 80, odds = 4}},
+    config = {immutable = {progress = 0, progress_goal = 1, progress_earnings = 6}, extra = {mult = 80, odds = 4}},
     rarity = 2,
     cost = 8,
     blueprint_compat = true,
@@ -2556,11 +3056,19 @@ local dormouse = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.event_check("mad_hatter")
+            if G.GAME.legacy_wonderland then
+                return Sagatro.event_check("mad_hatter")
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
+        if not card.fake_card then
+            if (Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland) or Sagatro.debug then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "dormouse_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
+        end
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "dormouse")
         return {vars = {n, d, card.ability.extra.mult*G.GAME.alice_multiplier}}
     end,
@@ -2599,7 +3107,7 @@ local red_queen = {
     order = 25,
     pools = { [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 0, y = 4 },
-    config = {extra = {e_mult = 1.1, odds = 1}},
+    config = {immutable = {progress = 0, progress_goal = 1, progress_earnings = 6}, extra = {e_mult = 1.1, odds = 1}},
     rarity = "sgt_obscure",
     cost = 16,
     blueprint_compat = true,
@@ -2609,24 +3117,31 @@ local red_queen = {
     calculate = function(self, card, context)
         if context.setting_blind and G.GAME.story_mode and next(SMODS.find_card("j_sgt_cheshire_cat", true))
         and not context.blueprint and not card.getting_sliced and not context.retrigger_joker and not context.forcetrigger then
-            for _, v in ipairs(G.jokers.cards) do
-                if v ~= card and not SMODS.is_eternal(v, card) then
-                    v.getting_sliced = true
-                    G.GAME.joker_buffer = G.GAME.joker_buffer - 1
-                end
-            end
-            G.E_MANAGER:add_event(Event({func = function()
-                G.GAME.joker_buffer = 0
-                card:juice_up(0.8, 0.8)
+            if G.GAME.legacy_wonderland then
                 for _, v in ipairs(G.jokers.cards) do
-                    if v ~= card and v.getting_sliced then
-                        v:start_dissolve({G.C.RED}, nil, 1.6)
+                    if v ~= card and not SMODS.is_eternal(v, card) then
+                        v.getting_sliced = true
+                        G.GAME.joker_buffer = G.GAME.joker_buffer - 1
                     end
                 end
-            return true end }))
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.joker_buffer = 0
+                    card:juice_up(0.8, 0.8)
+                    for _, v in ipairs(G.jokers.cards) do
+                        if v ~= card and v.getting_sliced then
+                            v:start_dissolve({G.C.RED}, nil, 1.6)
+                        end
+                    end
+                return true end }))
+            else
+                G.E_MANAGER:add_event(Event({func = function()
+                    Sagatro.progress_chart(-100)
+                return true end}))
+            end
             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_enraged_ex'), colour = G.C.RED})
         end
-        if context.first_hand_drawn and not context.blueprint and not context.retrigger_joker and #G.jokers.cards == 1 then
+        if context.first_hand_drawn and not context.blueprint and not context.retrigger_joker
+        and #G.jokers.cards == 1 and G.GAME.legacy_wonderland then
             Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
         end
         if context.individual and context.cardarea == G.play and not context.forcetrigger then
@@ -2644,6 +3159,9 @@ local red_queen = {
         end
         if context.destroy_card and context.cardarea == G.play and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
             if not context.destroy_card.debuff and SMODS.pseudorandom_probability(card, "red_queen_decapitate", 1, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, "red_queen") then
+                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                    card.ability.immutable.progress_failed = true
+                end
                 return {
                     message = localize("k_die_ex"),
                     colour = G.C.RED,
@@ -2652,9 +3170,25 @@ local red_queen = {
                 }
             end
         end
+        if context.end_of_round and not context.game_over and context.main_eval
+        and not context.blueprint and not context.retrigger_joker then
+            if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                if not card.ability.immutable.progress_failed then
+                    card.ability.immutable.progress = card.ability.immutable.progress + 1
+                    if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                        card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                        return true end}))
+                        SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
+                    end
+                end
+                card.ability.immutable.progress_failed = nil
+            end
+        end
     end,
     add_to_deck = function(self, card, from_debuff)
-        if not from_debuff and G.GAME.story_mode then
+        if not from_debuff and G.GAME.story_mode and G.GAME.legacy_wonderland then
             if not card.ability.perishable or G.GAME.modifiers.cry_eternal_perishable_compat then
                 card:set_eternal(true)
             end
@@ -2662,15 +3196,22 @@ local red_queen = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.event_check("red_queen")
+            if G.GAME.legacy_wonderland then
+                return Sagatro.event_check("red_queen")
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return not G.GAME.red_queen_blind
     end,
     loc_vars = function(self, info_queue, card)
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
-        and Sagatro.event_check("red_queen"))
+        and (Sagatro.event_check("red_queen") or not G.GAME.legacy_wonderland) and Sagatro.storyline_check(self.saga_group))
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "red_queen"}
+            if G.GAME.legacy_wonderland then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "red_queen"}
+            else
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "red_queen_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
         end
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.odds*G.GAME.alice_multiplier*G.GAME.relief_factor, "red_queen")
         local ret = {vars = {n, d, card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
@@ -2758,8 +3299,10 @@ local king = {
                     end
                 end
             end
-            Sagatro.progress_storyline("red_queen", "finish", self.saga_group, G.GAME.interwoven_storyline)
-            Sagatro.progress_storyline("gryphon", "add", self.saga_group, G.GAME.interwoven_storyline)
+            if G.GAME.legacy_wonderland then
+                Sagatro.progress_storyline("red_queen", "finish", self.saga_group, G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("gryphon", "add", self.saga_group, G.GAME.interwoven_storyline)
+            end
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
@@ -2767,14 +3310,15 @@ local king = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return next(SMODS.find_card("j_sgt_red_queen", true))
+            if G.GAME.legacy_wonderland then
+                return next(SMODS.find_card("j_sgt_red_queen", true))
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        if G.P_CENTERS["j_sgt_red_queen"] then
-            info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_red_queen"]
-        end
+        info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_red_queen"]
         return {vars = {card.ability.extra.mult*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_red_queen", nodes = {}}, card.ability.extra.relief}}
     end,
     set_badges = function(self, card, badges)
@@ -2829,8 +3373,10 @@ local flamingo = {
                     end
                 end
             end
-            Sagatro.progress_storyline("red_queen", "finish", self.saga_group, G.GAME.interwoven_storyline)
-            Sagatro.progress_storyline("gryphon", "add", self.saga_group, G.GAME.interwoven_storyline)
+            if G.GAME.legacy_wonderland then
+                Sagatro.progress_storyline("red_queen", "finish", self.saga_group, G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("gryphon", "add", self.saga_group, G.GAME.interwoven_storyline)
+            end
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
@@ -2838,14 +3384,15 @@ local flamingo = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return next(SMODS.find_card("j_sgt_red_queen", true))
+            if G.GAME.legacy_wonderland then
+                return next(SMODS.find_card("j_sgt_red_queen", true))
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        if G.P_CENTERS["j_sgt_red_queen"] then
-            info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_red_queen"]
-        end
+        info_queue[#info_queue+1] = G.P_CENTERS["j_sgt_red_queen"]
         return {vars = {card.ability.extra.chips*G.GAME.alice_multiplier, localize{type = 'name_text', set = "Joker", key = "j_sgt_red_queen", nodes = {}}, card.ability.extra.relief}}
     end,
     set_badges = function(self, card, badges)
@@ -2874,7 +3421,7 @@ local gryphon = {
     order = 28,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 3, y = 4 },
-    config = {extra = {e_mult = 1.1}},
+    config = {immutable = {progress = 0, progress_goal = 1, progress_earnings = 4}, extra = {e_mult = 1.1}},
     rarity = "sgt_obscure",
     cost = 14,
     blueprint_compat = true,
@@ -2904,18 +3451,42 @@ local gryphon = {
                 card = card,
             }
         end
+        if context.end_of_round and not context.game_over and context.main_eval
+        and not context.blueprint and not context.retrigger_joker then
+            if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                local queens = 0
+                for _, v in ipairs(G.playing_cards or {}) do
+                    if v:get_id() == 12 then
+                        queens = queens + 1
+                    end
+                end
+                if queens >= 4 then
+                    G.E_MANAGER:add_event(Event({func = function()
+                        Sagatro.progress_chart(card.ability.immutable.progress_earnings*math.floor(queens/4))
+                    return true end}))
+                    SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
+                end
+            end
+        end
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return Sagatro.event_check("gryphon")
+            if G.GAME.legacy_wonderland then
+                return Sagatro.event_check("gryphon")
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
         if (G.STAGE == G.STAGES.RUN and not card.fake_card
-        and Sagatro.event_check("gryphon"))
+        and (Sagatro.event_check("gryphon") or not G.GAME.legacy_wonderland) and Sagatro.storyline_check(self.saga_group))
         or Sagatro.debug then
-            info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "gryphon"}
+            if G.GAME.legacy_wonderland then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "gryphon"}
+            else
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "gryphon_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
         end
         local ret = {vars = {card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier)}}
         if next(SMODS.find_card("j_sgt_alice")) then
@@ -2969,7 +3540,7 @@ local mock_turtle = {
     order = 29,
     pools = { [SAGA_GROUP_POOL.fsd] = true, [SAGA_GROUP_POOL.alice] = true },
     pos = { x = 4, y = 4 },
-    config = {extra = {e_mult = 2, e_mult_odds = 6, self_destruct_odds = 18, probability_list = {e_mult = false, self_destruct = false}}, taken = false},
+    config = {immutable = {progress = 0, progress_goal = 1, progress_earnings = 4}, extra = {e_mult = 2, e_mult_odds = 6, self_destruct_odds = 18, probability_list = {e_mult = false, self_destruct = false}}},
     rarity = 3,
     cost = 10,
     blueprint_compat = true,
@@ -2977,7 +3548,7 @@ local mock_turtle = {
     eternal_compat = false,
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
-        card.ability.extra.self_destruct_odds = G.GAME.story_mode and 100 or 18
+        card.ability.extra.self_destruct_odds = G.GAME.story_mode and G.GAME.legacy_wonderland and 100 or 18
     end,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker and not context.forcetrigger then
@@ -2994,6 +3565,15 @@ local mock_turtle = {
                         card.ability.extra.self_destruct_odds = Cryptid and 0.001 or 1
                     end
                 return true end }))
+            end
+            if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                card.ability.immutable.progress = card.ability.immutable.progress + 1
+                if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                    card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                    G.E_MANAGER:add_event(Event({func = function()
+                        Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                    return true end}))
+                end
             end
             return {
                 sgt_e_mult = card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
@@ -3017,7 +3597,7 @@ local mock_turtle = {
         end
     end,
     add_to_deck = function(self, card, from_debuff)
-        if not from_debuff and Sagatro.event_check("gryphon") then
+        if not from_debuff and Sagatro.event_check("gryphon") and G.GAME.legacy_wonderland then
             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('ph_trial_begins'), colour = G.C.RED, instant = true})
             Sagatro.progress_storyline("gryphon", "finish", self.saga_group, G.GAME.interwoven_storyline)
             Sagatro.progress_storyline("final_showdown", "add", self.saga_group, G.GAME.interwoven_storyline)
@@ -3025,11 +3605,19 @@ local mock_turtle = {
     end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
-            return next(SMODS.find_card("j_sgt_gryphon", true))
+            if G.GAME.legacy_wonderland then
+                return next(SMODS.find_card("j_sgt_gryphon", true))
+            end
+            return Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland")
         end
         return true
     end,
     loc_vars = function(self, info_queue, card)
+        if not card.fake_card then
+            if (Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland) or Sagatro.debug then
+                info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "mock_turtle_new", specific_vars = {card.ability.immutable.progress_earnings, card.ability.immutable.progress, card.ability.immutable.progress_goal}}
+            end
+        end
         local n, d = SMODS.get_probability_vars(card, 1, card.ability.extra.e_mult_odds, "mock_turtle_critical")
         local ret = {vars = {n, d,
         card.ability.extra.e_mult*(not Sagatro.mod_compat.talisman and 1 or G.GAME.alice_multiplier),
@@ -3964,7 +4552,7 @@ local lincoln_ship = {
     artist_credits = {"amy"},
     atlas = "20k_miles_under_the_sea",
     saga_group = "20k_miles_under_the_sea",
-    saga_difficulty = 4,
+    saga_difficulty = function() return 4 end,
     order = 61,
     pools = {[SAGA_GROUP_POOL["20k"]] = true, [SAGA_GROUP_POOL.story_starter] = true},
     pos = { x = 0, y = 0 },
@@ -4017,7 +4605,7 @@ local lincoln_ship = {
         end
         if Sagatro.storyline_check("none") or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
-            specific_vars = {localize('ph_20k'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
+            specific_vars = {localize('ph_20k'), self.saga_difficulty(), colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty()]}}, title = localize("saga_storyline_start")}
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "20k_miles_under_the_sea_mech", title = localize("saga_mechanic")}
         end
         return {vars = {card.ability.extra.mult, localize{type = 'name_text', set = "Joker", key = "j_splash", nodes = {}}}}
@@ -10782,7 +11370,7 @@ local mirror = {
     artist_credits = {"amy"},
     atlas = "alice_in_mirrorworld",
     saga_group = "alice_in_mirrorworld",
-    saga_difficulty = 5,
+    saga_difficulty = function() return 5 end,
     order = 31,
     pos = { x = 0, y = 0 },
     pools = { [SAGA_GROUP_POOL.alice_m] = true },
@@ -10838,9 +11426,13 @@ local mirror = {
     end,
     add_to_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
-            Sagatro.init_storyline(self.saga_group, true)
+            if not Sagatro.storyline_check("alice_in_wonderland") then
+                Sagatro.init_storyline("alice_in_wonderland", nil, true)
+            end
+            Sagatro.init_storyline(self and self.saga_group or "alice_in_mirrorworld", true)
             if Sagatro.storyline_check("alice_in_wonderland") then
                 G.GAME.mirror_hint_to_progress = true
+                change_shop_size(0)
             elseif Sagatro.storyline_check("pocket_mirror") then
                 G.GAME.show_main_storyline = true
             end
@@ -10850,16 +11442,13 @@ local mirror = {
         if Sagatro.storyline_check("pocket_mirror") then
             return Sagatro.event_check("facing_egliette")
         end
-        if G.GAME.story_mode then
-            return Sagatro.storyline_check("alice_in_wonderland") and not G.GAME.won
-        end
-        return true
+        return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
         if (Sagatro.storyline_check("alice_in_wonderland") and not Sagatro.storyline_check(self.saga_group))
         or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "interwoven_storyline_start",
-            specific_vars = {localize('ph_alice_in_mirr'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
+            specific_vars = {localize('ph_alice_in_mirr'), self.saga_difficulty(), colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty()]}}, title = localize("saga_storyline_start")}
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "alice_in_mirrorworld_mech", title = localize("saga_mechanic")}
         end
         if Sagatro.storyline_check(self.saga_group) and not Sagatro.storyline_check("pocket_mirror") then
@@ -12770,7 +13359,7 @@ local jubjub_bird = {
         if Sagatro.storyline_check(self and self.saga_group or "alice_in_mirrorworld") then
             return G.GAME.inversed_scaling
         end
-        return not G.GAME.story_mode
+        return not G.GAME.story_mode and not G.GAME.won
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {SMODS.signed_dollars(card.ability.value_loss), colours = {G.C.SGT_OBSCURE}}}
@@ -13555,7 +14144,7 @@ local goldia = {
     artist_credits = {"huycorn", "amy"},
     atlas = "pocket_mirror",
     saga_group = "pocket_mirror",
-    saga_difficulty = 5,
+    saga_difficulty = function() return 5 end,
     order = 121,
     pools = { [SAGA_GROUP_POOL.pmirror] = true, [SAGA_GROUP_POOL.legend] = true },
     pos = { x = 0, y = 4 },
@@ -13872,7 +14461,7 @@ local goldia = {
         end
         if Sagatro.storyline_check("none") or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers and not card.displaying_save) then
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "storyline_start",
-            specific_vars = {localize('ph_pmirror'), self.saga_difficulty, colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty]}}, title = localize("saga_storyline_start")}
+            specific_vars = {localize('ph_pmirror'), self.saga_difficulty(), colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty()]}}, title = localize("saga_storyline_start")}
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "pocket_mirror_mech", title = localize("saga_mechanic")}
         end
         local ret = {vars = {card.ability.extra.stage0_mult, card.ability.extra.stage0_mult_xmod}}
@@ -14591,7 +15180,7 @@ local egliette = {
             if context.end_of_round and not context.game_over and context.main_eval
             and not context.blueprint and not context.retrigger_joker then
                 Sagatro.progress_storyline("pm_mirrorworld", "force_finish", self.saga_group, G.GAME.interwoven_storyline)
-                G.GAME.storyline_progress_iw = 100
+                Sagatro.progress_chart(100, true)
                 Sagatro.self_destruct(card)
                 return {
                     message = localize("k_poof_ex"),

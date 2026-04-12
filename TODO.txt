@@ -71,3 +71,7 @@ Ice's feedback fixes:
 [X] Rebalance some jokers/mechanics:
     [X] Nerf Aladdin to X0.25 Mult/round
     [X] Nerf Supply Pack's weight from 3 to 1.25
+
+[X] make saga_difficulty field a function
+[X] Move Alice in the Wonderland legacy mechanic to its own room
+[X] Implement new Alice in the Wonderland mechanic (difficulty lowered from 3 to 2)

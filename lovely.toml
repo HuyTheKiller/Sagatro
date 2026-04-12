@@ -1367,3 +1367,19 @@ if not card.ability.april_fools_hidden then
 end
 '''
 match_indent = true
+
+# Shop size Convenience
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+for i = 1, G.GAME.shop.joker_max - #G.shop_jokers.cards do
+'''
+position = "before"
+payload = '''
+if G.GAME.awaiting_mirror then
+    G.GAME.awaiting_mirror = nil
+    change_shop_size(-1)
+end
+'''
+match_indent = true
