@@ -610,6 +610,7 @@ Sagatro.FUNCS.mirror_switch = function(e)
                                 booster:set_ability(get_pack("mirrorworld"))
                                 Sagatro.resize(booster)
                                 booster:set_cost()
+                                create_shop_card_ui(booster)
                             end
                         end
                     end
