@@ -22,11 +22,11 @@ G.C.SUBMARINE_DEPTH = {
     HEX("060f1a"),
 }
 G.C.SAGA_DIFFICULTY = {
-    G.C.GREEN,
-    G.C.GREEN,
-    G.C.YELLOW,
-    G.C.YELLOW,
-    G.C.RED,
+    darken(G.C.GREEN, 0.15),
+    darken(G.C.GREEN, 0.15),
+    darken(G.C.YELLOW, 0.15),
+    darken(G.C.YELLOW, 0.15),
+    darken(G.C.RED, 0.15),
 }
 G.C.SGT_SAGADITION = SMODS.Gradient{
     key = "sagadition",
