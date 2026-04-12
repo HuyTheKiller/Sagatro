@@ -3509,6 +3509,16 @@ return {
                 },
             },
         },
+        Center = {
+            sgt_alphalice = {
+                name = "Alphalice",
+                text = {
+                    "I'm having a {C:attention}major role{} in",
+                    "{C:sgt_sagadition}Sagatro{}'s next storyline",
+                    "Stay tuned!",
+                },
+            },
+        },
         ["Saga Tooltip"] = {
             fusion_hint = {
                 text = {
@@ -4500,6 +4510,7 @@ return {
             k_plus_celestara = "+1 Celestara",
             k_empty = "Empty",
             k_saveload_runs = "Save/load story mode runs",
+            k_assistant = "Assistant",
             k_most_recent_voucher_cap1 = "MOST RECENT",
             k_most_recent_voucher_cap2 = "VOUCHER",
             k_save_date = "Save date",

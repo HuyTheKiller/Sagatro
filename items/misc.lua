@@ -871,3 +871,32 @@ local sticker_table = {
 for _, v in ipairs(sticker_table) do
     SMODS.Sticker(v)
 end
+
+local alphalice = {
+    key = "alphalice",
+    name = "Alphalice",
+    artist_credits = {"amy"},
+    atlas = "alphalice",
+    pos = { x = 0, y = 0 },
+    soul_pos = { x = 10, y = 10, sgt_extra = { x = 1, y = 0, no_scale = true }, name_tag = { x = 2, y = 0 } },
+    config = {},
+    load = function(self, card, card_table, other_card)
+        card.T.x = card_table.T and card_table.T.x or card.T.x
+        card.T.y = card_table.T and card_table.T.y or card.T.y
+        card.T.w = card_table.T and card_table.T.w or card.T.w
+        card.T.h = card_table.T and card_table.T.h or card.T.h
+        card:hard_set_VT()
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize("k_assistant"), G.C.SGT_SAGADITION, G.C.WHITE, 1.2)
+    end,
+    omit = true,
+}
+
+local center_table = {
+    alphalice,
+}
+
+for _, v in ipairs(center_table) do
+    SMODS.Center(v)
+end

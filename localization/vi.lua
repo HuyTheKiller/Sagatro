@@ -3504,6 +3504,16 @@ return {
                 },
             },
         },
+        Center = {
+            sgt_alphalice = {
+                name = "Alphalice",
+                text = {
+                    "Tôi sẽ {C:attention}đóng vai trò lớn{} trong",
+                    "mạch truyện tiếp theo của {C:sgt_sagadition}Sagatro{}",
+                    "Hãy đón chờ nhé!",
+                },
+            },
+        },
         ["Saga Tooltip"] = {
             fusion_hint = {
                 text = {
@@ -4495,6 +4505,7 @@ return {
             k_plus_celestara = "+1 Huyền Thể",
             k_empty = "Trống",
             k_saveload_runs = "Lưu/tải trận chế độ cốt truyện",
+            k_assistant = "Thư Ký",
             k_most_recent_voucher_cap1 = "PHIẾU",
             k_most_recent_voucher_cap2 = "GẦN NHẤT",
             k_save_date = "Ngày lưu",

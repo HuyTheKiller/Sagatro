@@ -950,10 +950,23 @@ function Game:update(dt)
                 end
             end
         end
+        if G.GAME.alphalice_save and not Sagatro.alphalice then
+            Sagatro.alphalice = Card(0, 0, G.CARD_W, G.CARD_H, G.P_CENTERS.j_joker, G.P_CENTERS.c_base)
+            Sagatro.alphalice:load(G.GAME.alphalice_save)
+        end
     elseif G.STAGE == G.STAGES.MAIN_MENU then
         Sagatro.debug_info["During a run"] = nil
         Sagatro.debug_info["Story mode"] = nil
         G.P_CENTERS.j_sgt_seawater.pos.x = 0
+    end
+
+    if G.STAGE ~= G.STAGES.RUN then
+        if Sagatro.alphalice then
+            G.in_delete_run = true
+            Sagatro.alphalice:remove()
+            Sagatro.alphalice = nil
+            G.in_delete_run = false
+        end
     end
 
     if G.your_collection and type(G.your_collection) == "table" then
@@ -1191,6 +1204,12 @@ local delete_run_ref = Game.delete_run
 function Game:delete_run()
     delete_run_ref(self)
     Sagatro.EventChainUtils = EMPTY(Sagatro.EventChainUtils)
+    if Sagatro.alphalice then
+        G.in_delete_run = true
+        Sagatro.alphalice:remove()
+        Sagatro.alphalice = nil
+        G.in_delete_run = false
+    end
     G.EVENT_CHAIN_INTERRUPT = nil
     if Sagatro.temp_music_volume then
         G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume
@@ -2099,6 +2118,18 @@ function Sagatro.progress_chart(mod, interwoven)
     end
 end
 
+---@param t {key: string, skip_materialize?: boolean}
+---@return table|Card?
+--- Creates a card with raw center (not belonging to any card type).
+function Sagatro.create_center(t)
+    if G.STAGE == G.STAGES.RUN and t.key and G.P_CENTERS[t.key] and G.P_CENTERS[t.key].set == "Center" then
+        local card = Card((G.deck.cards[1] or G.deck).T.x, (G.deck.cards[1] or G.deck).T.y - G.CARD_H*1.1, G.CARD_W, G.CARD_H, nil, G.P_CENTERS[t.key],
+        {bypass_discovery_center = true, bypass_discovery_ui = true, bypass_back = G.GAME.selected_back.pos})
+        if not t.skip_materialize then card:start_materialize() end
+        return card
+    end
+end
+
 -- Force the first pack in shop to be buffoon in certain events
 local gp = get_pack
 function get_pack(_key, _type)
@@ -2916,6 +2947,9 @@ function Sagatro:calculate(context)
                     mirror:set_cost()
                     G.GAME.awaiting_mirror = true
                 end
+            end
+            if not Sagatro.alphalice and pseudorandom("alphalice_sneak_peek") < 0.2 then
+                Sagatro.alphalice = Sagatro.create_center{key = "sgt_alphalice"}
             end
         end
         if context.ending_shop then
@@ -4260,7 +4294,16 @@ function save_run()
     if G.GAME.story_mode and G.GAME.sgt_no_saving then
         return
     end
-    return sr()
+    sr()
+    if Sagatro.alphalice and G.culled_table then
+        G.culled_table.GAME.alphalice_save = Sagatro.alphalice:save()
+        G.culled_table.GAME.alphalice_save.T = {
+            x = Sagatro.alphalice.T.x,
+            y = Sagatro.alphalice.T.y,
+            w = Sagatro.alphalice.T.w,
+            h = Sagatro.alphalice.T.h,
+        }
+    end
 end
 
 function Sagatro.can_save()
