@@ -795,6 +795,12 @@ function Game:update(dt)
             Sagatro.remove_temp_areas()
         end
     end
+    if G.in_delete_run then
+        if Sagatro.alphalice then
+            Sagatro.alphalice:remove()
+            Sagatro.alphalice = nil
+        end
+    end
     if G.STAGE == G.STAGES.RUN then
         Sagatro.debug_info["During a run"] = true
         Sagatro.debug_info["Story mode"] = G.GAME.story_mode
@@ -950,7 +956,7 @@ function Game:update(dt)
                 end
             end
         end
-        if G.GAME.alphalice_save and not Sagatro.alphalice then
+        if G.GAME.alphalice_save and not Sagatro.alphalice and not G.in_delete_run then
             Sagatro.alphalice = Card(0, 0, G.CARD_W, G.CARD_H, G.P_CENTERS.j_joker, G.P_CENTERS.c_base)
             Sagatro.alphalice:load(G.GAME.alphalice_save)
         end
@@ -958,15 +964,6 @@ function Game:update(dt)
         Sagatro.debug_info["During a run"] = nil
         Sagatro.debug_info["Story mode"] = nil
         G.P_CENTERS.j_sgt_seawater.pos.x = 0
-    end
-
-    if G.STAGE ~= G.STAGES.RUN then
-        if Sagatro.alphalice then
-            G.in_delete_run = true
-            Sagatro.alphalice:remove()
-            Sagatro.alphalice = nil
-            G.in_delete_run = false
-        end
     end
 
     if G.your_collection and type(G.your_collection) == "table" then
@@ -1204,12 +1201,6 @@ local delete_run_ref = Game.delete_run
 function Game:delete_run()
     delete_run_ref(self)
     Sagatro.EventChainUtils = EMPTY(Sagatro.EventChainUtils)
-    if Sagatro.alphalice then
-        G.in_delete_run = true
-        Sagatro.alphalice:remove()
-        Sagatro.alphalice = nil
-        G.in_delete_run = false
-    end
     G.EVENT_CHAIN_INTERRUPT = nil
     if Sagatro.temp_music_volume then
         G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume
