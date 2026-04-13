@@ -165,12 +165,12 @@ Sagatro.progress_points = {
         nyx_abyss = 20,--100
     },
     alice_in_mirrorworld = {
-        the_pawn = 100/6,
-        the_rook = 100/6,--33.3
-        the_knight = 100/6,--50
-        the_bishop = 100/6,--66.7
-        true_red_queen = 100/6,--83.3
-        red_king = 100/6,--100
+        the_pawn = 16.7,
+        the_rook = 16.6,--33.3
+        the_knight = 16.7,--50
+        the_bishop = 16.7,--66.7
+        true_red_queen = 16.6,--83.3
+        red_king = 16.7,--100
     },
     pocket_mirror = {
         the_pocket_mirror = 8,
