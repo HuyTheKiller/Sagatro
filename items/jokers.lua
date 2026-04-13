@@ -11667,10 +11667,10 @@ local white_queen = {
         if context.joker_main then
             local hearts_diamonds, spades_clubs = 0, 0
             for _, v in ipairs(G.hand.cards) do
-                if v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
-                    hearts_diamonds = hearts_diamonds + 1
-                elseif v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
+                if v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
                     spades_clubs = spades_clubs + 1
+                elseif v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
+                    hearts_diamonds = hearts_diamonds + 1
                 end
             end
             if spades_clubs - hearts_diamonds ~= 0 then
@@ -11716,10 +11716,10 @@ local white_queen = {
                             if playing_card:get_id() == 12 then
                                 count = count + JokerDisplay.calculate_card_triggers(playing_card)
                             end
-                            if playing_card:is_suit("Hearts", nil, true) or playing_card:is_suit("Diamonds", nil, true) then
-                                hearts_diamonds = hearts_diamonds + 1
-                            elseif playing_card:is_suit("Spades", nil, true) or playing_card:is_suit("Clubs", nil, true) then
+                            if playing_card:is_suit("Spades", nil, true) or playing_card:is_suit("Clubs", nil, true) then
                                 spades_clubs = spades_clubs + 1
+                            elseif playing_card:is_suit("Hearts", nil, true) or playing_card:is_suit("Diamonds", nil, true) then
+                                hearts_diamonds = hearts_diamonds + 1
                             end
                         end
                     end
@@ -11772,10 +11772,10 @@ local white_king = {
         if context.joker_main then
             local hearts_diamonds, spades_clubs = 0, 0
             for _, v in ipairs(G.hand.cards) do
-                if v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
-                    hearts_diamonds = hearts_diamonds + 1
-                elseif v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
+                if v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
                     spades_clubs = spades_clubs + 1
+                elseif v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
+                    hearts_diamonds = hearts_diamonds + 1
                 end
             end
             if hearts_diamonds == 0 then hearts_diamonds = 1 end
@@ -11825,10 +11825,10 @@ local white_king = {
                             if playing_card:get_id() == 13 then
                                 count = count + JokerDisplay.calculate_card_triggers(playing_card)
                             end
-                            if playing_card:is_suit("Hearts", nil, true) or playing_card:is_suit("Diamonds", nil, true) then
-                                hearts_diamonds = hearts_diamonds + 1
-                            elseif playing_card:is_suit("Spades", nil, true) or playing_card:is_suit("Clubs", nil, true) then
+                            if playing_card:is_suit("Spades", nil, true) or playing_card:is_suit("Clubs", nil, true) then
                                 spades_clubs = spades_clubs + 1
+                            elseif playing_card:is_suit("Hearts", nil, true) or playing_card:is_suit("Diamonds", nil, true) then
+                                hearts_diamonds = hearts_diamonds + 1
                             end
                         end
                     end
@@ -12964,10 +12964,10 @@ local white_rook = {
         if context.joker_main then
             local hearts_diamonds, spades_clubs = 0, 0
             for _, v in ipairs(G.hand.cards) do
-                if v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
-                    hearts_diamonds = hearts_diamonds + 1
-                elseif v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
+                if v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
                     spades_clubs = spades_clubs + 1
+                elseif v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
+                    hearts_diamonds = hearts_diamonds + 1
                 end
             end
             if spades_clubs - hearts_diamonds ~= 0 then
@@ -13012,10 +13012,10 @@ local white_rook = {
                 for _, playing_card in ipairs(G.hand.cards) do
                     if playing_hand or not playing_card.highlighted then
                         if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
-                            if playing_card:is_suit("Hearts", nil, true) or playing_card:is_suit("Diamonds", nil, true) then
-                                hearts_diamonds = hearts_diamonds + 1
-                            elseif playing_card:is_suit("Spades", nil, true) or playing_card:is_suit("Clubs", nil, true) then
+                            if playing_card:is_suit("Spades", nil, true) or playing_card:is_suit("Clubs", nil, true) then
                                 spades_clubs = spades_clubs + 1
+                            elseif playing_card:is_suit("Hearts", nil, true) or playing_card:is_suit("Diamonds", nil, true) then
+                                hearts_diamonds = hearts_diamonds + 1
                             end
                         end
                     end
@@ -13054,10 +13054,10 @@ local white_knight = {
         if context.joker_main then
             local hearts_diamonds, spades_clubs = 0, 0
             for _, v in ipairs(G.hand.cards) do
-                if v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
-                    hearts_diamonds = hearts_diamonds + 1
-                elseif v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
+                if v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
                     spades_clubs = spades_clubs + 1
+                elseif v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
+                    hearts_diamonds = hearts_diamonds + 1
                 end
             end
             if spades_clubs - hearts_diamonds ~= 0 then
@@ -13102,10 +13102,10 @@ local white_knight = {
                 for _, playing_card in ipairs(G.hand.cards) do
                     if playing_hand or not playing_card.highlighted then
                         if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
-                            if playing_card:is_suit("Hearts", nil, true) or playing_card:is_suit("Diamonds", nil, true) then
-                                hearts_diamonds = hearts_diamonds + 1
-                            elseif playing_card:is_suit("Spades", nil, true) or playing_card:is_suit("Clubs", nil, true) then
+                            if playing_card:is_suit("Spades", nil, true) or playing_card:is_suit("Clubs", nil, true) then
                                 spades_clubs = spades_clubs + 1
+                            elseif playing_card:is_suit("Hearts", nil, true) or playing_card:is_suit("Diamonds", nil, true) then
+                                hearts_diamonds = hearts_diamonds + 1
                             end
                         end
                     end
