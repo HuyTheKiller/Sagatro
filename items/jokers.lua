@@ -207,6 +207,14 @@ local drink_me = {
                         }))
                     end
                 end
+                G.E_MANAGER:add_event(Event({func = function()
+                    if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                        if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                            card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                            Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                        end
+                    end
+                return true end}))
                 return {
                     message = localize("k_shrunk_ex"),
                     colour = G.C.BLUE,
@@ -214,15 +222,6 @@ local drink_me = {
                 }
             end
             if context.after then
-                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
-                    if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
-                        card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
-                        G.E_MANAGER:add_event(Event({func = function()
-                            Sagatro.progress_chart(card.ability.immutable.progress_earnings)
-                        return true end}))
-                        SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
-                    end
-                end
                 if card.ability.extra - 1 <= 0 then
                     Sagatro.self_destruct(card)
                     return {
@@ -337,6 +336,14 @@ local eat_me = {
                         }))
                     end
                 end
+                G.E_MANAGER:add_event(Event({func = function()
+                    if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                        if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                            card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                            Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                        end
+                    end
+                return true end}))
                 return {
                     message = not next(Sagatro.find_active_card("j_sgt_little_bill", true)) and localize("k_enlarged_ex") or localize("k_shrunk_ex"),
                     colour = G.C.BLUE,
@@ -350,15 +357,6 @@ local eat_me = {
                             G.GAME.blind:disable("do_not_cut_score")
                         end
                     return true end }))
-                end
-                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
-                    if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
-                        card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
-                        G.E_MANAGER:add_event(Event({func = function()
-                            Sagatro.progress_chart(card.ability.immutable.progress_earnings)
-                        return true end}))
-                        SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
-                    end
                 end
                 if card.ability.extra - 1 <= 0 then
                     Sagatro.self_destruct(card)
