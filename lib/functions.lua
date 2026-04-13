@@ -2103,7 +2103,16 @@ function Sagatro.progress_chart(mod, interwoven)
             -- TARGET: automatically trigger event on reaching 100% in main storyline
             if Sagatro.storyline_check("alice_in_wonderland") and not G.GAME.legacy_wonderland then
                 Sagatro.progress_storyline("final_showdown", "add", "alice_in_wonderland", G.GAME.interwoven_storyline)
-                add_tag(Tag("tag_boss"))
+                local has_boss_tag = false
+                for i = 1, #G.GAME.tags do
+                    if G.GAME.tags[i].name == "Boss Tag" then
+                        has_boss_tag = true
+                        break
+                    end
+                end
+                if not has_boss_tag then
+                    add_tag(Tag("tag_boss"))
+                end
             end
         end
     end
