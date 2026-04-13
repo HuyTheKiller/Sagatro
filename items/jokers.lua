@@ -861,6 +861,14 @@ local unlabeled_bottle = {
                         }))
                     end
                 end
+                G.E_MANAGER:add_event(Event({func = function()
+                    if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                        if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                            card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                            Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                        end
+                    end
+                return true end}))
                 return {
                     message = localize("k_enlarged_ex"),
                     colour = G.C.FILTER,
@@ -880,15 +888,6 @@ local unlabeled_bottle = {
                         }))
                     end
                     Sagatro.self_destruct(v, {sound = "sgt_run_away", pitch = 1, volume = 1}, yeet_text)
-                end
-                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
-                    if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
-                        card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
-                        G.E_MANAGER:add_event(Event({func = function()
-                            Sagatro.progress_chart(card.ability.immutable.progress_earnings)
-                        return true end}))
-                        SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
-                    end
                 end
                 if card.ability.extra - 1 <= 0 then
                     Sagatro.self_destruct(card)
