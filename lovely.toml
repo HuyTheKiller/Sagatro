@@ -229,8 +229,8 @@ end
 [[patches]]
 [patches.pattern]
 target = 'functions/state_events.lua'
-pattern = '''table.sort(G.hand.highlighted, function(a,b) return a.T.x < b.T.x end)'''
-position = 'after'
+pattern = '''inc_career_stat('c_cards_played', #G.hand.highlighted)'''
+position = 'before'
 match_indent = true
 payload = '''
 SMODS.calculate_context({sgt_played_cards = G.hand.highlighted})
