@@ -795,7 +795,7 @@ function Game:update(dt)
             Sagatro.remove_temp_areas()
         end
     end
-    if G.in_delete_run then
+    if G.STAGE ~= G.STAGES.RUN or G.in_delete_run then
         if Sagatro.alphalice then
             Sagatro.alphalice:remove()
             Sagatro.alphalice = nil

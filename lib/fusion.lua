@@ -340,5 +340,8 @@ function Game:start_run(args)
         if G.STATE == G.STATES.SELECTING_HAND then
             G.hand:parse_highlighted()
         end
+        if Sagatro.alphalice and Sagatro.alphalice.REMOVED then
+            Sagatro.alphalice = nil
+        end
     return true end}))
 end
