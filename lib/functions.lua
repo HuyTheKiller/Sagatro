@@ -2939,7 +2939,7 @@ function Sagatro:calculate(context)
                     G.GAME.awaiting_mirror = true
                 end
             end
-            if not Sagatro.alphalice and pseudorandom("alphalice_sneak_peek") < 0.2 then
+            if not Sagatro.alphalice and pseudorandom("alphalice_sneak_peek") < 1/20 then
                 Sagatro.alphalice = Sagatro.create_center{key = "sgt_alphalice"}
             end
         end
