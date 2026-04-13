@@ -2988,8 +2988,8 @@ function Sagatro:calculate(context)
         if context.prevent_tag_trigger then
             if context.prevent_tag_trigger.name == 'Boss Tag' then
                 return {prevent_trigger = G.GAME.saga_forced_boss or G.STATE ~= G.STATES.BLIND_SELECT
-                or (next(Sagatro.find_active_card("j_sgt_mad_hatter")
-                and Sagatro.storyline_check("alice_in_wonderland") and not G.GAME.legacy_wonderland))}
+                or (next(Sagatro.find_active_card("j_sgt_mad_hatter"))
+                and Sagatro.storyline_check("alice_in_wonderland") and not G.GAME.legacy_wonderland)}
             elseif Sagatro.storyline_check("alice_in_mirrorworld") and G.GAME.inversed_scaling
             and (context.prevent_tag_trigger.name == 'Meteor Tag'
             or context.prevent_tag_trigger.name == 'Alien Tag') then
