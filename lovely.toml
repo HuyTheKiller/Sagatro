@@ -1383,3 +1383,19 @@ if G.GAME.awaiting_mirror then
 end
 '''
 match_indent = true
+
+# Ozzy + Mirrorworld consumable block patch
+[[patches]]
+[patches.regex]
+target = "card.lua"
+pattern = '''(?<indent>[\t ]*)G\.GAME\.(?<consumablerate>(tarot|planet)_rate) = 4\*center_table\.extra'''
+position = "at"
+line_prepend = "$indent"
+payload = '''
+G.GAME.$consumablerate = 4*center_table.extra/(1e18^#SMODS.find_card("j_sgt_ozzy"))
+-- Weird condition to exclude tarot_rate - saves me from redoing another regex
+if center_table.name == 'Planet Merchant' or center_table.name == 'Planet Tycoon' then
+    if Sagatro.storyline_check("alice_in_mirrorworld") and G.GAME.inversed_scaling then
+        G.GAME.$consumablerate = G.GAME.$consumablerate/1e18
+    end
+end'''
