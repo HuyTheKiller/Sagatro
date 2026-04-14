@@ -1,22 +1,12 @@
-if not SMODS.Atlases.balatro then
-    SMODS.Atlas{
-        key = 'balatro',
-        path = 'Sagatro.png',
-        px = 333,
-        py = 216,
-        prefix_config = { key = false }
-    }
-else
-    SMODS.Atlas:take_ownership("balatro",
-    {
-        path = 'Sagatro.png',
-        px = 333,
-        py = 216,
-        prefix_config = { key = false }
-    },
-    true
-    )
-end
+SMODS.Atlases.balatro = nil
+G.ASSET_ATLAS.balatro = nil
+SMODS.Atlas{
+    key = 'balatro',
+    path = 'Sagatro.png',
+    px = 333,
+    py = 216,
+    prefix_config = { key = false }
+}
 
 SMODS.Atlas{
     key = 'ortalab_alt_logo',
