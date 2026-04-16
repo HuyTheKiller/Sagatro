@@ -11424,9 +11424,6 @@ local mirror = {
     end,
     add_to_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
-            if not Sagatro.storyline_check("alice_in_wonderland") then
-                Sagatro.init_storyline("alice_in_wonderland", nil, true)
-            end
             Sagatro.init_storyline(self and self.saga_group or "alice_in_mirrorworld", true)
             if Sagatro.storyline_check("alice_in_wonderland") then
                 G.GAME.mirror_hint_to_progress = true
