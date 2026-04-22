@@ -1274,7 +1274,7 @@ position = "after"
 payload = '''
 if Sagatro.config.DisableOtherJokers and G.SETTINGS.tutorial_complete and not G.SETTINGS.saga_tutorial_complete then
     self.GAME.selected_back = Back(G.P_CENTERS.b_sgt_saga)
-    self.GAME.selected_back_key = "b_sgt_saga"
+    self.GAME.selected_back_key = G.P_CENTERS.b_sgt_saga
 end
 '''
 match_indent = true
