@@ -74,7 +74,9 @@ end
 -- Danger zone
 Sagatro.debug = false
 Sagatro.init_JDdebug = false
-Sagatro.debug_info = {}
+Sagatro.debug_info = {
+    ["Loading game"] = true,
+}
 
 -- Load library files
 local mod_path = "" .. Sagatro.path

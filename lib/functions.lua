@@ -769,6 +769,7 @@ function Game:update(dt)
     end
     if not Sagatro.STATE then
         Sagatro.STATE = G.STATE
+        Sagatro.debug_info = EMPTY(Sagatro.debug_info)
         Sagatro.debug_info["Game state"] = "MENU"
     end
     if Sagatro.STATE ~= G.STATE then
