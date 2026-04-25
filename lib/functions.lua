@@ -4243,6 +4243,7 @@ function Sagatro.delayed_func()
                         self.cost = self.cost + 1
                     end
                 end
+                if self.area and self.ability.couponed and (self.area == G.shop_jokers or self.area == G.shop_booster) then self.cost = 0 end
             end
         end
     end
