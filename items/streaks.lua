@@ -121,7 +121,7 @@ local cosmic_streak = {
     sound = { sound = 'sgt_painting', per = 1, vol = 1 },
     weight = 0,
     calculate = function(self, card, context)
-        if context.main_scoring and context.cardarea == G.play then
+        if context.main_scoring and context.cardarea == G.play and not context.seal_chips_getter then
             G.E_MANAGER:add_event(Event({
                 trigger = 'before',
                 delay = 0.0,

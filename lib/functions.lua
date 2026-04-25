@@ -4012,7 +4012,7 @@ end
 
 function Sagatro.get_seal_chips(card)
     if not card.seal then return 0 end
-    local ret = card:calculate_seal({main_scoring = true, cardarea = G.play})
+    local ret = card:calculate_seal({main_scoring = true, cardarea = G.play, seal_chips_getter = true})
     if not ret then return 0 end
     if ret.chips then return ret.chips end
     if ret.chip_mod then return ret.chip_mod end
