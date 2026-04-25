@@ -13917,9 +13917,7 @@ local vorpal_sword = {
                 or potential_target.config.center_key == "j_sgt_jabberwock") then
                     card.temp_paused = true
                     card.ability.extra.obscure_bloodshed = true
-                    for k, _ in pairs(card.ability.extra.sliced_beasts) do
-                        card.ability.extra.sliced_beasts[k] = nil
-                    end
+                    card.ability.extra.sliced_beasts = EMPTY(card.ability.extra.sliced_beasts)
                     card.ability.extra.sliced_beasts[potential_target.config.center_key:sub(7).."_sliced"] = true
                     card.ability.extra.jubjub_odds = 20
                     potential_target.getting_sliced = true
