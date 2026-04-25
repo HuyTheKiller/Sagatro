@@ -3892,7 +3892,7 @@ local puss_in_boots = {
             local temp = context.other_card
             if temp:get_id() == 12 or temp:get_id() == 13 then
                 G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
-            if Talisman and not Talisman.config_file.disable_anims then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end
+                if Talisman and not Talisman.config_file.disable_anims then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end
                 return {
                     dollars = card.ability.extra.money
                 }
@@ -5848,13 +5848,18 @@ local prawn = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if (context.end_of_round and context.individual and context.cardarea == G.hand) or context.forcetrigger then
-            if context.other_card:is_suit("Diamonds") or context.forcetrigger then
+        if (context.end_of_round and context.individual and context.cardarea == G.hand) and not context.forcetrigger then
+            if context.other_card:is_suit("Diamonds") then
                 return {
                     dollars = card.ability.extra.money,
                     card = card
                 }
             end
+        end
+        if context.forcetrigger then
+            ease_dollars(card.ability.extra.money)
+            G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
+            if Talisman and not Talisman.config_file.disable_anims then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end
         end
     end,
     in_pool = function(self, args)
@@ -5933,8 +5938,8 @@ local john_dory = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if ((context.individual or context.repetition) and context.cardarea == G.play) or context.forcetrigger then
-            if (context.other_card:is_suit("Diamonds") and context.other_card:get_id() == 11) or context.forcetrigger then
+        if ((context.individual or context.repetition) and context.cardarea == G.play) and not context.forcetrigger then
+            if (context.other_card:is_suit("Diamonds") and context.other_card:get_id() == 11) then
                 if context.repetition then
                     return {
                         message = localize("k_again_ex"),
@@ -5942,13 +5947,18 @@ local john_dory = {
                         card = card,
                     }
                 end
-                if context.individual or context.forcetrigger then
+                if context.individual then
                     return {
                         dollars = card.ability.extra.money,
                         card = context.forcetrigger and card
                     }
                 end
             end
+        end
+        if context.forcetrigger then
+            ease_dollars(card.ability.extra.money)
+            G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
+            if Talisman and not Talisman.config_file.disable_anims then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end
         end
     end,
     in_pool = function(self, args)
