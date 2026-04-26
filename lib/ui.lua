@@ -844,11 +844,48 @@ end
 local can_select_from_booster_ref = G.FUNCS.can_select_from_booster
 G.FUNCS.can_select_from_booster = function(e)
     can_select_from_booster_ref(e)
-    if SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.story_starter and G.SETTINGS.saga_tutorial_progress
+    if G.OVERLAY_TUTORIAL and SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.story_starter and G.SETTINGS.saga_tutorial_progress
     and G.SETTINGS.saga_tutorial_progress.section == "booster" then
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
     end
+end
+
+local can_select_card_ref = G.FUNCS.can_select_card
+G.FUNCS.can_select_card = function(e)
+    can_select_card_ref(e)
+    if G.OVERLAY_TUTORIAL and SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.story_starter and G.SETTINGS.saga_tutorial_progress
+    and G.SETTINGS.saga_tutorial_progress.section == "booster" then
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+end
+
+local can_buy_ref = G.FUNCS.can_buy
+G.FUNCS.can_buy = function(e)
+    can_buy_ref(e)
+    if G.OVERLAY_TUTORIAL and G.SETTINGS.tutorial_complete and not G.SETTINGS.saga_tutorial_complete then
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+end
+
+local can_open_ref = G.FUNCS.can_open
+G.FUNCS.can_open = function(e)
+    can_open_ref(e)
+    if G.OVERLAY_TUTORIAL and G.SETTINGS.tutorial_complete and not G.SETTINGS.saga_tutorial_complete then
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+end
+
+local can_sell_card_ref = Card.can_sell_card
+function Card:can_sell_card(context)
+    local ret = can_sell_card_ref(self, context)
+    if G.OVERLAY_TUTORIAL and G.SETTINGS.tutorial_complete and not G.SETTINGS.saga_tutorial_complete then
+        ret = false
+    end
+    return ret
 end
 
 local ccfs = create_card_for_shop

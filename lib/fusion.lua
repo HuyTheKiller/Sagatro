@@ -321,6 +321,9 @@ function Game:start_run(args)
             end
         end
         Sagatro.update_HUD()
+        if G.SETTINGS.tutorial_complete and not G.SETTINGS.saga_tutorial_complete then
+            G.GAME.modifiers.sgt_no_tags = true
+        end
     end
     G.GAME.fusion_table = G.GAME.story_mode and G.GAME.legacy_wonderland and SagaFusion.fusions or {}
     -- Change colour in story mode, but the hook is over here, I just want to save space

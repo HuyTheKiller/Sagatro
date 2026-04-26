@@ -21,7 +21,6 @@ G.FUNCS.saga_tutorial_controller = function(reset)
         hold_parts = {},
         completed_parts = {},
     }
-    G.GAME.modifiers.sgt_no_tags = true
     if not G.SETTINGS.paused and not G.SETTINGS.saga_tutorial_complete then
         if G.STATE == G.STATES.BLIND_SELECT and G.blind_select and not G.SETTINGS.saga_tutorial_progress.completed_parts['small_blind'] then
             G.SETTINGS.saga_tutorial_progress.section = 'small_blind'
@@ -30,6 +29,7 @@ G.FUNCS.saga_tutorial_controller = function(reset)
             G:save_progress()
         end
         if G.STATE == G.STATES.BLIND_SELECT and G.blind_select and not G.SETTINGS.saga_tutorial_progress.completed_parts['big_blind'] and G.GAME.round > 0 then
+            G.GAME.modifiers.sgt_no_tags = nil
             G.SETTINGS.saga_tutorial_progress.section = 'big_blind'
             G.FUNCS.saga_tutorial_part('big_blind')
             G.SETTINGS.saga_tutorial_progress.completed_parts['big_blind']  = true
@@ -37,7 +37,7 @@ G.FUNCS.saga_tutorial_controller = function(reset)
         end
         if G.SETTINGS.saga_tutorial_progress.hold_parts['big_blind'] then
             G.SETTINGS.saga_tutorial_complete = true
-            G.GAME.modifiers.sgt_no_tags = nil
+            Sagatro.update_blind_amounts(true)
         end
         if G.STATE == G.STATES.SELECTING_HAND and not G.SETTINGS.saga_tutorial_progress.completed_parts['first_hand'] then
             G.SETTINGS.saga_tutorial_progress.section = 'first_hand'
