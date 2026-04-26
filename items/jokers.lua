@@ -732,7 +732,8 @@ local dodo_bird = {
         if (context.post_trigger and not context.blueprint and not context.retrigger_joker
         and not context.other_context.fix_probability and not context.other_context.mod_probability
         and not context.other_context.modify_scoring_hand and not context.other_context.check_eternal
-        and not context.other_context.check_enhancement and not context.other_context.sgt_played_cards)
+        and not context.other_context.check_enhancement and not context.other_context.sgt_played_cards
+        and context.other_card.ability and context.other_card.ability.set == "Joker")
         or context.forcetrigger then
             card.ability.immutable.progress = card.ability.immutable.progress + 1
             if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
