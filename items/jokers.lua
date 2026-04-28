@@ -5059,7 +5059,7 @@ local clownfish = {
                 for _, playing_card in ipairs(G.hand.cards) do
                     if playing_hand or not playing_card.highlighted then
                         if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff and playing_card:is_suit("Hearts") then
-                            count = count + JokerDisplay.calculate_card_triggers(playing_card)
+                            count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
                         end
                     end
                 end
@@ -11821,7 +11821,7 @@ local white_queen = {
                     if playing_hand or not playing_card.highlighted then
                         if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
                             if playing_card:get_id() == 12 then
-                                count = count + JokerDisplay.calculate_card_triggers(playing_card)
+                                count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
                             end
                             if playing_card:is_suit("Spades", nil, true) or playing_card:is_suit("Clubs", nil, true) then
                                 spades_clubs = spades_clubs + 1
@@ -11931,7 +11931,7 @@ local white_king = {
                     if playing_hand or not playing_card.highlighted then
                         if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
                             if playing_card:get_id() == 13 then
-                                count = count + JokerDisplay.calculate_card_triggers(playing_card)
+                                count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
                             end
                             if playing_card:is_suit("Spades", nil, true) or playing_card:is_suit("Clubs", nil, true) then
                                 spades_clubs = spades_clubs + 1
@@ -12914,10 +12914,10 @@ local rocking_horse_fly = {
                     end
                     local finalMult = temp_maxMult - temp_minMult
                     if highest_card and not highest_card.debuff and highest_card.facing ~= 'back' then
-                        mult = mult + finalMult*2*JokerDisplay.calculate_card_triggers(highest_card, nil, true)
+                        mult = mult + finalMult*2*JokerDisplay.calculate_card_triggers(highest_card, scoring_hand)
                     end
                     if lowest_card and not lowest_card.debuff and lowest_card.facing ~= 'back' then
-                        mult = mult + finalMult*2*JokerDisplay.calculate_card_triggers(lowest_card, nil, true)
+                        mult = mult + finalMult*2*JokerDisplay.calculate_card_triggers(lowest_card, scoring_hand)
                     end
                 end
                 card.joker_display_values.mult = mult
@@ -14641,10 +14641,10 @@ local goldia = {
                     if text ~= 'Unknown' then
                         for _, scoring_card in pairs(scoring_hand) do
                             if scoring_card:get_id() == 12 then
-                                queen_count = queen_count + 1
+                                queen_count = queen_count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
                             end
                             if Sagatro.omniscient(scoring_card, {"m_glass", "m_sgt_nyx_glass"}) then
-                                glass_count = glass_count + 1
+                                glass_count = glass_count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
                             end
                         end
                     end
