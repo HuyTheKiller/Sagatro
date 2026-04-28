@@ -918,6 +918,20 @@ G.FUNCS.can_reroll = function(e)
     end
 end
 
+local blind_chip_text = G.FUNCS.blind_chip_UI_scale
+if blind_chip_text then
+    G.FUNCS.blind_chip_UI_scale = function(e)
+        blind_chip_text(e)
+        if G.GAME.door_puzzle_active then
+            G.GAME.blind.chip_text = localize("ph_door_puzzle")
+            e.config.scale = 0.45
+            if G.GAME.blind.chips ~= to_big(1e300) then
+                G.GAME.blind.chips = to_big(1e300)
+            end
+        end
+    end
+end
+
 local shop_ui = G.UIDEF.shop
 function G.UIDEF.shop()
     local ret = shop_ui()
