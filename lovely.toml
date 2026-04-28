@@ -503,7 +503,7 @@ position = 'at'
 match_indent = true
 payload = '''
 if (not G.GAME.story_mode and G.GAME.round_resets.ante <= G.GAME.win_ante)
-or (G.GAME.story_mode and not G.GAME.story_ended) then
+or (G.GAME.story_mode and not G.GAME.won) then
 '''
 
 [[patches]]

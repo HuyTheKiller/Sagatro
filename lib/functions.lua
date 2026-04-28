@@ -1749,9 +1749,6 @@ function Blind:defeat(silent)
             G.GAME.saga_forced_boss = nil
             G.GAME.mirror_ready = nil
         end
-        if self.config.blind.key and table.contains(Sagatro.story_mode_showdown, self.config.blind.key) then
-            G.GAME.story_ended = G.GAME.won
-        end
         if G.GAME.entering_mirror_maze then
             G.GAME.entering_mirror_maze = nil
         end
