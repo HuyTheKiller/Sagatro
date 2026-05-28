@@ -9206,7 +9206,7 @@ local stomiidae = {
         if context.before and not context.blueprint then
             local count = 0
             for _, v in ipairs(context.scoring_hand) do
-                if v:is_suit("Spades", nil, true) then
+                if v:is_suit("Spades", true) then
                     count = count + 1
                     G.E_MANAGER:add_event(Event({
                         func = function()
@@ -11614,7 +11614,7 @@ local white_pawn = {
             local hearts_diamonds = 0
             local target
             for _, v in ipairs(context.scoring_hand) do
-                if v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
+                if v:is_suit("Hearts", true) or v:is_suit("Diamonds", true) then
                     hearts_diamonds = hearts_diamonds + 1
                     v.white_pawn_marked = hearts_diamonds == 1 or nil
                     target = hearts_diamonds == 1 and v or target
@@ -11634,7 +11634,7 @@ local white_pawn = {
         and context.scoring_name == card.ability.extra_type then
             local temp_ID, highest_card = 0, nil
             for _, v in ipairs(context.scoring_hand) do
-                if v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
+                if v:is_suit("Spades", true) or v:is_suit("Clubs", true) then
                     if not SMODS.has_no_rank(v) then
                         if temp_ID < v.base.id then
                             temp_ID = v.base.id
@@ -11714,7 +11714,7 @@ local white_pawn = {
                     for _, scoring_card in pairs(scoring_hand) do
                         if scoring_card:is_suit("Hearts") or scoring_card:is_suit("Diamonds") then
                             hearts_diamonds = hearts_diamonds + 1
-                        elseif is_straight_flush and scoring_card:is_suit("Spades", nil, true) or scoring_card:is_suit("Clubs", nil, true) then
+                        elseif is_straight_flush and scoring_card:is_suit("Spades", true) or scoring_card:is_suit("Clubs", true) then
                             if not SMODS.has_no_rank(scoring_card) then
                                 if temp_ID < scoring_card.base.id then
                                     temp_ID = scoring_card.base.id
@@ -13713,7 +13713,7 @@ local lion = {
             local temp = context.other_card
             for _, v in ipairs(context.scoring_hand) do
                 all_cards = all_cards + 1
-                if v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
+                if v:is_suit("Hearts", true) or v:is_suit("Diamonds", true) then
                     valid_cards = valid_cards + 1
                 end
             end
@@ -13749,7 +13749,7 @@ local lion = {
                 if text ~= 'Unknown' then
                     for _, scoring_card in pairs(scoring_hand) do
                         all_cards = all_cards + 1
-                        if scoring_card:is_suit("Hearts", nil, true) or scoring_card:is_suit("Diamonds", nil, true) then
+                        if scoring_card:is_suit("Hearts", true) or scoring_card:is_suit("Diamonds", true) then
                             valid_cards = valid_cards + 1
                         end
                     end
@@ -13770,7 +13770,7 @@ local lion = {
                 local valid_cards, all_cards = 0, 0
                 for _, playing_card in ipairs(scoring_hand or {}) do
                     all_cards = all_cards + 1
-                    if playing_card:is_suit("Hearts", nil, true) or playing_card:is_suit("Diamonds", nil, true) then
+                    if playing_card:is_suit("Hearts", true) or playing_card:is_suit("Diamonds", true) then
                         valid_cards = valid_cards + 1
                     end
                 end
@@ -13883,8 +13883,8 @@ local true_red_queen = {
     calculate = function(self, card, context)
         if context.poker_hands and next(context.poker_hands[card.ability.type])
         and context.individual and context.cardarea == G.play and not context.forcetrigger then
-            if context.other_card:is_suit("Hearts", nil, true)
-            or context.other_card:is_suit("Diamonds", nil, true) then
+            if context.other_card:is_suit("Hearts", true)
+            or context.other_card:is_suit("Diamonds", true) then
                 return {
                     sgt_e_mult = card.ability.extra.e_mult,
                 }
@@ -16697,7 +16697,7 @@ local skoll_n_hati = {
             if context.before and not context.blueprint and not context.retrigger_joker then
                 local upgrade = false
                 for _, v in ipairs(context.full_hand) do
-                    if v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
+                    if v:is_suit("Hearts", true) or v:is_suit("Diamonds", true) then
                         upgrade = true
                         if SMODS.scale_card then
                             SMODS.scale_card(card, {
@@ -16722,7 +16722,7 @@ local skoll_n_hati = {
             if (context.joker_main and to_big(card.ability.extra.xmult) > to_big(1)) or context.forcetrigger then
                 if context.forcetrigger then
                     for _, v in ipairs(context.full_hand) do
-                        if v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
+                        if v:is_suit("Hearts", true) or v:is_suit("Diamonds", true) then
                             if SMODS.scale_card then
                                 SMODS.scale_card(card, {
                                     ref_table = card.ability.extra,
@@ -16760,7 +16760,7 @@ local skoll_n_hati = {
             if context.before and not context.blueprint and not context.retrigger_joker then
                 local upgrade = false
                 for _, v in ipairs(G.hand.cards) do
-                    if v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
+                    if v:is_suit("Spades", true) or v:is_suit("Clubs", true) then
                         upgrade = true
                         if SMODS.scale_card then
                             SMODS.scale_card(card, {
@@ -16785,7 +16785,7 @@ local skoll_n_hati = {
             if (context.joker_main and to_big(card.ability.extra.xchip) > to_big(1)) or context.forcetrigger then
                 if context.forcetrigger then
                     for _, v in ipairs(G.hand.cards) do
-                    if v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
+                    if v:is_suit("Spades", true) or v:is_suit("Clubs", true) then
                         if SMODS.scale_card then
                             SMODS.scale_card(card, {
                                 ref_table = card.ability.extra,
