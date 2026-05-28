@@ -2943,6 +2943,19 @@ local crux_ansata = {
                 check = check and v.config.center_key ~= "j_sgt_mirror"
             end
         end
+        if Sagatro.storyline_check("pocket_mirror") then
+            for _, v in ipairs(G.jokers.highlighted) do
+                check = check and v.config.center_key ~= "j_sgt_goldia"
+                and v.config.center_key ~= "j_sgt_fleta"
+                and v.config.center_key ~= "j_sgt_egliette"
+                and v.config.center_key ~= "j_sgt_harpae"
+                and v.config.center_key ~= "j_sgt_lisette"
+                and v.config.center_key ~= "m_sgt_mirror"
+                and v.config.center_key ~= "j_sgt_enjel"
+                and v.config.center_key ~= "j_sgt_platinum"
+                and v.config.center_key ~= "j_sgt_ozzy"
+            end
+        end
         return check
     end,
     use = function(self, card, area, copier)
