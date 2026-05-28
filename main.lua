@@ -71,6 +71,14 @@ if Sagatro.mod_compat.talisman then
     Sagatro.save_name = Sagatro.save_name.."_talisman"
 end
 
+if SMODS.custom_debuff_handling then
+    for _, v in ipairs{"j_sgt_gryphon", "j_sgt_clownfish",
+    "j_sgt_blue_tang", "j_sgt_mahimahi", "j_sgt_white_queen",
+    "j_sgt_white_king", "j_sgt_snap_dragon_fly", "j_sgt_thor"} do
+        table.insert(SMODS.custom_debuff_handling, v)
+    end
+end
+
 -- Danger zone
 Sagatro.debug = false
 Sagatro.init_JDdebug = false

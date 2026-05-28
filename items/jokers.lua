@@ -4992,7 +4992,7 @@ local clownfish = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
-            if context.other_card:is_suit("Hearts", nil, true) then
+            if context.other_card:is_suit("Hearts", true) then
                 if context.other_card.debuff then
                     return {
                         message = localize('k_debuffed'),
@@ -5088,7 +5088,7 @@ local blue_tang = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
-            if context.other_card:is_suit("Spades", nil, true) then
+            if context.other_card:is_suit("Spades", true) then
                 if context.other_card.debuff then
                     return {
                         message = localize('k_debuffed'),
@@ -11774,9 +11774,9 @@ local white_queen = {
         if context.joker_main then
             local hearts_diamonds, spades_clubs = 0, 0
             for _, v in ipairs(G.hand.cards) do
-                if v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
+                if v:is_suit("Spades", true) or v:is_suit("Clubs", true) then
                     spades_clubs = spades_clubs + 1
-                elseif v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
+                elseif v:is_suit("Hearts", true) or v:is_suit("Diamonds", true) then
                     hearts_diamonds = hearts_diamonds + 1
                 end
             end
@@ -11819,13 +11819,13 @@ local white_queen = {
                 local playing_hand = next(G.play.cards)
                 for _, playing_card in ipairs(G.hand.cards) do
                     if playing_hand or not playing_card.highlighted then
-                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
-                            if playing_card:get_id() == 12 then
+                        if playing_card.facing and not (playing_card.facing == 'back') then
+                            if playing_card:get_id() == 12 and not playing_card.debuff then
                                 count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
                             end
-                            if playing_card:is_suit("Spades", nil, true) or playing_card:is_suit("Clubs", nil, true) then
+                            if playing_card:is_suit("Spades", true) or playing_card:is_suit("Clubs", true) then
                                 spades_clubs = spades_clubs + 1
-                            elseif playing_card:is_suit("Hearts", nil, true) or playing_card:is_suit("Diamonds", nil, true) then
+                            elseif playing_card:is_suit("Hearts", true) or playing_card:is_suit("Diamonds", true) then
                                 hearts_diamonds = hearts_diamonds + 1
                             end
                         end
@@ -11880,9 +11880,9 @@ local white_king = {
         if context.joker_main then
             local hearts_diamonds, spades_clubs = 0, 0
             for _, v in ipairs(G.hand.cards) do
-                if v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
+                if v:is_suit("Spades", true) or v:is_suit("Clubs", true) then
                     spades_clubs = spades_clubs + 1
-                elseif v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
+                elseif v:is_suit("Hearts", true) or v:is_suit("Diamonds", true) then
                     hearts_diamonds = hearts_diamonds + 1
                 end
             end
@@ -11929,13 +11929,13 @@ local white_king = {
                 local playing_hand = next(G.play.cards)
                 for _, playing_card in ipairs(G.hand.cards) do
                     if playing_hand or not playing_card.highlighted then
-                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
-                            if playing_card:get_id() == 13 then
+                        if playing_card.facing and not (playing_card.facing == 'back') then
+                            if playing_card:get_id() == 13 and not playing_card.debuff then
                                 count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
                             end
-                            if playing_card:is_suit("Spades", nil, true) or playing_card:is_suit("Clubs", nil, true) then
+                            if playing_card:is_suit("Spades", true) or playing_card:is_suit("Clubs", true) then
                                 spades_clubs = spades_clubs + 1
-                            elseif playing_card:is_suit("Hearts", nil, true) or playing_card:is_suit("Diamonds", nil, true) then
+                            elseif playing_card:is_suit("Hearts", true) or playing_card:is_suit("Diamonds", true) then
                                 hearts_diamonds = hearts_diamonds + 1
                             end
                         end
@@ -13085,9 +13085,9 @@ local white_rook = {
         if context.joker_main then
             local hearts_diamonds, spades_clubs = 0, 0
             for _, v in ipairs(G.hand.cards) do
-                if v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
+                if v:is_suit("Spades", true) or v:is_suit("Clubs", true) then
                     spades_clubs = spades_clubs + 1
-                elseif v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
+                elseif v:is_suit("Hearts", true) or v:is_suit("Diamonds", true) then
                     hearts_diamonds = hearts_diamonds + 1
                 end
             end
@@ -13132,10 +13132,10 @@ local white_rook = {
                 local playing_hand = next(G.play.cards)
                 for _, playing_card in ipairs(G.hand.cards) do
                     if playing_hand or not playing_card.highlighted then
-                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
-                            if playing_card:is_suit("Spades", nil, true) or playing_card:is_suit("Clubs", nil, true) then
+                        if playing_card.facing and not (playing_card.facing == 'back') then
+                            if playing_card:is_suit("Spades", true) or playing_card:is_suit("Clubs", true) then
                                 spades_clubs = spades_clubs + 1
-                            elseif playing_card:is_suit("Hearts", nil, true) or playing_card:is_suit("Diamonds", nil, true) then
+                            elseif playing_card:is_suit("Hearts", true) or playing_card:is_suit("Diamonds", true) then
                                 hearts_diamonds = hearts_diamonds + 1
                             end
                         end
@@ -13176,9 +13176,9 @@ local white_knight = {
         if context.joker_main then
             local hearts_diamonds, spades_clubs = 0, 0
             for _, v in ipairs(G.hand.cards) do
-                if v:is_suit("Spades", nil, true) or v:is_suit("Clubs", nil, true) then
+                if v:is_suit("Spades", true) or v:is_suit("Clubs", true) then
                     spades_clubs = spades_clubs + 1
-                elseif v:is_suit("Hearts", nil, true) or v:is_suit("Diamonds", nil, true) then
+                elseif v:is_suit("Hearts", true) or v:is_suit("Diamonds", true) then
                     hearts_diamonds = hearts_diamonds + 1
                 end
             end
@@ -13223,10 +13223,10 @@ local white_knight = {
                 local playing_hand = next(G.play.cards)
                 for _, playing_card in ipairs(G.hand.cards) do
                     if playing_hand or not playing_card.highlighted then
-                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff then
-                            if playing_card:is_suit("Spades", nil, true) or playing_card:is_suit("Clubs", nil, true) then
+                        if playing_card.facing and not (playing_card.facing == 'back') then
+                            if playing_card:is_suit("Spades", true) or playing_card:is_suit("Clubs", true) then
                                 spades_clubs = spades_clubs + 1
-                            elseif playing_card:is_suit("Hearts", nil, true) or playing_card:is_suit("Diamonds", nil, true) then
+                            elseif playing_card:is_suit("Hearts", true) or playing_card:is_suit("Diamonds", true) then
                                 hearts_diamonds = hearts_diamonds + 1
                             end
                         end
