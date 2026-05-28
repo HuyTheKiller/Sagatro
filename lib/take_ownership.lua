@@ -189,6 +189,32 @@ SMODS.Consumable:take_ownership('high_priestess',
     true
 )
 
+-- Exclude several cases where ankh can only select blacklisted jokers
+local ankh_can_use = G.P_CENTERS.c_ankh.can_use
+SMODS.Consumable:take_ownership('ankh',
+    {
+        can_use = function(self, card)
+            if G.GAME.story_mode then
+                for _, v in pairs(G.jokers.cards) do
+                    if not table.contains(Sagatro.ankh_exclusion_list, v.config.center_key)
+                    and G.jokers.config.card_limit > 1 then
+                        return true
+                    end
+                end
+            elseif ankh_can_use and type(ankh_can_use) == "function" then
+                return ankh_can_use(self, card)
+            else
+                for _, v in pairs(G.jokers.cards) do
+                    if v.ability.set == 'Joker' and G.jokers.config.card_limit > 1 then
+                        return true
+                    end
+                end
+            end
+        end,
+    },
+    true
+)
+
 -- Story mode stakes
 local gold_modifiers = SMODS.Stakes.stake_gold.modifiers
 SMODS.Stake:take_ownership("gold",

@@ -928,7 +928,7 @@ or Sagatro.event_check("game_over") or Sagatro.event_check("conditional_game_ove
 end
 '''
 
-# Make sure Ankh won't copy Eternal jokers trollface
+# Make sure Ankh won't copy blacklisted jokers (it wouldn't make sense to obtain multiple copies of these in story mode)
 [[patches]]
 [patches.pattern]
 target = 'card.lua'
@@ -936,7 +936,18 @@ pattern = '''local chosen_joker = pseudorandom_element(G.jokers.cards, pseudosee
 position = 'after'
 match_indent = true
 payload = '''
-while G.GAME.story_mode and SMODS.is_eternal(chosen_joker) do
+local can_dupe = true
+if #deletable_jokers == 0 then
+    can_dupe = false
+    for i = 1, #G.jokers.cards do
+        if not table.contains(Sagatro.ankh_exclusion_list, G.jokers.cards[i].config.center_key) then
+            can_dupe = true
+            break
+        end
+    end
+end
+while G.GAME.story_mode and can_dupe
+and table.contains(Sagatro.ankh_exclusion_list, chosen_joker.config.center_key) do
     chosen_joker = pseudorandom_element(G.jokers.cards, pseudoseed('ankh_choice_reroll'))
 end
 '''

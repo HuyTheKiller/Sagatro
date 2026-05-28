@@ -2880,17 +2880,7 @@ function Sagatro:calculate(context)
         end
         if context.check_eternal then
             local card = context.other_card
-            if card.config.center_key == "j_sgt_submarine"
-            or card.config.center_key == "j_sgt_mirror"
-            or card.config.center_key == "j_sgt_goldia"
-            or card.config.center_key == "j_sgt_fleta"
-            or card.config.center_key == "j_sgt_egliette"
-            or card.config.center_key == "j_sgt_harpae"
-            or card.config.center_key == "j_sgt_lisette"
-            or card.config.center_key == "m_sgt_mirror"
-            or card.config.center_key == "j_sgt_enjel"
-            or card.config.center_key == "j_sgt_platinum"
-            or card.config.center_key == "j_sgt_ozzy" then
+            if table.contains(Sagatro.ankh_exclusion_list, card.config.center_key) then
                 return {no_destroy = true}
             end
             if Sagatro.event_check("goldia_transformation")

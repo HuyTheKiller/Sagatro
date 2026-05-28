@@ -48,6 +48,20 @@ Sagatro.mad_hatter_whitelist = {
     "entr_entropic",
 }
 
+Sagatro.ankh_exclusion_list = {
+    "j_sgt_submarine",
+    "j_sgt_mirror",
+    "j_sgt_goldia",
+    "j_sgt_fleta",
+    "j_sgt_egliette",
+    "j_sgt_harpae",
+    "j_sgt_lisette",
+    "m_sgt_mirror",
+    "j_sgt_enjel",
+    "j_sgt_platinum",
+    "j_sgt_ozzy",
+}
+
 Sagatro.optional_features = {
     retrigger_joker = true,
     post_trigger = true,
