@@ -473,3 +473,8 @@ SMODS.Sound{
         return (Sagatro.event_check("dawn_ending") or Sagatro.event_check("little_goody_2_shoes_ending")) and (Sagatro.config.SagatroMusicOption < 2) and 1000
     end,
 }
+
+SMODS.Shader{
+    key = "inactive_noir",
+    path = "inactive_noir.fs",
+}

@@ -1796,6 +1796,17 @@ SMODS.DrawStep {
 }
 SMODS.draw_ignore_keys.floating_name_tag = true
 
+SMODS.DrawStep{
+    key = "inactive_noir",
+    order = 65,
+    func = function(self)
+        if self.ability.inactive then
+            self.children.center:draw_shader("sgt_inactive_noir", nil, self.ARGS.send_to_shader)
+        end
+    end,
+    conditions = { vortex = false, facing = "front" },
+}
+
 Sagatro.FUNCS.delete_ace_in_menu = function(e)
     if G.title_top then
         for _, card in ipairs(G.title_top.cards) do
