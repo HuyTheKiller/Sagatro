@@ -103,7 +103,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
 
     vec4 SAT = HSL(tex);
 
-    SAT.g = 0;
+    SAT.g = 0.;
 
     tex = RGB(SAT);
 
