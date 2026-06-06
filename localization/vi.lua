@@ -3594,14 +3594,14 @@ return {
             },
             drink_me_new = {
                 text = {
-                    "Nhận {C:sgt_sagadition}#1#%() tiến trình nếu",
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình nếu",
                     "dùng {C:sgt_sagadition}Hãy Uống Tôi!{} để biến đổi",
                     "{C:sgt_sagadition}5{} lá hoặc nhiều hơn",
                 },
             },
             eat_me_new = {
                 text = {
-                    "Nhận {C:sgt_sagadition}#1#%() tiến trình nếu",
+                    "Nhận {C:sgt_sagadition}#1#%{} tiến trình nếu",
                     "dùng {C:sgt_sagadition}Hãy Ăn Tôi!{} để biến đổi",
                     "{C:sgt_sagadition}5{} lá hoặc nhiều hơn",
                 },
