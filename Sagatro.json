@@ -10,7 +10,7 @@
 	"priority": 2147483648,
 	"badge_colour": "6131ac",
 	"display_name": "Sagatro",
-	"dependencies": ["Steamodded (>=1.0.0~BETA-1224a)"],
+	"dependencies": ["Steamodded (>=1.0.0~BETA-1620a)"],
 	"conflicts": [],
 	"version": "0.2.4b"
 }
