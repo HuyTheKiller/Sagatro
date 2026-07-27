@@ -2941,7 +2941,10 @@ function Sagatro:calculate(context)
             end
         end
         if context.ending_shop then
-            G.GAME.awaiting_mirror = nil
+            if G.GAME.awaiting_mirror then
+                G.GAME.awaiting_mirror = nil
+                change_shop_size(-1)
+            end
             if Sagatro.event_check("the_pocket_mirror") then
                 return {
                     func = function()
