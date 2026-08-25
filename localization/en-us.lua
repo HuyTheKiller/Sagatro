@@ -3399,10 +3399,10 @@ return {
             m_sgt_omniscient = {
                 name = "Omniscient Card",
                 text = {
-                    "{C:attention}8{} enhancements in {C:attention}1{}",
+                    "Has all vanilla {C:attention}enhancement{} effects",
                     "{C:green}Guaranteed {C:attention}lucky{} trigger",
-                    "{C:green}#1# in #2#{} chance to",
-                    "destroy card",
+                    "Chance to break is lowered",
+                    "to {C:green}#1# in #2#{}",
                 },
             },
             m_sgt_favor = {

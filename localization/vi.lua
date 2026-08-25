@@ -3394,10 +3394,10 @@ return {
             m_sgt_omniscient = {
                 name = "Lá Toàn Tri",
                 text = {
-                    "{C:attention}8{} cường hoá trong {C:attention}1{}",
+                    "Có toàn bộ {C:attention}cường hoá{} vanilla",
                     "{C:attention}May mắn {C:green}đảm bảo trúng{}",
-                    "Xác suất {C:green}#1# trên #2#{} để",
-                    "phá huỷ lá bài",
+                    "Xác suất vỡ giảm xuống",
+                    "còn {C:green}#1# trên #2#{}",
                 },
             },
             m_sgt_favor = {
