@@ -228,7 +228,7 @@ SMODS.Stake:take_ownership("gold",
                 G.GAME.modifiers.enable_rentals_in_shop = true
             end
         end,
-        loc_vars = function()
+        loc_vars = function(self)
             if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
                 return {key = "stake_gold_story_mode"}
             end
@@ -249,7 +249,7 @@ SMODS.Stake:take_ownership("orange",
                 G.GAME.modifiers.enable_perishables_in_shop = true
             end
         end,
-        loc_vars = function()
+        loc_vars = function(self)
             if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
                 return {key = "stake_orange_story_mode"}
             end
@@ -270,7 +270,7 @@ SMODS.Stake:take_ownership("purple",
                 G.GAME.modifiers.scaling = (G.GAME.modifiers.scaling or 1) + 1
             end
         end,
-        loc_vars = function()
+        loc_vars = function(self)
             if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
                 return {key = "stake_purple_story_mode"}
             end
@@ -300,7 +300,7 @@ SMODS.Stake:take_ownership("blue",
                 G.GAME.starting_params.discards = G.GAME.starting_params.discards - 1
             end
         end,
-        loc_vars = function()
+        loc_vars = function(self)
             if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
                 return {key = "stake_blue_story_mode"}
             end
@@ -321,7 +321,7 @@ SMODS.Stake:take_ownership("black",
                 G.GAME.modifiers.enable_eternals_in_shop = true
             end
         end,
-        loc_vars = function()
+        loc_vars = function(self)
             if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
                 return {key = "stake_black_story_mode"}
             end
@@ -342,7 +342,7 @@ SMODS.Stake:take_ownership("green",
                 G.GAME.modifiers.scaling = (G.GAME.modifiers.scaling or 1) + 1
             end
         end,
-        loc_vars = function()
+        loc_vars = function(self)
             if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
                 return {key = "stake_green_story_mode"}
             end
@@ -365,7 +365,7 @@ SMODS.Stake:take_ownership("red",
                 G.GAME.modifiers.no_blind_reward.Small = true
             end
         end,
-        loc_vars = function()
+        loc_vars = function(self)
             if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
                 return {key = "stake_red_story_mode"}
             end
