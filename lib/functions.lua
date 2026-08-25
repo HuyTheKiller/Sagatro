@@ -4885,6 +4885,24 @@ if Galdur then
     end
 end
 
+if SMODS.RunSelect then
+    local nav_bar = SMODS.RunSelect.Functions.nav_bar
+    function SMODS.RunSelect.Functions.nav_bar()
+        local ret = nav_bar()
+        local story_mode_toggle = {n=G.UIT.R, config={align='cr'}, nodes = {
+            create_toggle({label = localize('SGT_disable_other_jokers'),
+                label_scale = 0.25, w = 0, scale = 0.7,
+                ref_table = Sagatro.config, ref_value = 'DisableOtherJokers',
+                callback = function()
+                    SMODS.save_mod_config(Sagatro)
+                end
+            })
+        }}
+        table.insert(ret.nodes[3].nodes, story_mode_toggle)
+        return ret
+    end
+end
+
 local card_click = Card.click
 function Card:click()
     card_click(self)
