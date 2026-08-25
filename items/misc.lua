@@ -550,6 +550,11 @@ local omniscient = {
             card.glass_trigger = true
             return { remove = true }
         end
+        if context.main_scoring and context.cardarea == G.play then
+            -- We do the funny guaranteed roll, actual mult and money are already baked into config
+            SMODS.pseudorandom_probability(card, "omniscient_mult", 5, 5, nil, true)
+            SMODS.pseudorandom_probability(card, "omniscient_money", 15, 15, nil, true)
+        end
     end,
     in_pool = function(self, args)
         return false
