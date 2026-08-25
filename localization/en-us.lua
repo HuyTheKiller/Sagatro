@@ -3400,7 +3400,8 @@ return {
                 name = "Omniscient Card",
                 text = {
                     "Has all vanilla {C:attention}enhancement{} effects",
-                    "{C:green}Guaranteed {C:attention}lucky{} trigger",
+                    "{C:green}Guaranteed {C:attention}Lucky mult{} and {C:attention}money{} trigger",
+                    "{C:attention}Stone{} no longer removes rank",
                     "Chance to break is lowered",
                     "to {C:green}#1# in #2#{}",
                 },

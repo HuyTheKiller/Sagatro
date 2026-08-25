@@ -3395,7 +3395,8 @@ return {
                 name = "Lá Toàn Tri",
                 text = {
                     "Có toàn bộ {C:attention}cường hoá{} vanilla",
-                    "{C:attention}May mắn {C:green}đảm bảo trúng{}",
+                    "{C:attention}Nhân{} và {C:attention}tiền May mắn {C:green}đảm bảo trúng{}",
+                    "Hiệu ứng {C:attention}Đá{} không còn loại bỏ bậc",
                     "Xác suất vỡ giảm xuống",
                     "còn {C:green}#1# trên #2#{}",
                 },
