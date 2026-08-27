@@ -1059,7 +1059,7 @@ Sagatro.Storyline = SMODS.Center:extend{
         SMODS.Center.inject(self)
         Sagatro.StorylinePools[self.key] = Sagatro.StorylinePools[self.key] or {}
         ---@param table table
-        function table_contains(table, element)
+        local function table_contains(table, element)
             for _, v in pairs(table) do
                 if v == element then
                     return true
