@@ -1,6 +1,7 @@
 Sagatro = SMODS.current_mod
 Sagatro.load_table = {
     jokers = true,
+    storylines = true,
     decks_n_sleeves = true,
     blinds = true,
     streaks = true,
@@ -15,6 +16,24 @@ Sagatro.load_table = {
     achievements = true,
     dragging = true,
     controller = true,
+}
+Sagatro.load_order = {
+    "jokers",
+    "storylines",
+    "decks_n_sleeves",
+    "blinds",
+    "streaks",
+    "ultra",
+    "quips",
+    "tags",
+    "misc",
+    "wishes",
+    "boosters",
+    "deckskin",
+    "challenges",
+    "achievements",
+    "dragging",
+    "controller",
 }
 
 Sagatro.secondary_colour = darken(Sagatro.badge_colour, 0.4)
@@ -109,10 +128,10 @@ for _, file in ipairs(files) do
 end
 
 -- Load items if enabled
-for k, v in pairs(Sagatro.load_table) do
-    if v then
-        sendInfoMessage("Loading " .. k .. ".lua", "Sagatro")
-        SMODS.load_file('items/'..k..'.lua')()
+for _, v in ipairs(Sagatro.load_order) do
+    if Sagatro.load_table[v] then
+        sendInfoMessage("Loading " .. v .. ".lua", "Sagatro")
+        SMODS.load_file('items/'..v..'.lua')()
     end
 end
 
