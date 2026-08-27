@@ -5037,9 +5037,6 @@ function Card:click()
         play_sound('button', 1, 0.3)
         G.FUNCS.openModUI_Sagatro{config = {page = "mod_desc", fromAlice = true}}
     end
-    if self.ability.set == "Storyline" then
-        --call the collection function with self.config.center_key
-    end
 end
 
 local back_apply_to_run = Back.apply_to_run
