@@ -13910,7 +13910,7 @@ local true_red_queen = {
         return not (G.GAME.story_mode or G.GAME.true_red_queen_blind)
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.type, card.ability.extra.e_mult}}
+        return {vars = {localize(card.ability.type, 'poker_hands'), card.ability.extra.e_mult}}
     end,
     set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('ph_alice_in_mirr'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
