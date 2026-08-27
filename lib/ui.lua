@@ -1134,11 +1134,6 @@ end
 function create_UIBox_storylines(mod_id)
     return SMODS.card_collection_UIBox(Sagatro.get_storyline_pool(mod_id), {3,3}, {
         no_materialize = true,
-        modify_card = function(card, center)
-            function card:click()
-                Sagatro.FUNCS.your_collection_storyline_jokers(center.key)
-            end
-        end,
         h_mod = 0.95,
     })
 end

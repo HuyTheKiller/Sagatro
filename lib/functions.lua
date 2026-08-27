@@ -5037,6 +5037,10 @@ function Card:click()
         play_sound('button', 1, 0.3)
         G.FUNCS.openModUI_Sagatro{config = {page = "mod_desc", fromAlice = true}}
     end
+    if self.ability.set == "Storyline" and self.area and self.area.config.collection then
+        play_sound('button', 1, 0.3)
+        Sagatro.FUNCS.your_collection_storyline_jokers(self.config.center_key)
+    end
 end
 
 local back_apply_to_run = Back.apply_to_run
