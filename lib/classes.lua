@@ -1058,8 +1058,19 @@ Sagatro.Storyline = SMODS.Center:extend{
         G.P_CENTER_POOLS[self.set] = G.P_CENTER_POOLS[self.set] or {}
         SMODS.Center.inject(self)
         Sagatro.StorylinePools[self.key] = Sagatro.StorylinePools[self.key] or {}
+        ---@param table table
+        function table_contains(table, element)
+            for _, v in pairs(table) do
+                if v == element then
+                    return true
+                end
+            end
+            return false
+        end
         for _, v in ipairs(self.joker_list) do
-            if G.P_CENTERS[v] then self:inject_card(G.P_CENTERS[v]) end
+            if G.P_CENTERS[v] and not table_contains(Sagatro.StorylinePools[self.key], G.P_CENTERS[v]) then
+                self:inject_card(G.P_CENTERS[v])
+            end
         end
     end,
     inject_card = function(self, center)
