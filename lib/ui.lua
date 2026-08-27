@@ -222,7 +222,11 @@ end
 local card_collection_UIBox = SMODS.card_collection_UIBox
 SMODS.card_collection_UIBox = function(_pool, rows, args)
     if Sagatro.is_joker_pool(_pool) then
-        args.modify_card = function(card, center) card.sticker = not Sagatro.config.HideStakeStickers and get_joker_win_sticker(center) or nil end
+        local old_modify = args.modify_card
+        args.modify_card = function(card, center, i, j)
+            if old_modify then old_modify(card, center, i, j) end
+            card.sticker = not Sagatro.config.HideStakeStickers and get_joker_win_sticker(center) or nil
+        end
     end
     local ret = card_collection_UIBox(_pool, rows, args)
     if Sagatro.is_joker_pool(_pool) then
