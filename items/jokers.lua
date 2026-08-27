@@ -14602,14 +14602,14 @@ local goldia = {
             specific_vars = {localize('ph_pmirror'), self.saga_difficulty(), colours = {G.C.SAGA_DIFFICULTY[self.saga_difficulty()]}}, title = localize("saga_storyline_start")}
             info_queue[#info_queue+1] = {generate_ui = saga_tooltip, set = "Saga Tooltip", key = "pocket_mirror_mech", title = localize("saga_mechanic")}
         end
-        local ret = {vars = {card.ability.extra.stage0_mult, card.ability.extra.stage0_mult_xmod}}
+        local ret = {vars = {number_format(card.ability.extra.stage0_mult, 1000000), card.ability.extra.stage0_mult_xmod}}
         if card.area and card.area ~= Sagatro.temp_areas.jokers and card.area.config.type == "title" then
             info_queue[#info_queue+1] = {set = "Other", key = "sgt_play_pocket_mirror"}
         end
         if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_stage_"..card.ability.immutable.stage
             if card.ability.immutable.stage == 0 or card.ability.immutable.stage == "dawn" then
-                ret.vars = {card.ability.extra.stage0_mult, card.ability.extra.stage0_mult_xmod}
+                ret.vars = {number_format(card.ability.extra.stage0_mult, 1000000), card.ability.extra.stage0_mult_xmod}
             elseif card.ability.immutable.stage == "name_recalled" then
                 ret.vars = {card.ability.extra.full_queen_xmult, card.ability.extra.full_glass_xmult}
                 info_queue[#info_queue+1] = G.P_CENTERS.m_glass
@@ -16225,7 +16225,7 @@ local enjel = {
         return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
-        local ret = {vars = {card.ability.extra.chips, card.ability.extra.chip_xmod}}
+        local ret = {vars = {number_format(card.ability.extra.chips, 1000000), card.ability.extra.chip_xmod}}
         if ((G.GAME.story_mode or card.displaying_save) or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers)) and not card.ability.platinum_reflection then
             ret.key = self.key.."_storymode"
         end
