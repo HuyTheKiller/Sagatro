@@ -485,6 +485,12 @@ return {
                     "{C:inactive,s:0.8}Split before using ability below",
                 },
             },
+            sgt_story_mode_off = {
+                name = "n",
+                text = {
+                    "{C:attention}Inactive{} outside story mode",
+                },
+            },
             undiscovered_divinatio = {
                 name = "Not Discovered",
                 text = {
@@ -3520,6 +3526,98 @@ return {
                 },
             },
         },
+        Storyline = {
+            strl_sgt_saga_default = {
+                name = "No Starting Storyline",
+                text = {
+                    "Begin a {C:sgt_sagadition}storyline{} of your choice",
+                    "at any time during the run",
+                },
+            },
+            strl_sgt_saga_default_collection = {
+                name = "Misc. Story Jokers",
+                text = {
+                    "View jokers not from",
+                    "any main {C:sgt_sagadition}storyline",
+                },
+            },
+            strl_sgt_alice_in_wonderland = {
+                name = "Alice in the Wonderland",
+                text = {
+                    "Begin this {C:sgt_sagadition}storyline",
+                    "instantly when run starts",
+                },
+                unlock = {
+                    "Win a run with",
+                    "the following storyline:",
+                    "{C:sgt_sagadition}Alice in the Wonderland{}",
+                },
+            },
+            strl_sgt_alice_in_wonderland_collection = {
+                name = "Alice in the Wonderland",
+                text = {
+                    "View jokers from",
+                    "this {C:sgt_sagadition}storyline",
+                },
+            },
+            strl_sgt_20k_miles_under_the_sea = {
+                name = "20k Miles Under The Sea",
+                text = {
+                    "Begin this {C:sgt_sagadition}storyline",
+                    "instantly when run starts",
+                },
+                unlock = {
+                    "Win a run with",
+                    "the following storyline:",
+                    "{C:sgt_sagadition}20k Miles Under The Sea{}",
+                },
+            },
+            strl_sgt_20k_miles_under_the_sea_collection = {
+                name = "20k Miles Under The Sea",
+                text = {
+                    "View jokers from",
+                    "this {C:sgt_sagadition}storyline",
+                },
+            },
+            strl_sgt_alice_in_mirrorworld = {
+                name = "Alice Through the Looking Glass",
+                text = {
+                    "Begin this {C:sgt_sagadition}storyline",
+                    "instantly when run starts",
+                },
+                unlock = {
+                    "Win a run with",
+                    "the following storyline:",
+                    "{C:sgt_sagadition}Alice Through the Looking Glass{}",
+                },
+            },
+            strl_sgt_alice_in_mirrorworld_collection = {
+                name = "Alice Through the Looking Glass",
+                text = {
+                    "View jokers from",
+                    "this {C:sgt_sagadition}storyline",
+                },
+            },
+            strl_sgt_pocket_mirror = {
+                name = "Pocket Mirror",
+                text = {
+                    "Begin this {C:sgt_sagadition}storyline",
+                    "instantly when run starts",
+                },
+                unlock = {
+                    "Win a run with",
+                    "the following storyline:",
+                    "{C:sgt_sagadition}Pocket Mirror{}",
+                },
+            },
+            strl_sgt_pocket_mirror_collection = {
+                name = "Pocket Mirror",
+                text = {
+                    "View jokers from",
+                    "this {C:sgt_sagadition}storyline",
+                },
+            },
+        },
         ["Saga Tooltip"] = {
             fusion_hint = {
                 text = {
@@ -4395,6 +4493,10 @@ return {
             k_supply = "Supply",
             b_supply_cards = "Supply Cards",
             sgt_supply_pack = "Supply Pack",
+            k_storyline = "Storyline",
+            k_storylines = "Storylines",
+            run_select_sgt_storyline_choice = "Select Storyline",
+            run_select_sgt_storyline_choice_random = "Random Storyline",
             saga_tooltip = "Hint to progress",
             saga_fusion_tooltip = "Joker fusion",
             saga_storyline_start = "Boot up",

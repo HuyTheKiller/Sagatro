@@ -1,3 +1,5 @@
+--#region Sagatro.EventChain
+
 ---@param func_list (fun(): (number?, (fun(): boolean)?))[] An array of functions that may return the delay value and/or a function that returns boolean.
 ---@param delay number Delay between each function.
 ---@param use_delay boolean Set to `true` to allow `delay` to be used.
@@ -1029,3 +1031,56 @@ Sagatro.EventChain{
         end,
     },
 }
+--#endregion
+
+--#region Sagatro.Storyline
+
+Sagatro.Storylines = {}
+Sagatro.StorylinePools = {}
+Sagatro.Storyline = SMODS.Center:extend{
+    obj_table = Sagatro.Storylines,
+    obj_buffer = {},
+    set = "Storyline",
+    class_prefix = 'strl',
+    required_params = {
+        "key",
+        "atlas",
+        "pos",
+        "starting_jokers",
+        "joker_list",
+    },
+    config = {},
+    unlocked = false,
+    discovered = false,
+    starting_jokers = {},
+    joker_list = {},
+    inject = function(self)
+        G.P_CENTER_POOLS[self.set] = G.P_CENTER_POOLS[self.set] or {}
+        SMODS.Center.inject(self)
+        Sagatro.StorylinePools[self.key] = Sagatro.StorylinePools[self.key] or {}
+        for _, v in ipairs(self.joker_list) do
+            if G.P_CENTERS[v] then self:inject_card(G.P_CENTERS[v]) end
+        end
+    end,
+    inject_card = function(self, center)
+        if center.set ~= self.key then SMODS.insert_pool(Sagatro.StorylinePools[self.key], center) end
+    end,
+    delete_card = function(self, center)
+        if center.set ~= self.key then SMODS.remove_pool(Sagatro.StorylinePools[self.key], center.key) end
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize("k_storyline"), G.C.SGT_SAGADITION, G.C.WHITE, 1.2)
+    end,
+    update = function(self, card, dt)
+        if card.area and card.area.config.collection and not card.bypass_lock then
+            card.params.bypass_lock = true
+            card.bypass_lock = true
+            card.params.bypass_discovery_center = true
+            card.bypass_discovery_center = true
+            card.params.bypass_discovery_ui = true
+            card.bypass_discovery_ui = true
+            card:set_sprites(card.config.center)
+        end
+    end,
+}
+--#endregion

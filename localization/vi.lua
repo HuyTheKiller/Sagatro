@@ -484,6 +484,12 @@ return {
                     "{C:inactive,s:0.8}Chia trước khi dùng khả năng dưới",
                 },
             },
+            sgt_story_mode_off = {
+                name = "n",
+                text = {
+                    "{C:attention}Bất hoạt{} ngoài chế độ cốt truyện",
+                },
+            },
             undiscovered_divinatio = {
                 name = "Chưa Khám Phá",
                 text = {
@@ -3515,6 +3521,98 @@ return {
                 },
             },
         },
+        Storyline = {
+            strl_sgt_saga_default = {
+                name = "Không Mạch Truyện Khởi Đầu",
+                text = {
+                    "Bắt đầu một {C:sgt_sagadition}mạch truyện{} tuỳ ý vào",
+                    "bất kì thời điểm nào trong trận",
+                },
+            },
+            strl_sgt_saga_default_collection = {
+                name = "Joker Truyện Khác",
+                text = {
+                    "Xem joker không từ bất kì",
+                    "{C:sgt_sagadition}mạch truyện{} chính nào",
+                },
+            },
+            strl_sgt_alice_in_wonderland = {
+                name = "Alice ở Xứ Sở Diệu Kì",
+                text = {
+                    "Bắt đầu {C:sgt_sagadition}mạch truyện{} này",
+                    "ngay khi trận bắt đầu",
+                },
+                unlock = {
+                    "Thắng một trận",
+                    "bằng mạch truyện sau:",
+                    "{C:sgt_sagadition}Alice ở Xứ Sở Diệu Kì{}",
+                },
+            },
+            strl_sgt_alice_in_wonderland_collection = {
+                name = "Alice ở Xứ Sở Diệu Kì",
+                text = {
+                    "Xem joker từ",
+                    "{C:sgt_sagadition}mạch truyện{} này",
+                },
+            },
+            strl_sgt_20k_miles_under_the_sea = {
+                name = "2 Vạn Dặm Dưới Biển",
+                text = {
+                    "Bắt đầu {C:sgt_sagadition}mạch truyện{} này",
+                    "ngay khi trận bắt đầu",
+                },
+                unlock = {
+                    "Thắng một trận",
+                    "bằng mạch truyện sau:",
+                    "{C:sgt_sagadition}2 Vạn Dặm Dưới Biển{}",
+                },
+            },
+            strl_sgt_20k_miles_under_the_sea_collection = {
+                name = "2 Vạn Dặm Dưới Biển",
+                text = {
+                    "Xem joker từ",
+                    "{C:sgt_sagadition}mạch truyện{} này",
+                },
+            },
+            strl_sgt_alice_in_mirrorworld = {
+                name = "Alice ở Xứ Sở Trong Gương",
+                text = {
+                    "Bắt đầu {C:sgt_sagadition}mạch truyện{} này",
+                    "ngay khi trận bắt đầu",
+                },
+                unlock = {
+                    "Thắng một trận",
+                    "bằng mạch truyện sau:",
+                    "{C:sgt_sagadition}Alice ở Xứ Sở Trong Gương{}",
+                },
+            },
+            strl_sgt_alice_in_mirrorworld_collection = {
+                name = "Alice ở Xứ Sở Trong Gương",
+                text = {
+                    "Xem joker từ",
+                    "{C:sgt_sagadition}mạch truyện{} này",
+                },
+            },
+            strl_sgt_pocket_mirror = {
+                name = "Pocket Mirror",
+                text = {
+                    "Bắt đầu {C:sgt_sagadition}mạch truyện{} này",
+                    "ngay khi trận bắt đầu",
+                },
+                unlock = {
+                    "Thắng một trận",
+                    "bằng mạch truyện sau:",
+                    "{C:sgt_sagadition}Pocket Mirror{}",
+                },
+            },
+            strl_sgt_pocket_mirror_collection = {
+                name = "Pocket Mirror",
+                text = {
+                    "Xem joker từ",
+                    "{C:sgt_sagadition}mạch truyện{} này",
+                },
+            },
+        },
         ["Saga Tooltip"] = {
             fusion_hint = {
                 text = {
@@ -4390,6 +4488,10 @@ return {
             k_supply = "Tiếp Tế",
             b_supply_cards = "Lá Tiếp Tế",
             sgt_supply_pack = "Gói Tiếp Tế",
+            k_storyline = "Mạch Truyện",
+            k_storylines = "Mạch Truyện",
+            run_select_sgt_storyline_choice = "Chọn M.Truyện",
+            run_select_sgt_storyline_choice_random = "M.Truyện Ngẫu Nhiên",
             saga_tooltip = "Gợi ý tiến triển",
             saga_fusion_tooltip = "Kết hợp joker",
             saga_storyline_start = "Khởi động",

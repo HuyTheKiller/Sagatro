@@ -221,11 +221,11 @@ end
 
 local card_collection_UIBox = SMODS.card_collection_UIBox
 SMODS.card_collection_UIBox = function(_pool, rows, args)
-    if _pool == G.P_CENTER_POOLS.Joker then
+    if _pool == G.P_CENTER_POOLS.Joker or table.contains(Sagatro.StorylinePools, _pool) then
         args.modify_card = function(card, center) card.sticker = not Sagatro.config.HideStakeStickers and get_joker_win_sticker(center) or nil end
     end
     local ret = card_collection_UIBox(_pool, rows, args)
-    if _pool == G.P_CENTER_POOLS.Joker then
+    if _pool == G.P_CENTER_POOLS.Joker or table.contains(Sagatro.StorylinePools, _pool) then
         local contents = ret.nodes[1].nodes[1].nodes[1].nodes
         local node = {n=G.UIT.R, config = {align = 'cm'}, nodes={
             create_toggle({label = localize('SGT_disable_other_jokers'),
@@ -1129,6 +1129,41 @@ function Sagatro_welcome_text()
     }
 
     return t
+end
+
+function create_UIBox_storylines(mod_id)
+    return SMODS.card_collection_UIBox(Sagatro.get_storyline_pool(mod_id), {3,3}, {
+        no_materialize = true,
+        modify_card = function(card, center)
+            function card:click()
+                Sagatro.FUNCS.your_collection_storyline_jokers(center.key)
+            end
+        end,
+        h_mod = 0.95,
+    })
+end
+
+Sagatro.FUNCS.your_collection_storylines = function()
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu{
+        definition = create_UIBox_storylines(G.ACTIVE_MOD_UI and G.ACTIVE_MOD_UI.id or nil),
+	}
+end
+
+function create_UIBox_storyline_jokers(center_key)
+    return SMODS.card_collection_UIBox(Sagatro.StorylinePools[center_key], {5,5,5}, {
+        no_materialize = true,
+        modify_card = function(card, center) card.sticker = get_joker_win_sticker(center) end,
+        back_func = "your_collection_storylines",
+        h_mod = 0.95,
+    })
+end
+
+Sagatro.FUNCS.your_collection_storyline_jokers = function(center_key)
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu{
+        definition = create_UIBox_storyline_jokers(center_key),
+	}
 end
 
 function Sagatro.update_HUD()

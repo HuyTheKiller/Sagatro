@@ -1410,3 +1410,45 @@ if center_table.name == 'Planet Merchant' or center_table.name == 'Planet Tycoon
         G.GAME.$consumablerate = G.GAME.$consumablerate/1e18
     end
 end'''
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+check_for_unlock({type = 'win'})
+'''
+position = "after"
+payload = '''
+if G.GAME.story_mode then
+    check_for_unlock({type = 'win_story_mode', storylines = {G.GAME.current_storyline, G.GAME.interwoven_storyline}})
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+if card.set == 'Back' then discover_card(card) end
+'''
+position = "after"
+payload = '''
+if card.set == 'Storyline' then discover_card(card) end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = '''
+local deck_height = (self.config.deck_height or 0.15)/52
+for k, card in ipairs(self.cards) do
+    if card.facing == 'front' then card:flip() end
+'''
+position = "at"
+payload = '''
+local deck_height = (self.config.deck_height or 0.15)/52
+for k, card in ipairs(self.cards) do
+    if card.facing == 'front' and (card.ability.set ~= 'Storyline' or card.config.center_key == 'strl_sgt_saga_default') then card:flip() end
+'''
+match_indent = true

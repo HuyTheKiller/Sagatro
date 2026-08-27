@@ -4903,6 +4903,133 @@ if SMODS.RunSelect then
     end
 end
 
+if SMODS.RunSelectPage then
+    SMODS.RunSelectPage{
+        key = "storyline_choice",
+        type = "Storyline",
+        area_type = "deck",
+        automatic_preview = true,
+        random_select = true,
+        generate_pool = function(self)
+            return G.P_CENTER_POOLS.Storyline
+        end,
+        silent = true,
+        stack_size = 1,
+        preview_size = 11,
+        quick_start_text = function()
+            return localize({
+                type = "name_text",
+                set = "Storyline",
+                key = G.PROFILES[G.SETTINGS.profile].last_choices.sgt_storyline_choice or "strl_sgt_saga_default"
+            })
+        end,
+        set_default = function(self, choice)
+            return SMODS.RunSelect.Setup.choices.sgt_storyline_choice or choice or "strl_sgt_saga_default"
+        end,
+        preview_click = function() end,
+        create_selection_card = function(self, card_key, card_number, area)
+            if area == SMODS.RunSelect.Internals.preview_area then
+                SMODS.RunSelect.Internals.preview_area.config.thin_draw = 1
+                if CardSleeves and card_number == SMODS.RunSelect.Internals.stack_size then
+                    local function create_sleeve_card(area, sleeve_center, scale)
+                        local fake_deck = {effect = {config = {}, center = {key = "fake", config = {}}, text_UI = {}, fake_deck = true}}
+                        local viewed_back = G.GAME.viewed_back ~= nil and fake_deck or false -- cryptid compat
+                        scale = scale or {w = area.T.w + 0.2, h = area.T.h}
+                        local new_card = Card(area.T.x, area.T.y, scale.w, scale.h, nil, sleeve_center or G.P_CENTERS.c_base, {playing_card = 11, viewed_back = viewed_back, galdur_selector = true, sleeve_card = true})
+                        new_card.sprite_facing = 'back'
+                        new_card.facing = 'back'
+                        return new_card
+                    end
+                    local function get_sleeve_win_sticker(sleeve_key)
+                        local profile = G.PROFILES[G.SETTINGS.profile]
+                        if profile.sleeve_usage and profile.sleeve_usage[sleeve_key] and profile.sleeve_usage[sleeve_key].wins_by_key then
+                            local _stake = nil
+                            for key, _ in pairs(profile.sleeve_usage[sleeve_key].wins_by_key) do
+                                if (G.P_STAKES[key] and G.P_STAKES[key].stake_level or 0) > (_stake and G.P_STAKES[_stake].stake_level or 0) then
+                                    _stake = key
+                                end
+                            end
+                            if _stake then
+                                return G.sticker_map[_stake]
+                            end
+                        end
+                    end
+                    local function create_sleeve_sprite(x, y, w, h, sleeve_center)
+                        -- uses locked sprite if sleeve is locked - assumes the locked sprite is at (x=0, y=3)
+                        if sleeve_center:is_unlocked() then
+                            return Sprite(x, y, w, h, G.ASSET_ATLAS[sleeve_center.atlas], sleeve_center.pos)
+                        else
+                            return Sprite(x, y, w, h, G.ASSET_ATLAS["casl_sleeve_atlas"], {x=0, y=3})  -- string in case modded sleeve has custom atlas
+                        end
+                    end
+                    local function replace_sleeve_sprite(card, sleeve_center, offset)
+                        offset = offset or {x=0, y=0.35}  -- any lower Y offset and sticker starts looking bad
+                        if card.children.back then
+                            card.children.back:remove()
+                        end
+                        card.children.back = create_sleeve_sprite(card.T.x + offset.x, card.T.y + offset.y, card.T.w, card.T.h, sleeve_center)
+                        card.children.back:set_role{major = card, role_type = 'Minor', draw_major = card, offset = offset}
+                        if sleeve_center.key ~= "sleeve_casl_none" then
+                            card.sticker = get_sleeve_win_sticker(sleeve_center.key)
+                            card.sticker_rotation = math.pi
+                        end
+                    end
+                    local sleeve_center = G.P_CENTERS[SMODS.RunSelect.Setup.choices.casl_sleeve_choice] or G.P_CENTERS.sleeve_casl_none
+                    local card = create_sleeve_card(area, sleeve_center, { w = area.T.w + 0.15, h = area.T.h })
+                    replace_sleeve_sprite(card, sleeve_center)
+                    return card
+                end
+                local card = Card(area.T.x, area.T.y, G.CARD_W, G.CARD_H, nil,
+                    G.P_CENTERS[SMODS.RunSelect.Setup.choices.deck_choice] or G.P_CENTERS["b_red"])
+                card.sprite_facing = 'back'
+                card.facing = 'back'
+                card.children.back:remove()
+                card.children.back = SMODS.create_sprite(card.T.x, card.T.y, card.T.w, card.T.h,
+                    G.ASSET_ATLAS[card.config.center.unlocked and card.config.center.atlas or 'centers'],
+                    card.config.center.unlocked and card.config.center.pos or { x = 4, y = 0 })
+                card.children.back.states.hover = card.states.hover
+                card.children.back.states.click = card.states.click
+                card.children.back.states.drag = card.states.drag
+                card.children.back.states.collide.can = false
+                card.children.back:set_role({ major = card, role_type = 'Glued', draw_major = card })
+                if card_number == SMODS.RunSelect.Internals.stack_size - 1 - (CardSleeves and 1 or 0) then
+                    card.sticker = get_deck_win_sticker(card.config.center)
+                end
+                if card_number == SMODS.RunSelect.Internals.stack_size - (CardSleeves and 1 or 0) then
+                    if card_key ~= "strl_sgt_saga_default" then
+                        card:set_ability(card_key)
+                        card:flip()
+                    else
+                        card.sticker = get_deck_win_sticker(card.config.center)
+                    end
+                    G.E_MANAGER:add_event(Event({
+                        func = (function()
+                            G.E_MANAGER:add_event(Event({
+                                func = (function()
+                                    area:align_cards()
+                                    card.disable_align = true
+                                    card.T.y = card.T.y - card.T.h/2
+                                    return true
+                                end)
+                            }), 'run_select')
+                            return true
+                        end)
+                    }), 'run_select')
+                end
+                return card
+            else
+                for _, _area in ipairs(SMODS.RunSelect.Internals.select_areas) do
+                    if area == _area then
+                        local card = Card(area.T.x, area.T.y, G.CARD_W, G.CARD_H, nil,
+                            G.P_CENTERS[card_key] or G.P_CENTERS["strl_sgt_saga_default"])
+                        return card
+                    end
+                end
+            end
+        end,
+    }
+end
+
 local card_click = Card.click
 function Card:click()
     card_click(self)
@@ -4910,17 +5037,90 @@ function Card:click()
         play_sound('button', 1, 0.3)
         G.FUNCS.openModUI_Sagatro{config = {page = "mod_desc", fromAlice = true}}
     end
+    if self.ability.set == "Storyline" then
+        --call the collection function with self.config.center_key
+    end
 end
 
-local card_single_tap = Card.single_tap
-if card_single_tap then
-    function Card:single_tap()
-        card_single_tap(self)
-        if self.mod_flag == "Sagatro" then
-            play_sound('button', 1, 0.3)
-            G.FUNCS.openModUI_Sagatro{config = {page = "mod_desc", fromAlice = true}}
+local back_apply_to_run = Back.apply_to_run
+function Back:apply_to_run(...)
+    back_apply_to_run(self, ...)
+    if Sagatro.config.DisableOtherJokers and SMODS.RunSelect and SMODS.RunSelect.Setup.choices.sgt_storyline_choice then
+        delay(0.4)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                local storyline = SMODS.RunSelect.Setup.choices.sgt_storyline_choice
+                for _, v in ipairs(Sagatro.Storylines[storyline].starting_jokers) do
+                    local card = SMODS.create_card{key=v}
+                    card:add_to_deck()
+                    G.jokers:emplace(card)
+                end
+                return true
+            end
+        }))
+    end
+end
+
+function Sagatro.get_storyline_tally_of(mod_id)
+    local tally, of = 0, 0
+    for _, storyline in pairs(Sagatro.get_storyline_pool(mod_id)) do
+        of = of + 1
+        if storyline.unlocked then
+            tally = tally + 1
         end
     end
+    return {tally = tally, of = of}
+end
+
+function Sagatro.get_storyline_pool(mod_id)
+    local storylines = {}
+    for _, storyline in ipairs(G.P_CENTER_POOLS.Storyline) do
+        if storyline.mod.id == mod_id or mod_id == nil then
+            storylines[#storylines+1] = storyline
+        end
+    end
+    return storylines
+end
+
+local smods_create_UIBox_Other_GameObjects = create_UIBox_Other_GameObjects
+function create_UIBox_Other_GameObjects()
+    local mod_has_storylines = false
+    local mod_custom_collection_tabs
+    if G.ACTIVE_MOD_UI and not G.ACTIVE_MOD_UI.prevent_autogenerate_storyline_addition then
+        local mod_id = G.ACTIVE_MOD_UI.id
+        local mod_storyline_count = Sagatro.get_storyline_tally_of(mod_id)
+        mod_has_storylines = mod_id ~= Sagatro.id and mod_storyline_count.of > 0
+        if mod_has_storylines then
+            mod_custom_collection_tabs = G.ACTIVE_MOD_UI.custom_collection_tabs
+            G.ACTIVE_MOD_UI.custom_collection_tabs = function()
+                local res = mod_custom_collection_tabs and mod_custom_collection_tabs() or {}
+                local count = Sagatro.get_storyline_tally_of(mod_id)
+                res[#res+1] = UIBox_button {
+                    count = {tally = count.tally, of = count.of},
+                    button = 'your_collection_storylines', label = {localize("k_storylines")}, minw = 5, id = 'your_collection_storylines'
+                }
+                return res
+            end
+        end
+    end
+
+    local res = smods_create_UIBox_Other_GameObjects()
+
+    if mod_has_storylines then
+        G.ACTIVE_MOD_UI.custom_collection_tabs = mod_custom_collection_tabs
+    end
+
+    return res
+end
+
+function Sagatro.custom_collection_tabs()
+    local count = Sagatro.get_storyline_tally_of(G.ACTIVE_MOD_UI and G.ACTIVE_MOD_UI.id or nil)
+    return {
+        UIBox_button {
+            count = {tally = count.tally, of = count.of},
+            button = 'your_collection_storylines', label = {localize("k_storylines")}, minw = 5, id = 'your_collection_storylines'
+        }
+    }
 end
 
 function Sagatro.menu_cards()
