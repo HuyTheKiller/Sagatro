@@ -5062,6 +5062,10 @@ function Back:apply_to_run(...)
     end
 end
 
+function Sagatro.is_joker_pool(pool)
+    return pool == G.P_CENTER_POOLS.Joker or table.contains(Sagatro.StorylinePools, pool)
+end
+
 function Sagatro.get_storyline_tally_of(mod_id)
     local tally, of = 0, 0
     for _, storyline in pairs(Sagatro.get_storyline_pool(mod_id)) do

@@ -221,11 +221,11 @@ end
 
 local card_collection_UIBox = SMODS.card_collection_UIBox
 SMODS.card_collection_UIBox = function(_pool, rows, args)
-    if _pool == G.P_CENTER_POOLS.Joker or table.contains(Sagatro.StorylinePools, _pool) then
+    if Sagatro.is_joker_pool(_pool) then
         args.modify_card = function(card, center) card.sticker = not Sagatro.config.HideStakeStickers and get_joker_win_sticker(center) or nil end
     end
     local ret = card_collection_UIBox(_pool, rows, args)
-    if _pool == G.P_CENTER_POOLS.Joker or table.contains(Sagatro.StorylinePools, _pool) then
+    if Sagatro.is_joker_pool(_pool) then
         local contents = ret.nodes[1].nodes[1].nodes[1].nodes
         local node = {n=G.UIT.R, config = {align = 'cm'}, nodes={
             create_toggle({label = localize('SGT_disable_other_jokers'),
