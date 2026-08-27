@@ -11541,8 +11541,10 @@ local mirror = {
             Sagatro.init_storyline(self and self.saga_group or "alice_in_mirrorworld", true)
             if Sagatro.storyline_check("alice_in_wonderland") then
                 G.GAME.mirror_hint_to_progress = true
-                G.GAME.awaiting_mirror = nil
-                change_shop_size(-1)
+                if G.GAME.awaiting_mirror then
+                    G.GAME.awaiting_mirror = nil
+                    change_shop_size(-1)
+                end
             elseif Sagatro.storyline_check("pocket_mirror") then
                 G.GAME.show_main_storyline = true
             end
