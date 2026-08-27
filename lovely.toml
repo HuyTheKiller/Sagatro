@@ -1411,6 +1411,7 @@ if center_table.name == 'Planet Merchant' or center_table.name == 'Planet Tycoon
     end
 end'''
 
+# Storyline center related patches
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
