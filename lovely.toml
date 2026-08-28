@@ -1214,6 +1214,23 @@ pattern = '''G\.in_delete_run'''
 position = "at"
 payload = '''G.in_delete_run or self.displaying_save'''
 
+# Add dynamic label support to UIBox_button (Cartomancer :/)
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+match_indent = true
+position = "before"
+pattern = "for k, v in ipairs(args.label) do"
+payload = '''
+if args.dynamic_label and not Cartomancer then
+  but_UI_label = {}
+  
+  table.insert(but_UI_label, {n=G.UIT.R, config={align = "cm", padding = 0, minw = args.minw, maxw = args.maxw}, nodes={
+    {n=G.UIT.T, config={ref_table = args.dynamic_label, ref_value = 'text', scale = args.scale, colour = args.text_colour, shadow = args.shadow, focus_args = button_pip and args.focus_args or nil, func = button_pip,}}
+  }})
+end
+'''
+
 # Patch to allow shattering effect on any card destroyed, not just glass-like enhancements
 [[patches]]
 [patches.pattern]
