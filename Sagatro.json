@@ -3,7 +3,7 @@
 	"name": "Sagatro",
 	"website_url": "https://github.com/HuyTheKiller/Sagatro",
 	"author": ["HuyTheKiller"],
-	"description": "Adds fairy tale elements to Balatro. Load this mod for more information.",
+	"description": "Adds fairy tale elements to Balatro. Pick a storyline and find your path towards victory.",
 	"prefix": "sgt",
 	"main_file": "main.lua",
 	"icon_path": "icon.png",
