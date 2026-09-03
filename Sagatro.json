@@ -1,7 +1,6 @@
 {
 	"id": "Sagatro",
 	"name": "Sagatro",
-	"website_url": "https://github.com/HuyTheKiller/Sagatro",
 	"author": ["HuyTheKiller"],
 	"description": "Adds fairy tale elements to Balatro. Pick a storyline and find your path towards victory.",
 	"prefix": "sgt",
@@ -12,5 +11,5 @@
 	"display_name": "Sagatro",
 	"dependencies": ["Steamodded (>=26.829.0)"],
 	"conflicts": [],
-	"version": "0.2.5"
+	"version": "2.5.1"
 }

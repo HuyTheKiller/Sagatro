@@ -1,0 +1,7 @@
+{
+	"name": "Sagatro",
+    "version_number": "2.5.1",
+	"website_url": "https://github.com/HuyTheKiller/Sagatro",
+	"description": "Adds fairy tale elements to Balatro. Pick a storyline and find your path towards victory.",
+	"dependencies": ["Thunderstore-lovely-0.9.0", "Steamodded-Steamodded-26.829.0"]
+}
