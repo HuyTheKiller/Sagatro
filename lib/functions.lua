@@ -1768,7 +1768,7 @@ function Blind:defeat(silent)
         if G.GAME.leaving_mirror_maze then
             G.GAME.leaving_mirror_maze = nil
             G.GAME.sgt_no_saving = nil
-            Sagatro.progress_storyline("lisette_chase", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("lisette_chase", "finish", "pocket_mirror")
             for _, v in ipairs(G.playing_cards) do
                 if v.ability.old_enh then
                     v:set_ability(v.ability.old_enh)
@@ -1791,7 +1791,7 @@ function Blind:defeat(silent)
                 goldia:remove_sticker("pinned")
                 goldia.pinned = nil
             end
-            Sagatro.progress_storyline("harpae_patience", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("harpae_patience", "add", "pocket_mirror")
             SMODS.add_card{key = "j_sgt_harpae"}
         end
         if Sagatro.event_check("dull_glass") then
@@ -1818,7 +1818,7 @@ function Blind:defeat(silent)
         end
         if G.GAME.door_puzzle_active then
             G.GAME.door_puzzle_active = nil
-            Sagatro.progress_storyline("door_puzzle", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("door_puzzle", "finish", "pocket_mirror")
             local regalias = #(G.GAME.regalia_list or {})
             if regalias == 2 then
                 G.GAME.shelved_chains.hand_drawn = "sgt_enjel_chase_prep"
@@ -1997,10 +1997,11 @@ end
 ---@param event_name string The event key.
 ---@param queue_mode "add"|"finish"|"force_add"|"force_finish"|"remove" Which mode to use.
 ---@param storyline_name string The storyline key, used to validate the event.
----@param interwoven string? The interwoven storyline key, used to validate the event. It's recommended to simply pass `G.GAME.interwoven_storyline`.
+---@param interwoven string? The interwoven storyline key, used to validate the event. Defaults to `G.GAME.interwoven_storyline`.
 --- Progress a certain event, validated by current storyline.
 function Sagatro.progress_storyline(event_name, queue_mode, storyline_name, interwoven)
     if not G.GAME.story_mode then return end
+    interwoven = interwoven or G.GAME.interwoven_storyline
     if storyline_name == G.GAME.current_storyline or storyline_name == interwoven then
         if queue_mode == "add" and not table.contains(G.GAME.saga_event_queue, event_name)
         and not table.contains(G.GAME.saga_finished_events, event_name) then
@@ -2116,7 +2117,7 @@ function Sagatro.progress_chart(mod, interwoven)
         else
             -- TARGET: automatically trigger event on reaching 100% in main storyline
             if Sagatro.storyline_check("alice_in_wonderland") and not G.GAME.legacy_wonderland and not G.GAME.red_queen_blind then
-                Sagatro.progress_storyline("final_showdown", "add", "alice_in_wonderland", G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("final_showdown", "add", "alice_in_wonderland")
                 local has_boss_tag = false
                 for i = 1, #G.GAME.tags do
                     if G.GAME.tags[i].name == "Boss Tag" then
@@ -2879,7 +2880,7 @@ function Sagatro:calculate(context)
             end
             if Sagatro.storyline_check("20k_miles_under_the_sea") and G.GAME.round_resets.ante >= 2
             and not next(SMODS.find_card("j_sgt_sub_engineer", true)) then
-                Sagatro.progress_storyline("the_sub_engineer", "add", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("the_sub_engineer", "add", "20k_miles_under_the_sea")
             end
             for _, v in pairs(SMODS.merge_lists{G.jokers.cards, G.consumeables.cards}) do
                 if v.ability.set == "Joker" and v.ability.immutable then
@@ -5275,7 +5276,7 @@ function Sagatro.DT_isl(storyline_name, options)
             elseif storyline_name == "pocket_mirror" then
                 SMODS.add_card{key = "j_sgt_goldia"}
                 if options.transform then
-                    Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror")
                     SMODS.add_card{key = "j_sgt_pocket_mirror"}
                     SMODS.add_card{key = "j_sgt_knife_fork"}
                     SMODS.add_card{key = "j_sgt_rose_bell"}

@@ -111,7 +111,7 @@ local white_rabbit = {
             Sagatro.init_storyline(self.saga_group)
             if G.GAME.legacy_wonderland then
                 if next(SMODS.find_card("j_sgt_dodo_bird", true)) then
-                    Sagatro.progress_storyline("white_rabbit_house", "add", self.saga_group, G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline("white_rabbit_house", "add", self.saga_group)
                 end
             else
                 G.GAME.wond_hint_to_progress = true
@@ -121,7 +121,7 @@ local white_rabbit = {
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
             if G.GAME.legacy_wonderland then
-                Sagatro.progress_storyline("white_rabbit_house", "remove", self.saga_group, G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("white_rabbit_house", "remove", self.saga_group)
             end
         end
     end,
@@ -365,10 +365,10 @@ local eat_me = {
                 if card.ability.extra - 1 <= 0 then
                     Sagatro.self_destruct(card)
                     if Sagatro.storyline_check("pocket_mirror") then
-                        Sagatro.progress_storyline("conditional_game_over", "remove", "pocket_mirror", G.GAME.interwoven_storyline)
+                        Sagatro.progress_storyline("conditional_game_over", "remove", "pocket_mirror")
                     elseif Sagatro.event_check("little_bill") and Sagatro.event_check("huge_dog", nil, true) and G.GAME.legacy_wonderland then
-                        Sagatro.progress_storyline("little_bill", "finish", self.saga_group, G.GAME.interwoven_storyline)
-                        Sagatro.progress_storyline("huge_dog", "add", self.saga_group, G.GAME.interwoven_storyline)
+                        Sagatro.progress_storyline("little_bill", "finish", self.saga_group)
+                        Sagatro.progress_storyline("huge_dog", "add", self.saga_group)
                     end
                     return {
                         message = localize('k_eaten_ex'),
@@ -647,7 +647,7 @@ local kid_gloves_and_fan = {
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
             if G.GAME.legacy_wonderland then
-                Sagatro.progress_storyline("cry_into_flood", "add", self.saga_group, G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("cry_into_flood", "add", self.saga_group)
             end
         end
     end,
@@ -773,9 +773,9 @@ local dodo_bird = {
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
             if G.GAME.legacy_wonderland then
-                Sagatro.progress_storyline("cry_into_flood", "finish", self.saga_group, G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("cry_into_flood", "finish", self.saga_group)
                 if next(SMODS.find_card("j_sgt_white_rabbit", true)) then
-                    Sagatro.progress_storyline("white_rabbit_house", "add", self.saga_group, G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline("white_rabbit_house", "add", self.saga_group)
                 end
             end
         end
@@ -783,9 +783,9 @@ local dodo_bird = {
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
             if G.GAME.legacy_wonderland then
-                Sagatro.progress_storyline("white_rabbit_house", "remove", self.saga_group, G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("white_rabbit_house", "remove", self.saga_group)
                 if Sagatro.event_check("white_rabbit_house", nil, true) then
-                    Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline("game_over", "force_add", self.saga_group)
                 end
             end
         end
@@ -903,7 +903,7 @@ local unlabeled_bottle = {
                 if card.ability.extra - 1 <= 0 then
                     Sagatro.self_destruct(card)
                     if G.GAME.legacy_wonderland then
-                        Sagatro.progress_storyline("little_bill", "add", self.saga_group, G.GAME.interwoven_storyline)
+                        Sagatro.progress_storyline("little_bill", "add", self.saga_group)
                     end
                     return {
                         message = localize('k_drank_ex'),
@@ -927,7 +927,7 @@ local unlabeled_bottle = {
             card.ability.extra = card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)
         end
         if G.GAME.legacy_wonderland then
-            Sagatro.progress_storyline("white_rabbit_house", "finish", self.saga_group, G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("white_rabbit_house", "finish", self.saga_group)
         end
     end,
     in_pool = function(self, args)
@@ -1168,14 +1168,14 @@ local huge_dog = {
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
             if G.GAME.legacy_wonderland then
-                Sagatro.progress_storyline("huge_dog", "finish", self.saga_group, G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("huge_dog", "finish", self.saga_group)
             end
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
             if G.GAME.legacy_wonderland then
-                Sagatro.progress_storyline("caterpillar", "add", self.saga_group, G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("caterpillar", "add", self.saga_group)
             end
         end
     end,
@@ -1335,7 +1335,7 @@ local caterpillar = {
                 }))
                 Sagatro.self_destruct(card)
                 if G.GAME.legacy_wonderland then
-                    Sagatro.progress_storyline("caterpillar", "finish", self.saga_group, G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline("caterpillar", "finish", self.saga_group)
                 end
                 return {
                     message = localize('k_go_off_ex'),
@@ -1428,16 +1428,16 @@ local mushroom = {
                 if context.after then
                     local game_over = Sagatro.event_check("pig_and_pepper", nil, {contain = true})
                     if G.GAME.legacy_wonderland then
-                        Sagatro.progress_storyline("pig_and_pepper", "add", self.saga_group, G.GAME.interwoven_storyline)
+                        Sagatro.progress_storyline("pig_and_pepper", "add", self.saga_group)
                         if Sagatro.event_check("mad_hatter") then -- allows leniency (you don't have to take March Hare and Dormouse)
-                            Sagatro.progress_storyline("the_party", "force_finish", self.saga_group, G.GAME.interwoven_storyline)
-                            Sagatro.progress_storyline("red_queen", "add", self.saga_group, G.GAME.interwoven_storyline)
+                            Sagatro.progress_storyline("the_party", "force_finish", self.saga_group)
+                            Sagatro.progress_storyline("red_queen", "add", self.saga_group)
                             game_over = false
                         end
                     end
                     if card.ability.extra - 1 <= 0 then
                         if game_over and G.GAME.legacy_wonderland then
-                            Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
+                            Sagatro.progress_storyline("game_over", "force_add", self.saga_group)
                         end
                         if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland
                         and not G.GAME.one_time_progress.mushroom then
@@ -1488,16 +1488,16 @@ local mushroom = {
                 if context.after then
                     local game_over = Sagatro.event_check("pig_and_pepper", nil, {contain = true})
                     if G.GAME.legacy_wonderland then
-                        Sagatro.progress_storyline("pig_and_pepper", "add", self.saga_group, G.GAME.interwoven_storyline)
+                        Sagatro.progress_storyline("pig_and_pepper", "add", self.saga_group)
                         if Sagatro.event_check("mad_hatter") then -- allows leniency (you don't have to take March Hare and Dormouse)
-                            Sagatro.progress_storyline("the_party", "force_finish", self.saga_group, G.GAME.interwoven_storyline)
-                            Sagatro.progress_storyline("red_queen", "add", self.saga_group, G.GAME.interwoven_storyline)
+                            Sagatro.progress_storyline("the_party", "force_finish", self.saga_group)
+                            Sagatro.progress_storyline("red_queen", "add", self.saga_group)
                             game_over = false
                         end
                     end
                     if card.ability.extra - 1 <= 0 then
                         if game_over and G.GAME.legacy_wonderland then
-                            Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
+                            Sagatro.progress_storyline("game_over", "force_add", self.saga_group)
                         end
                         if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland
                         and not G.GAME.one_time_progress.mushroom then
@@ -1797,8 +1797,8 @@ local frog_footman = {
                 Sagatro.self_destruct(card)
                 if G.GAME.legacy_wonderland then
                     if Sagatro.event_check("goodbye_frog", false) then
-                        Sagatro.progress_storyline("pig_and_pepper", "finish", self.saga_group, G.GAME.interwoven_storyline)
-                        Sagatro.progress_storyline("goodbye_frog", "add", self.saga_group, G.GAME.interwoven_storyline)
+                        Sagatro.progress_storyline("pig_and_pepper", "finish", self.saga_group)
+                        Sagatro.progress_storyline("goodbye_frog", "add", self.saga_group)
                     end
                 end
                 return {
@@ -2025,8 +2025,8 @@ local cheshire_cat = {
             if SMODS.pseudorandom_probability(card, 'cheshire_cat_vanish', 1, card.ability.extra.odds*(Sagatro.event_check("goodbye_frog") and G.GAME.legacy_wonderland and 1 or G.GAME.alice_multiplier), "cheshire_cat") then
                 Sagatro.self_destruct(card)
                 if Sagatro.event_check("goodbye_frog") and G.GAME.legacy_wonderland then
-                    Sagatro.progress_storyline("goodbye_frog", "finish", self.saga_group, G.GAME.interwoven_storyline)
-                    Sagatro.progress_storyline("the_party", "add", self.saga_group, G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline("goodbye_frog", "finish", self.saga_group)
+                    Sagatro.progress_storyline("the_party", "add", self.saga_group)
                 end
                 return {
                     message = localize("k_gone_ex"),
@@ -2608,7 +2608,7 @@ local mad_hatter = {
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            Sagatro.progress_storyline("mad_hatter", "force_add", self.saga_group, G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("mad_hatter", "force_add", self.saga_group)
         end
         Sagatro.update_blind_amounts()
         for k, v in pairs(G.GAME) do
@@ -2625,9 +2625,9 @@ local mad_hatter = {
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
-            Sagatro.progress_storyline("mad_hatter", G.GAME.legacy_storyline and "force_finish" or "remove", self.saga_group, G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("mad_hatter", G.GAME.legacy_storyline and "force_finish" or "remove", self.saga_group)
             if G.GAME.story_mode and not Sagatro.event_check("the_party", nil, {contain = true}) and G.GAME.legacy_wonderland then
-                Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("game_over", "force_add", self.saga_group)
             end
         end
         Sagatro.update_blind_amounts()
@@ -3173,7 +3173,7 @@ local red_queen = {
         end
         if context.first_hand_drawn and not context.blueprint and not context.retrigger_joker
         and #G.jokers.cards == 1 and G.GAME.legacy_wonderland then
-            Sagatro.progress_storyline("game_over", "force_add", self.saga_group, G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("game_over", "force_add", self.saga_group)
         end
         if context.individual and context.cardarea == G.play and not context.forcetrigger then
             if not context.other_card.debuff then
@@ -3332,8 +3332,8 @@ local king = {
                 end
             end
             if G.GAME.legacy_wonderland then
-                Sagatro.progress_storyline("red_queen", "finish", self.saga_group, G.GAME.interwoven_storyline)
-                Sagatro.progress_storyline("gryphon", "add", self.saga_group, G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("red_queen", "finish", self.saga_group)
+                Sagatro.progress_storyline("gryphon", "add", self.saga_group)
             end
         end
     end,
@@ -3407,8 +3407,8 @@ local flamingo = {
                 end
             end
             if G.GAME.legacy_wonderland then
-                Sagatro.progress_storyline("red_queen", "finish", self.saga_group, G.GAME.interwoven_storyline)
-                Sagatro.progress_storyline("gryphon", "add", self.saga_group, G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("red_queen", "finish", self.saga_group)
+                Sagatro.progress_storyline("gryphon", "add", self.saga_group)
             end
         end
     end,
@@ -3634,8 +3634,8 @@ local mock_turtle = {
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff and Sagatro.event_check("gryphon") and G.GAME.legacy_wonderland then
             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('ph_trial_begins'), colour = G.C.RED, instant = true})
-            Sagatro.progress_storyline("gryphon", "finish", self.saga_group, G.GAME.interwoven_storyline)
-            Sagatro.progress_storyline("final_showdown", "add", self.saga_group, G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("gryphon", "finish", self.saga_group)
+            Sagatro.progress_storyline("final_showdown", "add", self.saga_group)
         end
     end,
     in_pool = function(self, args)
@@ -4637,7 +4637,7 @@ local lincoln_ship = {
                 return
             end
             Sagatro.init_storyline(self.saga_group)
-            Sagatro.progress_storyline("finding_the_submarine", "add", self.saga_group, G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("finding_the_submarine", "add", self.saga_group)
             G.GAME.submarine_hint_to_progress = Sagatro.storyline_check(self.saga_group) or nil
         end
     end,
@@ -4769,7 +4769,7 @@ local submarine = {
             G.jokers:change_size(card.ability.extra.joker_slot_story_mode)
             G.consumeables:change_size(card.ability.extra.consumable_slot_story_mode)
             G.hand:change_size(card.ability.extra.hand_size_story_mode)
-            Sagatro.progress_storyline("finding_the_submarine", "finish", self.saga_group, G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("finding_the_submarine", "finish", self.saga_group)
             G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
                 ease_background_colour_blind(G.STATE)
             return true end }))
@@ -4965,7 +4965,7 @@ local sub_engineer = {
     perishable_compat = true,
     add_to_deck = function(self, card, from_debuff)
         SMODS.change_booster_limit(card.ability.amount)
-        Sagatro.progress_storyline("the_sub_engineer", "finish", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+        Sagatro.progress_storyline("the_sub_engineer", "finish", "20k_miles_under_the_sea")
     end,
     remove_from_deck = function(self, card, from_debuff)
         SMODS.change_booster_limit(-card.ability.amount)
@@ -14316,8 +14316,8 @@ local goldia = {
             if context.setting_blind and not card.getting_sliced then
                 if Sagatro.event_check("entering_mirror_maze") and not G.GAME.entering_mirror_maze then
                     G.GAME.entering_mirror_maze = true
-                    Sagatro.progress_storyline("entering_mirror_maze", "finish", self.saga_group, G.GAME.inverwoven_storyline)
-                    Sagatro.progress_storyline("mirror_maze", "add", self.saga_group, G.GAME.inverwoven_storyline)
+                    Sagatro.progress_storyline("entering_mirror_maze", "finish", self.saga_group)
+                    Sagatro.progress_storyline("mirror_maze", "add", self.saga_group)
                     for _, v in ipairs(G.playing_cards) do
                         v.ability.old_enh = v.config.center_key
                         v.ability.old_edition = v.edition and v.edition.key or nil
@@ -14332,7 +14332,7 @@ local goldia = {
                 end
                 if Sagatro.event_check("harpae_patience", nil, {contain = true})
                 and not (Sagatro.event_check("dull_glass") or Sagatro.event_check("dull_glass", nil, {contain = true})) then
-                    Sagatro.progress_storyline("dull_glass", "add", self.saga_group, G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline("dull_glass", "add", self.saga_group)
                     for _, v in ipairs(G.playing_cards) do
                         v.ability.old_enh = v.config.center_key
                         v.ability.old_edition = v.edition and v.edition.key or nil
@@ -14361,8 +14361,8 @@ local goldia = {
                 and not (G.GAME.entering_mirror_maze or G.GAME.leaving_mirror_maze) then
                     G.GAME.leaving_mirror_maze = true
                     G.GAME.sgt_no_saving = true
-                    Sagatro.progress_storyline("mirror_maze", "finish", self.saga_group, G.GAME.inverwoven_storyline)
-                    Sagatro.progress_storyline("lisette_chase", "add", self.saga_group, G.GAME.inverwoven_storyline)
+                    Sagatro.progress_storyline("mirror_maze", "finish", self.saga_group)
+                    Sagatro.progress_storyline("lisette_chase", "add", self.saga_group)
                     card:add_sticker("pinned", true)
                 end
                 if Sagatro.event_check("dull_glass") then
@@ -14494,7 +14494,7 @@ local goldia = {
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
             Sagatro.init_storyline(self.saga_group)
-            Sagatro.progress_storyline("the_pocket_mirror", "add", self.saga_group, G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("the_pocket_mirror", "add", self.saga_group)
             if G.GAME.story_mode then
                 G.GAME.regalia_list = G.GAME.regalia_list or {}
                 G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.06*G.SETTINGS.GAMESPEED, func = function()
@@ -14740,8 +14740,8 @@ local pocket_mirror = {
     end,
     add_to_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
-            Sagatro.progress_storyline("the_pocket_mirror", "finish", self.saga_group, G.GAME.interwoven_storyline)
-            Sagatro.progress_storyline("knife_and_fork", "add", self.saga_group, G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("the_pocket_mirror", "finish", self.saga_group)
+            Sagatro.progress_storyline("knife_and_fork", "add", self.saga_group)
             table.insert(G.GAME.regalia_list, card.config.center_key)
         end
     end,
@@ -14829,8 +14829,8 @@ local knife_fork = {
     end,
     add_to_deck = function(self, card, from_debuff)
         if G.GAME.story_mode and not from_debuff then
-            Sagatro.progress_storyline("knife_and_fork", "finish", self.saga_group, G.GAME.interwoven_storyline)
-            Sagatro.progress_storyline("facing_egliette", "add", self.saga_group, G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("knife_and_fork", "finish", self.saga_group)
+            Sagatro.progress_storyline("facing_egliette", "add", self.saga_group)
             table.insert(G.GAME.regalia_list, card.config.center_key)
         end
     end,
@@ -15330,11 +15330,11 @@ local egliette = {
             if context.setting_blind and not card.getting_sliced
             and not context.blueprint and not context.retrigger_joker and G.GAME.pm_mirrorworld
             and Sagatro.event_check("conditional_game_over", false) then
-                Sagatro.progress_storyline("conditional_game_over", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("conditional_game_over", "force_add", "pocket_mirror")
             end
             if context.end_of_round and not context.game_over and context.main_eval
             and not context.blueprint and not context.retrigger_joker then
-                Sagatro.progress_storyline("pm_mirrorworld", "force_finish", self.saga_group, G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("pm_mirrorworld", "force_finish", self.saga_group)
                 Sagatro.progress_chart(100, true)
                 Sagatro.self_destruct(card)
                 return {

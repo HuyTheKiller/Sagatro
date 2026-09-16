@@ -24,7 +24,7 @@ local red_queen = {
     end,
     defeat = function(self)
         if G.GAME.story_mode then
-            Sagatro.progress_storyline("final_showdown", "finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("final_showdown", "finish", "alice_in_wonderland")
             if Sagatro.storyline_check("alice_in_mirrorworld") then
                 G.GAME.paused_showdown = nil
                 G.GAME.mirrorworld_showdown = true
@@ -82,7 +82,7 @@ local turquoise_jellyfish = {
             end
         end
         if G.GAME.story_mode then
-            Sagatro.progress_storyline("turquoise_jellyfish", "finish", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("turquoise_jellyfish", "finish", "20k_miles_under_the_sea")
             local card = SMODS.find_card("j_sgt_submarine", true)[1]
             if card then
                 card.ability.immutable.pending_go_down = nil
@@ -126,7 +126,7 @@ local aqua_eyeshard = {
     end,
     defeat = function(self)
         if G.GAME.story_mode then
-            Sagatro.progress_storyline("aqua_eyeshard", "finish", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("aqua_eyeshard", "finish", "20k_miles_under_the_sea")
             local card = SMODS.find_card("j_sgt_submarine", true)[1]
             if card then
                 card.ability.immutable.pending_go_down = nil
@@ -155,7 +155,7 @@ local black_oil = {
     boss_colour = HEX("2F6771"),
     defeat = function(self)
         if G.GAME.story_mode then
-            Sagatro.progress_storyline("black_oil", "finish", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("black_oil", "finish", "20k_miles_under_the_sea")
             local card = SMODS.find_card("j_sgt_submarine", true)[1]
             if card then
                 card.ability.immutable.pending_go_down = nil
@@ -206,7 +206,7 @@ local shadow_seamine = {
     end,
     defeat = function(self)
         if G.GAME.story_mode then
-            Sagatro.progress_storyline("shadow_seamine", "finish", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("shadow_seamine", "finish", "20k_miles_under_the_sea")
             local card = SMODS.find_card("j_sgt_submarine", true)[1]
             if card then
                 card.ability.immutable.pending_go_down = nil
@@ -262,7 +262,7 @@ local nyx_abyss = {
     end,
     defeat = function(self)
         if G.GAME.story_mode then
-            Sagatro.progress_storyline("nyx_abyss", "finish", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("nyx_abyss", "finish", "20k_miles_under_the_sea")
             local card = SMODS.find_card("j_sgt_submarine", true)[1]
             if card then
                 card.ability.immutable.pending_go_down = nil
@@ -298,7 +298,7 @@ local the_pawn = {
     end,
     defeat = function(self)
         if G.GAME.story_mode then
-            Sagatro.progress_storyline("the_pawn", "force_finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("the_pawn", "force_finish", "alice_in_wonderland")
         end
     end,
     in_pool = function(self)
@@ -341,7 +341,7 @@ local the_rook = {
     end,
     defeat = function(self)
         if G.GAME.story_mode then
-            Sagatro.progress_storyline("the_rook", "force_finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("the_rook", "force_finish", "alice_in_wonderland")
         end
     end,
     in_pool = function(self)
@@ -373,7 +373,7 @@ local the_knight = {
     end,
     defeat = function(self)
         if G.GAME.story_mode then
-            Sagatro.progress_storyline("the_knight", "force_finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("the_knight", "force_finish", "alice_in_wonderland")
         end
     end,
     in_pool = function(self)
@@ -402,7 +402,7 @@ local the_bishop = {
     end,
     defeat = function(self)
         if G.GAME.story_mode then
-            Sagatro.progress_storyline("the_bishop", "force_finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("the_bishop", "force_finish", "alice_in_wonderland")
         end
     end,
     in_pool = function(self)
@@ -462,7 +462,7 @@ local true_red_queen = {
     end,
     defeat = function(self)
         if G.GAME.story_mode then
-            Sagatro.progress_storyline("true_red_queen", "force_finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("true_red_queen", "force_finish", "alice_in_wonderland")
         end
     end,
     in_pool = function(self)
@@ -526,7 +526,7 @@ local red_king = {
     end,
     defeat = function(self)
         if G.GAME.story_mode then
-            Sagatro.progress_storyline("red_king", "force_finish", "alice_in_wonderland", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("red_king", "force_finish", "alice_in_wonderland")
         end
     end,
     in_pool = function(self)

@@ -146,8 +146,8 @@ Sagatro.EventChain{
             if goldia then
                 goldia.ability.immutable.plot_armor = true
             end
-            Sagatro.progress_storyline("fleta_challenges", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
-            Sagatro.progress_storyline("entering_mirror_maze", "add", "pocket_mirror", G.GAME.inverwoven_storyline)
+            Sagatro.progress_storyline("fleta_challenges", "finish", "pocket_mirror")
+            Sagatro.progress_storyline("entering_mirror_maze", "add", "pocket_mirror")
             return 0
         end,
     },
@@ -231,7 +231,7 @@ Sagatro.EventChain{
             if goldia then
                 goldia.ability.immutable.plot_armor = nil
             end
-            Sagatro.progress_storyline("harpae_patience", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("harpae_patience", "finish", "pocket_mirror")
         end,
     },
 }
@@ -280,8 +280,8 @@ Sagatro.EventChain{
             local lisette = SMODS.find_card("j_sgt_lisette", true)[1]
             if lisette then
                 lisette:shatter()
-                Sagatro.progress_storyline("dull_glass", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
-                Sagatro.progress_storyline("door_puzzle", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("dull_glass", "finish", "pocket_mirror")
+                Sagatro.progress_storyline("door_puzzle", "add", "pocket_mirror")
                 G.GAME.cleaning_up_mirror = true
                 G.E_MANAGER:add_event(Event({
                     trigger = 'ease',
@@ -439,7 +439,7 @@ Sagatro.EventChain{
     key = "platinum_ending",
     func_list = {
         function()
-            Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror")
             Sagatro.temp_music_volume = G.SETTINGS.SOUND.music_volume
             G.E_MANAGER:add_event(Event({
                 trigger = 'ease',
@@ -527,7 +527,7 @@ Sagatro.EventChain{
         function()
             local goldia, enjel = SMODS.find_card("j_sgt_goldia", true)[1], SMODS.find_card("j_sgt_enjel", true)[1]
             if goldia and enjel then
-                Sagatro.progress_storyline("enjel_chase", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("enjel_chase", "add", "pocket_mirror")
                 G.GAME.goldia_tooltip_key = nil
                 Sagatro.swap(goldia, "rightmost")
                 Sagatro.swap(enjel, "leftmost")
@@ -558,14 +558,14 @@ Sagatro.EventChain{
             return 1
         end,
         function()
-            Sagatro.progress_storyline("enjel_chase", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("enjel_chase", "finish", "pocket_mirror")
             local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
             if enjel then
                 local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
                 if pmirror then
-                    Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror")
                     pmirror:remove()
-                    Sagatro.progress_storyline("goldia_transformation", "remove", "pocket_mirror", G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline("goldia_transformation", "remove", "pocket_mirror")
                 end
                 enjel:remove()
                 return 2
@@ -670,15 +670,15 @@ Sagatro.EventChain{
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if goldia then
                 goldia.ability.shatters_on_destroy = nil
-                Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror")
                 goldia:start_dissolve()
                 return 1.5
             end
         end,
         function()
-            Sagatro.progress_storyline("goldia_transformation", "remove", "pocket_mirror", G.GAME.interwoven_storyline)
-            Sagatro.progress_storyline("ending_reached", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
-            Sagatro.progress_storyline("ending_reached", "force_finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("goldia_transformation", "remove", "pocket_mirror")
+            Sagatro.progress_storyline("ending_reached", "force_add", "pocket_mirror")
+            Sagatro.progress_storyline("ending_reached", "force_finish", "pocket_mirror")
             G.GAME.modifiers.inflation = true
             check_for_unlock{type = "pm_unknown_end_1"}
             return 0
@@ -722,13 +722,13 @@ Sagatro.EventChain{
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if goldia then
                 goldia.ability.shatters_on_destroy = nil
-                Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror")
                 goldia:start_dissolve()
                 return 1.5
             end
         end,
         function()
-            Sagatro.progress_storyline("goldia_transformation", "remove", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("goldia_transformation", "remove", "pocket_mirror")
             return 0
         end,
         function()
@@ -776,8 +776,8 @@ Sagatro.EventChain{
             end
         end,
         function()
-            Sagatro.progress_storyline("ending_reached", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
-            Sagatro.progress_storyline("ending_reached", "force_finish", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("ending_reached", "force_add", "pocket_mirror")
+            Sagatro.progress_storyline("ending_reached", "force_finish", "pocket_mirror")
             G.GAME.modifiers.inflation = true
             G.GAME.goldia_tooltip_key = nil
             check_for_unlock{type = "pm_unknown_end_2"}
@@ -794,7 +794,7 @@ Sagatro.EventChain{
         function()
             local goldia, enjel = SMODS.find_card("j_sgt_goldia", true)[1], SMODS.find_card("j_sgt_enjel", true)[1]
             if goldia and enjel then
-                Sagatro.progress_storyline("pocket_mirror_chase", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                Sagatro.progress_storyline("pocket_mirror_chase", "add", "pocket_mirror")
                 G.GAME.goldia_tooltip_key = nil
                 local enjel_pos = Sagatro.get_pos(enjel)
                 Sagatro.swap(goldia, "leftmost")
@@ -857,8 +857,8 @@ Sagatro.EventChain{
             end
         end,
         function()
-            Sagatro.progress_storyline("pocket_mirror_chase", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
-            Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("pocket_mirror_chase", "finish", "pocket_mirror")
+            Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror")
             local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
             if enjel then
                 enjel:shatter()
@@ -982,8 +982,8 @@ Sagatro.EventChain{
             end
         end,
         function()
-            Sagatro.progress_storyline("pocket_mirror_chase", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
-            Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("pocket_mirror_chase", "finish", "pocket_mirror")
+            Sagatro.progress_storyline("goldia_transformation", "add", "pocket_mirror")
             local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
             if enjel then
                 enjel:shatter()

@@ -535,7 +535,7 @@ end
 Sagatro.FUNCS.submarine_down = function(e, force_go_down)
     local submarine = e.config.ref_table
     local bosses = {"turquoise_jellyfish", "aqua_eyeshard", "black_oil", "shadow_seamine", "nyx_abyss"}
-    Sagatro.progress_storyline(bosses[submarine.ability.immutable.depth_level], "add", "20k_miles_under_the_sea", G.GAME.interwoven_storyline)
+    Sagatro.progress_storyline(bosses[submarine.ability.immutable.depth_level], "add", "20k_miles_under_the_sea")
     if Sagatro.event_check(bosses) and not force_go_down then
         G.E_MANAGER:add_event(Event({func = function()
             play_sound('timpani')
@@ -604,11 +604,11 @@ Sagatro.FUNCS.mirror_switch = function(e)
         if G.GAME.story_mode then
             if Sagatro.storyline_check("pocket_mirror") then
                 if G.GAME.pm_mirrorworld then
-                    Sagatro.progress_storyline("pm_mirrorworld", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline("pm_mirrorworld", "force_add", "pocket_mirror")
                     SMODS.add_card{key = "j_sgt_egliette"}
                 else
-                    Sagatro.progress_storyline("facing_egliette", "force_finish", "pocket_mirror", G.GAME.interwoven_storyline)
-                    Sagatro.progress_storyline("fleta_challenges", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline("facing_egliette", "force_finish", "pocket_mirror")
+                    Sagatro.progress_storyline("fleta_challenges", "add", "pocket_mirror")
                     local cards = {}
                     for _, v in ipairs(G.jokers.cards) do
                         if v.config.center.saga_group == "alice_in_wonderland"
@@ -627,7 +627,7 @@ Sagatro.FUNCS.mirror_switch = function(e)
                 end
             else
                 if G.GAME.inversed_scaling then
-                    Sagatro.progress_storyline("mirrorworld", "force_add", "alice_in_wonderland", G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline("mirrorworld", "force_add", "alice_in_wonderland")
                     for _, alice in ipairs(SMODS.find_card("j_sgt_alice", true)) do
                         alice:set_ability("j_sgt_ecila")
                     end
@@ -646,7 +646,7 @@ Sagatro.FUNCS.mirror_switch = function(e)
                         G.GAME.celestara_rate = G.GAME.celestara_rate/1e18
                     end
                 else
-                    Sagatro.progress_storyline("mirrorworld", "remove", "alice_in_wonderland", G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline("mirrorworld", "remove", "alice_in_wonderland")
                     for _, ecila in ipairs(SMODS.find_card("j_sgt_ecila", true)) do
                         ecila:set_ability("j_sgt_alice")
                     end
@@ -687,7 +687,7 @@ Sagatro.FUNCS.mirror_ready = function(e)
         if G.GAME.story_mode then
             for _, v in ipairs{"the_pawn", "the_rook", "the_knight", "the_bishop", "true_red_queen", "red_king"} do
                 if Sagatro.event_check(v, nil, true) then
-                    Sagatro.progress_storyline(v, "add", "alice_in_wonderland", G.GAME.interwoven_storyline)
+                    Sagatro.progress_storyline(v, "add", "alice_in_wonderland")
                     if G.STATE == G.STATES.BLIND_SELECT and G.blind_select_opts then
                         G.from_boss_tag = true
                         G.FUNCS.reroll_boss()
@@ -744,18 +744,18 @@ Sagatro.FUNCS.goldia_transform = function(e)
             if goldia then
                 goldia:set_ability("j_sgt_platinum")
             end
-            Sagatro.progress_storyline("goldia_transformation", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
-            Sagatro.progress_storyline("platinum_ending", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("goldia_transformation", "finish", "pocket_mirror")
+            Sagatro.progress_storyline("platinum_ending", "add", "pocket_mirror")
             check_for_unlock{type = "pm_normal_end_1"}
         elseif #regalia_list == 5 then
             Sagatro.set_goldia_stage(0, "dawn")
-            Sagatro.progress_storyline("goldia_transformation", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
-            Sagatro.progress_storyline("dawn_ending", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("goldia_transformation", "finish", "pocket_mirror")
+            Sagatro.progress_storyline("dawn_ending", "add", "pocket_mirror")
             check_for_unlock{type = "pm_normal_end_2"}
         elseif #regalia_list == 6 then
             Sagatro.set_goldia_stage(0, "name_recalled")
-            Sagatro.progress_storyline("goldia_transformation", "finish", "pocket_mirror", G.GAME.interwoven_storyline)
-            Sagatro.progress_storyline("little_goody_2_shoes_ending", "add", "pocket_mirror", G.GAME.interwoven_storyline)
+            Sagatro.progress_storyline("goldia_transformation", "finish", "pocket_mirror")
+            Sagatro.progress_storyline("little_goody_2_shoes_ending", "add", "pocket_mirror")
             check_for_unlock{type = "pm_normal_end_3"}
         else
             print("Wtf, how did you even get more than 6 regalias?")
@@ -766,8 +766,8 @@ Sagatro.FUNCS.goldia_transform = function(e)
         G.GAME.goldia_transformation_complete = true
         G.SETTINGS.SOUND.music_volume = Sagatro.temp_music_volume or 50
         Sagatro.temp_music_volume = nil
-        Sagatro.progress_storyline("ending_reached", "force_add", "pocket_mirror", G.GAME.interwoven_storyline)
-        Sagatro.progress_storyline("ending_reached", "force_finish", "pocket_mirror", G.GAME.interwoven_storyline)
+        Sagatro.progress_storyline("ending_reached", "force_add", "pocket_mirror")
+        Sagatro.progress_storyline("ending_reached", "force_finish", "pocket_mirror")
     else
         print("Missing required regalias (Pocket Mirror, Messer And Gabel).")
     end
