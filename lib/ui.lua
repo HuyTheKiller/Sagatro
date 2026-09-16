@@ -163,7 +163,7 @@ function G.UIDEF.stake_description(_stake)
     if _stake_center and _stake_center.loc_vars and type(_stake_center.loc_vars) == 'function' then
         local key = (_stake_center:loc_vars({}) or {}).key or _stake_center.key
         if string.find(key, "story_mode") then
-            ret.nodes[1].nodes[1].config.colour = G.C.RARITY[4]
+            ret.nodes[1].nodes[1].config.colour = G.C.EDITION
         end
     end
     return ret
