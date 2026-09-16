@@ -1696,6 +1696,10 @@ function get_new_boss(...)
                 card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
             end
             Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
+            G.GAME.misc_joker_sticker = G.GAME.misc_joker_sticker or {}
+            if not table.contains(G.GAME.misc_joker_sticker, "j_sgt_red_queen") then
+                table.insert(G.GAME.misc_joker_sticker, "j_sgt_red_queen")
+            end
         end
         if Sagatro.storyline_check("alice_in_mirrorworld") then
             G.GAME.paused_showdown = true
@@ -1707,6 +1711,10 @@ function get_new_boss(...)
                 card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
             end
             Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
+            G.GAME.misc_joker_sticker = G.GAME.misc_joker_sticker or {}
+            if not table.contains(G.GAME.misc_joker_sticker, "j_sgt_true_red_queen") then
+                table.insert(G.GAME.misc_joker_sticker, "j_sgt_true_red_queen")
+            end
         end
     elseif ret == 'bl_sgt_red_king' then
         G.GAME.red_king_blind = true
@@ -1715,6 +1723,10 @@ function get_new_boss(...)
                 card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('k_guilty_ex'), instant = true, sound = 'tarot1'})
             end
             Sagatro.self_destruct(v, {no_sound = true, no_destruction_context = true}, guilty_text)
+            G.GAME.misc_joker_sticker = G.GAME.misc_joker_sticker or {}
+            if not table.contains(G.GAME.misc_joker_sticker, "j_sgt_red_king") then
+                table.insert(G.GAME.misc_joker_sticker, "j_sgt_red_king")
+            end
         end
     end
     if Cartomancer then
@@ -4476,6 +4488,12 @@ function set_joker_win()
         for _, extra in ipairs{"j_sgt_egliette", "j_sgt_rusty_scissors"} do
             set_sticker_run(extra)
         end
+    end
+    if G.GAME.misc_joker_sticker and type(G.GAME.misc_joker_sticker) == "table" then
+        for _, joker in ipairs(G.GAME.misc_joker_sticker) do
+            set_sticker_run(joker)
+        end
+        G.GAME.misc_joker_sticker = nil
     end
     G:save_settings()
 end
