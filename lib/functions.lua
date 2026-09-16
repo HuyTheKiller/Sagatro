@@ -2103,7 +2103,9 @@ function Sagatro.progress_chart(mod, interwoven)
         progress = progress.."_iw"
         tag = tag.."_iw"
     end
-    G.GAME[progress] = math.max(math.min(G.GAME[progress] + mod, 100), 0)
+    if G.GAME[progress] ~= 100 then
+        G.GAME[progress] = math.max(math.min(G.GAME[progress] + mod, 100), 0)
+    end
     if G.GAME[tag] and G.GAME[tag] ~= "\"MANUAL_REPLACE\"" then
         G.GAME[tag]:juice_up()
     end
