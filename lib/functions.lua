@@ -2098,18 +2098,19 @@ end
 ---@param interwoven? boolean True to modify interwoven progress.
 --- Progress the pie chart.
 function Sagatro.progress_chart(mod, interwoven)
-    local progress, tag = "storyline_progress", "progress_tag"
+    local progress, tag, modified = "storyline_progress", "progress_tag", false
     if interwoven then
         progress = progress.."_iw"
         tag = tag.."_iw"
     end
     if G.GAME[progress] ~= 100 then
         G.GAME[progress] = math.max(math.min(G.GAME[progress] + mod, 100), 0)
+        modified = true
     end
     if G.GAME[tag] and G.GAME[tag] ~= "\"MANUAL_REPLACE\"" then
         G.GAME[tag]:juice_up()
     end
-    if G.GAME[progress] >= 100 then
+    if G.GAME[progress] >= 100 and modified then
         if interwoven then
             -- TARGET: automatically trigger event on reaching 100% in interwoven storyline
         else
