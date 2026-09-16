@@ -4277,7 +4277,7 @@ SMODS.Keybind {
     key = "quick_restart",
     key_pressed = 'r',
     action = function(self)
-        if Sagatro.config.QuickRestart then
+        if Sagatro.config.QuickRestart and not (love.keyboard.isDown('lctrl') or love.keyboard.isDown('rctrl')) then
             Sagatro.quick_restart()
         end
     end
