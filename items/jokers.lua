@@ -1461,7 +1461,7 @@ local mushroom = {
                         }
                     end
                 end
-            elseif G.jokers.cards[#G.jokers.cards] == card and G.jokers.cards[1].config.center_key ~= "j_sgt_drink_me" then
+            elseif G.jokers.cards[#G.jokers.cards] == card and (G.jokers.cards[1].config.center_key ~= "j_sgt_drink_me" and G.jokers.cards[1].config.center_key ~= "j_sgt_unlabeled_bottle") then
                 if context.before then
                     for _, v in ipairs(context.scoring_hand) do
                         G.E_MANAGER:add_event(Event({
@@ -1573,7 +1573,7 @@ local mushroom = {
             calc_function = function(card)
                 card.joker_display_values.active =
                 ((G.jokers.cards[1] == card and G.jokers.cards[#G.jokers.cards].config.center_key ~= "j_sgt_eat_me")
-                or (G.jokers.cards[#G.jokers.cards] == card and G.jokers.cards[1].config.center_key ~= "j_sgt_drink_me"))
+                or (G.jokers.cards[#G.jokers.cards] == card and (G.jokers.cards[1].config.center_key ~= "j_sgt_drink_me" and G.jokers.cards[1].config.center_key ~= "j_sgt_unlabeled_bottle")))
                 and localize("jdis_active") or localize("jdis_inactive")
                 card.joker_display_values.start_count = card.joker_display_values.start_count or card.ability.extra
             end,
