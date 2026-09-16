@@ -306,7 +306,7 @@ return {
                 name = "Purple Stake",
                 text = {
                     "{C:green}Reroll{} count is {C:attention}limited{}",
-                    "to {C:attention}20{} per shop",
+                    "to {C:attention}8{} per shop",
                     "{s:0.8}Applies all previous Stakes",
                 },
             },

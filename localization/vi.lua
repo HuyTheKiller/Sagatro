@@ -306,7 +306,7 @@ return {
                 name = "Cược Tím",
                 text = {
                     "Lượt {C:green}gieo lại{} bị {C:attention}giới hạn{}",
-                    "ở mức {C:attention}20{} lần mỗi shop",
+                    "ở mức {C:attention}8{} lần mỗi shop",
                     "{s:0.8}Áp dụng các loại Cược trước đó",
                 },
             },

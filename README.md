@@ -24,7 +24,7 @@ Immerse yourself with **Story Mode** - a unique twist to gameplay that allows yo
     * 🟢 Green Stake: Reduce all joker's sell value by $1
     * ⚫ Black Stake: If Ante doesn't increase, permanent +$1 to all joker's buy value
     * 🔵 Blue Stake: When Boss Blind is selected, -1 discard
-    * 🟣 Purple Stake: Reroll count is limited to 20 per shop
+    * 🟣 Purple Stake: Reroll count is limited to 8 per shop
     * 🟠 Orange Stake: Required score scales faster for each Ante
     * 🟡 Gold Stake: Jokers must last 3 rounds to be sellable
 - 🗻 Boost your Cryptid addiction with this mod's own Exponential Mult - an extremely powerful operation used for deep endless runs.

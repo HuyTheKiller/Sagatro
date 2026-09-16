@@ -263,7 +263,7 @@ SMODS.Stake:take_ownership("purple",
     {
         modifiers = function()
             if Sagatro.config.DisableOtherJokers then
-                G.GAME.modifiers.sgt_reroll_limit = 20
+                G.GAME.modifiers.sgt_reroll_limit = 8
             elseif purple_modifiers and type(purple_modifiers) == "function" then
                 purple_modifiers()
             else
