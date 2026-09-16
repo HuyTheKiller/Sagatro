@@ -268,6 +268,7 @@ local drink_me = {
             end
         end
         local ret = {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), localize{type = 'name_text', set = "Joker", key = "j_sgt_eat_me", nodes = {}}}}
+        ret.vars.colours = {G.STAGE == G.STAGES.RUN and G.jokers and G.jokers.cards[1] == card and G.jokers.cards[#G.jokers.cards].config.center_key ~= "j_sgt_eat_me" and G.C.GREEN or G.C.FILTER}
         if Ortalab then
             ret.main_end = {}
             localize{type = "other", key = "sgt_only_joker_area", nodes = ret.main_end, vars = {}}
@@ -411,6 +412,7 @@ local eat_me = {
             end
         end
         local ret = {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), localize{type = 'name_text', set = "Joker", key = "j_sgt_drink_me", nodes = {}}}}
+        ret.vars.colours = {G.STAGE == G.STAGES.RUN and G.jokers and G.jokers.cards[#G.jokers.cards] == card and (G.jokers.cards[1].config.center_key ~= "j_sgt_drink_me" and G.jokers.cards[1].config.center_key ~= "j_sgt_unlabeled_bottle") and G.C.GREEN or G.C.FILTER}
         if Ortalab then
             ret.main_end = {}
             localize{type = "other", key = "sgt_only_joker_area", nodes = ret.main_end, vars = {}}
@@ -674,6 +676,7 @@ local kid_gloves_and_fan = {
             ret.key = self.key.."_storymode"
             ret.vars[#ret.vars+1] = card.ability.extra.chips*G.GAME.alice_multiplier
         end
+        ret.vars.colours = {G.STAGE == G.STAGES.RUN and G.jokers and G.jokers.cards[1] == card and G.C.GREEN or G.C.FILTER}
         if Ortalab then
             ret.main_end = {}
             localize{type = "other", key = "sgt_only_joker_area", nodes = ret.main_end, vars = {}}
@@ -953,6 +956,7 @@ local unlabeled_bottle = {
                 key = "j_sgt_unlabeled_bottle",
                 vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier)}
             }
+            ret.vars.colours = {G.STAGE == G.STAGES.RUN and G.jokers and G.jokers.cards[1] == card and G.C.GREEN or G.C.FILTER}
             if Ortalab then
                 ret.main_end = {}
                 localize{type = "other", key = "sgt_only_joker_area", nodes = ret.main_end, vars = {}}
@@ -1545,6 +1549,10 @@ local mushroom = {
             end
         end
         local ret = {vars = {card.ability.taken and card.ability.extra or card.ability.extra*(G.GAME.story_mode and 1 or G.GAME.alice_multiplier), card.ability.times*G.GAME.alice_multiplier}}
+        ret.vars.colours = {
+            G.STAGE == G.STAGES.RUN and G.jokers and G.jokers.cards[1] == card and G.jokers.cards[#G.jokers.cards].config.center_key ~= "j_sgt_eat_me" and G.C.GREEN or G.C.FILTER,
+            G.STAGE == G.STAGES.RUN and G.jokers and G.jokers.cards[#G.jokers.cards] == card and (G.jokers.cards[1].config.center_key ~= "j_sgt_drink_me" and G.jokers.cards[1].config.center_key ~= "j_sgt_unlabeled_bottle") and G.C.GREEN or G.C.FILTER,
+        }
         if Ortalab then
             ret.main_end = {}
             localize{type = "other", key = "sgt_only_joker_area", nodes = ret.main_end, vars = {}}
@@ -18657,6 +18665,10 @@ local mabel = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {card.ability.amount}}
+        ret.vars.colours = {
+            G.STAGE == G.STAGES.RUN and G.jokers and G.jokers.cards[1] == card and G.C.GREEN or G.C.FILTER,
+            G.STAGE == G.STAGES.RUN and G.jokers and G.jokers.cards[#G.jokers.cards] == card and G.C.GREEN or G.C.FILTER,
+        }
         if Ortalab then
             ret.main_end = {}
             localize{type = "other", key = "sgt_only_joker_area", nodes = ret.main_end, vars = {}}

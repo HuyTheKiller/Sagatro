@@ -1648,7 +1648,7 @@ return {
             j_sgt_drink_me = {
                 name = "Drink Me!",
                 text = {
-                    "If this is the {C:attention}leftmost{} joker,",
+                    "If this is the {V:1}leftmost{} joker,",
                     "{C:attention}convert{} all scoring cards to {C:attention}2s{}",
                     "for the next {C:attention}#1#{} hand(s)",
                     "{s:0.8,C:inactive}Does not trigger if",
@@ -1658,7 +1658,7 @@ return {
             j_sgt_eat_me = {
                 name = "Eat Me!",
                 text = {
-                    "If this is the {C:attention}rightmost{} joker,",
+                    "If this is the {V:1}rightmost{} joker,",
                     "{C:attention}convert{} all scoring cards to {C:attention}Aces{}",
                     "for the next {C:attention}#1#{} hand(s)",
                     "{s:0.8,C:inactive}Does not trigger if",
@@ -1688,7 +1688,7 @@ return {
             j_sgt_kid_gloves_and_fan = {
                 name = "Kid-gloves And The Fan",
                 text = {
-                    "If this is the {C:attention}leftmost{} joker:",
+                    "If this is the {V:1}leftmost{} joker:",
                     "Played cards {C:attention}lose{} #1# rank(s) when scored",
                     "Played 2s are {C:attention}destroyed{} after scoring",
                 },
@@ -1697,7 +1697,7 @@ return {
                 name = "Kid-gloves And The Fan",
                 text = {
                     "{C:chips}+#2#{} Chips",
-                    "If this is the {C:attention}leftmost{} joker:",
+                    "If this is the {V:1}leftmost{} joker:",
                     "Played cards {C:attention}lose{} #1# rank(s) when scored",
                     "Played 2s are {C:attention}destroyed{} after scoring",
                 },
@@ -1713,7 +1713,7 @@ return {
             j_sgt_unlabeled_bottle = {
                 name = "Unlabeled Bottle",
                 text = {
-                    "If this is the {C:attention}leftmost{} joker,",
+                    "If this is the {V:1}leftmost{} joker,",
                     "{C:attention}convert{} all scoring cards to {C:attention}Aces{}",
                     "for the next {C:attention}#1#{} hand(s)",
                 },
@@ -1755,8 +1755,8 @@ return {
             j_sgt_mushroom = {
                 name = "Mushroom",
                 text = {
-                    "If this is the {C:attention}leftmost/rightmost{} joker,",
-                    "All scoring cards {C:attention}lose/gain{} #2# rank(s)",
+                    "If this is the {V:1}leftmost{C:attention}/{V:2}rightmost{} joker,",
+                    "All scoring cards {V:1}lose{C:attention}/{V:2}gain{} #2# rank(s)",
                     "for the next {C:attention}#1#{} hand(s)",
                 },
             },
@@ -3347,8 +3347,8 @@ return {
                 text = {
                     {
                         "At the end of the {C:attention}shop{}:",
-                        "{C:attention}-#1#{} Ante if this is the {C:attention}leftmost{} joker",
-                        "{C:attention}+#1#{} Ante if this is the {C:attention}rightmost{} joker",
+                        "{C:attention}-#1#{} Ante if this is the {V:1}leftmost{} joker",
+                        "{C:attention}+#1#{} Ante if this is the {V:2}rightmost{} joker",
                     },
                     {
                         "Disable {C:attention}Up the Ante{} if this is neither",

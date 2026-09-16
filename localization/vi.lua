@@ -1643,7 +1643,7 @@ return {
             j_sgt_drink_me = {
                 name = "Hãy Uống Tôi!",
                 text = {
-                    "Nếu lá này ở {C:attention}tít bên trái{},",
+                    "Nếu lá này ở {V:1}tít bên trái{},",
                     "{C:attention}biến đổi{} mọi lá ghi điểm thành {C:attention}2{}",
                     "trong {C:attention}#1#{} tay bài tiếp theo",
                     "{s:0.8,C:inactive}Không kích hoạt nếu",
@@ -1653,7 +1653,7 @@ return {
             j_sgt_eat_me = {
                 name = "Hãy Ăn Tôi!",
                 text = {
-                    "Nếu lá này ở {C:attention}tít bên phải{},",
+                    "Nếu lá này ở {V:1}tít bên phải{},",
                     "{C:attention}biến đổi{} mọi lá ghi điểm thành {C:attention}Át{}",
                     "trong {C:attention}#1#{} tay bài tiếp theo",
                     "{s:0.8,C:inactive}Không kích hoạt nếu",
@@ -1683,7 +1683,7 @@ return {
             j_sgt_kid_gloves_and_fan = {
                 name = "Găng Tay Và Chiếc Quạt",
                 text = {
-                    "Nếu lá này ở {C:attention}tít bên trái{}:",
+                    "Nếu lá này ở {V:1}tít bên trái{}:",
                     "Lá đã chơi {C:attention}giảm đi{} #1# bậc khi ghi điểm",
                     "Lá 2 bị {C:attention}phá huỷ{} sau khi ghi điểm",
                 },
@@ -1692,7 +1692,7 @@ return {
                 name = "Găng Tay Và Chiếc Quạt",
                 text = {
                     "{C:chips}+#2#{} Chip",
-                    "Nếu lá này ở {C:attention}tít bên trái{}:",
+                    "Nếu lá này ở {V:1}tít bên trái{}:",
                     "Lá đã chơi {C:attention}giảm đi{} #1# bậc khi ghi điểm",
                     "Lá 2 bị {C:attention}phá huỷ{} sau khi ghi điểm",
                 },
@@ -1708,7 +1708,7 @@ return {
             j_sgt_unlabeled_bottle = {
                 name = "Chai Không Nhãn",
                 text = {
-                    "Nếu lá này ở {C:attention}tít bên trái{},",
+                    "Nếu lá này ở {V:1}tít bên trái{},",
                     "{C:attention}biến đổi{} mọi lá ghi điểm thành {C:attention}Át{}",
                     "trong {C:attention}#1#{} tay bài tiếp theo",
                 },
@@ -1750,8 +1750,8 @@ return {
             j_sgt_mushroom = {
                 name = "Nấm",
                 text = {
-                    "Nếu lá này ở {C:attention}tít bên trái/phải{},",
-                    "Mọi lá ghi điểm {C:attention}giảm/tăng{} #2# bậc",
+                    "Nếu lá này ở {C:attention}tít bên {V:1}trái{C:attention}/{V:2}phải{},",
+                    "Mọi lá ghi điểm {V:1}giảm{C:attention}/{V:2}tăng{} #2# bậc",
                     "trong {C:attention}#1#{} tay bài tiếp theo",
                 },
             },
@@ -3342,8 +3342,8 @@ return {
                 text = {
                     {
                         "Ở cuối {C:attention}shop{}:",
-                        "{C:attention}-#1#{} Ante nếu lá này ở {C:attention}tít bên trái",
-                        "{C:attention}+#1#{} Ante nếu lá này ở {C:attention}tít bên phải",
+                        "{C:attention}-#1#{} Ante nếu lá này ở {V:1}tít bên trái",
+                        "{C:attention}+#1#{} Ante nếu lá này ở {V:2}tít bên phải",
                     },
                     {
                         "Vô hiệu {C:attention}Thăng Ante{} nếu lá này không ở",
