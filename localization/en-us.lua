@@ -263,6 +263,13 @@ return {
             },
         },
         Stake = {
+            stake_white_story_mode = {
+                name = "White Stake",
+                text = {
+                    "The starting point",
+                    "of your journey",
+                },
+            },
             stake_red_story_mode = {
                 name = "Red Stake",
                 text = {

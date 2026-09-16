@@ -156,6 +156,19 @@ function Sagatro.artist_node(artists, first_string)
     return artist_node
 end
 
+local stake_desc_ref = G.UIDEF.stake_description
+function G.UIDEF.stake_description(_stake)
+    local ret = stake_desc_ref(_stake)
+    local _stake_center = G.P_CENTER_POOLS.Stake[_stake]
+    if _stake_center and _stake_center.loc_vars and type(_stake_center.loc_vars) == 'function' then
+        local key = (_stake_center:loc_vars({}) or {}).key or _stake_center.key
+        if string.find(key, "story_mode") then
+            ret.nodes[1].nodes[1].config.colour = G.C.RARITY[4]
+        end
+    end
+    return ret
+end
+
 local desctab_ref = buildModDescTab
 function buildModDescTab(mod)
     local ret = desctab_ref(mod)
@@ -281,6 +294,7 @@ end
 local run_setup_option = G.UIDEF.run_setup_option
 function G.UIDEF.run_setup_option(type)
     local ret = run_setup_option(type)
+    Sagatro.run_setup_type = type
     if type == 'New Run' then
         local story_mode_toggle = create_toggle({label = localize('SGT_disable_other_jokers'),
             label_scale = 0.25, w = 0, scale = 0.7, col = true,
@@ -325,6 +339,15 @@ function G.UIDEF.run_setup_option(type)
         end
     end
     return ret
+end
+
+local galdur_ref = G.UIDEF.run_select_galdur
+if galdur_ref then
+    function G.UIDEF.run_select_galdur(type)
+        local ret = galdur_ref(type)
+        Sagatro.run_setup_type = type
+        return ret
+    end
 end
 
 -- Submarine's UP and DOWN movements

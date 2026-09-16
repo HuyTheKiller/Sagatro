@@ -229,7 +229,7 @@ SMODS.Stake:take_ownership("gold",
             end
         end,
         loc_vars = function(self)
-            if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
+            if (G.GAME.story_mode and not Sagatro.run_setup_type) or (Sagatro.run_setup_type == "New Run" and Sagatro.config.DisableOtherJokers) or (Sagatro.run_setup_type == "Continue" and G.SAVED_GAME and G.SAVED_GAME.GAME.story_mode) then
                 return {key = "stake_gold_story_mode"}
             end
         end
@@ -250,7 +250,7 @@ SMODS.Stake:take_ownership("orange",
             end
         end,
         loc_vars = function(self)
-            if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
+            if (G.GAME.story_mode and not Sagatro.run_setup_type) or (Sagatro.run_setup_type == "New Run" and Sagatro.config.DisableOtherJokers) or (Sagatro.run_setup_type == "Continue" and G.SAVED_GAME and G.SAVED_GAME.GAME.story_mode) then
                 return {key = "stake_orange_story_mode"}
             end
         end
@@ -271,7 +271,7 @@ SMODS.Stake:take_ownership("purple",
             end
         end,
         loc_vars = function(self)
-            if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
+            if (G.GAME.story_mode and not Sagatro.run_setup_type) or (Sagatro.run_setup_type == "New Run" and Sagatro.config.DisableOtherJokers) or (Sagatro.run_setup_type == "Continue" and G.SAVED_GAME and G.SAVED_GAME.GAME.story_mode) then
                 return {key = "stake_purple_story_mode"}
             end
         end
@@ -301,7 +301,7 @@ SMODS.Stake:take_ownership("blue",
             end
         end,
         loc_vars = function(self)
-            if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
+            if (G.GAME.story_mode and not Sagatro.run_setup_type) or (Sagatro.run_setup_type == "New Run" and Sagatro.config.DisableOtherJokers) or (Sagatro.run_setup_type == "Continue" and G.SAVED_GAME and G.SAVED_GAME.GAME.story_mode) then
                 return {key = "stake_blue_story_mode"}
             end
         end
@@ -322,7 +322,7 @@ SMODS.Stake:take_ownership("black",
             end
         end,
         loc_vars = function(self)
-            if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
+            if (G.GAME.story_mode and not Sagatro.run_setup_type) or (Sagatro.run_setup_type == "New Run" and Sagatro.config.DisableOtherJokers) or (Sagatro.run_setup_type == "Continue" and G.SAVED_GAME and G.SAVED_GAME.GAME.story_mode) then
                 return {key = "stake_black_story_mode"}
             end
         end
@@ -343,7 +343,7 @@ SMODS.Stake:take_ownership("green",
             end
         end,
         loc_vars = function(self)
-            if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
+            if (G.GAME.story_mode and not Sagatro.run_setup_type) or (Sagatro.run_setup_type == "New Run" and Sagatro.config.DisableOtherJokers) or (Sagatro.run_setup_type == "Continue" and G.SAVED_GAME and G.SAVED_GAME.GAME.story_mode) then
                 return {key = "stake_green_story_mode"}
             end
         end
@@ -366,8 +366,19 @@ SMODS.Stake:take_ownership("red",
             end
         end,
         loc_vars = function(self)
-            if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
+            if (G.GAME.story_mode and not Sagatro.run_setup_type) or (Sagatro.run_setup_type == "New Run" and Sagatro.config.DisableOtherJokers) or (Sagatro.run_setup_type == "Continue" and G.SAVED_GAME and G.SAVED_GAME.GAME.story_mode) then
                 return {key = "stake_red_story_mode"}
+            end
+        end
+    },
+    true
+)
+
+SMODS.Stake:take_ownership("white",
+    {
+        loc_vars = function(self)
+            if (G.GAME.story_mode and not Sagatro.run_setup_type) or (Sagatro.run_setup_type == "New Run" and Sagatro.config.DisableOtherJokers) or (Sagatro.run_setup_type == "Continue" and G.SAVED_GAME and G.SAVED_GAME.GAME.story_mode) then
+                return {key = "stake_white_story_mode"}
             end
         end
     },

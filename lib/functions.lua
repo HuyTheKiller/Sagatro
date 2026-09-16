@@ -792,6 +792,7 @@ function Game:update(dt)
     end
     if not (G.SETTINGS.paused or G.OVERLAY_MENU) then
         Sagatro.allow_save = nil
+        Sagatro.run_setup_type = nil
         if Sagatro.temp_areas.jokers then
             Sagatro.remove_temp_areas()
         end

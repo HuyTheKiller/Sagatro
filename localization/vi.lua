@@ -263,6 +263,13 @@ return {
             },
         },
         Stake = {
+            stake_white_story_mode = {
+                name = "Cược Trắng",
+                text = {
+                    "Điểm khởi đầu trong",
+                    "chuyến hành trình",
+                },
+            },
             stake_red_story_mode = {
                 name = "Cược Đỏ",
                 text = {
