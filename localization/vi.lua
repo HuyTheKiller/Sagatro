@@ -4839,7 +4839,8 @@ return {
             sgt_s_6 = {
                 "À, còn có một tính năng mới bắt nguồn từ",
                 "một {C:sgt_sagadition}mạch truyện{} ẩn mà bé ít nhất cũng",
-                "muốn anh/chị biết. Mở Tuỳ Chọn để xem nó nhé!",
+                "muốn anh/chị biết. Nó được gọi là Hộp Lưu.",
+                "Mở Tuỳ Chọn để xem nó nhé!",
             },
             sgt_bp_1 = {
                 "Đây được gọi là các",
