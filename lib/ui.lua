@@ -1539,6 +1539,9 @@ function Sagatro.UIDEF.saveload_tab(from_game_over)
         {n=G.UIT.R, config={align = "cm", minw = 8.5, minh = 0.5, padding = 0.2}, nodes={
           UIBox_button({label = {localize('b_wipe_all_saves')}, button = 'delete_all_snapshots', minw = 4, scale = 0.4, minh = 0.6}),
         }},
+        {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+          {n=G.UIT.T, config={id = "wipe_snapshot_warning_text", text = localize("ph_click_confirm"), scale = 0.4, colour = G.C.CLEAR, shadow = true}},
+        }},
       }},
     }},
   }}
@@ -1649,9 +1652,30 @@ Sagatro.FUNCS.can_delete_snapshot = function(e)
 end
 
 Sagatro.FUNCS.delete_all_snapshots = function(e)
-    for i = 1, Sagatro.save_slots do
-        love.filesystem.remove(G.SETTINGS.profile.."/".."storymodesave"..i..".jkr")
-        love.filesystem.remove(G.SETTINGS.profile.."/".."storymodesave_talisman"..i..".jkr")
+    if e then
+        local warning_text = e.UIBox:get_UIE_by_ID('wipe_snapshot_warning_text')
+        if warning_text.config.colour ~= G.C.WHITE then
+            warning_text:juice_up()
+            warning_text.config.colour = G.C.WHITE
+            warning_text.config.shadow = true
+            e.config.disable_button = true
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06, blockable = false, blocking = false, func = function()
+            play_sound('tarot2', 0.76, 0.4);return true end}))
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.35, blockable = false, blocking = false, func = function()
+            e.config.disable_button = nil;return true end}))
+            play_sound('tarot2', 1, 0.4)
+        else
+            warning_text.config.colour = G.C.CLEAR
+            for i = 1, Sagatro.save_slots do
+                love.filesystem.remove(G.SETTINGS.profile.."/".."storymodesave"..i..".jkr")
+                love.filesystem.remove(G.SETTINGS.profile.."/".."storymodesave_talisman"..i..".jkr")
+            end
+        end
+    else
+        for i = 1, Sagatro.save_slots do
+            love.filesystem.remove(G.SETTINGS.profile.."/".."storymodesave"..i..".jkr")
+            love.filesystem.remove(G.SETTINGS.profile.."/".."storymodesave_talisman"..i..".jkr")
+        end
     end
 end
 
