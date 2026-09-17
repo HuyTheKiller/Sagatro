@@ -1416,7 +1416,7 @@ function Sagatro.UIDEF.save_description(_id)
     }}
   }}
 
-  local lwidth, rwidth, scale = 2, 3, 0.5
+  local lwidth, rwidth, scale = 2.3, 2.8, 0.6
   local state = saved_snapshot.STATE
   for k, v in pairs(G.STATES) do
     if state == v then
@@ -1467,17 +1467,22 @@ function Sagatro.UIDEF.save_description(_id)
           }} or nil,
         }},
       }},
-      {n=G.UIT.C, config={minw = 0.1}, nodes={}},
+      {n=G.UIT.C, config={minw = 0.15}, nodes={}},
       {n=G.UIT.C, config={align = "cm", minw = 4, maxw = 4, minh = 1.7, r = 0.1, colour = G.C.L_BLACK, padding = 0.1}, nodes={
         {n=G.UIT.R, config={align = "cm", r = 0.1, minw = 4, maxw = 4, minh = 0.6}, nodes={
           {n=G.UIT.O, config={object = DynaText({string = {localize('b_run_info_1').." "..localize('b_run_info_2')},maxw = 4, colours = {G.C.WHITE}, shadow = true, bump = true, scale = 0.5, pop_in = 0, silent = true})}},
         }},
         {n=G.UIT.R, config={align = "cm", colour = G.C.WHITE,padding = 0.03, minh = 3, r = 0.1}, nodes={
           {n=G.UIT.R, config={align = "cm"}, nodes={
+            {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_blind'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = saved_snapshot.BLIND.config_blind ~= "" and localize{type = "name_text", set = "Blind", key = saved_snapshot.BLIND.config_blind} or localize('k_none'),colour = G.C.ORANGE, scale = scale*0.8}}}}
+          }},
+          saved_snapshot.GAME.storyline_progress and {n=G.UIT.R, config={align = "cm"}, nodes={
             {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_progress'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
             {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
             {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = tostring(saved_snapshot.GAME.storyline_progress).."%",colour = saved_snapshot.GAME.storyline_progress >= 100 and G.C.GREEN or G.C.RED, scale = scale*0.8}}}}
-          }},
+          }} or nil,
           saved_snapshot.GAME.storyline_progress_iw and {n=G.UIT.R, config={align = "cm"}, nodes={
             {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_progress_iw'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
             {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
@@ -1488,6 +1493,14 @@ function Sagatro.UIDEF.save_description(_id)
             {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
             {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = state,colour = G.C.ORANGE, scale = scale*0.8}}}}
           }},
+          {n=G.UIT.R, config={align = "cm"}, nodes={
+            {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_smods_version'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = tostring(saved_snapshot.GAME.smods_version),colour = saved_snapshot.GAME.smods_version == SMODS.version and G.C.UI.TEXT_DARK or G.C.RED, scale = scale*0.8}}}}
+          }},
+          saved_snapshot.GAME.smods_version ~= SMODS.version and {n=G.UIT.R, config={align = "cm"}, nodes={
+            {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = localize('ph_mismatch_warning'),colour = SMODS.Gradients.warning_bg, scale = scale*0.8}}}},
+          }} or nil,
         }},
       }},
     }},
