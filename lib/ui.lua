@@ -1188,6 +1188,19 @@ Sagatro.FUNCS.your_collection_storyline_jokers = function(center_key)
 	}
 end
 
+Sagatro.FUNCS.check_snapshot_back_name = function(e)
+    if e.config.object and e.config.back_key ~= e.config.id then
+        e.config.object:remove()
+        e.config.object = UIBox{
+        definition = {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={
+            {n=G.UIT.O, config={id = e.config.back_key, object = DynaText({string = {localize{type = "name_text", set = "Back", key = e.config.back_key}},maxw = 4, colours = {G.C.WHITE}, shadow = true, bump = true, scale = 0.5, pop_in = 0, silent = true})}},
+        }},
+        config = {offset = {x=0,y=0}, align = 'cm', parent = e}
+        }
+        e.config.id = e.config.back_key
+    end
+end
+
 function Sagatro.update_HUD()
     if G.HUD and G.GAME.story_mode then
         local ante_box_children = G.HUD:get_UIE_by_ID("hud_ante").children[2].children
@@ -1386,52 +1399,100 @@ function Sagatro.UIDEF.save_description(_id)
     }}
   }}
 
+  Sagatro.temp_areas.hand = CardArea(0,0,
+    15*joker_size,
+    0.6*G.CARD_H,
+    {card_limit = cardAreas.hand.config.card_limit or 8,
+    negative_info = 'playing_card',
+    card_w = joker_size*G.CARD_W, type = 'hand', highlight_limit = 0})
 
+  Sagatro.temp_areas.hand:temp_load(cardAreas.hand, joker_size)
+  Sagatro.temp_areas.hand.config.type = 'title_2'
+  Sagatro.temp_areas.hand.config.highlight_limit = 0
+
+  local hand_col = {n=G.UIT.C, config={align = "cm", padding = 0.05, colour = G.C.L_BLACK, r = 0.1, maxh = 5}, nodes={
+    {n=G.UIT.C, config={align = "cm", minh = 0.6*G.CARD_H, minw = 9, r = 0.1, colour = G.C.UI.TRANSPARENT_DARK}, nodes={
+      Sagatro.temp_areas.hand and Sagatro.temp_areas.hand.cards[1] and {n=G.UIT.O, config={object = Sagatro.temp_areas.hand}} or {n=G.UIT.T, config={text = localize('k_empty'), scale = 0.4, colour = G.C.GREY}},
+    }}
+  }}
+
+  local lwidth, rwidth, scale = 2, 3, 0.5
+  local state = saved_snapshot.STATE
+  for k, v in pairs(G.STATES) do
+    if state == v then
+      state = localize("sgt_state_"..k:lower())
+      break
+    end
+  end
 
   return {n=G.UIT.ROOT, config={align = "cm", colour = G.C.BLACK, minh = 8.82, minw = 11.5, r = 0.1}, nodes={
     {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
       joker_col, consumable_col, voucher_col
     }},
-    {n=G.UIT.R, config={align = "cm", minh = 6}, nodes={
-      {n=G.UIT.R, config={align = "cm"}, nodes={
-        {n = G.UIT.O, config = {object = DynaText({
-          string = {localize{type = "name_text", set = "Back", key = saved_snapshot.BACK.key}}, colours = { G.C.UI.TEXT_LIGHT },
-          shadow = true, rotate = true, bump = true, scale = 0.8,
-        })}}
+    {n=G.UIT.R, config={align = "cm", minh = 4}, nodes={
+      {n=G.UIT.C, config={align = "cm", minw = 4, maxw = 4, minh = 1.7, r = 0.1, colour = G.C.L_BLACK, padding = 0.1}, nodes={
+        {n=G.UIT.R, config={align = "cm", r = 0.1, minw = 4, maxw = 4, minh = 0.6}, nodes={
+          {n=G.UIT.O, config={id = nil, back_key = saved_snapshot.BACK.key, func = 'check_snapshot_back_name', object = Moveable()}},
+        }},
+        {n=G.UIT.R, config={align = "cm", colour = G.C.WHITE,padding = 0.03, minh = 3, r = 0.1}, nodes={
+          {n=G.UIT.R, config={align = "cm"}, nodes={
+            {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_round'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = tostring(saved_snapshot.GAME.round),colour = G.C.RED, scale = scale*0.8}}}}
+          }},
+          {n=G.UIT.R, config={align = "cm"}, nodes={
+            {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_ante'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = tostring(saved_snapshot.GAME.round_resets.ante),colour = G.C.BLUE, scale = scale*0.8}}}}
+          }},
+          {n=G.UIT.R, config={align = "cm"}, nodes={
+            {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_money'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = localize('$')..format_ui_value(saved_snapshot.GAME.dollars),colour = G.C.ORANGE, scale = scale*0.8}}}}
+          }},
+          {n=G.UIT.R, config={align = "cm"}, nodes={
+            {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_best_hand'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = number_format(saved_snapshot.GAME.round_scores.hand.amt),colour = G.C.RED, scale = scale*0.8}}}}
+          }},
+          {n=G.UIT.R, config={align = "cm"}, nodes={
+            {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_save_date'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = saved_snapshot.GAME.story_save_date or localize("b_unknown"),colour = G.C.RED, scale = scale*0.8}}}}
+          }},
+          CardSleeves and saved_snapshot.GAME.selected_sleeve and {n=G.UIT.R, config={align = "cm"}, nodes={
+            {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_sleeve'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = localize{type = "name_text", set = "Sleeve", key = saved_snapshot.GAME.selected_sleeve},colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+          }} or nil,
+        }},
       }},
-      {n = G.UIT.R, config = {minh = 0.6}, nodes = {}},
-      {n=G.UIT.R, config={align = "cm", colour = G.C.WHITE,padding = 0.03, minh = 1.75, r = 0.1}, nodes={
-        {n=G.UIT.R, config={align = "cm"}, nodes={
-          {n=G.UIT.C, config={align = "cm", minw = 4, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize('k_round'),colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
-          {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
-          {n=G.UIT.C, config={align = "cl", minw = 5, maxw = 4}, nodes={{n=G.UIT.T, config={text = tostring(saved_snapshot.GAME.round),colour = G.C.RED, scale = 0.6}}}}
+      {n=G.UIT.C, config={minw = 0.1}, nodes={}},
+      {n=G.UIT.C, config={align = "cm", minw = 4, maxw = 4, minh = 1.7, r = 0.1, colour = G.C.L_BLACK, padding = 0.1}, nodes={
+        {n=G.UIT.R, config={align = "cm", r = 0.1, minw = 4, maxw = 4, minh = 0.6}, nodes={
+          {n=G.UIT.O, config={object = DynaText({string = {localize('b_run_info_1').." "..localize('b_run_info_2')},maxw = 4, colours = {G.C.WHITE}, shadow = true, bump = true, scale = 0.5, pop_in = 0, silent = true})}},
         }},
-        {n=G.UIT.R, config={align = "cm"}, nodes={
-          {n=G.UIT.C, config={align = "cm", minw = 4, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize('k_ante'),colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
-          {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
-          {n=G.UIT.C, config={align = "cl", minw = 5, maxw = 4}, nodes={{n=G.UIT.T, config={text = tostring(saved_snapshot.GAME.round_resets.ante),colour = G.C.BLUE, scale = 0.6}}}}
+        {n=G.UIT.R, config={align = "cm", colour = G.C.WHITE,padding = 0.03, minh = 3, r = 0.1}, nodes={
+          {n=G.UIT.R, config={align = "cm"}, nodes={
+            {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_progress'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = tostring(saved_snapshot.GAME.storyline_progress).."%",colour = saved_snapshot.GAME.storyline_progress >= 100 and G.C.GREEN or G.C.RED, scale = scale*0.8}}}}
+          }},
+          saved_snapshot.GAME.storyline_progress_iw and {n=G.UIT.R, config={align = "cm"}, nodes={
+            {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_progress_iw'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = tostring(saved_snapshot.GAME.storyline_progress_iw).."%",colour = saved_snapshot.GAME.storyline_progress_iw >= 100 and G.C.GREEN or G.C.RED, scale = scale*0.8}}}}
+          }} or nil,
+          {n=G.UIT.R, config={align = "cm"}, nodes={
+            {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_game_state'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = state,colour = G.C.ORANGE, scale = scale*0.8}}}}
+          }},
         }},
-        {n=G.UIT.R, config={align = "cm"}, nodes={
-          {n=G.UIT.C, config={align = "cm", minw = 4, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize('k_money'),colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
-          {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
-          {n=G.UIT.C, config={align = "cl", minw = 5, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize('$')..format_ui_value(saved_snapshot.GAME.dollars),colour = G.C.ORANGE, scale = 0.6}}}}
-        }},
-        {n=G.UIT.R, config={align = "cm"}, nodes={
-          {n=G.UIT.C, config={align = "cm", minw = 4, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize('k_best_hand'),colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
-          {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
-          {n=G.UIT.C, config={align = "cl", minw = 5, maxw = 4}, nodes={{n=G.UIT.T, config={text = number_format(saved_snapshot.GAME.round_scores.hand.amt),colour = G.C.RED, scale = scale_number(saved_snapshot.GAME.round_scores.hand.amt, 0.6, 100000000000)}}}}
-        }},
-        {n=G.UIT.R, config={align = "cm"}, nodes={
-          {n=G.UIT.C, config={align = "cm", minw = 4, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize('k_save_date'),colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
-          {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
-          {n=G.UIT.C, config={align = "cl", minw = 5, maxw = 4}, nodes={{n=G.UIT.T, config={text = saved_snapshot.GAME.story_save_date or localize("b_unknown"),colour = G.C.RED, scale = 0.6}}}}
-        }},
-        CardSleeves and saved_snapshot.GAME.selected_sleeve and {n=G.UIT.R, config={align = "cm"}, nodes={
-          {n=G.UIT.C, config={align = "cm", minw = 4, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize('k_sleeve'),colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
-          {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
-          {n=G.UIT.C, config={align = "cl", minw = 5, maxw = 4}, nodes={{n=G.UIT.T, config={text = localize{type = "name_text", set = "Sleeve", key = saved_snapshot.GAME.selected_sleeve},colour = G.C.UI.TEXT_DARK, scale = 0.6}}}},
-        }} or nil,
       }},
+    }},
+    {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+        hand_col,
     }},
     {n=G.UIT.R, config={align = "cm", minh = 0.9}, nodes={
       {n=G.UIT.C, config={align = "cm", padding = 0.1, minh = 0.7, minw = 2.5, r = 0.1, hover = true, colour = Sagatro.badge_colour, button = "save_snapshot", func = "can_save_snapshot", shadow = true, id = _id}, nodes={
