@@ -4633,6 +4633,7 @@ return {
             sgt_state_blind_select = "Blind select",
             sgt_state_selecting_hand = "Selecting hand",
             sgt_state_shop = "Shop",
+            sgt_state_round_eval = "Round evaluation",
             ph_per_face_down = " per face-down",
             ph_trial_begins = "Trial Begins!",
             ph_plus_ante = "+1 Ante",

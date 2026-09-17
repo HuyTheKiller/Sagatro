@@ -4628,6 +4628,7 @@ return {
             sgt_state_blind_select = "Chọn blind",
             sgt_state_selecting_hand = "Chọn tay bài",
             sgt_state_shop = "Shop",
+            sgt_state_round_eval = "Định giá ván",
             ph_per_face_down = " mỗi lá sấp",
             ph_trial_begins = "Khai Toà!",
             ph_plus_ante = "+1 Ante",
