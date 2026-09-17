@@ -4630,6 +4630,7 @@ return {
             k_game_state = "Game state",
             k_smods_version = "SMODS ver.",
             k_blind = "Blind",
+            k_difficulty = "Difficulty",
             sgt_state_blind_select = "Blind select",
             sgt_state_selecting_hand = "Selecting hand",
             sgt_state_shop = "Shop",

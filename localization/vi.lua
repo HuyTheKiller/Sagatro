@@ -4625,6 +4625,7 @@ return {
             k_game_state = "Tr.thái tr.chơi",
             k_smods_version = "P.bản SMODS",
             k_blind = "Blind",
+            k_difficulty = "Độ khó",
             sgt_state_blind_select = "Chọn blind",
             sgt_state_selecting_hand = "Chọn tay bài",
             sgt_state_shop = "Shop",
