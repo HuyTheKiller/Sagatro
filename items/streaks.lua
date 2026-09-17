@@ -122,20 +122,25 @@ local cosmic_streak = {
     weight = 0,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play and not context.seal_chips_getter then
-            G.E_MANAGER:add_event(Event({
-                trigger = 'before',
-                delay = 0.0,
-                func = (function()
-                        local card = create_card('Planet',G.consumeables, nil, nil, nil, nil, nil, 'cos')
-                        card:set_edition("e_negative", true, true)
-                        card:juice_up(1, 0.5)
-                        local ed = G.P_CENTERS.e_negative
-                        play_sound(ed.sound.sound, ed.sound.per, ed.sound.vol)
-                        card:add_to_deck()
-                        G.consumeables:emplace(card)
-                    return true
-                end)}))
-            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet})
+            return {
+                extra = {focus = card, message = localize('k_plus_planet'), func = function()
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'before',
+                        delay = 0.0,
+                        func = (function()
+                                local _card = create_card('Planet',G.consumeables, nil, nil, nil, nil, nil, 'cos')
+                                _card:set_edition("e_negative", true, true)
+                                _card:juice_up(1, 0.5)
+                                local ed = G.P_CENTERS.e_negative
+                                play_sound(ed.sound.sound, ed.sound.per, ed.sound.vol)
+                                _card:add_to_deck()
+                                G.consumeables:emplace(_card)
+                            return true
+                        end)}))
+                end},
+                colour = G.C.SECONDARY_SET.Planet,
+                card = card,
+            }
         end
     end,
     loc_vars = function(self, info_queue, card)
