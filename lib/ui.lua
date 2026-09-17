@@ -1424,6 +1424,10 @@ function Sagatro.UIDEF.save_description(_id)
       break
     end
   end
+  local stake_key, stake_col = SMODS.stake_from_index(saved_snapshot.GAME.stake), G.C.UI.TEXT_DARK
+  if stake_key ~= "stake_white" then
+    stake_col = SMODS.Stakes[stake_key].colour or stake_col
+  end
 
   return {n=G.UIT.ROOT, config={align = "cm", colour = G.C.BLACK, minh = 8.82, minw = 11.5, r = 0.1}, nodes={
     {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
@@ -1463,7 +1467,7 @@ function Sagatro.UIDEF.save_description(_id)
           {n=G.UIT.R, config={align = "cm"}, nodes={
             {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_difficulty'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
             {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
-            {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = localize{type = "name_text", set = "Stake", key = SMODS.stake_from_index(saved_snapshot.GAME.stake)},colour = SMODS.Stakes[SMODS.stake_from_index(saved_snapshot.GAME.stake)].colour or G.C.UI.TEXT_DARK, scale = scale*0.8}}}}
+            {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = localize{type = "name_text", set = "Stake", key = stake_key},colour = stake_col, scale = scale*0.8}}}}
           }},
           CardSleeves and saved_snapshot.GAME.selected_sleeve and {n=G.UIT.R, config={align = "cm"}, nodes={
             {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_sleeve'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
