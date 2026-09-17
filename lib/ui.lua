@@ -1469,6 +1469,11 @@ function Sagatro.UIDEF.save_description(_id)
             {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
             {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = rwidth}, nodes={{n=G.UIT.T, config={text = localize{type = "name_text", set = "Stake", key = stake_key},colour = stake_col, scale = scale*0.8}}}}
           }},
+          saved_snapshot.GAME.seeded and {n=G.UIT.R, config={align = "cm"}, nodes={
+            {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_seed'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
+            {n=G.UIT.C, config={align = "cl", minw = rwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = tostring(saved_snapshot.GAME.pseudorandom.seed),colour = G.C.RED, scale = scale*0.8}}}}
+          }} or nil,
           CardSleeves and saved_snapshot.GAME.selected_sleeve and {n=G.UIT.R, config={align = "cm"}, nodes={
             {n=G.UIT.C, config={align = "cm", minw = lwidth, maxw = lwidth}, nodes={{n=G.UIT.T, config={text = localize('k_sleeve'),colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
             {n=G.UIT.C, config={align = "cm"}, nodes={{n=G.UIT.T, config={text = ': ',colour = G.C.UI.TEXT_DARK, scale = scale*0.8}}}},
