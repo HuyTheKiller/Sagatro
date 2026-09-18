@@ -3536,7 +3536,6 @@ function Sagatro.calculate_fish_joker(card, context)
                             context.full_hand[i]:flip()
                             play_sound('tarot2', percent, 0.6)
                             context.full_hand[i]:juice_up(0.3, 0.3)
-                            save_run()
                             return true
                         end
                     }))
