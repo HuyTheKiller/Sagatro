@@ -750,7 +750,7 @@ local off_depth = {
         card.ability.sgt_off_depth_tally = val and 3 or nil
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and context.main_eval then
+        if context.end_of_round and context.main_eval and not context.retrigger_joker then
             if card.ability.sgt_off_depth_tally == 1 then
                 card.ability.sgt_off_depth_tally = 0
                 card.ability.extra_slots_used = -1
