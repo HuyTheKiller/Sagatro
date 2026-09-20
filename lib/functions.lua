@@ -1622,6 +1622,20 @@ function SMODS.insert_repetitions(ret, eval, effect_card, _type)
     insert_rep_ref(ret, eval, effect_card, _type)
 end
 
+local reset_blind_choices_ref = SMODS.reset_blind_choices
+function SMODS.reset_blind_choices(choices)
+    reset_blind_choices_ref(choices)
+    if next(Sagatro.find_active_card("j_sgt_ragnarok")) then
+        for _, k in ipairs(G.GAME.round_resets.blind_order) do
+            if k ~= 'Boss' then
+                choices[k] = get_new_boss('not_forced')
+            else
+                choices[k] = Sagatro.get_new_showdown(not G.GAME.story_mode and 'not_forced')
+            end
+        end
+    end
+end
+
 -- If you own certain jokers, removes them when their respective Showdown Blind variants appear
 -- Also general blind handling in story mode
 local gnb = get_new_boss
