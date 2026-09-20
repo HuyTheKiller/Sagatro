@@ -17874,7 +17874,7 @@ local ragnarok = {
     eternal_compat = true,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and G.GAME.blind.boss then
+        if context.end_of_round and not context.game_over and context.main_eval and not context.blueprint and G.GAME.blind.config.blind and G.GAME.blind.config.blind.boss then
             if G.GAME.blind.config.blind.boss.showdown then
                 if SMODS.scale_card then
                     SMODS.scale_card(card, {
