@@ -2361,7 +2361,7 @@ function Sagatro.get_new_showdown(...)
     end
 
     local min_use = 100
-    for k, v in pairs(G.GAME.bosses_used) do
+    for k, v in pairs(G.GAME.bosses_used.boss) do
         if eligible_bosses[k] then
             eligible_bosses[k] = v
             if eligible_bosses[k] <= min_use then
