@@ -4864,8 +4864,8 @@ return {
             sgt_bb_1 = {
                 "Hiệu ứng cược cũng đã được {C:attention}làm lại{}.",
                 "Anh/chị có thể xem nó sau ở menu",
-                "chính. Bé đây khuyến kích dùng {C:attention}Galdur",
-                "với tuỳ chọn 'Mở Khoá Toàn Bộ Cược'.",
+                "chính. Bé đây khuyến kích dùng một",
+                "hồ sơ đã mở khoá toàn bộ.",
             },
             sgt_bb_2 = {
                 "Làm tốt lắm thưa anh/chị! Đó là",

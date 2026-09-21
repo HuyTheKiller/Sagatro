@@ -4869,8 +4869,8 @@ return {
             sgt_bb_1 = {
                 "Stake effects have also been {C:attention}reworked{}.",
                 "You can take a look at it later in",
-                "main menu. I recommend using {C:attention}Galdur",
-                "with 'Unlock All Stakes' option.",
+                "main menu. I recommend using an",
+                "all-unlocked profile.",
             },
             sgt_bb_2 = {
                 "Good job! That's all the basics",
