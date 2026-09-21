@@ -386,7 +386,7 @@ return {
                 name = "Vệt Đen",
                 text = {
                     "{X:dark_edition,C:white}^^#1#{} Nhân",
-                    not Sagatro.mod_compat.talisman and "{C:inactive,s:0.8}Yêu cầu Talisman" or nil,
+                    not Sagatro.mod_compat.talisman and "{C:inactive,s:0.8}Yêu cầu Amulet" or nil,
                 },
             },
             sgt_cosmic_streak_seal = {
@@ -403,7 +403,7 @@ return {
                     "Ngăn thua trận nếu giữ",
                     "trong tay ở cuối ván",
                     "rồi {S:1.1,C:red,E:2}tự huỷ{}",
-                    not Sagatro.mod_compat.talisman and "{C:inactive,s:0.8}Yêu cầu Talisman" or nil,
+                    not Sagatro.mod_compat.talisman and "{C:inactive,s:0.8}Yêu cầu Amulet" or nil,
                 },
             },
             sgt_blood_seal = {
@@ -458,25 +458,25 @@ return {
             sgt_require_talisman_for_emult = {
                 name = "n",
                 text = {
-                    "{C:inactive,s:0.8}Yêu cầu Talisman để tác dụng lên {X:dark_edition,C:white,s:0.8}^Nhân{}",
+                    "{C:inactive,s:0.8}Yêu cầu Amulet để tác dụng lên {X:dark_edition,C:white,s:0.8}^Nhân{}",
                 },
             },
             sgt_require_talisman_for_retriggers = {
                 name = "n",
                 text = {
-                    "{C:inactive,s:0.8}Yêu cầu Talisman để tác dụng lên {C:attention,s:0.8}Tái kích{}",
+                    "{C:inactive,s:0.8}Yêu cầu Amulet để tác dụng lên {C:attention,s:0.8}Tái kích{}",
                 },
             },
             sgt_require_talisman_generic = {
                 name = "n",
                 text = {
-                    "{C:inactive,s:0.8}Yêu cầu Talisman",
+                    "{C:inactive,s:0.8}Yêu cầu Amulet",
                 },
             },
             sgt_talisman_detected = {
                 name = "n",
                 text = {
-                    "{C:inactive,s:0.8}Tận hưởng sự {C:attention,s:0.8}điên rồ{C:inactive,s:0.8} của Talisman nhé!",
+                    "{C:inactive,s:0.8}Tận hưởng sự {C:attention,s:0.8}điên rồ{C:inactive,s:0.8} của Amulet nhé!",
                 },
             },
             sgt_only_joker_area = {
@@ -2230,7 +2230,7 @@ return {
                         "{C:attention}Đổi{} sang phía bên kia",
                         "mỗi tay bài đã chơi",
                         "{C:inactive,s:0.8}Khi thời khắc đến, lá này sẽ",
-                        "{C:inactive,s:0.8}gieo rắc tai ương (yêu cầu {C:attention,s:0.8}Talisman{C:inactive,s:0.8})",
+                        "{C:inactive,s:0.8}gieo rắc tai ương (yêu cầu {C:attention,s:0.8}Amulet{C:inactive,s:0.8})",
                     },
                     {
                         "{C:attention}Sköll{}: Thêm {X:mult,C:white}X#1#{} Nhân mỗi lá",

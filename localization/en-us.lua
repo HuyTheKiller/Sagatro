@@ -386,7 +386,7 @@ return {
                 name = "Black Streak",
                 text = {
                     "{X:dark_edition,C:white}^^#1#{} Mult",
-                    not Sagatro.mod_compat.talisman and "{C:inactive,s:0.8}Require Talisman" or nil,
+                    not Sagatro.mod_compat.talisman and "{C:inactive,s:0.8}Require Amulet" or nil,
                 },
             },
             sgt_cosmic_streak_seal = {
@@ -404,7 +404,7 @@ return {
                     "Prevents Death if held",
                     "in hand at end of round",
                     "{S:1.1,C:red,E:2}self destructs{}",
-                    not Sagatro.mod_compat.talisman and "{C:inactive,s:0.8}Require Talisman" or nil,
+                    not Sagatro.mod_compat.talisman and "{C:inactive,s:0.8}Require Amulet" or nil,
                 },
             },
             sgt_blood_seal = {
@@ -459,25 +459,25 @@ return {
             sgt_require_talisman_for_emult = {
                 name = "n",
                 text = {
-                    "{C:inactive,s:0.8}Require Talisman to affect {X:dark_edition,C:white,s:0.8}^Mult{}",
+                    "{C:inactive,s:0.8}Require Amulet to affect {X:dark_edition,C:white,s:0.8}^Mult{}",
                 },
             },
             sgt_require_talisman_for_retriggers = {
                 name = "n",
                 text = {
-                    "{C:inactive,s:0.8}Require Talisman to affect {C:attention,s:0.8}Retriggers{}",
+                    "{C:inactive,s:0.8}Require Amulet to affect {C:attention,s:0.8}Retriggers{}",
                 },
             },
             sgt_require_talisman_generic = {
                 name = "n",
                 text = {
-                    "{C:inactive,s:0.8}Require Talisman",
+                    "{C:inactive,s:0.8}Require Amulet",
                 },
             },
             sgt_talisman_detected = {
                 name = "n",
                 text = {
-                    "{C:inactive,s:0.8}Enjoy Talisman's {C:attention,s:0.8}insanity{C:inactive,s:0.8}!",
+                    "{C:inactive,s:0.8}Enjoy Amulet's {C:attention,s:0.8}insanity{C:inactive,s:0.8}!",
                 },
             },
             sgt_only_joker_area = {
@@ -2234,7 +2234,7 @@ return {
                         "{C:attention}Switch{} to the other side",
                         "every hand played",
                         "{C:inactive,s:0.8}When the time comes, this card will",
-                        "{C:inactive,s:0.8}unleash a catastrophe (require {C:attention,s:0.8}Talisman{C:inactive,s:0.8})",
+                        "{C:inactive,s:0.8}unleash a catastrophe (require {C:attention,s:0.8}Amulet{C:inactive,s:0.8})",
                     },
                     {
                         "{C:attention}Sköll{}: Gain {X:mult,C:white}X#1#{} Mult every card",
