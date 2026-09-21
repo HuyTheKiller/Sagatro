@@ -2685,6 +2685,9 @@ function get_blind_amount(ante)
                 limiter[#limiter+1] = limiter[#limiter]*1e4
             end
         end
+        for i, v in ipairs(limiter) do
+            limiter[i] = to_big(v)
+        end
         amount = amount/(limiter[math.max(ante-8, 1)] or 1)
     end
     if G.GAME.inversed_scaling then
