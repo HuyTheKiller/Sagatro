@@ -4394,7 +4394,7 @@ return {
                 name = "Sagatro",
                 text = {
                     "{s:1.3}Thêm yếu tố {s:1.3,C:dark_edition}cổ tích {s:1.3}vào Balatro.",
-                    "{s:1.1}Chọn một mạch truyện và tìm con đường đến vinh quang.",
+                    "{s:1.3}Chọn một mạch truyện và tìm con đường đến vinh quang.",
                     " ",
                     "Một số nhạc được dùng không có bản quyền. trừ nhạc ngoại.",
                     "Nếu gặp vấn đề, vào tab Tuỳ Chọn của mod này và sử dụng",

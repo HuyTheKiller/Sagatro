@@ -4399,7 +4399,7 @@ return {
                 name = "Sagatro",
                 text = {
                     "{s:1.3}Adds {s:1.3,C:dark_edition}fairy tale {s:1.3}elements to Balatro.",
-                    "{s:1.1}Pick a storyline and find your path towards victory.",
+                    "{s:1.3}Pick a storyline and find your path towards victory.",
                     " ",
                     "Some music used here are not copyrighted, except external ones.",
                     "If you encounter issues, go to this mod's Config tab",
