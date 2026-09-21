@@ -1986,8 +1986,8 @@ function Sagatro.init_storyline(storyline_name, interwoven, override)
                 end
                 if not progress_already_active then
                     add_tag{key = "tag_sgt_progress_pie_iw"}
-                    G.GAME.storyline_progress_iw = 0
                 end
+                G.GAME.storyline_progress_iw = 0
             end
         else
             if G.GAME.current_storyline == "none" or override then
@@ -2001,8 +2001,8 @@ function Sagatro.init_storyline(storyline_name, interwoven, override)
                 end
                 if not progress_already_active then
                     add_tag{key = "tag_sgt_progress_pie"}
-                    G.GAME.storyline_progress = 0
                 end
+                G.GAME.storyline_progress = 0
             end
         end
     end
