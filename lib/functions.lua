@@ -2700,7 +2700,7 @@ function get_blind_amount(ante)
 end
 
 -- quick debug func
-function Sagatro.get_blind_amounts(ante_ceil, nerfed)
+function Sagatro.DT_get_blind_amounts(ante_ceil, nerfed)
     local temp = G.GAME.sgt_lenient_score
     G.GAME.sgt_lenient_score = nerfed and true or nil
     local t = {}
@@ -2711,7 +2711,7 @@ function Sagatro.get_blind_amounts(ante_ceil, nerfed)
     return t
 end
 
-function Sagatro.get_quotient_amounts(ante_ceil)
+function Sagatro.DT_get_quotient_amounts(ante_ceil)
     local t = {}
     for i = 1, ante_ceil do
         t[#t+1] = to_big(10^math.max(i-13, 3))
