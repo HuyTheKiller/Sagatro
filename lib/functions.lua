@@ -2631,7 +2631,7 @@ end
 function Sagatro.update_blind_amounts(instant)
     if G.GAME.blind then
         if G.GAME.inversed_scaling then
-            G.GAME.blind.chips = get_blind_amount(G.GAME.round_resets.ante)/math.max(G.GAME.blind.mult*((0.8+(0.05*math.log(G.GAME.blind.mult)))^G.GAME.blind.mult), 1)
+            G.GAME.blind.chips = Sagatro.get_inverse_blind_amount(G.GAME.round_resets.ante, G.GAME.blind.mult)
         else
             G.GAME.blind.chips = get_blind_amount(G.GAME.round_resets.ante)*G.GAME.blind.mult*G.GAME.starting_params.ante_scaling
         end
@@ -2742,10 +2742,14 @@ function Blind:set_blind(blind, reset, silent)
         end
         self.chips = get_blind_amount(G.GAME.round_resets.blind_ante)*final_mult*G.GAME.starting_params.ante_scaling
         if G.GAME.inversed_scaling then
-            self.chips = get_blind_amount(G.GAME.round_resets.ante)/math.max(final_mult*((0.8+(0.05*math.log(final_mult)))^final_mult), 1)
+            self.chips = Sagatro.get_inverse_blind_amount(G.GAME.round_resets.ante, final_mult)
         end
         self.chip_text = number_format(self.chips)
     end
+end
+
+function Sagatro.get_inverse_blind_amount(ante, blind_mult)
+    return get_blind_amount(ante)/math.max(blind_mult*((0.8+(0.05*math.log(blind_mult)))^blind_mult), 1)
 end
 
 function Sagatro.inverse()

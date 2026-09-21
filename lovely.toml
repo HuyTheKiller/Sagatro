@@ -360,7 +360,7 @@ for k, v in pairs(G.GAME.modifiers.sgt_blind_mult_mod or {}) do
 end
 blind_amt = get_blind_amount(G.GAME.round_resets.blind_ante)*final_mult*G.GAME.starting_params.ante_scaling
 if G.GAME.inversed_scaling then
-    blind_amt = get_blind_amount(G.GAME.round_resets.ante)/math.max(final_mult*((0.8+(0.05*math.log(final_mult)))^final_mult), 1)
+    blind_amt = Sagatro.get_inverse_blind_amount(G.GAME.round_resets.ante, final_mult)
 end
 '''
 
