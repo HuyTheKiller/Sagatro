@@ -4849,7 +4849,7 @@ return {
             sgt_s_6 = {
                 "Oh, and there's a new feature derived",
                 "from a secret {C:sgt_sagadition}storyline{} that I at least",
-                "want you to know. It's called Save Box!",
+                "want you to know. It's called {C:sgt_sagadition}Save Box{}!",
                 "Open Options to see it!",
             },
             sgt_bp_1 = {
