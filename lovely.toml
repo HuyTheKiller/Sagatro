@@ -1470,3 +1470,21 @@ for k, card in ipairs(self.cards) do
     if card.facing == 'front' and (card.ability.set ~= 'Storyline' or card.config.center_key == 'strl_sgt_saga_default') then card:flip() end
 '''
 match_indent = true
+
+# Fix SUAS (Sans Undertale Ante Skip) intefering with Inversion
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+if #G.hand.cards < 1 and #G.deck.cards < 1 and #G.play.cards < 1 then
+    end_round()
+end
+'''
+position = "at"
+payload = '''
+-- Commented this piece of code to prevent SUAS
+-- if #G.hand.cards < 1 and #G.deck.cards < 1 and #G.play.cards < 1 then
+--     end_round()
+-- end
+'''
+match_indent = true
