@@ -2167,7 +2167,7 @@ return {
                 name = "Electric Eel",
                 text = {
                     "{C:attention}Retrigger{} cards adjacent",
-                    "to {C:attention}conductive enhancements{}",
+                    "to {C:attention}metallic enhancements{}",
                     "{C:inactive}(ex: Steel, Gold)"
                 },
             },
@@ -2295,7 +2295,7 @@ return {
                     "If {C:attention}played hand{} is a single",
                     "{C:attention}King{}, convert all cards",
                     "in hand into a random",
-                    "{C:attention}conductive enhancement",
+                    "{C:attention}metallic enhancement",
                 },
             },
             j_sgt_necronomicon = {
@@ -3286,9 +3286,9 @@ return {
                 name = "Thórr",
                 text = {
                     "{C:attention}Retrigger{} cards adjacent to",
-                    "{C:attention}conductive enhancements",
+                    "{C:attention}metallic enhancements",
                     "Each {C:attention}held in hand{} card with",
-                    "{C:attention}conductive enhancement",
+                    "{C:attention}metallic enhancement",
                     "gives {X:dark_edition,C:white}^#1#{} Mult",
                 },
             },

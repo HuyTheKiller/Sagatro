@@ -2163,7 +2163,7 @@ return {
                 name = "Lươn Điện",
                 text = {
                     "{C:attention}Tái kích{} lá bài bên cạnh",
-                    "lá {C:attention}cường hoá dẫn điện{}",
+                    "lá {C:attention}cường hoá kim loại{}",
                     "{C:inactive}(VD: Thép, Vàng)"
                 },
             },
@@ -2291,7 +2291,7 @@ return {
                     "Nếu tay bài đã chơi là",
                     "một lá {C:attention}Già{}, biến đổi mọi lá",
                     "trên tay thành một {C:attention}cường hoá",
-                    "{C:attention}dẫn điện{} ngẫu nhiên",
+                    "{C:attention}kim loại{} ngẫu nhiên",
                 },
             },
             j_sgt_necronomicon = {
@@ -3281,9 +3281,9 @@ return {
                 name = "Thórr",
                 text = {
                     "{C:attention}Tái kích{} lá bài bên cạnh",
-                    "{C:attention}cường hoá dẫn điện",
+                    "{C:attention}cường hoá kim loại",
                     "Mỗi lá {C:attention}giữ trên tay{} có",
-                    "{C:attention}cường hoá dẫn điện",
+                    "{C:attention}cường hoá kim loại",
                     "cho {X:dark_edition,C:white}^#1#{} Nhân",
                 },
             },
