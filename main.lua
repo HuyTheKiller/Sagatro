@@ -14,6 +14,7 @@ Sagatro.load_table = {
     deckskin = true,
     challenges = true,
     achievements = true,
+    event_chains = true,
     dragging = true,
     controller = true,
 }
@@ -32,6 +33,7 @@ Sagatro.load_order = {
     "deckskin",
     "challenges",
     "achievements",
+    "event_chains",
     "dragging",
     "controller",
 }
