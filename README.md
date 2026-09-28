@@ -31,8 +31,9 @@ Immerse yourself with **Story Mode** - a unique twist to gameplay that allows yo
     * 🟣 Purple Stake: Reroll count is limited to 8 per shop
     * 🟠 Orange Stake: Required score scales faster for each Ante
     * 🟡 Gold Stake: Jokers must last 3 rounds to be sellable
+- ℹ️ Huge [JokerDisplay](https://thunderstore.io/c/balatro/p/nh6574/JokerDisplay/) integration, providing useful informations at a glance.
 - 🗻 Boost your Cryptid addiction with this mod's own Exponential Mult - an extremely powerful operation used for deep endless runs.
-- 🎨 Custom artwork: Many of them are pulled from Black Souls' twisted farity tales.
+- 🎨 Custom artwork: from talented artists (and sometimes from the coder as well).
 - 🎵 Custom music: Ease your stress with a lofi-themed version of the original soundtrack. It's not copyrighted* so feel free to stream!
 ###### * Pocket Mirror storyline alters background music based on your current progress, many of which may be copyrighted. If you encounter issues, go to Sagatro's config tab and use the "No external" option of Sagatro music.
 ---
