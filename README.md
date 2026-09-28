@@ -50,8 +50,7 @@ Immerse yourself with **Story Mode** - a unique twist to gameplay that allows yo
 ---
 
 🧚‍♂️ **Future Plans**  
-- Rebalancing of several jokers
-- More storylines to come!
+- Proper refactors to ease cross-mod experience
 
 ---
 
