@@ -253,7 +253,7 @@ Sagatro.Enchantment = SMODS.Consumable:extend{
     end,
     loc_vars = function(self, info_queue, card)
         if not card.ability.from_tag then
-            info_queue[#info_queue+1] = {set = "Other", key = "sgt_max_enchantment", specific_vars = {G.GAME.sgt_max_enchantment or 2}}
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_max_enchantment", specific_vars = {G.GAME.sgt_max_enchantment or 3}}
         end
         card.ability.extra = type(card.ability.extra) == "table" and card.ability.extra or {}
         card.ability.extra.level = card.ability.extra.level or 1
