@@ -44,7 +44,7 @@ Sagatro.mod_compat = {
     talisman = next(SMODS.find_mod("Talisman")) or false,
 }
 
-Sagatro.electric_eel_info_queue = {
+Sagatro.metallic_enhancement_list = {
     "m_steel",
     "m_gold",
     "m_sgt_titanium",
