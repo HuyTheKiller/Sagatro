@@ -13,10 +13,14 @@ Immerse yourself with **Story Mode** - a unique twist to gameplay that allows yo
 - ✨ 149 New Jokers from various stories (+14 more with Talisman installed!).
 - 📕 Story Mode: Enable the natural flow of a story - progress to get stronger, defeat the final boss to win regardless of win Ante. You can treat this mod as a simple content pack by turning it off.
 - 🔴 12 New Boss Blinds: these will pose as minor and major villains in Story Mode.
-- 🎲 60+ new consumable cards - level the playing field against cruel blinds. Also accommodated by 6 Vouchers and 4 Tags.
+- 🎲 80+ new consumable cards - level the playing field against cruel blinds. Also accommodated by 8 Vouchers and 5 Tags.
+    * 🟩 Divinatio: upgraded version of Tarot cards, providing better enhancements and deck-fixing.
+    * 🟦 Celestara: upgraded version of Planet cards, providing even more poker hand levels with interesting cross-poker-hand interactions.
+    * ⬛ Eldritch: upgraded version of Spectral cards, providing chaotic flips to your deck, albeit with more controls and less downside.
+    * 🟪 Enchantment: newest addition, get up to 3 powerful global effects to supercharge your run.
 - 📘 3 New Decks (+Sleeves):
     * 🟪 Saga Deck - simple yet powerful effects, specifically designed for Story Mode.
-    * 🟫 Grimoire Deck - Powerful deck fixing with Divinatio and Eldritch cards.
+    * ⬜ Grimoire Deck - Powerful deck fixing with Divinatio and Eldritch cards.
     * 🟦 Celestaverse Deck - Explore various ways to upgrade your poker hands with Celestara cards.
 - ↗️ Revamped stake effects for Story Mode:
     * ⚪ White Stake: unchanged
