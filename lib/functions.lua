@@ -2272,7 +2272,8 @@ function Sagatro.fragile_enhancement(card)
     return Sagatro.omniscient(card, Sagatro.fragile_enhancement_list)
 end
 
--- Append enhancement keys to `Sagatro.metallic_enhancement_list` to include your target enhancements
+-- Append enhancement keys to respective enhancement group to include your target enhancements.
+-- Available groups: `Sagatro.metallic_enhancement_list`, `Sagatro.fragile_enhancement_list`
 function Sagatro.enh_group_info_queue(info_queue, center_table)
     if center_table and type(center_table) == 'table' then
         for _, center in ipairs(center_table) do
