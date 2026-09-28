@@ -15931,8 +15931,7 @@ local lisette = {
         and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum") then
             if context.mod_probability and not context.blueprint then
                 if context.trigger_obj and ((context.trigger_obj.is and context.trigger_obj:is(Card)
-                and Sagatro.fragile_enhancement(context.trigger_obj))
-                or (context.trigger_obj.fake_card
+                and Sagatro.fragile_enhancement(context.trigger_obj)) or (context.trigger_obj.fake_card
                 and table.contains({"m_glass", "m_sgt_nyx_glass", "m_sgt_omniscient"}, context.trigger_obj.fake_card))) then
                     return { denominator = context.denominator*card.ability.extra.glass_odds_mod }
                 end
@@ -16347,8 +16346,9 @@ local rusty_scissors = {
         if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker then
         else
             if context.fix_probability then
-                if context.trigger_obj and context.trigger_obj.is and context.trigger_obj:is(Card)
-                and Sagatro.fragile_enhancement(context.trigger_obj) then
+                if context.trigger_obj and ((context.trigger_obj.is and context.trigger_obj:is(Card)
+                and Sagatro.fragile_enhancement(context.trigger_obj)) or (context.trigger_obj.fake_card
+                and table.contains({"m_glass", "m_sgt_nyx_glass", "m_sgt_omniscient"}, context.trigger_obj.fake_card))) then
                     return { numerator = context.denominator }
                 end
             end
