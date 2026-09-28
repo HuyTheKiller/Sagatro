@@ -2263,12 +2263,17 @@ function Sagatro.get_submarine_depth_colour()
 end
 
 function Sagatro.metallic_enhancement(card)
-    if not card then return end
+    if not card then return false end
     return Sagatro.omniscient(card, Sagatro.metallic_enhancement_list)
 end
 
+function Sagatro.fragile_enhancement(card)
+    if not card then return false end
+    return Sagatro.omniscient(card, Sagatro.fragile_enhancement_list)
+end
+
 -- Append enhancement keys to `Sagatro.metallic_enhancement_list` to include your target enhancements
-function Sagatro.metallic_info_queue(info_queue, center_table)
+function Sagatro.enh_group_info_queue(info_queue, center_table)
     if center_table and type(center_table) == 'table' then
         for _, center in ipairs(center_table) do
             if G.P_CENTERS[center] then

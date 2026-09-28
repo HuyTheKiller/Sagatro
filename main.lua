@@ -51,6 +51,11 @@ Sagatro.metallic_enhancement_list = {
     "m_sgt_platinum",
 }
 
+Sagatro.fragile_enhancement_list = {
+    "m_glass",
+    "m_sgt_nyx_glass",
+}
+
 Sagatro.necronomicon = {
     rarity_weight = {Common = 0, Uncommon = 3, Rare = 10, sgt_obscure = 25},
     rarity_order = {"sgt_obscure", "Rare", "Uncommon", "Common"},

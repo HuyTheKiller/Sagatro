@@ -6852,7 +6852,7 @@ local electric_eel = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        Sagatro.metallic_info_queue(info_queue, Sagatro.metallic_enhancement_list)
+        Sagatro.enh_group_info_queue(info_queue, Sagatro.metallic_enhancement_list)
         Sagatro.fish_loc_vars(info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
             info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
@@ -17156,7 +17156,7 @@ local saint_germain = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        Sagatro.metallic_info_queue(info_queue, Sagatro.metallic_enhancement_list)
+        Sagatro.enh_group_info_queue(info_queue, Sagatro.metallic_enhancement_list)
     end,
     set_badges = function(self, card, badges)
          badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -18091,7 +18091,7 @@ local thor = {
         end
     end,
     loc_vars = function(self, info_queue, card)
-        Sagatro.metallic_info_queue(info_queue, Sagatro.metallic_enhancement_list)
+        Sagatro.enh_group_info_queue(info_queue, Sagatro.metallic_enhancement_list)
         return {vars = {card.ability.extra.e_mult}}
     end,
     set_badges = function(self, card, badges)
