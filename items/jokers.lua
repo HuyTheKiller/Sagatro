@@ -6777,10 +6777,10 @@ local electric_eel = {
                 for i, v in ipairs(G.play.cards) do
                     if context.other_card == v then
                         local count = 0
-                        if Sagatro.conductive_enhancement(G.play.cards[i-1]) then
+                        if Sagatro.metallic_enhancement(G.play.cards[i-1]) then
                             count = count + 1
                         end
-                        if Sagatro.conductive_enhancement(G.play.cards[i+1]) then
+                        if Sagatro.metallic_enhancement(G.play.cards[i+1]) then
                             count = count + 1
                         end
                         if count > 0 then
@@ -6797,10 +6797,10 @@ local electric_eel = {
                 for i, v in ipairs(G.hand.cards) do
                     if context.other_card == v then
                         local count = 0
-                        if Sagatro.conductive_enhancement(G.hand.cards[i-1]) then
+                        if Sagatro.metallic_enhancement(G.hand.cards[i-1]) then
                             count = count + 1
                         end
-                        if Sagatro.conductive_enhancement(G.hand.cards[i+1]) then
+                        if Sagatro.metallic_enhancement(G.hand.cards[i+1]) then
                             count = count + 1
                         end
                         if count > 0 then
@@ -6819,10 +6819,10 @@ local electric_eel = {
             for i, v in ipairs(G.hand.cards) do
                 if context.other_card == v then
                     local count = 0
-                    if Sagatro.conductive_enhancement(G.hand.cards[i-1]) then
+                    if Sagatro.metallic_enhancement(G.hand.cards[i-1]) then
                         count = count + 1
                     end
-                    if Sagatro.conductive_enhancement(G.hand.cards[i+1]) then
+                    if Sagatro.metallic_enhancement(G.hand.cards[i+1]) then
                         count = count + 1
                     end
                     if count > 0 then
@@ -6852,7 +6852,7 @@ local electric_eel = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        Sagatro.electric_eel_info_queue_append(info_queue, Sagatro.electric_eel_info_queue)
+        Sagatro.metallic_info_queue(info_queue, Sagatro.metallic_enhancement_list)
         Sagatro.fish_loc_vars(info_queue, card)
         if G.GAME.fish_vars and Sagatro.config.ViewFishProperties then
             info_queue[#info_queue+1] = {set = "Other", key = "sgt_fish_vars"}
@@ -6886,10 +6886,10 @@ local electric_eel = {
                     local count = 0
                     for i, v in ipairs(G.hand.cards) do
                         if playing_card == v then
-                            if Sagatro.conductive_enhancement(G.hand.cards[i-1]) then
+                            if Sagatro.metallic_enhancement(G.hand.cards[i-1]) then
                                 count = count + 1
                             end
-                            if Sagatro.conductive_enhancement(G.hand.cards[i+1]) then
+                            if Sagatro.metallic_enhancement(G.hand.cards[i+1]) then
                                 count = count + 1
                             end
                         end
@@ -6904,10 +6904,10 @@ local electric_eel = {
                     if scoring_hand then
                         for i, v in ipairs(G.play.cards) do
                             if playing_card == v then
-                                if Sagatro.conductive_enhancement(G.play.cards[i-1]) and table.contains(scoring_hand, v) then
+                                if Sagatro.metallic_enhancement(G.play.cards[i-1]) and table.contains(scoring_hand, v) then
                                     count = count + 1
                                 end
-                                if Sagatro.conductive_enhancement(G.play.cards[i+1]) and table.contains(scoring_hand, v) then
+                                if Sagatro.metallic_enhancement(G.play.cards[i+1]) and table.contains(scoring_hand, v) then
                                     count = count + 1
                                 end
                             end
@@ -17131,7 +17131,7 @@ local saint_germain = {
     calculate = function(self, card, context)
         if context.before and not context.blueprint and not context.retrigger_joker
         and #context.full_hand == 1 and context.full_hand[1]:get_id() == 13 then
-            local chosen_conductive = SMODS.poll_enhancement{key = "saint_conductive", guaranteed = true, options = Sagatro.electric_eel_info_queue}
+            local chosen_conductive = SMODS.poll_enhancement{key = "saint_conductive", guaranteed = true, options = Sagatro.metallic_enhancement_list}
             for _, v in ipairs(G.hand.cards) do
                 v:set_ability(G.P_CENTERS[chosen_conductive], nil, true)
                 G.E_MANAGER:add_event(Event({
@@ -17156,7 +17156,7 @@ local saint_germain = {
         return true
     end,
     loc_vars = function(self, info_queue, card)
-        Sagatro.electric_eel_info_queue_append(info_queue, Sagatro.electric_eel_info_queue)
+        Sagatro.metallic_info_queue(info_queue, Sagatro.metallic_enhancement_list)
     end,
     set_badges = function(self, card, badges)
          badges[#badges+1] = create_badge(localize('ph_misc_story'), G.C.SGT_SAGADITION, G.C.WHITE, 1 )
@@ -18010,10 +18010,10 @@ local thor = {
                 for i, v in ipairs(G.play.cards) do
                     if context.other_card == v then
                         local count = 0
-                        if Sagatro.conductive_enhancement(G.play.cards[i-1]) then
+                        if Sagatro.metallic_enhancement(G.play.cards[i-1]) then
                             count = count + 1
                         end
-                        if Sagatro.conductive_enhancement(G.play.cards[i+1]) then
+                        if Sagatro.metallic_enhancement(G.play.cards[i+1]) then
                             count = count + 1
                         end
                         if count > 0 then
@@ -18030,10 +18030,10 @@ local thor = {
                 for i, v in ipairs(G.hand.cards) do
                     if context.other_card == v then
                         local count = 0
-                        if Sagatro.conductive_enhancement(G.hand.cards[i-1]) then
+                        if Sagatro.metallic_enhancement(G.hand.cards[i-1]) then
                             count = count + 1
                         end
-                        if Sagatro.conductive_enhancement(G.hand.cards[i+1]) then
+                        if Sagatro.metallic_enhancement(G.hand.cards[i+1]) then
                             count = count + 1
                         end
                         if count > 0 then
@@ -18052,10 +18052,10 @@ local thor = {
             for i, v in ipairs(G.hand.cards) do
                 if context.other_card == v then
                     local count = 0
-                    if Sagatro.conductive_enhancement(G.hand.cards[i-1]) then
+                    if Sagatro.metallic_enhancement(G.hand.cards[i-1]) then
                         count = count + 1
                     end
-                    if Sagatro.conductive_enhancement(G.hand.cards[i+1]) then
+                    if Sagatro.metallic_enhancement(G.hand.cards[i+1]) then
                         count = count + 1
                     end
                     if count > 0 then
@@ -18069,7 +18069,7 @@ local thor = {
             end
         end
         if context.individual and context.cardarea == G.hand and not context.end_of_round and not context.forcetrigger then
-            if Sagatro.conductive_enhancement(context.other_card) then
+            if Sagatro.metallic_enhancement(context.other_card) then
                 if context.other_card.debuff then
                     return {
                         message = localize('k_debuffed'),
@@ -18091,7 +18091,7 @@ local thor = {
         end
     end,
     loc_vars = function(self, info_queue, card)
-        Sagatro.electric_eel_info_queue_append(info_queue, Sagatro.electric_eel_info_queue)
+        Sagatro.metallic_info_queue(info_queue, Sagatro.metallic_enhancement_list)
         return {vars = {card.ability.extra.e_mult}}
     end,
     set_badges = function(self, card, badges)
@@ -18114,7 +18114,7 @@ local thor = {
                 local playing_hand = next(G.play.cards)
                 for _, playing_card in ipairs(G.hand.cards) do
                     if playing_hand or not playing_card.highlighted then
-                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff and Sagatro.conductive_enhancement(playing_card) then
+                        if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff and Sagatro.metallic_enhancement(playing_card) then
                             count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
                         end
                     end
@@ -18129,10 +18129,10 @@ local thor = {
                     local count = 0
                     for i, v in ipairs(G.hand.cards) do
                         if playing_card == v then
-                            if Sagatro.conductive_enhancement(G.hand.cards[i-1]) then
+                            if Sagatro.metallic_enhancement(G.hand.cards[i-1]) then
                                 count = count + 1
                             end
-                            if Sagatro.conductive_enhancement(G.hand.cards[i+1]) then
+                            if Sagatro.metallic_enhancement(G.hand.cards[i+1]) then
                                 count = count + 1
                             end
                         end
@@ -18143,10 +18143,10 @@ local thor = {
                     if scoring_hand then
                         for i, v in ipairs(G.play.cards) do
                             if playing_card == v then
-                                if Sagatro.conductive_enhancement(G.play.cards[i-1]) and table.contains(scoring_hand, v) then
+                                if Sagatro.metallic_enhancement(G.play.cards[i-1]) and table.contains(scoring_hand, v) then
                                     count = count + 1
                                 end
-                                if Sagatro.conductive_enhancement(G.play.cards[i+1]) and table.contains(scoring_hand, v) then
+                                if Sagatro.metallic_enhancement(G.play.cards[i+1]) and table.contains(scoring_hand, v) then
                                     count = count + 1
                                 end
                             end

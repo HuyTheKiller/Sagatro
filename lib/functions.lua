@@ -2262,13 +2262,13 @@ function Sagatro.get_submarine_depth_colour()
     return max_depth
 end
 
-function Sagatro.conductive_enhancement(card)
+function Sagatro.metallic_enhancement(card)
     if not card then return end
-    return Sagatro.omniscient(card, Sagatro.electric_eel_info_queue)
+    return Sagatro.omniscient(card, Sagatro.metallic_enhancement_list)
 end
 
--- Append enhancement keys to `Sagatro.electric_eel_info_queue` to include your target enhancements
-function Sagatro.electric_eel_info_queue_append(info_queue, center_table)
+-- Append enhancement keys to `Sagatro.metallic_enhancement_list` to include your target enhancements
+function Sagatro.metallic_info_queue(info_queue, center_table)
     if center_table and type(center_table) == 'table' then
         for _, center in ipairs(center_table) do
             if G.P_CENTERS[center] then
