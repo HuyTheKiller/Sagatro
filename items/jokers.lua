@@ -18553,7 +18553,7 @@ local darkness = {
             local chosen_card = pseudorandom_element(context.full_hand, pseudoseed("darkness_negative_playing_card"))
             if not chosen_card.edition then
                 chosen_card:set_edition("e_negative", true, true)
-                chosen_card:juice_up(1, 0.5)
+                chosen_card:juice_up()
                 local ed = G.P_CENTERS.e_negative
                 play_sound(ed.sound.sound, ed.sound.per, ed.sound.vol)
             end
