@@ -242,6 +242,21 @@ SMODS.Atlas{
     py = 34,
 }
 
+-- Image from https://github.com/PrismarineJS/minecraft-assets/blob/master/data/1.16.1/misc/enchanted_item_glint.png
+SMODS.Atlas{
+    key = "enchanted_item_glint",
+    path = "enchanted_item_glint.png",
+    px = 128,
+    py = 128,
+}
+
+SMODS.Atlas{
+    key = "enchantments",
+    path = "Enchantments.png",
+    px = 71,
+    py = 95,
+}
+
 SMODS.Sound{
     key = "run_away",
     path = "run_away.ogg",
@@ -280,6 +295,11 @@ SMODS.Sound{
 SMODS.Sound{
     key = "explosion",
     path = "explosion.ogg",
+}
+
+SMODS.Sound{
+    key = "enchant",
+    path = "enchant.ogg",
 }
 --#region Borrowed sfx from Pocket Mirror ~ GoldenerTraum
 
@@ -484,4 +504,32 @@ SMODS.Sound{
 SMODS.Shader{
     key = "inactive_noir",
     path = "inactive_noir.fs",
+}
+
+SMODS.Shader{
+    key = "enchanted_item_glint",
+    path = "enchanted_item_glint.fs",
+    send_vars = function(sprite, card)
+        return {
+            overlay_texture = SMODS.Atlases.sgt_enchanted_item_glint.image,
+            zoom_factor = 16,
+            move_speed = 2,
+            transparency = 0.4,
+            in_deck = not not (card and card.area and card.area.config.type == 'deck'),
+            darken = card and card.area and card.area == G.deck and card.back_overlay or G.C.WHITE,
+        }
+    end,
+}
+
+SMODS.Shader{
+    key = "enchanted_ui_glint",
+    path = "enchanted_ui_glint.fs",
+    send_vars = function(sprite, card)
+        return {
+            overlay_texture = SMODS.Atlases.sgt_enchanted_item_glint.image,
+            zoom_factor = 8,
+            move_speed = 2,
+            transparency = 0.6,
+        }
+    end,
 }

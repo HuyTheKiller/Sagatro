@@ -161,3 +161,104 @@ Sagatro.Storyline = SMODS.Center:extend{
     end,
 }
 --#endregion
+
+--#region Sagatro.Enchantment
+
+Sagatro.Enchantments = {}
+Sagatro.Enchantment = SMODS.Consumable:extend{
+    obj_table = Sagatro.Enchantments,
+    obj_buffer = {},
+    set = "sgt_Enchantment",
+    atlas = "sgt_enchantments",
+    pos = { x = 0, y = 0 },
+    cost = 1,
+    required_params = {
+        "key",
+        "max_level",
+        "use_funcs",
+        "undo_funcs",
+    },
+    inject = function(self)
+        SMODS.Consumable.inject(self)
+        self.identifier = self.key:sub(3, -1)
+    end,
+    select_card = function(self, card, pack)
+        return "consumeables", true
+    end,
+    set_ability = function(self, card, initial, delay_sprites)
+        card.ability.extra = type(card.ability.extra) == "table" and card.ability.extra or {}
+        card.ability.extra.level = 1
+        Sagatro.get_enchantment_cost(card, self)
+        card.awaiting_level = true
+    end,
+    update = function(self, card, dt)
+        if card.ability and self.discovered then
+            Sagatro.get_enchantment_cost(card, self)
+            if card.awaiting_level and card.area then
+                card.awaiting_level = nil
+                if not card.area.config.collection then
+                    local roll = pseudorandom(self.identifier.."_enchantment")
+                    if self.max_level >= 4 and roll < (G.GAME.modifiers.sgt_enchantment_boost or 1)/16 then
+                        card.ability.extra.level = 4
+                    elseif self.max_level >= 3 and roll < (G.GAME.modifiers.sgt_enchantment_boost or 1)/8 then
+                        card.ability.extra.level = 3
+                    elseif self.max_level >= 2 and roll < (G.GAME.modifiers.sgt_enchantment_boost or 1)/4 then
+                        card.ability.extra.level = 2
+                    end
+                end
+            end
+            if card.area and card.area.config.collection then
+                card.ability.showcase_dt = (card.ability.showcase_dt or 0) + G.real_dt
+                if card.ability.showcase_dt > 1 and not card.states.hover.is then
+                    while card.ability.showcase_dt > 1 do
+                        card.ability.showcase_dt = card.ability.showcase_dt - 1
+                    end
+                    if card.ability.extra.level == self.max_level then
+                        card.ability.extra.level = 1
+                    else
+                        card.ability.extra.level = card.ability.extra.level + 1
+                    end
+                end
+            end
+            card.children.center:set_sprite_pos{x = card.ability.extra.level - 1, y = 0}
+        end
+    end,
+    can_use = function(self, card)
+        local overleveled = G.GAME.sgt_enchanted_table and G.GAME.sgt_enchanted_table[self.identifier]
+        and G.GAME.sgt_enchanted_table[self.identifier] > card.ability.extra.level
+        return to_big(card.ability.extra.required_cost) > to_big(0)
+        and to_big(card.ability.extra.required_cost) <= to_big(G.GAME.dollars + G.GAME.bankrupt_at)
+        and not overleveled
+    end,
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                local level = Sagatro.get_next_level(card, self)
+                if level <= self.max_level then
+                    play_sound('sgt_enchant', 1, 1)
+                    card:juice_up(0.3, 0.5)
+                    if G.deck then
+                        (G.deck.cards[1] or G.deck):juice_up(0.3, 0.5)
+                    end
+                    ease_dollars(-card.ability.extra.required_cost, true)
+                    Sagatro.add_enchantment(level, self, card, area, copier)
+                    G.GAME.enchanting_inflation = (G.GAME.enchanting_inflation or 0) + 1
+                end
+                return true
+            end
+        }))
+        delay(0.6)
+    end,
+    loc_vars = function(self, info_queue, card)
+        if not card.ability.from_tag then
+            info_queue[#info_queue+1] = {set = "Other", key = "sgt_max_enchantment", specific_vars = {G.GAME.sgt_max_enchantment or 2}}
+        end
+        card.ability.extra = type(card.ability.extra) == "table" and card.ability.extra or {}
+        card.ability.extra.level = card.ability.extra.level or 1
+        Sagatro.get_enchantment_cost(card, self)
+        return {vars = {localize{type = 'name_text', set = "sgt_Enchantment", key = self.key, nodes = {}}, Sagatro.get_roman_level(Sagatro.get_next_level(card, self)), card.ability.extra.required_cost}}
+    end,
+}
+--#endregion

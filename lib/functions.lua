@@ -7,6 +7,7 @@ G.C.SGT_DIVINATIO = HEX("3bc9cf")
 G.C.SGT_CELESTARA = HEX("717beb")
 G.C.SGT_ELDRITCH = HEX("3f0c57")
 G.C.SGT_SUPPLY = HEX("485267")
+G.C.SGT_ENCHANTMENT = HEX("3f077b")
 G.C.SGT_BADGE = HEX("6131ac")
 G.C.GOLDIA_PINK = HEX("b4417b")
 G.C.PLATINUM_PINK = HEX("fdd2e3")
@@ -271,6 +272,7 @@ function Game:init_game_object()
     ret.celestara_tooltip = not G.PROFILES[G.SETTINGS.profile].sgt_celestara_tooltip_done
     ret.current_round.reroll_count = 0
     ret.shelved_chains = {}
+    ret.sgt_max_enchantment = 3
     return ret
 end
 
@@ -471,6 +473,22 @@ function CardArea:update(dt)
                 G.jokers.cards[i]:remove_sticker("sgt_not_food")
                 G.jokers.cards[i]:remove_sticker("sgt_inedible")
                 G.jokers.cards[i]:remove_sticker("sgt_edible")
+            end
+        end
+    end
+    if G.GAME.sgt_enchanted_table and G.GAME.sgt_enchanted_table.sgt_warding then
+        if G.GAME.sgt_enchanted_table.sgt_warding == 2 then
+            if self == G.hand and G.hand.cards[1] then
+                for i, v in ipairs(G.hand.cards) do
+                    if i ~= 1 or v.debuff then
+                        SMODS.debuff_card(v, i == 1 and "prevent_debuff", "l2_warding")
+                    end
+                end
+            end
+        end
+        if self == G.discard and G.discard.cards[1] then
+            for _, v in ipairs(G.discard.cards) do
+                SMODS.debuff_card(v, nil, "l2_warding")
             end
         end
     end
@@ -865,6 +883,32 @@ function Game:update(dt)
                     if G.GAME.progress_tag_iw.tag_sprite.sprite_pos.x ~= math.floor(G.GAME.progress_tag_iw.ability.progress*16) then
                         G.GAME.progress_tag_iw.tag_sprite:set_sprite_pos{x = math.floor(G.GAME.progress_tag_iw.ability.progress*16), y = 0}
                     end
+                end
+            else
+                if G.GAME.progress_tag_iw and G.GAME.progress_tag_iw == "\"MANUAL_REPLACE\""
+                and G.GAME.progress_tag_iw.HUD_tag.REMOVED then
+                    G.GAME.progress_tag_iw = nil
+                end
+            end
+        end
+        if G.GAME.sgt_enchanted_table then
+            for k, v in pairs(G.GAME.sgt_enchanted_table) do
+                if not G.GAME.sgt_enchanted_tag[k] or G.GAME.sgt_enchanted_tag[k] == "\"MANUAL_REPLACE\"" then
+                    for i = 1, #G.GAME.tags do
+                        if G.GAME.tags[i].ability.enchantment == k then
+                            G.GAME.sgt_enchanted_tag[k] = G.GAME.tags[i]
+                            break
+                        end
+                    end
+                else
+                    G.GAME.sgt_enchanted_tag[k].tag_sprite:set_sprite_pos{x = 1 + v, y = 4}
+                end
+            end
+        end
+        if G.GAME.sgt_enchanted_tag then
+            for k, v in pairs(G.GAME.sgt_enchanted_tag) do
+                if not G.GAME.sgt_enchanted_table[k] and v ~= "\"MANUAL_REPLACE\"" and v.HUD_tag.REMOVED then
+                    G.GAME.sgt_enchanted_tag[k] = nil
                 end
             end
         end
@@ -3164,6 +3208,462 @@ function Sagatro:calculate(context)
     and context.prevent_tag_trigger.config.type == "new_blind_choice" then
         return {prevent_trigger = true}
     end
+    if context.modify_final_cashout and not context.retrigger_joker then
+        if G.GAME.sgt_enchanted_table and G.GAME.sgt_enchanted_table.sgt_abundance then
+            local min = 2*(G.GAME.sgt_enchanted_table.sgt_abundance - 1)
+            local max = context.amount + 2*(G.GAME.sgt_enchanted_table.sgt_abundance - 1)
+            if max > min then
+                local dollars = min + math.floor(pseudorandom("abundance_random_money")*(max - min))
+                return {
+                    modify = dollars,
+                    cashout_row = {name = "custom", text_colour = G.C.DARK_EDITION, text = localize{type = "name_text", set = "sgt_Enchantment", key = "sgt_abundance_"..G.GAME.sgt_enchanted_table.sgt_abundance, nodes = {}}},
+                }
+            end
+        end
+    end
+    if G.GAME.sgt_enchanted_table and not context.retrigger_joker then
+        if G.GAME.sgt_enchanted_table.sgt_echo then
+            if G.GAME.sgt_enchanted_table.sgt_echo == 1 then
+                if context.repetition then
+                    if context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
+                        return {
+                            message = localize("k_again_ex"),
+                            repetitions = 1,
+                        }
+                    end
+                end
+                if context.end_of_round and context.repetition
+                and context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
+                    return {
+                        message = localize("k_again_ex"),
+                        repetitions = 1,
+                    }
+                end
+            elseif G.GAME.sgt_enchanted_table.sgt_echo == 2 then
+                if context.repetition then
+                    if context.cardarea == G.play then
+                        return {
+                            message = localize("k_again_ex"),
+                            repetitions = 1,
+                        }
+                    end
+                end
+            elseif G.GAME.sgt_enchanted_table.sgt_echo == 3 then
+                if context.repetition then
+                    if context.cardarea == G.play then
+                        return {
+                            message = localize("k_again_ex"),
+                            repetitions = 1,
+                        }
+                    end
+                    if context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
+                        return {
+                            message = localize("k_again_ex"),
+                            repetitions = 1,
+                        }
+                    end
+                end
+                if context.end_of_round and context.repetition
+                and context.cardarea == G.hand and (next(context.card_effects[1]) or #context.card_effects > 1) then
+                    return {
+                        message = localize("k_again_ex"),
+                        repetitions = 1,
+                    }
+                end
+            elseif G.GAME.sgt_enchanted_table.sgt_echo == 4 then
+                if context.retrigger_joker_check then
+                    return {
+                        message = localize("k_again_ex"),
+                        repetitions = 1,
+                    }
+                end
+            end
+        end
+        if G.GAME.sgt_enchanted_table.sgt_reflection then
+            if G.GAME.sgt_enchanted_table.sgt_reflection == 1 then
+                if context.before then
+                    if SMODS.pseudorandom_probability(Sagatro, "l1_reflection", 1, 4) then
+                        local chosen
+                        for _, v in ipairs(context.scoring_hand) do
+                            if v.ability.set == "Enhanced" or v.edition or v.seal then
+                                chosen = v
+                                break
+                            end
+                        end
+                        if chosen then
+                            local other_list = {}
+                            for _, v in ipairs(context.scoring_hand) do
+                                if v ~= chosen then
+                                    other_list[#other_list+1] = v
+                                end
+                            end
+                            local modifiers = {
+                                enhancement = {chosen.ability.set == "Enhanced" and chosen.config.center_key or nil},
+                                edition = {chosen.edition and chosen.edition.key or nil},
+                                seal = {chosen.seal or nil},
+                            }
+                            local chosen_mod, key = pseudorandom_element(modifiers, pseudoseed("reflection_chosen_mod_l1"))
+                            local it = 1
+                            while not next(chosen_mod) do
+                                chosen_mod, key = pseudorandom_element(modifiers, pseudoseed("reflection_chosen_mod_l1_reroll"..it))
+                                it = it + 1
+                            end
+                            chosen_mod = chosen_mod[1]
+                            local chosen_target = pseudorandom_element(other_list, pseudoseed("reflection_chosen_target_l1"))
+                            if key == "enhancement" then
+                                chosen_target:set_ability(chosen_mod)
+                            elseif key == "edition" then
+                                chosen_target:set_edition(chosen_mod, true)
+                            elseif key == "seal" then
+                                chosen_target:set_seal(chosen_mod, nil, true)
+                            end
+                            chosen_target:juice_up()
+                        end
+                    end
+                end
+            elseif G.GAME.sgt_enchanted_table.sgt_reflection == 2 then
+                if context.before then
+                    if SMODS.pseudorandom_probability(Sagatro, "l2_reflection", 1, 2) then
+                        local chosen
+                        for _, v in ipairs(context.scoring_hand) do
+                            if v.ability.set == "Enhanced" or v.edition or v.seal then
+                                chosen = v
+                                break
+                            end
+                        end
+                        if chosen then
+                            local other_list = {}
+                            for _, v in ipairs(context.scoring_hand) do
+                                if v ~= chosen then
+                                    other_list[#other_list+1] = v
+                                end
+                            end
+                            local modifiers = {
+                                enhancement = {chosen.ability.set == "Enhanced" and chosen.config.center_key or nil},
+                                edition = {chosen.edition and chosen.edition.key or nil},
+                                seal = {chosen.seal or nil},
+                            }
+                            local chosen_mod, key = pseudorandom_element(modifiers, pseudoseed("reflection_chosen_mod_l2"))
+                            local it = 1
+                            while not next(chosen_mod) do
+                                chosen_mod, key = pseudorandom_element(modifiers, pseudoseed("reflection_chosen_mod_l2_reroll"..it))
+                                it = it + 1
+                            end
+                            chosen_mod = chosen_mod[1]
+                            local chosen_target = pseudorandom_element(other_list, pseudoseed("reflection_chosen_target_l2"))
+                            if key == "enhancement" then
+                                chosen_target:set_ability(chosen_mod)
+                            elseif key == "edition" then
+                                chosen_target:set_edition(chosen_mod, true)
+                            elseif key == "seal" then
+                                chosen_target:set_seal(chosen_mod, nil, true)
+                            end
+                            chosen_target:juice_up()
+                        end
+                    end
+                end
+            elseif G.GAME.sgt_enchanted_table.sgt_reflection == 3 then
+                if context.before then
+                    if SMODS.pseudorandom_probability(Sagatro, "l3_reflection", 1, 3) then
+                        local chosen
+                        for _, v in ipairs(context.scoring_hand) do
+                            if v.ability.set == "Enhanced" or v.edition or v.seal then
+                                chosen = v
+                                break
+                            end
+                        end
+                        if chosen then
+                            local other_list = {}
+                            for _, v in ipairs(context.scoring_hand) do
+                                if v ~= chosen then
+                                    other_list[#other_list+1] = v
+                                end
+                            end
+                            local modifiers = {
+                                enhancement = {chosen.ability.set == "Enhanced" and chosen.config.center_key or nil},
+                                edition = {chosen.edition and chosen.edition.key or nil},
+                                seal = {chosen.seal or nil},
+                            }
+                            local chosen_mod, key = pseudorandom_element(modifiers, pseudoseed("reflection_chosen_mod_l3"))
+                            local it = 1
+                            while not next(chosen_mod) do
+                                chosen_mod, key = pseudorandom_element(modifiers, pseudoseed("reflection_chosen_mod_l3_reroll"..it))
+                                it = it + 1
+                            end
+                            chosen_mod = chosen_mod[1]
+                            for i, v in ipairs(other_list) do
+                                if key == "enhancement" then
+                                    v:set_ability(chosen_mod)
+                                elseif key == "edition" then
+                                    v:set_edition(chosen_mod, true, i ~= 1)
+                                elseif key == "seal" then
+                                    v:set_seal(chosen_mod, i ~= 1, true)
+                                end
+                                v:juice_up()
+                            end
+                        end
+                    end
+                end
+            elseif G.GAME.sgt_enchanted_table.sgt_reflection == 4 then
+                if context.before then
+                    local chosen
+                    for _, v in ipairs(context.scoring_hand) do
+                        if v.ability.set == "Enhanced" or v.edition or v.seal then
+                            chosen = v
+                            break
+                        end
+                    end
+                    if chosen then
+                        local other_list = {}
+                        for _, v in ipairs(context.scoring_hand) do
+                            if v ~= chosen then
+                                other_list[#other_list+1] = v
+                            end
+                        end
+                        local modifiers = {
+                            enhancement = {chosen.ability.set == "Enhanced" and chosen.config.center_key or nil},
+                            edition = {chosen.edition and chosen.edition.key or nil},
+                            seal = {chosen.seal or nil},
+                        }
+                        local chosen_mod, key = pseudorandom_element(modifiers, pseudoseed("reflection_chosen_mod_l4"))
+                        local it = 1
+                        while not next(chosen_mod) do
+                            chosen_mod, key = pseudorandom_element(modifiers, pseudoseed("reflection_chosen_mod_l4_reroll"..it))
+                            it = it + 1
+                        end
+                        chosen_mod = chosen_mod[1]
+                        for i, v in ipairs(other_list) do
+                            if key == "enhancement" then
+                                v:set_ability(chosen_mod)
+                            elseif key == "edition" then
+                                v:set_edition(chosen_mod, true, i ~= 1)
+                            elseif key == "seal" then
+                                v:set_seal(chosen_mod, i ~= 1, true)
+                            end
+                            v:juice_up()
+                        end
+                    end
+                end
+            end
+        end
+        if G.GAME.sgt_enchanted_table.sgt_alchemy then
+            if G.GAME.sgt_enchanted_table.sgt_alchemy == 1 then
+                if context.before then
+                    local chosen
+                    for _, v in ipairs(context.scoring_hand) do
+                        if Sagatro.metallic_enhancement(v) then
+                            chosen = v
+                            break
+                        end
+                    end
+                    if chosen then
+                        local other_metallic_list = {}
+                        for _, v in ipairs(Sagatro.metallic_enhancement_list) do
+                            if v ~= chosen.config.center_key then
+                                table.insert(other_metallic_list, v)
+                            end
+                        end
+                        local chosen_other = pseudorandom_element(other_metallic_list, pseudoseed("alchemy_choice_l1"))
+                        chosen:set_ability(chosen_other, nil, true)
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                chosen:juice_up()
+                                return true
+                            end
+                        }))
+                        SMODS.calculate_effect({message = localize('k_transmutate_ex'), colour = G.C.FILTER}, G.deck.cards[1] or G.deck)
+                    end
+                end
+            elseif G.GAME.sgt_enchanted_table.sgt_alchemy == 2 then
+                if context.before then
+                    local chosen
+                    for _, v in ipairs(G.hand.cards) do
+                        if Sagatro.metallic_enhancement(v) then
+                            chosen = v
+                            break
+                        end
+                    end
+                    if chosen then
+                        local other_metallic_list = {}
+                        for _, v in ipairs(Sagatro.metallic_enhancement_list) do
+                            if v ~= chosen.config.center_key then
+                                table.insert(other_metallic_list, v)
+                            end
+                        end
+                        local chosen_other = pseudorandom_element(other_metallic_list, pseudoseed("alchemy_choice_l1"))
+                        chosen:set_ability(chosen_other, nil, true)
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                chosen:juice_up()
+                                return true
+                            end
+                        }))
+                        SMODS.calculate_effect({message = localize('k_transmutate_ex'), colour = G.C.FILTER}, G.deck.cards[1] or G.deck)
+                    end
+                end
+            elseif G.GAME.sgt_enchanted_table.sgt_alchemy == 3 then
+                if context.before then
+                    local chosen
+                    for _, v in ipairs(context.scoring_hand) do
+                        if Sagatro.metallic_enhancement(v) then
+                            chosen = v
+                            break
+                        end
+                    end
+                    if chosen then
+                        for _, v in ipairs(G.hand.cards) do
+                            if Sagatro.metallic_enhancement(v) then
+                                v:set_ability(chosen.config.center_key, nil, true)
+                                G.E_MANAGER:add_event(Event({
+                                    func = function()
+                                        v:juice_up()
+                                        return true
+                                    end
+                                }))
+                            end
+                        end
+                        SMODS.calculate_effect({message = localize('k_transmutate_ex'), colour = G.C.FILTER}, G.deck.cards[1] or G.deck)
+                    end
+                end
+            elseif G.GAME.sgt_enchanted_table.sgt_alchemy == 4 then
+                if context.before then
+                    local chosen
+                    for _, v in ipairs(context.scoring_hand) do
+                        if Sagatro.metallic_enhancement(v) then
+                            chosen = v
+                            break
+                        end
+                    end
+                    if chosen then
+                        for _, v in ipairs(G.hand.cards) do
+                            v:set_ability(chosen.config.center_key, nil, true)
+                            G.E_MANAGER:add_event(Event({
+                                func = function()
+                                    v:juice_up()
+                                    return true
+                                end
+                            }))
+                        end
+                        SMODS.calculate_effect({message = localize('k_transmutate_ex'), colour = G.C.FILTER}, G.deck.cards[1] or G.deck)
+                    end
+                end
+            end
+        end
+        if G.GAME.sgt_enchanted_table.sgt_binding then
+            if G.GAME.sgt_enchanted_table.sgt_binding == 1 then
+                if context.mod_probability then
+                    if context.trigger_obj and ((context.trigger_obj.is and context.trigger_obj:is(Card)
+                    and Sagatro.fragile_enhancement(context.trigger_obj)) or (context.trigger_obj.fake_card
+                    and table.contains({"m_glass", "m_sgt_nyx_glass", "m_sgt_omniscient"}, context.trigger_obj.fake_card))) then
+                        return { denominator = context.denominator*2 }
+                    end
+                end
+                if context.destroy_card and context.cardarea == G.play
+                and not Sagatro.fragile_enhancement(context.destroy_card) then
+                    if SMODS.pseudorandom_probability(Sagatro, "l1_binding", 1, 4) then
+                        return {remove = true}
+                    end
+                end
+            elseif G.GAME.sgt_enchanted_table.sgt_binding == 2 then
+                if context.mod_probability then
+                    if context.trigger_obj and ((context.trigger_obj.is and context.trigger_obj:is(Card)
+                    and Sagatro.fragile_enhancement(context.trigger_obj)) or (context.trigger_obj.fake_card
+                    and table.contains({"m_glass", "m_sgt_nyx_glass", "m_sgt_omniscient"}, context.trigger_obj.fake_card))) then
+                        return { denominator = context.denominator*4 }
+                    end
+                end
+                if context.destroy_card and context.cardarea == G.play
+                and not Sagatro.fragile_enhancement(context.destroy_card) then
+                    if SMODS.pseudorandom_probability(Sagatro, "l2_binding", 1, 2) then
+                        return {remove = true}
+                    end
+                end
+            elseif G.GAME.sgt_enchanted_table.sgt_binding == 3 then
+                if context.mod_probability then
+                    if context.trigger_obj and ((context.trigger_obj.is and context.trigger_obj:is(Card)
+                    and Sagatro.fragile_enhancement(context.trigger_obj)) or (context.trigger_obj.fake_card
+                    and table.contains({"m_glass", "m_sgt_nyx_glass", "m_sgt_omniscient"}, context.trigger_obj.fake_card))) then
+                        return { denominator = context.denominator*6 }
+                    end
+                end
+                if context.destroy_card and context.cardarea == G.play
+                and not Sagatro.fragile_enhancement(context.destroy_card) then
+                    if SMODS.pseudorandom_probability(Sagatro, "l3_binding", 3, 4) then
+                        return {remove = true}
+                    end
+                end
+            elseif G.GAME.sgt_enchanted_table.sgt_binding == 4 then
+                if context.fix_probability then
+                    if context.trigger_obj and ((context.trigger_obj.is and context.trigger_obj:is(Card)
+                    and Sagatro.fragile_enhancement(context.trigger_obj)) or (context.trigger_obj.fake_card
+                    and table.contains({"m_glass", "m_sgt_nyx_glass", "m_sgt_omniscient"}, context.trigger_obj.fake_card))) then
+                        return { numerator = 0 }
+                    end
+                end
+                if context.destroy_card and context.cardarea == G.play
+                and not Sagatro.fragile_enhancement(context.destroy_card) then
+                    return {remove = true}
+                end
+            end
+        end
+        if G.GAME.sgt_enchanted_table.sgt_warding then
+            if G.GAME.sgt_enchanted_table.sgt_warding == 1 then
+                if context.before then
+                    SMODS.debuff_card(context.scoring_hand[1], "prevent_debuff", "l1_warding")
+                end
+                if context.after then
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            SMODS.debuff_card(context.scoring_hand[1], nil, "l1_warding")
+                            return true
+                        end
+                    }))
+                end
+            elseif G.GAME.sgt_enchanted_table.sgt_warding == 2 then
+                if context.before then
+                    SMODS.debuff_card(context.scoring_hand[1], "prevent_debuff", "l2_warding")
+                end
+                if context.after then
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            SMODS.debuff_card(context.scoring_hand[1], nil, "l2_warding")
+                            return true
+                        end
+                    }))
+                end
+            elseif G.GAME.sgt_enchanted_table.sgt_warding == 3 then
+                if context.debuff_card and next(SMODS.get_enhancements(context.debuff_card)) then
+                    return {prevent_debuff = true}
+                end
+            elseif G.GAME.sgt_enchanted_table.sgt_warding == 4 then
+                if context.debuff_card and (context.debuff_card.ability.set == "Default"
+                or context.debuff_card.ability.set == "Enhanced") then
+                    return {prevent_debuff = true}
+                end
+            end
+        end
+        if G.GAME.sgt_enchanted_table.sgt_awakening then
+            if context.ante_change and context.ante_end then
+                local unmodified_list = {}
+                for _, v in ipairs(G.playing_cards) do
+                    if v.ability.set == "Default" and not v.edition and not v.seal then
+                        table.insert(unmodified_list, v)
+                    end
+                end
+                local selected_cards = Sagatro.random_select("l"..G.GAME.sgt_enchanted_table.sgt_awakening.."_awakening", {cards = unmodified_list}, G.GAME.sgt_enchanted_table.sgt_awakening)
+                for _, v in ipairs(selected_cards) do
+                    local selected_mod = pseudorandom_element({"enh", "edi", "sl"}, pseudoseed("awakening_mod"))
+                    if selected_mod == "enh" then
+                        v:set_ability(G.P_CENTERS[SMODS.poll_enhancement({guaranteed = true, key = 'awakening_enh'})])
+                    elseif selected_mod == "edi" then
+                        v:set_edition(poll_edition("awakening_edition", nil, true, true))
+                    elseif selected_mod == "sl" then
+                        v:set_seal(SMODS.poll_seal{guaranteed = true, type_key = 'awakening_seal'})
+                    end
+                end
+            end
+        end
+    end
 end
 
 -- Implement fish joker behavior into Card.calculate_joker
@@ -4087,6 +4587,136 @@ function Sagatro.stall_ante()
     return next(Sagatro.find_active_card("j_sgt_mad_hatter")) or next(Sagatro.find_active_card("j_sgt_jubjub_bird")) or Sagatro.mabel_stall() or Sagatro.vorpal_jubjub()
 end
 
+---@param id number
+function Sagatro.is_numbered_rank(id)
+    return id == 2 or id == 3 or id == 4 or id == 5
+    or id == 6 or id == 7 or id == 8 or id == 9 or id == 10
+end
+
+---@param num 1|2|3|4
+---@return "I"|"II"|"III"|"IV"
+function Sagatro.get_roman_level(num)
+    return ({"I", "II", "III", "IV"})[num]
+end
+
+---@param card table|Card
+---@param center table|Sagatro.Enchantment
+---@return integer
+--- Gets the next level of this enchantment based on its current level.
+function Sagatro.get_next_level(card, center)
+    local level = card.ability.extra and card.ability.extra.level or 1
+    return level + (G.GAME.sgt_enchanted_table and G.GAME.sgt_enchanted_table[center.identifier]
+    and G.GAME.sgt_enchanted_table[center.identifier] == level
+    and level < center.max_level and not card.ability.from_tag and 1 or 0)
+end
+
+---@param level 1|2|3|4
+---@param center Sagatro.Enchantment|table|string Can be a center or its identifier string.
+---@param card? Card|table
+---@param area? CardArea|table
+---@param copier? table
+--- Adds an enchantment and its respective tag. Arguments after `level` are from a typical `use` function of a consumable.
+function Sagatro.add_enchantment(level, center, card, area, copier)
+    G.GAME.sgt_enchanted_table = G.GAME.sgt_enchanted_table or {}
+    G.GAME.sgt_enchanted_tag = G.GAME.sgt_enchanted_tag or {}
+    if type(center) == "string" then
+        if center:sub(1, 2) ~= "c_" then
+            center = "c_"..center
+        end
+        center = G.P_CENTERS[center]
+    end
+    card = card or {ability = {extra = {level = level}}}
+    if center.use_funcs[level] and type(center.use_funcs[level]) == "function" then
+        center.use_funcs[level](center, card, area, copier)
+    end
+    local enchant_list = {}
+    for k, _ in pairs(G.GAME.sgt_enchanted_table) do
+        enchant_list[#enchant_list+1] = k
+    end
+    if table.size(G.GAME.sgt_enchanted_table) >= (G.GAME.sgt_max_enchantment or 2) and not table.contains(enchant_list, center.identifier) then
+        local to_remove = pseudorandom_element(enchant_list, pseudoseed("enchantment_removal"))
+        Sagatro.remove_enchantment(to_remove)
+    end
+    G.GAME.sgt_enchanted_table[center.identifier] = level
+    local tag_already_exists = false
+    for i = 1, #G.GAME.tags do
+        if G.GAME.tags[i].ability.enchantment == center.identifier then
+            tag_already_exists = true
+            G.GAME.tags[i]:juice_up()
+            break
+        end
+    end
+    if not tag_already_exists then
+        local tag = Tag('tag_sgt_enchantment')
+        tag.ability.enchantment = center.identifier
+        G.GAME.sgt_enchanted_tag[center.identifier] = tag
+        add_tag(tag)
+    end
+end
+
+---@param identifier string
+--- Removes an enchantment and its respective tag.
+function Sagatro.remove_enchantment(identifier)
+    for _, v in ipairs(G.P_CENTER_POOLS.sgt_Enchantment) do
+        if v.identifier == identifier then
+            if v.undo_funcs[G.GAME.sgt_enchanted_table[identifier]] then
+                v.undo_funcs[G.GAME.sgt_enchanted_table[identifier]]()
+            end
+            break
+        end
+    end
+    G.GAME.sgt_enchanted_table[identifier] = nil
+    if G.GAME.sgt_enchanted_tag[identifier] and G.GAME.sgt_enchanted_tag[identifier] ~= "\"MANUAL_REPLACE\"" then
+        G.GAME.sgt_enchanted_tag[identifier]:yep('-', G.C.RED, function() return true end)
+        G.GAME.sgt_enchanted_tag[identifier].triggered = true
+    end
+    if not next(G.GAME.sgt_enchanted_table) then
+        G.GAME.sgt_enchanted_table = nil
+        G.GAME.sgt_enchanted_tag = nil
+    end
+end
+
+---@param card Card|table
+---@param center Sagatro.Enchantment|table
+---@return number
+--- Gets the cost of applying an enchantment.
+function Sagatro.get_enchantment_cost(card, center)
+    card.ability.extra.required_cost = (Sagatro.get_next_level(card, center))^2 + (G.GAME.enchanting_inflation or 0)
+    for k, v in pairs(G.GAME.sgt_enchanted_table or {}) do
+        if k ~= center.identifier then
+            card.ability.extra.required_cost = card.ability.extra.required_cost + 2^v
+        end
+    end
+    return card.ability.extra.required_cost
+end
+
+---@param card Card|table
+---@return boolean
+--- Checks the area to see if it's valid to draw enchanted shader on its cards.
+function Sagatro.is_enchanted_area(card)
+    return not not (card and card.area and (card.area == G.deck
+    or card.area == G.hand or card.area == G.play or card.area == G.jokers
+    or card.area == G.discard or card.area == G.consumeables))
+end
+
+local get_chip_bonus_ref = Card.get_chip_bonus
+function Card:get_chip_bonus()
+    local ret = get_chip_bonus_ref(self)
+    if G.GAME.sgt_enchanted_table and G.GAME.sgt_enchanted_table.sgt_fortification and Sagatro.is_numbered_rank(self:get_id()) then
+        ret = ret * (G.GAME.sgt_enchanted_table.sgt_fortification + 1)
+    end
+    return ret
+end
+
+local get_chip_h_mult_ref = Card.get_chip_h_mult
+function Card:get_chip_h_mult()
+    local ret = get_chip_h_mult_ref(self)
+    if G.GAME.sgt_enchanted_table and G.GAME.sgt_enchanted_table.sgt_empowerment and self:is_face() then
+        ret = ret + self:get_chip_bonus() * G.GAME.sgt_enchanted_table.sgt_empowerment
+    end
+    return ret
+end
+
 ---@param beta_vercode string
 --- Helper function to decide compatibility based on SMODS version.
 function Sagatro.backward_compat(beta_vercode)
@@ -4290,6 +4920,11 @@ function Sagatro.delayed_func()
                     end
                 end
                 if self.area and self.ability.couponed and (self.area == G.shop_jokers or self.area == G.shop_booster) then self.cost = 0 end
+            elseif self.config.center_key == "v_sgt_apprentice" then
+                if G.GAME.sgt_saga_apprentice and not G.GAME.sgt_free_saga_apprentice then
+                    G.GAME.sgt_free_saga_apprentice = true
+                    self.cost = 0
+                end
             end
         end
     end
@@ -4882,6 +5517,14 @@ if JokerDisplay then
         end
         local triggers = jdcct(card, scoring_hand, held_in_hand)
         triggers = triggers + (card:get_seal() == 'sgt_Blood' and 2 or 0)
+        if G.GAME.sgt_enchanted_table and G.GAME.sgt_enchanted_table.sgt_echo then
+            if held_in_hand and (G.GAME.sgt_enchanted_table.sgt_echo == 1 or G.GAME.sgt_enchanted_table.sgt_echo == 3) then
+                triggers = triggers + 1
+            end
+            if not held_in_hand and (G.GAME.sgt_enchanted_table.sgt_echo == 2 or G.GAME.sgt_enchanted_table.sgt_echo == 3) then
+                triggers = triggers + 1
+            end
+        end
         return triggers
     end
 
@@ -4895,7 +5538,13 @@ if JokerDisplay then
                 return 1
             end
         end
-        return jdcjt(card)
+        local triggers = jdcjt(card)
+        if G.GAME.sgt_enchanted_table and G.GAME.sgt_enchanted_table.sgt_echo then
+            if G.GAME.sgt_enchanted_table.sgt_echo == 4 then
+                triggers = triggers + 1
+            end
+        end
+        return triggers
     end
 
     local jdgda = JokerDisplay.get_display_areas
@@ -5107,19 +5756,33 @@ end
 local back_apply_to_run = Back.apply_to_run
 function Back:apply_to_run(...)
     back_apply_to_run(self, ...)
-    if Sagatro.config.DisableOtherJokers and SMODS.RunSelect and SMODS.RunSelect.Setup.choices.sgt_storyline_choice then
-        delay(0.4)
-        G.E_MANAGER:add_event(Event({
-            func = function()
-                local storyline = SMODS.RunSelect.Setup.choices.sgt_storyline_choice
-                for _, v in ipairs(Sagatro.Storylines[storyline].starting_jokers) do
-                    local card = SMODS.create_card{key=v}
-                    card:add_to_deck()
-                    G.jokers:emplace(card)
+    if Sagatro.config.DisableOtherJokers then
+        if G.GAME.selected_back.effect.center.key == "b_sgt_saga"
+        or (CardSleeves and G.GAME.selected_sleeve == "sleeve_sgt_saga") then
+        elseif not G.GAME.used_vouchers.v_sgt_apprentice then
+            G.GAME.used_vouchers.v_sgt_apprentice = true
+            G.GAME.starting_voucher_count = (G.GAME.starting_voucher_count or 0) + 1
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    Card.apply_to_run(nil, G.P_CENTERS.v_sgt_apprentice)
+                    return true
                 end
-                return true
-            end
-        }))
+            }))
+        end
+        if SMODS.RunSelect and SMODS.RunSelect.Setup.choices.sgt_storyline_choice then
+            delay(0.4)
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    local storyline = SMODS.RunSelect.Setup.choices.sgt_storyline_choice
+                    for _, v in ipairs(Sagatro.Storylines[storyline].starting_jokers) do
+                        local card = SMODS.create_card{key=v}
+                        card:add_to_deck()
+                        G.jokers:emplace(card)
+                    end
+                    return true
+                end
+            }))
+        end
     end
 end
 

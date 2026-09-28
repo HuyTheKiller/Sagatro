@@ -88,6 +88,26 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
             end
         end
     end
+    if card and not card.ability.april_fools_hidden then
+        if (_c.set == "sgt_Enchantment" or _c.key == "tag_sgt_enchantment") and (_c.discovered or card.bypass_discovery_ui) then
+            local enchantment_nodes = {background_colour = mix_colours(G.C.SGT_ENCHANTMENT, G.C.WHITE, 0.15)}
+            local fake_card = {ability = {from_tag = true, extra = {level = (G.GAME.sgt_enchanted_table or {})[card.ability.enchantment] or 1}}}
+            local key = (_c.identifier or card.ability.enchantment).."_"..Sagatro.get_next_level(_c.key == "tag_sgt_enchantment" and fake_card or card, _c)
+            local obj = _c
+            if _c.key == "tag_sgt_enchantment" then
+                for _, v in ipairs(G.P_CENTER_POOLS.sgt_Enchantment) do
+                    if v.identifier == card.ability.enchantment then
+                        obj = v
+                        break
+                    end
+                end
+                ui.name = localize{type = 'name', set = "sgt_Enchantment", key = key, nodes = ui.name}
+            end
+            local vars = obj:loc_vars({}, _c.key == "tag_sgt_enchantment" and fake_card or card).vars
+            localize{type = "descriptions", set = "sgt_Enchantment", key = key, nodes = enchantment_nodes, vars = vars}
+            ui[_c.key == "tag_sgt_enchantment" and 'main' or Ortalab and "mythos" or "celestara"] = enchantment_nodes
+        end
+    end
     return ui
 end
 
@@ -270,6 +290,15 @@ SMODS.card_collection_UIBox = function(_pool, rows, args)
             }),
         }}
         table.insert(contents, 2, node)
+    end
+    return ret
+end
+
+local create_badge_ref = create_badge
+function create_badge(_string, _badge_col, _text_col, scaling)
+    local ret = create_badge_ref(_string, _badge_col, _text_col, scaling)
+    if _string == localize("k_sgt_enchantment") then
+        ret.nodes[1].config.shader = "sgt_enchanted_ui_glint"
     end
     return ret
 end
@@ -1975,6 +2004,31 @@ SMODS.DrawStep{
     end,
     conditions = { vortex = false, facing = "front" },
 }
+
+SMODS.DrawStep {
+    key = 'back_enchantment',
+    order = 1,
+    func = function(self)
+        if type(G.GAME.sgt_enchanted_table) == "table" and next(G.GAME.sgt_enchanted_table) and Sagatro.is_enchanted_area(self) then
+            if self.area and self.area.config.type == 'deck' then
+                self.back_overlay = self.back_overlay or {}
+                if self.rank > 3 then
+                    self.back_overlay[1] = 0.5 + ((#self.area.cards - self.rank)%7)/50
+                    self.back_overlay[2] = 0.5 + ((#self.area.cards - self.rank)%7)/50
+                    self.back_overlay[3] = 0.5 + ((#self.area.cards - self.rank)%7)/50
+                else
+                    self.back_overlay[1] = 1
+                    self.back_overlay[2] = 1
+                    self.back_overlay[3] = 1
+                end
+                self.back_overlay[4] = 1
+            end
+            self.children.back:draw_shader('sgt_enchanted_item_glint', nil, self.ARGS.send_to_shader)
+        end
+    end,
+    conditions = { vortex = false, facing = 'back' },
+}
+SMODS.draw_ignore_keys.back_enchantment = true
 
 Sagatro.FUNCS.delete_ace_in_menu = function(e)
     if G.title_top then

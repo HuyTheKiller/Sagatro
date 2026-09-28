@@ -40,6 +40,42 @@ local progress_pie_iw = {
     end,
 }
 
+local enchantment = {
+    key = "enchantment",
+    name = "Enchantment",
+    artist_credits = {"huythekiller"},
+    atlas = "tags",
+    pos = {x = 2, y = 4},
+    no_collection = true,
+    exclude_from_pool = true,
+    set_ability = function(self, tag)
+        tag.ability.in_run = true
+    end,
+    in_pool = function(self, args)
+        return false
+    end,
+    loc_vars = function(self, info_queue, tag)
+        if not tag.ability.in_run or tag.fake_tag then
+            return {key = "tag_sgt_enchantment_collection"}
+        end
+        if tag.ability.enchantment then
+            local vars
+            for _, v in ipairs(G.P_CENTER_POOLS.sgt_Enchantment) do
+                if v.identifier == tag.ability.enchantment then
+                    local fake_card = {ability = {from_tag = true, extra = {level = (G.GAME.sgt_enchanted_table or {})[tag.ability.enchantment] or 1}}}
+                    vars = v:loc_vars(info_queue, fake_card).vars
+                    break
+                end
+            end
+            return {
+                set = "sgt_Enchantment",
+                key = tag.ability.enchantment,
+                vars = vars,
+            }
+        end
+    end,
+}
+
 local holy = {
     key = "holy",
     name = "Holy Tag",
@@ -180,13 +216,49 @@ local obscure = {
     end,
 }
 
+local spell = {
+    key = "spell",
+    name = "Spell Tag",
+    artist_credits = {"huythekiller"},
+    atlas = "tags",
+    pos = {x = 4, y = 0},
+    min_ante = 2,
+    apply = function(self, tag, context)
+        if context.type == 'new_blind_choice' then
+            local lock = tag.ID
+            G.CONTROLLER.locks[lock] = true
+            tag:yep('+', G.C.SGT_ELDRITCH, function()
+                local key = "p_sgt_magic_jumbo"
+                local _card = Card(G.play.T.x + G.play.T.w/2 - G.CARD_W*1.27/2,
+                G.play.T.y + G.play.T.h/2-G.CARD_H*1.27/2, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
+                _card.cost = 0
+                _card.from_tag = true
+                G.FUNCS.use_card{config = {ref_table = _card}}
+                _card:start_materialize()
+                G.CONTROLLER.locks[lock] = nil
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_apprentice
+    end,
+    loc_vars = function(self, info_queue, tag)
+        info_queue[#info_queue+1] = G.P_CENTERS.p_sgt_magic_jumbo
+    end,
+}
+
 local tag_table = {
     progress_pie,
     progress_pie_iw,
+    enchantment,
     holy,
     alien,
     ghostly,
     obscure,
+    spell,
 }
 
 for _, v in ipairs(tag_table) do

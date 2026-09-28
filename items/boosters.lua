@@ -676,6 +676,166 @@ local supply = {
     end,
 }
 
+local magic_normal_1 = {
+    key = "magic_normal_1",
+    artist_credits = {"amy"},
+    atlas = "booster",
+    pos = { x = 2, y = 3 },
+    config = { choose = 1, extra = 2 },
+    group_key = "sgt_magic_pack",
+    cost = 2,
+    weight = 1,
+    kind = "Magic",
+    ease_background_colour = function(self)
+        ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_ENCHANTMENT)
+        ease_background_colour{new_colour = G.C.SGT_ENCHANTMENT, special_colour = G.C.BLACK, contrast = 2}
+    end,
+    particles = function(self)
+        G.booster_pack_sparkles = Particles(1, 1, 0,0, {
+            timer = 0.015,
+            scale = 0.2,
+            initialize = true,
+            lifespan = 1,
+            speed = 1.1,
+            padding = -1,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.SGT_ENCHANTMENT, lighten(G.C.SGT_ENCHANTMENT, 0.4), lighten(G.C.SGT_ENCHANTMENT, 0.2), darken(G.C.SGT_ENCHANTMENT, 0.2)},
+            fill = true
+        })
+        G.booster_pack_sparkles.fade_alpha = 1
+        G.booster_pack_sparkles:fade(1, 0)
+    end,
+    create_card = function(self, card, i)
+        return {set = "sgt_Enchantment", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ma1"}
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_apprentice
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {key = "p_sgt_magic_normal", vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
+    end,
+}
+
+local magic_normal_2 = {
+    key = "magic_normal_2",
+    artist_credits = {"amy"},
+    atlas = "booster",
+    pos = { x = 3, y = 3 },
+    config = { choose = 1, extra = 2 },
+    group_key = "sgt_magic_pack",
+    cost = 2,
+    weight = 1,
+    kind = "Magic",
+    ease_background_colour = function(self)
+        ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_ENCHANTMENT)
+        ease_background_colour{new_colour = G.C.SGT_ENCHANTMENT, special_colour = G.C.BLACK, contrast = 2}
+    end,
+    particles = function(self)
+        G.booster_pack_sparkles = Particles(1, 1, 0,0, {
+            timer = 0.015,
+            scale = 0.2,
+            initialize = true,
+            lifespan = 1,
+            speed = 1.1,
+            padding = -1,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.SGT_ENCHANTMENT, lighten(G.C.SGT_ENCHANTMENT, 0.4), lighten(G.C.SGT_ENCHANTMENT, 0.2), darken(G.C.SGT_ENCHANTMENT, 0.2)},
+            fill = true
+        })
+        G.booster_pack_sparkles.fade_alpha = 1
+        G.booster_pack_sparkles:fade(1, 0)
+    end,
+    create_card = function(self, card, i)
+        return {set = "sgt_Enchantment", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ma1"}
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_apprentice
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {key = "p_sgt_magic_normal", vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
+    end,
+}
+
+local magic_jumbo = {
+    key = "magic_jumbo",
+    artist_credits = {"amy"},
+    atlas = "booster",
+    pos = { x = 4, y = 3 },
+    config = { choose = 1, extra = 4 },
+    group_key = "sgt_magic_pack",
+    cost = 3,
+    weight = 1,
+    kind = "Magic",
+    ease_background_colour = function(self)
+        ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_ENCHANTMENT)
+        ease_background_colour{new_colour = G.C.SGT_ENCHANTMENT, special_colour = G.C.BLACK, contrast = 2}
+    end,
+    particles = function(self)
+        G.booster_pack_sparkles = Particles(1, 1, 0,0, {
+            timer = 0.015,
+            scale = 0.2,
+            initialize = true,
+            lifespan = 1,
+            speed = 1.1,
+            padding = -1,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.SGT_ENCHANTMENT, lighten(G.C.SGT_ENCHANTMENT, 0.4), lighten(G.C.SGT_ENCHANTMENT, 0.2), darken(G.C.SGT_ENCHANTMENT, 0.2)},
+            fill = true
+        })
+        G.booster_pack_sparkles.fade_alpha = 1
+        G.booster_pack_sparkles:fade(1, 0)
+    end,
+    create_card = function(self, card, i)
+        return {set = "sgt_Enchantment", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ma1"}
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_apprentice
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
+    end,
+}
+
+local magic_mega = {
+    key = "magic_mega",
+    artist_credits = {"amy", "huycorn"},
+    atlas = "booster",
+    pos = { x = 5, y = 3 },
+    config = { choose = 2, extra = 4 },
+    group_key = "sgt_magic_pack",
+    cost = 4,
+    weight = 0.25,
+    kind = "Magic",
+    ease_background_colour = function(self)
+        ease_colour(G.C.DYN_UI.MAIN, G.C.SGT_ENCHANTMENT)
+        ease_background_colour{new_colour = G.C.SGT_ENCHANTMENT, special_colour = G.C.BLACK, contrast = 2}
+    end,
+    particles = function(self)
+        G.booster_pack_sparkles = Particles(1, 1, 0,0, {
+            timer = 0.015,
+            scale = 0.2,
+            initialize = true,
+            lifespan = 1,
+            speed = 1.1,
+            padding = -1,
+            attach = G.ROOM_ATTACH,
+            colours = {G.C.SGT_ENCHANTMENT, lighten(G.C.SGT_ENCHANTMENT, 0.4), lighten(G.C.SGT_ENCHANTMENT, 0.2), darken(G.C.SGT_ENCHANTMENT, 0.2)},
+            fill = true
+        })
+        G.booster_pack_sparkles.fade_alpha = 1
+        G.booster_pack_sparkles:fade(1, 0)
+    end,
+    create_card = function(self, card, i)
+        return {set = "sgt_Enchantment", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ma1"}
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.sgt_disable_sagatro_items and G.GAME.used_vouchers.v_sgt_apprentice
+    end,
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card and card.ability.choose or self.config.choose, card and card.ability.extra or self.config.extra}}
+    end,
+}
+
 local booster_table = {
     divinatio_normal_1,
     divinatio_normal_2,
@@ -692,6 +852,10 @@ local booster_table = {
     wish_primary,
     wish_secondary,
     supply,
+    magic_normal_1,
+    magic_normal_2,
+    magic_jumbo,
+    magic_mega,
 }
 
 for _, v in ipairs(booster_table) do

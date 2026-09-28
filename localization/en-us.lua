@@ -233,6 +233,13 @@ return {
                     "progress in a story mode run",
                 },
             },
+            tag_sgt_enchantment_collection = {
+                name = "Enchantment",
+                text = {
+                    "Shows the effect of",
+                    "an active enchantment",
+                },
+            },
             tag_sgt_holy = {
                 name = "Holy Tag",
                 text = {
@@ -259,6 +266,13 @@ return {
                 text = {
                     "Shop has an",
                     "{C:sgt_obscure}Obscure Joker",
+                },
+            },
+            tag_sgt_spell = {
+                name = "Spell Tag",
+                text = {
+                    "Gives a free",
+                    "{C:sgt_enchantment}Jumbo Magic Pack",
                 },
             },
         },
@@ -498,6 +512,15 @@ return {
                     "{C:attention}Inactive{} outside story mode",
                 },
             },
+            sgt_max_enchantment = {
+                name = "Enchantment Limit",
+                text = {
+                    "You can only have up to {C:attention}#1#",
+                    "distinct {C:sgt_enchantment}enchantments{} per run",
+                    "Getting another {C:attention}removes{} an",
+                    "existing one at random",
+                },
+            },
             undiscovered_divinatio = {
                 name = "Not Discovered",
                 text = {
@@ -612,6 +635,30 @@ return {
                     "Choose {C:attention}#1#{} of up to",
                     "{C:attention}#2#{C:sgt_supply} Supply{} cards to",
                     "add to your consumables",
+                },
+            },
+            p_sgt_magic_normal = {
+                name = "Magic Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:sgt_enchantment} Enchantment{} cards to",
+                    "be used immediately",
+                },
+            },
+            p_sgt_magic_jumbo = {
+                name = "Jumbo Magic Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:sgt_enchantment} Enchantment{} cards to",
+                    "be used immediately",
+                },
+            },
+            p_sgt_magic_mega = {
+                name = "Mega Magic Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:sgt_enchantment} Enchantment{} cards to",
+                    "be used immediately",
                 },
             },
             sgt_protected = {
@@ -994,6 +1041,22 @@ return {
                     "{C:sgt_eldritch}Eldritch{} cards and",
                     "{C:attention}Eldritch Packs{} can be",
                     "purchased from the shop",
+                },
+            },
+            v_sgt_apprentice = {
+                name = "Apprentice",
+                text = {
+                    "{C:attention}Magic Packs{} can be",
+                    "purchased from the shop",
+                },
+            },
+            v_sgt_wizard = {
+                name = "Wizard",
+                text = {
+                    "{C:sgt_enchantment}Enchantment{} cards can be",
+                    "purchased from the shop",
+                    "Increase {C:sgt_enchantment}Enchantment{} slot",
+                    "to {C:attention}#1#",
                 },
             },
         },
@@ -3527,8 +3590,8 @@ return {
             sgt_alphalice = {
                 name = "Alphalice",
                 text = {
-                    "I'm having a {C:attention}major role{} in",
-                    "{C:sgt_sagadition}Sagatro{}'s next storyline",
+                    "Change of plan! {C:sgt_sagadition}Sagatro{}'s next storyline",
+                    "is becoming a separate game instead.",
                     "Stay tuned!",
                 },
             },
@@ -3622,6 +3685,550 @@ return {
                 text = {
                     "View jokers from",
                     "this {C:sgt_sagadition}storyline",
+                },
+            },
+        },
+        sgt_Enchantment = {
+            c_sgt_fortification = {
+                name = "Fortification",
+                text = {
+                    "Spend {C:money}$#3#{} to {C:sgt_enchantment}enchant",
+                    "the current deck with",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_fortification_1 = {
+                name = "Fortification I",
+                text = {
+                    "{C:attention}Numbered{} cards give",
+                    "{C:attention}#4#X{} their total chips",
+                    "when scored",
+                },
+            },
+            sgt_fortification_2 = {
+                name = "Fortification II",
+                text = {
+                    "{C:attention}Numbered{} cards give",
+                    "{C:attention}#4#X{} their total chips",
+                    "when scored",
+                },
+            },
+            sgt_fortification_3 = {
+                name = "Fortification III",
+                text = {
+                    "{C:attention}Numbered{} cards give",
+                    "{C:attention}#4#X{} their total chips",
+                    "when scored",
+                },
+            },
+            sgt_fortification_4 = {
+                name = "Fortification IV",
+                text = {
+                    "{C:attention}Numbered{} cards give",
+                    "{C:attention}#4#X{} their total chips",
+                    "when scored",
+                },
+            },
+            c_sgt_empowerment = {
+                name = "Empowerment",
+                text = {
+                    "Spend {C:money}$#3#{} to {C:sgt_enchantment}enchant",
+                    "the current deck with",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_empowerment_1 = {
+                name = "Empowerment I",
+                text = {
+                    "{C:attention}Face{} cards held in hand",
+                    "give their total chips",
+                    "when scored as {C:mult}Mult{}",
+                },
+            },
+            sgt_empowerment_2 = {
+                name = "Empowerment II",
+                text = {
+                    "{C:attention}Face{} cards held in hand",
+                    "give {C:attention}#4#X{} their total chips",
+                    "when scored as {C:mult}Mult{}",
+                },
+            },
+            sgt_empowerment_3 = {
+                name = "Empowerment III",
+                text = {
+                    "{C:attention}Face{} cards held in hand",
+                    "give {C:attention}#4#X{} their total chips",
+                    "when scored as {C:mult}Mult{}",
+                },
+            },
+            sgt_empowerment_4 = {
+                name = "Empowerment IV",
+                text = {
+                    "{C:attention}Face{} cards held in hand",
+                    "give {C:attention}#4#X{} their total chips",
+                    "when scored as {C:mult}Mult{}",
+                },
+            },
+            c_sgt_abundance = {
+                name = "Abundance",
+                text = {
+                    "Spend {C:money}$#3#{} to {C:sgt_enchantment}enchant",
+                    "the current deck with",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_abundance_1 = {
+                name = "Abundance I",
+                text = {
+                    "Earn between {C:money}$#4#{} and {C:money}$N",
+                    "at end of round, where",
+                    "N is the cashout money",
+                },
+            },
+            sgt_abundance_2 = {
+                name = "Abundance II",
+                text = {
+                    "Earn between {C:money}$#4#{} and {C:money}$N+#4#",
+                    "at end of round, where",
+                    "N is the cashout money",
+                },
+            },
+            sgt_abundance_3 = {
+                name = "Abundance III",
+                text = {
+                    "Earn between {C:money}$#4#{} and {C:money}$N+#4#",
+                    "at end of round, where",
+                    "N is the cashout money",
+                },
+            },
+            sgt_abundance_4 = {
+                name = "Abundance IV",
+                text = {
+                    "Earn between {C:money}$#4#{} and {C:money}$N+#4#",
+                    "at end of round, where",
+                    "N is the cashout money",
+                },
+            },
+            c_sgt_foresight = {
+                name = "Foresight",
+                text = {
+                    "Spend {C:money}$#3#{} to {C:sgt_enchantment}enchant",
+                    "the current deck with",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_foresight_1 = {
+                name = "Foresight I",
+                text = {
+                    "{C:attention}+#4#{} hand size",
+                },
+            },
+            sgt_foresight_2 = {
+                name = "Foresight II",
+                text = {
+                    "{C:attention}+#4#{} hand size",
+                },
+            },
+            sgt_foresight_3 = {
+                name = "Foresight III",
+                text = {
+                    "{C:attention}+#4#{} hand size",
+                },
+            },
+            sgt_foresight_4 = {
+                name = "Foresight IV",
+                text = {
+                    "{C:attention}+#4#{} hand size",
+                },
+            },
+            c_sgt_mercy = {
+                name = "Mercy",
+                text = {
+                    "Spend {C:money}$#3#{} to {C:sgt_enchantment}enchant",
+                    "the current deck with",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_mercy_1 = {
+                name = "Mercy I",
+                text = {
+                    "{C:blue}+#4#{} play limit",
+                    "{C:red}-#4#{} discard limit",
+                },
+            },
+            sgt_mercy_2 = {
+                name = "Mercy II",
+                text = {
+                    "{C:blue}+#4#{} play limit",
+                    "{C:red}-#4#{} discard limit",
+                },
+            },
+            sgt_mercy_3 = {
+                name = "Mercy III",
+                text = {
+                    "{C:blue}+#4#{} play limit",
+                    "{C:red}-#4#{} discard limit",
+                },
+            },
+            sgt_mercy_4 = {
+                name = "Mercy IV",
+                text = {
+                    "{C:blue}+#4#{} play limit",
+                    "{C:red}-#4#{} discard limit",
+                },
+            },
+            c_sgt_cruelty = {
+                name = "Cruelty",
+                text = {
+                    "Spend {C:money}$#3#{} to {C:sgt_enchantment}enchant",
+                    "the current deck with",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_cruelty_1 = {
+                name = "Cruelty I",
+                text = {
+                    "{C:red}+#4#{} discard limit",
+                    "{C:blue}-#4#{} play limit",
+                },
+            },
+            sgt_cruelty_2 = {
+                name = "Cruelty II",
+                text = {
+                    "{C:red}+#4#{} discard limit",
+                    "{C:blue}-#4#{} play limit",
+                },
+            },
+            sgt_cruelty_3 = {
+                name = "Cruelty III",
+                text = {
+                    "{C:red}+#4#{} discard limit",
+                    "{C:blue}-#4#{} play limit",
+                },
+            },
+            sgt_cruelty_4 = {
+                name = "Cruelty IV",
+                text = {
+                    "{C:red}+#4#{} discard limit",
+                    "{C:blue}-#4#{} play limit",
+                },
+            },
+            c_sgt_echo = {
+                name = "Echo",
+                text = {
+                    "Spend {C:money}$#3#{} to {C:sgt_enchantment}enchant",
+                    "the current deck with",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_echo_1 = {
+                name = "Echo I",
+                text = {
+                    "{C:attention}Retrigger{} all",
+                    "card {C:attention}held in",
+                    "{C:attention}hand{} abilities",
+                },
+            },
+            sgt_echo_2 = {
+                name = "Echo II",
+                text = {
+                    "{C:attention}Retrigger{} all",
+                    "cards {C:attention}played",
+                },
+            },
+            sgt_echo_3 = {
+                name = "Echo III",
+                text = {
+                    "{C:attention}Retrigger{} all cards {C:attention}played",
+                    "and {C:attention}held in hand{} abilities",
+                },
+            },
+            sgt_echo_4 = {
+                name = "Echo IV",
+                text = {
+                    "{C:attention}Retrigger{} all jokers",
+                },
+            },
+            c_sgt_reflection = {
+                name = "Reflection",
+                text = {
+                    "Spend {C:money}$#3#{} to {C:sgt_enchantment}enchant",
+                    "the current deck with",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_reflection_1 = {
+                name = "Reflection I",
+                text = {
+                    "{C:green}#4# in #5#{} chance to copy {C:attention}enhancement{},",
+                    "{C:dark_edition}edition{} or {C:attention}seal{} of the first scoring card",
+                    "that has it over {C:attention}another{} random scoring card",
+                },
+            },
+            sgt_reflection_2 = {
+                name = "Reflection II",
+                text = {
+                    "{C:green}#4# in #5#{} chance to copy {C:attention}enhancement{},",
+                    "{C:dark_edition}edition{} or {C:attention}seal{} of the first scoring card",
+                    "that has it over {C:attention}another{} random scoring card",
+                },
+            },
+            sgt_reflection_3 = {
+                name = "Reflection III",
+                text = {
+                    "{C:green}#4# in #5#{} chance to copy {C:attention}enhancement{},",
+                    "{C:dark_edition}edition{} or {C:attention}seal{} of the first scoring card",
+                    "that has it over {C:attention}all{} other scoring cards",
+                },
+            },
+            sgt_reflection_4 = {
+                name = "Reflection IV",
+                text = {
+                    "Copy {C:attention}enhancement{}, {C:dark_edition}edition{} or {C:attention}seal",
+                    "of the first scoring card that has it",
+                    "over {C:attention}all{} other scoring cards",
+                },
+            },
+            c_sgt_alchemy = {
+                name = "Alchemy",
+                text = {
+                    "Spend {C:money}$#3#{} to {C:sgt_enchantment}enchant",
+                    "the current deck with",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_alchemy_1 = {
+                name = "Alchemy I",
+                text = {
+                    "Transform the first scoring {C:attention}metallic",
+                    "{C:attention}enhancement{} into another",
+                    "{C:attention}metallic enhancement",
+                },
+            },
+            sgt_alchemy_2 = {
+                name = "Alchemy II",
+                text = {
+                    "Transform the first {C:attention}metallic",
+                    "{C:attention}enhancement{} held in hand into",
+                    "another {C:attention}metallic enhancement",
+                },
+            },
+            sgt_alchemy_3 = {
+                name = "Alchemy III",
+                text = {
+                    "Transform all {C:attention}metallic enhancements",
+                    "held in hand into the first",
+                    "played {C:attention}metallic enhancement",
+                },
+            },
+            sgt_alchemy_4 = {
+                name = "Alchemy IV",
+                text = {
+                    "Transform all {C:attention}cards{} held",
+                    "in hand into the first played",
+                    "{C:attention}metallic enhancement",
+                },
+            },
+            c_sgt_binding = {
+                name = "Binding",
+                text = {
+                    "Spend {C:money}$#3#{} to {C:sgt_enchantment}enchant",
+                    "the current deck with",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_binding_1 = {
+                name = "Binding I",
+                text = {
+                    "{C:attention}Fragile enhancements{} are",
+                    "{C:attention}2X{} less likely to break",
+                    "{C:green}#4# in #5#{} chance to destroy",
+                    "each played {C:attention}non-fragile{} card",
+                },
+            },
+            sgt_binding_2 = {
+                name = "Binding II",
+                text = {
+                    "{C:attention}Fragile enhancements{} are",
+                    "{C:attention}4X{} less likely to break",
+                    "{C:green}#4# in #5#{} chance to destroy",
+                    "each played {C:attention}non-fragile{} card",
+                },
+            },
+            sgt_binding_3 = {
+                name = "Binding III",
+                text = {
+                    "{C:attention}Fragile enhancements{} are",
+                    "{C:attention}6X{} less likely to break",
+                    "{C:green}#4# in #5#{} chance to destroy",
+                    "each played {C:attention}non-fragile{} card",
+                },
+            },
+            sgt_binding_4 = {
+                name = "Binding IV",
+                text = {
+                    "{C:attention}Fragile enhancements{}",
+                    "can no longer break",
+                    "Destroy all played",
+                    "{C:attention}non-fragile{} cards",
+                },
+            },
+            c_sgt_warding = {
+                name = "Warding",
+                text = {
+                    "Spend {C:money}$#3#{} to {C:sgt_enchantment}enchant",
+                    "the current deck with",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_warding_1 = {
+                name = "Warding I",
+                text = {
+                    "First {C:attention}scoring card",
+                    "can't be debuffed",
+                },
+            },
+            sgt_warding_2 = {
+                name = "Warding II",
+                text = {
+                    "First {C:attention}scoring card{} and first",
+                    "card {C:attention}held in hand{} can't be debuffed",
+                },
+            },
+            sgt_warding_3 = {
+                name = "Warding III",
+                text = {
+                    "{C:attention}Enhanced cards",
+                    "can't be debuffed",
+                },
+            },
+            sgt_warding_4 = {
+                name = "Warding IV",
+                text = {
+                    "All {C:attention}playing cards",
+                    "can't be debuffed",
+                },
+            },
+            c_sgt_blessing = {
+                name = "Blessing",
+                text = {
+                    "Spend {C:money}$#3#{} to {C:sgt_enchantment}enchant",
+                    "the current deck with",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_blessing_1 = {
+                name = "Blessing I",
+                text = {
+                    "High-level {C:sgt_enchantment}enchantments",
+                    "and rare consumables appear",
+                    "{C:attention}#4#X{} more often",
+                },
+            },
+            sgt_blessing_2 = {
+                name = "Blessing II",
+                text = {
+                    "High-level {C:sgt_enchantment}enchantments",
+                    "and rare consumables appear",
+                    "{C:attention}#4#X{} more often",
+                },
+            },
+            c_sgt_awakening = {
+                name = "Awakening",
+                text = {
+                    "Spend {C:money}$#3#{} to {C:sgt_enchantment}enchant",
+                    "the current deck with",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_awakening_1 = {
+                name = "Awakening I",
+                text = {
+                    "At end of Ante, {C:attention}#4#{} unmodified",
+                    "card in full deck gets an",
+                    "{C:attention}enhancement{}, {C:dark_edition}edition{} or {C:attention}seal",
+                },
+            },
+            sgt_awakening_2 = {
+                name = "Awakening II",
+                text = {
+                    "At end of Ante, {C:attention}#4#{} unmodified",
+                    "cards in full deck get an",
+                    "{C:attention}enhancement{}, {C:dark_edition}edition{} or {C:attention}seal",
+                },
+            },
+            sgt_awakening_3 = {
+                name = "Awakening III",
+                text = {
+                    "At end of Ante, {C:attention}#4#{} unmodified",
+                    "cards in full deck get an",
+                    "{C:attention}enhancement{}, {C:dark_edition}edition{} or {C:attention}seal",
+                },
+            },
+            sgt_awakening_4 = {
+                name = "Awakening IV",
+                text = {
+                    "At end of Ante, {C:attention}#4#{} unmodified",
+                    "cards in full deck get an",
+                    "{C:attention}enhancement{}, {C:dark_edition}edition{} or {C:attention}seal",
+                },
+            },
+            c_sgt_warehouse = {
+                name = "Warehouse",
+                text = {
+                    "Spend {C:money}$#3#{} to {C:sgt_enchantment}enchant",
+                    "the current deck with",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_warehouse_1 = {
+                name = "Warehouse I",
+                text = {
+                    "{C:attention}+#4#{} consumable slot",
+                },
+            },
+            sgt_warehouse_2 = {
+                name = "Warehouse II",
+                text = {
+                    "{C:attention}+#4#{} consumable slots",
+                },
+            },
+            sgt_warehouse_3 = {
+                name = "Warehouse III",
+                text = {
+                    "{C:attention}+#4#{} consumable slots",
+                },
+            },
+            sgt_warehouse_4 = {
+                name = "Warehouse IV",
+                text = {
+                    "{C:attention}+#4#{} consumable slots",
+                },
+            },
+            c_sgt_expansion = {
+                name = "Expansion",
+                text = {
+                    "Spend {C:money}$#3#{} to {C:sgt_enchantment}enchant",
+                    "the current deck with",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_expansion_1 = {
+                name = "Expansion I",
+                text = {
+                    "{C:dark_edition}+#4#{} Joker slot",
+                },
+            },
+            sgt_expansion_2 = {
+                name = "Expansion II",
+                text = {
+                    "{C:dark_edition}+#4#{} Joker slots",
+                },
+            },
+            sgt_expansion_3 = {
+                name = "Expansion III",
+                text = {
+                    "{C:dark_edition}+#4#{} Joker slots",
                 },
             },
         },
@@ -4501,6 +5108,9 @@ return {
             k_supply = "Supply",
             b_supply_cards = "Supply Cards",
             sgt_supply_pack = "Supply Pack",
+            k_sgt_enchantment = "Enchantment",
+            b_sgt_enchantment_cards = "Enchantment Cards",
+            sgt_magic_pack = "Magic Pack",
             k_storyline = "Storyline",
             k_storylines = "Storylines",
             run_select_sgt_storyline_choice = "Select Storyline",

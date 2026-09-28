@@ -427,7 +427,7 @@ local medium_canned_fish = {
     end,
     in_pool = function(self, args)
         if Sagatro.storyline_check("20k_miles_under_the_sea") then
-            return pseudorandom("medium_food_supply") < 0.33
+            return pseudorandom("medium_food_supply") < (G.GAME.modifiers.sgt_enchantment_boost or 1)/3
         end
         return false
     end,
@@ -462,7 +462,7 @@ local large_canned_fish = {
     end,
     in_pool = function(self, args)
         if Sagatro.storyline_check("20k_miles_under_the_sea") then
-            return pseudorandom("large_food_supply") < 0.11
+            return pseudorandom("large_food_supply") < (G.GAME.modifiers.sgt_enchantment_boost or 1)/9
         end
         return false
     end,

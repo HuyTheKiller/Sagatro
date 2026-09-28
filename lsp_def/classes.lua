@@ -102,3 +102,45 @@ Sagatro.Storylines = {}
 
 ---@type SMODS.Center[]
 Sagatro.StorylinePools = {}
+
+---@class Sagatro.Enchantment: SMODS.Consumable
+---@field super? SMODS.Consumable|table Parent class. 
+---@field hidden? boolean Sets if this consumable is considered "legendary" (e.x. behaves like "The Soul"). 
+---@field soul_set? string Key to the ConsumableType set this consumable can replace. Requires `hidden` to be true.
+---@field soul_rate? number Chance this card replaces a consumable. Requires `hidden` to be true.
+---@field type? SMODS.ConsumableType|table ConsumableType this center belongs to. 
+---@field legendaries? (Sagatro.Enchantment|table)[] All injected "legendary" consumables.
+---@field disable_shine? boolean If true, disables the default shine shader (for Spectrals).
+---@field max_level? 1|2|3|4 Highest possible level for the Enchantment linked to this consumable.
+---@field identifier? string The string key without consumable prefix.
+---@field use_funcs? (fun(self: Sagatro.Enchantment|table, card: Card|table, area: CardArea|table, copier?: table))[] Define a set of behaviors corresponding to each level when this consumable is used.
+---@field undo_funcs? fun()[] Define a set of behaviors to undo effects corresponding to each level when the respective enchantment of this consumable is removed.
+---@field __call? fun(self: Sagatro.Enchantment|table, o: Sagatro.Enchantment|table): nil|table|Sagatro.Enchantment
+---@field extend? fun(self: Sagatro.Enchantment|table, o: Sagatro.Enchantment|table): table Primary method of creating a class. 
+---@field check_duplicate_register? fun(self: Sagatro.Enchantment|table): boolean? Ensures objects already registered will not register. 
+---@field check_duplicate_key? fun(self: Sagatro.Enchantment|table): boolean? Ensures objects with duplicate keys will not register. Checked on `__call` but not `take_ownership`. For take_ownership, the key must exist. 
+---@field register? fun(self: Sagatro.Enchantment|table) Registers the object. 
+---@field check_dependencies? fun(self: Sagatro.Enchantment|table): boolean? Returns `true` if there's no failed dependencies. 
+---@field process_loc_text? fun(self: Sagatro.Enchantment|table) Called during `inject_class`. Handles injecting loc_text. 
+---@field send_to_subclasses? fun(self: Sagatro.Enchantment|table, func: string, ...: any) Starting from this class, recusively searches for functions with the given key on all subordinate classes and run all found functions with the given arguments. 
+---@field pre_inject_class? fun(self: Sagatro.Enchantment|table) Called before `inject_class`. Injects and manages class information before object injection. 
+---@field post_inject_class? fun(self: Sagatro.Enchantment|table) Called after `inject_class`. Injects and manages class information after object injection. 
+---@field inject_class? fun(self: Sagatro.Enchantment|table) Injects all direct instances of class objects by calling `obj:inject` and `obj:process_loc_text`. Also injects anything necessary for the class itself. Only called if class has defined both `obj_table` and `obj_buffer`. 
+---@field inject? fun(self: Sagatro.Enchantment|table, i?: number) Called during `inject_class`. Injects the object into the game. 
+---@field take_ownership? fun(self: Sagatro.Enchantment|table, key: string, obj: Sagatro.Enchantment|table, silent?: boolean): nil|table|Sagatro.Enchantment Takes control of vanilla objects. Child class must have get_obj for this to function
+---@field get_obj? fun(self: Sagatro.Enchantment|table, key: string): Sagatro.Enchantment|table? Returns an object if one matches the `key`. 
+---@field use? fun(self: Sagatro.Enchantment|table, card: Card|table, area: CardArea|table, copier?: table) Defines behaviour when this consumable is used. 
+---@field can_use? fun(self: Sagatro.Enchantment|table, card: Card|table): boolean? Return `true` if the consumable is allowed to be used. 
+---@field keep_on_use? fun(self: Sagatro.Enchantment|table, card: Card|table): boolean? Return `true` if the consumable should stay after use.
+---@field calc_dollar_bonus? fun(self: Sagatro.Enchantment|table, card: Card|table): number?, {text?:string, text_colour?:table, scale?:number, key?:string, set?:string}? Calculates reward money. 
+---@field calc_scaling? fun(self: Sagatro.Enchantment|table, card: Card|table, other_card: Card|table, scaling_value: number, scalar_value: number, args: table): table? @**[DEPRECATED]** Use `calculate` with `context.scaling_card` instead. ~Called by `SMODS.scale_card`. Allows detection and modification of cards when scaling values. The return may include a `scaling_value` or `scalar_value` field to modify those values or any standard calculation return.~
+---@field can_sell? fun(self: Sagatro.Enchantment|table, card: Card|table, context: unknown?):boolean? Allows configuring if the card is allowed to be sold. (Context is not used in vanilla and it's not the same as `calculate`)
+---@overload fun(self: Sagatro.Enchantment): Sagatro.Enchantment
+Sagatro.Enchantment = setmetatable({}, {
+    __call = function(self)
+        return self
+    end
+})
+
+---@type table<string, Sagatro.Enchantment|table>
+Sagatro.Enchantments = {}

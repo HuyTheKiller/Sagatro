@@ -233,6 +233,13 @@ return {
                     "của một trận chế độ cốt truyện",
                 },
             },
+            tag_sgt_enchantment_collection = {
+                name = "Phù Phép",
+                text = {
+                    "Xem hiệu ứng của một",
+                    "phù phép đang hoạt động",
+                },
+            },
             tag_sgt_holy = {
                 name = "Nhãn Thiêng",
                 text = {
@@ -259,6 +266,13 @@ return {
                 text = {
                     "Shop có một",
                     "{C:sgt_obscure}Joker Mờ Mịt",
+                },
+            },
+            tag_sgt_spell = {
+                name = "Nhãn Ma Pháp",
+                text = {
+                    "Nhận một {C:sgt_enchantment}Gói",
+                    "{C:sgt_enchantment}Ma Thuật Lớn{} miễn phí",
                 },
             },
         },
@@ -497,6 +511,15 @@ return {
                     "{C:attention}Bất hoạt{} ngoài chế độ cốt truyện",
                 },
             },
+            sgt_max_enchantment = {
+                name = "Giới Hạn Phù Phép",
+                text = {
+                    "Bạn chỉ có thể sở hữu tối đa {C:attention}#1#",
+                    "{C:sgt_enchantment}phù phép{} riêng biệt mỗi trận",
+                    "Lấy thêm cái nữa sẽ {C:attention}gỡ bỏ",
+                    "một cái ngẫu nhiên đang sở hữu",
+                },
+            },
             undiscovered_divinatio = {
                 name = "Chưa Khám Phá",
                 text = {
@@ -611,6 +634,30 @@ return {
                     "Chọn {C:attention}#1#{} trong tối đa",
                     "{C:attention}#2#{} lá {C:sgt_supply}Tiếp Tế{} để",
                     "thêm vào ô tiêu thụ",
+                },
+            },
+            p_sgt_magic_normal = {
+                name = "Gói Ma Thuật",
+                text = {
+                    "Chọn {C:attention}#1#{} trong tối đa",
+                    "{C:attention}#2#{} lá {C:sgt_enchantment}Phù Phép",
+                    "để dùng ngay",
+                },
+            },
+            p_sgt_magic_jumbo = {
+                name = "Gói Ma Thuật Lớn",
+                text = {
+                    "Chọn {C:attention}#1#{} trong tối đa",
+                    "{C:attention}#2#{} lá {C:sgt_enchantment}Phù Phép",
+                    "để dùng ngay",
+                },
+            },
+            p_sgt_magic_mega = {
+                name = "Gói Ma Thuật Đại",
+                text = {
+                    "Chọn {C:attention}#1#{} trong tối đa",
+                    "{C:attention}#2#{} lá {C:sgt_enchantment}Phù Phép",
+                    "để dùng ngay",
                 },
             },
             sgt_protected = {
@@ -993,6 +1040,22 @@ return {
                     "Lá {C:sgt_eldritch}Hắc Linh{} và",
                     "{C:attention}Gói Hắc Linh{} có thể",
                     "dược mua trong shop",
+                },
+            },
+            v_sgt_apprentice = {
+                name = "Pháp Sư Tập Sư",
+                text = {
+                    "{C:attention}Gói Ma Thuật{} có thể",
+                    "dược mua trong shop",
+                },
+            },
+            v_sgt_wizard = {
+                name = "Pháp Sư",
+                text = {
+                    "Lá {C:sgt_enchantment}Phù Phép{} có thể",
+                    "dược mua trong shop",
+                    "Tăng số ô {C:sgt_enchantment}Phù Phép",
+                    "lên {C:attention}#1#",
                 },
             },
         },
@@ -3522,8 +3585,8 @@ return {
             sgt_alphalice = {
                 name = "Alphalice",
                 text = {
-                    "Tôi sẽ {C:attention}đóng vai trò lớn{} trong",
-                    "mạch truyện tiếp theo của {C:sgt_sagadition}Sagatro{}",
+                    "Đổi kế hoạch! Mạch truyện tiếp theo của",
+                    "{C:sgt_sagadition}Sagatro{} sẽ trở thành một trò chơi riêng",
                     "Hãy đón chờ nhé!",
                 },
             },
@@ -3617,6 +3680,550 @@ return {
                 text = {
                     "Xem joker từ",
                     "{C:sgt_sagadition}mạch truyện{} này",
+                },
+            },
+        },
+        sgt_Enchantment = {
+            c_sgt_fortification = {
+                name = "Công Sự",
+                text = {
+                    "Tiêu {C:money}$#3#{} để {C:sgt_enchantment}phù phép",
+                    "bộ bài hiện tại với",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_fortification_1 = {
+                name = "Công Sự I",
+                text = {
+                    "Lá {C:attention}số{} cho {C:attention}#4# lần{} tổng",
+                    "giá trị chip của chúng",
+                    "khi ghi điểm",
+                },
+            },
+            sgt_fortification_2 = {
+                name = "Công Sự II",
+                text = {
+                    "Lá {C:attention}số{} cho {C:attention}#4# lần{} tổng",
+                    "giá trị chip của chúng",
+                    "khi ghi điểm",
+                },
+            },
+            sgt_fortification_3 = {
+                name = "Công Sự III",
+                text = {
+                    "Lá {C:attention}số{} cho {C:attention}#4# lần{} tổng",
+                    "giá trị chip của chúng",
+                    "khi ghi điểm",
+                },
+            },
+            sgt_fortification_4 = {
+                name = "Công Sự IV",
+                text = {
+                    "Lá {C:attention}số{} cho {C:attention}#4# lần{} tổng",
+                    "giá trị chip của chúng",
+                    "khi ghi điểm",
+                },
+            },
+            c_sgt_empowerment = {
+                name = "Trao Quyền",
+                text = {
+                    "Tiêu {C:money}$#3#{} để {C:sgt_enchantment}phù phép",
+                    "bộ bài hiện tại với",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_empowerment_1 = {
+                name = "Trao Quyền I",
+                text = {
+                    "Lá {C:attention}mặt{} giữ trên tay cho",
+                    "tổng số chip của chúng khi",
+                    "ghi điểm như điểm {C:mult}Nhân{}",
+                },
+            },
+            sgt_empowerment_2 = {
+                name = "Trao Quyền II",
+                text = {
+                    "Lá {C:attention}mặt{} giữ trên tay cho",
+                    "{C:attention}#4# lần{} tổng số chip của chúng",
+                    "khi ghi điểm như điểm {C:mult}Nhân{}",
+                },
+            },
+            sgt_empowerment_3 = {
+                name = "Trao Quyền III",
+                text = {
+                    "Lá {C:attention}mặt{} giữ trên tay cho",
+                    "{C:attention}#4# lần{} tổng số chip của chúng",
+                    "khi ghi điểm như điểm {C:mult}Nhân{}",
+                },
+            },
+            sgt_empowerment_4 = {
+                name = "Trao Quyền IV",
+                text = {
+                    "Lá {C:attention}mặt{} giữ trên tay cho",
+                    "{C:attention}#4# lần{} tổng số chip của chúng",
+                    "khi ghi điểm như điểm {C:mult}Nhân{}",
+                },
+            },
+            c_sgt_abundance = {
+                name = "Dồi Dào",
+                text = {
+                    "Tiêu {C:money}$#3#{} để {C:sgt_enchantment}phù phép",
+                    "bộ bài hiện tại với",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_abundance_1 = {
+                name = "Dồi Dào I",
+                text = {
+                    "Với N là tiền sẽ nhận",
+                    "ở cuối ván, nhận thêm",
+                    "từ {C:money}$#4#{} đến {C:money}$N",
+                },
+            },
+            sgt_abundance_2 = {
+                name = "Dồi Dào II",
+                text = {
+                    "Với N là tiền sẽ nhận",
+                    "ở cuối ván, nhận thêm",
+                    "từ {C:money}$#4#{} đến {C:money}$N+#4#",
+                },
+            },
+            sgt_abundance_3 = {
+                name = "Dồi Dào III",
+                text = {
+                    "Với N là tiền sẽ nhận",
+                    "ở cuối ván, nhận thêm",
+                    "từ {C:money}$#4#{} đến {C:money}$N+#4#",
+                },
+            },
+            sgt_abundance_4 = {
+                name = "Dồi Dào IV",
+                text = {
+                    "Với N là tiền sẽ nhận",
+                    "ở cuối ván, nhận thêm",
+                    "từ {C:money}$#4#{} đến {C:money}$N+#4#",
+                },
+            },
+            c_sgt_foresight = {
+                name = "Nhìn Trước",
+                text = {
+                    "Tiêu {C:money}$#3#{} để {C:sgt_enchantment}phù phép",
+                    "bộ bài hiện tại với",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_foresight_1 = {
+                name = "Nhìn Trước I",
+                text = {
+                    "{C:attention}+#4#{} lá giữ trong tay",
+                },
+            },
+            sgt_foresight_2 = {
+                name = "Nhìn Trước II",
+                text = {
+                    "{C:attention}+#4#{} lá giữ trong tay",
+                },
+            },
+            sgt_foresight_3 = {
+                name = "Nhìn Trước III",
+                text = {
+                    "{C:attention}+#4#{} lá giữ trong tay",
+                },
+            },
+            sgt_foresight_4 = {
+                name = "Nhìn Trước IV",
+                text = {
+                    "{C:attention}+#4#{} lá giữ trong tay",
+                },
+            },
+            c_sgt_mercy = {
+                name = "Khoan Dung",
+                text = {
+                    "Tiêu {C:money}$#3#{} để {C:sgt_enchantment}phù phép",
+                    "bộ bài hiện tại với",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_mercy_1 = {
+                name = "Khoan Dung I",
+                text = {
+                    "{C:blue}+#4#{} số lá có thể chơi",
+                    "{C:red}-#4#{} số lá có thể bỏ",
+                },
+            },
+            sgt_mercy_2 = {
+                name = "Khoan Dung II",
+                text = {
+                    "{C:blue}+#4#{} số lá có thể chơi",
+                    "{C:red}-#4#{} số lá có thể bỏ",
+                },
+            },
+            sgt_mercy_3 = {
+                name = "Khoan Dung III",
+                text = {
+                    "{C:blue}+#4#{} số lá có thể chơi",
+                    "{C:red}-#4#{} số lá có thể bỏ",
+                },
+            },
+            sgt_mercy_4 = {
+                name = "Khoan Dung IV",
+                text = {
+                    "{C:blue}+#4#{} số lá có thể chơi",
+                    "{C:red}-#4#{} số lá có thể bỏ",
+                },
+            },
+            c_sgt_cruelty = {
+                name = "Tàn Nhẫn",
+                text = {
+                    "Tiêu {C:money}$#3#{} để {C:sgt_enchantment}phù phép",
+                    "bộ bài hiện tại với",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_cruelty_1 = {
+                name = "Tàn Nhẫn I",
+                text = {
+                    "{C:red}+#4#{} số lá có thể bỏ",
+                    "{C:blue}-#4#{} số lá có thể chơi",
+                },
+            },
+            sgt_cruelty_2 = {
+                name = "Tàn Nhẫn II",
+                text = {
+                    "{C:red}+#4#{} số lá có thể bỏ",
+                    "{C:blue}-#4#{} số lá có thể chơi",
+                },
+            },
+            sgt_cruelty_3 = {
+                name = "Tàn Nhẫn III",
+                text = {
+                    "{C:red}+#4#{} số lá có thể bỏ",
+                    "{C:blue}-#4#{} số lá có thể chơi",
+                },
+            },
+            sgt_cruelty_4 = {
+                name = "Tàn Nhẫn IV",
+                text = {
+                    "{C:red}+#4#{} số lá có thể bỏ",
+                    "{C:blue}-#4#{} số lá có thể chơi",
+                },
+            },
+            c_sgt_echo = {
+                name = "Vang Vọng",
+                text = {
+                    "Tiêu {C:money}$#3#{} để {C:sgt_enchantment}phù phép",
+                    "bộ bài hiện tại với",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_echo_1 = {
+                name = "Vang Vọng I",
+                text = {
+                    "{C:attention}Tái kích{} khả năng",
+                    "của mọi lá bài {C:attention}giữ",
+                    "{C:attention}trên tay",
+                },
+            },
+            sgt_echo_2 = {
+                name = "Vang Vọng II",
+                text = {
+                    "{C:attention}Tái kích{} mọi",
+                    "lá bài {C:attention}đã chơi",
+                },
+            },
+            sgt_echo_3 = {
+                name = "Vang Vọng III",
+                text = {
+                    "{C:attention}Tái kích{} mọi lá bài {C:attention}đã chơi",
+                    "và khả năng {C:attention}giữ trên tay{}",
+                },
+            },
+            sgt_echo_4 = {
+                name = "Vang Vọng IV",
+                text = {
+                    "{C:attention}Tái kích{} mọi joker",
+                },
+            },
+            c_sgt_reflection = {
+                name = "Phản Xạ",
+                text = {
+                    "Tiêu {C:money}$#3#{} để {C:sgt_enchantment}phù phép",
+                    "bộ bài hiện tại với",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_reflection_1 = {
+                name = "Phản Xạ I",
+                text = {
+                    "Xác suất {C:green}#4# trên #5#{} để sao chép {C:attention}cường hoá{},",
+                    "{C:dark_edition}ấn bản{} hoặc {C:attention}con dấu{} của lá ghi điểm đầu tiên",
+                    "sở hữu lên một lá ghi điểm ngẫu nhiên {C:attention}khác{}",
+                },
+            },
+            sgt_reflection_2 = {
+                name = "Phản Xạ II",
+                text = {
+                    "Xác suất {C:green}#4# trên #5#{} để sao chép {C:attention}cường hoá{},",
+                    "{C:dark_edition}ấn bản{} hoặc {C:attention}con dấu{} của lá ghi điểm đầu tiên",
+                    "sở hữu lên một lá ghi điểm ngẫu nhiên {C:attention}khác{}",
+                },
+            },
+            sgt_reflection_3 = {
+                name = "Phản Xạ III",
+                text = {
+                    "Xác suất {C:green}#4# trên #5#{} để sao chép {C:attention}cường hoá{},",
+                    "{C:dark_edition}ấn bản{} hoặc {C:attention}con dấu{} của lá ghi điểm đầu tiên",
+                    "sở hữu lên {C:attention}mọi{} lá ghi điểm khác",
+                },
+            },
+            sgt_reflection_4 = {
+                name = "Phản Xạ IV",
+                text = {
+                    "Sao chép {C:attention}cường hoá{}, {C:dark_edition}ấn bản{} hoặc {C:attention}con dấu",
+                    "của lá ghi điểm đầu tiên sở hữu lên",
+                    "{C:attention}mọi{} lá ghi điểm khác",
+                },
+            },
+            c_sgt_alchemy = {
+                name = "Giả Kim",
+                text = {
+                    "Tiêu {C:money}$#3#{} để {C:sgt_enchantment}phù phép",
+                    "bộ bài hiện tại với",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_alchemy_1 = {
+                name = "Giả Kim I",
+                text = {
+                    "Biến đổi lá {C:attention}cường hoá kim loại",
+                    "ghi điểm đầu tiên thành {C:attention}cường hoá",
+                    "{C:attention}kim loại{} khác",
+                },
+            },
+            sgt_alchemy_2 = {
+                name = "Giả Kim II",
+                text = {
+                    "Biến đổi lá {C:attention}cường hoá kim loại{} giữ",
+                    "trên tay đầu tiên thành {C:attention}cường hoá",
+                    "{C:attention}kim loại{} khác"
+                },
+            },
+            sgt_alchemy_3 = {
+                name = "Giả Kim III",
+                text = {
+                    "Biến đổi mọi {C:attention}cường hoá kim loại",
+                    "giữ trên tay thành {C:attention} cường hoá",
+                    "{C:attention}kim loại{} đã chơi đầu tiên",
+                },
+            },
+            sgt_alchemy_4 = {
+                name = "Giả Kim IV",
+                text = {
+                    "Biến đổi mọi {C:attention}lá bài{} giữ",
+                    "trên tay thành {C:attention} cường hoá",
+                    "{C:attention}kim loại{} đã chơi đầu tiên",
+                },
+            },
+            c_sgt_binding = {
+                name = "Trói Buộc",
+                text = {
+                    "Tiêu {C:money}$#3#{} để {C:sgt_enchantment}phù phép",
+                    "bộ bài hiện tại với",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_binding_1 = {
+                name = "Trói Buộc I",
+                text = {
+                    "{C:attention}Cường hoá dễ vỡ",
+                    "khó bị vỡ hơn {C:attention}2 lần{}",
+                    "Xác suất {C:green}#4# trên #5#{} để phá huỷ",
+                    "lá {C:attention}không dễ vỡ{} đã chơi",
+                },
+            },
+            sgt_binding_2 = {
+                name = "Trói Buộc II",
+                text = {
+                    "{C:attention}Cường hoá dễ vỡ",
+                    "khó bị vỡ hơn {C:attention}4 lần{}",
+                    "Xác suất {C:green}#4# trên #5#{} để phá huỷ",
+                    "lá {C:attention}không dễ vỡ{} đã chơi",
+                },
+            },
+            sgt_binding_3 = {
+                name = "Trói Buộc III",
+                text = {
+                    "{C:attention}Cường hoá dễ vỡ",
+                    "khó bị vỡ hơn {C:attention}6 lần{}",
+                    "Xác suất {C:green}#4# trên #5#{} để phá huỷ",
+                    "lá {C:attention}không dễ vỡ{} đã chơi",
+                },
+            },
+            sgt_binding_4 = {
+                name = "Trói Buộc IV",
+                text = {
+                    "{C:attention}Cường hoá dễ vỡ",
+                    "không thể bị vỡ",
+                    "Phá huỷ mọi lá",
+                    "{C:attention}không dễ vỡ{} đã chơi",
+                },
+            },
+            c_sgt_warding = {
+                name = "Miễn Dịch",
+                text = {
+                    "Tiêu {C:money}$#3#{} để {C:sgt_enchantment}phù phép",
+                    "bộ bài hiện tại với",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_warding_1 = {
+                name = "Miễn Dịch I",
+                text = {
+                    "{C:attention}Lá ghi điểm{} đầu tiên",
+                    "không thể bị vô hiệu",
+                },
+            },
+            sgt_warding_2 = {
+                name = "Miễn Dịch II",
+                text = {
+                    "{C:attention}Lá ghi điểm{} và lá {C:attention}giữ trên tay",
+                    "đầu tiên không thể bị vô hiệu",
+                },
+            },
+            sgt_warding_3 = {
+                name = "Miễn Dịch III",
+                text = {
+                    "{C:attention}Lá cường hoá",
+                    "không thể bị vô hiệu",
+                },
+            },
+            sgt_warding_4 = {
+                name = "Miễn Dịch IV",
+                text = {
+                    "Mọi {C:attention}lá bài thường",
+                    "không thể bị vô hiệu",
+                },
+            },
+            c_sgt_blessing = {
+                name = "Blessing",
+                text = {
+                    "Tiêu {C:money}$#3#{} để {C:sgt_enchantment}phù phép",
+                    "bộ bài hiện tại với",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_blessing_1 = {
+                name = "Blessing I",
+                text = {
+                    "{C:sgt_enchantment}Phù phép{} cấp cao và",
+                    "lá tiêu thụ hiếm xuất hiện",
+                    "thường xuyên hơn {C:attention}#4# lần",
+                },
+            },
+            sgt_blessing_2 = {
+                name = "Blessing II",
+                text = {
+                    "{C:sgt_enchantment}Phù phép{} cấp cao và",
+                    "lá tiêu thụ hiếm xuất hiện",
+                    "thường xuyên hơn {C:attention}#4# lần",
+                },
+            },
+            c_sgt_awakening = {
+                name = "Thức Tỉnh",
+                text = {
+                    "Tiêu {C:money}$#3#{} để {C:sgt_enchantment}phù phép",
+                    "bộ bài hiện tại với",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_awakening_1 = {
+                name = "Thức Tỉnh I",
+                text = {
+                    "Ở cuối Ante, {C:attention}#4#{} lá không sửa đổi",
+                    "trong bộ bài đầy đủ sẽ được gắn",
+                    "{C:attention}cường hoá{}, {C:dark_edition}ấn bản{} or {C:attention}con dấu",
+                },
+            },
+            sgt_awakening_2 = {
+                name = "Thức Tỉnh II",
+                text = {
+                    "Ở cuối Ante, {C:attention}#4#{} lá không sửa đổi",
+                    "trong bộ bài đầy đủ sẽ được gắn",
+                    "{C:attention}cường hoá{}, {C:dark_edition}ấn bản{} or {C:attention}con dấu",
+                },
+            },
+            sgt_awakening_3 = {
+                name = "Thức Tỉnh III",
+                text = {
+                    "Ở cuối Ante, {C:attention}#4#{} lá không sửa đổi",
+                    "trong bộ bài đầy đủ sẽ được gắn",
+                    "{C:attention}cường hoá{}, {C:dark_edition}ấn bản{} or {C:attention}con dấu",
+                },
+            },
+            sgt_awakening_4 = {
+                name = "Thức Tỉnh IV",
+                text = {
+                    "Ở cuối Ante, {C:attention}#4#{} lá không sửa đổi",
+                    "trong bộ bài đầy đủ sẽ được gắn",
+                    "{C:attention}cường hoá{}, {C:dark_edition}ấn bản{} or {C:attention}con dấu",
+                },
+            },
+            c_sgt_warehouse = {
+                name = "Kho Chứa",
+                text = {
+                    "Tiêu {C:money}$#3#{} để {C:sgt_enchantment}phù phép",
+                    "bộ bài hiện tại với",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_warehouse_1 = {
+                name = "Kho Chứa I",
+                text = {
+                    "{C:attention}+#4#{} ô tiêu thụ",
+                },
+            },
+            sgt_warehouse_2 = {
+                name = "Kho Chứa II",
+                text = {
+                    "{C:attention}+#4#{} ô tiêu thụ",
+                },
+            },
+            sgt_warehouse_3 = {
+                name = "Kho Chứa III",
+                text = {
+                    "{C:attention}+#4#{} ô tiêu thụ",
+                },
+            },
+            sgt_warehouse_4 = {
+                name = "Kho Chứa IV",
+                text = {
+                    "{C:attention}+#4#{} ô tiêu thụ",
+                },
+            },
+            c_sgt_expansion = {
+                name = "Mở Rộng",
+                text = {
+                    "Tiêu {C:money}$#3#{} để {C:sgt_enchantment}phù phép",
+                    "bộ bài hiện tại với",
+                    "{C:dark_edition}[#1# #2#]",
+                },
+            },
+            sgt_expansion_1 = {
+                name = "Mở Rộng I",
+                text = {
+                    "{C:dark_edition}+#4#{} ô Joker",
+                },
+            },
+            sgt_expansion_2 = {
+                name = "Mở Rộng II",
+                text = {
+                    "{C:dark_edition}+#4#{} ô Joker",
+                },
+            },
+            sgt_expansion_3 = {
+                name = "Mở Rộng III",
+                text = {
+                    "{C:dark_edition}+#4#{} ô Joker",
                 },
             },
         },
@@ -4496,6 +5103,9 @@ return {
             k_supply = "Tiếp Tế",
             b_supply_cards = "Lá Tiếp Tế",
             sgt_supply_pack = "Gói Tiếp Tế",
+            k_sgt_enchantment = "Phù Phép",
+            b_sgt_enchantment_cards = "Lá Phù Phép",
+            sgt_magic_pack = "Gói Ma Pháp",
             k_storyline = "Mạch Truyện",
             k_storylines = "Mạch Truyện",
             run_select_sgt_storyline_choice = "Chọn M.Truyện",

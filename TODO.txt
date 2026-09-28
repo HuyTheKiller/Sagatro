@@ -75,3 +75,12 @@ Ice's feedback fixes:
 [X] make saga_difficulty field a function
 [X] Move Alice in the Wonderland legacy mechanic to its own room
 [X] Implement new Alice in the Wonderland mechanic (difficulty lowered from 3 to 2)
+
+[X] Make Enchantment shader:
+    [X] for card backs
+    [X] for card badge
+[X] Make Enchantment-related objects:
+    [X] Enchantment cards (15/15)
+    [X] Vouchers (2/2)
+    [X] Magic Packs (4/4)
+[X] Create UI for showing active enchantments
