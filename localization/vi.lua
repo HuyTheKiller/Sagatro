@@ -2985,7 +2985,7 @@ return {
                     "Tái kích mọi lá {C:attention}Đầm{} đã chơi",
                     "Mỗi lá {C:attention}Đầm {C:hearts}Cơ{} đã chơi ghi",
                     "thêm {X:mult,C:white}X#1#{} Nhân khi ghi điểm",
-                    "Lá {C:attention}Kính{} đã chơi ghi thêm",
+                    "Lá {C:attention}cường hoá dễ vỡ{} đã chơi ghi thêm",
                     "{X:mult,C:white}X#2#{} Nhân khi ghi điểm",
                 },
             },
@@ -3061,7 +3061,7 @@ return {
                 name = "Kéo Tuyết",
                 text = {
                     "{B:1,C:dark_gold}Ấn Vương{}",
-                    "Lá {C:attention}Kính{} đã chơi ghi thêm",
+                    "Lá {C:attention}cường hoá dễ vỡ{} đã chơi ghi thêm",
                     "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
                 },
             },
@@ -3069,7 +3069,7 @@ return {
                 name = "Kéo Tuyết",
                 text = {
                     "{B:1,C:dark_gold}Ấn Vương{} {B:1,C:dark_gold}L{}",
-                    "Lá {C:attention}Kính{} đã chơi ghi thêm",
+                    "Lá {C:attention}cường hoá dễ vỡ{} đã chơi ghi thêm",
                     "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
                 },
             },
@@ -3173,9 +3173,9 @@ return {
             j_sgt_lisette = {
                 name = "Lisette",
                 text = {
-                    "Lá {C:attention}Kính{} đã chơi ghi thêm",
+                    "Lá {C:attention}cường hoá dễ vỡ{} đã chơi ghi thêm",
                     "{X:mult,C:white}X#1#{} Nhân khi ghi điểm",
-                    "Lá {C:attention}Kính{} khó bị vỡ hơn",
+                    "Lá {C:attention}cường hoá dễ vỡ{} khó bị vỡ hơn {C:attention}#2# lần",
                 },
             },
             j_sgt_lisette_storymode = {
@@ -3202,8 +3202,8 @@ return {
             j_sgt_rusty_scissors = {
                 name = "Kéo Rỉ Sét",
                 text = {
-                    "Lá {C:attention}Kính{C:green} chắc chắn",
-                    "sẽ bị vỡ",
+                    "Lá {C:attention}cường hoá dễ vỡ",
+                    "{C:green}chắc chắn{} sẽ bị vỡ",
                 },
             },
             j_sgt_rusty_scissors_storymode = {

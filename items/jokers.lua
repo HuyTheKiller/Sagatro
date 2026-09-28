@@ -14473,11 +14473,11 @@ local goldia = {
                 if context.other_card:get_id() == 12 and context.other_card:is_suit("Hearts") then
                     return {
                         xmult = card.ability.extra.full_queen_xmult,
-                        extra = Sagatro.omniscient(context.other_card, {"m_glass", "m_sgt_nyx_glass"}) and
+                        extra = Sagatro.fragile_enhancement(context.other_card) and
                         {xmult = card.ability.extra.full_glass_xmult} or nil,
                     }
                 end
-                if Sagatro.omniscient(context.other_card, {"m_glass", "m_sgt_nyx_glass"}) then
+                if Sagatro.fragile_enhancement(context.other_card) then
                     return {
                         xmult = card.ability.extra.full_glass_xmult,
                     }
@@ -14622,7 +14622,7 @@ local goldia = {
                 ret.vars = {number_format(card.ability.extra.stage0_mult, 1000000), card.ability.extra.stage0_mult_xmod}
             elseif card.ability.immutable.stage == "name_recalled" then
                 ret.vars = {card.ability.extra.full_queen_xmult, card.ability.extra.full_glass_xmult}
-                info_queue[#info_queue+1] = G.P_CENTERS.m_glass
+                Sagatro.enh_group_info_queue(info_queue, Sagatro.fragile_enhancement_list)
             end
         end
         return ret
@@ -14660,7 +14660,7 @@ local goldia = {
                             if scoring_card:get_id() == 12 then
                                 queen_count = queen_count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
                             end
-                            if Sagatro.omniscient(scoring_card, {"m_glass", "m_sgt_nyx_glass"}) then
+                            if Sagatro.fragile_enhancement(scoring_card) then
                                 glass_count = glass_count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
                             end
                         end
@@ -15127,7 +15127,7 @@ local snow_scissors = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
-            if Sagatro.omniscient(context.other_card, {"m_glass", "m_sgt_nyx_glass"}) then
+            if Sagatro.fragile_enhancement(context.other_card) then
                 return {
                     xmult = card.ability.extra.xmult,
                 }
@@ -15166,7 +15166,7 @@ local snow_scissors = {
         return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = G.P_CENTERS.m_glass
+        Sagatro.enh_group_info_queue(info_queue, Sagatro.fragile_enhancement_list)
         local ret = {vars = {card.ability.extra.xmult, colours = {G.C.GOLD}}}
         if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_storymode"
@@ -15196,7 +15196,7 @@ local snow_scissors = {
                 local text, _, scoring_hand = JokerDisplay.evaluate_hand()
                 if text ~= 'Unknown' then
                     for _, scoring_card in pairs(scoring_hand) do
-                        if Sagatro.omniscient(scoring_card, {"m_glass", "m_sgt_nyx_glass"}) then
+                        if Sagatro.fragile_enhancement(scoring_card) then
                             count = count + JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
                         end
                     end
@@ -15930,13 +15930,15 @@ local lisette = {
         elseif not card.ability.platinum_reflection or Sagatro.event_check("ending_reached", nil, {contain = true}) or (card.ability.platinum_reflection
         and (card.area.cards[Sagatro.get_pos(card)+1] or {config = {}}).config.center_key == "j_sgt_platinum") then
             if context.mod_probability and not context.blueprint then
-                if context.trigger_obj and context.trigger_obj.is and context.trigger_obj:is(Card)
-                and Sagatro.omniscient(context.trigger_obj, {"m_glass", "m_sgt_nyx_glass"}) then
+                if context.trigger_obj and ((context.trigger_obj.is and context.trigger_obj:is(Card)
+                and Sagatro.fragile_enhancement(context.trigger_obj))
+                or (context.trigger_obj.fake_card
+                and table.contains({"m_glass", "m_sgt_nyx_glass", "m_sgt_omniscient"}, context.trigger_obj.fake_card))) then
                     return { denominator = context.denominator*card.ability.extra.glass_odds_mod }
                 end
             end
             if context.individual and context.cardarea == G.play then
-                if Sagatro.omniscient(context.other_card, {"m_glass", "m_sgt_nyx_glass"}) then
+                if Sagatro.fragile_enhancement(context.other_card) then
                     return {
                         xmult = card.ability.extra.xmult,
                     }
@@ -16035,11 +16037,9 @@ local lisette = {
         return not G.GAME.story_mode
     end,
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = G.P_CENTERS.m_glass
-        local ret = {vars = {card.ability.extra.xmult}}
+        local ret = {vars = {card.ability.extra.xmult, card.ability.extra.glass_odds_mod}}
         if ((G.GAME.story_mode or card.displaying_save) or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers)) and not card.ability.platinum_reflection then
             ret.key = self.key.."_storymode"
-            info_queue[#info_queue] = nil
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if card.displaying_save then
                 for _, v in ipairs((Sagatro.temp_areas or {jokers = {}}).jokers.cards or {}) do
@@ -16051,6 +16051,8 @@ local lisette = {
             end
             ret.vars = {localize{type = "name_text", set = "Joker",
             key = "j_sgt_goldia_stage_"..(goldia or {ability = {immutable = {stage = 0}}}).ability.immutable.stage}}
+        else
+            Sagatro.enh_group_info_queue(info_queue, Sagatro.fragile_enhancement_list)
         end
         return ret
     end,
@@ -16097,7 +16099,7 @@ local lisette = {
                     local count = 0
                     if text ~= 'Unknown' then
                         for _, scoring_card in pairs(scoring_hand) do
-                            if Sagatro.omniscient(scoring_card, {"m_glass", "m_sgt_nyx_glass"}) then
+                            if Sagatro.fragile_enhancement(scoring_card) then
                                 count = count + 1
                             end
                         end
@@ -16346,7 +16348,7 @@ local rusty_scissors = {
         else
             if context.fix_probability then
                 if context.trigger_obj and context.trigger_obj.is and context.trigger_obj:is(Card)
-                and Sagatro.omniscient(context.trigger_obj, {"m_glass", "m_sgt_nyx_glass"}) then
+                and Sagatro.fragile_enhancement(context.trigger_obj) then
                     return { numerator = context.denominator }
                 end
             end
@@ -16381,11 +16383,12 @@ local rusty_scissors = {
     end,
     loc_vars = function(self, info_queue, card)
         local ret = {vars = {}}
-        info_queue[#info_queue+1] = G.P_CENTERS.m_glass
         if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) or card.displaying_save then
             ret.key = self.key.."_storymode"
-            info_queue[#info_queue] = G.P_CENTERS.m_sgt_mirror
+            info_queue[#info_queue+1] = G.P_CENTERS.m_sgt_mirror
             info_queue[#info_queue+1] = G.P_CENTERS.j_sgt_lisette
+        else
+            Sagatro.enh_group_info_queue(info_queue, Sagatro.fragile_enhancement_list)
         end
         return ret
     end,

@@ -2988,7 +2988,7 @@ return {
                     "Retrigger all played {C:attention}Queens{}",
                     "Each played {C:attention}Queen{} of {C:hearts}Hearts{}",
                     "gives {X:mult,C:white}X#1#{} Mult when scored",
-                    "Played {C:attention}Glass{} cards give",
+                    "Played {C:attention}fragile enhancements{} give",
                     "{X:mult,C:white}X#2#{} Mult when scored",
                 },
             },
@@ -3064,7 +3064,7 @@ return {
                 name = "Schnee Schere",
                 text = {
                     "{B:1,C:dark_gold}Regalia{}",
-                    "Played {C:attention}Glass{} cards give",
+                    "Played {C:attention}fragile enhancements{} give",
                     "{X:mult,C:white}X#1#{} Mult when scored",
                 },
             },
@@ -3072,7 +3072,7 @@ return {
                 name = "Schnee Schere",
                 text = {
                     "{B:1,C:dark_gold}Regalia{} {B:1,C:dark_gold}L{}",
-                    "Played {C:attention}Glass{} cards give",
+                    "Played {C:attention}fragile enhancements{} give",
                     "{X:mult,C:white}X#1#{} Mult when scored",
                 },
             },
@@ -3176,10 +3176,10 @@ return {
             j_sgt_lisette = {
                 name = "Lisette",
                 text = {
-                    "Played {C:attention}Glass{} cards give",
+                    "Played {C:attention}fragile enhancements{} give",
                     "{X:mult,C:white}X#1#{} Mult when scored",
-                    "{C:attention}Glass{} cards are less",
-                    "likely to break",
+                    "{C:attention}fragile enhancements{} are {}#2#X",
+                    "less likely to break",
                 },
             },
             j_sgt_lisette_storymode = {
@@ -3206,7 +3206,7 @@ return {
             j_sgt_rusty_scissors = {
                 name = "Rusty Scissors",
                 text = {
-                    "{C:attention}Glass{} cards are",
+                    "{C:attention}fragile enhancements{} are",
                     "{C:green}guaranteed{} to break",
                 },
             },
