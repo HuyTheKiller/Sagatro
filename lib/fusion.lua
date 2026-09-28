@@ -314,11 +314,11 @@ function Game:start_run(args)
         if not args.savetext then
             G.GAME.sgt_lenient_score = Sagatro.config.LenientScore
             G.GAME.legacy_wonderland = Sagatro.config.LegacyWonderland
-            G.GAME.delayed_joker_slot = 3
-            if G.GAME.selected_back.effect.center.key == "b_sgt_saga"
-            or (CardSleeves and G.GAME.selected_sleeve == "sleeve_sgt_saga") then
-                G.GAME.delayed_joker_slot = nil
-            end
+            -- G.GAME.delayed_joker_slot = 3
+            -- if G.GAME.selected_back.effect.center.key == "b_sgt_saga"
+            -- or (CardSleeves and G.GAME.selected_sleeve == "sleeve_sgt_saga") then
+            --     G.GAME.delayed_joker_slot = nil
+            -- end
         end
         Sagatro.update_HUD()
         if G.SETTINGS.tutorial_complete and not G.SETTINGS.saga_tutorial_complete then
