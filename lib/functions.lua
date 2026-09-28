@@ -403,7 +403,7 @@ function CardArea:update(dt)
                         end
                         SMODS.debuff_card(v, true, "j_sgt_mouse")
                     else
-                        SMODS.debuff_card(v, false, "j_sgt_mouse")
+                        SMODS.debuff_card(v, nil, "j_sgt_mouse")
                         v.ability.extra.mult = v.ability.extra.buffer_mult
                     end
                 end
@@ -424,7 +424,7 @@ function CardArea:update(dt)
                 and G.TAROT_INTERRUPT ~= G.STATES.BLIND_SELECT
                 and G.TAROT_INTERRUPT ~= G.STATES.SELECTING_HAND
                 and G.TAROT_INTERRUPT ~= G.STATES.ROUND_EVAL) then
-                    SMODS.debuff_card(v, false, "j_sgt_pufferfish")
+                    SMODS.debuff_card(v, nil, "j_sgt_pufferfish")
                 end
             end
             if v.config.center_key == "j_sgt_pufferfish"
@@ -2198,7 +2198,7 @@ function Sagatro.reset_game_globals(run_start)
             for i = #v.ability.extra.debuff_position, 1, -1 do
                 table.remove(v.ability.extra.debuff_position, i)
             end
-            SMODS.debuff_card(v, false, "j_sgt_mouse")
+            SMODS.debuff_card(v, nil, "j_sgt_mouse")
             v.ability.extra.mult = v.ability.extra.buffer_mult
         end
     end
