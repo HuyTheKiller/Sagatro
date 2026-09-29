@@ -885,7 +885,7 @@ function Game:update(dt)
                     end
                 end
             else
-                if G.GAME.progress_tag_iw and G.GAME.progress_tag_iw == "\"MANUAL_REPLACE\""
+                if G.GAME.progress_tag_iw and G.GAME.progress_tag_iw ~= "\"MANUAL_REPLACE\""
                 and G.GAME.progress_tag_iw.HUD_tag.REMOVED then
                     G.GAME.progress_tag_iw = nil
                 end
