@@ -1501,7 +1501,9 @@ payload = '''
     if G.GAME.sgt_enchanted_table then
         if G.GAME.sgt_enchanted_table.sgt_fortification and Sagatro.is_numbered_rank(self:get_id()) then
             loc_vars.nominal_chips = loc_vars.nominal_chips * (G.GAME.sgt_enchanted_table.sgt_fortification + 1)
-            loc_vars.bonus_chips = (loc_vars.bonus_chips or 0) * (G.GAME.sgt_enchanted_table.sgt_fortification + 1)
+            if loc_vars.bonus_chips then
+                loc_vars.bonus_chips = loc_vars.bonus_chips * (G.GAME.sgt_enchanted_table.sgt_fortification + 1)
+            end
         end
         if G.GAME.sgt_enchanted_table.sgt_empowerment and self:is_face() then
             loc_vars.bonus_h_mult = (loc_vars.bonus_h_mult or 0) + self:get_chip_bonus() * G.GAME.sgt_enchanted_table.sgt_empowerment
