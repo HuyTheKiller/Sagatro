@@ -479,9 +479,15 @@ function CardArea:update(dt)
     if G.GAME.sgt_enchanted_table and G.GAME.sgt_enchanted_table.sgt_warding then
         if G.GAME.sgt_enchanted_table.sgt_warding == 2 then
             if self == G.hand and G.hand.cards[1] then
+                local first_unhighlighted, index = false, 1
                 for i, v in ipairs(G.hand.cards) do
-                    if i ~= 1 or v.debuff then
-                        SMODS.debuff_card(v, i == 1 and "prevent_debuff", "l2_warding")
+                    if table.contains(G.hand.highlighted, v) and not first_unhighlighted then
+                        index = index + 1
+                    else
+                        first_unhighlighted = true
+                    end
+                    if i ~= index or v.debuff then
+                        SMODS.debuff_card(v, i == index and "prevent_debuff", "l2_warding")
                     end
                 end
             end
