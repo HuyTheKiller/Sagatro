@@ -3823,13 +3823,13 @@ local titanium = {
     config = {h_x_mult = 1.5, extra = {h_x_mult_mod = 0.25, held_in_hand_ge = 7}, immutable = {base_h_x_mult = 1.5}},
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.h_x_mult = card.ability.immutable.base_h_x_mult
-        + (G and G.hand and G.hand.cards and #G.hand.cards > card.ability.extra.held_in_hand_ge
-        and #G.hand.cards - card.ability.extra.held_in_hand_ge or 0)*card.ability.extra.h_x_mult_mod
+        + (G and G.hand and G.hand.cards and #G.hand.cards - #G.hand.highlighted > card.ability.extra.held_in_hand_ge
+        and #G.hand.cards - #G.hand.highlighted - card.ability.extra.held_in_hand_ge or 0)*card.ability.extra.h_x_mult_mod
     end,
     update = function(self, card, dt)
         card.ability.h_x_mult = card.ability.immutable.base_h_x_mult
-        + (G and G.hand and G.hand.cards and #G.hand.cards > card.ability.extra.held_in_hand_ge
-        and #G.hand.cards - card.ability.extra.held_in_hand_ge or 0)*card.ability.extra.h_x_mult_mod
+        + (G and G.hand and G.hand.cards and #G.hand.cards - #G.hand.highlighted > card.ability.extra.held_in_hand_ge
+        and #G.hand.cards - #G.hand.highlighted - card.ability.extra.held_in_hand_ge or 0)*card.ability.extra.h_x_mult_mod
     end,
     in_pool = function(self, args)
         return false
