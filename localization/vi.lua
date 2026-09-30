@@ -641,7 +641,6 @@ return {
                 text = {
                     "Chọn {C:attention}#1#{} trong tối đa",
                     "{C:attention}#2#{} lá {C:sgt_enchantment}Phù Phép",
-                    "để dùng ngay",
                 },
             },
             p_sgt_magic_jumbo = {
@@ -649,7 +648,6 @@ return {
                 text = {
                     "Chọn {C:attention}#1#{} trong tối đa",
                     "{C:attention}#2#{} lá {C:sgt_enchantment}Phù Phép",
-                    "để dùng ngay",
                 },
             },
             p_sgt_magic_mega = {
@@ -657,7 +655,6 @@ return {
                 text = {
                     "Chọn {C:attention}#1#{} trong tối đa",
                     "{C:attention}#2#{} lá {C:sgt_enchantment}Phù Phép",
-                    "để dùng ngay",
                 },
             },
             sgt_protected = {

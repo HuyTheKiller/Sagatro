@@ -641,24 +641,21 @@ return {
                 name = "Magic Pack",
                 text = {
                     "Choose {C:attention}#1#{} of up to",
-                    "{C:attention}#2#{C:sgt_enchantment} Enchantment{} cards to",
-                    "be used immediately",
+                    "{C:attention}#2#{C:sgt_enchantment} Enchantment{} cards",
                 },
             },
             p_sgt_magic_jumbo = {
                 name = "Jumbo Magic Pack",
                 text = {
                     "Choose {C:attention}#1#{} of up to",
-                    "{C:attention}#2#{C:sgt_enchantment} Enchantment{} cards to",
-                    "be used immediately",
+                    "{C:attention}#2#{C:sgt_enchantment} Enchantment{} cards",
                 },
             },
             p_sgt_magic_mega = {
                 name = "Mega Magic Pack",
                 text = {
                     "Choose {C:attention}#1#{} of up to",
-                    "{C:attention}#2#{C:sgt_enchantment} Enchantment{} cards to",
-                    "be used immediately",
+                    "{C:attention}#2#{C:sgt_enchantment} Enchantment{} cards",
                 },
             },
             sgt_protected = {
