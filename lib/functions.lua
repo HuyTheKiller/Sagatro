@@ -4699,6 +4699,12 @@ function Sagatro.is_enchanted_area(card)
     or card.area == G.discard or card.area == G.consumeables))
 end
 
+---@param tag Tag|table
+--- Prevents Double Tag from targeting a tag. Can be hooked by other mods.
+function Sagatro.prevent_double_tag(tag)
+    return tag.key == "tag_sgt_enchantment" or tag.key == "tag_sgt_progress_pie" or tag.key == "tag_sgt_progress_pie_iw"
+end
+
 local get_chip_bonus_ref = Card.get_chip_bonus
 function Card:get_chip_bonus()
     local ret = get_chip_bonus_ref(self)

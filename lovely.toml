@@ -1511,3 +1511,11 @@ payload = '''
     end
 '''
 match_indent = true
+
+# Exclude enchantment tags from being targeted by Double Tag
+[[patches]]
+[patches.regex]
+target = "tag.lua"
+pattern = '''self\.name == 'Double Tag' '''
+position = "after"
+payload = '''and not Sagatro.prevent_double_tag(_context.tag) '''
