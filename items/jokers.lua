@@ -14367,7 +14367,8 @@ local goldia = {
                 end
                 if Sagatro.event_check("dull_glass") then
                     if card.ability.immutable.tolerance_index >= 2 and not next(SMODS.find_card("m_sgt_mirror", true)) then
-                        SMODS.add_card{key = "m_sgt_mirror", area = G.jokers, edition = "e_holo"}
+                        local mirror = SMODS.add_card{key = "m_sgt_mirror", area = G.jokers, edition = "e_holo"}
+                        mirror.ability.extra_slots_used = -1
                     end
                 end
             end
@@ -14522,6 +14523,7 @@ local goldia = {
                         if card.ability.immutable.dt > (120*48/135) then
                             card.ability.immutable.dt = card.ability.immutable.dt - (120*48/135)
                             local lisette = SMODS.add_card{key = "j_sgt_lisette"}
+                            lisette.ability.extra_slots_used = -1
                             if Sagatro.get_pos(card) > math.floor(#G.jokers.cards/2) then
                                 Sagatro.swap(lisette, "leftmost")
                             end

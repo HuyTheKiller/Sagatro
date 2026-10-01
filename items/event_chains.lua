@@ -414,6 +414,7 @@ Sagatro.EventChain{
             local enjel = SMODS.find_card("j_sgt_enjel", true)[1]
             if enjel then
                 enjel.ability.platinum_reflection = true
+                enjel.ability.extra_slots_used = 0
                 play_sound('timpani')
                 enjel:juice_up()
             end

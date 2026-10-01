@@ -839,7 +839,8 @@ function Game:update(dt)
             if Sagatro.timer.lisette_dt > (5/6)*8 then
                 Sagatro.timer.lisette_dt = Sagatro.timer.lisette_dt - (5/6)*8
                 if G.jokers then
-                    SMODS.add_card{key = "j_sgt_lisette"}
+                    local lisette = SMODS.add_card{key = "j_sgt_lisette"}
+                    lisette.ability.extra_slots_used = -1
                 end
             end
         else
@@ -1856,7 +1857,8 @@ function Blind:defeat(silent)
                 goldia.pinned = nil
             end
             Sagatro.progress_storyline("harpae_patience", "add", "pocket_mirror")
-            SMODS.add_card{key = "j_sgt_harpae"}
+            local harpae = SMODS.add_card{key = "j_sgt_harpae"}
+            harpae.ability.extra_slots_used = -1
         end
         if Sagatro.event_check("dull_glass") then
             for _, v in ipairs(SMODS.find_card("j_sgt_lisette", true)) do
@@ -3067,6 +3069,7 @@ function Sagatro:calculate(context)
                         local pmirror = SMODS.find_card("j_sgt_pocket_mirror", true)[1]
                         if goldia and pmirror then
                             local enjel = SMODS.add_card{key = "j_sgt_enjel"}
+                            enjel.ability.extra_slots_used = -1
                             local goldia_pos, pmirror_pos, enjel_pos =
                             Sagatro.get_pos(goldia), Sagatro.get_pos(pmirror), Sagatro.get_pos(enjel)
                             local to_the_right = goldia_pos < pmirror_pos

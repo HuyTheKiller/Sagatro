@@ -634,7 +634,8 @@ Sagatro.FUNCS.mirror_switch = function(e)
             if Sagatro.storyline_check("pocket_mirror") then
                 if G.GAME.pm_mirrorworld then
                     Sagatro.progress_storyline("pm_mirrorworld", "force_add", "pocket_mirror")
-                    SMODS.add_card{key = "j_sgt_egliette"}
+                    local egliette = SMODS.add_card{key = "j_sgt_egliette"}
+                    egliette.ability.extra_slots_used = -1
                 else
                     Sagatro.progress_storyline("facing_egliette", "force_finish", "pocket_mirror")
                     Sagatro.progress_storyline("fleta_challenges", "add", "pocket_mirror")
@@ -646,7 +647,8 @@ Sagatro.FUNCS.mirror_switch = function(e)
                         end
                     end
                     SMODS.destroy_cards(cards, true, true)
-                    SMODS.add_card{key = "j_sgt_fleta"}
+                    local fleta = SMODS.add_card{key = "j_sgt_fleta"}
+                    fleta.ability.extra_slots_used = -1
                     G.GAME.interwoven_storyline = nil
                     if G.GAME.progress_tag_iw then
                         G.GAME.progress_tag_iw:yep('-', G.C.RED, function() return true end)
