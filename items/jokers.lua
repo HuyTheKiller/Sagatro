@@ -1138,6 +1138,7 @@ local huge_dog = {
                 card.ability.immutable.progress = card.ability.immutable.progress + 1
                 if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
                     card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                    card.ability.extra_slots_used = 0
                     G.GAME.one_time_progress.huge_dog = true
                     card.ability.immutable.selected_ranks = nil
                     G.E_MANAGER:add_event(Event({func = function()

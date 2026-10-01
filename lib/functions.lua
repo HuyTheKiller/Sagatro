@@ -2983,7 +2983,8 @@ function Sagatro:calculate(context)
             if context.ending_shop and G.GAME.round_resets.blind_states.Small == "Upcoming"
             and G.GAME.round_resets.ante >= 5 and not G.GAME.huge_dog_challenge and not G.GAME.inversed_scaling then
                 G.GAME.huge_dog_challenge = true
-                SMODS.add_card{key = "j_sgt_huge_dog"}
+                local huge_dog = SMODS.add_card{key = "j_sgt_huge_dog"}
+                huge_dog.ability.extra_slots_used = -1
             end
         end
         if context.check_eternal then
