@@ -4235,7 +4235,11 @@ function Sagatro.process_edible_fish(card, context)
         local dolphin_high
         if #edible_fish > 0 then
             G.GAME.joker_buffer = G.GAME.joker_buffer - #edible_fish
+            local edition
             for _, fish in ipairs(edible_fish) do
+                if fish.edition and not edition then
+                    edition = fish.edition.key
+                end
                 fish.getting_sliced = true
             end
             G.E_MANAGER:add_event(Event({func = function()
@@ -4250,6 +4254,9 @@ function Sagatro.process_edible_fish(card, context)
                 end
                 play_sound('sgt_swallow', 0.96+math.random()*0.08)
                 Sagatro.process_edible_weight(card, weight_tally, key_tally)
+                if edition and not card.edition then
+                    card:set_edition(edition, true)
+                end
                 if dolphin_high then
                     dolphin_high = nil
                     card.ability.dolphin_high = true
