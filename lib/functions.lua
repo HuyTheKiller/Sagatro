@@ -4192,7 +4192,7 @@ function Sagatro.process_edible_fish(card, context)
             elseif card.ability.immutable.target == "leftmost" then
                 jokers[#jokers+1] = G.jokers.cards[1] ~= card and G.jokers.cards[1] or nil
             elseif card.ability.immutable.target == "rightmost" then
-                jokers[#jokers+1] = G.jokers.cards[1] ~= card and G.jokers.cards[#G.jokers.cards] or nil
+                jokers[#jokers+1] = G.jokers.cards[#G.jokers.cards] ~= card and G.jokers.cards[#G.jokers.cards] or nil
             elseif card.ability.immutable.target_range == "leftward" then
                 for i = pos-1, 1, -1 do
                     if not (SMODS.is_eternal(G.jokers.cards[i], card)
