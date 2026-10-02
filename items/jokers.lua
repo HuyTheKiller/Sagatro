@@ -15748,7 +15748,7 @@ local harpae = {
     end,
     update = function(self, card, dt)
         if G.GAME.story_mode and G.STAGE == G.STAGES.RUN and card.area == G.jokers then
-            G.GAME.no_savebox = card.ability.immutable.appeared
+            G.GAME.no_savebox = card.ability.immutable.appeared and not card.ability.platinum_reflection
         end
     end,
     in_pool = function(self, args)
