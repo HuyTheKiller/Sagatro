@@ -3680,7 +3680,10 @@ end
 local calculate_joker_ref = Card.calculate_joker
 function Card:calculate_joker(context)
     local o, t = calculate_joker_ref(self, context)
-    if self.ability.immutable and (self.ability.immutable.weight_level or 0) > 1 then
+    if G.GAME.story_mode and self.ability.immutable and (self.ability.immutable.weight_level or 0) > 1 then
+        if not self.ability.immutable.eaten_weight then
+            Sagatro.process_edible_fish(self, context)
+        end
         context.eaten_weight = self.ability.immutable.eaten_weight
         context.eaten_type = self.ability.immutable.eaten_type
         context.eaten_stack = self.ability.immutable.eaten_stack

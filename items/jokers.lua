@@ -6109,9 +6109,6 @@ local octopus = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         local other_joker = nil
         for i = 1, #G.jokers.cards do
             if G.jokers.cards[i] == card then
@@ -6298,9 +6295,6 @@ local squid = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         local other_joker_ret = SMODS.blueprint_effect(card, G.jokers.cards[1], context)
         if other_joker_ret then
             other_joker_ret.colour = G.C.FILTER
@@ -6645,9 +6639,6 @@ local green_turtle = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         if context.individual and context.cardarea == G.play then
             if context.other_card:get_id() == 3
             or context.other_card:get_id() == 7
@@ -6770,9 +6761,6 @@ local electric_eel = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         if context.repetition then
             if context.cardarea == G.play then
                 for i, v in ipairs(G.play.cards) do
@@ -7134,9 +7122,6 @@ local blobfish = {
     eternal_compat = false,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         if context.joker_main and to_big(card.ability.extra.mult) > to_big(0) then
             return {
                 mult_mod = card.ability.extra.mult,
@@ -7465,9 +7450,6 @@ local dolphin = {
     eternal_compat = false,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         if context.individual and context.cardarea == G.play and not context.blueprint then
             if context.other_card.lucky_trigger then
                 if SMODS.scale_card then
@@ -7598,9 +7580,6 @@ local coelacanthiformes = {
     eternal_compat = false,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         if (context.discard and not context.blueprint) or context.forcetrigger then
             if ((G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 and context.other_card:get_id() == 4)
             and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit) or context.forcetrigger then
@@ -7723,11 +7702,6 @@ local sunfish = {
     demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
-    calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
-    end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
@@ -7809,11 +7783,6 @@ local moonfish = {
     demicoloncompat = false,
     eternal_compat = false,
     perishable_compat = true,
-    calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
-    end,
     in_pool = function(self, args)
         if G.GAME.story_mode then
             local submarine = SMODS.find_card("j_sgt_submarine", true)[1]
@@ -7896,9 +7865,6 @@ local swordfish = {
     eternal_compat = false,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         if context.before and not context.blueprint and next(context.poker_hands['Straight']) then
             if SMODS.scale_card then
                 SMODS.scale_card(card, {
@@ -8051,9 +8017,6 @@ local penguin = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         if context.first_hand_drawn then
             if not context.blueprint then
                 local eval = function() return G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 and not G.RESET_JIGGLES end
@@ -8158,9 +8121,6 @@ local seal = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         if context.poker_hands and next(context.poker_hands[card.ability.type]) then
             if context.destroy_card and context.cardarea == G.play then
                 if context.destroy_card == context.scoring_hand[1]
@@ -8257,9 +8217,6 @@ local ray = {
     eternal_compat = false,
     perishable_compat = false,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         if context.before and not context.blueprint then
             local temp_Mult, temp_ID = 0, 0
             for _, v in ipairs(context.scoring_hand) do
@@ -8413,9 +8370,6 @@ local orca = {
         end
     end,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         if context.before and not context.blueprint then
             local found = false
             for _, v in ipairs(context.full_hand) do
@@ -8610,9 +8564,6 @@ local sperm_whale = {
         card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_sperm_whale' or 'sperm_whale'))
     end,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         if context.first_hand_drawn then
             if not context.blueprint then
                 local eval = function() return G.GAME.current_round.hands_played == 0 and not G.RESET_JIGGLES end
@@ -9475,9 +9426,6 @@ local king_crab = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         if (context.before and not context.blueprint and not context.retrigger_joker
         and context.scoring_name == card.ability.fixed_type) or context.forcetrigger then
             local _card = context.scoring_hand[1]
@@ -9584,9 +9532,6 @@ local big_red_jelly = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         if context.individual and context.cardarea == G.play and not context.blueprint then
             if context.other_card:is_suit("Hearts") then
                 if SMODS.scale_card then
@@ -10128,9 +10073,6 @@ local colossal_squid = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         if context.repetition and table.contains(card.ability.extra.target_ids, context.other_card:get_id()) then
             if context.cardarea == G.play then
                 return {
@@ -11231,9 +11173,6 @@ local mahimahi = {
     eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
-        if G.GAME.story_mode and not card.ability.immutable.eaten_weight then
-            Sagatro.process_edible_fish(card, context)
-        end
         if context.before and not context.blueprint and not context.retrigger_joker then
             card.triggered = nil
             local played_ranks, held_in_hand_ranks = {}, {}
