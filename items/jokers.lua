@@ -8557,11 +8557,17 @@ local sperm_whale = {
     eternal_compat = false,
     perishable_compat = false,
     set_ability = function(self, card, initial, delay_sprites)
-        local _poker_hands = {}
-        for k, v in pairs(G.GAME.hands) do
-            if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
+        card.pending_poker_hand = true
+    end,
+    update = function(self, card, dt)
+        if card.pending_poker_hand and card.area then
+            card.pending_poker_hand = nil
+            local _poker_hands = {}
+            for k, v in pairs(G.GAME.hands) do
+                if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
+            end
+            card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_sperm_whale' or 'sperm_whale'))
         end
-        card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_sperm_whale' or 'sperm_whale'))
     end,
     calculate = function(self, card, context)
         if context.first_hand_drawn then
@@ -14949,17 +14955,23 @@ local moon_hairbrush = {
     eternal_compat = true,
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
-        local _poker_hands = {}
-        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
-            -- Fixed list so that modded poker hands won't interfere with story mode\
-            -- Also exclude harder hands for ease of access
-            _poker_hands = {"Full House", "Flush", "Straight", "Three of a Kind", "Two Pair", "Pair", "High Card"}
-        else
-            for k, v in pairs(G.GAME.hands) do
-                if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
+        card.pending_poker_hand = true
+    end,
+    update = function(self, card, dt)
+        if card.pending_poker_hand and card.area then
+            card.pending_poker_hand = nil
+            local _poker_hands = {}
+            if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
+                -- Fixed list so that modded poker hands won't interfere with story mode\
+                -- Also exclude harder hands for ease of access
+                _poker_hands = {"Full House", "Flush", "Straight", "Three of a Kind", "Two Pair", "Pair", "High Card"}
+            else
+                for k, v in pairs(G.GAME.hands) do
+                    if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
+                end
             end
+            card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_moon_hairbrush' or 'moon_hairbrush'))
         end
-        card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_moon_hairbrush' or 'moon_hairbrush'))
     end,
     calculate = function(self, card, context)
         if (context.joker_main and context.scoring_name == card.ability.extra.poker_hand) or context.forcetrigger then
@@ -15650,18 +15662,7 @@ local harpae = {
     eternal_compat = true,
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
-        local _poker_hands = {}
-        if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
-            card.ability.immutable.appeared = true
-            -- Fixed list so that modded poker hands won't interfere with story mode\
-            -- Also exclude harder hands for ease of access
-            _poker_hands = {"Full House", "Flush", "Straight", "Three of a Kind", "Two Pair", "Pair", "High Card"}
-        else
-            for k, v in pairs(G.GAME.hands) do
-                if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
-            end
-        end
-        card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_moon_hairbrush' or 'moon_hairbrush'))
+        card.pending_poker_hand = true
     end,
     calculate = function(self, card, context)
         if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker
@@ -15747,6 +15748,21 @@ local harpae = {
         end
     end,
     update = function(self, card, dt)
+        if card.pending_poker_hand and card.area then
+            card.pending_poker_hand = nil
+            local _poker_hands = {}
+            if G.GAME.story_mode or (G.STAGE == G.STAGES.MAIN_MENU and Sagatro.config.DisableOtherJokers) then
+                card.ability.immutable.appeared = true
+                -- Fixed list so that modded poker hands won't interfere with story mode\
+                -- Also exclude harder hands for ease of access
+                _poker_hands = {"Full House", "Flush", "Straight", "Three of a Kind", "Two Pair", "Pair", "High Card"}
+            else
+                for k, v in pairs(G.GAME.hands) do
+                    if SMODS.is_poker_hand_visible(k) then _poker_hands[#_poker_hands+1] = k end
+                end
+            end
+            card.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_harpae' or 'harpae'))
+        end
         if G.GAME.story_mode and G.STAGE == G.STAGES.RUN and card.area == G.jokers then
             G.GAME.no_savebox = card.ability.immutable.appeared and not card.ability.platinum_reflection
         end
