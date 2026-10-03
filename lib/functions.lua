@@ -3568,7 +3568,7 @@ function Sagatro:calculate(context)
                         return { denominator = context.denominator*2 }
                     end
                 end
-                if context.destroy_card and context.cardarea == G.play
+                if context.destroy_card and (context.cardarea == G.play or context.cardarea == "unscored")
                 and not Sagatro.fragile_enhancement(context.destroy_card) then
                     if SMODS.pseudorandom_probability(Sagatro, "l1_binding", 1, 4) then
                         return {remove = true}
@@ -3582,7 +3582,7 @@ function Sagatro:calculate(context)
                         return { denominator = context.denominator*4 }
                     end
                 end
-                if context.destroy_card and context.cardarea == G.play
+                if context.destroy_card and (context.cardarea == G.play or context.cardarea == "unscored")
                 and not Sagatro.fragile_enhancement(context.destroy_card) then
                     if SMODS.pseudorandom_probability(Sagatro, "l2_binding", 1, 2) then
                         return {remove = true}
@@ -3596,7 +3596,7 @@ function Sagatro:calculate(context)
                         return { denominator = context.denominator*6 }
                     end
                 end
-                if context.destroy_card and context.cardarea == G.play
+                if context.destroy_card and (context.cardarea == G.play or context.cardarea == "unscored")
                 and not Sagatro.fragile_enhancement(context.destroy_card) then
                     if SMODS.pseudorandom_probability(Sagatro, "l3_binding", 3, 4) then
                         return {remove = true}
@@ -3610,7 +3610,7 @@ function Sagatro:calculate(context)
                         return { numerator = 0 }
                     end
                 end
-                if context.destroy_card and context.cardarea == G.play
+                if context.destroy_card and (context.cardarea == G.play or context.cardarea == "unscored")
                 and not Sagatro.fragile_enhancement(context.destroy_card) then
                     return {remove = true}
                 end
