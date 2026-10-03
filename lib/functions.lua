@@ -2037,7 +2037,7 @@ function Sagatro.init_storyline(storyline_name, interwoven, override)
                     end
                 end
                 if not progress_already_active then
-                    add_tag{key = "tag_sgt_progress_pie_iw"}
+                    Sagatro.add_tag({key = "tag_sgt_progress_pie_iw"}, 2)
                 end
                 G.GAME.storyline_progress_iw = 0
             end
@@ -2052,7 +2052,7 @@ function Sagatro.init_storyline(storyline_name, interwoven, override)
                     end
                 end
                 if not progress_already_active then
-                    add_tag{key = "tag_sgt_progress_pie"}
+                    Sagatro.add_tag({key = "tag_sgt_progress_pie"}, 1)
                 end
                 G.GAME.storyline_progress = 0
             end
@@ -4649,11 +4649,12 @@ function Sagatro.add_enchantment(level, center, card, area, copier)
     if center.use_funcs[level] and type(center.use_funcs[level]) == "function" then
         center.use_funcs[level](center, card, area, copier)
     end
-    local enchant_list = {}
+    local enchant_list, overflow = {}, 0
     for k, _ in pairs(G.GAME.sgt_enchanted_table) do
         enchant_list[#enchant_list+1] = k
     end
     if table.size(G.GAME.sgt_enchanted_table) >= (G.GAME.sgt_max_enchantment or 2) and not table.contains(enchant_list, center.identifier) then
+        overflow = 1
         local to_remove = pseudorandom_element(enchant_list, pseudoseed("enchantment_removal"))
         Sagatro.remove_enchantment(to_remove)
     end
@@ -4670,7 +4671,11 @@ function Sagatro.add_enchantment(level, center, card, area, copier)
         local tag = Tag('tag_sgt_enchantment')
         tag.ability.enchantment = center.identifier
         G.GAME.sgt_enchanted_tag[center.identifier] = tag
-        add_tag(tag)
+        local pos = 1
+        + (G.GAME.current_storyline ~= "none" and 1 or 0)
+        + (G.GAME.interwoven_storyline and 1 or 0)
+        + (G.GAME.sgt_enchanted_table and table.size(G.GAME.sgt_enchanted_table) - 1 + overflow or 0)
+        Sagatro.add_tag(tag, pos)
     end
 end
 
@@ -4723,6 +4728,51 @@ end
 --- Prevents Double Tag from targeting a tag. Can be hooked by other mods.
 function Sagatro.prevent_double_tag(tag)
     return tag.key == "tag_sgt_enchantment" or tag.key == "tag_sgt_progress_pie" or tag.key == "tag_sgt_progress_pie_iw"
+end
+
+---@param _tag Tag|table
+---@param pos? integer
+--- Adds a tag and insert its HUD sprite into `G.HUD_tags` at `pos`.
+function Sagatro.add_tag(_tag, pos)
+  _tag = _tag or {}
+  _tag.key = _tag.key or 'unknown'
+  assert(G.P_TAGS[_tag.key], ("Could not find tag \"%s\"."):format(_tag.key))
+  if not (_tag.is and _tag:is(Tag)) then
+    _tag = Tag(_tag.key, nil, _tag.blind_type)
+  end
+  G.HUD_tags = G.HUD_tags or {}
+  if not pos or not G.HUD_tags[pos] then
+    return add_tag(_tag)
+  end
+  local tag_sprite_ui = _tag:generate_UI()
+  local HUD_tag = UIBox{
+      definition = {n=G.UIT.ROOT, config={align = "cm",padding = 0.05, colour = G.C.CLEAR}, nodes={
+        tag_sprite_ui
+      }},
+      config = {
+        align = pos ~= 1 and 'tm' or 'bri',
+        offset = pos ~= 1 and {x=0,y=0} or {x=0.7+((SilkTouch and SilkTouch.OS == 'Android' or SilkTouch.OS == 'iOS') and G.widescreen and 0.8 or 0),y=0},
+        major = pos ~= 1 and G.HUD_tags[pos] or G.ROOM_ATTACH}
+  }
+  table.insert(G.HUD_tags, pos, HUD_tag)
+  for i = 1, #G.HUD_tags - 1 do
+    G.HUD_tags[i+1]:set_alignment({type = 'tm',
+      offset = {x=0,y=0},
+      xy_bond = 'Weak',
+      major = G.HUD_tags[i]})
+  end
+  discover_card(G.P_TAGS[_tag.key])
+
+  for i = 1, #G.GAME.tags do
+    G.GAME.tags[i]:apply_to_run({type = 'tag_add', tag = _tag})
+  end
+  
+  table.insert(G.GAME.tags, pos, _tag)
+  if not _tag.from_load then SMODS.calculate_context({tag_added = _tag}) end
+  _tag.from_load = nil
+  for i = 1, #G.GAME.tags do
+    G.GAME.tags[i].HUD_tag = G.HUD_tags[i]
+  end
 end
 
 local get_chip_bonus_ref = Card.get_chip_bonus
