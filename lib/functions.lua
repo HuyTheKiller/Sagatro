@@ -3618,10 +3618,10 @@ function Sagatro:calculate(context)
         end
         if G.GAME.sgt_enchanted_table.sgt_warding then
             if G.GAME.sgt_enchanted_table.sgt_warding == 1 then
-                if context.before then
+                if context.before and context.scoring_hand[1] then
                     SMODS.debuff_card(context.scoring_hand[1], "prevent_debuff", "l1_warding")
                 end
-                if context.after then
+                if context.after and context.scoring_hand[1] then
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             SMODS.debuff_card(context.scoring_hand[1], nil, "l1_warding")
@@ -3630,10 +3630,10 @@ function Sagatro:calculate(context)
                     }))
                 end
             elseif G.GAME.sgt_enchanted_table.sgt_warding == 2 then
-                if context.before then
+                if context.before and context.scoring_hand[1] then
                     SMODS.debuff_card(context.scoring_hand[1], "prevent_debuff", "l2_warding")
                 end
-                if context.after then
+                if context.after and context.scoring_hand[1] then
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             SMODS.debuff_card(context.scoring_hand[1], nil, "l2_warding")
