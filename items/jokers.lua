@@ -18154,8 +18154,12 @@ local odin = {
         if context.before and not context.blueprint and not context.retrigger_joker then
             for _, v in ipairs(context.full_hand) do
                 v:set_ability(G.P_CENTERS.m_sgt_omniscient, nil, true)
+                -- Properly sets debuff state first
+                SMODS.debuff_card(v, "prevent_debuff", "sgt_protected")
+                SMODS.recalc_debuff(v)
                 G.E_MANAGER:add_event(Event({
                     func = function()
+                        -- Then do the sticker adding animation later :/
                         v:add_sticker("sgt_protected", true)
                         v:juice_up()
                         return true
