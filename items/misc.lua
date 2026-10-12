@@ -661,6 +661,7 @@ local protected = {
     apply = function(self, card, val)
         if G.STAGE == G.STAGES.RUN then
             SMODS.debuff_card(card, val and "prevent_debuff" or nil, "sgt_protected")
+            SMODS.recalc_debuff(card)
         end
         card.ability[self.key] = val
     end,
