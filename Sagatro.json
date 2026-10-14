@@ -11,5 +11,5 @@
 	"display_name": "Sagatro",
 	"dependencies": ["Steamodded (>=26.1002.0)"],
 	"conflicts": [],
-	"version": "2.6.3"
+	"version": "2.6.4"
 }
