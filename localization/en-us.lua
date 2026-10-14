@@ -3045,11 +3045,11 @@ return {
             j_sgt_goldia_stage_name_recalled = {
                 name = "Goldia",
                 text = {
-                    "Retrigger all played {C:attention}Queens{}",
+                    "Retrigger all played {C:attention}Queens #1#{} times",
                     "Each played {C:attention}Queen{} of {C:hearts}Hearts{}",
-                    "gives {X:mult,C:white}X#1#{} Mult when scored",
-                    "Played {C:attention}fragile enhancements{} give",
-                    "{X:mult,C:white}X#2#{} Mult when scored",
+                    "gives {X:mult,C:white}X#2#{} Mult when scored",
+                    "Played {C:attention}fragile enhancements{}",
+                    "give {X:mult,C:white}X#3#{} Mult when scored",
                 },
             },
             j_sgt_pocket_mirror = {

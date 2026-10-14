@@ -14245,6 +14245,7 @@ local goldia = {
     config = {immutable = {dt = 0, stage = 0, tolerance_index = 0}, extra = {
         stage0_mult = 2, stage0_mult_xmod = 2,
         full_queen_xmult = 2, full_glass_xmult = 2,
+        retriggers = 4,
     }, shatters_on_destroy = true},
     attributes = {"mult", "scaling"},
     rarity = 4,
@@ -14411,7 +14412,7 @@ local goldia = {
                 if context.other_card:get_id() == 12 then
                     return {
                         message = localize("k_again_ex"),
-                        repetitions = 1,
+                        repetitions = card.ability.extra.retriggers,
                         card = card,
                     }
                 end
@@ -14569,7 +14570,7 @@ local goldia = {
             if card.ability.immutable.stage == 0 or card.ability.immutable.stage == "dawn" then
                 ret.vars = {number_format(card.ability.extra.stage0_mult, 1000000), card.ability.extra.stage0_mult_xmod}
             elseif card.ability.immutable.stage == "name_recalled" then
-                ret.vars = {card.ability.extra.full_queen_xmult, card.ability.extra.full_glass_xmult}
+                ret.vars = {card.ability.extra.retriggers, card.ability.extra.full_queen_xmult, card.ability.extra.full_glass_xmult}
                 Sagatro.enh_group_info_queue(info_queue, Sagatro.fragile_enhancement_list)
             end
         end

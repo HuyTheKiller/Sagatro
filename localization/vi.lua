@@ -3042,11 +3042,11 @@ return {
             j_sgt_goldia_stage_name_recalled = {
                 name = "Goldia",
                 text = {
-                    "Tái kích mọi lá {C:attention}Đầm{} đã chơi",
+                    "Tái kích mọi lá {C:attention}Đầm{} đã chơi {C:attention}#1#{} lần",
                     "Mỗi lá {C:attention}Đầm {C:hearts}Cơ{} đã chơi ghi",
-                    "thêm {X:mult,C:white}X#1#{} Nhân khi ghi điểm",
+                    "thêm {X:mult,C:white}X#2#{} Nhân khi ghi điểm",
                     "Lá {C:attention}cường hoá dễ vỡ{} đã chơi ghi thêm",
-                    "{X:mult,C:white}X#2#{} Nhân khi ghi điểm",
+                    "{X:mult,C:white}X#3#{} Nhân khi ghi điểm",
                 },
             },
             j_sgt_pocket_mirror = {
