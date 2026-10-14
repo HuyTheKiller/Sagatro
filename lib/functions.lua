@@ -5829,39 +5829,6 @@ function Card:click()
     end
 end
 
-local back_apply_to_run = Back.apply_to_run
-function Back:apply_to_run(...)
-    back_apply_to_run(self, ...)
-    if Sagatro.config.DisableOtherJokers then
-        if G.GAME.selected_back.effect.center.key == "b_sgt_saga"
-        or (CardSleeves and G.GAME.selected_sleeve == "sleeve_sgt_saga") then
-        elseif not G.GAME.used_vouchers.v_sgt_apprentice then
-            G.GAME.used_vouchers.v_sgt_apprentice = true
-            G.GAME.starting_voucher_count = (G.GAME.starting_voucher_count or 0) + 1
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    Card.apply_to_run(nil, G.P_CENTERS.v_sgt_apprentice)
-                    return true
-                end
-            }))
-        end
-        if SMODS.RunSelect and SMODS.RunSelect.Setup.choices.sgt_storyline_choice then
-            delay(0.4)
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    local storyline = SMODS.RunSelect.Setup.choices.sgt_storyline_choice
-                    for _, v in ipairs(Sagatro.Storylines[storyline].starting_jokers) do
-                        local card = SMODS.create_card{key=v}
-                        card:add_to_deck()
-                        G.jokers:emplace(card)
-                    end
-                    return true
-                end
-            }))
-        end
-    end
-end
-
 function Sagatro.is_joker_pool(pool)
     return pool == G.P_CENTER_POOLS.Joker or table.contains(Sagatro.StorylinePools, pool)
 end
