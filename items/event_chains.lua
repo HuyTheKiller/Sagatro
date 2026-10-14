@@ -155,6 +155,9 @@ Sagatro.EventChain{
                     lisette:remove()
                 end
             end
+            for _, scissors in ipairs(SMODS.find_card("j_sgt_rusty_scissors", true)) do
+                scissors:remove()
+            end
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             local lisette = SMODS.find_card("j_sgt_lisette", true)[1]
             if lisette then
