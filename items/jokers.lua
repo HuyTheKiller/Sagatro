@@ -11934,7 +11934,7 @@ local live_flowers = {
     cost = 5,
     blueprint_compat = true,
     demicoloncompat = true,
-    eternal_compat = true,
+    eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.joker_main or context.forcetrigger then
