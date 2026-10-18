@@ -15205,7 +15205,7 @@ local angel_scythe = {
                 })
             end
             return {
-                xchips = card.ability.extra.xchips,
+                xchips = card.ability.extra.xchip,
             }
         end
     end,
@@ -15257,7 +15257,7 @@ local angel_scythe = {
                 }
             },
             calc_function = function(card)
-                card.joker_display_values.xchips = card:can_calculate() and card.ability.extra.xchips or 1
+                card.joker_display_values.xchips = card:can_calculate() and card.ability.extra.xchip or 1
             end,
         }
     end,
