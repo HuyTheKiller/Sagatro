@@ -294,7 +294,18 @@ local binding = {
     key = "binding",
     artist_credits = {"huycorn"},
     max_level = 4,
-    use_funcs = {},
+    use_funcs = {
+        function(self, card, area, copier) end,
+        function(self, card, area, copier) end,
+        function(self, card, area, copier) end,
+        function(self, card, area, copier)
+            if not G.GAME.story_mode then
+                for _, v in ipairs(SMODS.find_card("j_sgt_rusty_scissors", true)) do
+                    Sagatro.self_destruct(v, {no_destruction_context = true, no_sound = true}, function() ease_dollars(v.cost) end)
+                end
+            end
+        end,
+    },
     undo_funcs = {},
     loc_vars = function(self, info_queue, card)
         local ret = Sagatro.Enchantment.loc_vars(self, info_queue, card)
