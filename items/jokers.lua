@@ -14846,7 +14846,7 @@ local rose_bell = {
     blueprint_compat = true,
     demicoloncompat = true,
     eternal_compat = true,
-    perishable_compat = true,
+    perishable_compat = false,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and not context.blueprint then
             if context.other_card:get_id() == 12 and context.other_card:is_suit("Hearts") then
@@ -15180,7 +15180,7 @@ local angel_scythe = {
     blueprint_compat = true,
     demicoloncompat = true,
     eternal_compat = true,
-    perishable_compat = true,
+    perishable_compat = false,
     calculate = function(self, card, context)
         if context.end_of_round and not context.game_over and context.main_eval then
             SMODS.scale_card(card, {
