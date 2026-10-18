@@ -738,13 +738,15 @@ local dodo_bird = {
         and not context.other_context.check_enhancement and not context.other_context.sgt_played_cards
         and context.other_card.ability and context.other_card.ability.set == "Joker")
         or context.forcetrigger then
-            card.ability.immutable.progress = card.ability.immutable.progress + 1
-            if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
-                card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
-                G.E_MANAGER:add_event(Event({func = function()
-                    Sagatro.progress_chart(card.ability.immutable.progress_earnings)
-                return true end}))
-                SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
+            if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                card.ability.immutable.progress = card.ability.immutable.progress + 1
+                if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                    card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                    G.E_MANAGER:add_event(Event({func = function()
+                        Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                    return true end}))
+                    SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
+                end
             end
         end
         if context.other_joker and not context.forcetrigger then
@@ -1135,16 +1137,18 @@ local huge_dog = {
                 end
             end
             if context.ante_change and context.ante_end then
-                card.ability.immutable.progress = card.ability.immutable.progress + 1
-                if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
-                    card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
-                    card.ability.extra_slots_used = 0
-                    G.GAME.one_time_progress.huge_dog = true
-                    card.ability.immutable.selected_ranks = nil
-                    G.E_MANAGER:add_event(Event({func = function()
-                        Sagatro.progress_chart(card.ability.immutable.progress_earnings)
-                    return true end}))
-                    SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
+                if Sagatro.storyline_check(self and self.saga_group or "alice_in_wonderland") and not G.GAME.legacy_wonderland then
+                    card.ability.immutable.progress = card.ability.immutable.progress + 1
+                    if card.ability.immutable.progress >= card.ability.immutable.progress_goal then
+                        card.ability.immutable.progress = card.ability.immutable.progress - card.ability.immutable.progress_goal
+                        card.ability.extra_slots_used = 0
+                        G.GAME.one_time_progress.huge_dog = true
+                        card.ability.immutable.selected_ranks = nil
+                        G.E_MANAGER:add_event(Event({func = function()
+                            Sagatro.progress_chart(card.ability.immutable.progress_earnings)
+                        return true end}))
+                        SMODS.calculate_effect({message = localize("k_progress_ex"), colour = G.C.SGT_SAGADITION}, card)
+                    end
                 end
             end
         end
