@@ -2444,7 +2444,7 @@ local pepper_caster = {
     cost = 12,
     blueprint_compat = true,
     demicoloncompat = false,
-    eternal_compat = true,
+    eternal_compat = false,
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.retrigger_joker_check and not context.retrigger_joker then
