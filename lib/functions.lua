@@ -2165,6 +2165,7 @@ end
 ---@param interwoven? boolean True to modify interwoven progress.
 --- Progress the pie chart.
 function Sagatro.progress_chart(mod, interwoven)
+    if not G.GAME.story_mode then return end
     local progress, tag, modified = "storyline_progress", "progress_tag", false
     if interwoven then
         progress = progress.."_iw"
