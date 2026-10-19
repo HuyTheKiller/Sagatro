@@ -976,6 +976,14 @@ G.FUNCS.can_reroll = function(e)
     end
 end
 
+local check_buy_ref = G.FUNCS.check_for_buy_space
+G.FUNCS.check_for_buy_space = function(card)
+    if Sagatro.bypass_available_slot(card) then
+        return true
+    end
+    return check_buy_ref(card)
+end
+
 local blind_chip_text = G.FUNCS.blind_chip_UI_scale
 if blind_chip_text then
     G.FUNCS.blind_chip_UI_scale = function(e)

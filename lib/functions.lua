@@ -4776,6 +4776,13 @@ function Sagatro.add_tag(_tag, pos)
   end
 end
 
+function Sagatro.bypass_available_slot(card)
+    local excluded_sets = card.ability.set ~= "Voucher" and card.ability.set ~= "Enhanced" and card.ability.set ~= "Default"
+    local submarine_check = not G.GAME.story_mode and card.config.center_key == "j_sgt_submarine"
+    and #G.jokers.cards + (1 + card.ability.extra_slots_used) <= G.jokers.config.card_limit + card.ability.card_limit + card.ability.extra.joker_slot
+    return excluded_sets and submarine_check
+end
+
 local get_chip_bonus_ref = Card.get_chip_bonus
 function Card:get_chip_bonus()
     local ret = get_chip_bonus_ref(self)
