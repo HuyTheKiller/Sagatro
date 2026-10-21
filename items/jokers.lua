@@ -11451,6 +11451,11 @@ local mirror = {
     demicoloncompat = false,
     eternal_compat = true,
     perishable_compat = false,
+    set_ability = function(self, card, initial, delay_sprites)
+        if Sagatro.storyline_check("pocket_mirror") then
+            card.ability.extra_slots_used = -1
+        end
+    end,
     calculate = function(self, card, context)
         if context.before and context.scoring_name == card.ability.type then
             local ranks = {}
