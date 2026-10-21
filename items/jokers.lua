@@ -14680,8 +14680,7 @@ local pocket_mirror = {
                 end
             end
         end
-        if ((context.end_of_round and not context.game_over and context.main_eval)
-        or (context.setting_blind and not card.getting_sliced))
+        if context.end_of_round and not context.game_over and context.main_eval
         and not context.blueprint and not context.retrigger_joker then
             local goldia = SMODS.find_card("j_sgt_goldia", true)[1]
             if goldia then

@@ -884,8 +884,6 @@ return {
                 text = {
                     "Phải ở bên",
                     "cạnh {C:attention}#1#{}",
-                    "khi {C:attention}Blind{}",
-                    "được chọn và",
                     "ở cuối ván",
                 },
             },
