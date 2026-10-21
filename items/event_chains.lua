@@ -48,6 +48,9 @@ Sagatro.EventChain{
             end
             Sagatro.progress_storyline("fleta_challenges", "finish", "pocket_mirror")
             Sagatro.progress_storyline("entering_mirror_maze", "add", "pocket_mirror")
+        end,
+        function()
+            Sagatro.retrieve_pm()
             return 0
         end,
     },
@@ -133,6 +136,10 @@ Sagatro.EventChain{
             end
             Sagatro.progress_storyline("harpae_patience", "finish", "pocket_mirror")
         end,
+        function()
+            Sagatro.retrieve_pm()
+            return 0
+        end,
     },
 }
 
@@ -196,8 +203,11 @@ Sagatro.EventChain{
                     func = (function(t) return t end)
                 }))
                 Sagatro.temp_music_volume = nil
-                return 0
             end
+        end,
+        function()
+            Sagatro.retrieve_pm()
+            return 0
         end,
     },
 }

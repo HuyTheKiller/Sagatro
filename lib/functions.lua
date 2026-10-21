@@ -4530,6 +4530,22 @@ function Sagatro.get_pos(card)
     end
 end
 
+function Sagatro.retrieve_pm()
+    local goldia, pmirror = SMODS.find_card("j_sgt_goldia", true)[1], SMODS.find_card("j_sgt_pocket_mirror", true)[1]
+    if goldia and pmirror then
+        local goldia_pos, pmirror_pos = Sagatro.get_pos(goldia), Sagatro.get_pos(pmirror)
+        if goldia_pos > pmirror_pos then
+            for _ = pmirror_pos, goldia_pos - 2 do
+                Sagatro.swap(pmirror)
+            end
+        else
+            for _ = pmirror_pos, goldia_pos + 2, -1 do
+                Sagatro.swap(pmirror, "left")
+            end
+        end
+    end
+end
+
 function Sagatro.update_inactive_state(update_slots_used)
     if G.jokers and Sagatro.storyline_check("alice_in_mirrorworld") then
         for i = 1, #G.jokers.cards do
