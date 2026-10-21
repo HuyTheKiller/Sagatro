@@ -16348,7 +16348,8 @@ local rusty_scissors = {
             local goldia, is_tolerating, options = SMODS.find_card("j_sgt_goldia", true)[1], false, nil
             if goldia then
                 is_tolerating = goldia.ability.immutable.tolerance_index >= 4
-                options = {allow_duplicates = #SMODS.find_card("j_sgt_rusty_scissors", true) < 2}
+                local scissors_count = #SMODS.find_card("j_sgt_rusty_scissors", true) + (G.GAME.used_jokers.j_sgt_rusty_scissors and 1 or 0)
+                options = {allow_duplicates = scissors_count < 2}
             end
             return Sagatro.event_check("dull_glass") and is_tolerating, options
         end
