@@ -919,6 +919,7 @@ function Game:update(dt)
                 end
             end
         end
+        if Sagatro.get_pm_states() then Sagatro.retrieve_pm() end
         if G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP then
             -- Handle opening Mega Buffoon Pack spawned by Utima Vox (restricted to during shop and blind select)
             if G.GAME.pending_mega_buffoon then
@@ -4544,6 +4545,13 @@ function Sagatro.retrieve_pm()
             end
         end
     end
+end
+
+function Sagatro.get_pm_states()
+    return G.STATE ~= G.STATES.DRAW_TO_HAND
+    and G.STATE ~= G.STATES.SELECTING_HAND
+    and G.STATE ~= G.STATES.HAND_PLAYED
+    and G.STATE ~= G.STATES.ROUND_EVAL
 end
 
 function Sagatro.update_inactive_state(update_slots_used)
