@@ -920,6 +920,14 @@ function Game:update(dt)
             end
         end
         if Sagatro.get_pm_states() then Sagatro.retrieve_pm() end
+        if Sagatro.event_check("dull_glass") then
+            G.GAME.rusty_scissors_count = 0
+            for k, v in pairs(G.I.CARD) do
+                if v.config.center_key == "j_sgt_rusty_scissors" and v.area and not v.area.config.collection then
+                    G.GAME.rusty_scissors_count = G.GAME.rusty_scissors_count + 1
+                end
+            end
+        end
         if G.STATE == G.STATES.BLIND_SELECT or G.STATE == G.STATES.SHOP then
             -- Handle opening Mega Buffoon Pack spawned by Utima Vox (restricted to during shop and blind select)
             if G.GAME.pending_mega_buffoon then
