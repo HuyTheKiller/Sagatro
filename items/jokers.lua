@@ -16104,7 +16104,7 @@ local enjel = {
     pools = { [SAGA_GROUP_POOL.pmirror] = true, [SAGA_GROUP_POOL.legend] = true },
     pos = { x = 0, y = 3 },
     soul_pos = { x = 2, y = 3, sgt_extra = { x = 1, y = 3, no_scale = true }, name_tag = { x = 3, y = 3 } },
-    config = {immutable = {dt = 0}, extra = {chips = 50, chip_xmod = 2}, shatters_on_destroy = true},
+    config = {immutable = {dt = 0}, extra = {chips = 25, chip_xmod = 2}, shatters_on_destroy = true},
     attributes = {"chips", "scaling"},
     rarity = 4,
     cost = 20,
@@ -16114,7 +16114,7 @@ local enjel = {
     perishable_compat = true,
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.extra.chips =
-        card.ability.extra.chips*math.floor(2^(G.GAME.round_resets.ante + (G.GAME.ante_reduced or 0)))
+        card.ability.extra.chips*math.floor(2^(G.GAME.round_resets.ante - 1 + (G.GAME.ante_reduced or 0)))
     end,
     calculate = function(self, card, context)
         if G.GAME.story_mode and not context.blueprint and not context.retrigger_joker
