@@ -3264,7 +3264,7 @@ return {
             j_sgt_rusty_scissors = {
                 name = "Rusty Scissors",
                 text = {
-                    "{C:attention}fragile enhancements{} are",
+                    "{C:attention}Fragile enhancements{} are",
                     "{C:green}guaranteed{} to break",
                 },
             },
