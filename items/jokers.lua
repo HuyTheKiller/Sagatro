@@ -15203,7 +15203,7 @@ local angel_scythe = {
             })
             return nil, true
         end
-        if context.joker_main or context.forcetrigger then
+        if (context.joker_main and to_big(card.ability.extra.xchip) > to_big(1)) or context.forcetrigger then
             if context.forcetrigger then
                 SMODS.scale_card(card, {
                     ref_table = card.ability.extra,
