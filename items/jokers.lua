@@ -12071,7 +12071,7 @@ local man_in_white = {
     blueprint_compat = true,
     demicoloncompat = true,
     eternal_compat = true,
-    perishable_compat = true,
+    perishable_compat = false,
     calculate = function(self, card, context)
         if context.before and not context.blueprint then
             local ace_found = false
@@ -12191,7 +12191,7 @@ local goat = {
     blueprint_compat = true,
     demicoloncompat = true,
     eternal_compat = true,
-    perishable_compat = true,
+    perishable_compat = false,
     calculate = function(self, card, context)
         if context.before and not context.blueprint then
             local king_found = false
@@ -12311,7 +12311,7 @@ local beetle = {
     blueprint_compat = true,
     demicoloncompat = true,
     eternal_compat = true,
-    perishable_compat = true,
+    perishable_compat = false,
     calculate = function(self, card, context)
         if context.before and not context.blueprint then
             local queen_found = false
