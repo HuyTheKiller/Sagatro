@@ -3330,14 +3330,16 @@ function Sagatro:calculate(context)
                             end
                             chosen_mod = chosen_mod[1]
                             local chosen_target = pseudorandom_element(other_list, pseudoseed("reflection_chosen_target_l1"))
-                            if key == "enhancement" then
-                                chosen_target:set_ability(chosen_mod)
-                            elseif key == "edition" then
-                                chosen_target:set_edition(chosen_mod, true)
-                            elseif key == "seal" then
-                                chosen_target:set_seal(chosen_mod, nil, true)
+                            if chosen_target then
+                                if key == "enhancement" then
+                                    chosen_target:set_ability(chosen_mod)
+                                elseif key == "edition" then
+                                    chosen_target:set_edition(chosen_mod, true)
+                                elseif key == "seal" then
+                                    chosen_target:set_seal(chosen_mod, nil, true)
+                                end
+                                chosen_target:juice_up()
                             end
-                            chosen_target:juice_up()
                         end
                     end
                 end
@@ -3371,14 +3373,16 @@ function Sagatro:calculate(context)
                             end
                             chosen_mod = chosen_mod[1]
                             local chosen_target = pseudorandom_element(other_list, pseudoseed("reflection_chosen_target_l2"))
-                            if key == "enhancement" then
-                                chosen_target:set_ability(chosen_mod)
-                            elseif key == "edition" then
-                                chosen_target:set_edition(chosen_mod, true)
-                            elseif key == "seal" then
-                                chosen_target:set_seal(chosen_mod, nil, true)
+                            if chosen_target then
+                                if key == "enhancement" then
+                                    chosen_target:set_ability(chosen_mod)
+                                elseif key == "edition" then
+                                    chosen_target:set_edition(chosen_mod, true)
+                                elseif key == "seal" then
+                                    chosen_target:set_seal(chosen_mod, nil, true)
+                                end
+                                chosen_target:juice_up()
                             end
-                            chosen_target:juice_up()
                         end
                     end
                 end
