@@ -4563,6 +4563,8 @@ function Sagatro.get_pm_states()
     return G.STATE ~= G.STATES.DRAW_TO_HAND
     and G.STATE ~= G.STATES.SELECTING_HAND
     and G.STATE ~= G.STATES.HAND_PLAYED
+    and G.STATE ~= G.STATES.PLAY_TAROT
+    and G.STATE ~= G.STATES.NEW_ROUND
     and G.STATE ~= G.STATES.ROUND_EVAL
 end
 
