@@ -37,6 +37,15 @@ return {
                     "{C:attention}+#3#{} ô tiêu thụ",
                 },
             },
+            b_sgt_wizards = {
+                name = "Bộ Bài Pháp Sư",
+                text = {
+                    "Bắt đầu trận với",
+                    "{C:sgt_celestara,T:v_sgt_apprentice}#1#{}, {C:sgt_celestara,T:v_sgt_wizard}#2#{} và",
+                    "một {C:sgt_enchantment}Phù Phép{} lv.#3# ngẫu nhiên",
+                    "{C:red}#4#{} ô Joker",
+                },
+            },
         },
         Sleeve = {
             sleeve_sgt_saga = {
@@ -100,6 +109,24 @@ return {
                     "Lá {C:sgt_celestara}Huyền Thể{} xuất hiện",
                     "thường xuyên hơn {C:attention}#2#{} lần",
                     "{C:red}X#3#{} điểm Blind sàn",
+                },
+            },
+            sleeve_sgt_wizards = {
+                name = "Bọc Pháp Sư",
+                text = {
+                    "Bắt đầu trận với",
+                    "{C:sgt_celestara,T:v_sgt_apprentice}#1#{}, {C:sgt_celestara,T:v_sgt_wizard}#2#{} và",
+                    "một {C:sgt_enchantment}Phù Phép{} lv.#3# ngẫu nhiên",
+                    "{C:red}#4#{} ô Joker",
+                },
+            },
+            sleeve_sgt_wizards_alt = {
+                name = "Bọc Pháp Sư",
+                text = {
+                    "Lá {C:sgt_enchantment}Phù Phép{} xuất hiện",
+                    "thường xuyên hơn {C:attention}#1#{} lần",
+                    "{C:attention}+#2# ô {C:sgt_enchantment}Phù Phép{}",
+                    "{C:red}#3#{} lá giữ trong tay",
                 },
             },
         },

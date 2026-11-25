@@ -533,8 +533,14 @@ local wizard = {
     redeem = function(self, card)
         G.E_MANAGER:add_event(Event({
             func = function()
-                G.GAME.sgt_max_enchantment = card.ability.extra.slots
-                G.GAME.sgt_enchantment_rate = card.ability.extra.rate/(1e18^#SMODS.find_card("j_sgt_ozzy"))
+                if not G.GAME.modifiers.sgt_disable_sagatro_items then
+                    if G.GAME.sgt_max_enchantment == 3 then
+                        G.GAME.sgt_max_enchantment = card.ability.extra.slots
+                    end
+                    if G.GAME.sgt_enchantment_rate == 0 then
+                        G.GAME.sgt_enchantment_rate = card.ability.extra.rate/(1e18^#SMODS.find_card("j_sgt_ozzy"))
+                    end
+                end
                 return true
             end
         }))

@@ -37,6 +37,15 @@ return {
                     "{C:attention}+#3#{} consumable slot",
                 },
             },
+            b_sgt_wizards = {
+                name = "Wizard's Deck",
+                text = {
+                    "Start run with",
+                    "{C:sgt_celestara,T:v_sgt_apprentice}#1#{}, {C:sgt_celestara,T:v_sgt_wizard}#2#{}, and",
+                    "a random lvl.#3# {C:sgt_enchantment}Enchantment",
+                    "{C:red}#4#{} Joker slot",
+                },
+            },
         },
         Sleeve = {
             sleeve_sgt_saga = {
@@ -100,6 +109,24 @@ return {
                     "{C:sgt_celestara}Celestara{} cards",
                     "appear {C:attention}#2#X{} more often",
                     "{C:red}X#3#{} base Blind size",
+                },
+            },
+            sleeve_sgt_wizards = {
+                name = "Wizard's Sleeve",
+                text = {
+                    "Start run with",
+                    "{C:sgt_celestara,T:v_sgt_apprentice}#1#{}, {C:sgt_celestara,T:v_sgt_wizard}#2#{}, and",
+                    "a random lvl.#3# {C:sgt_enchantment}Enchantment",
+                    "{C:red}#4#{} Joker slot",
+                },
+            },
+            sleeve_sgt_wizards_alt = {
+                name = "Wizard's Sleeve",
+                text = {
+                    "{C:sgt_enchantment}Enchantment{} cards",
+                    "appear {C:attention}#1#X{} more often",
+                    "{C:attention}+#2# {C:sgt_enchantment}Enchantment{} slot",
+                    "{C:red}#3#{} hand size",
                 },
             },
         },

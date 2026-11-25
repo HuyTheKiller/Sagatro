@@ -1,7 +1,7 @@
 local saga_deck = {
     key = "saga",
     name = "Saga Deck",
-    -- artist_credits = {"amy"},
+    artist_credits = {"amy"},
     atlas = "decks",
     pos = { x = 0, y = 0 },
     config = {joker_slot = 3, extra = {win_ante_gain = 8}},
@@ -73,7 +73,7 @@ local saga_deck = {
 local grimoire_deck = {
     key = "grimoire",
     name = "Grimoire Deck",
-    -- artist_credits = {"amy"},
+    artist_credits = {"amy"},
     atlas = "decks",
     pos = { x = 1, y = 0 },
     config = {vouchers = {'v_sgt_oculus_divina', 'v_sgt_shadow_oath'}, consumables = {'c_sgt_rex_divinus'}, ante_scaling = 1.5},
@@ -90,7 +90,7 @@ local grimoire_deck = {
 local celestaverse_deck = {
     key = "celestaverse",
     name = "Celestaverse Deck",
-    -- artist_credits = {"amy"},
+    artist_credits = {"huycorn"},
     atlas = "decks",
     pos = { x = 2, y = 0 },
     config = {vouchers = {'v_sgt_alien_life', 'v_sgt_civilization'}, consumable_slot = 1},
@@ -99,6 +99,36 @@ local celestaverse_deck = {
             vars = {localize{type = 'name_text', key = self.config.vouchers[1], set = 'Voucher'},
             localize{type = 'name_text', key = self.config.vouchers[2], set = 'Voucher'},
             self.config.consumable_slot}
+        }
+    end,
+}
+
+local wizards_deck = {
+    key = "wizards",
+    name = "Wizard's Deck",
+    artist_credits = {"huycorn"},
+    atlas = "decks",
+    pos = { x = 3, y = 0 },
+    config = {vouchers = {'v_sgt_apprentice', "v_sgt_wizard"}, joker_slot = -1, enchantment_level = 2},
+    apply = function(self, back)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                local enchantment = pseudorandom_element(Sagatro.Enchantment.obj_buffer, "wizards_deck")
+                local it = 1
+                while Sagatro.Enchantments[enchantment].max_level < self.config.enchantment_level do
+                    enchantment = pseudorandom_element(Sagatro.Enchantment.obj_buffer, "wizards_deck_reroll"..it)
+                    it = it + 1
+                end
+                Sagatro.add_enchantment(self.config.enchantment_level, enchantment)
+                return true
+            end
+        }))
+    end,
+    loc_vars = function(self, info_queue, back)
+        return {
+            vars = {localize{type = 'name_text', key = self.config.vouchers[1], set = 'Voucher'},
+            localize{type = 'name_text', key = self.config.vouchers[2], set = 'Voucher'},
+            self.config.enchantment_level, self.config.joker_slot}
         }
     end,
 }
@@ -128,6 +158,7 @@ local deck_table = {
     saga_deck,
     grimoire_deck,
     celestaverse_deck,
+    wizards_deck,
     test,
 }
 
@@ -145,7 +176,7 @@ if CardSleeves then
     local saga_sleeve = {
         key = "saga",
         name = "Saga Sleeve",
-        -- artist_credits = {"amy"},
+        artist_credits = {"amy"},
         atlas = 'sleeves',
         pos = { x = 0, y = 0 },
         unlocked = false,
@@ -233,7 +264,7 @@ if CardSleeves then
     local grimoire_sleeve = {
         key = "grimoire",
         name = "Grimoire Sleeve",
-        -- artist_credits = {"amy"},
+        artist_credits = {"amy"},
         atlas = 'sleeves',
         pos = { x = 1, y = 0 },
         unlocked = false,
@@ -269,7 +300,7 @@ if CardSleeves then
     local celestaverse_sleeve = {
         key = "celestaverse",
         name = "Celestaverse Sleeve",
-        -- artist_credits = {"amy"},
+        artist_credits = {"huycorn"},
         atlas = 'sleeves',
         pos = { x = 2, y = 0 },
         unlocked = false,
@@ -301,10 +332,58 @@ if CardSleeves then
         end,
     }
 
+    local wizards_sleeve = {
+        key = "wizards",
+        name = "Wizard's Sleeve",
+        artist_credits = {"huycorn"},
+        atlas = "sleeves",
+        pos = { x = 3, y = 0 },
+        unlocked = false,
+        unlock_condition = { deck = "b_sgt_wizards", stake = "stake_purple" },
+        apply = function(self, sleeve)
+            CardSleeves.Sleeve.apply(sleeve)
+            if self.get_current_deck_key() == "b_sgt_wizards" then
+                -- This is called too early, way before Wizard is applied
+                -- so I'm pulling it straight from voucher's prototype table
+                G.GAME.sgt_max_enchantment = G.P_CENTERS.v_sgt_wizard.config.extra.slots + self.config.enchantment_slot
+                G.GAME.sgt_enchantment_rate = G.P_CENTERS.v_sgt_wizard.config.extra.rate * self.config.times_rate
+            else
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        local enchantment = pseudorandom_element(Sagatro.Enchantment.obj_buffer, "wizards_sleeve")
+                        local it = 1
+                        while Sagatro.Enchantments[enchantment].max_level < self.config.enchantment_level do
+                            enchantment = pseudorandom_element(Sagatro.Enchantment.obj_buffer, "wizards_sleeve_reroll"..it)
+                            it = it + 1
+                        end
+                        Sagatro.add_enchantment(self.config.enchantment_level, enchantment)
+                        return true
+                    end
+                }))
+            end
+        end,
+        loc_vars = function(self)
+            local key, vars = self.key, nil
+            if self.get_current_deck_key() == "b_sgt_wizards" then
+                key = key .. "_alt"
+                self.config = {times_rate = 3, enchantment_slot = 1, hand_size = -1}
+                vars = {self.config.times_rate, self.config.enchantment_slot, self.config.hand_size}
+            else
+                key = self.key
+                self.config = {vouchers = {'v_sgt_apprentice', "v_sgt_wizard"}, joker_slot = -1, enchantment_level = 2}
+                vars = {localize{type = 'name_text', key = self.config.vouchers[1], set = 'Voucher'},
+                localize{type = 'name_text', key = self.config.vouchers[2], set = 'Voucher'},
+                self.config.enchantment_level, self.config.joker_slot}
+            end
+            return { key = key, vars = vars }
+        end,
+    }
+
     local sleeve_table = {
         saga_sleeve,
         grimoire_sleeve,
         celestaverse_sleeve,
+        wizards_sleeve,
     }
 
     for _, v in ipairs(sleeve_table) do
