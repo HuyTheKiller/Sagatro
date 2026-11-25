@@ -1038,7 +1038,7 @@ return {
                 },
             },
             v_sgt_apprentice = {
-                name = "Pháp Sư Tập Sư",
+                name = "Pháp Sư Tập Sự",
                 text = {
                     "{C:attention}Gói Ma Thuật{} có thể",
                     "dược mua trong shop",
