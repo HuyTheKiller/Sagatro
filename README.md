@@ -18,10 +18,11 @@ Immerse yourself with **Story Mode** - a unique twist to gameplay that allows yo
     * 🟦 Celestara: upgraded version of Planet cards, providing even more poker hand levels with interesting cross-poker-hand interactions.
     * ⬛ Eldritch: upgraded version of Spectral cards, providing chaotic flips to your deck, albeit with more controls and less downside.
     * 🟪 Enchantment: newest addition, get up to 3 powerful global effects to supercharge your run.
-- 📘 3 New Decks (+Sleeves):
+- 📘 4 New Decks (+Sleeves):
     * 🟪 Saga Deck - simple yet powerful effects, specifically designed for Story Mode.
     * ⬜ Grimoire Deck - Powerful deck fixing with Divinatio and Eldritch cards.
     * 🟦 Celestaverse Deck - Explore various ways to upgrade your poker hands with Celestara cards.
+    * 🟪 Wizard's Deck - Wield enchantments early on to boost your run from the get-go.
 - ↗️ Revamped stake effects for Story Mode:
     * ⚪ White Stake: unchanged
     * 🔴 Red Stake: Small Blind score requirement is 20% higher
