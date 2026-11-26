@@ -41,7 +41,7 @@ return {
                 name = "Bộ Bài Pháp Sư",
                 text = {
                     "Bắt đầu trận với",
-                    "{C:sgt_celestara,T:v_sgt_apprentice}#1#{}, {C:sgt_celestara,T:v_sgt_wizard}#2#{} và",
+                    "{C:sgt_enchantment,T:v_sgt_apprentice}#1#{}, {C:sgt_enchantment,T:v_sgt_wizard}#2#{} và",
                     "một {C:sgt_enchantment}Phù Phép{} lv.#3# ngẫu nhiên",
                     "{C:red}#4#{} ô Joker",
                 },
@@ -115,7 +115,7 @@ return {
                 name = "Bọc Pháp Sư",
                 text = {
                     "Bắt đầu trận với",
-                    "{C:sgt_celestara,T:v_sgt_apprentice}#1#{}, {C:sgt_celestara,T:v_sgt_wizard}#2#{} và",
+                    "{C:sgt_enchantment,T:v_sgt_apprentice}#1#{}, {C:sgt_enchantment,T:v_sgt_wizard}#2#{} và",
                     "một {C:sgt_enchantment}Phù Phép{} lv.#3# ngẫu nhiên",
                     "{C:red}#4#{} ô Joker",
                 },

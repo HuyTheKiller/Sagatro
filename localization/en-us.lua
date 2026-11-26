@@ -41,7 +41,7 @@ return {
                 name = "Wizard's Deck",
                 text = {
                     "Start run with",
-                    "{C:sgt_celestara,T:v_sgt_apprentice}#1#{}, {C:sgt_celestara,T:v_sgt_wizard}#2#{}, and",
+                    "{C:sgt_enchantment,T:v_sgt_apprentice}#1#{}, {C:sgt_enchantment,T:v_sgt_wizard}#2#{}, and",
                     "a random lvl.#3# {C:sgt_enchantment}Enchantment",
                     "{C:red}#4#{} Joker slot",
                 },
@@ -115,7 +115,7 @@ return {
                 name = "Wizard's Sleeve",
                 text = {
                     "Start run with",
-                    "{C:sgt_celestara,T:v_sgt_apprentice}#1#{}, {C:sgt_celestara,T:v_sgt_wizard}#2#{}, and",
+                    "{C:sgt_enchantment,T:v_sgt_apprentice}#1#{}, {C:sgt_enchantment,T:v_sgt_wizard}#2#{}, and",
                     "a random lvl.#3# {C:sgt_enchantment}Enchantment",
                     "{C:red}#4#{} Joker slot",
                 },
